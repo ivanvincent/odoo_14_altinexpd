@@ -9,8 +9,7 @@ odoo.define('ks_curved_backend_theme.KsZoomBtnVisibility', function (require) {
             document
                 .querySelector(".o_content div:last-child")
                 .removeAttribute("style");
-                if (document.querySelector(".ks-zoom-per"))
-                    document.querySelector(".ks-zoom-per").innerText = "100%";
+                document.querySelector(".ks-zoom-per").innerText = "100%";
         }
         else{
             if ($(".ks-zoom-view").length){

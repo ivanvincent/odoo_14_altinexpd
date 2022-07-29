@@ -71,7 +71,6 @@ class KsColorTheme(models.Model):
                     'ks_primary_color': temp_theme['ks_primary_color'],
                     'ks_tooltip': temp_theme['ks_tooltip'],
                     'ks_template_id': temp_theme['id'],
-                    'name': temp_theme['name'],
                     'ks_active': True if temp_theme['ks_default'] else False,
                     'ks_default': True if temp_theme['ks_default'] else False,
                 }
@@ -123,7 +122,6 @@ class KsColorTheme(models.Model):
                         'ks_primary_color': themes['ks_primary_color'],
                         'ks_tooltip': themes['ks_tooltip'],
                         'ks_template_id': themes['id'],
-                        'name': themes['name'],
                         'ks_active': True if themes['ks_default'] else False,
                         'ks_default': True if themes['ks_default'] else False,
                     })

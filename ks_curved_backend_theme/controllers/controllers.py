@@ -11,16 +11,6 @@ from odoo import http, _
 
 class KsCurvedBackendTheme(http.Controller):
 
-    @route(['/ks_curved_backend_theme/save/form_width'], type='json', auth='user')
-    def ks_save_form_page_width(self, val):
-        request.env.user.write({
-            'ks_form_page_width': val
-        })
-
-    @route(['/ks_curved_backend_theme/save/ks_splitted_form_width'], type='json', auth='user')
-    def ks_save_split_form_page_width(self, data):
-        request.env.user.write(data)
-
     @route(['/update/bookmarks'], type='json', auth='user')
     def update_bookmarks(self, **post):
         """
@@ -112,11 +102,6 @@ class KsCurvedBackendTheme(http.Controller):
         ks_all_setting_scope = request.env['ks.global.config'].ks_get_config_values()
         if ks_setting_scope == 'User':
             user = request.env.user
-            obj_list = {
-                'global': request.env.ref('ks_curved_backend_theme.ks_global_config_single_rec'),
-                'company': user.company_id,
-                'user': request.env.user
-            }
             values = self.ks_get_values(ks_all_setting_scope, user, ks_setting_scope)
             ks_domain = [('ks_user', '=', user.id)]
 
@@ -136,11 +121,9 @@ class KsCurvedBackendTheme(http.Controller):
                 'ks_global_config_id': request.env.ref('ks_curved_backend_theme.ks_global_config_single_rec').id,
                 'ks_body_background_img': self.ks_get_background_data(ks_domain, 'ks.body.background'),
                 'ks_app_drawer_background_img': self.ks_get_background_data(ks_domain, 'ks.drawer.background'),
-                'ks_body_background_opacity': obj_list[
-                    ks_all_setting_scope.get('scope_ks_body_background').lower()].ks_body_background_opacity,
+                'ks_body_background_opacity': user.ks_body_background_opacity,
                 'ks_app_drawer_background_opacity': user.ks_app_drawer_background_opacity,
-                'ks_body_background_image_enable': obj_list[
-                    ks_all_setting_scope.get('scope_ks_body_background').lower()].ks_body_background_image_enable,
+                'ks_body_background_image_enable': user.ks_body_background_image_enable,
                 'ks_color_theme': ks_color_theme,
             })
 
@@ -195,13 +178,9 @@ class KsCurvedBackendTheme(http.Controller):
 
         if ks_setting_scope == 'Global':
             values['ks_enterprise_apps'] = ks_origin_data.ks_enterprise_apps
-            values['ks_breadcrumb_style'] = ks_origin_data.ks_breadcrumb_style
-            values['ks_login_page_logo_enable'] = ks_origin_data.ks_login_page_logo_enable
-            values['ks_login_page_logo_image'] = self.ks_get_image_url(ks_origin_data.ks_login_page_logo)
+            values['ks_login_background_image_enable'] = ks_origin_data.ks_login_background_image_enable
+            values['ks_login_background_image'] = self.ks_get_image_url(ks_origin_data.ks_login_background_image)
             values['ks_color_theme_scope'] = ks_all_setting_scope['scope_ks_colors_theme']
-            values['ks_login_page_style'] = ks_origin_data.ks_login_page_style
-            values['ks_login_background_color'] = request.env['ks.login.background.color'].search_read([])
-            values['ks_login_background_image'] = self.ks_get_login_background_img()
         return values
 
     def ks_get_image_url(self, data):
@@ -214,18 +193,6 @@ class KsCurvedBackendTheme(http.Controller):
         if not data:
             return False
         return 'data:image/' + (file_type_magic_word.get(data[0]) or 'png') + ';base64,' + data.decode("utf-8")
-
-    def ks_get_login_background_img(self):
-        result = []
-        for rec in request.env['ks.login.background.image'].search([]):
-            result.append(
-                {
-                    'id': rec.id,
-                    'ks_image': self.ks_get_image_url(rec.ks_image),
-                    'ks_active': rec.ks_active
-                }
-            )
-        return result
 
     def ks_get_values(self, ks_all_setting_scope, ks_origin, ks_current_scope):
         """
@@ -264,71 +231,6 @@ class KsCurvedBackendTheme(http.Controller):
             })
         return ks_body_background_img
 
-    @route(['/ks_curved_backend_theme/save/split_data'], type='json', auth='user')
-    def ks_save_split_data(self, val):
-        request.env.user.write({
-            'ks_split_view': val
-        })
-        return True
-
-    @route(['/ks_curved_backend_theme/add/images'], type='json', auth='user')
-    def ks_add_background_images(self, image_info=False, scope=False, company_id=False):
-        # Save data.
-        if image_info.get('key') and image_info.get('value'):
-            ks_image_model = {
-                'ks_body_background_img': 'ks.body.background',
-                'ks_app_drawer_background_img': 'ks.drawer.background'
-            }
-            vals = {'ks_image': image_info['value']}
-            if scope == 'user':
-                vals['ks_user'] = request.env.user.id
-            if scope == 'company':
-                vals['ks_company'] = company_id
-            if scope == 'global':
-                vals['ks_global'] = True
-            request.env[ks_image_model[image_info['key']]].create(vals)
-
-        # Get background image data
-        ks_domain = []
-        ks_template_data = dict()
-        if scope == 'user':
-            ks_domain = [('ks_user', '=', request.env.user.id)]
-        if scope == 'company':
-            ks_domain = [('ks_company', '=', company_id)]
-            if image_info.get('key') == 'ks_body_background_img':
-                ks_template_data['ks_image_for'] = 'ks_body_background_company'
-                ks_template_data['ks_image_save'] = 'ks_body_background_img'
-                ks_template_data['ks_image_del'] = 'ks_body_background_del_company'
-            if image_info.get('key') == 'ks_app_drawer_background_img':
-                ks_template_data['ks_image_for'] = 'ks_app_drawer_background_company'
-                ks_template_data['ks_image_save'] = 'ks_app_drawer_background_img'
-                ks_template_data['ks_image_del'] = 'ks_drawer_background_company_del'
-        if scope == 'global':
-            ks_domain = [('ks_global', '=', True)]
-            if image_info.get('key') == 'ks_body_background_img':
-                ks_template_data['ks_image_for'] = 'ks_body_background_global'
-                ks_template_data['ks_image_save'] = 'ks_body_background_img'
-                ks_template_data['ks_image_del'] = 'ks_body_background_del_global'
-            if image_info.get('key') == 'ks_app_drawer_background_img':
-                ks_template_data['ks_image_for'] = 'ks_app_drawer_background_global'
-                ks_template_data['ks_image_save'] = 'ks_app_drawer_background_img'
-                ks_template_data['ks_image_del'] = 'ks_drawer_background_global_del'
-        return self.ks_get_background_data(ks_domain, ks_image_model[image_info['key']])
-
-    @route(['/ks_curved_backend_theme/add/login/images'], type='json', auth='user')
-    def ks_add_login_background_images(self, image_info=False):
-        # Save data.
-        if image_info.get('key') and image_info.get('value'):
-            request.env['ks.login.background.image'].create({'ks_image': image_info['value']})
-        return self.ks_get_login_background_img()
-
-    @route(['/ks_curved_backend_theme/add/login/color'], type='json', auth='user')
-    def ks_add_login_background_colors(self, data=False):
-        # Save data.
-        if data.get('value'):
-            request.env['ks.login.background.color'].create({'ks_color': data['value']})
-        return request.env['ks.login.background.color'].search_read([])
-
     @route(['/save/theme/settings'], type='json', auth='user')
     def save_theme_settings(self, **post):
         """
@@ -338,7 +240,6 @@ class KsCurvedBackendTheme(http.Controller):
 
         # ks_no_check_field have special functionality to write/create data in other models.
         ks_no_check_field = ['ks_body_background_img', 'ks_app_drawer_background_img']
-        ks_login_page_fields = ["ks_login_background_image_save", "ks_login_background_setting"]
         ks_theme_fields = ["ks_body_background",
                            "ks_menu",
                            "ks_menu_hover",
@@ -391,26 +292,10 @@ class KsCurvedBackendTheme(http.Controller):
                 else:
                     ks_background_data['ks_image'] = value
                     request.env[ks_image_model[key]].create(ks_background_data)
-            elif key in ks_login_page_fields:
-                # De-active all image and color first.
-                request.env['ks.login.background.image'].search([]).write({'ks_active': False})
-                request.env['ks.login.background.color'].search([]).write({'ks_active': False})
-                # Active login page background based on image or color.
-                if key == "ks_login_background_image_save":
-                    ks_rec = request.env['ks.login.background.image'].search([('id', '=', value)])
-                    if ks_rec:
-                        ks_rec.ks_active = True
-
-                # Active login page background based on color.
-                if key == "ks_login_background_setting" and value:
-                    ks_rec = request.env['ks.login.background.color'].search([('id', '=', value)])
-                    if ks_rec:
-                        ks_rec.ks_active = True
-
             elif ks_splitter and ks_splitter in key:
                 if key.rsplit(ks_splitter, 1)[0] not in ks_theme_fields:
                     ks_origin_obj[key.rsplit(ks_splitter, 1)[0]] = value
-            elif key:
+            else:
                 ks_origin_obj[key] = value
 
             # Manage theme colors active.
@@ -492,7 +377,7 @@ class KsCurvedBackendTheme(http.Controller):
         menu_id = kw['menu_id']
         user_id = request.env.user
         if menu_id in user_id.ks_frequency_menu.ks_menu_id.ids:
-            menu = user_id.ks_frequency_menu.search([('ks_menu_id', '=', menu_id), ('ks_user_id', '=', user_id.id)], limit=1)
+            menu = user_id.ks_frequency_menu.search([('ks_menu_id', '=', menu_id), ('ks_user_id', '=', user_id.id)])
             menu.ks_frequency = menu.ks_frequency + 1
         else:
             vals = {
@@ -545,7 +430,7 @@ class KsCurvedBackendTheme(http.Controller):
     def ks_get_fav_icons(self, ks_app_icons):
         for rec in ks_app_icons:
             ks_domain = [
-                ('ks_ir_ui_menu', '=', rec.get('id')),
+                ('ks_ir_ui_menu', '=', rec.get('menuID')),
                 ('ks_fav_app', '=', True),
                 ('ks_users', '=', request.env.user.id)
             ]
@@ -569,7 +454,7 @@ class KsCurvedBackendTheme(http.Controller):
             ks_is_fav_app.write({'ks_fav_app': True})
             return True
         else:
-            res = ks_is_fav_app.create(
+            ks_is_fav_app.create(
                 {
                     'ks_fav_app': True,
                     'ks_ir_ui_menu': ks_app_id,
@@ -687,14 +572,14 @@ class KsCurvedBackendTheme(http.Controller):
                 'default_theme': ks_current_theme_data.ks_default
             }
         return {
-            'primary': '#141CBA',
+            'primary': '#28C397',
             'body-background': '#ffffff',
             'nav-link-color': '#454546',
             'ks-over-link': '#f5f5f5',
             'tab-bg': '#ffffff',
-            'primary-btn': '#141CBA',
-            'heading-color': '#141CBA',
-            'link-color': '#141CBA',
+            'primary-btn': '#28C397',
+            'heading-color': '#28C397',
+            'link-color': '#28C397',
             'tooltip-heading-bg': '#dee2e6',
             'default_theme': True
         }
@@ -702,15 +587,9 @@ class KsCurvedBackendTheme(http.Controller):
 
 class KsHome(Home):
     @http.route('/web/login', type='http', auth="none")
-    def web_login(self, redirect=None, *args, **kw):
+    def web_login(self, redirect=None, **kw):
         request.params['ks_login_background'] = self.ks_get_login_page_image()
-        request.params['ks_login_layout'] = self.ks_get_login_page_layout()
-        if not request.session.uid:
-            request.uid = request.env.ref('base.public_user').id
-        ks_login_logo = self.ks_get_login_page_logo()
-        if ks_login_logo:
-            request.params['ks_login_logo'] = ks_login_logo
-        res = super(KsHome, self).web_login(redirect=redirect, *args, **kw)
+        res = super(KsHome, self).web_login(redirect, **kw)
         # login_status = request.params['login_success']
         # if login_status:
         #     request.env.user.partner_id.ks_set_sunrise_sunset_time()
@@ -718,43 +597,17 @@ class KsHome(Home):
 
     def ks_get_login_page_image(self):
         """
-        Function to return login page background image and color.
+        Function to return login page background image.
         :return:
         """
 
         ks_global_obj = request.env.ref('ks_curved_backend_theme.ks_global_config_single_rec')
-        # ks_back_img = ks_global_obj.sudo().ks_login_background_image
-
-        # check for active login page image.
-        ks_check_active_image = request.env['ks.login.background.image'].search([('ks_active', '=', True)], limit=1)
-        if ks_check_active_image:
+        ks_back_img = ks_global_obj.sudo().ks_login_background_image
+        if ks_global_obj.sudo().ks_login_background_image_enable and ks_back_img:
             return {
-                'type': 'image',
-                'background-img': self.ks_get_image_url(ks_check_active_image.ks_image)
+                'background-img': self.ks_get_image_url(ks_back_img),
+                'background-opacity': ks_global_obj.sudo().ks_login_back_image_opacity
             }
-
-        # check for active login page color.
-        ks_check_active_color = request.env['ks.login.background.color'].search([('ks_active', '=', True)], limit=1)
-        if ks_check_active_color:
-            return {
-                'type': 'color',
-                'background-color': ks_check_active_color.ks_color
-            }
-        # if ks_global_obj.sudo().ks_login_background_image_enable and ks_back_img:
-        #     return {
-        #         'background-img': self.ks_get_image_url(ks_back_img),
-        #         'background-opacity': ks_global_obj.sudo().ks_login_back_image_opacity
-        #     }
-        return False
-
-    def ks_get_login_page_layout(self):
-        ks_global_obj = request.env.ref('ks_curved_backend_theme.ks_global_config_single_rec')
-        return ks_global_obj.sudo().ks_login_page_style
-
-    def ks_get_login_page_logo(self):
-        ks_global_obj = request.env.ref('ks_curved_backend_theme.ks_global_config_single_rec').sudo()
-        if ks_global_obj.ks_login_page_logo_enable:
-            return self.ks_get_image_url(ks_global_obj.ks_login_page_logo)
         return False
 
     def ks_get_image_url(self, data):
@@ -774,46 +627,26 @@ class KsAuthSignupHome(AuthSignupHome):
     @http.route('/web/signup', type='http', auth='public', website=True, sitemap=False)
     def web_auth_signup(self, *args, **kw):
         request.params['ks_login_background'] = self.ks_get_login_page_image()
-        request.params['ks_login_layout'] = self.ks_get_login_page_layout()
-        request.params['ks_login_logo'] = self.ks_get_login_page_logo()
         return super(KsAuthSignupHome, self).web_auth_signup(*args, **kw)
 
     @http.route('/web/reset_password', type='http', auth='public', website=True, sitemap=False)
     def web_auth_reset_password(self, *args, **kw):
         request.params['ks_login_background'] = self.ks_get_login_page_image()
-        request.params['ks_login_layout'] = self.ks_get_login_page_layout()
-        request.params['ks_login_logo'] = self.ks_get_login_page_logo()
         return super(KsAuthSignupHome, self).web_auth_reset_password(*args, **kw)
 
     def ks_get_login_page_image(self):
         """
-        Function to return login page background image and color.
+        Function to return login page background image.
         :return:
         """
 
         ks_global_obj = request.env.ref('ks_curved_backend_theme.ks_global_config_single_rec')
-        # ks_back_img = ks_global_obj.sudo().ks_login_background_image
-
-        # check for active login page image.
-        ks_check_active_image = request.env['ks.login.background.image'].search([('ks_active', '=', True)], limit=1)
-        if ks_check_active_image:
+        ks_back_img = ks_global_obj.sudo().ks_login_background_image
+        if ks_global_obj.sudo().ks_login_background_image_enable and ks_back_img:
             return {
-                'type': 'image',
-                'background-img': self.ks_get_image_url(ks_check_active_image.ks_image)
+                'background-img': self.ks_get_image_url(ks_back_img),
+                'background-opacity': ks_global_obj.sudo().ks_login_back_image_opacity
             }
-
-        # check for active login page color.
-        ks_check_active_color = request.env['ks.login.background.color'].search([('ks_active', '=', True)], limit=1)
-        if ks_check_active_color:
-            return {
-                'type': 'color',
-                'background-color': ks_check_active_color.ks_color
-            }
-        # if ks_global_obj.sudo().ks_login_background_image_enable and ks_back_img:
-        #     return {
-        #         'background-img': self.ks_get_image_url(ks_back_img),
-        #         'background-opacity': ks_global_obj.sudo().ks_login_back_image_opacity
-        #     }
         return False
 
     def ks_get_image_url(self, data):
@@ -826,13 +659,3 @@ class KsAuthSignupHome(AuthSignupHome):
         if not data:
             return False
         return 'data:image/' + (file_type_magic_word.get(data[0]) or 'png') + ';base64,' + data.decode("utf-8")
-
-    def ks_get_login_page_layout(self):
-        ks_global_obj = request.env.ref('ks_curved_backend_theme.ks_global_config_single_rec')
-        return ks_global_obj.sudo().ks_login_page_style
-
-    def ks_get_login_page_logo(self):
-        ks_global_obj = request.env.ref('ks_curved_backend_theme.ks_global_config_single_rec').sudo()
-        if ks_global_obj.ks_login_page_logo_enable:
-            return self.ks_get_image_url(ks_global_obj.ks_login_page_logo)
-        return False

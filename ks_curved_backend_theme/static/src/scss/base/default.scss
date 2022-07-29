@@ -17,7 +17,7 @@ body{
     font-family: 'Poppins', sans-serif;
     &.o_web_client{
         background: var(--body-background);
-        color: var(--color) !important;
+        color: var(--color);
     }
 }
 
@@ -39,14 +39,4 @@ body{
 
 .ks_display_flex{
     display: flex;
-}
-.o_AttachmentCard.o-has-card-details {
-    background: var(--cp_bottom-bg);
-    border-color: var(--drk-border);
-}
-
-@media(max-width: 575px){
-        .ui-widget-content.ui-widget-content{
-                    max-width: calc(100vw - 20px);
-        }
 }

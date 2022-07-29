@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
     <t t-name="ks_switch_language">
-        <div class="ks_language_icon">
+        <li class="ks_language_icon" role="menuitem">
             <a role="button" href="#" class="language_icon" t-attf-title="Languages"
                aria-label="Languages" data-toggle="dropdown" aria-expanded="false" tabindex="-1" data-display="static">
                 <span class="fa fa-language"/>
@@ -16,6 +16,6 @@
                     </t>
                 </t>
             </div>
-        </div>
+        </li>
     </t>
 </templates>

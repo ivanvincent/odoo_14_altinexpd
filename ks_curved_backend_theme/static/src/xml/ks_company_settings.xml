@@ -11,8 +11,7 @@
                          t-att-title="ks_theme.name ? ks_theme.name : ''">
                         <div class="custom-control custom-radio custom-control-align-center">
                             <input type="radio" t-attf-id="company_theme_#{ks_theme.id}" name="ks_theme_color"
-                                   data-field-save="ks_color_theme" class="custom-control-input ks_radio_list"
-                                   t-att-checked="ks_theme['ks_active'] ? 'checked' : None"
+                                   class="custom-control-input" t-att-checked="ks_theme['ks_active'] ? 'checked' : None"
                                    t-att-data-value="ks_theme.id" t-att-data-theme-id="ks_theme.id"/>
                             <label class="custom-control-label" t-attf-for="company_theme_#{ks_theme.id}">
                                 <svg width="34" height="25" viewBox="0 0 48 34" fill="none"
@@ -104,7 +103,7 @@
                     Button
                 </label>
                 <input type="color" id="ks_button_company" class="" name="ks_button_company"
-                       t-att-value="ks_theme_data['ks_button'] ? ks_theme_data['ks_button'] : '#141CBA'"/>
+                       t-att-value="ks_theme_data['ks_button'] ? ks_theme_data['ks_button'] : '#28C397'"/>
             </div>
             <div class="col-md-6 p-0">
                 <label for="ks_border_company">
@@ -118,21 +117,21 @@
                     Heading
                 </label>
                 <input type="color" id="ks_heading_company" class="" name="ks_heading_company"
-                       t-att-value="ks_theme_data['ks_heading'] ? ks_theme_data['ks_heading'] : '#141CBA'"/>
+                       t-att-value="ks_theme_data['ks_heading'] ? ks_theme_data['ks_heading'] : '#28C397'"/>
             </div>
             <div class="col-md-6 p-0">
                 <label for="ks_link_company">
                     Link
                 </label>
                 <input type="color" id="ks_link_company" class="" name="ks_link_company"
-                       t-att-value="ks_theme_data['ks_link'] ? ks_theme_data['ks_link'] : '#141CBA'"/>
+                       t-att-value="ks_theme_data['ks_link'] ? ks_theme_data['ks_link'] : '#28C397'"/>
             </div>
             <div class="col-md-6 p-0">
                 <label for="ks_primary_color_company">
                     Primary Color
                 </label>
                 <input type="color" id="ks_primary_color_company" class="" name="ks_primary_color_company"
-                       t-att-value="ks_theme_data['ks_primary_color'] ? ks_theme_data['ks_primary_color'] : '#141CBA'"/>
+                       t-att-value="ks_theme_data['ks_primary_color'] ? ks_theme_data['ks_primary_color'] : '#28C397'"/>
             </div>
             <div class="col-md-6 p-0">
                 <label for="ks_tooltip_company">
@@ -185,7 +184,7 @@
                                 <li t-if="widget.data['ks_theme_style'] or widget.data['ks_font_style'] or widget.data['ks_font_size']
                                           or widget.data['ks_button_style'] or widget.data['ks_body_background'] or widget.data['ks_app_drawer_background']
                                           or widget.data['ks_separator_style'] or widget.data['ks_tab_style'] or widget.data['ks_checkbox_style']
-                                          or widget.data['ks_radio_button_style'] or widget.data['ks_popup_animation_style'] or widget.data['ks_color_theme'] or widget.data['ks_loaders']"
+                                          or widget.data['ks_radio_button_style'] or widget.data['ks_popup_animation_style'] or widget.data['ks_color_theme']"
                                     class="nav-item">
                                     <a class="nav-link" data-toggle="tab" disable_anchor="true"
                                        href="#company_settingDisplaySettings">
@@ -327,7 +326,7 @@
                                             <!-- Website Title / end -->
                                         </div>
                                     </div>
-                                    <!-- ks-Company-logo / start -->
+                                    <!-- ks-quick-card / end -->
                                     <div t-if="'ks_company_logo' in widget.data" class="ks-quick-card px-4">
                                         <div class="ks-quick-card-body">
                                             <div class="row no-gutters align-items-center mb-4">
@@ -394,7 +393,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <!-- ks-quick-card / end -->
                                     <div t-if="'ks_click_edit' in widget.data or 'ks_company_logo' in widget.data or widget.data['ks_menu_bar'] or widget.data['ks_chatter']
                                                 or widget.data['ks_website_title']" class="ks-quick-card px-4">
@@ -516,15 +514,6 @@
                                                                t-attf-class="#{firstData}"
                                                                href="#CompanyThemePopupAnimation">
                                                                 Pop-up Animation
-                                                            </a>
-                                                            <t t-set="firstData" t-value=""/>
-                                                        </li>
-                                                        <li t-if="widget.data['ks_loaders']"
-                                                            class="ks-globale-list">
-                                                            <a data-toggle="pill" disable_anchor="true"
-                                                               t-attf-class="#{firstData}"
-                                                               href="#CompanyThemeLoadingBar">
-                                                                Loaders
                                                             </a>
                                                             <t t-set="firstData" t-value=""/>
                                                         </li>
@@ -664,24 +653,6 @@
                                                             </button>
                                                             <button class="btn btn-default px-4 py-2 ml-1 ks_setting_cancel_company">
                                                                 Cancel
-                                                            </button>
-                                                            <button class="btn btn-default px-4 py-2 ml-1  defaut_btn ks_company_reset_color_theme tltip">
-                                                                <svg width="20" height="20" fill="none"
-                                                                     viewBox="0 0 28 28"
-                                                                     xmlns="http://www.w3.org/2000/svg">
-                                                                    <path d="M23.4915 14.2167C23.5161 11.0903 21.8393 8.05282 18.9423 6.37003C17.4031 5.47594 15.6334 5.05836 13.8568 5.17008C12.0803 5.2818 10.3768 5.91781 8.96176 6.99769C7.54671 8.07757 6.48365 9.5528 5.90702 11.2369C5.3304 12.9209 5.2661 14.7381 5.72225 16.4587C6.17841 18.1793 7.13454 19.726 8.46973 20.9032C9.80492 22.0804 11.4592 22.8352 13.2234 23.0722C14.9876 23.3092 16.7824 23.0177 18.381 22.2347C19.9795 21.4516 21.3099 20.2121 22.204 18.6729"
-                                                                          stroke="#616266" stroke-width="1.8"
-                                                                          stroke-linecap="round"
-                                                                          stroke-linejoin="round"/>
-                                                                    <path d="M19.6005 11.957L23.4917 14.2173L25.752 10.3262"
-                                                                          stroke="#616266" fill="none"
-                                                                          stroke-width="1.8"
-                                                                          stroke-linecap="round"
-                                                                          stroke-linejoin="round"/>
-                                                                </svg>
-                                                                <span class="tooltiptext">
-                                                                    Reset Default
-                                                                </span>
                                                             </button>
                                                         </div>
                                                         <t t-set="firstData" t-value=""/>
@@ -954,7 +925,7 @@
                                                                                      fill="none"
                                                                                      xmlns="http://www.w3.org/2000/svg">
                                                                                     <rect width="123" height="41"
-                                                                                          rx="20.5" fill="#141CBA"/>
+                                                                                          rx="20.5" fill="#28C397"/>
                                                                                 </svg>
                                                                             </label>
                                                                         </div>
@@ -975,7 +946,7 @@
                                                                                      fill="none"
                                                                                      xmlns="http://www.w3.org/2000/svg">
                                                                                     <rect width="123" height="41" rx="5"
-                                                                                          fill="#141CBA"/>
+                                                                                          fill="#28C397"/>
                                                                                 </svg>
                                                                             </label>
                                                                         </div>
@@ -996,7 +967,7 @@
                                                                                      fill="none"
                                                                                      xmlns="http://www.w3.org/2000/svg">
                                                                                     <path d="M0 25C0 11.1929 11.1929 0 25 0H102.5C113.822 0 123 9.17816 123 20.5C123 31.8218 113.822 41 102.5 41H0V25Z"
-                                                                                          fill="#141CBA"/>
+                                                                                          fill="#28C397"/>
                                                                                 </svg>
                                                                             </label>
                                                                         </div>
@@ -1017,7 +988,7 @@
                                                                                      fill="none"
                                                                                      xmlns="http://www.w3.org/2000/svg">
                                                                                     <path d="M0 10C0 4.47715 4.47715 0 10 0H123V31C123 36.5228 118.523 41 113 41H0V10Z"
-                                                                                          fill="#141CBA"/>
+                                                                                          fill="#28C397"/>
                                                                                 </svg>
                                                                             </label>
                                                                         </div>
@@ -1038,7 +1009,7 @@
                                                                                      fill="none"
                                                                                      xmlns="http://www.w3.org/2000/svg">
                                                                                     <rect width="123" height="41"
-                                                                                          fill="#141CBA"/>
+                                                                                          fill="#28C397"/>
                                                                                 </svg>
                                                                             </label>
                                                                         </div>
@@ -1065,33 +1036,60 @@
                                                              t-attf-class="tab-pane fade in #{firstData}">
                                                             <div class="quick-inner-container">
                                                                 <div class="ks-quick-card px-4 px-md-5">
-                                                                    <div class="ks-body-bg-toggle">
-                                                                        <div class="quick-title mb-4">
-                                                                            Background Images
-                                                                        </div>
-                                                                        <div class="custom-control custom-switch" style="margin-top: -25px;">
-                                                                            <input type="checkbox" checkbox="checkbox"
-                                                                                   name="ks_body_background_image_enable"
-                                                                                   class="custom-control-input"
-                                                                                   id="ks_body_background_image_enable_company"
-                                                                                   t-att-checked="widget.data['ks_body_background_image_enable'] ? 'checked' : None"/>
-                                                                            <label class="custom-control-label"
-                                                                                   for="ks_body_background_image_enable_company"/>
-                                                                        </div>
+                                                                    <div class="quick-title mb-4">
+                                                                        Background Images
                                                                     </div>
-                                                                    <div class="ks_body_background_company_container">
-                                                                        <t t-call="ks_theme_image_template">
-                                                                            <t t-set="ks_image_data"
-                                                                               t-value="widget.data['ks_body_background_img']"/>
-                                                                            <t t-set="ks_image_for"
-                                                                               t-value="'ks_body_background_company'"/>
-                                                                            <t t-set="ks_image_save"
-                                                                               t-value="'ks_body_background_img'"/>
-                                                                            <t t-set="ks_image_del"
-                                                                               t-value="'ks_body_background_del_company'"/>
-                                                                            <t t-set="ks_image_add"
-                                                                               t-value="'ks_body_background_company'"/>
-                                                                        </t>
+                                                                    <div class="custom-control custom-switch mr-2"
+                                                                         style="float: right; margin-top: -45px;">
+                                                                        <input type="checkbox" checkbox="checkbox"
+                                                                               name="ks_body_background_image_enable"
+                                                                               class="custom-control-input"
+                                                                               id="ks_body_background_image_enable_company"
+                                                                               t-att-checked="widget.data['ks_body_background_image_enable'] ? 'checked' : None"/>
+                                                                        <label class="custom-control-label"
+                                                                               for="ks_body_background_image_enable_company"/>
+                                                                    </div>
+                                                                    <div class="row no-gutters">
+                                                                        <div class="col-md-8">
+                                                                            <!-- For loop -->
+                                                                            <t t-foreach="widget.data['ks_body_background_img']"
+                                                                               t-as="bg">
+                                                                                <div class="quick-card-sec mr-3 mb-3 d-inline-block">
+                                                                                    <div class="custom-control custom-radio custom-control-align-center ks-bg-image">
+                                                                                        <input type="radio"
+                                                                                               t-att-id="'ks_body_background_img#' + bg.id"
+                                                                                               name="ks_body_background_company"
+                                                                                               data-model="ks.body.background"
+                                                                                               t-att-checked="bg.ks_active ? 'checked' : None"
+                                                                                               data-field-save="ks_body_background_img"
+                                                                                               class="custom-control-input ks_binary_field"/>
+                                                                                        <label class="custom-control-label"
+                                                                                               t-att-for="'ks_body_background_img#' + bg.id">
+                                                                                            <img t-att-src="bg.value"
+                                                                                                 alt=""/>
+                                                                                        </label>
+                                                                                        <i class="fa fa-trash ks_body_background_del_company"
+                                                                                           t-att-data-id="'ks_body_background_img#' + bg.id"/>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </t>
+                                                                        </div>
+                                                                        <!-- color col / end -->
+                                                                    </div>
+                                                                    <p class="alert alert-danger ks_body_background_img_company ks_bck_img d-none"
+                                                                       role="alert">
+                                                                        Image Is Uploaded Please Click on apply button
+                                                                        to save the image
+                                                                    </p>
+                                                                    <!-- Upload Body Background -->
+                                                                    <div class="row no-gutters align-items-center mb-3">
+                                                                        <div class="col d-flex align-items-center ks_global_binary_field ks-file-upload">
+                                                                            <input type="file"
+                                                                                   id="ks_body_background_img_company"
+                                                                                   class="ks_binary_field"
+                                                                                   name="ks_body_background_img"
+                                                                                   accept="image/*"/>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="ks-quick-card px-4 px-md-5">
@@ -1323,29 +1321,53 @@
                                                     <t t-if="widget.data['ks_app_drawer_background']">
                                                         <div id="CompanyAppDrawerBackground"
                                                              t-attf-class="tab-pane fade in #{firstData}">
-                                                            <!--<div class="ks_quick_settings_header d-flex py-3 pl-4">
+                                                            <div class="ks_quick_settings_header d-flex py-3 pl-4">
                                                                 Display Settings
-                                                            </div>-->
+                                                            </div>
                                                             <div class="quick-inner-container">
                                                                 <div class="ks-quick-card px-4">
                                                                     <div class="quick-title mb-4">
                                                                         App Drawer Background
                                                                         Image
                                                                     </div>
-
-                                                                    <div class="ks_app_drawer_background_company_container">
-                                                                        <t t-call="ks_theme_image_template">
-                                                                            <t t-set="ks_image_data"
-                                                                               t-value="widget.data['ks_app_drawer_background_img']"/>
-                                                                            <t t-set="ks_image_for"
-                                                                               t-value="'ks_app_drawer_background_company'"/>
-                                                                            <t t-set="ks_image_save"
-                                                                               t-value="'ks_app_drawer_background_img'"/>
-                                                                            <t t-set="ks_image_del"
-                                                                               t-value="'ks_drawer_background_company_del'"/>
-                                                                            <t t-set="ks_image_add"
-                                                                               t-value="'ks_app_drawer_background_company'"/>
+                                                                    <div class="mb-3">
+                                                                        <!-- For loop -->
+                                                                        <t t-foreach="widget.data['ks_app_drawer_background_img']"
+                                                                           t-as="bg">
+                                                                            <div class="quick-card-sec mr-2 mb-3 d-inline-block">
+                                                                                <div class="custom-control custom-radio custom-control-align-center ks-bg-image">
+                                                                                    <input type="radio"
+                                                                                           t-att-id="'ks_app_drawer_background_img#' + bg.id"
+                                                                                           name="ks_app_drawer_background_company"
+                                                                                           data-model="ks.drawer.background"
+                                                                                           t-att-checked="bg.ks_active ? 'checked' : None"
+                                                                                           data-field-save="ks_app_drawer_background_img"
+                                                                                           class="custom-control-input ks_binary_field"/>
+                                                                                    <label class="custom-control-label"
+                                                                                           t-att-for="'ks_app_drawer_background_img#' + bg.id">
+                                                                                        <img t-att-src="bg.value"
+                                                                                             alt=""/>
+                                                                                    </label>
+                                                                                    <i class="fa fa-trash ks_drawer_background_company_del"
+                                                                                       t-att-data-id="'ks_app_drawer_background_img#' + bg.id"/>
+                                                                                </div>
+                                                                            </div>
                                                                         </t>
+                                                                        <p class="alert alert-danger ks_bck_img ks_app_drawer_background_img_company d-none"
+                                                                           role="alert">
+                                                                            Image Is Uploaded Please Click on apply
+                                                                            button to save the image
+                                                                        </p>
+                                                                        <div class="row no-gutters align-items-center mb-3">
+                                                                            <div class="col d-flex align-items-center ks-file-upload">
+                                                                                <input type="file"
+                                                                                       class="ks_binary_field"
+                                                                                       id="ks_app_drawer_background_img_company"
+                                                                                       name="ks_app_drawer_background_img"
+                                                                                       accept="image/*"/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- color col / end -->
                                                                     </div>
                                                                 </div>
                                                                 <div class="ks-quick-card px-4">
@@ -1370,9 +1392,6 @@
                                                                             </span>
                                                                         </div>
                                                                     </div>
-                                                                    <p class="alert alert-danger d-none" id="ks-drawer-comp-slider" role="alert">
-                                                                        More Transparency can make App names and Icons invisible!
-                                                                    </p>
                                                                 </div>
                                                                 <div class="ks-quick-card px-4">
                                                                     <div class="quick-title mb-4">
@@ -1906,7 +1925,7 @@
                                                                                      fill="none"
                                                                                      xmlns="http://www.w3.org/2000/svg">
                                                                                     <rect width="123" height="41" rx="5"
-                                                                                          fill="#141CBA"/>
+                                                                                          fill="#28C397"/>
                                                                                 </svg>
                                                                             </label>
                                                                         </div>
@@ -1927,7 +1946,7 @@
                                                                                      fill="none"
                                                                                      xmlns="http://www.w3.org/2000/svg">
                                                                                     <path d="M0 25C0 11.1929 11.1929 0 25 0H102.5C113.822 0 123 9.17816 123 20.5C123 31.8218 113.822 41 102.5 41H0V25Z"
-                                                                                          fill="#141CBA"/>
+                                                                                          fill="#28C397"/>
                                                                                 </svg>
                                                                             </label>
                                                                         </div>
@@ -1948,7 +1967,7 @@
                                                                                      fill="none"
                                                                                      xmlns="http://www.w3.org/2000/svg">
                                                                                     <rect width="123" height="41"
-                                                                                          rx="20.5" fill="#141CBA"/>
+                                                                                          rx="20.5" fill="#28C397"/>
                                                                                 </svg>
                                                                             </label>
                                                                         </div>
@@ -1969,7 +1988,7 @@
                                                                                      fill="none"
                                                                                      xmlns="http://www.w3.org/2000/svg">
                                                                                     <rect width="123" height="41"
-                                                                                          fill="#141CBA"/>
+                                                                                          fill="#28C397"/>
                                                                                 </svg>
                                                                             </label>
                                                                         </div>
@@ -2419,156 +2438,6 @@
                                                         <t t-set="firstData" t-value=""/>
                                                     </t>
                                                     <!-- CompanyThemePopupAnimation / end -->
-                                                    <!--Loader Content Starts Here-->
-                                                    <t t-if="widget.data['ks_loaders']">
-                                                        <div id="CompanyThemeLoadingBar"
-                                                             t-attf-class="tab-pane fade in #{firstData}">
-                                                            <div class="quick-inner-container">
-                                                                <div class="ks-quick-card px-4 ks_loader_options">
-                                                                    <div class="quick-title mb-4">
-                                                                        Loading Bar
-                                                                    </div>
-                                                                    <div class="ks_loader_item py-4 d-flex">
-                                                                        <div class="custom-control custom-radio custom-control-align-center">
-                                                                            <input data-field-save="ks_loaders"
-                                                                                   type="radio" id="company_ks_loader_1"
-                                                                                   name="ks_loaders"
-                                                                                   class="ks_cancel_radio custom-control-input"
-                                                                                   data-value="ks_loader_1"
-                                                                                   t-att-checked="widget.data['ks_loaders'] == 'ks_loader_1' ? 'checked' : None"/>
-                                                                            <label class="custom-control-label"
-                                                                                   for="company_ks_loader_1">
-                                                                                <img src="/ks_curved_backend_theme/static/src/images/loaders/loader-1.png" alt=""/>
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- Loading Bar style 1 / end -->
-                                                                    <div class="ks_loader_item py-4 d-flex">
-                                                                        <div class="custom-control custom-radio custom-control-align-center">
-                                                                            <input data-field-save="ks_loaders"
-                                                                                   type="radio" id="company_ks_loader_2"
-                                                                                   name="ks_loaders"
-                                                                                   class="ks_cancel_radio custom-control-input"
-                                                                                   data-value="ks_loader_2"
-                                                                                   t-att-checked="widget.data['ks_loaders'] == 'ks_loader_2' ? 'checked' : None"/>
-                                                                            <label class="custom-control-label"
-                                                                                   for="company_ks_loader_2">
-                                                                                   <img src="/ks_curved_backend_theme/static/src/images/loaders/loader-2.png"
-                                                                                   alt=""/>
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- Loading Bar style 2 / end -->
-                                                                    <div class="ks_loader_item py-4 d-flex">
-                                                                        <div class="custom-control custom-radio custom-control-align-center">
-                                                                            <input data-field-save="ks_loaders"
-                                                                                   type="radio" id="company_ks_loader_3"
-                                                                                   name="ks_loaders"
-                                                                                   class="ks_cancel_radio custom-control-input"
-                                                                                   data-value="ks_loader_3"
-                                                                                   t-att-checked="widget.data['ks_loaders'] == 'ks_loader_3' ? 'checked' : None"/>
-                                                                            <label class="custom-control-label"
-                                                                                   for="company_ks_loader_3">
-                                                                                   <img src="/ks_curved_backend_theme/static/src/images/loaders/loader-3.png"
-                                                                                   alt=""/>
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- Loading Bar style 3 / end -->
-                                                                    <div class="ks_loader_item py-4 d-flex">
-                                                                        <div class="custom-control custom-radio custom-control-align-center">
-                                                                            <input data-field-save="ks_loaders"
-                                                                                   type="radio" id="company_ks_loader_4"
-                                                                                   name="ks_loaders"
-                                                                                   class="ks_cancel_radio custom-control-input"
-                                                                                   data-value="ks_loader_4"
-                                                                                   t-att-checked="widget.data['ks_loaders'] == 'ks_loader_4' ? 'checked' : None"/>
-                                                                            <label class="custom-control-label"
-                                                                                   for="company_ks_loader_4">
-                                                                                <img src="/ks_curved_backend_theme/static/src/images/loaders/loader-4.png"
-                                                                                   alt="" style="height:26px;" />
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- Loading Bar style 4 / end -->
-                                                                    <div class="ks_loader_item py-4 d-flex">
-                                                                        <div class="custom-control custom-radio custom-control-align-center">
-                                                                            <input data-field-save="ks_loaders"
-                                                                                   type="radio" id="company_ks_loader_5"
-                                                                                   name="ks_loaders"
-                                                                                   class="ks_cancel_radio custom-control-input"
-                                                                                   data-value="ks_loader_5"
-                                                                                   t-att-checked="widget.data['ks_loaders'] == 'ks_loader_5' ? 'checked' : None"/>
-                                                                            <label class="custom-control-label"
-                                                                                   for="company_ks_loader_5">
-                                                                                <img src="/ks_curved_backend_theme/static/src/images/loaders/loader-5.png"
-                                                                                   alt="" style="height:28px;" />
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- Loading Bar style 5 / end -->
-                                                                    <div class="ks_loader_item py-4 d-flex">
-                                                                        <div class="custom-control custom-radio custom-control-align-center">
-                                                                            <input data-field-save="ks_loaders"
-                                                                                   type="radio" id="company_ks_loader_6"
-                                                                                   name="ks_loaders"
-                                                                                   class="ks_cancel_radio custom-control-input"
-                                                                                   data-value="ks_loader_6"
-                                                                                   t-att-checked="widget.data['ks_loaders'] == 'ks_loader_6' ? 'checked' : None"/>
-                                                                            <label class="custom-control-label"
-                                                                                   for="company_ks_loader_6">
-                                                                                <img src="/ks_curved_backend_theme/static/src/images/loaders/loader-6.png"
-                                                                                   alt=""/>
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- Loading Bar style 6 / end -->
-                                                                    <div class="ks_loader_item py-4 d-flex">
-                                                                        <div class="custom-control custom-radio custom-control-align-center">
-                                                                            <input data-field-save="ks_loaders"
-                                                                                   type="radio" id="company_ks_loader_7"
-                                                                                   name="ks_loaders"
-                                                                                   class="ks_cancel_radio custom-control-input"
-                                                                                   data-value="ks_loader_7"
-                                                                                   t-att-checked="widget.data['ks_loaders'] == 'ks_loader_7' ? 'checked' : None"/>
-                                                                            <label class="custom-control-label"
-                                                                                   for="company_ks_loader_7">
-                                                                                <img src="/ks_curved_backend_theme/static/src/images/loaders/loader-7.png"
-                                                                                   alt=""/>
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- Loading Bar style 7 / end -->
-                                                                    <div class="ks_loader_item py-4 d-flex">
-                                                                        <div class="custom-control custom-radio custom-control-align-center">
-                                                                            <input data-field-save="ks_loaders"
-                                                                                   type="radio" id="company_ks_loader_default"
-                                                                                   name="ks_loaders"
-                                                                                   class="ks_cancel_radio custom-control-input"
-                                                                                   data-value="ks_loader_default"
-                                                                                   t-att-checked="widget.data['ks_loaders'] == 'ks_loader_default' ? 'checked' : None"/>
-                                                                            <label class="custom-control-label"
-                                                                                   for="company_ks_loader_default">
-                                                                                <img src="/ks_curved_backend_theme/static/src/images/loaders/default_loader.png"
-                                                                                   alt=""/>
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <!--Default Loading Bar style / end -->
-                                                                </div>
-                                                            </div>
-                                                            <!-- quick-inner-container -->
-                                                            <div class="py-5 px-4 px-md-5 quick-settings-footer d-flex">
-                                                                <button class="btn btn-primary px-4 py-2 mr-1 ks_setting_company_save">
-                                                                    Apply
-                                                                </button>
-                                                                <button class="btn btn-default px-4 py-2 ml-1 ks_setting_cancel_company">
-                                                                    Cancel
-                                                                </button>
-                                                            </div>
-                                                            <!-- quick-settings-footer -->
-                                                        </div>
-                                                    </t>
                                                 </div>
                                             </div>
                                         </div>

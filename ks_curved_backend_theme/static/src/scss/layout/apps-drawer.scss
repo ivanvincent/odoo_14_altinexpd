@@ -56,7 +56,7 @@
             .ks-search-icon-app,
             .o-app-icon{
                 box-shadow: 0 14px 16px -10px $black;
-                transform: translateY(-6px);
+                transform: translateY(-2px);
                 ~ {
                   .o-app-name{
                     color: var(--color);
@@ -68,6 +68,7 @@
             @include flex-center-justify();
             flex-direction: column;
             .o-app-name{
+                //color: #4c4c4c;
                 color: var(--color);
             }
          }
@@ -162,9 +163,10 @@
                  background: $white;
 
                  .input-box-text{
-                    @include position(absolute, $top: 50%, $right: 1.8rem);
+                    position: absolute;
+                    right: 1.8rem;
+                    top: 50%;
                     transform: translateY(-50%);
-                    color: var(--dark);
                  }
 
                  .ks_search_input{
@@ -262,6 +264,7 @@
         }
         .ks_left_sidebar_panel{
              display: block;
+             top: 0rem;
              height: 100%;
             .ks_company_short_logo_outer{
                  @extend .d-none;
@@ -310,39 +313,41 @@
 
 .ks_appdrawer_main_div{
 
-//     .owl-dots{
-//         position: fixed;
-//         right: 15px;
-//         top: 50%;
-//         transform: translateY(-50%);
-//         display: flex;
-//         flex-direction: column;
-//
-//         .owl-dot {
-//             span{
-//                 @include square(10px, $radius: 30px);
-//                 margin: 5px;
-//                 background: #343a40;
-//                 display: block;
-//                 transition: opacity .2s ease;
-//                 -webkit-backface-visibility: hidden;
-//                 -webkit-tap-highlight-color: transparent;
-//                 -webkit-touch-callout: none;
-//             }
-//             &:focus{
-//                 outline: none;
-//             }
-//             &.active,
-//             &:hover{
-//                 box-shadow: none;
-//                  span{
-//                     -webkit-backface-visibility: visible;
-//                     background: var(--primary);
-//                  }
-//             }
-//         }
-//
-//     }
+    .owl-dots{
+        position: fixed;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+
+        .owl-dot {
+            span{
+                @include square(10px, $radius: 30px);
+                width: 14px;
+                height: 14px;
+                margin: 5px;
+                background: #343a40;
+                display: block;
+                transition: opacity .2s ease;
+                -webkit-backface-visibility: hidden;
+                -webkit-tap-highlight-color: transparent;
+                -webkit-touch-callout: none;
+            }
+            &:focus{
+                outline: none;
+            }
+            &.active,
+            &:hover{
+                box-shadow: none;
+                 span{
+                    -webkit-backface-visibility: visible;
+                    background: var(--primary);
+                 }
+            }
+        }
+
+    }
 }
 
 // ks_appsmenu_edit
@@ -373,32 +378,19 @@
 }
 .ks_appdrawer_inner_app_div{
     .options{
-        @include position(absolute, $top: 8px, $right: 24px);
-        @include square(24px, $radius: 2px);
+        position: absolute;
+        right: 24px;
+        top: 8px;
+        width: 24px;
+        height: 24px;
         background: #616266;
+        border-radius: 2px;
         &.ks_fav_icon{
             @include flex-center-justify();
             cursor: pointer;
             img{
-                @include square(14px, $radius: 0);
-                animation: hiddenAnimation 0.8s ease 1;
-            }
-            &.ks_rmv_fav{
-              img{
-                 animation: hithere 1s ease 1;
-              }
-            }
-            @keyframes hithere {
-              30% { transform: scale(1.2); }
-              40%, 60% { transform: rotate(-20deg) scale(1.2); }
-              50% { transform: rotate(20deg) scale(1.2); }
-              70% { transform: rotate(0deg) scale(1.2); }
-              100% { transform: scale(1); }
-            }
-            @keyframes hiddenAnimation {
-              0%{transform: scale(1); }
-              30%{transform: scale(1.4); }
-              60%{transform: scale(1); }
+                height: 14px;
+                width: 14px;
             }
         }
         &.ks-ap-edit{
@@ -407,7 +399,8 @@
           @include flex-center-justify();
           z-index: 2;
           img{
-              @include square(12px, $radius: 0);
+              height: 12px;
+              width: 12px;
           }
         }
     }
@@ -416,9 +409,11 @@
   text-align: center;
   padding: 0 0 30px;
   .fav_close{
-    @extend %pointer;
+    cursor: pointer;
     img{
-      @include square(62px, $radius: 50%);
+      height: 62px;
+      width: 62px;
+      border-radius: 50%;
     }
   }
 }
@@ -454,15 +449,20 @@
 }
 .ks-tabs{
   padding: 0;
-  @include position(absolute, $top: 50%, $right: 30px);
+  position: absolute;
+  top: 50%;
+  right: 30px;
   transform: translate(0, -50%);
   list-style: none;
-  @include flex-column();
+  display: flex;
+  flex-direction: column;
   li{
-    @extend %pointer;
+    cursor: pointer;
     span{
       display: block;
-      @include square(14px, $radius: 30px);
+      border-radius: 30px;
+      width: 14px;
+      height: 14px;
       margin: 5px;
       background: #343a40;
       box-shadow: 0 0 2px var(--color);

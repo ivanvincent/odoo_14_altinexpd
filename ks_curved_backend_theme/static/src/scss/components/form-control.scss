@@ -43,15 +43,9 @@
   .oe_button_box {
     .btn.oe_stat_button {
       >.o_stat_info .o_stat_value,
-      > span .o_stat_value{
-        color: var(--primary);
-      }
+    > span .o_stat_value{
+      color: var(--primary);
+    }
     }
   }
-}
-
-.ks-body-bg-toggle{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 }

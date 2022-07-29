@@ -11,7 +11,6 @@ odoo.define("ks_curved_backend_theme.ks_switch_language", function (require) {
     events: {
       "click .ks_toggle_language": "_ksToggleLanguageClick",
     },
-    sequence: 3,
 
     willStart: async function () {
       const _super = this._super.bind(this);

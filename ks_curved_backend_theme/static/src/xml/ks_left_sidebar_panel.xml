@@ -2,23 +2,24 @@
 <templates id="template" xml:space="preserve">
     <t t-name="ks_curved_backend_theme.side_appbar">
 		<div class="ks_favt_apps">
-			<button type="button" aria-label="Menu" title="Menu" class="fa fa-chevron-right left_sidebar_arrow btn btn-secondary"/>
+			<button type="button" aria-label="Menu" title="Menu"
+                    class="fa fa-chevron-right left_sidebar_arrow btn btn-secondary"/>
 			<ul t-if="widget.fav_bar_menu()" class="ks_app_sidebar_menu">
 				<t t-foreach="widget.getApps()" t-as="app">
 					<t t-if="app.ks_fav_app">
 						<li class="nav-item ks_menu_list">
-							<a t-attf-href="#menu_id=#{app.id}&amp;action_id=#{app.actionID}"
-							   t-att-data-menu-id="app.id"
+							<a t-attf-href="#menu_id=#{app.menuID}&amp;action_id=#{app.actionID}"
+							   t-att-data-menu-id="app.menuID"
 							   t-att-data-menu-xmlid="app.xmlID"
 							   t-att-data-action-id="app.actionID"
-							   class="nav-link ks_app apps_ic" role="menuitem">
-								<img t-if="app.webIconData"
+							   class="nav-link ks_app" role="menuitem">
+								<img t-if="app.web_icon_data"
 									 t-att-alt="app.name"
 									 t-att-title="app.name"
-									 class="ks_app_icon" t-attf-src="data:image/png;base64,#{app.webIconData}"/>
-								<div t-elif="menu.webIcon" class="o_app_icon o_app_icon_has_pictogram">
-									<i t-attf-class="#{menu.webIcon.split(',')[0]} fa-lg fa-fw"
-									   t-attf-style="color: #{menu.webIcon.split(',')[1]};"
+									 class="ks_app_icon" t-attf-src="data:image/png;base64,#{app.web_icon_data}"/>
+								<div t-elif="menu.web_icon" class="o_app_icon o_app_icon_has_pictogram">-->
+									<i t-attf-class="#{menu.web_icon.split(',')[0]} fa-lg fa-fw"
+									   t-attf-style="color: #{menu.web_icon.split(',')[1]};"
 									   t-att-title="app.name"/>
 								</div>
 								<img t-else=""

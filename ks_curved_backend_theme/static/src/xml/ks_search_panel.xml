@@ -2,7 +2,7 @@
 <templates id="template" xml:space="preserve">
 
     <!-- Owl Template Extend -->
-    <t t-inherit="web.Legacy.SearchPanel" t-inherit-mode="extension" owl="1">
+    <t t-inherit="web.SearchPanel" t-inherit-mode="extension" owl="1">
         <xpath expr="//div[hasclass('o_search_panel')]//section" position="replace">
                 <div class="ks-phone-category-filter">
                     <button class="ks_close_catgy-modal" t-on-click="_ksSearchPanelClose">

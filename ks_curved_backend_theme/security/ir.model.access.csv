@@ -5,7 +5,5 @@ access_ks_global_config,access_ks_global_config,model_ks_global_config,base.grou
 access_ks_fav_menu,access_ks_fav_menu,model_ks_fav_menu,base.group_user,1,1,1,1
 access_ks_body_background,access_ks_body_background,model_ks_body_background,base.group_user,1,1,1,1
 access_ks_drawer_background,access_ks_drawer_background,model_ks_drawer_background,base.group_user,1,1,1,1
-access_ks_drawer_colors,access_ks_drawer_colors,model_ks_drawer_colors,,1,1,1,1
+access_ks_drawer_colors,access_ks_drawer_colors,model_ks_drawer_colors,base.group_user,1,1,1,1
 access_ks_color_theme,access_ks_color_theme,model_ks_color_theme,base.group_user,1,1,1,1
-access_ks_login_background_color,access_ks_login_background_color,model_ks_login_background_color,,1,1,1,1
-access_ks_login_background_image,access_ks_login_background_image,model_ks_login_background_image,,1,1,1,1

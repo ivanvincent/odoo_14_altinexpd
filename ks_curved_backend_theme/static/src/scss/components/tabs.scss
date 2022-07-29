@@ -9,9 +9,9 @@
       &.active,
       &:hover {
         border-color: var(--list-bordercolor);
-        border-bottom-color: var(--cp_bottom-bg);
-//         background: var(--tab-bg);
-        background: var(--cp_bottom-bg);
+//         border-bottom-color: var(--cp_bottom-bg);
+        background: var(--tab-bg);
+        //background: var(--cp_bottom-bg);
       }
       &::before {
         content: "";

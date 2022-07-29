@@ -5,5 +5,5 @@
   display: none;
 }
 .nav-tabs .nav-item .nav-link.active, .nav-tabs .nav-item .nav-link:hover {
-  background: var(--primary-btn);
+  background: var(--tab-bg);
 }

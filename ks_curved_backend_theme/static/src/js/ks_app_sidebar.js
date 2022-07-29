@@ -2,7 +2,6 @@ odoo.define("ks_curved_backend_theme.ks_app_sidebar", function (require) {
   "use strict";
 
   var Widget = require("web.Widget");
-  const ajax = require("web.ajax");
 
   var ksAppsBar = Widget.extend({
     template: "ks_curved_backend_theme.side_appbar",
@@ -20,35 +19,38 @@ odoo.define("ks_curved_backend_theme.ks_app_sidebar", function (require) {
       this._super.apply(this, arguments);
       this._activeApp = undefined;
       this._ks_fav_bar = parent.ks_favorite_bar;
-      this.parent = parent;
-      this._apps = menuData;
+      this._apps = _.map(menuData.children, function (appMenuData) {
+        return {
+          actionID: parseInt(appMenuData.action.split(",")[1]),
+          web_icon_data: appMenuData.web_icon_data,
+          web_icon: appMenuData.web_icon,
+          menuID: appMenuData.id,
+          name: appMenuData.name,
+          xmlID: appMenuData.xmlid,
+        };
+      });
     },
 
     willStart: async function () {
       const _super = this._super.bind(this);
-      var ks_fav_apps = [];
-      await ajax
-        .jsonRpc("/ks_curved_theme/get_fav_icons", "call", {
-          ks_app_icons: this._apps,
-        })
-        .then(function (data) {
-          ks_fav_apps = data;
-        });
-      this._apps = ks_fav_apps;
+      const data = await this._rpc({
+        route: "/ks_curved_theme/get_fav_icons",
+        params: { ks_app_icons: this._apps },
+      });
+      this._apps = data;
     },
 
     start: function () {
       var temp_this = this;
-      this._setActiveApp(this.parent.menuService.getCurrentApp());
       return this._super.apply(this, arguments).then(function () {
-        // if (
-        //   !document.body.classList.contains("ks_vertical_body_panel") &&
-        //   !temp_this.$el.children(".ks_app_sidebar_menu").children().length
-        // ) {
-        //   temp_this.$el.parents(".ks_left_sidebar_panel").addClass("d-none");
-        // } else {
-        //   temp_this.$el.parents(".ks_left_sidebar_panel").removeClass("d-none");
-        // }
+        if (
+          !document.body.classList.contains("ks_vertical_body_panel") &&
+          !temp_this.$el.children(".ks_app_sidebar_menu").children().length
+        ) {
+          temp_this.$el.parents(".ks_left_sidebar_panel").addClass("d-none");
+        } else {
+          temp_this.$el.parents(".ks_left_sidebar_panel").removeClass("d-none");
+        }
       });
     },
 
@@ -67,20 +69,21 @@ odoo.define("ks_curved_backend_theme.ks_app_sidebar", function (require) {
      * @param {Object} app
      */
     _openApp: function (app) {
-      this._setActiveApp(app);
-      this.parent.menuService.selectMenu(app.id);
+      // this._setActiveApp(app);
+      this.trigger_up("app_clicked", {
+        action_id: app.actionID,
+        menu_id: app.menuID,
+      });
     },
     /**
      * @private
      * @param {Object} app
      */
     _setActiveApp: function (menuID) {
-      if (this.$el){
-        var $oldActiveApp = this.$(".ks_app.active");
-        $oldActiveApp.removeClass("active");
-        var $newActiveApp = this.$('.ks_app[data-menu-id="' + menuID.id + '"]');
-        $newActiveApp.addClass("active");
-      }
+      var $oldActiveApp = this.$(".ks_app.active");
+      $oldActiveApp.removeClass("active");
+      var $newActiveApp = this.$('.ks_app[data-menu-id="' + menuID + '"]');
+      $newActiveApp.addClass("active");
     },
     //--------------------------------------------------------------------------
     // Handlers
@@ -98,7 +101,7 @@ odoo.define("ks_curved_backend_theme.ks_app_sidebar", function (require) {
       var menuID = $target.data("menu-id");
       var app = _.findWhere(this._apps, {
         actionID: actionID,
-        id: menuID,
+        menuID: menuID,
       });
       this._openApp(app);
       ev.preventDefault();

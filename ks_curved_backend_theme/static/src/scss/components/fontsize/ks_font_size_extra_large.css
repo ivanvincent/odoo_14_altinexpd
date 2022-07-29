@@ -41,9 +41,6 @@ body.o_web_client.ks_favtbar_bottom .ks_left_sidebar_panel{
   align-items: center;
   flex-shrink: 0;
 }
-.o_web_client .o_control_panel .o_cp_bottom_right > .o_cp_pager .o_pager .o_pager_counter{
-  min-width: 70px;
-}
 .o_control_panel .o_cp_bottom .o_cp_bottom_left{
   position: relative;
 }
@@ -57,14 +54,6 @@ body.o_web_client.ks_favtbar_bottom .ks_left_sidebar_panel{
   right: auto;
   left: 0;
 }
-
-.o_control_panel .o_cp_bottom_right{
-  width: 70%;
-}
-.o_control_panel .o_cp_bottom .o_cp_bottom_left{
-  width: 30%;
-}
-
 /*transform: translate(-50%, 0%);*/
 @media screen and (min-width: 768px){
   .ks_vertical_body_panel .o_action_manager .o_control_panel .o_cp_bottom_right,

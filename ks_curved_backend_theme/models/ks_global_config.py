@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api, _, exceptions
+from odoo import models, fields, api, _
 from odoo.http import request
 import logging
-import base64
-import io
-from PIL import Image
-from odoo.tools.mimetypes import guess_mimetype
 
 _logger = logging.getLogger(__name__)
 
@@ -18,8 +14,6 @@ class KsThemeGlobalConfig(models.Model):
     # FixMe : Change the default values
 
     ks_recname = fields.Char(default="Global Settings")
-    ks_pwa_icon = fields.Binary(string="Icon", default=False)
-    ks_pwa_icon_type = fields.Char(string="Icon Type")
     ks_click_edit = fields.Boolean(string="Double-click Edit", default=False)
     ks_menu_bar = fields.Selection(string="Menu Bar Position",
                                    selection=[('Horizontal', 'Horizontal'), ('Vertical', 'Vertical')],
@@ -27,30 +21,19 @@ class KsThemeGlobalConfig(models.Model):
     ks_chatter = fields.Selection(string="Chatter Position",
                                   selection=[('ks_chatter_bottom', 'Bottom'), ('ks_chatter_right', 'Right')],
                                   default='ks_chatter_bottom')
-    # ks_website_title = fields.Char(string="Website Backend Title", default='odoo')
-    ks_website_title = fields.Char(string="Website Backend Title", default='Weevy')
+    ks_website_title = fields.Char(string="Website Backend Title", default='odoo')
     ks_click_edit = fields.Boolean(string="Double-click Edit", default=False)
-    # ks_website_title_enable = fields.Boolean(string="Enable Website Backend Title")
-    ks_website_title_enable = fields.Boolean(string="Enable Website Backend Title", default=True)
+    ks_website_title_enable = fields.Boolean(string="Enable Website Backend Title")
     ks_favicon = fields.Binary(string="Favicon")
     ks_company_logo_enable = fields.Boolean(string="Enable Company Logo")
     ks_small_company_logo = fields.Binary(string="Small Logo")
     ks_company_logo = fields.Binary(string="Company Logo")
-    # ks_enterprise_apps = fields.Boolean(string="Hide Enterprise Apps", default=False)
-    ks_enterprise_apps = fields.Boolean(string="Hide Enterprise Apps", default=True)
+    ks_enterprise_apps = fields.Boolean(string="Hide Enterprise Apps", default=False)
     ks_odoo_referral = fields.Boolean(string="Show Odoo Referral", default=False)
     ks_theme_style = fields.Selection(string="Theme Style", selection=[('curved_theme_style', 'Curved'),
                                                                        ('boxed_theme_style', 'Boxed')],
                                       default='curved_theme_style')
     ks_colors_theme = fields.Many2one(comodel_name='ks.color.theme')
-    ks_breadcrumb_style = fields.Selection(string="Button style", selection=[('ks_breadcrumb_style_1', 'Style 1'),
-                                                                             ('ks_breadcrumb_style_2', 'Style 2'),
-                                                                             ('ks_breadcrumb_style_3', 'Style 3'),
-                                                                             ('ks_breadcrumb_style_4', 'Style 4'),
-                                                                             ('ks_breadcrumb_style_5', 'Style 5'),
-                                                                             ('ks_breadcrumb_style_6', 'Style 6'),
-                                                                             ('ks_breadcrumb_style_7', 'Style 7'),
-                                                                             ], default='ks_breadcrumb_style_1')
     ks_button_style = fields.Selection(string="Button style", selection=[('ks_button_style_1', 'Style 1'),
                                                                          ('ks_button_style_2', 'Style 2'),
                                                                          ('ks_button_style_3', 'Style 3'),
@@ -82,11 +65,7 @@ class KsThemeGlobalConfig(models.Model):
                                                     ('ks_checkbox_4', 'Style 4'), ('ks_checkbox_5', 'Style 5')],
                                          default='ks_checkbox_1')
     ks_icon_design = fields.Char(string="Icon Design")
-    ks_login_page_style = fields.Selection(string="Login Page Style",
-                                           selection=[('default', 'Default'), ('Style1', 'Style1'), ('Style2', 'Style2'), ('Style3', 'Style3'),
-                                                      ('Style4', 'Style4'), ('Style5', 'Style5')], default='default')
-    ks_login_page_logo = fields.Binary(string="Login background logo")
-    ks_login_page_logo_enable = fields.Boolean(string="Enable login background logo", default=False)
+    ks_login_page_style = fields.Selection(string="Login Page Style", selection=[('Style1', 'Style1')])
     ks_login_background_image = fields.Binary(string="Login background Image")
     ks_login_background_image_enable = fields.Boolean(string="Enable Login Background Image", default=False)
     ks_header = fields.Boolean(string="Show Header", default=False)
@@ -103,7 +82,7 @@ class KsThemeGlobalConfig(models.Model):
                                                                      ('ks_font_open_san', 'Open San'),
                                                                      ('ks_font_roboto', 'Roboto'),
                                                                      ('ks_font_ubuntu', 'Ubuntu'),
-                                                                     ], default='ks_font_poppins')
+                                                                     ])
 
     ks_font_size = fields.Selection(string="Font Size", selection=[('ks_font_size_small', 'Small'),
                                                                    ('ks_font_size_medium', 'Medium'),
@@ -148,10 +127,7 @@ class KsThemeGlobalConfig(models.Model):
                                                                    ('ks_loader_3', 'Loader 3'),
                                                                    ('ks_loader_4', 'Loader 4'),
                                                                    ('ks_loader_5', 'Loader 5'),
-                                                                   ('ks_loader_6', 'Loader 6'),
-                                                                   ('ks_loader_7', 'Loader 7'),
-                                                                   ('ks_loader_default', 'Default Loader'),
-                                                                   ], default='ks_loader_default')
+                                                                   ], default='ks_loader_1')
 
     ks_theme_color = fields.Many2one(comodel_name='ks.color.theme', string='Current color theme')
 
@@ -373,7 +349,6 @@ class KsThemeGlobalConfig(models.Model):
             'ks_font_style': ks_global_data.ks_font_style,
             'ks_font_size': ks_global_data.ks_font_size,
             'ks_button_style': ks_global_data.ks_button_style,
-            'ks_breadcrumb_style': ks_global_data.ks_breadcrumb_style,
             'ks_body_background': ks_global_data.ks_body_background,
             'ks_separator_style': ks_global_data.ks_separator_style,
             'ks_tab_style': ks_global_data.ks_tab_style,
@@ -496,59 +471,3 @@ class KsThemeGlobalConfig(models.Model):
     def ks_get_special_fields(self):
         return {'ks_company_logo': 'ks_company_logo_enable',
                 'ks_small_company_logo': 'ks_company_logo_enable'}
-
-    def write(self, vals):
-        if ('ks_pwa_icon' in vals) and not vals.get('ks_pwa_icon'):
-            ks_prev_icons = self.env["ir.attachment"].sudo().search(
-                [('url', 'like', '/ks_curved_backend_theme/logo')])
-            if ks_prev_icons:
-                ks_prev_icons.unlink()
-        if vals.get('ks_pwa_icon'):
-            # Check for icon extension and size.
-            ks_pwa_icon_decode = base64.b64decode(vals.get('ks_pwa_icon'))
-            ks_pwa_mimetype = guess_mimetype(ks_pwa_icon_decode)
-            vals['ks_pwa_icon_type'] = ks_pwa_mimetype
-            if ks_pwa_mimetype.startswith('image/png'):
-                ks_icon_size = self.ks_get_icon_size(ks_pwa_icon_decode)
-                if ks_icon_size.size < (512, 512):
-                    raise exceptions.UserError(_("Please upload icon 512x512 resolution or bigger."))
-
-                # First delete the previous icons.
-                ks_prev_icons = self.env["ir.attachment"].sudo().search(
-                    [('url', 'like', '/ks_curved_backend_theme/logo')])
-                if ks_prev_icons:
-                    ks_prev_icons.unlink()
-
-                # Create different icons for pwa.
-                for size in [(72, 72), (96, 96), (128, 128), (144, 144), (152, 152), (192, 192), (256, 256), (384, 384),
-                             (512, 512)]:
-                    self.ks_create_icons_size(ks_pwa_icon_decode, size, ks_pwa_mimetype, extension='.png')
-            else:
-                raise exceptions.UserError(
-                    _("Please upload PNG file.")
-                )
-
-        return super(KsThemeGlobalConfig, self).write(vals)
-
-    def ks_get_icon_size(self, icon):
-        icon_bytes = io.BytesIO(icon)
-        return Image.open(icon_bytes)
-
-    def ks_create_icons_size(self, ks_icon, size, ks_pwa_mimetype, extension):
-        url = '/ks_curved_backend_theme/logo/icon_' + str(size[0]) + '_' + request.db + extension
-
-        ks_image = self.ks_get_icon_size(ks_icon)
-        ks_img_resize = ks_image.resize(size)
-        ks_io = io.BytesIO()
-        ks_img_resize.save(ks_io, format="PNG")
-        ks_icon = base64.b64encode(ks_io.getvalue())
-
-        values = {
-            "datas": ks_icon,
-            "db_datas": ks_icon,
-            "url": url,
-            "name": url,
-            "type": "binary",
-            "mimetype": ks_pwa_mimetype
-        }
-        self.env["ir.attachment"].sudo().create(values)

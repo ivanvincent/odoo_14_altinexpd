@@ -10,22 +10,8 @@ $square_rounded : 4rem;
 %o_cp_bottom_corner{
     background: var(--cp_bottom-bg);
     .btn-secondary{
-        background: var(--cp_bottom-bg) !important;
-        color: var(--color) !important;
-        &.active {
-            background: var(--primary) !important;
-            color: var(--white) !important;
-        }
-    }
-    .btn-light {
-        background: var(--cp_bottom-bg) !important;
-        color: var(--color) !important;
-        @extend %round_circle;
-        border: none;
-        &.active {
-            background: var(--primary) !important;
-            color: var(--white) !important;
-        }
+        background: var(--cp_bottom-bg);
+        color: var(--color);
     }
     @extend %round_circle;
     padding: 0.3rem;
@@ -45,6 +31,7 @@ $square_rounded : 4rem;
 
 .ks_fullscreen_div{
     @extend %o_cp_bottom_corner;
+//     @extend .ml-auto;
     order: 7;
 
     .btn.ks_fullscreen{
@@ -77,9 +64,7 @@ $square_rounded : 4rem;
             .breadcrumb{
                 .breadcrumb-item{
                     &.active{
-                        .text-900 {
-                            color: var(--color) !important;
-                        }
+                        color: var(--color);
                     }
                     a{
                       color: var(--heading-color);
@@ -133,7 +118,8 @@ $square_rounded : 4rem;
 
                             &:before{
                                 position: relative;
-                                top: calc(50% - 0.60rem);
+                                //top: 7px;
+                                top: calc(50% - 0.70rem);
                                 right: 0.8rem;
                                 font-size: $font-12;
                                 color: $white;
@@ -144,7 +130,6 @@ $square_rounded : 4rem;
 
                             .o_searchview_facet{
                                @extend %round_circle;
-                               word-break: break-all;
 
                                .o_searchview_facet_label{
                                     padding-left: 0.5rem;
@@ -173,7 +158,7 @@ $square_rounded : 4rem;
     .o_cp_bottom{
 
         .o_cp_bottom_left{
-            align-items: center;
+
             .o_calendar_scale_buttons{
 
                 .btn-group{
@@ -211,10 +196,7 @@ $square_rounded : 4rem;
         .o_cp_bottom_right{
             align-items: center;
             justify-content: space-between;
-            column-gap: 0;
-            .o_search_options {
-                @extend %o_cp_bottom_corner;
-            }
+
             .btn{
                 padding-left: 0.55rem;
                 padding-right: 0.55rem;
@@ -288,7 +270,7 @@ $square_rounded : 4rem;
                     .btn-group{
 
                         .btn.btn-secondary{
-                            @include square(2.4rem, $square_rounded !important);
+                            @include square(2.4rem, $square_rounded);
                             @extend %pointer;
                             @extend %bg-transparent;
                             border-color: $ks_border;
@@ -318,9 +300,9 @@ $square_rounded : 4rem;
 }
 // Secondary Button
 .btn-secondary{
-    background: var(--secondary-btn-bg) !important;
-    border-color: var(--bg-light-block) !important;
-    color: var(--table-th-color) !important;
+    background: var(--secondary-btn-bg);
+    border-color: var(--bg-light-block);
+    color: var(--table-th-color);
     &:hover{
         background-color: var(--hover-nav-bg);
         color: var(--table-th-color);
@@ -330,72 +312,4 @@ $square_rounded : 4rem;
 
 .ks-phone-sr-btn, .ks-phone-filter-btn, .ks-search-close{
   display: none;
-}
-// Control Panel Buttons
-.o_view_controller{
-  .o_control_panel{
-    .o_cp_bottom{
-      .o_cp_bottom_right{
-       .ks-phone-filter-modal, .split-dropdown, .o_cp_switch_buttons {
-         .btn-secondary{
-          border-radius: var(--theme-style-radius-25);
-          &.active{
-            background-color: var(--primary);
-            color: var(--white);
-            &:hover{
-              background-color: var(--primary);
-              color: var(--white);
-            }
-          }
-          &:hover{
-            background-color: var(--secondary-btn-bg);
-          }
-         }
-       }
-       .ks_fullscreen_div{
-          .ks_fullscreen{
-            &:hover, &.fa-compress{
-              background-color: var(--primary);
-              color: var(--white);
-            }
-          }
-       }
-       .ks-phone-filter-modal{
-        order: 2;
-       }
-       .refresh_button{
-        order: 1;
-        margin-right: 4px;
-        background: var(--cp_bottom-bg);
-        padding: 0.3rem;
-        border: 1px solid var(--ks-border);
-        border-radius: var(--theme-style-radius-25);
-        button{
-          @include square(2.6rem, $radius: var(--theme-style-radius-25));
-        }
-       }
-      }
-    }
-  }
-}
-.o_control_panel .o_cp_bottom .o_cp_bottom_left .o_cp_action_menus .btn-secondary {
-    background: transparent !important;
-    border: transparent;
-    margin: 0;
-}
-.o_action_manager {
-  .ks-phone-filter-modal {
-    .o-dropdown {
-      button {
-        .o_dropdown_title {
-          @media screen and (min-width: 1025px) {
-            display: none;
-          }
-          @media screen and (max-width: 1024px) {
-            display: inline-block;
-          }
-        }
-      }
-    }
-  }
 }

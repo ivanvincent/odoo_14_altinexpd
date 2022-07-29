@@ -76,16 +76,7 @@ odoo.define("ks_curved_backend_theme.ks_bookmarks", function (require) {
 
     // Displayed using bootstrap
     _ksAddBookmark: function (ev) {
-        $("#bookmark_name").val("");
-        $.each($('.breadcrumb-item'), function() {
-            if($(this).text().length){
-                if($("#bookmark_name").val().length)
-                    var val = $("#bookmark_name").val() + '/' + $(this).text();
-                else
-                    var val = $(this).text();
-                $("#bookmark_name").val(val);
-            }
-        });
+      $("#bookmark_name").val("");
     },
     // To prevent closing of div
     _ksAddBookmarkDiv: function (ev) {
@@ -154,18 +145,9 @@ odoo.define("ks_curved_backend_theme.ks_bookmarks", function (require) {
     ksResize: function (scale_value) {
       document.querySelector(".ks-zoom-per").innerText =
         String(scale_value) + "%";
-
-      if (document.querySelector(".o_content").children.length == 1){
-        var o_content_style = document.querySelector(
-            ".o_content div:last-child"
-          ).style;
-      }
-      else{
-        var o_content_style = document.querySelector(
-            ".o_content"
-          ).style;
-      }
-
+      var o_content_style = document.querySelector(
+        ".o_content div:last-child"
+      ).style;
       o_content_style.transform = "scale(" + scale_value / 100 + ")";
       o_content_style.transformOrigin = "left top";
       if ($('body.o_rtl').length)
@@ -210,17 +192,9 @@ odoo.define("ks_curved_backend_theme.ks_bookmarks", function (require) {
     _ksSizeReset: function (ev) {
       ev.stopPropagation();
       if ($(".o_content").length) {
-        if(document.querySelector(".o_content").children.length == 1){
-            document
+        document
           .querySelector(".o_content div:last-child")
           .removeAttribute("style");
-        }
-        else{
-            document
-          .querySelector(".o_content")
-          .removeAttribute("style");
-        }
-
         document.querySelector(".ks-zoom-per").innerText = "100%";
       }
     },

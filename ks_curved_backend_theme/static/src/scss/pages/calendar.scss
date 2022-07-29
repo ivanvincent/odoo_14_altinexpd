@@ -16,7 +16,7 @@ div.o_content > div:not(.o_kanban_view){
   background: none;
 }
 
-.fc-widget-content, .fc-view-container{
+.fc-widget-content{
   .popover{
     background-color: var(--background);
    .card-header, .card-header{
@@ -69,20 +69,14 @@ div.o_content > div:not(.o_kanban_view){
 .ui-autocomplete {
   .ui-menu-item {
     > a{
-      color:  var(--color) !important;
+      color:  var(--color);
       &.ui-state-active{
-            background-color: var(--primary) !important;
-      }
-      &:hover {
-        opacity: 1;
+            background-color: var(--primary);
       }
     }
     &.ui-menu-item.o_m2o_dropdown_option {
       > a{
         color: var(--primary);
-        &.ui-state-active{
-          color: var(--white);
-        }
         &:hover{
           color: #fff;
         }
@@ -135,38 +129,3 @@ div.o_content > div:not(.o_kanban_view){
             }
         }
     }
-
- .datepicker{
-    .datepicker-days{
-      .table-sm{
-        thead{
-          tr{
-            .prev, .picker-switch, .next{
-              &:hover{
-                background-color: var(--primary);
-              }
-            }
-            &:nth-child(2){
-              th{
-                 &:first-child, &:last-child{
-                  border-radius: 0px;
-                 }
-              }
-            }
-          }
-        }
-        tbody{
-          tr{
-            td{
-              &.active{
-                background-color: var(--primary);
-              }
-              &.today:before {
-                border-bottom-color: var(--primary);
-              }
-            }
-          }
-        }
-      }
-    }
- }

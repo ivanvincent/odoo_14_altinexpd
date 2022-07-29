@@ -65,8 +65,7 @@
     text-align: center;
 }
 
-// @media (min-width: 991px)
-@include media-breakpoint-up(md) {
+@media (min-width: 991px) {
     ::-webkit-scrollbar {
         width: 0.4rem;
         height: 0.4rem;

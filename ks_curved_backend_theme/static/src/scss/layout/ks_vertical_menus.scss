@@ -3,8 +3,10 @@ $vertical_sidebar_with_dec: 10px;
 
 .left_sidebar_arrow{
     @include square(2.5rem, $radius: 4rem);
-    background-color: var(--primary) !important;
+    background-color: var(--primary);
     color: $white;
+    //background-color: mix(theme-color('primary'), white);
+
     @include position(absolute, $right: -3px, $top: 5rem);
     font-size: $base-font - 0.2;
     z-index: 9;
@@ -31,7 +33,7 @@ $vertical_sidebar_with_dec: 10px;
  // ks_company_short_logo_outer
     .ks_company_short_logo_outer{
         order: 2;
-        max-height: 60px;
+        height: 60px;
         padding: 0.3rem 0.8rem;
         @include flex-center-justify();
         flex-shrink: 0;
@@ -92,7 +94,6 @@ $vertical_sidebar_with_dec: 10px;
                 // o_main_navbar
                     .o_main_navbar{
                         order: 1;
-                        display: flex;
                         .o_menu_apps{
                             @extend %w-100;
                             @extend %text-center;
@@ -110,7 +111,7 @@ $vertical_sidebar_with_dec: 10px;
                          @extend %text-center;
                          padding-top: 0.8rem;
                          padding-bottom: 0.8rem;
-                        .dropdown-toggle{
+                        a.dropdown-toggle{
                             .rounded-circle{
                                 max-width: 40px;
                             }
@@ -149,11 +150,6 @@ $vertical_sidebar_with_dec: 10px;
                       .ks_quick_settings{
                         @extend %text-center;
                       }
-                      .ks_switch_btn {
-                          width: auto;
-                          display: flex;
-                          justify-content: center;
-                      }
                     }
                 // ks-menu-systray / end
             }
@@ -162,6 +158,10 @@ $vertical_sidebar_with_dec: 10px;
             right: -1rem;
         }
     }
+    // o_action_manager
+   &.o_web_client > .o_action_manager{
+//         margin-left: $sidebar-width - 20px;
+   }
     // o_action_manager / end
     &.ks_verticalmenus_expanded{
         .o_action_manager{
@@ -208,7 +208,7 @@ $vertical_sidebar_with_dec: 10px;
     height: calc(100% - 15px);
     width: 0;
     background: var(--nav-hoverbg);
-    z-index: 0;
+    z-index: 11;
     @extend %transparent;
     overflow: hidden;
 
@@ -293,6 +293,8 @@ body.ks_vertical_body_panel.ks_menubar_autohide.o_web_client{
     .ks_left_sidebar_panel{
         top: 0rem;
         height: 100%;
+//         max-width: $sidebar-width - 30px;
+//         flex: 0 0 $sidebar-width - 30px;
     }
 }
 // ks_favtbar_autohide and ks_menubar_autohide
@@ -340,53 +342,16 @@ body.ks_hide_leftpanel{
         margin-left: 12px;
     }
 }
-.ks_left_sidebar_panel {
-.o_menu_systray {
-  > div {
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    button.dropdown-toggle {
-      background: none;
-      border: none;
-    }
-    &.o_user_menu {
-    @include square(40px !important);
-    margin-top: 0.8rem;
-    button {
-      padding: 0;
-      .o_user_avatar {
-        height: 40px;
-        width: 40px;
-        margin-right: 0 !important;
-      }
-    }
-    }
+
+
+.ks_appdrawer-tab-content{
+  .owl-carousel{
+//     transform: rotate(90deg);
+  }
+  .item{
+//     transform: rotate(-90deg);
   }
 }
-}
-.ks_left_sidebar_panel {
-  // o_menu_sections / end
-  div.o_menu_systray {
-    > div {
-      &.o_switch_company_menu {
-        .dropdown-menu {
-          bottom: 100% !important;
-          top: auto !important;
-          right: auto !important;
-          left: 100% !important;
-        }
-      }
-      &.o_user_menu {
-        .dropdown-menu {
-          position: absolute !important;
-          bottom: 100% !important;
-          top: auto !important;
-          right: auto !important;
-          left: 100% !important;
-        }
-      }
-    }
-  }
-  // o_menu_systray / end
+.ks_left_sidebar_panel{
+  //box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }

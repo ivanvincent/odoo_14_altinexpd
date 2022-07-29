@@ -16,13 +16,6 @@ body.o_web_client.ks_favtbar_bottom .ks_left_sidebar_panel{
   height: 71px;
 }
 
-.o_control_panel .o_cp_bottom_right{
-  width: 60%;
-}
-.o_control_panel .o_cp_bottom .o_cp_bottom_left{
-  width: 40%;
-}
-
 @media screen and (max-width: 1024px){
   :root{
     font-size: 12px;

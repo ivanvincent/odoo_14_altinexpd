@@ -123,6 +123,7 @@ $btn-height : 55px;
                         padding: 2px;
                         .btn{
                             @include square(1.8rem, $radius: 3rem);
+                            //color: #616266;
                             color: var(--color);
                             line-height: 6px;
                             font-size: 18px;
@@ -176,6 +177,7 @@ $btn-height : 55px;
                 background: $white;
                 max-width: 250px;
                 .ks-add-bookmark-header{
+                    //border-bottom: 1px solid rgba($ks_border, 0.6);
                     h4{
                       font-weight: 400;
                       font-size: 1.1rem;
@@ -193,6 +195,7 @@ $btn-height : 55px;
                 .ks-add-bookmark-footer{
                     @extend .d-flex;
                     justify-content: space-between;
+                    //border-top: 1px solid $ks_border;
                     .btn{
                       width: 47%;
                       &.btn-default{
@@ -220,7 +223,7 @@ $btn-height : 55px;
                     // bookmark-link / end
 
                      // book mark alternat color
-                    $colors: #141CBA, #CB5656, #9A77FE, #9C981D, #607d8b;
+                    $colors: #28C397, #CB5656, #9A77FE, #9C981D, #607d8b;
                     @for $i from 1 through length($colors) {
                          &:nth-child(#{length($colors)}n+#{$i}) {
                             .bookmark-link{
@@ -243,14 +246,15 @@ $btn-height : 55px;
             height : $btn-height;
 
             .ks-bookmarks-menu-toggle{
-                @include square(2.5rem, $radius: 3rem 0 0 3rem);
+                @include square(2.5rem, $radius: 3rem);
+                border-radius: 3rem 0 0 3rem;
                 background: var(--primary);
-                color: var(--white);
+                color: #FFFFFF;
                 text-align: center;
-                @include position(absolute, $left: -1rem, $right: 0%, $bottom: 3.5rem);
+                @include position(absolute, $left: -1rem, $right: 0%);
                 margin: auto;
                 transition: all ease-in-out 0.3s;
-                z-index: 999999999;
+
                 &.fa{
                     &:before{
                         transform: rotate(180deg);

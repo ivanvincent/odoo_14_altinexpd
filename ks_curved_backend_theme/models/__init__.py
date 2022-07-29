@@ -12,7 +12,4 @@ from . import ks_fav_menu
 from . import ks_body_background
 from . import ks_drawer_background
 from . import ks_drawer_colors
-from . import ks_res_config_settings
 from . import ks_color_theme
-from . import ks_login_background_color
-from . import ks_login_background_image

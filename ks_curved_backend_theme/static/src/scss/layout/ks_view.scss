@@ -1,25 +1,33 @@
 $ks_right_bg: $gray-200;
+// $ks_o_control_bg: #EAEBF0;
 .o_control_panel{
     border-bottom-color: #E4E2E2;
     background: var(--background);
 }
 
-
+.o_kanban_view.o_kanban_ungrouped .o_kanban_record{
+   width: 270px;
+}
 .o_web_client{
      .o_action_manager{
         margin: 0px 10px 0px 10px;
+        //@include rounded(20px);
+
+        //background-color: $ks_right_bg;
+        //box-shadow: 0 0 5px $ks_right_bg;
 
         .o_control_panel{
             background-color: transparent;
+            //background-color: $ks_right_bg;
+            //background-color: var(--ks-main-control-bg);
+            // border: 1px solid $ks_border;
+            //border-radius: 20px 20px 0 0;
         }
     }
 }
 
 .o_kanban_view .o_kanban_record{
     @include app_card_effect;
-    .o_kanban_record_title {
-      color: var(--color);
-    }
 }
 
 //////////////////////////////////////////
@@ -90,16 +98,11 @@ $ks_right_bg: $gray-200;
             border-color: var(--drk-border);
             border-radius: var(--theme-style-radius);
             min-width: auto;
-            .oe_title {
-              h1, h2 {
-                color: var(--color);
-              }
-            }
         }
     }
     .oe_button_box{
         box-shadow: inset 0 -1px 0 var(--drk-border);
-        &.o_not_full, &.o_full {
+        &.o_not_full {
             .oe_stat_button{
                 border-left-color: var(--drk-border);
                 color: var(--sm-text-color);
@@ -139,6 +142,11 @@ $ks_right_bg: $gray-200;
     .o_Activity_summary{
         color: var(--light-text-color);
     }
+    .o_MessageList_separatorDate{
+        .o_MessageList_separatorLine{
+            border-color: var(--drk-border);
+        }
+    }
     .o_MessageList_separatorLabel{
         background-color: var(--background);
         color: var(--table-td-color);
@@ -158,33 +166,21 @@ $ks_right_bg: $gray-200;
 }
 
 //Live Chat
-.o_ChatWindowManager{
-  .o_ChatWindow_newMessageForm{
-    input{
-      background: none;
-      border-color: var(--ks-border);
-      color: var(--color);
+.o_ChatWindow{
+  .o_ChatWindowHeader{
+    background-color: var(--primary);
+    .o_ThreadIcon_online{
+      color: #fff;
     }
   }
-  .o_ChatWindow{
+  .o_MessageList{
     background-color: var(--background);
-    .o_ChatWindowHeader{
-      background-color: var(--primary);
-      .o_ThreadIcon_online{
-        color: #fff;
+      .o_Message{
+        background-color: var(--light-text-color);
+          &.o-not-discussion{
+              background: var(--bg-light-block);
+          }
       }
-    }
-
-    .o_MessageList{
-      background-color: var(--background);
-        .o_Message{
-          background-color: var(--light-text-color);
-          border-bottom-color: var(--ks-border);
-            &.o-not-discussion{
-                background: var(--bg-light-block);
-            }
-        }
-    }
   }
 }
 
@@ -210,7 +206,6 @@ $ks_right_bg: $gray-200;
             &.o-active{
                 background: var(--table-tr-bordercolor);
                 border-color: var(--table-tr-bordercolor);
-                color: var(--primary);
                 &:first-of-type.o-bordered{
                     border-color: var(--table-tr-bordercolor);
                 }
@@ -285,9 +280,6 @@ $ks_right_bg: $gray-200;
            .tab{
               color: var(--color);
               font-size: 1rem;
-              &:hover {
-                color: var(--primary);
-              }
            }
        }
     }
@@ -307,7 +299,7 @@ $ks_right_bg: $gray-200;
   border-color: var(--sm-input-border);
   background: var(--background);
   &::placeholder{
-        color: var(--color) !important;
+    color: var(--list-color);
   }
 }
 
@@ -365,33 +357,58 @@ $ks_right_bg: $gray-200;
     background-repeat: no-repeat !important;
     background-size: cover !important;
     background-position: center !important;
+    /* .o_action_manager{
+        background-color: rgba(var(--opacity-bg), 0.5);
+        .btn-group, .btn-group-vertical{
+           background: transparent !important;
+          .btn-secondary {
+            background: transparent !important;
+          }
+        }
+        .o_control_panel {
+          .o_cp_top .o_cp_top_right {
+            .o_cp_searchview {
+              .o_searchview{
+                background-color: transparent;
+              }
+            }
+          }
+          .o_cp_bottom {
+            .o_cp_bottom_right {
+              .o_cp_pager {
+                .o_pager{
+                  background-color: transparent;
+                }
+              }
+            }
+          }
+        }
+        .ks_fullscreen_div{
+          background: transparent;
+          .ks_fullscreen{
+            background: transparent;
+          }
+        }
+        .o_control_panel .o_cp_bottom .o_cp_bottom_left .o_cp_action_menus{
+          background: none;
+        }
+    } */
 }
 
 // Activity View Table
 .o_content{
     .o_activity_view{
       .table-bordered {
-        border-color: var(--ks-border);
+        border-color: var(--table-tr-bordercolor);
       }
       table{
          background: var(--background);
       }
       .o_activity_summary_cell {
         background: var(--background);
-        &.planned {
-          background-color: #28a745;
-        }
-
-        &.overdue {
-          background-color: #dc3545;
-        }
-
-        &.today {
-          background-color: #ffac00;
-        }
       }
       .table-bordered th, .table-bordered td{
-        border-color: var(--ks-border);
+        border-color: var(--table-tr-bordercolor);
       }
     }
      .o_lunch_content {
@@ -484,7 +501,9 @@ $ks_right_bg: $gray-200;
     }
     &::after {
       content: "";
-      @include position(absolute, $top: 100%, $left: 50%);
+      position: absolute;
+      top: 100%;
+      left: 50%;
       margin-left: -5px;
       border-width: 5px;
       border-style: solid;
@@ -510,7 +529,9 @@ $ks_right_bg: $gray-200;
   text-align: left;
   &::after {
     content: "";
-    @include position(absolute, $top: 100%, $left: 10%);
+    position: absolute;
+    top: 100%;
+    left: 10%;
     margin-left: -5px;
     border-width: 10px;
     border-style: solid;
@@ -617,13 +638,6 @@ ks_dashboard_main_content{}
 // o_kanban_view
 .o_kanban_view.o_kanban_dashboard {
   .o_kanban_record {
-  .o_kanban_primary_left {
-    .o_primary {
-      .o_text_overflow {
-        color: var(--color) !important;
-      }
-    }
-  }
     .o_kanban_manage_button_section{
       &.oe_kanban_color_0{
         .o_kanban_manage_toggle_button{
@@ -681,7 +695,7 @@ ks_dashboard_main_content{}
 
 .o_kanban_view {
   .o_kanban_record, .o_kanban_quick_create{
-    border-color: var(--hover-nav-bg) !important;
+    border-color: var( --list-bordercolor);
     background-color: var(--background);
   }
   .o_kanban_group {
@@ -726,13 +740,6 @@ ks_dashboard_main_content{}
   &.note-editor {
     .note-statusbar{
       background-color: var(--light-text-color);
-    }
-    .note-toolbar{
-      .note-font, .btn-group{
-        .btn{
-          border-radius: 0px;
-        }
-      }
     }
   }
 }
@@ -796,9 +803,6 @@ ks_dashboard_main_content{}
   .dropdown-menu{
     z-index: 10;
   }
-  .o_kanban_group .o_kanban_header > .o_kanban_header_title .o_column_title {
-    color: var(--color) !important;
-  }
 }
 .o_form_view {
   .o_form_uri{
@@ -807,7 +811,7 @@ ks_dashboard_main_content{}
       &:first-child{
         color: var(--link-color);
         &:hover{
-         color: var(--table-td-color);
+         color: var(--link-color);
          opacity: 0.7;
         }
       }
@@ -831,7 +835,7 @@ ks_dashboard_main_content{}
   .o_horizontal_separator{
     color: var(--primary) !important;
   }
-  .o_loading_indicator.o_loading > span{
+  .o_loading{
     background-color: var(--primary);
   }
   .badge-primary{
@@ -848,157 +852,3 @@ ks_dashboard_main_content{}
   .o_field_widget.o_field_many2one .o_external_button{
     color: var(--primary);
   }
-
-  //body background image hover effect
-  .zoomodoo-flyout{
-    width: 160px !important;
-    height: 200px !important;
-    img{
-      max-width: 100% !important;
-      @include square(100%, $radius: 0px);
-      object-fit: contain;
-    }
-  }
-  .o_kanban_view {
-    .oe_kanban_card {
-      &:focus {
-        outline-color: var(--primary) !important;
-      }
-      .o_kanban_record_top {
-        .o_kanban_record_headings {
-          .o_kanban_record_title {
-            color: var(--color);
-          }
-        }
-      }
-      .o_kanban_record_bottom {
-        .oe_kanban_bottom_left {
-          &.text-muted {
-            color: #adb5bd !important;
-          }
-        }
-      }
-    }
-  }
-  .o_calendar_view .o_calendar_widget .fc-timeGridDay-view .fc-widget-header.fc-today, .o_calendar_view .o_calendar_widget .fc-timeGridWeek-view .fc-widget-header.fc-today {
-    background: var(--primary);
-    color: var(--white);
-  }
-.o_calendar_sidebar_container .o_calendar_filter .o_calendar_filter_items_checkall .o_cw_filter_input_bg, .o_calendar_sidebar_container .o_calendar_filter .o_calendar_filter_item .o_cw_filter_input_bg {
-  width: 20px !important;
-  height: 20px !important;
-  border-width: 2px;
-  border-style: solid;
-  border-radius: 1px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.o_cw_filter_color_6 .o_cw_filter_input_bg {
-  border-color: var(--primary);
-  background: var(--primary);
-  color: var(--color);
-}
-.o_calendar_sidebar_container .ui-datepicker td.ui-datepicker-current-day.ui-datepicker-today a {
-    background: var(--primary);
-}
-.text-muted {
-    color: #adb5bd !important;
-}
-.o_search_panel .list-group-item .o_search_panel_label_title {
-  color: var(--color);
-}
-.o_form_view .o_form_label, .o_setting_right_pane .user-heading h3 {
-  color: var(--color) !important;
-}
-.o_base_settings .o_control_panel .o_panel .o_setting_search .searchInput {
-    max-width: 100%;
-}
-.o_base_settings .o_control_panel .o_panel .o_setting_search:focus-within .searchInput {
-    border-bottom-color: var(--primary);
-}
-.o_kanban_counter > .o_kanban_counter_side{
-  color: var(--color);
-}
-.o_calendar_filter .h5, .o_calendar_filter h5, .modal .modal-content .modal-header .modal-title {
-    color: var(--color);
-}
-.o_boolean_toggle.custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
-    display:none !important;
-}
-.o_cw_popover .list-group-item {
-    color: #454546;
-}
-.o_calendar_view .o_cw_popover .list-group-item {
-    color: var(--color);
-}
-.bootstrap-datetimepicker-widget .datepicker table td {
-    color: var(--color) ;
-    &:hover {
-        color: var(--primary-btn);
-    }
-    &:first-child {
-        color: #454546;
-    }
-}
-
-.bootstrap-datetimepicker-widget .datepicker table th {
-    color: var(--color);
-}
-@media(max-width:767px){
-.o_form_view .o_form_sheet .oe_button_box{
-float: none;
-}
-.o_form_view .o_readonly_modifier .oe_right{
-float: none !important;
-}
-.oe-toolbar.oe-floating, .note-editable {
-background-color: var(--background) !important;
-}
-}
-.o_view_controller .o_mail_activity div.o_activity .o_activity_log_container, .o_view_controller .o_mail_activity div.o_activity .o_activity_log_container li {
-    background: var(--background) !important;
-    color: var(--color) !important;
-    .badge-warning, .text-muted, .text-dark, .o_activity_link_kanban {
-        color: var(--color) !important;
-    }
-}
-
-.fc-unthemed td.fc-today {
-    background: var(--primary) !important;
-    opacity: 0.2;
-}
-.o_kanban_view.o_kanban_dashboard .o_kanban_record .o_kanban_card_header_title .o_primary {
-    color: var(--color) !important;
-}
-
-.o_kanban_view .oe_kanban_color_2:after {
-  top: 5px;
-  bottom: 5px;
-  left: -4px;
-}
-.o_kanban_view .oe_kanban_color_4:after {
-  top: 5px;
-  bottom: 5px;
-  left: -4px;
-}
-.o_kanban_view .oe_kanban_color_1:after {
-  top: 5px;
-  bottom: 5px;
-  left: -4px;
-}
-.ks-phone-filter-modal .o_search_options .o_group_by_menu .dropdown-toggle {
-  margin-left: 3px;
-  margin-right: 3px;
-}
-
-.ks-phone-filter-modal .o_search_options .dropdown .dropdown-toggle {
-  padding: 0px;
-  width: 30px;
-  height: 30px;
-}
-
-.ks-phone-filter-modal .o_search_options .dropdown .dropdown-toggle i.mr-1 {
-  margin-right: 0px !important;
-}

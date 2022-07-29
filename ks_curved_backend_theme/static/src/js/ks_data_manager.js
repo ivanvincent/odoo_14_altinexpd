@@ -33,7 +33,7 @@ odoo.define("ks_curved_backend_theme.DataManager", function (require) {
             );
           }
           if (session.ks_color_theme.ks_header_icon_clr) {
-            $("div.o_menu_systray").addClass("ks_color_theme_dark_header");
+            $("ul.o_menu_systray").addClass("ks_color_theme_dark_header");
             $('.o_main_navbar button.phone-menu-btn').addClass("ks_color_theme_dark_header");
             $('.ks_left_sidebar_panel .ks_app_sidebar .inner-sidebar button.phone-menu-btn').addClass("ks_color_theme_dark_header");
           }

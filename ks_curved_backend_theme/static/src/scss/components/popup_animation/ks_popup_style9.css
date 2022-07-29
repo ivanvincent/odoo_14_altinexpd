@@ -62,8 +62,8 @@
     transform: perspective(400px);
   }
 }
-.modal .modal-content {
-  /* //comman */
+.modal.show .modal-content {
+  //comman
   -webkit-animation-duration: 0.8s;
   animation-duration: 0.8s;
   -webkit-animation-fill-mode: both;

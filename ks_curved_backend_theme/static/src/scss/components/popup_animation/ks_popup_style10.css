@@ -45,8 +45,8 @@
     transform: translate3d(0, 0, 0);
   }
 }
-.modal .modal-content {
-  /* //comman */
+.modal.show .modal-content {
+  //comman
   -webkit-animation-duration: 1.2s;
   animation-duration: 1.2s;
   -webkit-animation-fill-mode: both;

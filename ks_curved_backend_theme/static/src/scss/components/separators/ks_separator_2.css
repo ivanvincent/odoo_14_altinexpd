@@ -1,4 +1,4 @@
-/*.ks_quick_settings .ks_quick_settings_panel {
+.ks_quick_settings .ks_quick_settings_panel {
 	 border: 1px dotted var(--ks-border);
 }
  .ks_quick_settings .ks_quick_settings_panel .nav > li:not(.ml-4):not(.ks-globale-list) {
@@ -104,20 +104,4 @@
 }
  .o_kanban_view .o_kanban_record {
 	 border-style: dotted;
-}*/
-
-.o_ActivityBox_titleLine{
-   border-style: dotted;
-}
- hr {
-	  border-style: dotted;
-}
-.o_MessagingMenu_dropdownMenu .o_NotificationList .o_NotificationList_separator{
-   border-bottom-style: dotted;
-}
-.dropdown-divider{
-   border-top-style: dotted;
-}
-.o_Discuss div.o_Discuss_sidebar hr{
-   border-style: dotted;
 }

@@ -7,30 +7,30 @@
 
 	.o_ThreadView{
 	    background-color: var(--background);
-        .o_ThreadViewTopbar {
-          background-color: var(--background);
-        }
+
 	    .o_MessageList{
-	      background-color: transparent;
+	            background-color: transparent;
 	    }
 	}
 
 	div.o_Discuss_sidebar {
-		background-color: var(--background) !important;
-    border-right: 1px solid var(--ks-border) !important;
-    border-top-left-radius: var(--theme-style-radius) !important;
-		border-bottom-left-radius: var(--theme-style-radius) !important;
-		color: var(--color) !important;
+		background-color: var(--background);
+        border-right: 1px solid var(--ks-border);
+// 		border-radius: 20px 0px 0px 20px;
+        border-top-left-radius: var(--theme-style-radius);
+		border-bottom-left-radius: var(--theme-style-radius);
 		@include media-breakpoint-up(lg) {
-      width: 215px;
-    }
+          width: 215px;
+        }
+
 		.o_DiscussSidebar_item, .o_DiscussSidebar_groupHeader, .o_DiscussSidebar_list {
 		    color: var(--color);
 		    font-weight: 500;
 		    text-transform: capitalize;
-        font-size: $font-14;
-        line-height: 21px;
-        .o-item-active {
+            font-size: $font-14;
+            line-height: 21px;
+
+            .o-item-active {
 				background-color: var(--primary);
 			}
 
@@ -39,7 +39,7 @@
 				color: var(--primary);
 			}
 		}
-		.o_DiscussSidebarCategory_newItem {
+		.o_DiscussSidebar_item {
 		    min-height: 37px;
 		    width: 100%;
 		    min-width: 100%;
@@ -53,8 +53,8 @@
 		    }
 		}
 		.o-active {
-        background-color: var(--ks-main-control-bg);
-        color: var(--primary);
+            background-color: var(--ks-main-control-bg);
+            color: var(--primary);
 		}
 		hr{
 		    border-top: 1px solid var(--ks-boarder);
@@ -63,6 +63,7 @@
 // 	o_Discuss_sidebar / end
 	div.o_Discuss_content {
 	    border-top: none;
+// 	    border-radius: 0px 25px 25px 0px;
         border-top-right-radius: var(--theme-style-radius);
         border-bottom-right-radius: var(--theme-style-radius);
 	    .o_ThreadView_composer {
@@ -87,6 +88,7 @@
                     background: none;
                     border: 0.5px solid var(--list-bordercolor);
                     box-sizing: border-box;
+                    //border-radius: 25px 0px 0px 25px;
                     border-top-left-radius: var(--theme-style-radius-25);
                     border-bottom-left-radius: var(--theme-style-radius-25);
                     min-height: 50px;
@@ -98,7 +100,9 @@
 
                 .o_Composer_toolButtons {
                     background-color: transparent;
+                    //background: $gray-200;
                     border: 0.5px solid var(--list-bordercolor);
+                    //border-radius: 0px 25px 25px 0px;
                     border-top-right-radius: var(--theme-style-radius-25);
                     border-bottom-right-radius: var(--theme-style-radius-25);
                 }
@@ -153,7 +157,7 @@
 // o-starred-box
 }
 .o_widget_Discuss {
-    padding: 20px 20px 20px;
+    padding: 0px 20px 20px;
 }
 .o_action_manager{
   .o_Discuss {
@@ -162,21 +166,5 @@
         border: 1px solid var(--ks-border);
     }
   }
-}
-.o_DiscussSidebarMailbox:hover, .o_DiscussSidebarCategoryItem:hover {
-    background-color: var(--ks-main-control-bg);
-    color: var(--primary);
-}
-.o_MessageList_empty, .o_MessageInReplyToView_body {
-    color: var(--color);
-}
-.o_MessageActionList {
-    border-color: var(--primary);
-    background-color: var(--background);
-    .o_MessageActionList_action {
-      &:hover {
-        background-color: var(--primary);
-      }
-    }
 }
 /*....End Discuss Page ....*/

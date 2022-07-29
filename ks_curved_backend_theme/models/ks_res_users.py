@@ -61,10 +61,7 @@ class KsResUsers(models.Model):
                                                                    ('ks_loader_3', 'Loader 3'),
                                                                    ('ks_loader_4', 'Loader 4'),
                                                                    ('ks_loader_5', 'Loader 5'),
-                                                                   ('ks_loader_6', 'Loader 6'),
-                                                                   ('ks_loader_7', 'Loader 7'),
-                                                                   ('ks_loader_default', 'Default Loader'),
-                                                                   ], default='ks_loader_default')
+                                                                   ], default='ks_loader_1')
 
     ks_separator_style = fields.Selection(string="Separator style", selection=[('ks_separator_1', 'Separator 1'),
                                                                                ('ks_separator_2', 'Separator 2'),
@@ -85,7 +82,7 @@ class KsResUsers(models.Model):
                                                                      ('ks_font_open_san', 'Open San'),
                                                                      ('ks_font_roboto', 'Roboto'),
                                                                      ('ks_font_ubuntu', 'Ubuntu'),
-                                                                     ], default='ks_font_poppins')
+                                                                     ])
     ks_font_size = fields.Selection(string="Font Size", selection=[('ks_font_size_small', 'Small'),
                                                                    ('ks_font_size_medium', 'Medium'),
                                                                    ('ks_font_size_large', 'Larger'),
@@ -135,12 +132,6 @@ class KsResUsers(models.Model):
 
     ks_theme_color = fields.Many2one(comodel_name='ks.color.theme', string='Current color theme')
     ks_body_background_image_enable = fields.Boolean(string="Enable body background images", default=False)
-    ks_form_page_width = fields.Float('Form Page Width')
-    ks_split_view = fields.Selection(
-        selection=[('no_split', 'No split'), ('vertical', 'Vertical'), ('horizontal', 'Horizontal')],
-        string='Split View', default='no_split')
-    ks_split_vertical_list_width = fields.Float('Vertical list view width')
-    ks_split_horizontal_list_height = fields.Float('horizontal list view height')
 
     def __init__(self, pool, cr):
         init_res = super().__init__(pool, cr)

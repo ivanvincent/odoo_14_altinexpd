@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="ks_curved_backend_theme.ks_popup_style1" active="False"
+    <template id="ks_curved_backend_theme.ks_popup_style1" inherit_id="web.assets_backend" active="False"
               name="Popup animation style">
         <xpath expr="." position="inside">
             <link rel="stylesheet" type="text/scss"
@@ -8,7 +8,7 @@
         </xpath>
     </template>
 
-    <template id="ks_curved_backend_theme.ks_popup_style2" active="False"
+    <template id="ks_curved_backend_theme.ks_popup_style2" inherit_id="web.assets_backend" active="False"
               name="Popup animation style">
         <xpath expr="." position="inside">
             <link rel="stylesheet" type="text/scss"
@@ -16,7 +16,7 @@
         </xpath>
     </template>
 
-    <template id="ks_curved_backend_theme.ks_popup_style3" active="False"
+    <template id="ks_curved_backend_theme.ks_popup_style3" inherit_id="web.assets_backend" active="False"
               name="Popup animation style">
         <xpath expr="." position="inside">
             <link rel="stylesheet" type="text/scss"
@@ -24,7 +24,7 @@
         </xpath>
     </template>
 
-    <template id="ks_curved_backend_theme.ks_popup_style4" active="False"
+    <template id="ks_curved_backend_theme.ks_popup_style4" inherit_id="web.assets_backend" active="False"
               name="Popup animation style">
         <xpath expr="." position="inside">
             <link rel="stylesheet" type="text/scss"
@@ -32,7 +32,7 @@
         </xpath>
     </template>
 
-    <template id="ks_curved_backend_theme.ks_popup_style5" active="False"
+    <template id="ks_curved_backend_theme.ks_popup_style5" inherit_id="web.assets_backend" active="False"
               name="Popup animation style">
         <xpath expr="." position="inside">
             <link rel="stylesheet" type="text/scss"
@@ -40,7 +40,7 @@
         </xpath>
     </template>
 
-    <template id="ks_curved_backend_theme.ks_popup_style6" active="False"
+    <template id="ks_curved_backend_theme.ks_popup_style6" inherit_id="web.assets_backend" active="False"
               name="Popup animation style">
         <xpath expr="." position="inside">
             <link rel="stylesheet" type="text/scss"
@@ -48,7 +48,7 @@
         </xpath>
     </template>
 
-    <template id="ks_curved_backend_theme.ks_popup_style7" active="False"
+    <template id="ks_curved_backend_theme.ks_popup_style7" inherit_id="web.assets_backend" active="False"
               name="Popup animation style">
         <xpath expr="." position="inside">
             <link rel="stylesheet" type="text/scss"
@@ -56,7 +56,7 @@
         </xpath>
     </template>
 
-    <template id="ks_curved_backend_theme.ks_popup_style8" active="False"
+    <template id="ks_curved_backend_theme.ks_popup_style8" inherit_id="web.assets_backend" active="False"
               name="Popup animaks_chatter_righttion style">
         <xpath expr="." position="inside">
             <link rel="stylesheet" type="text/scss"
@@ -64,7 +64,7 @@
         </xpath>
     </template>
 
-    <template id="ks_curved_backend_theme.ks_popup_style9" active="False"
+    <template id="ks_curved_backend_theme.ks_popup_style9" inherit_id="web.assets_backend" active="False"
               name="Popup animation style">
         <xpath expr="." position="inside">
             <link rel="stylesheet" type="text/scss"
@@ -72,7 +72,7 @@
         </xpath>
     </template>
 
-    <template id="ks_curved_backend_theme.ks_popup_style10" active="False"
+    <template id="ks_curved_backend_theme.ks_popup_style10" inherit_id="web.assets_backend" active="False"
               name="Popup animation style">
         <xpath expr="." position="inside">
             <link rel="stylesheet" type="text/scss"

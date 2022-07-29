@@ -12,7 +12,3 @@
     left: -1.6rem;
     top: 0.4rem;
 }
-
-.o_rtl .custom-checkbox .custom-control-input:checked ~ .custom-control-label::after{
-    right: -1.6rem;
-}

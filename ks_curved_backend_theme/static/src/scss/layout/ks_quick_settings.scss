@@ -1,6 +1,3 @@
-.ks_cursor_pointer {
-    @extend %pointer;
-}
 .ks-color{
     color: var(--color);
 }
@@ -15,6 +12,7 @@
     padding-bottom: 1rem;
     padding-top: 1rem;
     border-bottom: 1px solid var(--ks-border);
+    //color: var(--color);
 
     .quick-card-sec{
         box-shadow: 0 4px 10px rgba(0,0,0,0.15);
@@ -35,8 +33,7 @@
         @extend %d_block;
         transform: translateX(100%);
         @include position(fixed, $top: 0px, $left: auto, $right: 0px);
-        z-index: 1001;
-//         z-index: 1000;
+        z-index: 1000;
         height: calc(100vh);
         transition: transform ease-in-out 0.5s;
         background-color: var(--background);
@@ -62,6 +59,7 @@
             border-bottom: 1px solid var(--ks-border);
             font-size: $font-14;
             font-weight: 600;
+            //color: var(--color);
             padding-right: 30px;
         }
 
@@ -71,7 +69,8 @@
             justify-content: center;
             .ks_drawer_background_default, .ks_background_default{
               img{
-                @include square(26px, $radius: 0);
+                height: 26px;
+                width: 26px;
               }
             }
             .btn{
@@ -257,6 +256,7 @@
     .ks-global-card{
         .ks-global-card-header{
             .card-link{
+                //color: $black;
                 color: var(--color);
             }
         }
@@ -307,16 +307,18 @@
   }
   &:before{
     content: '+';
-    @include position(absolute, $top: 0%, $left: 0%);
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 60px;
     height: 40px;
-    border-radius: 5px;
+    //box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.05);
     box-shadow: -1px 0px 8px 3px rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
     font-size: 2.5rem;
     color: var(--color);
     @include flex-center-justify();
     background: var(--light-text-color);
-    line-height: 100%;
   }
   span{
     font-size: 1rem;
@@ -337,11 +339,9 @@
     }
   }
   i{
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     margin-left: 8px;
     color: var(--color);
-    cursor: pointer;
-    opacity: 0.5;
   }
 }
 .ks_setting_cancel{
@@ -353,13 +353,14 @@
 .ks_binary_field{
   margin-top: 12px;
   outline: none;
-  @extend %pointer;
+  cursor: pointer;
   &:before{
     content: '';
     display: inline-block;
     background: url('/ks_curved_backend_theme/static/src/images/upload-icon.svg') no-repeat center;
     background-size: 14px;
-    @include square(14px, $radius: 0);
+    height: 14px;
+    width: 14px;
     margin: 0px 8px -2px 0px;
   }
 }
@@ -439,93 +440,4 @@ img.ks_company_logo_company_preview,
     min-width: 200px;
     max-width: 200px;
   }
-}
-
-// Loader Styling
-.ks_loader_options{
-  .ks_loader_item{
-    .custom-control-label{
-      img{
-        height: 36px;
-        margin: -8px 0 0 12px;
-      }
-    }
-  }
-}
-// Breadcrumb Style
-.breadcrumb_style{
-  .custom-control{
-    .custom-control-label{
-      svg{
-        margin-left: 16px;
-      }
-    }
-  }
-}
-
-//global setting Login Page Designs
-#global_settingLoginPageDesigns{
-  .ks-quick-card{
-    .ks-quick-card-body{
-      max-width: 460px;
-      .login-templates{
-        width: 100%;
-        @include flex-with-wrap();
-        align-items: flex-start;
-        .quick-card-sec{
-          width: calc(33.33% - 15px);
-          margin: 0 15px 15px 0;
-          .custom-control-label{
-            padding: 12px;
-          }
-        }
-      }
-    }
-    .quick-card-sec{
-      box-shadow: 0px 10px 15px rgba(var(--shadow-color), 0.05);
-    }
-    .ks_login_page_logo_preview{
-      max-height: 62px;
-    }
-  }
-}
-.o_web_client{
-    .quick-setting-overlay{
-        position: fixed !important;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        background: rgba(0,0,0,0.4) !important;
-        z-index: 1000;
-        cursor: pointer;
-        border-radius: 0 !important;
-        display:none !important;
-    }
-    .ks_quick_settings_panel.show ~ .quick-setting-overlay{
-        display: block !important;
-    }
-}
-.ks_vertical_body_panel {
-    .ks_left_sidebar_panel{
-        .ks-menu-systray{
-            .ks_quick_settings{
-                .quick-setting-overlay{
-                        background-image: none !important;
-                }
-            }
-        }
-    }
-}
-.ks_quick_settings_panel ~ .quick-setting-overlay{
-    display: none !important;
-}
-.o_web_client{
-    .ks_horizontal_bar{
-        .ks_quick_settings{
-            .quick-setting-overlay{
-                    background-image: none !important;
-            }
-        }
-    }
 }

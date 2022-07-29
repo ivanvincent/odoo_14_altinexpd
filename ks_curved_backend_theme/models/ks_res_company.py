@@ -30,7 +30,7 @@ class KsResCompany(models.Model):
                                                                      ('ks_font_open_san', 'Open San'),
                                                                      ('ks_font_roboto', 'Roboto'),
                                                                      ('ks_font_ubuntu', 'Ubuntu'),
-                                                                     ], default='ks_font_poppins')
+                                                                     ])
 
     ks_font_size = fields.Selection(string="Font Size", selection=[('ks_font_size_small', 'Small'),
                                                                    ('ks_font_size_medium', 'Medium'),
@@ -90,10 +90,7 @@ class KsResCompany(models.Model):
                                                                    ('ks_loader_3', 'Loader 3'),
                                                                    ('ks_loader_4', 'Loader 4'),
                                                                    ('ks_loader_5', 'Loader 5'),
-                                                                   ('ks_loader_6', 'Loader 6'),
-                                                                   ('ks_loader_7', 'Loader 7'),
-                                                                   ('ks_loader_default', 'Default Loader'),
-                                                                   ], default='ks_loader_default')
+                                                                   ], default='ks_loader_1')
 
 
     ks_body_background = fields.Char(string="Body background", default=False)

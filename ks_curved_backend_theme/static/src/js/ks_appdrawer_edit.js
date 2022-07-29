@@ -9,7 +9,6 @@ odoo.define("ks_curved_backend_theme.ks_appdrawer_edit", function (require) {
     events: {
       "click #ks_customize_appdrawer": "_ksShowFavIcons",
     },
-    sequence: 59,
     init: function () {
       var self = this;
       this._super.apply(this, arguments);
@@ -37,7 +36,7 @@ odoo.define("ks_curved_backend_theme.ks_appdrawer_edit", function (require) {
     },
   });
 
-//  KsAppdrawerEdit.prototype.sequence = 6;
+  KsAppdrawerEdit.prototype.sequence = 51;
   SystrayMenu.Items.push(KsAppdrawerEdit);
 
   return {

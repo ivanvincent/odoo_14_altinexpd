@@ -1,4 +1,4 @@
-/*.ks_quick_settings .ks_quick_settings_panel {
+.ks_quick_settings .ks_quick_settings_panel {
 	 border-image: url("/ks_curved_backend_theme/static/src/images/border_img_vr_2.png") 12/0px 0px 0px 3px round;
 }
  .ks_quick_settings .ks_quick_settings_panel .nav > li:not(.ml-4):not(.ks-globale-list) {
@@ -64,25 +64,4 @@
 }
  .o_base_settings .o_control_panel .o_panel .o_setting_search .searchInput {
 	 border-image: url("/ks_curved_backend_theme/static/src/images/border_img_2.png") 12/0px 0px 3px 0px round;
-}*/
-
-.o_ActivityBox_titleLine{
-  border-image: url("/ks_curved_backend_theme/static/src/images/border_img_2.png") 12/3px 0px 0px 0px round;
-  border-width: 1px !important;
-}
- hr {
-	 border-image: url("/ks_curved_backend_theme/static/src/images/border_img_2.png") 12/3px 0px 0px 0px round;
-	 border-width: 2px;
-}
-.o_MessagingMenu_dropdownMenu .o_NotificationList .o_NotificationList_separator{
-  border-width: 2px;
-  border-image: url("/ks_curved_backend_theme/static/src/images/border_img_2.png") 12/3px 0px 0px 0px round;
-}
-.dropdown-divider{
-  border-image: url("/ks_curved_backend_theme/static/src/images/border_img_2.png") 12/3px 0px 0px 0px round;
-  border-width: 2px;
-}
-.o_Discuss div.o_Discuss_sidebar hr{
-  border-width: 2px;
-  border-image: url("/ks_curved_backend_theme/static/src/images/border_img_2.png") 12/3px 0px 0px 0px round;
 }
