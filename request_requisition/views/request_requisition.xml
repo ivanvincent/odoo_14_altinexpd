@@ -316,12 +316,12 @@
 
     <menuitem id="request_requisition_wh_menu" name="Request Requisition WH" parent="stock.menu_stock_root" action="request_requisition_list_wh_action" />
 
-    <menuitem
+    <!-- <menuitem
             id="biaya_kendaraan_wizard_rr_menu"
             name="Report Biaya Kendaraan"
             action="inherit_accounting.biaya_kendaraan_wizard_action"
             parent="reporting.reporting_root_menu_rr"
             groups="account.group_account_readonly"
-            sequence="10"/>
+            sequence="10"/> -->
 
 </odoo>

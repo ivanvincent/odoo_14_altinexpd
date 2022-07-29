@@ -69,7 +69,7 @@
         'views/ks_assets.xml',
         'views/ks_assets_popup_animation.xml',
         'views/ks_login_page.xml',
-        'views/ks_res_users_preferences.xml',
+        # 'views/ks_res_users_preferences.xml',
     ],
 
     'qweb': [
