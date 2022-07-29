@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="purchase_order_line_collapse_view">
+            <field name="name">purcahase.order.line.group.by.grid</field>
+            <field name="model">purchase.order</field>
+            <field name="type">owl_tree</field>
+            <field name="arch" type="xml">
+                <owl_tree selection="none">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                </owl_tree>
+            </field>
+        </record>
+
+        <record id="wibicon_purchase_rfq_line_action" model="ir.actions.act_window">
+            <field name="name">Request For Quotation</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_mode">owl_tree</field>
+            <field name="domain">[('state', '=', 'draft')]</field>
+            <!-- <field name="context">{'group_by': 'order_id'}</field> -->
+            <!-- <field name="view_ids" eval="[(5, 0, 0),(0, 0, {'view_mode': 'tree', 'view_id': ref('inherit_purchase_order.purchase_order_line_group_by_tree')})]"/> -->
+        </record>
+
+        <menuitem action="wibicon_purchase_rfq_line_action" groups="inherit_purchase_order.group_purchase_approver" id="menu_purchase_rfq_line" name="Requests For Quotation" parent="purchase.menu_procurement_management" sequence="1"/>
+
+
+
+
+        
+        <record model="ir.ui.view" id="list_purchase_order_line_tree">
+            <field name="name">purcahase.order.line.group.by</field>
+            <field name="model">purchase.order.line</field>
+            <field name="arch" type="xml">
+                <tree string="Purchase Order Lines" create="false">
+                    <field name="order_id"/>
+                    <field name="date_order"/>
+                    <field name="partner_id"/>
+                    <!-- <field name="purchase_request_id"/> -->
+                    <!-- <field name="request_requisition_id"/> -->
+                    <field name="kode_barang"/>
+                    <field name="product_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="list_purchase_order_line_action" model="ir.actions.act_window">
+            <field name="name">List Purchase Order</field>
+            <field name="res_model">purchase.order.line</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem action="list_purchase_order_line_action" groups="inherit_purchase_order.group_list_purchase_order_line" id="menu_list_purchase_order_line" name="List Purchase Order" parent="purchase.menu_procurement_management" sequence="7"/>
+
+    </data>
+</odoo>

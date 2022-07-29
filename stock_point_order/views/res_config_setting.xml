@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.stock.point.order</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Stock Order Point" data-key="stock_point_order" string="Stock Order Point">
+                        <h2>Stock Point Order</h2>
+                        <div class="row mt16 o_settings_container" name="devices_setting_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="filter_product"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="filter_product"/>
+                                    <div class="text-muted">
+                                        Force Domain of Product by Category
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6  o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="approval"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="approval"/>
+                                    <div class="text-muted">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6  o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Product Category</span>
+                                    <div class="text-muted">
+                                        <field name="product_category_ids" widget="many2many_tags"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="stock_point_order_config_settings_action" model="ir.actions.act_window">
+            <field name="name">Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'stock_point_order'}</field>
+        </record>
+
+        <menuitem id="stock_point_order_config" name="Configuration" parent="submenu_stock_point_order_config" sequence="99" action="stock_point_order_config_settings_action" groups="base.group_system"/>
+    </data>
+</odoo>

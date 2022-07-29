@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2019 Ecosoft Co., Ltd.
+  License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).-->
+  
+<odoo>
+
+
+   <record id="action_stock_summary_export_xlsx" model="ir.actions.act_window">
+        <field name="name">Export Excel</field>
+        <field name="res_model">export.xlsx.wizard</field>
+        <field name="binding_view_types">list,form</field>
+        <field name="binding_model_id" ref="model_tj_summary_rak_variasi" />
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">
+            {
+                'template_domain': [('res_model', '=', 'tj.summary.rak.variasi'),
+                                    ('fname', '=', 'stock_summary.xlsx'),
+                                    ('gname', '=', False)],
+            }
+        </field>
+    </record>
+
+
+
+    <record id="stock_summary_xlsx_template" model="xlsx.template">
+        <field name="res_model">tj.summary.rak.variasi</field>
+        <field name="fname">stock_summary.xlsx</field>
+        <field name="name">Stock Summary</field>
+        <field name="description">Stock Summary Template</field>
+        <field name="export_action_id" eval="ref('action_stock_summary_export_xlsx')" />
+        <field name="input_instruction">
+            {
+                '__EXPORT__': {
+                    'stock_summary': {
+                        '_HEAD_': {
+                            'B2': 'date_start${value}#{align=left;style=text}',
+                            'B3': 'date_end${value}#{align=left;style=text}',
+                        },
+                        'stock_summary_line_2': {
+                            'A7': 'product_id.display_name${value or ""}#{style=text}',
+                            'B7': 'product_category_id.name${value or ""}#{style=text}',
+                            'C7': 'saldo_awal_qty${value or 0}#{style=number}@{sum}',
+                            'D7': 'terima_qty${value or 0}#{style=number}@{sum}',
+                            'E7': 'keluar_qty${value or 0}#{style=number}@{sum;fill=yellow}',
+                            'F7': 'adj_qty${value or 0}#{style=number}@{sum}',
+                            'G7': 'balance_qty${value or 0}#{style=number}@{sum}',
+                            'H7': 'product_uom_id.name${value or ""}#{style=text}',
+
+                        }
+                    }
+                },
+            }
+        </field>
+    </record>
+    <function model="xlsx.template" name="load_xlsx_template">
+        <value eval="[ref('stock_summary_xlsx_template')]" />
+    </function>
+</odoo>

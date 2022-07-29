@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="master_sisir_form" model="ir.ui.view">
+            <field name="name">master.sisir.form</field>
+            <field name="model">master.sisir</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="lebar_sisir"/>
+                                <field name="uom_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="master_sisir_tree" model="ir.ui.view">
+            <field name="name">master_sisir.tree</field>
+            <field name="model">master.sisir</field>
+            <field name="arch" type="xml">
+                <tree string="Master Sisir" editable="bottom">
+                    <field name="name"/>
+                    <field name="lebar_sisir"/>
+                    <field name="uom_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="master_sisir_action" model="ir.actions.act_window">
+            <field name="name">Master Sisir</field>
+            <field name="res_model">master.sisir</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            id="master_sisir_menu"
+            name="Master Sisir"
+            action="master_sisir_action"
+            parent="menu_master"
+            sequence="220"/>
+    
+    </data>
+    
+
+</odoo>

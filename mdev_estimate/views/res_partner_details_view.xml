@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <record id="mdev_res_partner_details_tree" model="ir.ui.view">
+            <field name="name">res.partner.details.tree</field>
+            <field name="model">res.partner.jalur.line</field>
+            <field name="arch" type="xml">
+
+                <tree string="Customer Details" create="false" delete="false" import="false" >
+
+                    <field name="jalur_line_id" />
+                    <field name="active" />
+
+                    <field name="cust_int_code" optional="show" />
+                    <field name="cust_ext_code" optional="hide" />
+
+                    <field name="cust_city" optional="show" />
+                    <field name="cust_mobile" optional="hide" />
+                    <field name="cust_phone" optional="hide" />
+                    <field name="cust_email" optional="hide" />
+                    <field name="cust_cluster" optional="hide" />
+
+                    <field name="cust_ltime" optional="show" widget="integer" />
+
+                    <field name="salesperson" />
+                    <field name="group_name" />
+                    <field name="group_delivery" widget="integer" />
+                    <field name="divisi_name" />
+
+                    <field name="jalur_id" />
+                    <field name="jwk" string="Schd" />
+                    <field name="jam" string="Hour" optional="hide" />
+<!-- 
+                    <field name="active" />
+
+                    <field name="kode_customer" optional="show" string="Int.Code" />
+                    <field name="kext_customer" optional="show" string="Ext.Code" />
+                    <field name="customer_type" string="Type" />
+                    <field name="estimate_tmpl" string="Estimate" />
+                    <field name="mobile" />
+                    <field name="street" optional="hide" string="Address" />
+                    <field name="city" />
+
+                    <field name="customer_lead" string="Lead Time" />
+
+                    <field name="custom_jalur_id" optional="show" string="Route" />
+                    <field name="custom_group_id" optional="show" string="Group" />
+                    <field name="custom_div_id" optional="show" string="Division" />
+                    <field name="cluster_id" optional="hide" string="Cluster" />
+ -->
+                </tree>
+            </field>
+        </record>
+
+<!-- 
+        <record id="mdev_res_partner_grouping_form" model="ir.ui.view">
+            <field name="name">res.partner.product.form</field>
+            <field name="model">res.partner.product</field>
+            <field name="arch" type="xml">
+                <form string="Partners Product Form" >
+                    <sheet>
+
+                        <field name="active" invisible="1" />
+                        <widget name="web_ribbon" text="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+
+                        <group col="4" >
+                            <field name="customer_id" colspan="4" domain="[('customer_rank', '>', 0)]" options="{'no_create': True, 'no_create_edit':True, 'no_open':True}" />
+                            <field name="cust_int_code" />
+                            <field name="cust_ext_code" />
+                            <field name="cust_address" />
+                            <field name="cust_city" />
+                            <field name="cust_cluster" />
+                            <field name="cust_route" />
+                            <field name="cust_group" />
+                            <field name="cust_div" />
+                            <field name="cust_type" string="Type" />
+                            <field name="cust_user" />
+
+                            <separator colspan="4" string="" />
+                            <field name="product_id" colspan="4" domain="[('sale_ok', '=', True)]" options="{'no_create': True, 'no_create_edit':True, 'no_open':True}" />
+                            <field name="prod_int_code" />
+                            <field name="ext_code" />
+                            <field name="prod_categ" />
+                            <field name="prod_uom_code" />
+                            <field name="ord_qty" options="{'type': 'number', 'step': 1}" />
+                            <field name="max_qty" options="{'type': 'number', 'step': 1}" />
+
+                        </group>
+
+                        <label for="remark" />
+                        <field name="remark" placeholder="internal note..." />
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>                    
+                </form>
+            </field>
+        </record>
+ -->
+
+        <record id='mdev_res_partner_details_search' model='ir.ui.view' >
+            <field name="name">res.partner.details.search</field>
+            <field name="model">res.partner.jalur.line</field>
+            <field name="arch" type="xml">
+                <search string="Customer Search">
+
+                    <field name="jalur_line_id" />
+<!-- 
+                    <filter string="Customer" name="filter_customer" domain="[('customer_rank', '>', 0)]"/>
+                    <separator/>
+                    <filter name="inactive" string="Archived" domain="[('active', '=', False)]"/>
+                    <separator/>
+                    <filter string="Customer MT" name="filter_cust_mt" domain="[('customer_type','=','mt')]" />
+                    <filter string="Customer GT" name="filter_cust_gt" domain="[('customer_type','=','gt')]" />
+                    <filter string="Customer PO" name="filter_cust_po" domain="[('customer_type','=','po')]" />
+                    <filter string="Customer RO" name="filter_cust_ro" domain="[('customer_type','=','ro')]" />
+                    <filter string="Customer TO" name="filter_cust_to" domain="[('customer_type','=','to')]" />
+
+                    <group expand="0" string="Group By">
+
+                        <filter string="Name" name="group_name" domain="[]" context="{'group_by':'display_name'}"/>
+                        <separator/>
+                        <filter string="Lead Time" name="group_customer_lead" domain="[]" context="{'group_by':'customer_lead'}"/>
+                        <filter string="Type" name="group_customer_type" domain="[]" context="{'group_by':'customer_type'}"/>
+                        <filter string="Estimate" name="group_estimate_tmpl" domain="[]" context="{'group_by':'estimate_tmpl'}"/>
+                        <filter string="City" name="group_city" domain="[]" context="{'group_by':'city'}"/>
+                        <separator/>
+                        <filter string="Route" name="group_route" domain="[]" context="{'group_by':'custom_jalur_id'}"/>
+                        <filter string="Group" name="group_group" domain="[]" context="{'group_by':'custom_group_id'}"/>
+                        <filter string="Division" name="group_division" domain="[]" context="{'group_by':'custom_div_id'}"/>
+                        <filter string="Cluster" name="group_cluster" domain="[]" context="{'group_by':'cluster_id'}"/>
+                        <separator/>
+                        <filter string="Active" name="group_active" domain="[]" context="{'group_by':'active'}"/>
+
+                    </group>
+ -->
+                </search>
+            </field>
+        </record>
+
+        <record id="mdev_res_partner_details_action" model="ir.actions.act_window">
+            <field name="name">Customer Details</field>
+            <field name="res_model">res.partner.jalur.line</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{
+                                    'search_default_filter_customer':1,
+                                }
+            </field>
+            <field name="domain">[]</field>
+        </record>
+
+        <record id="res_partner_details_action_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="mdev_res_partner_details_tree"/>
+            <field name="act_window_id" ref="mdev_res_partner_details_action"/>
+        </record>
+
+        <menuitem id="res_partner_details_menu" action="mdev_res_partner_details_action" parent="est_template_menu" sequence="1"/>
+
+    </data>
+</odoo>

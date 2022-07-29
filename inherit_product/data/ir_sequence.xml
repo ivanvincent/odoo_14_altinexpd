@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record model="ir.sequence" id="master_design_sequence" >
+            <field name="name">Master Design</field>
+            <field name="code">master.design.code</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</odoo>

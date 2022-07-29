@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="paperformat_a4_konstruksi_design" model="report.paperformat">
+            <field name="name">Paperformat A4 Konstruksi Design</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_height">148</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="action_konstruksi_design" model="kontruksi" string="Print Konstruksi Design" report_type="qweb-pdf" name="my_report.konstruksi_design" file="my_report.konstruksi_design" />
+
+        <record id="action_konstruksi_design" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_a4_konstruksi_design" />
+        </record>
+
+        <template id="konstruksi_design">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+
+                    <div class="page">
+                    </div>
+
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template" xml:space="preserve">
+    <t t-name="DateRangeListView.buttons">
+        <t t-jquery="button.o_button_import" t-operation="after">
+            <div class="o_rangedatepicker_container form-inline" style="display: inline-flex; justify-content: 'space-between';">
+                <div class="form-group">
+                    <select class="select_date_range_fields" name="date_range" placeholder="Choose">
+                        <option value="">Select Date Field</option>
+                        <t t-foreach="widget.date_fields" t-as="field">
+                            <option>
+                                <t t-esc="field.label" />
+                            </option>
+                        </t>
+                    </select>
+                </div>
+                <div class="o_rangedatepicker form-group start_date_wrapper"  aria-atomic="true">
+                    <input type="text" name="daterange"  data-toggle="datetimepicker" readonly="1" class="o_daterange_input ml-2" size="12" autocomplete="off" placeholder="Start Date" id="date_range_start"/>
+                </div>
+                <div class="o_rangedatepicker form-group" data-target-input="nearest" aria-atomic="true">
+                    <input type="text"  name="daterange"  data-target="#date_range_end" readonly="1" class="o_daterange_input ml-2" size="12" autocomplete="off" placeholder="End Date" id="date_range_end"/>
+                </div>
+                <div class="form-group ml-2">
+                    <a role="button" class="btn-refresh-date fa fa-refresh"  data-toggle="refresh"></a>
+                </div>
+            </div>
+        </t>
+    </t>
+</templates>

@@ -1,0 +1,78 @@
+<odoo>
+	<data>
+		<record id="view_partner_group_form" model="ir.ui.view">
+			<field name="name">res.partner.group.form</field>
+			<field name="model">res.partner.group</field>
+			<field name="arch" type="xml">
+				<form string="Form Partner Group">
+					<sheet>
+						<group col="4" >
+							<field name="code"/>
+							<field name="name"/>
+							<field name="description" colspan="4" />
+						</group>
+
+						<group string="Delivery" >
+							<group>
+								<field name="delivery_days" options="{'type':'number','step':1}" string="Lead Time (days)" />
+							</group>
+						</group>
+
+						<group string="Customer" >
+							<group>
+								<field name="customer_id" />
+							</group>
+						</group>
+<!-- 						
+						<group string="Grouping" >
+							<field name="divisi_id" options="{'no_create': True, 'no_create_edit':True, 'no_open':True}" />
+						</group>
+ -->
+					</sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>                    
+
+				</form>
+			</field>
+		</record>
+		<record id="view_partner_group_tree" model="ir.ui.view">
+			<field name="name">res.partner.group.tree</field>
+			<field name="model">res.partner.group</field>
+			<field name="arch" type="xml">
+				<tree string="List Partner Group">
+					<field name="name"/>
+					<field name="code"/>
+<!-- 
+					<field name="divisi_id"/>
+					 -->
+					<field name="customer_id"/>
+					<field name="delivery_days"/>
+					<field name="description"/>
+				</tree>
+			</field>
+		</record>
+		<record id="view_partner_group_search" model="ir.ui.view">
+			<field name="name">res.partner.group.search</field>
+			<field name="model">res.partner.group</field>
+			<field name="arch" type="xml">
+				<search string="Search Partner Group">
+					<field name="name" filter_domain="[('name','ilike',self)]" string="Area Name"/>
+					<field name="code"/>
+				</search>
+			</field>
+		</record>
+		<record id="action_partner_group" model="ir.actions.act_window">
+            <field name="name">Partner Group</field>
+            <field name="res_model">res.partner.group</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_partner_group_search"/>
+            <field name="view_id" ref="view_partner_group_tree"/>
+        </record>
+		
+        <menuitem action="action_partner_group" id="menu_action_partner_group" parent="menu_sale_config_partner_sti" sequence="1"/>
+	</data>
+</odoo>

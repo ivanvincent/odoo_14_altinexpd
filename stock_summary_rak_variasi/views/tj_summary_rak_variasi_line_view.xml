@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>        
+        
+        <record model="ir.ui.view" id="tj_summary_rak_variasi_line_form_view">
+            <field name="name">tj.summary.rak.variasi.line.form_view</field>
+            <field name="model">tj.summary.rak.variasi.line</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    
+                        <group colspan="4" col="4">
+
+                            <field name="rak_id"/>
+                            <field name="partner_id" /> 
+                            
+                            <field name="product_id"/>
+                            <field name="variasi_id"/>
+                            
+                            <field name="product_uom_id"/>
+                            <field name="greige_code" />
+                            
+                            <field 
+                                name="saldo_awal_qty" 
+                                string="Saldo Awal Qty"
+                                sum="saldo_awal_qty"
+                            />
+
+                            <field 
+                                name="saldo_awal_pcs"
+                                string="Saldo Awal Roll" 
+                                sum="saldo_awal_pcs"
+                            />
+
+
+                            <field 
+                                name="terima_qty" 
+                                string="Terima Qty"
+                                sum="terima_qty"
+                            />
+                            
+                            <field 
+                                name="terima_pcs" 
+                                string="Terima Roll"
+                                sum="terima_pcs"/>
+
+
+
+                            <field 
+                                name="keluar_qty"
+                                string="Keluar Qty" 
+                                sum="keluar_qty"/>
+
+                            <field 
+                                name="keluar_pcs" 
+                                string="Keluar Roll"
+                                sum="keluar_pcs"/>
+
+
+                            <field 
+                                name="retur_terima_qty" 
+                                string="Retur Terima Qty"
+                                sum="retur_terima_qty"/>
+
+                            <field 
+                                name="retur_terima_pcs" 
+                                string="Retur Terima Roll"
+                                sum="retur_terima_pcs"/>
+
+                            
+
+                            <field 
+                                name="retur_keluar_qty" 
+                                string="Retur Keluar Qty"
+                                sum="retur_keluar_qty"/>
+
+                            <field 
+                                name="retur_keluar_pcs"
+                                string="Retur Keluar Roll" 
+                                sum="retur_keluar_pcs"/>
+
+
+                             <field 
+                                name="adj_qty" 
+                                string="Adj Qty"
+                                sum="adj_qty"/>
+
+                            <field 
+                                name="adj_pcs" 
+                                string="Adj Roll"
+                                sum="adj_pcs"/>
+
+                            <field 
+                                name="balance_qty" 
+                                string="Balance Qty"
+                                sum="balance_qty"/>
+
+                            <field 
+                                name="balance_pcs" 
+                                string="Balance Roll"
+                                sum="balance_pcs"/>
+                            
+                        </group>                                                                    
+                </form>
+            </field>
+        </record>        
+    </data>
+</openerp>

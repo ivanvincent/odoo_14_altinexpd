@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>    
+        <record id="default_warehouse_view_inherit" model="ir.ui.view">
+        <field name="name">warehouse_view</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="warehouse_stock_restrictions.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='default_picking_type_ids']" position="before">
+                <field name="default_warehouse_ids" widget="many2many_tags"/>
+                <field name="default_dest_warehouse_ids" widget="many2many_tags"/>
+                <field name="stock_location_dest_ids" widget="many2many_tags"/>
+            </xpath>
+        </field>
+        </record>
+    </data>
+</odoo>

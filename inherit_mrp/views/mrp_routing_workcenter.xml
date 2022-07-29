@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="mrp_routing_inherit_form">
+            <field name="name">mrp.routing.workcenter.form</field>
+            <field name="model">mrp.routing.workcenter</field>
+            <field name="inherit_id" ref="mrp.mrp_routing_workcenter_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='workcenter_id']" position="after">
+                    <field name="mesin_id"/>
+                </xpath>
+                <xpath expr="//page[@name='worksheet']" position="after">
+                <page string="Parameter">
+                    <field name="routing_paramter_ids" editable="bottom">
+                        <tree>
+                            <field name="no_urut"/>
+                            <field name="parameter_id"/>
+                            <field name="plan"/>
+                            <field name="actual"/>
+                            <field name="uom_id"/>
+                        </tree>
+                    </field>
+                </page>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="mrp_routing_inherit_tree">
+            <field name="name">	mrp.routing.workcenter.inherit.tree</field>
+            <field name="model">mrp.routing.workcenter</field>
+            <field name="inherit_id" ref="mrp.mrp_routing_workcenter_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='workcenter_id']" position="after">
+                    <field name="program_id"/>
+                    <field name="mesin_id"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

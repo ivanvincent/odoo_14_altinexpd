@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="groups_access_button_force_price" model="res.groups">
+            <field name="name">Access Button Force Price</field>
+        </record>
+    
+    </data>
+    
+
+</odoo>

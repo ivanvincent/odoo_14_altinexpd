@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report id="action_report_account_bank_statement_menu2" model="account.bank.statement" string="Print Bukti"
+        report_type="qweb-pdf" name="tj_bankcash.report_account_bank_statement_menu2"
+        file="tj_bankcash.report_account_bank_statement_menu2" />
+
+    <template id="report_account_bank_statement_menu2">
+        <t t-call="web.basic_layout">
+            <style>
+                .table-header,
+                .table-header th,
+                .table-header td {
+                    border: 1px solid black;
+                }
+
+                .table-header {
+                    margin-bottom: 1rem;
+                }
+
+                .table-body,
+                .table-body th,
+                .table-body td {
+                    border: 1px solid black;
+                }
+
+                .terbilang {
+                    font-weight: bold;
+                    font-style: italic;
+                }
+
+                .table-dpk,
+                .table-dpk td {
+                    border: 1px solid black;
+                    text-align: center;
+                }
+
+                .table-ttd {
+                    table-layout: fixed;
+                }
+            </style>
+            <t t-foreach="docs" t-as="o">
+                <div class="title text-center">
+                    <h5 class="font-weight-bold">
+                        <u>
+                            <span>BUKTI</span>
+                            <t t-if="o.operation_type == 'payment' ">PENGELUARAN</t>
+                            <t t-else="">PENERIMAAN</t>
+
+                            <t t-if="o.journal_id.type == 'bank' ">BANK</t>
+                            <t t-if="o.journal_id.type == 'cash' ">KAS</t>
+                        </u>
+                    </h5>
+                </div>
+
+                <table class="table-header" width="50%">
+                    <thead>
+                        <th class="pl-2">
+                            <span>NO BUKTI</span>
+                            <t t-if="o.operation_type == 'payment' ">PENGELUARAN</t>
+                            <t t-else="">PENERIMAAN</t>
+
+                            <t t-if="o.journal_id.type == 'bank' ">BANK</t>
+                            <t t-if="o.journal_id.type == 'cash' ">KAS</t>
+                        </th>
+                        <th class="pl-2"><span t-field="o.name"/></th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="pl-2">TANGGAL</td>
+                            <td class="pl-2"><span t-field="o.date"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="table-body table-condensed" width="1000px">
+                    <thead>
+                        <th class="pl-2">No</th>
+                        <th class="pl-2">KATEGORI</th>
+                        <th class="pl-2">PARTNER</th>
+                        <th class="pl-2">
+                            <t t-if="o.operation_type == 'payment' ">PENGELUARAN</t>
+                            <t t-else="">PENERIMAAN</t>
+                        </th>
+                        <th class="pl-2">JUMLAH</th>
+                    </thead>
+                    <tbody>
+                        <t t-set="no" t-value="0"/>
+                        <t t-set="total" t-value="0"/>
+                        <tr t-foreach="o.line_ids" t-as="line">
+                            <t t-set="no" t-value="no + 1"/>
+                            <t t-set="tot" t-value="abs(line.amount)"/>
+                            <t t-set="total" t-value="total + line.amount"/>
+                            <t t-set="jumlah" t-value="'{0:,.2f}'.format(float(str(tot).replace('Rp','')))"/>
+                            
+                            <td class="pl-2"><span t-esc="no"/> </td>
+                            <td class="pl-2"><span t-field="line.kategori_id.name"/></td>
+                            <td class="pl-2"><span t-field="line.partner_id"/></td>
+                            <td class="pl-2"><span t-field="line.payment_ref"/></td>
+                            <td class="pl-2">Rp<span class="float-right pr-2" t-esc="jumlah"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="text-right pr-2 font-weight-bold">TOTAL</td>
+                            <td class="pl-2">Rp<span class="float-right pr-2" t-esc="'{0:,.2f}'.format(float(str(abs(total)).replace('Rp','')))"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="terbilang">Terbilang : <span t-field="o.terbilang"/></div>
+
+                <div class="footer">
+                <div class="row">
+                    <table class="table-condensed" width="100%">
+                        <tr>
+                            <td width="50%">
+                                <table class="table-fixed" width="100%">
+                                    <tr class="text-center">
+                                        <td style="border: 1px solid black;" class="pl-2 pr-2">Direksi</td>
+                                        <td style="border: 1px solid black;" class="pl-3 pr-3">GM</td>
+                                        <td style="border: 1px solid black;">Pemeriksa</td>
+                                        <td style="border: 1px solid black;">Keuangan</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid black; padding-top: 5rem;"/>
+                                        <td style="border: 1px solid black; padding-top: 5rem;"/>
+                                        <td style="border: 1px solid black; padding-top: 5rem;"/>
+                                        <td style="border: 1px solid black; padding-top: 5rem;"/>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="50%">
+                                <table class="table-condensed" width="100%">
+                                    <tr class="text-center">
+                                        <td width="5%"/>
+                                        <td>Yang Mengantar</td>
+                                        <td>Yang Menyerahkan</td>
+                                        <td>Yang Menerima</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td width="5%"/>
+                                        <td height="30px">
+                                            <br/><br/>
+                                            <span t-field="o.pengantar"/>
+                                        </td>
+                                        <td height="30px">
+                                            <br/><br/>
+                                            <span t-field="o.penyerah"/>
+                                        </td>
+                                        <td height="30px">
+                                            <br/><br/>
+                                            <span t-field="o.penerima"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td width="5%"/>
+                                        <td>
+                                            <span style="border-top: 1px solid black;">(Nama Jelas)</span>
+                                        </td>
+                                        <td>
+                                            <span style="border-top: 1px solid black;">(Nama Jelas)</span>
+                                        </td>
+                                        <td>
+                                            <span style="border-top: 1px solid black;">(Nama Jelas)</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

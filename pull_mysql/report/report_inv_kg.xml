@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="report.paperformat" id="paper_format_faktur">
+            <field name="name">Faktur</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_width">210</field>
+            <field name="page_height">150</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_right">0</field>
+            <field name="margin_left">0</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="action_faktur_kg" model="account.move" string="Print Faktur" report_type="qweb-pdf" name="pull_mysql.faktur_kg" file="pull_mysql.faktur_kg" />
+
+        <record id="action_faktur_kg" model="ir.actions.report">
+            <field name="paperformat_id" eval="paper_format_faktur" />
+        </record>
+
+        <report id="action_faktur_meter" model="account.move" string="Print Faktur" report_type="qweb-pdf" name="pull_mysql.faktur_meter" file="pull_mysql.faktur_meter" />
+
+        <record id="action_faktur_meter" model="ir.actions.report">
+            <field name="paperformat_id" eval="paper_format_faktur" />
+        </record>
+
+        <report id="action_faktur_yard" model="account.move" string="Print Faktur" report_type="qweb-pdf" name="pull_mysql.faktur_yard" file="pull_mysql.faktur_yard" />
+
+        <record id="action_faktur_yard" model="ir.actions.report">
+            <field name="paperformat_id" eval="paper_format_faktur" />
+        </record>
+
+        <template id="faktur_kg">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="article">
+                        <div class="text-right">AKT-01.REV-01</div>
+                        <div class="row" style="margin-top : -20px">
+                            <div class="col-1">
+                                <img src="/web/binary/company_logo" style="max-height: 65px;" />
+                            </div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold">PT. PUTERA MULYA TERANG INDAH</h5>
+                                <p>Jl. Rancajigang No 200 Majalaya - Bandung 40382</p>
+                                <h2 class="font-weight-bold text-center">FAKTUR</h2>
+                            </div>
+                            <div class="col-6" style="font-size : 16px">
+                                Majalaya, <span t-field="doc.invoice_date" t-options="{&quot;format&quot;: &quot;dd MMM yyyy&quot;}" />
+                            <br />
+                            <span class="font-weight-bold">Kepada Yth</span>
+                            <br />
+                            <span class="text-uppercase" t-field="doc.partner_id" />
+                            <br />
+                            <span class="text-uppercase" t-field="doc.partner_id.npwp" />
+                            <br />
+                            <!--<span t-field="doc.partner_id.street"/>-->
+                            <p>
+                                <t t-esc="doc.partner_id.street[:80] if doc.partner_id.street else ''" />
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="row font-weight-bold" style="font-size : 20px ;">
+                        <div class="col-6">
+                            <t t-if="doc.payment_reference">
+                                <span>No Faktur : </span>
+                                <span t-field="doc.payment_reference" />
+                            </t>
+                            <t t-else="">
+                                <span>No Faktur : </span>
+                                <span t-field="doc.name" />
+                            </t>
+                        </div>
+                        <div class="col-6 text-right">
+                            <span>No : </span>
+                            <span t-field="doc.x_pro_no_sj" />
+                        </div>
+                    </div>
+
+                    <table class="table-condensed" style="font-size : 18px ;" width="100%">
+                        <thead class="text-center">
+                            <tr>
+                                <th style="border : 1px solid black" width="5%">PCS</th>
+                                <th style="border : 1px solid black">NAMA BARANG</th>
+                                <th style="border : 1px solid black">WARNA</th>
+                                <th style="border : 1px solid black">QTY</th>
+                                <th style="border : 1px solid black" width="10%">HARGA</th>
+                                <th style="border : 1px solid black" width="14%">DPP</th>
+                                <th style="border : 1px solid black" width="12%">PPN</th>
+                                <th style="border : 1px solid black" width="14%">JUMLAH</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="amount" t-value="0" />
+                            <t t-set="line_size" t-value="len(doc.invoice_line_ids.ids)" />
+                            <t t-set="range_line_null" t-value="8 - line_size" />
+
+                            <tr t-foreach="doc.invoice_line_ids" t-as="line">
+                                <t t-set="price" t-value="line.price_unit / 1.1" />
+                                <t t-set="dpp" t-value="line.qty_kg * price" />
+                                <t t-set="ppn" t-value="dpp * (sum(line.tax_ids.mapped('amount'))) / 100" />
+                                <t t-set="amount" t-value="amount + dpp + ppn" />
+                                <td style="border : 1px solid black" class="text-center">
+                                    <span t-esc="'{0:,.0f}'.format(float(line.total_roll))" />
+                                </td>
+                                <td style="border : 1px solid black" class="text-left pl-1">
+                                    <span t-field="line.product_id.name" />
+                                </td>
+                                <td style="border : 1px solid black" class="text-center">
+                                    <span t-field="line.warna" />
+                                </td>
+                                <td style="border : 1px solid black" class="text-right pr-1">
+                                    <t t-esc="'{0:,.2f}'.format(float(line.qty_kg))" />
+                                    <span style="margin-left : 4px; margin-right : 4px;">KG</span>
+                                </td>
+                                <td style="border : 1px solid black" class="text-right pr-1">
+                                    <span t-esc="'{0:,.2f}'.format(float(price))" />
+                                </td>
+                                <td style="border : 1px solid black" class="text-right pr-1">
+                                    <span t-esc="'{0:,.2f}'.format(float(dpp))" />
+                                </td>
+                                <td style="border : 1px solid black" class="text-right pr-1">
+                                    <span t-esc="'{0:,.2f}'.format(float(ppn))" />
+                                </td>
+                                <td style="border : 1px solid black" class="text-right pr-1">
+                                    <span t-esc="'{0:,.2f}'.format(dpp + ppn)" />
+                                </td>
+                            </tr>
+                            <tr t-foreach="range(range_line_null)" t-as="ex">
+                                <td style="border : 1px solid black ; height: 30px;" />
+                                <td style="border : 1px solid black ; height: 30px;" />
+                                <td style="border : 1px solid black ; height: 30px;" />
+                                <td style="border : 1px solid black ; height: 30px;" />
+                                <td style="border : 1px solid black ; height: 30px;" />
+                                <td style="border : 1px solid black ; height: 30px;" />
+                                <td style="border : 1px solid black ; height: 30px;" />
+                                <td style="border : 1px solid black ; height: 30px;" />
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="row font-weight-bold">
+                        <div class="col-6" style="font-size : 14px">
+                            <u>
+                                <span>KETERANGAN : </span>
+                                <span t-field="doc.narration" />
+                            </u>
+                        </div>
+                        <div class="col-6" style="font-size : 20px ;">
+                            <div class="font-weight-bold float-right">
+                                <span class="jumlah-label">JUMLAH Rp</span>
+                                <span style="border : 1px solid black" t-esc="'{0:,.2f}'.format(float(amount))" />
+                            </div>
+                        </div>
+                    </div>
+                    <div style="font-size : 16px">
+                        <span class="d-block">Terbilang</span>
+                        <span># </span>
+                        <span t-field="doc.terbilang" />
+                        <span>#</span>
+                        <br />
+                        <span>Barang dapat diretur apabila tidak sesuai standar, ada cacat, maksimal 30 hari sejak
+                                tanggal terbit faktur.</span>
+                    </div>
+                    <div style="font-size : 14px" class="row text-center font-weight-bold">
+                        <div class="col-6">
+                            <span>Tanda Terima</span>
+                        </div>
+                        <div class="col-6">
+                            <span>Hormat Kami</span>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+    <template id="faktur_meter">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="article">
+                    <div class="text-right">AKT-01.REV-01</div>
+                    <div class="row" style="margin-top : -20px">
+                        <div class="col-1">
+                            <img src="/web/binary/company_logo" style="max-height: 65px;" />
+                        </div>
+                        <div class="col-5">
+                            <h5 class="font-weight-bold">PT. PUTERA MULYA TERANG INDAH</h5>
+                            <p>Jl. Rancajigang No 200 Majalaya - Bandung 40382</p>
+                            <h2 class="font-weight-bold text-center">FAKTUR</h2>
+                        </div>
+                        <div class="col-6" style="font-size : 16px">
+                                Majalaya, <span t-field="doc.invoice_date" t-options="{&quot;format&quot;: &quot;dd MMM yyyy&quot;}" />
+                        <br />
+                        <span class="font-weight-bold">Kepada Yth</span>
+                        <br />
+                        <span class="text-uppercase" t-field="doc.partner_id" />
+                        <br />
+                        <span class="text-uppercase" t-field="doc.partner_id.npwp" />
+                        <br />
+                        <!--<span t-field="doc.partner_id.street"/>-->
+                        <p>
+                            <t t-esc="doc.partner_id.street[:80] if doc.partner_id.street else ''" />
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="row font-weight-bold" style="font-size : 20px ;">
+                    <div class="col-6">
+                        <t t-if="doc.payment_reference">
+                            <span>No Faktur : </span>
+                            <span t-field="doc.payment_reference" />
+                        </t>
+                        <t t-else="">
+                            <span>No Faktur : </span>
+                            <span t-field="doc.name" />
+                        </t>
+                    </div>
+                    <div class="col-6 text-right">
+                        <span>No : </span>
+                        <span t-field="doc.x_pro_no_sj" />
+                    </div>
+                </div>
+
+                <table class="table-condensed" style="font-size : 18px ;" width="100%">
+                    <thead class="text-center">
+                        <tr>
+                            <th style="border : 1px solid black" width="5%">PCS</th>
+                            <th style="border : 1px solid black">NAMA BARANG</th>
+                            <th style="border : 1px solid black">WARNA</th>
+                            <th style="border : 1px solid black">QTY</th>
+                            <th style="border : 1px solid black" width="10%">HARGA</th>
+                            <th style="border : 1px solid black" width="14%">DPP</th>
+                            <th style="border : 1px solid black" width="12%">PPN</th>
+                            <th style="border : 1px solid black" width="14%">JUMLAH</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="amount" t-value="0" />
+                        <t t-set="line_size" t-value="len(doc.invoice_line_ids.ids)" />
+                        <t t-set="range_line_null" t-value="8 - line_size" />
+
+                        <tr t-foreach="doc.invoice_line_ids" t-as="line">
+                            <t t-set="price" t-value="line.price_unit / 1.1" />
+                            <t t-set="dpp" t-value="line.qty_meter * price" />
+                            <t t-set="ppn" t-value="dpp * (sum(line.tax_ids.mapped('amount'))) / 100" />
+                            <t t-set="amount" t-value="amount + dpp + ppn" />
+                            <td style="border : 1px solid black" class="text-center">
+                                <span t-esc="'{0:,.0f}'.format(float(line.total_roll))" />
+                            </td>
+                            <td style="border : 1px solid black" class="text-left pl-1">
+                                <span t-field="line.product_id.name" />
+                            </td>
+                            <td style="border : 1px solid black" class="text-center">
+                                <span t-field="line.warna" />
+                            </td>
+                            <td style="border : 1px solid black" class="text-right pr-1">
+                                <t t-esc="'{0:,.2f}'.format(float(line.qty_meter))" />
+                                <span style="margin-left : 4px; margin-right : 4px;">METER</span>
+                            </td>
+                            <td style="border : 1px solid black" class="text-right pr-1">
+                                <span t-esc="'{0:,.2f}'.format(float(price))" />
+                            </td>
+                            <td style="border : 1px solid black" class="text-right pr-1">
+                                <span t-esc="'{0:,.2f}'.format(float(dpp))" />
+                            </td>
+                            <td style="border : 1px solid black" class="text-right pr-1">
+                                <span t-esc="'{0:,.2f}'.format(float(ppn))" />
+                            </td>
+                            <td style="border : 1px solid black" class="text-right pr-1">
+                                <span t-esc="'{0:,.2f}'.format(dpp + ppn)" />
+                            </td>
+                        </tr>
+                        <tr t-foreach="range(range_line_null)" t-as="ex">
+                            <td style="border : 1px solid black ; height: 30px;" />
+                            <td style="border : 1px solid black ; height: 30px;" />
+                            <td style="border : 1px solid black ; height: 30px;" />
+                            <td style="border : 1px solid black ; height: 30px;" />
+                            <td style="border : 1px solid black ; height: 30px;" />
+                            <td style="border : 1px solid black ; height: 30px;" />
+                            <td style="border : 1px solid black ; height: 30px;" />
+                            <td style="border : 1px solid black ; height: 30px;" />
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="row font-weight-bold">
+                    <div class="col-6" style="font-size : 14px">
+                        <u>
+                            <span>KETERANGAN : </span>
+                            <span t-field="doc.narration" />
+                        </u>
+                    </div>
+                    <div class="col-6" style="font-size : 20px ;">
+                        <div class="font-weight-bold float-right">
+                            <span class="jumlah-label">JUMLAH Rp</span>
+                            <span style="border : 1px solid black" t-esc="'{0:,.2f}'.format(float(amount))" />
+                        </div>
+                    </div>
+                </div>
+                <div style="font-size : 16px">
+                    <span class="d-block">Terbilang</span>
+                    <span># </span>
+                    <span t-field="doc.terbilang" />
+                    <span>#</span>
+                    <br />
+                    <span>Barang dapat diretur apabila tidak sesuai standar, ada cacat, maksimal 30 hari sejak
+                                tanggal terbit faktur.</span>
+                </div>
+                <div style="font-size : 14px" class="row text-center font-weight-bold">
+                    <div class="col-6">
+                        <span>Tanda Terima</span>
+                    </div>
+                    <div class="col-6">
+                        <span>Hormat Kami</span>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </t>
+</template>
+
+<template id="faktur_yard">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <div class="article">
+                <div class="text-right">AKT-01.REV-01</div>
+                <div class="row" style="margin-top : -20px">
+                    <div class="col-1">
+                        <img src="/web/binary/company_logo" style="max-height: 65px;" />
+                    </div>
+                    <div class="col-5">
+                        <h5 class="font-weight-bold">PT. PUTERA MULYA TERANG INDAH</h5>
+                        <p>Jl. Rancajigang No 200 Majalaya - Bandung 40382</p>
+                        <h2 class="font-weight-bold text-center">FAKTUR</h2>
+                    </div>
+                    <div class="col-6" style="font-size : 16px">
+                                Majalaya, <span t-field="doc.invoice_date" t-options="{&quot;format&quot;: &quot;dd MMM yyyy&quot;}" />
+                    <br />
+                    <span class="font-weight-bold">Kepada Yth</span>
+                    <br />
+                    <span class="text-uppercase" t-field="doc.partner_id" />
+                    <br />
+                    <span class="text-uppercase" t-field="doc.partner_id.npwp" />
+                    <br />
+                    <!--<span t-field="doc.partner_id.street"/>-->
+                    <p>
+                        <t t-esc="doc.partner_id.street[:80] if doc.partner_id.street else ''" />
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="row font-weight-bold" style="font-size : 20px ;">
+                <div class="col-6">
+                    <t t-if="doc.payment_reference">
+                        <span>No Faktur : </span>
+                        <span t-field="doc.payment_reference" />
+                    </t>
+                    <t t-else="">
+                        <span>No Faktur : </span>
+                        <span t-field="doc.name" />
+                    </t>
+                </div>
+                <div class="col-6 text-right">
+                    <span>No : </span>
+                    <span t-field="doc.x_pro_no_sj" />
+                </div>
+            </div>
+
+            <table class="table-condensed" style="font-size : 18px ;" width="100%">
+                <thead class="text-center">
+                    <tr>
+                        <th style="border : 1px solid black" width="5%">PCS</th>
+                        <th style="border : 1px solid black">NAMA BARANG</th>
+                        <th style="border : 1px solid black">WARNA</th>
+                        <th style="border : 1px solid black">QTY</th>
+                        <th style="border : 1px solid black" width="10%">HARGA</th>
+                        <th style="border : 1px solid black" width="14%">DPP</th>
+                        <th style="border : 1px solid black" width="12%">PPN</th>
+                        <th style="border : 1px solid black" width="14%">JUMLAH</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-set="amount" t-value="0" />
+                    <t t-set="line_size" t-value="len(doc.invoice_line_ids.ids)" />
+                    <t t-set="range_line_null" t-value="8 - line_size" />
+
+                    <tr t-foreach="doc.invoice_line_ids" t-as="line">
+                        <t t-set="price" t-value="line.price_unit / 1.1" />
+                        <t t-set="dpp" t-value="line.qty_yard * price" />
+                        <t t-set="ppn" t-value="dpp * (sum(line.tax_ids.mapped('amount'))) / 100" />
+                        <t t-set="amount" t-value="amount + dpp + ppn" />
+                        <td style="border : 1px solid black" class="text-center">
+                            <span t-esc="'{0:,.0f}'.format(float(line.total_roll))" />
+                        </td>
+                        <td style="border : 1px solid black" class="text-left pl-1">
+                            <span t-field="line.product_id.name" />
+                        </td>
+                        <td style="border : 1px solid black" class="text-center">
+                            <span t-field="line.warna" />
+                        </td>
+                        <td style="border : 1px solid black" class="text-right pr-1">
+                            <t t-esc="'{0:,.2f}'.format(float(line.qty_yard))" />
+                            <span style="margin-left : 4px; margin-right : 4px;">YARD</span>
+                        </td>
+                        <td style="border : 1px solid black" class="text-right pr-1">
+                            <span t-esc="'{0:,.2f}'.format(float(price))" />
+                        </td>
+                        <td style="border : 1px solid black" class="text-right pr-1">
+                            <span t-esc="'{0:,.2f}'.format(float(dpp))" />
+                        </td>
+                        <td style="border : 1px solid black" class="text-right pr-1">
+                            <span t-esc="'{0:,.2f}'.format(float(ppn))" />
+                        </td>
+                        <td style="border : 1px solid black" class="text-right pr-1">
+                            <span t-esc="'{0:,.2f}'.format(dpp + ppn)" />
+                        </td>
+                    </tr>
+                    <tr t-foreach="range(range_line_null)" t-as="ex">
+                        <td style="border : 1px solid black ; height: 30px;" />
+                        <td style="border : 1px solid black ; height: 30px;" />
+                        <td style="border : 1px solid black ; height: 30px;" />
+                        <td style="border : 1px solid black ; height: 30px;" />
+                        <td style="border : 1px solid black ; height: 30px;" />
+                        <td style="border : 1px solid black ; height: 30px;" />
+                        <td style="border : 1px solid black ; height: 30px;" />
+                        <td style="border : 1px solid black ; height: 30px;" />
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="row font-weight-bold">
+                <div class="col-6" style="font-size : 14px">
+                    <u>
+                        <span>KETERANGAN : </span>
+                        <span t-field="doc.narration" />
+                    </u>
+                </div>
+                <div class="col-6" style="font-size : 20px ;">
+                    <div class="font-weight-bold float-right">
+                        <span class="jumlah-label">JUMLAH Rp</span>
+                        <span style="border : 1px solid black" t-esc="'{0:,.2f}'.format(float(amount))" />
+                    </div>
+                </div>
+            </div>
+            <div style="font-size : 16px">
+                <span class="d-block">Terbilang</span>
+                <span># </span>
+                <span t-field="doc.terbilang" />
+                <span>#</span>
+                <br />
+                <span>Barang dapat diretur apabila tidak sesuai standar, ada cacat, maksimal 30 hari sejak
+                                tanggal terbit faktur.</span>
+            </div>
+            <div style="font-size : 14px" class="row text-center font-weight-bold">
+                <div class="col-6">
+                    <span>Tanda Terima</span>
+                </div>
+                <div class="col-6">
+                    <span>Hormat Kami</span>
+                </div>
+            </div>
+        </div>
+    </t>
+</t>
+</template>
+
+</data>
+</odoo>

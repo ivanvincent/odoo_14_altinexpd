@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_hr_additional_manager,hr.employee.golongan,model_hr_employee_golongan,hr.group_hr_manager,1,1,1,1
+access_hr_shift_manager,hr.employee.shift,model_hr_employee_shift,hr.group_hr_manager,1,1,1,1
+access_hr_kelompok_manager,hr.employee.kelompok,model_hr_employee_kelompok,hr.group_hr_manager,1,1,1,1
+access_hr_grop,hr.employee.grop,model_hr_employee_grop,hr.group_hr_manager,1,1,1,1
+

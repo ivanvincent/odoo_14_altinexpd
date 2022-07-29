@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="report.paperformat" id="paperformat_laporan_akurasi_data_stock_opname">
+            <field name="name">Laporan Akurasi Data Stock Opname</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_width">210</field>
+            <field name="page_height">297</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">2</field>
+            <field name="margin_bottom">2</field>
+            <field name="margin_right">2</field>
+            <field name="margin_left">2</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="action_laporan_akurasi_data_stock_opname" model="reporting.stock.lot" string="Laporan Akurasi Data Stock Opname" report_type="qweb-pdf" name="reporting.laporan_akurasi_data_stock_opname" file="reporting.laporan_akurasi_data_stock_opname" />
+
+        <record id="action_laporan_akurasi_data_stock_opname" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_laporan_akurasi_data_stock_opname" />
+        </record>
+
+        <template id="laporan_akurasi_data_stock_opname">
+            <t t-call="web.basic_layout">
+                <style>
+                    @font-face {
+                        font-family: 'Courier New';
+                        font-style: normal;
+                        font-weight: 400;
+                        src: local('Courier New'), local('CourierNewPSMT'), url(http://themes.googleusercontent.com/licensed/font?kit=p0pJArTTK5Heq6xbYtNwnp0EAVxt0G0biEntp43Qt6E) format('truetype');
+                    }
+
+                    .Courier {
+                        font-family: Courier New;
+                    }
+                    
+                    .table-data th,
+                    .table-data td {
+                        border: 1px solid black;
+                        font-family: Courier New;
+                    }
+    
+                </style>
+                <t t-foreach="docs" t-as="o">
+
+                    <div class="page Courier" style="font-size : 18px">
+                        <div class="text-right">GG-02.5 REV-00</div>
+                        <div class="text-center" style="margin-top : -20px">
+                            <b>LAPORAN AKURASI DATA STOCK OPNAME</b>
+                        </div>
+                        <div class="text-center">
+                            <span>Periode</span>
+                            <span t-field="o.start_date"/>
+                            <span>s/d</span>
+                            <span t-field="o.end_date"/>
+                        </div>
+
+                        <table class="table-condensed table-data" width="100%">
+                            <thead class="text-center">
+                                <tr>
+                                    <th>NO</th>
+                                        <t t-if="'BENANG' in o.warehouse_id.name">
+                                            <th>KODE BENANG</th>
+                                            <th>JENIS BENANG</th>
+                                        </t>
+                                        <t t-else="">
+                                            <th>KODE KAIN</th>
+                                            <th>JENIS KAIN</th>
+                                        </t>
+                                    <th>SALDO AKHIR</th>
+                                    <th>OPNAME</th>
+                                    <th>AKURASI</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="no" t-value="0" />
+                                <t t-set="tot_qty" t-value="0" />
+                                <t t-foreach="o.line_ids" t-as="line">
+                                    <t t-set="no" t-value="no + 1" />
+                                    <t t-set="tot_qty" t-value="tot_qty + line.qty_balance" />
+                                    <tr>
+                                        <td>
+                                            <span t-esc="no"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.product_code"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.product_id.name"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.qty_balance"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <!-- <span t-esc="m['qty']"/> -->
+                                        </td>
+                                        <td class="text-right">
+                                            <!-- <span t-esc="m['x_roll']"/> -->
+                                        </td>
+                                    </tr>
+                                </t>
+                                <tr>
+                                    <td colspan="3" class="text-center">TOTAL</td>
+                                    <td class="text-right">
+                                        <!-- <span t-esc="tot_roll"/> -->
+                                    </td>
+                                    <td class="text-right">
+                                        <!-- <span t-esc="tot_qty"/> -->
+                                    </td>
+                                    <td class="text-right">
+                                        <!-- <span t-esc="tot_x_roll"/> -->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table-condensed" width="100%">
+                            <tr class="text-center">
+                                <td>
+                                    <span>Diketahui / Disetujui</span>
+                                </td>
+                                <td>
+                                    <span>Pembuat Data</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

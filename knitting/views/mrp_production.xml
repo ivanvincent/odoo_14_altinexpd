@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="mrp_production_inherit_form">
+            <field name="name">mrp.production.inherit.form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="inherit_mrp.mrp_production_dyeing_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='359']" position="after">
+                    <button name="action_view_request_picking" type="object" class="oe_stat_button" icon="fa-truck">
+                        <field name="picking_request_count" widget="statinfo" string="Picking Request" help="Components Request"/>
+                        <field name="picking_request_ids" invisible="1"/>
+                    </button>
+                    <button name="action_view_inspect" type="object" string="Inspection" class="oe_stat_button" icon="fa-exchange" attrs="{'invisible': [('state', 'in', ('draft', 'confirmed'))]}"/>
+                    <button class="oe_stat_button" icon="fa-truck" attrs="{'invisible': [('picking_finished_id', '=', False)]}">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_returned_finished">
+                                <field name="picking_finished_id"/>
+                            </span>
+                            <span class="o_stat_text">Finished Product</span>
+                        </div>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="mrp_type_form">
+            <field name="name">mrp.type.form</field>
+            <field name="model">mrp.type</field>
+            <field name="inherit_id" ref="inherit_mrp.mrp_type_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='location']" position="after">
+                    <group name="Inspection" string="Inspect">
+                        <field name="inspect_picking_type_id" string="Operation Type"/>
+                        <field name="inspect_location_id" string="Location"/>
+                        <field name="inspect_location_dest_id" string="Destination Location"/>
+                        <label string="Allowed Over Quantity" for="allowed_over_qty_percentage"/>
+                        <div>
+                            <field name="allowed_over_qty_percentage" class="oe_inline"/>
+                            <span class="oe_inline">  %</span>
+                        </div>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

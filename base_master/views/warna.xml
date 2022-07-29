@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record model="ir.ui.view" id="warna_tree">
+            <field name="name">makloon.warna.tree</field>
+            <field name="model">makloon.warna</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="mrp_production_final_tree">
+            <field name="name">mrp.production.final.set.tree</field>
+            <field name="model">mrp.production.final.set</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record model="ir.ui.view" id="warna_form">
+            <field name="name">makloon.warna.form</field>
+            <field name="model">makloon.warna</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="master_process_tree" model="ir.ui.view">
+            <field name="name">master.proses.tree</field>
+            <field name="model">master.proses</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="price"/>
+                    <field name="master_wip_id"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="makloon_grade_form" model="ir.ui.view">
+            <field name="name">makloon.grade.form</field>
+            <field name="model">makloon.grade</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="account_input_id"/>
+                                <field name="kelompok"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="makloon_grade_tree" model="ir.ui.view">
+            <field name="name">makloon.grade.tree</field>
+            <field name="model">makloon.grade</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="account_input_id"/>
+                    <field name="kelompok"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="process_type_tree" model="ir.ui.view">
+            <field name="name">process.type.tree</field>
+            <field name="model">process.type</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="category_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="warna_action">
+            <field name="name">Warna</field>
+            <field name="res_model">makloon.warna</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="ship_action">
+            <field name="name">Shift</field>
+            <field name="res_model">type.ship</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="packing_action">
+            <field name="name">Packing</field>
+            <field name="res_model">type.packing</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="accessories_action">
+            <field name="name">Accessories</field>
+            <field name="res_model">type.accessories</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="hangtag_action">
+            <field name="name">Hangtag</field>
+            <field name="res_model">type.hangtag</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="machine_action">
+            <field name="name">Machine</field>
+            <field name="res_model">mrp.machine</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="grade_action">
+            <field name="name">Grade</field>
+            <field name="res_model">makloon.grade</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="design_action">
+            <field name="name">Design</field>
+            <field name="res_model">makloon.design</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="fabric_base_action">
+            <field name="name">Fabric Base</field>
+            <field name="res_model">fabric.base</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="process_type_action">
+            <field name="name">Process Type</field>
+            <field name="res_model">process.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="process_category_action">
+            <field name="name">Process Category</field>
+            <field name="res_model">process.category</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="master_proses_action">
+            <field name="name">Master Proses</field>
+            <field name="res_model">master.proses</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="master_parameter_action">
+            <field name="name">Master Parameter</field>
+            <field name="res_model">master.parameter</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="master_mkt_category_action">
+            <field name="name">Marketing Category</field>
+            <field name="res_model">marketing.category</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="group_product_action">
+            <field name="name">Group Product</field>
+            <field name="res_model">group.product</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="merk_product_action">
+            <field name="name">Merk Product</field>
+            <field name="res_model">group.product</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="line_product_action">
+            <field name="name">Line Product</field>
+            <field name="res_model">line.product</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="final_set_action">
+            <field name="name">Final Set</field>
+            <field name="res_model">mrp.production.final.set</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="main_master" name="Master"  web_icon="base_master,static/description/data_master.png" />
+
+        <menuitem id="menu_master" name="Master" parent="main_master" />
+
+        <menuitem id="submenu_warna" name="Warna" parent="menu_master" action="warna_action" />
+        <menuitem id="submenu_2" name="Shift" parent="menu_master" action="ship_action" />
+        <menuitem id="submenu_3" name="Packing" parent="menu_master" action="packing_action" />
+        <menuitem id="submenu_4" name="Accessories" parent="menu_master" action="accessories_action" />
+        <menuitem id="submenu_5" name="Hangtag" parent="menu_master" action="hangtag_action" />
+        <menuitem id="submenu_7" name="Grade" parent="menu_master" action="grade_action" />
+        <menuitem id="submenu_8" name="Design" parent="menu_master" action="design_action" />
+        <menuitem id="submenu_9" name="Fabric Base" parent="menu_master" action="fabric_base_action" />
+        <menuitem id="submenu_10" name="Process Type" parent="menu_master" action="process_type_action" />
+        <menuitem id="submenu_11" name="Process Category" parent="menu_master" action="process_category_action" />
+        <menuitem id="submenu_12" name="Master Proses" parent="menu_master" action="master_proses_action" />
+        <menuitem id="submenu_13" name="Master Parameter" parent="menu_master" action="master_parameter_action" />
+        <menuitem id="submenu_14" name="Group Product" parent="menu_master" action="group_product_action" />
+        <menuitem id="submenu_17" name="Line Product" parent="menu_master" action="line_product_action" />
+        <menuitem id="submenu_18" name="Merk Product" parent="menu_master" action="merk_product_action" />
+        <menuitem id="submenu_15" name="Marketing Category" parent="menu_master" action="master_mkt_category_action" />
+        <menuitem id="submenu_16" name="Final Set" parent="menu_master" action="final_set_action" />
+        
+
+
+
+    </data>
+</odoo>

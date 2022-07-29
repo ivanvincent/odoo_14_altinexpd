@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- tj_rutesale = folder name addons-->
+
+        <record model="report.paperformat" id="rute_sale_landscape_page_format">
+            <field name="name">Rute Sale Landscape Paper</field>
+            <field name="default" eval="False" />
+            <field name="format">custom</field>
+            <field name="page_width">210</field>
+            <field name="page_height">297</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">2</field>
+            <field name="margin_bottom">15</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="dpi">90</field>
+            <field name="header_spacing">40</field>
+        </record>
+
+
+        <report id="report_rute_sale_menu" string="Print Rute Sale" model="rute.sale" report_type="qweb-pdf" paperformat="tj_rutesale.rute_sale_landscape_page_format" file="tj_rutesale.report_rutesale" name="tj_rutesale.report_rutesale" />
+
+        <template id="report_rute_sale_document">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <!-- <div class="oe_structure"/> -->
+
+                    <h2>
+                        SURAT PERINTAH RUTE SALE
+                        <br/>
+                        Nomor: <span t-field="o.name"/>
+                    </h2>
+                    <div class="row">
+                        <div class="col-4">
+                            <table class="table table-condensed px-3">
+                                <tr>
+                                    <td>Tanggal</td>
+                                    <td>
+                                        <span t-field="o.date_plan"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Keluar Pabrik</td>
+                                    <td>
+                                        <span t-field="o.datetime_out"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Masuk Pabrik</td>
+                                    <td>
+                                        <span t-field="o.datetime_in"/>
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                        </div>
+
+                        <div class="col-4">
+                            <table class="table table-condensed px-3">
+                                <tr>
+                                    <td>Stock Point</td>
+                                    <td>
+                                        <span t-field="o.warehouse_id"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>Jalur</td>
+                                    <td>
+                                        <span t-field="o.jalur_id"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Truck</td>
+                                    <td>
+                                        <span t-field="o.vehicle_id"/>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                        <div class="col-4">
+                            <table class="table table-condensed px-3">
+                                <tr>
+                                    <td>Sales</td>
+                                    <td>
+                                        <span t-field="o.sales_id"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Driver</td>
+                                    <td>
+                                        <span t-field="o.driver_id"/>
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <table class="table table-condensed mt-3" style="page-break-inside: avoid;">
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th class="text-right">State Visit</th>
+                                    <th class="text-right">Invoice</th>
+                                    <th class="text-right">Inv Amount</th>
+                                    <th class="text-right">Time Start</th>
+                                    <th class="text-right">Akurasi</th>
+                                    <th class="text-right">Tepat GPS</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="tj_rutesale_tbody">
+                                <tr t-foreach="o.rute_cust_ids.sorted (key=lambda r: r.datetime_start, reverse=False)" t-as="l">
+                                    <td>
+                                        <span t-field="l.partner_id"/>
+                                    </td>
+
+                                    <td class="text-left">
+                                        <span t-field="l.state_visit_id" />
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-field="l.move_id" />
+                                    </td>
+                                    <td class="text-right">
+                                        <t t-if="l.move_amount">
+
+                                            <span t-field="l.move_amount" />
+
+                                        </t>
+
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-field="l.datetime_start" t-options="{'widget': 'Time'}" />
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="l.akurasi" />
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="l.tepat_tidak" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+                    <div class="row" t-if="o.rute_new_cust_ids">
+                        <table class="table table-condensed" style="page-break-inside: avoid;">
+                            <thead>
+                                <tr>
+                                    <th>New Customer</th>
+                                    <th>Alamat</th>
+                                    <th>Telp</th>
+                                    <th>Contact</th>
+                                    <th>Datetime</th>
+                                    <th class="text-right">Longitude</th>
+                                    <th class="text-right">Latitude</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr t-foreach="o.rute_new_cust_ids" t-as="m">
+                                    <td>
+                                        <span t-field="m.partner_name"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="m.partner_alamat"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="m.partner_telp"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="m.partner_cp"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="m.create_date"/>
+                                    </td>
+
+                                    <td class="text-right">
+                                        <span t-field="m.partner_longitude" />
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="m.partner_latitude" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+
+
+
+                    <div class="row pull-right">
+                        <table class="table table-condensed">
+                            <tr class="border-black">
+                                <td>
+                                    <strong>Total order </strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="o.amount_rute" />
+                                </td>
+                            </tr>
+                            <tr class="border-black">
+                                <td>
+                                    <strong>Jumlah Toko </strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="o.jumlah_toko" />
+                                </td>
+                            </tr>
+                            <tr class="border-black">
+                                <td>
+                                    <strong>Jumlah Kunjungan </strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="o.jumlah_kunjungan" />
+                                </td>
+                            </tr>
+                            <tr class="border-black">
+                                <td>
+                                    <strong>Persen Kunjungan (%) </strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="o.persen_kunjungan" />
+                                </td>
+                            </tr>
+                            <tr class="border-black">
+                                <td>
+                                    <strong>Persen Tepat (%) </strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="o.persen_tepat" />
+                                </td>
+                            </tr>
+
+                            <tr class="border-black">
+                                <td>
+                                    <strong>Total Order (Qty)</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="o.jumlah" />
+                                </td>
+                            </tr>
+                            <tr class="border-black">
+                                <td>
+                                    <strong>Total Order (Rp)</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="o.amount_rute" />
+                                </td>
+                            </tr>
+                            <tr class="border-black">
+                                <td>
+                                    <strong>No Kontrabon</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="o.kontrabon_id" />
+                                </td>
+                            </tr>
+                            <tr class="border-black">
+                                <td>
+                                    <strong>Jumlah titipan</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="o.count_pay" />
+                                </td>
+                            </tr>
+                            <tr class="border-black">
+                                <td>
+                                    <strong>Total (Titipan Uang)</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="o.amount_pay" />
+                                </td>
+                            </tr>
+                            <tr class="border-black">
+                                <td>
+                                    <strong>New Customer</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="o.new_customer" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- <div class="oe_structure"/> -->
+                </div>
+            </t>
+        </template>
+
+        <template id="report_rutesale">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="tj_rutesale.report_rute_sale_document"/>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

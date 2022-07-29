@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record model="ir.ui.view" id="mrp_shirnkage_tree">
+            <field name="name">mrp.shrinkage.tree</field>
+            <field name="model">mrp.shrinkage</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="percentage"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record model="ir.ui.view" id="mrp_shirnkage_form">
+            <field name="name">mrp.shrinkage.form</field>
+            <field name="model">mrp.shrinkage</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="percentage"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="mrp_shirnkage_action">
+            <field name="name">Shrinkage</field>
+            <field name="res_model">mrp.shrinkage</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_mrp_shirnkage" name="Shrinkage" parent="mrp.menu_mrp_configuration" action="mrp_shirnkage_action" />
+
+    </data>
+</odoo>

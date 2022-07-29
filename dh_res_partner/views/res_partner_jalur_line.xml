@@ -1,0 +1,107 @@
+<odoo>
+    <data>
+        <record id="view_partner_jalur_line_form" model="ir.ui.view">
+            <field name="name">res.partner.jalur.line.form</field>
+            <field name="model">res.partner.jalur.line</field>
+            <field name="arch" type="xml">
+                <form string="Partner jalur Lines">
+                    <sheet>
+                        <group col="4">
+                            <field name="jalur_line_id" colspan="4" options="{'no_create': True, 'no_create_edit':True, 'no_open':True}" />
+                            <field name="jalur_id" colspan="4" options="{'no_create': True, 'no_create_edit':True, 'no_open':True}" />
+                            <field name="jwk"/>
+                            <field name="jam" widget="float_time" />
+                   
+                        </group>
+<!-- 
+                        <group string="Grouping">
+
+                            <field name="salesperson_id" readonly="1" />
+
+                            <field name="group_name" readonly="1" />
+                            <field name="divisi_name" readonly="1" />
+                        </group>
+
+ -->
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>                    
+
+                </form>
+            </field>
+        </record>
+        <record id="view_partner_jalur_line_tree" model="ir.ui.view">
+            <field name="name">res.partner.jalur.line.tree</field>
+            <field name="model">res.partner.jalur.line</field>
+            <field name="arch" type="xml">
+                <tree string="Partner Jalur Lines">
+
+                    <field name="jalur_line_id"/>
+<!-- 
+                    <field name="active" widget="boolean" />
+ -->
+
+<!--                     <field name="cust_int_code" optional="hide" />
+                    <field name="cust_ext_code" optional="hide" />
+                    <field name="cust_city" optional="hide" />
+                    <field name="cust_phone" optional="hide" />
+                    <field name="cust_mobile" optional="hide" />
+                    <field name="cust_email" optional="hide" />
+                    <field name="cust_cluster" optional="hide" />
+                    <field name="cust_ltime" optional="show" />
+ --><!-- 
+                    <field name="salesperson_id" /> 
+ -->
+                    <field name="jalur_id"/>
+                    <field name="jwk" string="Schedule" />
+                    <field name="jam" string="Time" widget="float_time" />
+<!-- 
+                    <field name="divisi_name" />
+
+                    <field name="group_name" />
+                    <field name="group_delivery" optional="show" />
+ -->
+                </tree>
+            </field>
+        </record>
+        <record id="view_partner_jalur_line_search" model="ir.ui.view">
+            <field name="name">res.partner.jalur.line.search</field>
+            <field name="model">res.partner.jalur.line</field>
+            <field name="arch" type="xml">
+                <search string="Partner Jalur Lines">
+                    <field name="jalur_line_id"/>
+                    <field name="jalur_id"/>
+                    <field name="jwk"/>
+                    <field name="jam"/>
+
+                    <filter string="Senin" name="filter_jwk_1" domain="[('jwk','=',1 )]" />
+                    <filter string="Selasa" name="filter_jwk_2" domain="[('jwk','=',2 )]" />
+                    <filter string="Rabu" name="filter_jwk_3" domain="[('jwk','=',3 )]" />
+                    <filter string="Kamis" name="filter_jwk_4" domain="[('jwk','=',4 )]" />
+                    <filter string="Jum'at" name="filter_jwk_5" domain="[('jwk','=',5 )]" />
+                    <filter string="Sabtu" name="filter_jwk_6" domain="[('jwk','=',6 )]" />
+                    <filter string="Minggu" name="filter_jwk_7" domain="[('jwk','=',7 )]" />
+
+                    <filter string="Partner" name="jalur_line_id" context="{'group_by': 'jalur_line_id'}"/>
+                    <filter string="Route" name="jalur_id" context="{'group_by': 'jalur_id'}"/>
+                    <filter string="JWK" name="jwk" context="{'group_by': 'jwk'}" />
+                    <filter string="JAM" name="jam" context="{'group_by': 'jam'}" />
+                </search>
+            </field>
+        </record>
+
+        <record id="action_partner_jalur_line" model="ir.actions.act_window">
+            <field name="name">Partner JWK</field>
+            <field name="res_model">res.partner.jalur.line</field>
+            <field name="view_mode">tree,form,pivot,graph,kanban</field>
+            <field name="search_view_id" ref="view_partner_jalur_line_search"/>
+            <field name="view_id" ref="view_partner_jalur_line_tree"/>
+        </record>
+
+        <menuitem action="action_partner_jalur_line" id="menu_action_partner_jalur_line" parent="sale.menu_sale_config"
+                  sequence="15"/>
+    </data>
+</odoo>

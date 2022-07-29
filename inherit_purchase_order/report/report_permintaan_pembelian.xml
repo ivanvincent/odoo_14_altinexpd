@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_action_name" model="ir.actions.report">
+        <field name="name">Permintaan Pembelian (Belum Proses)</field>
+        <field name="model">report.po.supplier</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inherit_purchase_order.report_permintaan_pembeliaan</field>
+        <field name="report_file">inherit_purchase_order.report_permintaan_pembeliaan</field>
+        <field name="print_report_name">'%s' % object.name</field>
+        <field name="binding_model_id" ref="model_report_po_supplier"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" eval="paperformat_po_global" />
+    </record>
+
+    <template id="report_permintaan_pembeliaan">
+        <t t-call="web.basic_layout">
+            <style>
+                .title {
+                        padding: 0;
+                }
+                .tabel {
+                    font-size:1rem;
+                }
+            </style>
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <div class="title text-center mb-4">
+                        <h4 class="font-weight-bold">PT. MULTI STAR RUKUN ABADI</h4>
+                        <h3 class="font-weight-bold" style="color : #A04040;">Permintaan Pembelian (Belum Proses)</h3>
+                        <div class="date_header">
+                            <span class="font-weight-bold">Dari <span class="font-weight-bold" t-field="doc.date_start"  t-options="{&quot;format&quot;: &quot;dd MMM yyyy&quot;}"/>
+                            ke  <span class="font-weight-bold" t-field="doc.date_end"  t-options="{&quot;format&quot;: &quot;dd MMM yyyy&quot;}" />
+                            </span>
+                        </div>
+                    </div>
+
+                <div class="justify-center">
+                    <table class="table-condensed table-sm  mx-auto tabel">
+                        <thead>
+                            <tr style="border-bottom: 1px solid black !important;">
+                                <th class="text-left" style="color:#000080;">
+                                    <span>No Permintaan</span>
+                                </th>
+                                <th class="text-left" style="color:#000080;">
+                                    <span>Tgl Permintaan</span>
+                                </th>
+                                <th class="text-left" style="color:#000080;">
+                                    <span>Kuantitas</span>
+                                </th>
+                                <th class="text-left" style="color:#000080;">
+                                    <span>Kts. Dipesan</span>
+                                </th>
+                                <th class="text-left" style="color:#000080;">
+                                    <span>Satuan</span>
+                                </th>
+                                <th class="text-center" style="color:#000080;">
+                                    <span>Status</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.get_data_pb_blm_proses()" t-as="line">
+                                <tr>
+                                    <td colspan="6" class="pt-0 pb-0">
+                                        <span t-esc="line.get('product')" class="font-weight-bold"/>
+                                    </td>
+                                </tr>
+                                <t t-set="tot_qty_pesan" t-value="0"/>
+                                <tr t-foreach="line.get('detail')" t-as="detail">
+                                    <td class="pt-0 pb-0"><span t-esc="detail.get('pr_name')"/></td>
+                                    <td class="pt-0 pb-0"><span t-esc="detail.get('tgl_minta')"/></td>
+                                    <td class="pt-0 pb-0"><span t-esc="detail.get('kuantitas')"/></td>
+                                    <td class="text-right pt-0 pb-0">
+                                        <span t-esc="detail.get('k_dipesan')"/>
+                                        <t t-set="tot_qty_pesan" t-value="tot_qty_pesan + detail.get('k_dipesan')"/>
+                                    </td>
+                                    <td class="pt-0 pb-0"><span t-esc="detail.get('satuan')"/></td>
+                                    <td class="pt-0 pb-0"><span t-esc="detail.get('keterangan')"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="pt-0 pb-0" colspan="3"></td>
+                                    <td class="text-right pt-0 pb-0" style="border-top: 1px solid #000080; color:#000080;" >
+                                        <span t-esc="tot_qty_pesan"/>
+                                    </td>
+                                </tr>
+                            </t>   
+                        </tbody>
+                    </table>
+                </div>
+
+                <div t-attf-class="footer o_background_footer">
+                <div style="color:black !important;border-top: 1px solid black !important;">
+                        <div class="mt-2 float-left" name="pager" t-if="report_type == 'pdf'">
+                            <span> Cetak di : <soan t-esc="datetime.datetime.now().strftime('%d-%B-%Y %H:%M')"/> </span> 
+                        </div>
+                        <div class="mt-2 float-right" name="pager" t-if="report_type == 'pdf'">
+                            ( <span class="page"/> )
+                        </div>
+                </div>
+                </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="lap_produksi_jet_dyeing_form" model="ir.ui.view">
+            <field name="name">lap_produksi.jet_dyeing.form</field>
+            <field name="model">lap_produksi.jet_dyeing</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date_start"/>
+                            </group>
+                            <group>
+                                <field name="date_end"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_generate" type="object" string="Generate" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="lap_produksi_jet_dyeing_action" model="ir.actions.act_window">
+            <field name="name">Laporan Produksi Dyeing</field>
+            <field name="res_model">lap_produksi.jet_dyeing</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="lap_produksi_jet_dyeing_form"/>
+        </record>
+
+        <menuitem id="main_lap_produksi" name="Production" parent="reporting.reporting_menu"/>
+        
+        <menuitem id="lap_produksi_jet_dyeing_menu" name="Laporan Produksi Jet Dyeing" action="lap_produksi_jet_dyeing_action" parent="main_lap_produksi"/>
+
+        <menuitem
+            id="lap_produksi_jet_dyeing_mrp_menu"
+            name="Laporan Produksi Jet Dyeing"
+            action="lap_produksi_jet_dyeing_action"
+            parent="mrp.menu_mrp_reporting"
+            sequence="21"/>
+
+    </data>
+
+
+</odoo>

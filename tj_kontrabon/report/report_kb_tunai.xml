@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <report id="action_report_kb_tunai" model="kontrabon.order" string="Kontrabon Tunai" report_type="qweb-pdf"
+            name="tj_kontrabon.report_kb_tunai" file="tj_kontrabon.report_kb_tunai" />
+
+        <record id="action_report_kb_tunai" model="ir.actions.report">
+            <field name="paperformat_id" eval="kontrabon_a5_format" />
+        </record>
+
+        <template id="report_kb_tunai">
+            <t t-call="web.basic_layout">
+                <style>
+                    .table-data th,
+                    .table-data td {
+                        padding: 0;
+                    }
+                </style>
+                <t t-foreach="docs" t-as="o">
+                <t t-if="o.state != 'draft' or o.type_kontra == 'out_invoice'">
+                    <div class="page">
+
+                        <h2>
+                            <div class="text-center"><strong> KONTRA BON - PIUTANG</strong></div>
+                        </h2>
+                        <div class="row">
+                            <div class="col-3"></div>
+                            <div class="col-3">
+                                <strong>Customer :
+                                    <br />
+                                    <span t-field="o.partner_id" />
+                                </strong>
+                            </div>
+                            <div class="col-3">
+                                <strong>Nomor :</strong>
+                                <br />
+                                <span t-field="o.name" />
+                            </div>
+                            <div class="col-3">
+                                <strong>Tanggal :</strong>
+                                <br />
+                                <span t-field="o.tanggal" t-options="{&quot;format&quot;: &quot;dd-MMM-yyyy&quot;}" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <br />
+                                <br />
+                            </div>
+                        </div>
+
+                        <t t-if="o.inv_ids">
+                            <t t-set="total_sum" t-value="0" />
+                            <t t-set="total_dpp" t-value="0" />
+                            <t t-set="total_sum_due" t-value="0" />
+                            <table class="table-data" width="100%">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th class="pl-2" style="border : 1px solid black">
+                                            <strong>No</strong>
+                                        </th>
+                                        <th class="pl-2" style="border : 1px solid black">
+                                            <strong>Tgl Faktur</strong>
+                                        </th>
+                                        <th class="pl-2" style="border : 1px solid black">
+                                            <strong>No Faktur</strong>
+                                        </th>
+                                        <th class="pl-2" style="border : 1px solid black">
+                                            <strong>No SJ</strong>
+                                        </th>
+                                        <th class="pl-2" style="border : 1px solid black">
+                                            <strong>Jumlah Total</strong>
+                                        </th>
+                                        <th class="pl-2" style="border : 1px solid black">
+                                            <strong>Tgl Tempo</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="no" t-value="0" />
+                                    <tr t-foreach="o.inv_ids.sorted(key=lambda record: record.invoice_date and record.payment_reference, reverse=False)" t-as="line_ids">
+                                        <t t-set="no" t-value="no + 1" />
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span t-esc="no" />
+                                        </td>
+                                        <td style="border : 1px solid black" class="pl-2">
+                                            <span t-field="line_ids.invoice_date"
+                                                t-options="{&quot;format&quot;: &quot;dd-MMM-yyyy&quot;}" />
+                                        </td>
+                                        <td style="border : 1px solid black" class="pl-2">
+                                        <t t-if="line_ids.payment_reference">
+                                            <span t-field="line_ids.payment_reference"/>
+                                        </t>                                        
+                                        <t t-else="">
+                                            <span t-field="line_ids.name"/>
+                                        </t>
+                                        </td>
+                                        <td style="border : 1px solid black" class="pl-2">
+                                            <span t-field="line_ids.x_pro_no_sj"/>
+                                        </td>
+                                        <td style="border : 1px solid black" class="text-right pr-2">
+                                            <span class="text-right" t-field="line_ids.amount_total" />
+                                            <t t-set="total_sum" t-value="total_sum + line_ids.amount_total" />
+                                            <t t-set="total_dpp" t-value="total_dpp + line_ids.amount_untaxed" />
+                                        </td>
+                                        <td style="border : 1px solid black" class="pl-2">
+                                            <span t-field="line_ids.invoice_date_due"
+                                                t-options="{&quot;format&quot;: &quot;dd-MMM-yyyy&quot;}" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th />
+                                        <th />
+                                        <th />
+                                        <th style="border : 1px solid black" class="text-right pr-2">
+                                            <strong>Jumlah Total</strong>
+                                        </th>
+                                        <th style="border : 1px solid black" class="text-right pr-2">Rp.
+                                            <strong>
+                                                <span t-esc="'{0:,.2f}'.format(int(total_sum))" />
+                                            </strong>
+                                        </th>
+                                    </tr>
+                                    <tr t-if="o.set_makloon == True">
+                                        <th />
+                                        <th />
+                                        <th />
+                                        <th style="border : 1px solid black" class="text-right pr-2">
+                                            <strong>Jumlah PPh 23</strong>
+                                        </th>
+                                        <th style="border : 1px solid black" class="text-right pr-2">Rp.
+                                            <strong>
+                                                <span t-esc="'{0:,.2f}'.format(round(total_dpp*2/100,0))" />
+                                            </strong>
+                                        </th>
+                                    </tr>
+
+                                    <tr t-if="o.set_makloon == True">
+                                        <th />
+                                        <th />
+                                        <th />
+                                        <th style="border : 1px solid black" class="text-right pr-2">
+                                            <strong>Jumlah Tagihan</strong>
+                                        </th>
+                                        <th style="border : 1px solid black" class="text-right pr-2">Rp.
+                                            <strong>
+                                                <span t-esc="'{0:,.2f}'.format(total_sum-round(total_dpp*2/100,0))" />
+                                            </strong>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                        <tr>
+                            <th>Terbilang :
+                                <strong>
+                                    <span t-field="o.amount_to_text" />
+                                </strong>
+                            </th>
+                        </tr>
+
+                    </div>
+
+                    <div class="footer">
+                        <div class="row">
+                            <div style="font-size : 13px" class="col-8">
+                                <span>PEMBAYARAN SETOR TUNAI DITUJUKAN KE REKENING BCA : <b>376 300 2060</b></span><br />
+                                <span>A/N PT. PUTERA MULYA TERANG INDAH</span>
+                                <strong><span t-field="o.partner_id.bank_va_no" /></strong><br />
+                                <span>
+                                    KET. PIUTANG DIANGGAP LUNAS BILA SUDAH ADA PEMBAYARAN PENUH KE REK PT. PMTI<br />
+                                    SEBELUM LUNAS MAKA BARANG MASIH MILIK PT. PMTI
+                                </span>
+                                <br /><br />
+                                <span>Setelah ditandatangani, lembar kontra bon asli mohon dikirimkan kembali ke PT.
+                                    PMTI</span>
+                            </div>
+
+                            <div style="font-size : 13px" class="col-4">
+                                <table class="table-condensed" width="100%">
+                                    <tr>
+                                        <td style="border : 1px solid black ; padding-left : 10px ; padding-right : 10px"
+                                            class="text-center">
+                                            <strong>Penerima</strong>
+                                        </td>
+                                        <td style="border : 1px solid black ; padding-left : 10px ; padding-right : 10px"
+                                            class="text-center">
+                                            <strong>Pemeriksa</strong>
+                                        </td>
+                                        <td style="border : 1px solid black ; padding-left : 10px ; padding-right : 10px"
+                                            class="text-center">
+                                            <strong>Hormat kami</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black">
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                        </td>
+                                        <td style="border : 1px solid black">
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                        </td>
+                                        <td style="border : 1px solid black">
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+
+
+</odoo>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record model="ir.ui.view" id="brightness_color_tree">
+            <field name="name">brightness.color.tree</field>
+            <field name="model">brightness.color</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="number_code"/>
+                    <field name="code"/>
+                    <field name="start_range"/>
+                    <field name="end_range"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record model="ir.ui.view" id="brightness_color_form">
+            <field name="name">brightness.color.form</field>
+            <field name="model">brightness.color</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="start_range"/>
+                                <field name="number_code"/>
+                            </group>
+                            <group>
+                                <field name="code"/>
+                                <field name="end_range"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="brightness_color_action">
+            <field name="name">Brightness Color</field>
+            <field name="res_model">brightness.color</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem id="brightness_color_menu" name="Brightness Color" action="brightness_color_action" parent="menu_master"/>
+
+    </data>
+</odoo>

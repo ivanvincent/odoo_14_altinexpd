@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="sale_product_history_tree">
+            <field name="name">sale.product.history.tree</field>
+            <field name="model">sale.product.history</field>
+            <field name="arch" type="xml">
+                <tree create="false">
+                    <field name="partner_id"/>
+                    <field name="last_price"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="sale_product_history_form">
+            <field name="name">sale.product.history.form</field>
+            <field name="model">sale.product.history</field>
+            <field name="arch" type="xml">
+                <form create="false">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="product_id"/>
+                                <field name="partner_id"/>
+                            </group>
+                            <group>
+                                <field name="last_price"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="History">
+                                <field name="line_ids">
+                                    <tree>
+                                        <field name="sale_id"/>
+                                        <field name="so_date"/>
+                                        <field name="sale_price"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_form_view_sale_history">
+            <field name="name">product.product.sale.history</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//page[@name='sales']//group[@name='sale']" position="before">
+                    <group string="History" name="History">
+                        <field name="sale_history_ids" context="{'tree_view_ref':'inherit_sale_order.sale_product_history_tree'}" nolabel="1" readonly="1" />
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="event_sale_product_template_form_hide" model="ir.ui.view">
+            <field name="name">product.template.event.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="event_sale.event_sale_product_template_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='sale']/group[2]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

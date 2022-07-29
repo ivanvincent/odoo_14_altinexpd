@@ -1,0 +1,21 @@
+<odoo>
+    <data>
+
+        <record id="action_rute_list" model="ir.actions.act_window">
+            <field name="name">List rute</field>
+            <field name="res_model">vit.rute</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="vit_rute_top_menu"
+             name="RuteSale"
+             sequence="10"/>
+        <menuitem id="vit_rute_menu"
+             action="action_rute_list"
+             name="rute"
+             sequence="10"
+             parent="vit_rute_top_menu"/>
+
+
+    </data>
+</odoo>

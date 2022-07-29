@@ -1,0 +1,106 @@
+<odoo>
+    <data>
+        <record id="view_partner_jalur_form" model="ir.ui.view">
+            <field name="name">res.partner.jalur.form</field>
+            <field name="model">res.partner.jalur</field>
+            <field name="arch" type="xml">
+                <form string="Form Partner Jalur">
+                    <sheet>
+						<group col="4" >
+							<field name="code"/>
+                            <field name="name"/>
+							<field name="description"/>
+							<field name="plate_number_id" options="{'no_create': True, 'no_create_edit':True, 'no_open':True}"/>
+						</group>
+
+						<group string="Grouping" >
+							<field name="salesperson_id" options="{'no_create': True, 'no_create_edit':True, 'no_open':True}" />
+<!-- 
+							<field name="group_id" options="{'no_create': True, 'no_create_edit':True, 'no_open':True}" />
+							<field name="divisi_id" options="{'no_create': True, 'no_create_edit':True, 'no_open':True}" />
+                             -->
+<!-- 
+							<field name="divisi_name" readonly="1" />
+ -->
+                        </group>
+
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>                    
+
+                </form>
+            </field>
+        </record>
+        <record id="view_partner_jalur_tree" model="ir.ui.view">
+            <field name="name">res.partner.jalur.tree</field>
+            <field name="model">res.partner.jalur</field>
+            <field name="arch" type="xml">
+                <tree string="List Partner Jalur">
+                   
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="salesperson_id"/>
+<!-- 
+                    <field name="group_id"/>
+                    <field name="divisi_id"/>
+ -->
+<!-- 
+                    <field name="divisi_name"/>
+ -->                    
+                    <field name="description"/>
+<!--   
+                 <field name="salesperson_id"/>
+                    <field name="account_id" />
+                    <field name="divisi1_id" />
+                    <field name="divisi2_id" />
+                    <field name="group_id" />
+-->    
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_partner_jalur_search" model="ir.ui.view">
+            <field name="name">res.partner.jalur.search</field>
+            <field name="model">res.partner.jalur</field>
+            <field name="arch" type="xml">
+                <search string="Search Partner Jalur">
+
+                    <field name="name" filter_domain="[('name','ilike',self)]" string="Name"/>
+                    <field name="code" />
+                    <separator />
+                    <!--  
+                    <field name="salesperson_id" />
+                    -->
+
+<!--                     <separator />
+                    <field name="group_id" />
+                    <field name="divisi_id" />
+ -->
+                    <group expand="0" string="Group By">
+
+                        <filter string="Salesperson" name="group_res_partner_jalursalesperson" domain="[]" context="{'group_by':'salesperson_id'}"/>
+
+                        <filter string="Group" name="group_res_partner_group" domain="[]" context="{'group_by':'group_id'}"/>
+                        <filter string="Division" name="group_res_partner_division" domain="[]" context="{'group_by':'divisi_id'}"/>
+
+                    </group>
+
+                </search>
+            </field>
+        </record>
+
+        <record id="action_partner_jalur" model="ir.actions.act_window">
+            <field name="name">Partner Jalur</field>
+            <field name="res_model">res.partner.jalur</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_partner_jalur_search"/>
+            <field name="view_id" ref="view_partner_jalur_tree"/>
+        </record>
+        <menuitem action="action_partner_jalur" id="menu_action_partner_jalur" parent="sale.menu_sale_config"
+                  sequence="15"/>
+    </data>
+</odoo>

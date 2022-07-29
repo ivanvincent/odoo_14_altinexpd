@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record model="ir.ui.view" id="reporting_penjualan_form">
+            <field name="name">lap.penjualan.xlsx.form</field>
+            <field name="model">lap.penjualan.xlsx</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date_start" />
+                            </group>
+                            <group>
+                                <field name="date_end"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="generate_excel" class="oe_highlight" type="object" string="Export Xlsx"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="reporting_penjualan_action" model="ir.actions.act_window">
+            <field name="name">Reporting Penjualan</field>
+            <field name="res_model">lap.penjualan.xlsx</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="reporting_penjualan_form"/>
+        </record>
+
+        <menuitem id="main_reporting_accounting" name="Accounting" parent="reporting.reporting_menu" sequence="4"/>
+
+        <menuitem id="menu_reporting_penjualan" name="Laporan Penjualan" parent="main_reporting_accounting" action="reporting_penjualan_action" />
+
+
+    </data>
+</odoo>

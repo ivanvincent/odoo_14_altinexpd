@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- <record model="ir.ui.view" id="inherit_list_purchase_order_line_tree">
+            <field name="name">purchase.order.line.tree</field>
+            <field name="model">purchase.order.line</field>
+            <field name="inherit_id" ref="inherit_purchase_order.list_purchase_order_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='purchase_request_id']" position="after">
+                    <field name="request_requisition_id"/>
+                    <field name="qty_rr"/>
+                </xpath>
+            </field>
+        </record> -->
+    </data>
+</odoo>

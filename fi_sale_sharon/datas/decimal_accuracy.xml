@@ -1,0 +1,13 @@
+<odoo>
+	<data noupdate="1">
+		<record id="uom_decimal_precision_sale_order" model="decimal.precision">
+            <field name="name">Sale Product Unit of Measure</field>
+            <field name="digits">0</field>
+        </record>
+        
+        <record id="price_decimal_precision_sale_order" model="decimal.precision">
+            <field name="name">Sale Price Unit</field>
+            <field name="digits">2</field>
+        </record>
+	</data>
+</odoo>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="report.paperformat" id="paperformat_laporan_group_by_palet">
+            <field name="name">Laporan Group By Palet</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_width">210</field>
+            <field name="page_height">297</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">2</field>
+            <field name="margin_bottom">2</field>
+            <field name="margin_right">2</field>
+            <field name="margin_left">2</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="action_laporan_group_by_palet" model="reporting.stock.lot" string="Laporan Group By Palet" report_type="qweb-pdf" name="reporting.laporan_group_by_palet" file="reporting.laporan_group_by_palet" />
+
+        <record id="action_laporan_group_by_palet" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_laporan_group_by_palet" />
+        </record>
+
+        <template id="laporan_group_by_palet">
+            <t t-call="web.basic_layout">
+                <style>
+                    @font-face {
+                        font-family: 'Courier New';
+                        font-style: normal;
+                        font-weight: 400;
+                        src: local('Courier New'), local('CourierNewPSMT'), url(http://themes.googleusercontent.com/licensed/font?kit=p0pJArTTK5Heq6xbYtNwnp0EAVxt0G0biEntp43Qt6E) format('truetype');
+                    }
+
+                    .Courier {
+                        font-family: Courier New;
+                    }
+
+                    .table-data th,
+                    .table-data td {
+                        border: 1px solid black;
+                        font-family: Courier New;
+                    }
+                </style>
+                <t t-foreach="docs" t-as="o">
+                    <div class="page Courier" style="font-size : 18px">
+                        <!-- <div class="text-right">GREY REV-01</div>
+                        <div class="text-center" style="margin-top : -20px">
+                            <b>Laporan Group By Palet</b>
+                        </div> -->
+                        <div>Tanggal Opname : </div>
+                        <div>Departemen : GDG</div>
+                        <t t-set="rack" t-value="o.group_by_rack()" />
+                        <t t-foreach="rack" t-as="r">
+                            <div>
+                                <span t-esc="r['rack_name']"/>
+                            </div>
+
+                            <table class="table-condensed table-data" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>ROLL</th>
+                                        <th>KD BARANG</th>
+                                        <th>NAMA BARANG</th>
+                                        <th>GRADE</th>
+                                        <th>SALDO AKHIR</th>
+                                        <th>OPNAME</th>
+                                        <th>STATUS</th>
+                                        <th>KABAG</th>
+                                        <th>AUDIT</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="tot_qty" t-value="0" />
+                                    <t t-set="move" t-value="o.group_by_rack_product_grade()" />
+                                    <t t-foreach="move" t-as="m">
+                                        <t t-if="r['rack_id'] == m['rack_id']">
+                                            <t t-set="qty" t-value="m['qty']" />
+                                            <t t-set="tot_qty" t-value="tot_qty + qty" />
+                                            <tr>
+                                                <td>
+                                                    <span t-esc="m['roll']"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="m['product_code']"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="m['product_name']"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="m['grade_name']"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="m['qty']"/>
+                                                </td>
+                                                <td>
+                                                    <!-- <span t-esc="m['roll']"/> -->
+                                                </td>
+                                                <td>
+                                                    <!-- <span t-esc="m['roll']"/> -->
+                                                </td>
+                                                <td>
+                                                    <!-- <span t-esc="m['roll']"/> -->
+                                                </td>
+                                                <td>
+                                                    <!-- <span t-esc="m['roll']"/> -->
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4">Total :</td>
+                                        <td>
+                                            <span t-esc="tot_qty"/>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                        </t>
+
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

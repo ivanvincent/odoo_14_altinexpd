@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="hr_department_form">
+            <field name="name">stock.location.department.form</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='usage']" position="after">
+                    <field name="pr_sequence_id"/>
+                    <field name="rr_sequence_id"/>
+                    <field name="location_code"/>
+                    <field name="warehouse_id"/>
+                    <field name="is_stock_point"/>
+                </xpath>
+
+                <xpath expr="//field[@name='return_location']" position="after">
+                    <field name="siba_location"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="_inherit_view_location_tree">
+            <field name="name">stock.location.tree</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_tree2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='active']" position="after">
+                    <field name="warehouse_id" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="inherit_view_location_search">
+            <field name="name">stock.location</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <filter name="stock_point" string="Stock Point" domain="[('is_stock_point', '=', True)]" help="Stock Point Locations"/>
+                </xpath>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>

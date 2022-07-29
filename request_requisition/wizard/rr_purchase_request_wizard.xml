@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="rr_pr_wizard" model="ir.ui.view">
+            <field name="name">rr.purchase.request.wizard</field>
+            <field name="model">rr.purchase.request.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <separator string="Existing Purchase Request to update:" />
+                    <newline />
+                    <group>
+                        <field name="pr_id"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="request_by" readonly="1"/>
+                            <field name="request_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="picking_type_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <tree>
+                            <field name="product_id"/>
+                            <field name="product_qty"/>
+                            <field name="qty_on_hand"/>
+                            <field name="product_uom_id"/>
+                            <field name="name"/>
+                            <field name="specification"/>
+                            <field name="no_komunikasi"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button name="create_purchase_request" string="Create Pr" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

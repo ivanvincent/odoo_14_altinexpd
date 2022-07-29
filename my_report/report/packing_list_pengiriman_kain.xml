@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="report.paperformat" id="paperformat_packing_list_pengiriman_kain">
+            <field name="name">Bukti Penerimaan Kain Greige</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_width">210</field>
+            <field name="page_height">297</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">2</field>
+            <field name="margin_bottom">2</field>
+            <field name="margin_right">2</field>
+            <field name="margin_left">2</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="action_packing_list_pengiriman_kain" model="stock.picking" string="Packing List Pengiriman Kain" report_type="qweb-pdf" name="my_report.packing_list_pengiriman_kain" file="my_report.packing_list_pengiriman_kain" />
+
+        <record id="action_packing_list_pengiriman_kain" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_packing_list_pengiriman_kain" />
+        </record>
+
+        <template id="packing_list_pengiriman_kain">
+            <t t-call="web.basic_layout">
+                <style>
+                    @font-face {
+                        font-family: 'Courier New';
+                        font-style: normal;
+                        font-weight: 400;
+                        src: local('Courier New'), local('CourierNewPSMT'), url(http://themes.googleusercontent.com/licensed/font?kit=p0pJArTTK5Heq6xbYtNwnp0EAVxt0G0biEntp43Qt6E) format('truetype');
+                    }
+
+                    .Courier {
+                        font-family: Courier New;
+                    }
+                </style>
+                <t t-foreach="docs" t-as="o">
+                    <div class="page Courier" style="font-size : 18px">
+                        <div class="text-right">GREY REV-01</div>
+                        <div class="text-left" style="margin-top : -20px">
+                            <b>BUKTI PENERIMAAN KAIN GREIGE</b>
+                        </div>
+                        <table class="table-condensed Courier" width="100%">
+                            <tr>
+                                <td width="25%">
+                                    <table class="table-condensed Courier" width="100%">
+                                        <tr>
+                                            <td style="border : 1px solid black" width="40%">Hari</td>
+                                            <td style="border : 1px solid black" width="60%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border : 1px solid black" width="40%">Tanggal</td>
+                                            <td style="border : 1px solid black" width="60%"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td width="12%"/>
+                                <td width="25%">
+                                    <table class="table-condensed Courier" width="100%">
+                                        <tr>
+                                            <td style="border : 1px solid black" width="40%">Dari</td>
+                                            <td style="border : 1px solid black" width="60%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border : 1px solid black" width="40%">Kepada</td>
+                                            <td style="border : 1px solid black" width="60%"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td width="13%"/>
+                                <td width="25%">
+                                    <table class="table-condensed Courier" width="100%">
+                                        <tr>
+                                            <td style="border : 1px solid black" width="40%">Nomor</td>
+                                            <td style="border : 1px solid black" width="60%"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border : 1px solid black" width="40%">Halaman</td>
+                                            <td style="border : 1px solid black" width="60%"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table class="table-condensed Courier" width="100%">
+                            <thead>
+                                <tr class="text-center">
+                                    <td style="border : 1px solid black">No</td>
+                                    <td style="border : 1px solid black">Barcode</td>
+                                    <td style="border : 1px solid black">Jenis Kain</td>
+                                    <td style="border : 1px solid black">Grade</td>
+                                    <td style="border : 1px solid black">Panjang</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="no" t-value="0"/>
+                                <t t-set="tot_qty" t-value="0"/>
+                                <t t-foreach="o.move_line_ids_without_package" t-as="line">
+                                    <t t-set="no" t-value="no + 1"/>
+                                    <t t-set="tot_qty" t-value="tot_qty + line.qty_done"/>
+                                    <tr>
+                                        <td style="border : 1px solid black">
+                                            <span t-esc="no"/>
+                                        </td>
+                                        <td style="border : 1px solid black">
+                                            <span t-field="line.lot_id.name"/>
+                                        </td>
+                                        <td style="border : 1px solid black">
+                                            <span t-field="line.product_id"/>
+                                        </td>
+                                        <td style="border : 1px solid black">
+                                            <span t-field="line.lot_id.grade_id.name"/>
+                                        </td>
+                                        <td style="border : 1px solid black">
+                                            <span t-field="line.qty_done"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <td style="border : 1px solid black" colspan="4">JUMLAH</td>
+                                <td style="border : 1px solid black">
+                                    <span t-esc="tot_qty"/>
+                                </td>
+                            </tfoot>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

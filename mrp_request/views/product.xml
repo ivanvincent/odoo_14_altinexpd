@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="product_satuan_produksi_form">
+            <field name="name">product.product.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='categ_id']" position="after">
+                    <field name="satuan_id"/>
+                    <field name="konversi_butir"/>
+                    <field name="konversi_bungkus"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

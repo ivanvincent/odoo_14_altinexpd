@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="report.paperformat" id="sh_a5_format">
+            <field name="name">Sj A5</field>
+            <field name="default" eval="False" />
+            <field name="format">custom</field>
+            <field name="page_width">215</field>
+            <field name="page_height">160</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">3</field>
+            <field name="margin_bottom">50</field>
+            <field name="margin_left">3</field>
+            <field name="margin_right">3</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field> <!-- Tips : Hide unnecessary header -->
+        </record>
+
+        <report string="Surat Jalan" id="action_surat_jalan" model="stock.picking" report_type="qweb-pdf" name="my_report.surat_jalan" file="my_report.surat_jalan" />
+
+        <record id="action_surat_jalan" model="ir.actions.report">
+            <field name="paperformat_id" eval="sh_a5_format"/>
+        </record>
+
+        <template id="surat_jalan">
+            <t t-call="web.basic_layout">
+                <style>
+                    .header-2 {
+                        line-height: 20px;
+                    }
+
+                    .table-data, .table-data th, .table-data td {
+                        border: 1px solid black;
+                        text-align: center;
+                    }
+
+                    .data {
+                        margin-bottom: 1rem;
+                    }
+
+                    .jumlah {
+                        border: 1px solid black;
+                        padding-left: 3rem;
+                    }
+
+                    .line-ttd {
+                        margin-top: 2rem;
+                    }
+                </style>
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page">
+                        <div class="row">
+                            <div class="col-6">
+                                <h5 class="font-weight-bold">PT. PUTERA MULYA TERANG INDAH</h5>
+                                <p>Jl. Rancajigang No 200 Majalaya - Bandung 40382</p>
+                                <h4 class="font-weight-bold text-center">SURAT JALAN</h4>
+                            </div>
+                            <div class="col-6 header-2">
+                                Majalaya, <span t-field="doc.scheduled_date" t-options="{&quot;format&quot;: &quot;dd MMM yyyy&quot;}"/>
+                                <h6 class="font-weight-bold">Kepda Yth</h6>
+                                <span class="text-uppercase" t-field="doc.partner_id"/>
+                                <span>94.545.781..0-0-33</span>
+                                <span t-field="doc.partner_id.street"/>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                                <div class="col-6">
+                                    <h5 class="font-weight-bold mr-auto">No : <span t-field="doc.name"/></h5>
+                                </div>
+                                <div class="col-6">
+                                    <h5 class="font-weight-bold">No Faktur: <span>-</span></h5>
+                                </div>
+                            </div>
+
+                            <div class="data">
+                                <table class="table-data" width="100%">
+                                    <thead>
+                                        <th>NO</th>
+                                        <th>NAMA BARANG</th>
+                                        <th>QTY</th>
+                                        <th>SATUAN</th>
+                                        <th>KETERANGAN</th>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="no" t-value="0"/>
+                                        <t t-set="total_qty" t-value="0"/>
+                                        <t t-set="satuan" t-value=""/>
+
+                                        <tr t-foreach="doc.move_ids_without_package" t-as="line">
+                                            <t t-set="no" t-value="no + 1"/>
+                                            <t t-set="total_qty" t-value="total_qty + line.quantity_done"/>
+
+                                            <td><t t-esc="no"/></td>
+                                            <td class="text-left pl-2"><span t-field="line.product_id"/></td>
+                                            <td class="text-right pr-2"><span t-esc="'{0:,.2f}'.format(float(line.quantity_done))"/></td>
+                                            <td class="text-right pr-2"><span t-field="line.product_uom"/></td>
+                                            <td class="text-center pr-2"><span t-field="line.x_ket"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td class="text-center font-weight-bold">JUMLAH</td>
+                                            <td class="text-right pr-2 font-weight-bold"><span t-esc="'{0:,.2f}'.format(float(total_qty))"/></td>
+                                            <td class="text-right pr-2"></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="ttd">
+                                <div class="row">
+                                    <div class="col-3 text-center">
+                                        <span>Tanda Terima</span><br/><br/><br/>
+                                        <span class="line-ttd">_________________</span>
+                                    </div>
+                                    <div class="col-9 text-center">
+                                        <span>Hormat Kami</span><br/><br/><br/>
+                                        <div class="hormat d-inline-flex">
+                                            <div class="pl-1 pr-1">
+                                                <span class="d-block">(______________)</span>
+                                                <span>Ekspedisi</span>
+                                            </div>
+                                            <div class="pl-1 pr-1">
+                                                <span class="d-block">(______________)</span>
+                                                <span>Satpam</span>
+                                            </div>
+                                            <div class="pl-1 pr-1">
+                                                <span class="d-block">(______________)</span>
+                                                <span>PPC</span>
+                                            </div>
+                                            <div class="pl-1 pr-1">
+                                                <span class="d-block">(______________)</span>
+                                                <span>Gudang Jadi</span>
+                                            </div>
+                                            <div class="pl-1 pr-1">
+                                                <span class="d-block">(______________)</span>
+                                                <span>Akunting</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

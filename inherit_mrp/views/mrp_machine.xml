@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="mrp_machine_inherit_form">
+            <field name="name">mrp.machine.form</field>
+            <field name="model">mrp.machine</field>
+            <field name="inherit_id" ref="base_master.mrp_machine_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='location_id']" position="after">
+                    <field name="mrp_type_id"/>
+                    <field name="mrp_ids" widget="many2many_tags"/>
+                    <field name="workcenter_id"/>
+                    <field name="production_count"/>
+                </xpath>
+            </field>
+        </record>
+
+
+
+        <record model="ir.ui.view" id="mrp_machine_inherit_tree">
+            <field name="name">mrp.machine.form</field>
+            <field name="model">mrp.machine</field>
+            <field name="inherit_id" ref="base_master.mrp_machine_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='location_id']" position="after">
+                    <field name="mrp_type_id"/>
+                    <field name="workcenter_id"/>
+                    <field name="mrp_ids"/>
+                    <field name="production_count"/>
+                </xpath>
+            </field>
+        </record>
+
+
+
+
+        <menuitem id="menu_view_mrp_machine" action="base_master.machine_action" parent="mrp.menu_mrp_configuration" />
+
+    </data>
+</odoo>

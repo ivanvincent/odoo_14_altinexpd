@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record model="ir.ui.view" id="laporan_oder_marketing_form">
+            <field name="name">lap.order_marketing.xlsx.form</field>
+            <field name="model">lap.order_marketing.xlsx</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="partner_id" widget="many2many_tags" options="{'no_create': True}"/>
+                            <field name="sales_id" widget="many2many_tags" options="{'no_create': True}"/>
+                            <field name="product_id" widget="many2many_tags" options="{'no_create': True}"/>
+                            <field name="date_start" />
+                            <field name="date_end"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="generate_excel" class="oe_highlight" type="object" string="Export Xlsx"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="laporan_oder_marketing_action" model="ir.actions.act_window">
+            <field name="name">Laporan Order Marketing</field>
+            <field name="res_model">lap.order_marketing.xlsx</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="laporan_oder_marketing_form"/>
+        </record>
+
+        <menuitem id="main_laporan_marketing" name="Marketing" parent="reporting.reporting_menu"/>
+
+        <menuitem id="menu_laporan_oder_marketing" name="Laporan Order Marketing" parent="main_laporan_marketing" action="laporan_oder_marketing_action" />
+
+
+    </data>
+</odoo>

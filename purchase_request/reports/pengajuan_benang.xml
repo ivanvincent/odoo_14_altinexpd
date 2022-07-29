@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="paperformat_pengajuan_benang" model="report.paperformat">
+            <field name="name">European A4</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">8</field>
+            <field name="margin_bottom">23</field>
+            <field name="margin_left">4</field>
+            <field name="margin_right">4</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="action_report_pr_pengajuan_benang" model="purchase.request" string="Print Pengajuan Benang" report_type="qweb-pdf" name="purchase_request.report_pr_pengajuan_benang" file="purchase_request.report_pr_pengajuan_benang" />
+
+        <record id="action_report_pr_pengajuan_benang" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_pengajuan_benang"/>
+        </record>
+
+        <template id="report_pr_pengajuan_benang">
+            <t t-call="web.basic_layout">
+                <style>
+                    .sub-title {
+                        font-size: 1rem;
+                    }
+                    sub-title-2 {
+                        font-size: 0.6rem;
+                    }
+                    .data {
+                        margin-top: 1rem;
+                        font-size: 12px;
+                    }
+
+                    .table-data, .table-data th, .table-data td {
+                        border: 1px solid black;
+                        text-align: center;
+                    }
+
+                    .ttd {
+                        margin-top: 2rem;
+                        font-size: 0.8rem;
+                    }
+                </style>
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page">
+
+                        <div class="title text-center">
+                            <span class="sub-title font-weight-bold">PENGAJUAN PEBELIAN BENANG</span>
+                            <br/>
+                            <span class="sub-title-2 font-weight-bold">PERTANGGAL : <span t-field="doc.date_start" t-options="{&quot;format&quot;: &quot;dd MMMM yyyy&quot;}" /></span>
+                        </div>
+
+                        <div class="data">
+                            <table class="table-data" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>NO</th>
+                                        <th>Jenis Benang</th>
+                                        <th>Grade</th>
+                                        <th>Lot</th>
+                                        <th>Nama Supplier</th>
+                                        <th>Quantity (Kg)</th>
+                                        <th>Harga Sebelumnya (Rp)</th>
+                                        <th>Harga Yg Ditawarkan (Rp)</th>
+                                        <th>Estimasi Pembelian (Rp)</th>
+                                        <th>Estimasi Pembelian (INC) (Rp)</th>
+                                        <th>Ket</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="no" t-value="0"/>
+                                    <tr t-foreach="doc.line_ids" t-as="line">
+                                        <t t-set="no" t-value="no + 1"/>
+                                        <t t-set="est_purchase" t-value="line.product_qty * line.estimated_cost"/>
+                                        <t t-set="est_purchase_inc" t-value="est_purchase * 0.1"/>
+                                        <td>
+                                            <span t-esc="no" />
+                                        </td>
+                                        <td class="text-left pl-1">
+                                            <span t-field="line.product_id.name" />
+                                        </td>
+                                        <td>
+                                            <span t-field="line.grade_id" />
+                                        </td>
+                                        <td>
+                                            <span t-field="line.lot_id" />
+                                        </td>
+                                        <td>
+                                            <span t-field="line.supplier_id" />
+                                        </td>
+                                        <td class="text-right pr-1">
+                                            <span t-field="line.product_qty" />
+                                        </td>
+                                        <td class="text-right pr-1">
+                                            <span t-field="line.product_id.standard_price" />
+                                        </td>
+                                        <td class="text-right pr-1">
+                                            <span t-field="line.estimated_cost" />
+                                        </td>
+                                        <td class="text-right pr-1">
+                                            <span t-esc="est_purchase" />
+                                        </td>
+                                        <td class="text-right pr-1">
+                                            <span t-esc="est_purchase_inc" />
+                                        </td>
+                                        <td class="text-right pr-1">
+                                            <span t-field="line.note" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <div class="ttd">
+                            <div class="row">
+                                <div class="col-4">
+                                    <span>Dibuat Oleh:</span><br/><br/><br/>
+                                    <span t-field="doc.env.user.name"/><br/>
+                                    <span>Tgl</span>
+                                </div>
+                                <div class="col-4">
+                                    <span>Mengetahui,</span><br/><br/><br/>
+                                    <span>Gunawan</span><br/>
+                                    <span>Tgl</span>
+                                </div>
+                                <div class="col-4">
+                                    <span>Dibuat Oleh:</span><br/><br/><br/>
+                                    <span>Jimmy</span><br/>
+                                    <span>Tgl</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+
+
+</odoo>

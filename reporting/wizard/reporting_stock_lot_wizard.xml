@@ -1,0 +1,24 @@
+<odoo>
+    <data>
+
+        <record id="print_reporting_stock_lot_wizard_form" model="ir.ui.view">
+            <field name="name">print.reporting_stock_lot.wizard.form</field>
+            <field name="model">print.reporting_stock_lot.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Reporting Stock">
+                    <group>
+                        <field name="reporting_id" readonly="1"/>
+                        <field name="type_print" required="1"/>
+                        <field name="template_greige" required="1" attrs="{'invisible':[('type_print', '!=', 'greige')]}"/>
+                    </group>
+                    <footer>
+                        <button string="Print" name="action_print" type="object" default_focus="1" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

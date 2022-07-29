@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_laporan_penerimaan_wizard,laporan_penerimaan_wizard,model_laporan_penerimaan_wizard,stock.group_stock_manager,1,1,1,1
+access_laporan_pemakaian_wizard,laporan_pemakaian_wizard,model_laporan_pemakaian_wizard,stock.group_stock_manager,1,1,1,1
+access_split_barcode_wizard,split_barcode_wizard,model_split_barcode_wizard,stock.group_stock_manager,1,1,1,1
+access_laporan_permintaan_wizard,laporan_permintaan_wizard,model_laporan_permintaan_wizard,stock.group_stock_manager,1,1,1,1

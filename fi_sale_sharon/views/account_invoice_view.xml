@@ -1,0 +1,31 @@
+<odoo>
+    <record id="account_invoice_tree_inherit_fi_sale_sharon" model="ir.ui.view">
+        <field name="name">account.invoice.tree.inherit.fi.sale.sharon</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+            <field name="payment_term_id" position="after">
+                <field name="custom_div_id"/>
+                <field name="custom_jalur_id"/>
+                <field name="custom_group_id"/>
+                <field name="custom_type_id"/>
+                <field name="custom_loc_type_id"/>
+            </field>          
+        </field>
+    </record>
+
+    <record id="credit_note_tree_inherit_fi_sale_sharon" model="ir.ui.view">
+        <field name="name">credit.note.tree.inherit.fi.sale.sharon</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_tree"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="custom_div_id"/>
+                <field name="custom_jalur_id"/>
+                <field name="custom_group_id"/>
+                <field name="custom_type_id"/>
+                <field name="custom_loc_type_id"/>
+            </field>          
+        </field>
+    </record>
+</odoo>

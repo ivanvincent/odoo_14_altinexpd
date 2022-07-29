@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report string="Work Order" id="action_work_order" model="work.order" report_type="qweb-pdf"
+            name="my_report.work_order" file="my_report.work_order" />
+
+        <template id="work_order">
+            <t t-call="web.html_container">
+                <t t-call="my_report.template_print">
+                    <div class="page" style="font-size:15px">
+                        <t t-foreach="docs" t-as="o">
+                            <table class="table-condensed" width="100%">
+                                <tr>
+                                    <td>
+                                        <!--<img src="/web/binary/company_logo" style="width:125px ; margin-left : 100px" align="center"/>-->
+                                    </td>
+                                    <td class="text-center">
+                                        <b>Work Order</b>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                            <table class="table-condensed" width="100%">
+                                <tr>
+                                    <td width="15%">
+                                        Work Order <br />
+                                        Customer <br />
+                                        PO No. <br />
+                                        Sales Type <br />
+                                    </td>
+                                    <td width="50%">
+                                        : <br />
+                                        : <br />
+                                        : <br />
+                                        : <br />
+                                    </td>
+                                    <td width="15%">
+                                        Delivery <br />
+                                        Fabric Code <br />
+                                        Product Name <br />
+                                        Greige <br />
+                                    </td>
+                                    <td width="20%">
+                                        : <br />
+                                        : <br />
+                                        : <br />
+                                        : <br />
+                                    </td>
+                                </tr>
+                            </table>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

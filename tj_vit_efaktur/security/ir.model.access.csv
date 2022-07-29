@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_vit_efaktur,access_vit_efaktur,model_vit_efaktur,account.group_account_invoice,1,1,1,1
+access_vit_generate_efaktur,access_vit_generate_efaktur,model_vit_generate_efaktur,account.group_account_invoice,1,1,1,1
+access_vit_efaktur_pk,access_vit_efaktur_pk,model_vit_efaktur_pk,account.group_account_invoice,1,1,1,1
+access_vit_efaktur_auto,access_vit_efaktur_auto,model_vit_efaktur_auto,account.group_account_invoice,1,1,1,1

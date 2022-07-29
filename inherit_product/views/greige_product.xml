@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record model="ir.ui.view" id="greige_product_tree">
+            <field name="name">product.product.tree</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <tree multi_edit="1" duplicate="false" sample="1">
+                    <field name="default_code"  optional="show" readonly="1"/>
+                    <field name="name" readonly="1"/>
+                    <field name="td" string="Denier" readonly="1"/>
+                    <field name="gramasi_greige" string="Gramasi" readonly="1"/>
+                    <field name="lebar" string="Lebar" readonly="1"/>
+                    <field name="filamen" readonly="1"/>
+                    <field name="ne" readonly="1"/>
+                    <field name="pic" readonly="1"/>
+                    <field name="product_template_attribute_value_ids" widget="many2many_tags" groups="product.group_product_variant" readonly="1"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="hide" readonly="1"/>
+                    <field name="lst_price" optional="show" string="Sales Price"/>
+                    <field name="standard_price" optional="show"/>
+                    <field name="categ_id" optional="hide"/>
+                    <field name="type" optional="hide" readonly="1"/>
+                    <field name="price" invisible="not context.get('pricelist',False)"/>
+                    <field name="uom_id" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom" optional="show" readonly="1"/>
+                    <field name="product_tmpl_id" invisible="1" readonly="1"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+        <record id="greige_product_action" model="ir.actions.act_window">
+            <field name="name">Product greige</field>
+            <field name="res_model">product.product</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[('categ_id.name', 'in', ('GREY','GREIGE'))]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('inherit_product.greige_product_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('product.product_normal_form_view')})]"/>
+        </record>
+
+        <menuitem id="product_greige_menu" name="Product Greige" sequence="2" parent="stock.menu_stock_inventory_control" groups="product.group_product_variant" action="greige_product_action" />
+
+    </data>
+
+</odoo>
+

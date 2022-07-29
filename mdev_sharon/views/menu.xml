@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="mdev_root_menu" name="Modul GPJ" web_icon="mdev_sharon,static/description/icon.png" sequence="1" />
+
+        <menuitem id="mdev_main_menu" name="Addons" parent="mdev_root_menu" sequence="1" />
+        <menuitem id="mdev_report_menu" name="Reporting" parent="mdev_root_menu" sequence="45" />
+        <menuitem id="mdev_conf_menu" name="Configuration" parent="mdev_root_menu" sequence="99" />
+
+
+        <!-- Sales -->
+        <menuitem id="so_sharon_menu" name="EST Sharon" parent="sale.sale_order_menu" sequence="0"/>
+        <menuitem id="so_sharon_idm_menu" name="IDM" parent="so_sharon_menu" sequence="10"/>
+
+        <menuitem id="menu_sale_config_partner_v13" name="V13" parent="sale.menu_sale_config" sequence="18"/>
+
+        <!-- Manufacture -->
+        <menuitem id="pmc_sharon_menu" name="PMC Sharon" parent="mrp.menu_mrp_manufacturing" sequence="10" />
+
+        <menuitem id="gpr_sharon_menu" name="GPR Sharon" parent="mrp.menu_mrp_manufacturing" sequence="20" />
+
+
+    </data>
+</odoo>

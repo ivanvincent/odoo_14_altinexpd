@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record model="ir.cron" id="cron_pull_process_om">
+    <field name="name">Pull process Om transactions</field>
+    <field name="model_id" ref="pull_mysql.model_pull_cron_om"/>
+    <field name="state">code</field>
+    <field name="code">model._cron_pull_process()</field>
+    <field name="user_id" ref="base.user_root"/>
+    <field name="interval_number">10</field> <!-- To decide clearly -->
+    <field name="interval_type">minutes</field>
+    <field name="numbercall">-1</field>
+  </record>
+
+
+</odoo>

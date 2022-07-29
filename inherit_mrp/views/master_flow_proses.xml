@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="td_trial_inherit_form">
+            <field name="name">test.development.trial.form</field>
+            <field name="model">test.development.trial</field>
+            <field name="inherit_id" ref="test_development.td_trial_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='td_master_id']" position="replace">
+                    <field name="master_flow_process_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="test_development_master_action" model="ir.actions.act_window">
+            <field name="name">Test Development Master</field>
+            <field name="res_model">master.flowprocess</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="test_development_master_menu" name="Test Development Master" action="test_development_master_action" parent="test_development.menu_td_master" />
+    </data>
+</odoo>

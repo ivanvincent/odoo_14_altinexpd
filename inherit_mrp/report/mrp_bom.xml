@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="bom_inherit_cost_line_print_out" inherit_id="mrp.report_mrp_bom">
+        <xpath expr="//div[@class='mt16']" position="after">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Variable Cost</h1>
+                        <table width="100%" class="o_mrp_bom_expandable">
+                        <thead>
+                            <tr>
+                                <th>Parameter Cost</th>
+                                <th>Qty</th>
+                                <th>Qty Total</th>
+                                <th>Standard Price</th>
+                                <th>Total Price</th>
+                                <th>Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="data['cost_ids']" t-as="line">
+                                <td><span t-esc="line['name']"/></td>
+                                <td><span t-esc="line['amount']"/></td>
+                                <td><span t-esc="line['amount_tot']"/></td>
+                                <td>Rp. <span t-esc="line['price_unit']" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}"/></td>
+                                <td>Rp. <span t-esc="line['amount_cost']" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}"/></td>
+                                <td><span t-esc="line['keterangan']"/></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <!-- <td>test</td>
+                                <td>test</td>
+                                <td>test</td>
+                                <td>test</td> -->
+                                <td colspan="4" class="text-right"><strong>Unit Cost</strong></td>
+                                <td><span t-esc="data['total_price']"/></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 20px">
+                <div class="col-lg-12">
+                    <h1>Flowprocess</h1>
+                        <table width="100%" class="o_mrp_bom_expandable">
+                        <thead>
+                            <tr>
+                                <th>Process</th>
+                                <th>Qty</th>
+                                <th>Mesin</th>
+                                <th>Process Type</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="data['line_flowprocess']" t-as="line">
+                                <td><span t-esc="line['process']"/></td>
+                                <td><span t-esc="line['no_urut']"/></td>
+                                <td><span t-esc="line['mesin']"/></td>
+                                <td><span t-esc="line['process_type']"/></td>
+                                <td>Rp. <span t-esc="line['price']"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 20px;">
+                <div class="col-12" style="text-align: right;">
+                    <h3 style="text-right">GRAND TOTAL : <span t-esc="data['price'] / data['bom_qty'] + data['total_price']" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}"/></h3>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

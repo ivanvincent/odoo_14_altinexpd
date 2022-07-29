@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>    
+        <record id="yg_product_category_view_inherit" model="ir.ui.view">
+        <field name="name">category_view</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="warehouse_id"/>
+                <!-- <field name="warehouse_id"/> -->
+            </xpath>
+        </field>
+        </record>
+    </data>
+</odoo>

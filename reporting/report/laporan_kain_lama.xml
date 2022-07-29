@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="report.paperformat" id="paperformat_laporan_kain_lama">
+            <field name="name">Laporan Kain Lama</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_width">210</field>
+            <field name="page_height">297</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">2</field>
+            <field name="margin_bottom">2</field>
+            <field name="margin_right">2</field>
+            <field name="margin_left">2</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="action_laporan_kain_lama" model="reporting.stock.lot" string="Laporan Kain Lama" report_type="qweb-pdf" name="reporting.laporan_kain_lama" file="reporting.laporan_kain_lama" />
+
+        <record id="action_laporan_kain_lama" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_laporan_kain_lama" />
+        </record>
+
+        <template id="laporan_kain_lama">
+            <t t-call="web.basic_layout">
+                <style>
+                    @font-face {
+                        font-family: 'Courier New';
+                        font-style: normal;
+                        font-weight: 400;
+                        src: local('Courier New'), local('CourierNewPSMT'), url(http://themes.googleusercontent.com/licensed/font?kit=p0pJArTTK5Heq6xbYtNwnp0EAVxt0G0biEntp43Qt6E) format('truetype');
+                    }
+
+                    .Courier {
+                        font-family: Courier New;
+                    }
+
+                    .table-data th,
+                    .table-data td {
+                        border: 1px solid black;
+                        font-family: Courier New;
+                    }
+                </style>
+                <t t-foreach="docs" t-as="o">
+                    <div class="page Courier" style="font-size : 18px">
+                        <div class="text-center">
+                            <b>LAPORAN KAIN LAMA SIMPAN > 6 BULAN</b>
+                        </div>
+                        <div>
+                            <span>Departemen Gudang Grey Periode</span>
+                            <span t-field="o.start_date"/>
+                            <span>s/d</span>
+                            <span t-field="o.end_date"/>
+                        </div>
+
+                        <table class="table-condensed table-data Courier" width="100%">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>Jumlah Pcs</th>
+                                    <th>Kode Barang</th>
+                                    <th>Nama Barang</th>
+                                    <th>Quantity</th>
+                                    <th>Kategori</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="lap" t-value="o.laporan_kain_lama()" />
+                                <t t-foreach="lap" t-as="l">
+                                    <tr>
+                                        <td>
+                                            <span t-esc="l['roll']"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="l['code']"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="l['name']"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="'{0:,.2f}'.format(float(l['qty']))"/>
+                                        </td>
+                                        <td>
+                                            <!-- <span t-esc="m['roll']"/> -->
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

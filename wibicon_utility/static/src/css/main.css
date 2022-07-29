@@ -1,0 +1,80 @@
+
+tr.hide-table-padding td {
+    padding: 0;
+}
+
+.date_range_start_form_input,
+.date_range_end_form_input {
+    cursor: pointer;
+    background: white !important;
+}
+
+.o_rangedatepicker {
+
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.o_daterange_input {
+
+    border: none;
+    padding: 4px 0 4px 0;
+}
+
+.btn-refresh-date {
+
+    border: 1px solid #dee2e6;
+    padding: 6px;
+
+
+}
+
+.btn-refresh-date:hover {
+    cursor: pointer;
+    background: #dee2e6 !important;
+
+
+
+}
+
+
+.date_range_container {
+    display: inline-flex;
+    flex-direction: row;
+    margin: 2;
+    padding: 2;
+    justify-content: 'space-between';
+
+}
+
+
+
+
+
+.select_date_range_fields {
+    /* appearance: inherit; */
+    background-color: transparent;
+    border: 1px solid #dee2e6;
+
+    padding: 4px 4px 4px 8px;
+    /* margin: 0; */
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    line-height: inherit;
+    outline: none;
+    /* outline: none; */
+    /* background-color: #fff; */
+    /* background-image: linear-gradient(to top, #f9f9f9, #fff 33%); */
+}
+
+.select_date_range_fields:focus {
+    border: 1px solid blue;
+    border-color: blue;
+}
+
+
+
+.select_date_range_fields::-ms-expand {
+    display: none;
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="purchase_report_view_form_wizard" model="ir.ui.view">
+            <field name="name">purchase.report.wizard</field>
+            <field name="model">purchase.report.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="report_type"/>
+                        </group>
+                        <footer>
+                            <button name="preview" string="Preview" type="object" class="oe_highlight" />
+                        or
+                            <button string="Cancel" class="oe_link" special="cancel"/>
+                        </footer>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

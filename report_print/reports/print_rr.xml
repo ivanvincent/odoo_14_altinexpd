@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="action_print_request" model="ir.actions.report">
+            <field name="name">Reporting Stock Opname (PDF)</field>
+            <field name="model">request.requisition</field>
+            <field name="report_type">qweb-pdf</field>
+            <!-- <field name="report_name">.report_stock_opname_session</field> -->
+            <field name="report_file">print_rr</field>
+            <field name="print_report_name">'RR - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_request_requisition" />
+            <field name="binding_view_types">form</field>
+        </record>
+
+        <template id="print_rr">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <div class="text-center">
+                            <h3>
+                                <b>BUKTI PERMINTAAN BARANG</b>
+                            </h3>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <table>
+                                    <tr>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>No Dok.</td>
+                                        <td class="pl-2 pr-2">:</td>
+                                        <td>
+                                            <span t-field="o.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tanggal</td>
+                                        <td class="pl-2 pr-2">:</td>
+                                        <td>
+                                            <span t-field="o.request_date"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tujuan</td>
+                                        <td class="pl-2 pr-2">:</td>
+                                        <td>
+                                            <span t-field="o.warehouse_id"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Keterangan</td>
+                                        <td class="pl-2 pr-2">:</td>
+                                        <td>
+                                            <span t-field="o.note"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <!-- <div class="col-2">
+                            Tanggal <br/>
+                            Tujuan <br/>
+                            Keterangan <br/>
+                        </div>
+                        <div class="col-2">
+                            : <span t-field="o.request_date"/> <br/>
+                            : <span t-field="o.warehouse_id" /> <br/>
+                            : <span t-field="o.note"/> <br/>
+                        </div>
+                        <div class="col-8"></div> -->
+                        </div>
+                        <br/>
+
+                        <table class="table-condensed" width="1000px">
+                        <thead>
+                            <tr class="text-center">
+                                <th style="border : 1px solid black" width="5%">
+                                    <center>NO</center>
+                                </th>
+                                <th style="border : 1px solid black">
+                                    <span>Kd Barang</span>
+                                </th>
+                                <th style="border : 1px solid black">
+                                    <span>Nama Barang</span>
+                                </th>
+                                <th style="border : 1px solid black">
+                                    <span>Quantity</span><br />
+                                </th>
+                                <th style="border : 1px solid black">
+                                    <span>Satuan</span>
+                                </th>
+                                <th style="border : 1px solid black">
+                                    <span>Keterangan</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="no" t-value="0" />
+                            <tr t-foreach="o.order_ids" t-as="line">
+                                <t t-set="no" t-value="no + 1" />
+                                <td style="border : 1px solid black;" class="text-center">
+                                    <span t-esc="no" />
+                                </td>
+                                <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                    <span t-field="line.product_id.default_code" />
+                                </td>
+                                <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                    <span t-field="line.product_id" />
+                                </td>
+                                <td style="border : 1px solid black ; padding-right : 10px" class="text-right">
+                                    <span t-field="line.quantity" />
+                                </td>
+                                <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                    <span t-field="line.uom_id" />
+                                </td>
+                                <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                    <span t-esc="line.spesification" />
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+                        <!-- <table class="table table-condensed table-striped table-bordered">
+                            <tr>
+                                <td>No</td>
+                                <td>Kd Barang</td>
+                                <td>Nama Barang</td>
+                                <td>Quantity</td>
+                                <td>Satuan</td>
+                                <td>Keterangan</td>
+                            </tr>
+
+                            <tr t-foreach="o.order_ids" t-as="line">
+                                <td>
+                                    <span t-esc="line_index + 1"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.product_id.default_code"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.product_id.name"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.quantity"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.product_id.uom_id.name"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.spesification"/>
+                                </td>
+                            </tr>
+                        </table> -->
+                        <br/>
+
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <span>Pembuat Data</span>
+                                <br/>
+                                <span t-field="o.request_date"/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                (                                <span t-field="o.requested_by"></span>  )
+
+                                                                                                                                                                                                                                <!-- <span class="d-block mt-5">()</span> -->
+                            </div>
+                            <div class="col-5"></div>
+                            <div class="col-3">
+                                <span>Penerima</span>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <span class="d-block mt-5">(______________)</span>
+                            </div>
+                        </div>
+
+                        <!-- <div class="row">
+                            <div class="col-3 text-center">
+                            Penerima <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            (_______________________)
+                        </div>
+                        <div class="col-6"></div>
+                        <div class="col-3 text-center">
+                            Pembuat Data <br/>
+                        <span t-field="o.request_date"></span>
+                        <br/>
+                        <br/>
+                        <br/>
+                            (                        <span t-field="o.requested_by"></span>)
+                    </div>
+                </div> -->
+
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+
+
+</odoo>

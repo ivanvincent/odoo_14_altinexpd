@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<odoo>
+    <data noupdate="1">
+        <record id="mysql_host" model="ir.config_parameter">
+            <field name="key">mysql_host</field>
+            <field name="value">sharon.ddns.net</field>
+        </record>
+        <record id="mysql_port" model="ir.config_parameter">
+            <field name="key">mysql_port</field>
+            <field name="value">3306</field>
+        </record>
+        <record id="mysql_username" model="ir.config_parameter">
+            <field name="key">mysql_username</field>
+            <field name="value">root</field>
+        </record>
+        <record id="mysql_password" model="ir.config_parameter">
+            <field name="key">mysql_password</field>
+            <field name="value">root</field>
+        </record>
+        <record id="mysql_database" model="ir.config_parameter">
+            <field name="key">mysql_database</field>
+            <field name="value">root</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="mrp_machine_report_print" model="mrp.machine" string="Print Machine" name="base_master.report_machinebarcode" report_type="qweb-pdf" print_report_name="'Print Machine - %s' % (object.name)"/>
+        />
+
+        <template id="report_simple_barcode">
+            <div style="width: 32%; display: inline-table; height: 10rem;">
+                <table class="table table-bordered mb-0" style="border: 2px solid black;">
+                    <tr>
+                        <th class="table-active text-left" style="height: 4rem;">
+                            <strong t-field="machine.name"/>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td class="text-center align-middle" style="height: 6rem;">
+                            <t t-if="machine.name">
+                                <img alt="Barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', quote_plus(machine.name or ''), 600, 150)" style="width:100%;height:4rem;"/>
+                                <span t-field="machine.name"/>
+                            </t>
+                            <t t-else="">
+                                <span class="text-muted">No barcode available</span>
+                            </t>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </template>
+
+        <template id="report_machinebarcode">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <t t-foreach="docs" t-as="machine">
+                        <t t-call="base_master.report_simple_barcode">
+                            <t t-set="machine" t-value="machine"/>
+                        </t>
+                    </t>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,41 @@
+<openerp>
+    <data>
+        <record model="ir.actions.act_window"
+            id="create_do_wizard_action">
+            <field name="name">Add do</field>
+            <field name="res_model">create.do.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+                <!--<menuitem name="Add Attendee" parent="academic_1"-->
+                    <!--id="create_attendee_wizard_menu"-->
+                    <!--sequence="40"-->
+                    <!--action="create_attendee_wizard_action"/>-->
+        <record model="ir.ui.view" id="create_do_form_view">
+            <field name="name">create.do.wizard.form</field>
+            <field name="model">create.do.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Add DO" version="7.0">
+                    <group>
+                        <field name="so_ids"/>
+                        <field name="do_ids" mode="tree" >
+                        <tree string="DO" editable="bottom" nolable="1">
+                            <field name="partner_id"/>
+                        </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button type="special" special="cancel" string="Cancel" icon="fa-times"/>
+                        <button type="object" name="action_add_attendee" string="Add dos"
+                        icon="fa-check-circle" confirm="Are you sure you want to add those DO?"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <act_window id="session_create_attendee_wizard" name="Add DO" src_model="sale.order"
+                    res_model="create.do.wizard" view_mode="form" target="new" key2="client_action_multi"/>
+
+    </data>
+</openerp>

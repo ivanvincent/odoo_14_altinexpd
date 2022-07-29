@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.actions.act_window" id="stock_production_lot_fg_action">
+            <field name="name">Product Finish Goods</field>
+            <field name="res_model">stock.production.lot</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_group_by_product': 1, 'display_complete': True, 'default_company_id': allowed_company_ids[0]}</field>
+            <field name="domain">[('product_category.name', 'in', ('KAIN','Finish Good','KAIN JADI'))]</field>
+        </record>
+
+
+
+        <menuitem
+            id="stock_production_lot_fg_menu"
+            name="Product Finish Goods"
+            sequence="4"
+            action="stock_production_lot_fg_action"
+            parent="stock.menu_action_production_lot_form"
+        />
+    </data>
+</odoo>

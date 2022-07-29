@@ -1,0 +1,130 @@
+<odoo>
+    <data>
+
+        <report id="action_sale_contract" model="sale.contract" string="Print Sale Contract" report_type="qweb-pdf" name="my_report.sale_contract" file="my_report.sale_contract" />
+
+        <template id="sale_contract">
+            <t t-call="web.html_container">
+                <t t-call="my_report.template_print">
+                    <div class="page" style="font-size:15px">
+                        <t t-foreach="docs" t-as="o">
+                            <center><span style="font-size:25px; font-weight: bold;">Sales Contract</span></center>
+                            <center><span style="font-size:15px; font-weight: bold;" t-field="o.name"></span></center>
+
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="col-6">
+                                    <table class="table-condensed" width="100%">
+                                        <tr>
+                                            <td class="font-weight-bold">Category</td>
+                                            <td >:</td>
+                                            <td><span t-field="o.category_id.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold">Customer</td>
+                                            <td>:</td>
+                                            <td><span t-field="o.partner_id.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold">Partner Code</td>
+                                            <td>:</td>
+                                            <td><span t-field="o.partner_code"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold">Order Date</td>
+                                            <td>:</td>
+                                            <td><span t-field="o.date_order"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold">Delivery Date</td>
+                                            <td>:</td>
+                                            <td><span t-field="o.delivery_date"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold">Payment Terms</td>
+                                            <td>:</td>
+                                            <td><span t-field="o.term_of_payment.name"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-6 float-right">
+                                    <table width="100%">
+                                        <tr>
+                                            <td class="font-weight-bold">PO Customer</td>
+                                            <td>:</td>
+                                            <td><span t-field="o.no_bon"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold">Process</td>
+                                            <td>:</td>
+                                            <td><span t-field="o.process"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold">Lebar Finish</td>
+                                            <td>:</td>
+                                            <td><span t-field="o.lebar_finish"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold">Gramasi Finish</td>
+                                            <td>:</td>
+                                            <td><span t-field="o.gramasi_finish"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold">Potongan Pinggir</td>
+                                            <td>:</td>
+                                            <td><span t-field="o.potongan_pinggir"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- <div class="row">
+                                <div class="col-6">
+                                    <table width="100%">
+                                        <tr>
+                                            <td class="font-weight-bold">Delivery Date</td>
+                                            <td>:</td>
+                                            <td><span t-field="o.delivery_date"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold">Payment Terms</td>
+                                            <td>:</td>
+                                            <td><span t-field="o.term_of_payment.name"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div> -->
+                            <table class="table table-condensed" style="margin-top: 30px" width="100%">
+                                <thead>
+                                    <th>NO</th>
+                                    <th>PRODUCT</th>
+                                    <th>SALE ORDER</th>
+                                    <th>DELIVERY</th>
+                                    <th>INVOICE</th>
+                                    <th>QUANTITY</th>
+                                    <th>UNIT PRICE</th>
+                                    <th>SUBTOTAL</th>
+                                </thead>
+                                <tbody>
+                                    <t t-set="no" t-value="0"/>
+                                    <tr t-foreach="o.lines" t-as="line">
+                                        <t t-set="no" t-value="no + 1"/>
+                                            <td><span t-esc="no"/></td>
+                                            <td><span t-field="line.product_id.name"/></td>
+                                            <td><span t-field="line.qty_so"/></td>
+                                            <td><span t-field="line.qty_do"/></td>
+                                            <td><span t-field="line.qty_inv"/></td>
+                                            <td><span t-field="line.qty"/></td>
+                                            <td><span t-field="line.price_unit"/></td>
+                                            <td><span t-field="line.price_subtotal"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+
+    </data>
+</odoo>

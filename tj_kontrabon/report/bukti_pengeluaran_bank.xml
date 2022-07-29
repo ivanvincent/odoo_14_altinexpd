@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="report.paperformat" id="pengeluaran_kas_kontrabon">
+        <field name="name">Kas Keluar Kontra</field>
+        <field name="default" eval="False" />
+        <field name="format">A4</field>
+        <field name="format">custom</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">0</field>
+    </record>
+
+    <record id="action_report_action_bukti_pengeluaran_kas" model="ir.actions.report">
+        <field name="name">Print Kas Keluar</field>
+        <field name="model">kontrabon.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">tj_kontrabon.kas_keluar_kontra</field>
+        <field name="report_file">tj_kontrabon.kas_keluar_kontra</field>
+        <field name="print_report_name">'%s' % object.name</field>
+        <field name="binding_model_id" ref="model_kontrabon_order"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" eval="pengeluaran_kas_kontrabon"/>
+    </record>
+
+    <template id="kas_keluar_kontra">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <style>
+                    .dt, .dt th, .dt td{
+                        border: 1px solid black;
+                    }
+                </style>
+                <div class="page">
+                    <t t-if="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id"></t>
+                    </t>
+                    <t t-if="not o or not 'company_id' in o">
+                        <t t-set="company" t-value="res_company"></t>
+                    </t>
+                    <div class="row mt32 mb32">
+                    <div class="col-1">
+                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)"
+                            style="max-height: 50px;"/>
+                    </div>
+                    <div class="col-6" style="font:12px lucida-console,sans-serif !important;">
+                        <span t-field="company.partner_id"/>
+                        <br/>
+                        <span t-field="company.partner_id.street"/>
+                        <br/>
+                        <span t-field="company.partner_id.street2"/>
+                        <br/>
+                        <span t-field="company.partner_id.city"/>
+                        <br/>
+                        <span t-field="company.partner_id.country_id"/>
+                        <br/>
+                        <span t-field="company.partner_id.vat"/>
+                        <br/>
+                    </div>
+                </div>
+                    <h5 class="font-weight-bold text-center"><u>BUKTI PENGELUARAN BANK</u></h5>
+                    <div class="head">
+                        <table width="75%">
+                            <tr>
+                                <td>Pay to</td>
+                                <td> : </td>
+                                <td style="border-bottom: 1px solid black; margin-left: 3px;"> <span t-field="o.partner_id"> </span></td>
+                                <td width="10px;"></td>
+                                <td width="10px;"></td>
+                                <td> Date </td>
+                                <td> : </td>
+                                <td style="border-bottom: 1px solid black; margin-left: 3px;"> <span t-field="o.tanggal"></span> </td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td> : </td>
+                                <td style="border-bottom: 1px solid black; margin-left: 3px;"> <span t-field="o.amount"></span> </td>
+                                <td width="10px;"></td>
+                                <td width="10px;"></td>
+                                <td> No. BBK </td>
+                                <td> : </td>
+                                <td style="border-bottom: 1px solid black; margin-left: 3px;"> <span t-field="o.name"></span> </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="data mt-3">
+                        <table width="100%" class="dt">
+                            <tr>
+                                <thead class="text-center">
+                                    <th>Kode Brg</th>
+                                    <th>Keterangan Transaksi</th>
+                                    <th>Jumlah</th>
+                                    <th>Keterangan</th>
+                                    <th>Norek</th>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.inv_ids.invoice_line_ids" t-as="line">
+                                        <td class="text-center"><span t-field="line.product_id.default_code"></span></td>
+                                        <td><span class="pl-1" t-field="line.name"></span></td>
+                                        <td class="text-right"><span class="pl-1" t-field="line.price_subtotal"></span></td>
+                                        <td class="text-center"><span t-field="line.move_id.sj_supplier"></span></td>
+                                        <td class="text-center"><span t-field="line.move_id.norek_id"></span></td>
+                                    </tr>
+                                </tbody>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="bt mt-3 mb-5">
+                        <span>No. Faktur Pajak  </span><span t-field="o.no_faktur_pajak"></span>
+                    </div>
+                    <div class="tb mt-3">
+                        <table>
+                            <tr>
+                                <table width="75%">
+                                    <tr>
+                                        <td>Pembayaran</td>
+                                        <td> : </td>
+                                        <td>
+                                            <table width="100%">
+                                                <tr class="text-center">
+                                                    <td style="border: 1px solid black;">Cheque</td>
+                                                    <td style="border: 1px solid black;">Giro</td>
+                                                    <td style="border: 1px solid black;">Transfer</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td> Tanggal Jatuh Tempo </td>
+                                        <td> : </td>
+                                        <td style="border-bottom: 1px solid black;"> <span t-field="o.tgl_jth_tempo"></span> </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Bank </td>
+                                        <td> : </td>
+                                        <td style="border-bottom: 1px solid black;"> <span t-field="o.bank_id"></span> </td>
+                                        <td width="10px;"></td>
+                                        <td width="10px;"></td>
+                                        <td> Tanggal Cair di Bank </td>
+                                        <td> : </td>
+                                        <td style="border-bottom: 1px solid black;"> <span t-field="o.tgl_cair"></span> </td>
+                                    </tr>
+                                </table>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="ttd mt-3">
+                        <div class="row">
+                            <div class="col-3">
+                                <span>Dibuat Oleh,</span><br/><br/><br/>
+                                <span t-field="o.env.user.name"/><br/>
+                            </div>
+                            <div class="col-3">
+                                <span>Pemeriksa,</span><br/><br/><br/>
+                                <span>( Ivan )</span><br/>
+                            </div>
+                            <div class="col-3">
+                                <span>Disetujui,</span><br/><br/><br/>
+                                <span>( Alexious )</span><br/>
+                            </div>
+                            <div class="col-3">
+                                <span>Di Transfer Oleh,</span><br/><br/><br/>
+                                <span>( Bu Pupung  )</span><br/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

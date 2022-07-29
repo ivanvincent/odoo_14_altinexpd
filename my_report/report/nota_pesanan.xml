@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="report.paperformat" id="paperformat_nota_pesanan">
+            <field name="name">Nota Pesanan</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_width">210</field>
+            <field name="page_height">297</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">65</field>
+            <field name="margin_right">0</field>
+            <field name="margin_left">0</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="action_nota_pesanan" model="sale.order" string="Print Nota Pesanan" report_type="qweb-pdf" name="my_report.nota_pesanan" file="my_report.nota_pesanan" />
+
+        <record id="action_nota_pesanan" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_nota_pesanan" />
+        </record>
+
+        <template id="nota_pesanan">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="article">
+                        <div class="text-right">MKT-02.REV-01</div>
+                        <div class="row" style="margin-top : -20px">
+                            <div class="col-1">
+                                <img src="/web/binary/company_logo" style="max-height: 65px;"/>
+                            </div>
+                            <div class="col-7">
+                                <h5 class="font-weight-bold">PT. PUTERA MULYA TERANG INDAH</h5>
+                                <p>Jl. Rancajigang No 200 Majalaya - Bandung 40382</p>
+                            </div>
+                        </div>
+                        <br/>
+                        <h4 class="text-center">
+                            <b>NOTA PESANAN</b>
+                        </h4>
+                        <h6 class="text-center">
+                            <span t-field="doc.name"/>
+                        </h6>
+                        <br/>
+                        <br/>
+
+                        <div style="display:table ; width:100%">
+                            <div style="display: table-row;">
+                                <div style="display:table-cell ; width:15%">Nama</div>
+                                <div style="display:table-cell ; width:1%">:</div>
+                                <div style="display:table-cell">
+                                    <span t-field="doc.partner_id.name"/>
+                                </div>
+                            </div>
+                            <div style="display: table-row;">
+                                <div style="display:table-cell ; width:15%">NPWP</div>
+                                <div style="display:table-cell ; width:1%">:</div>
+                                <div style="display:table-cell">
+                                    <span t-field="doc.partner_id.npwp"/>
+                                </div>
+                            </div>
+                            <div style="display: table-row;">
+                                <div style="display:table-cell ; width:15%">Alamat</div>
+                                <div style="display:table-cell ; width:1%">:</div>
+                                <div style="display:table-cell">
+                                    <span t-field="doc.partner_id.street"/>
+                                </div>
+                            </div>
+                            <div style="display: table-row;">
+                                <div style="display:table-cell ; width:15%">Harga</div>
+                                <div style="display:table-cell ; width:1%">:</div>
+                                <div style="display:table-cell">
+                                    <!--<span t-field="doc.partner_id.name"/>-->
+                                </div>
+                            </div>
+                            <div style="display: table-row;">
+                                <div style="display:table-cell ; width:15%">Pembayaran</div>
+                                <div style="display:table-cell ; width:1%">:</div>
+                                <div style="display:table-cell">
+                                    <span t-field="doc.payment_term_id.name"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table-condensed" width="100%">
+                            <thead>
+                                <tr class="text-center">
+                                    <td style="border:1px solid black">No</td>
+                                    <td style="border:1px solid black">Warna</td>
+                                    <td style="border:1px solid black">Quantity</td>
+                                    <td style="border:1px solid black">Keterangan</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="no" t-value="0"/>
+                                <t t-set="tot_qty" t-value="0"/>
+                                <t t-foreach="doc.order_line" t-as="line">
+                                    <t t-set="no" t-value="no + 1"/>
+                                    <t t-set="tot_qty" t-value="tot_qty + line.product_uom_qty"/>
+                                    <tr>
+                                        <td style="border:1px solid black" class="text-center">
+                                            <span t-esc="no"/>
+                                        </td>
+                                        <td style="border:1px solid black" class="text-center">
+                                            <span t-field="line.product_id.color_id.name"/>
+                                        </td>
+                                        <td style="border:1px solid black ; padding-right : 10px" class="text-right">
+                                            <span t-field="line.product_uom_qty"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td style="border:1px solid black" class="text-center"/>
+                                    <td style="border:1px solid black" class="text-center">
+                                        <b>TOTAL</b>
+                                    </td>
+                                    <td style="border:1px solid black ; padding-right : 10px" class="text-right">
+                                        <span t-esc="'{0:,.2f}'.format(float(tot_qty))"/>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+                    <div class="footer" style="border-top : 1px solid black">
+                        <table class="table-condensed" width="100%">
+                            <tr class="text-center">
+                                <td width="50%">Penjual</td>
+                                <td width="50%">
+                                    <span>Bandung,</span>
+                                    <span t-field="doc.date_order"/>
+                                    <br/>
+                                    <span>Pembeli</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <h5>* Harga sewaktu-waktu dapat berubah</h5>
+                        <h5>* Pembatalan pesanan maksimal 3 (tiga) hari setelah nota pesanan di tandatangani</h5>
+                        <h5>* Barang dapat diretur maksimal 3 bulan dari terbit faktur</h5>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

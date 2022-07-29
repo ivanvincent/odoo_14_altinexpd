@@ -1,0 +1,54 @@
+<odoo>
+    <data>
+        <record id="view_partner_divisi2_form" model="ir.ui.view">
+            <field name="name">res.partner.divisi2.form</field>
+            <field name="model">res.partner.divisi2</field>
+            <field name="arch" type="xml">
+                <form string="Partner Divisi 2">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="divisi1_id"/>
+                                <field name="name"/>
+                                <field name="warehouse_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_partner_divisi2_tree" model="ir.ui.view">
+            <field name="name">res.partner.divisi2.tree</field>
+            <field name="model">res.partner.divisi2</field>
+            <field name="arch" type="xml">
+                <tree string="Partner Divisi 2">
+                    <field name="divisi1_id"/>
+                    <field name="name"/>
+                    <field name="warehouse_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_partner_divisi2_search" model="ir.ui.view">
+            <field name="name">res.partner.divisi2.search</field>
+            <field name="model">res.partner.divisi2</field>
+            <field name="arch" type="xml">
+                <search string="Partner Divisi 2">
+                    <field name="divisi1_id"/>
+                    <field name="name" filter_domain="[('name','ilike',self)]" string="Name"/>
+                    <field name="warehouse_id"/>
+                </search>
+            </field>
+        </record>
+        <record id="action_partner_divisi2" model="ir.actions.act_window">
+            <field name="name">Partner Divisi 2</field>
+            <field name="res_model">res.partner.divisi2</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_partner_divisi2_search"/>
+            <field name="view_id" ref="view_partner_divisi2_tree"/>
+        </record>
+        <menuitem action="action_partner_divisi2" id="menu_action_partner_divisi2" parent="menu_sale_config_partner_edp"
+                  sequence="15"/>
+    </data>
+</odoo>

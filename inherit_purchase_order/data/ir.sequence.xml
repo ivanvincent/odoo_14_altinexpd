@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+
+        <record model="ir.sequence" id="purchase_order_sequence_custom">
+            <field name="name">Purchase order custom</field>
+            <field name="code">purchase.order.custom.code</field>
+            <field name="padding">3</field>
+            <field name="suffix"></field>
+        </record>
+
+
+        <record model="ir.sequence" id="purchase_order_umum_sequence">
+            <field name="name">Purchase Order Umum</field>
+            <field name="code">purchase.order.umum</field>
+            <field name="prefix">%(y)s/%(month)s/PBU/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record model="ir.sequence" id="purchase_order_obat_sequence">
+            <field name="name">Purchase Order Obat</field>
+            <field name="code">purchase.order.obat</field>
+            <field name="prefix">%(y)s/%(month)s/PBO/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record model="ir.sequence" id="purchase_order_pbr_sequence">
+            <field name="name">Purchase Order Pt Bara</field>
+            <field name="code">purchase.order.pbr</field>
+            <field name="prefix">%(y)s/%(month)s/PBR/</field>
+            <field name="padding">4</field>
+        </record>
+
+
+    </data>
+
+
+</odoo>

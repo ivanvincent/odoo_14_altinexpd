@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="bon_permintaan_kain_form" model="ir.ui.view">
+            <field name="name">bon.permintaan.kain.form</field>
+            <field name="model">bon.permintaan.kain</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <group>
+                        <div>
+                            <span class="font-weight-bold">Dari</span> <field name="date_start" class="oe_inline" nolabel="1"/> <span class="font-weight-bold">Sampai</span><field name="date_end" class="oe_inline"/>
+                        </div>
+                    </group>
+                    <footer>
+                        <button name="action_print" type="object" string="Print" class="oe_highlight"/>
+                        <button name="cancel" type="special" string="Cancel" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    
+    </data>
+
+    <record id="bon_permintaan_kain_action" model="ir.actions.act_window">
+        <field name="name">Print Bon Permintaan Kain</field>
+        <field name="res_model">bon.permintaan.kain</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="bon_permintaan_kain_form"/>
+    </record>
+    
+    <menuitem
+        id="bon_permintaan_kain_menu"
+        name="Bon Permintaan Kain"
+        action="bon_permintaan_kain_action"
+        parent="mrp.menu_mrp_reporting"
+        sequence="13"/>
+
+</odoo>

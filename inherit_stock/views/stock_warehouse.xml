@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="stock_warehouse_inherit_form">
+            <field name="name">stock.warehouse.form</field>
+            <field name="model">stock.warehouse</field>
+            <field name="inherit_id" ref="stock.view_warehouse"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="product_category_ids" widget="many2many_tags" groups="base.group_system"/>
+                    <field name="is_multi_location" groups="base.group_system"/>
+                    <field name="is_stock_point" groups="base.group_system"/>
+                    <label for="lead_days" string="Lead"/>
+                    <div class="o_row no-gutters d-flex">
+                        <field name="lead_days"  class="oe_inline" groups="base.group_system"/>
+                        <span class="text-bf">Days</span>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="inherit_stock_warehouse_view_search">
+            <field name="name">stock.warehouse.form</field>
+            <field name="model">stock.warehouse</field>
+            <field name="inherit_id" ref="stock.stock_warehouse_view_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <filter name="stock_point" string="Stock Point" domain="[('is_stock_point', '=', True)]" help="Stock Point Locations"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

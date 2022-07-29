@@ -1,0 +1,1558 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="report.paperformat" id="paperformat_faktur">
+            <field name="name">Faktur</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_width">210</field>
+            <field name="page_height">150</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_right">0</field>
+            <field name="margin_left">0</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record model="report.paperformat" id="paperformat_surat_jalan_faktur">
+            <field name="name">Surat Jalan Faktur</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_width">210</field>
+            <field name="page_height">150</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_right">5</field>
+            <field name="margin_left">0</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="action_faktur" model="account.move" string="Print Faktur 1" report_type="qweb-pdf"
+            name="my_report.faktur" file="my_report.faktur" />
+
+        <record id="action_faktur" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_faktur" />
+        </record>
+
+        <template id="faktur">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="article">
+                        <div class="text-right">AKT-01.REV-01</div>
+                        <div class="row" style="margin-top : -20px">
+                            <div class="col-1">
+                                <img src="/web/binary/company_logo" style="max-height: 65px;" />
+                            </div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold">PT. PUTERA MULYA TERANG INDAH</h5>
+                                <p>Jl. Rancajigang No 200 Majalaya - Bandung 40382</p>
+                                <h2 class="font-weight-bold text-center">FAKTUR</h2>
+                            </div>
+                            <div class="col-6" style="font-size : 16px">
+                                Majalaya, <span t-field="doc.invoice_date"
+                                    t-options="{&quot;format&quot;: &quot;dd MMM yyyy&quot;}" />
+                                <br />
+                                <span class="font-weight-bold">Kepada Yth</span>
+                                <br />
+                                <span class="text-uppercase" t-field="doc.partner_id" />
+                                <br />
+                                <span class="text-uppercase" t-field="doc.partner_id.npwp" />
+                                <br />
+                                <!--<span t-field="doc.partner_id.street"/>-->
+                                <p>
+                                    <t t-esc="doc.partner_id.street[:80] if doc.partner_id.street else ''" />
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <div class="row font-weight-bold" style="font-size : 20px ;">
+                            <div class="col-6">
+                                <t t-if="doc.payment_reference">
+                                    <span>No Faktur : </span>
+                                    <span t-field="doc.payment_reference" />
+                                </t>
+                                <t t-else="">
+                                    <span>No Faktur : </span>
+                                    <span t-field="doc.name" />
+                                </t>
+                            </div>
+                            <div class="col-6 text-right">
+                                <span>No : </span>
+                                <span t-field="doc.surat_jalan_id.name" />
+                            </div>
+                        </div>
+
+                        <table class="table-condensed" style="font-size : 18px ;" width="100%">
+                            <thead class="text-center">
+                                <tr>
+                                    <th style="border : 1px solid black" width="5%">PCS</th>
+                                    <th style="border : 1px solid black">NAMA BARANG</th>
+                                    <th style="border : 1px solid black">WARNA</th>
+                                    <th style="border : 1px solid black">QTY</th>
+                                    <th style="border : 1px solid black" width="10%">HARGA</th>
+                                    <th style="border : 1px solid black" width="14%">DPP</th>
+                                    <th style="border : 1px solid black" width="12%">PPN</th>
+                                    <th style="border : 1px solid black" width="14%">JUMLAH</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="amount" t-value="0" />
+                                <t t-set="line_size" t-value="len(doc.invoice_line_ids.ids)" />
+                                <t t-set="range_line_null" t-value="8 - line_size" />
+
+                                <tr t-foreach="doc.invoice_line_ids" t-as="line">
+                                    <!-- <t t-set="price" t-value="line.price_unit / 1.1" /> -->
+                                    <t t-set="price" t-value="line.price_unit * 100 / (100 + sum(line.tax_ids.mapped('amount')))"/>
+                                    <t t-set="dpp" t-value="line.quantity * price" />
+                                    <t t-set="ppn" t-value="dpp * (sum(line.tax_ids.mapped('amount'))) / 100" />
+                                    <t t-set="amount" t-value="amount + dpp + ppn" />
+                                    <td style="border : 1px solid black" class="text-center">
+                                        <span
+                                            style="display:inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                                            <span t-esc="'{0:,.0f}'.format(float(line.total_roll))" />
+                                        </span>
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-left pl-1">
+                                        <span
+                                            style="display:inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                                            <span t-field="line.product_id.name" />
+                                        </span>
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-center">
+                                        <span
+                                            style="display:inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                                            <span t-field="line.warna" />
+                                        </span>
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-right pr-1">
+                                        <span
+                                            style="display:inline-block; white-space: nowrap; overflow: hidden; text-overflow: clip">
+                                            <t t-esc="'{0:,.2f}'.format(float(line.quantity))" />
+                                            <span t-field="line.product_uom_id" />
+                                        </span>
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-right pr-1">
+                                        <span
+                                            style="display:inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                                            <span t-esc="'{0:,.2f}'.format(float(price))" />
+                                        </span>
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-right pr-1">
+                                        <span
+                                            style="display:inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                                            <span t-esc="'{0:,.2f}'.format(float(dpp))" />
+                                        </span>
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-right pr-1">
+                                        <span
+                                            style="display:inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                                            <span t-esc="'{0:,.2f}'.format(float(ppn))" />
+                                        </span>
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-right pr-1">
+                                        <span
+                                            style="display:inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                                            <span t-esc="'{0:,.2f}'.format(dpp + ppn)" />
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr t-foreach="range(range_line_null)" t-as="ex">
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="row font-weight-bold">
+                            <div class="col-6" style="font-size : 14px">
+                                <u>
+                                    <span>KETERANGAN : </span>
+                                    <span t-field="doc.narration" />
+                                </u>
+                            </div>
+                            <div class="col-6" style="font-size : 20px ;">
+                                <div class="font-weight-bold float-right">
+                                    <span class="jumlah-label">JUMLAH Rp</span>
+                                    <span style="border : 1px solid black" t-esc="'{0:,.2f}'.format(float(amount))" />
+                                </div>
+                            </div>
+                        </div>
+                        <div style="font-size : 16px">
+                            <span class="d-block">Terbilang</span>
+                            <span># </span>
+                            <span t-field="doc.terbilang" />
+                            <span>#</span>
+                            <br />
+                            <span>Barang dapat diretur apabila tidak sesuai standar, ada cacat, maksimal 30 hari sejak
+                                tanggal terbit faktur.</span>
+                        </div>
+                        <div style="font-size : 14px" class="row text-center font-weight-bold">
+                            <div class="col-6">
+                                <span>Tanda Terima</span>
+                            </div>
+                            <div class="col-6">
+                                <span>Hormat Kami</span>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+
+
+
+        <report id="action_faktur_2" model="account.move" string="Print Faktur 2" report_type="qweb-pdf"
+            name="my_report.faktur_2" file="my_report.faktur_2" />
+
+        <record id="action_faktur_2" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_faktur" />
+        </record>
+
+        <template id="faktur_2">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="article">
+                        <div class="text-right">AKT-01.REV-01</div>
+                        <div class="row" style="margin-top : -20px">
+                            <div class="col-6">
+                                <h2 class="font-weight-bold text-center">FAKTUR</h2>
+                            </div>
+                            <div class="col-6" style="font-size : 16px">
+                                Majalaya, <span t-field="doc.invoice_date"
+                                    t-options="{&quot;format&quot;: &quot;dd MMM yyyy&quot;}" />
+                                <br />
+                                <span class="font-weight-bold">Kepada Yth</span>
+                                <br />
+                                <span class="text-uppercase" t-field="doc.partner_id" />
+                                <br />
+                                <span class="text-uppercase" t-field="doc.partner_id.npwp" />
+                                <br />
+                                <!--<span t-field="doc.partner_id.street"/>-->
+                                <p>
+                                    <t t-esc="doc.partner_id.street[:80] if doc.partner_id.street else ''" />
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <div class="row font-weight-bold" style="font-size : 20px ;">
+                            <div class="col-6">
+                                <t t-if="doc.payment_reference">
+                                    <span>No Faktur : </span>
+                                    <span t-field="doc.payment_reference" />
+                                </t>
+                                <t t-else="">
+                                    <span>No Faktur : </span>
+                                    <span t-field="doc.name" />
+                                </t>
+                            </div>
+                            <div class="col-6 text-right">
+                                <span>No : </span>
+                                <t t-if="doc.surat_jalan_id">
+                                    <span t-field="doc.surat_jalan_id.name" />
+                                </t>
+                                <t t-if="doc.picking_id">
+                                    <span t-field="doc.picking_id.name" />
+                                </t>
+                            </div>
+                        </div>
+
+                        <table class="table-condensed" style="font-size : 18px ;" width="100%">
+                            <thead class="text-center">
+                                <tr>
+                                    <th style="border : 1px solid black" width="5%">PCS</th>
+                                    <th style="border : 1px solid black">NAMA BARANG</th>
+                                    <th style="border : 1px solid black">WARNA</th>
+                                    <th style="border : 1px solid black">QTY</th>
+                                    <th style="border : 1px solid black" width="10%">HARGA</th>
+                                    <!--<th style="border : 1px solid black" width="14%">DPP</th>-->
+                                    <!--<th style="border : 1px solid black" width="12%">PPN</th>-->
+                                    <th style="border : 1px solid black" width="14%">JUMLAH</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="amount" t-value="0" />
+                                <t t-set="line_size" t-value="len(doc.invoice_line_ids.ids)" />
+                                <t t-set="range_line_null" t-value="8 - line_size" />
+
+                                <tr t-foreach="doc.invoice_line_ids" t-as="line">
+                                    <t t-if="doc.efaktur_id">
+                                        <t t-set="price" t-value="line.price_unit / 1.1" />
+                                        <t t-set="dpp" t-value="line.quantity * price" />
+                                        <t t-set="ppn" t-value="dpp * (sum(line.tax_ids.mapped('amount'))) / 100" />
+                                        <t t-set="amount" t-value="amount + dpp + ppn" />
+                                    </t>
+                                    <t t-else="">
+                                        <t t-set="price" t-value="line.price_unit" />
+                                        <t t-set="dpp" t-value="line.quantity * price" />
+                                        <t t-set="ppn" t-value="0" />
+                                        <t t-set="amount" t-value="amount + dpp + ppn" />
+                                    </t>
+                                    <td style="border : 1px solid black" class="text-center">
+                                        <span t-esc="'{0:,.0f}'.format(float(line.total_roll))" />
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-left pl-1">
+                                        <span t-field="line.product_id.name" />
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-center">
+                                        <span t-field="line.warna" />
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-right pr-1">
+                                        <t t-esc="'{0:,.2f}'.format(float(line.quantity))" />
+                                        <span t-field="line.product_uom_id" />
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-right pr-1">
+                                        <span t-esc="'{0:,.2f}'.format(float(price))" />
+                                    </td>
+                                    <!--<td style="border : 1px solid black" class="text-right pr-1">-->
+                                    <!--    <span t-esc="'{0:,.2f}'.format(float(dpp))"/>-->
+                                    <!--</td>-->
+                                    <!--<td style="border : 1px solid black" class="text-right pr-1">-->
+                                    <!--    <span t-esc="'{0:,.2f}'.format(float(ppn))"/>-->
+                                    <!--</td>-->
+                                    <td style="border : 1px solid black" class="text-right pr-1">
+                                        <span t-esc="'{0:,.2f}'.format(dpp + ppn)" />
+                                    </td>
+                                </tr>
+                                <tr t-foreach="range(range_line_null)" t-as="ex">
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <!--<td style="border : 1px solid black ; height: 30px;"/>-->
+                                    <!--<td style="border : 1px solid black ; height: 30px;"/>-->
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="row font-weight-bold">
+                            <div class="col-6" style="font-size : 14px">
+                                <u>
+                                    <span>KETERANGAN : </span>
+                                    <span t-field="doc.narration" />
+                                </u>
+                            </div>
+                            <div class="col-6" style="font-size : 20px ;">
+                                <div class="font-weight-bold float-right">
+                                    <span class="jumlah-label">JUMLAH Rp</span>
+                                    <span style="border : 1px solid black" t-esc="'{0:,.2f}'.format(float(amount))" />
+                                </div>
+                            </div>
+                        </div>
+                        <div style="font-size : 16px">
+                            <span class="d-block">Terbilang</span>
+                            <span># </span>
+                            <span t-field="doc.terbilang" />
+                            <span>#</span>
+                            <br />
+                            <span>Barang dapat diretur apabila tidak sesuai standar, ada cacat, maksimal 30 hari sejak
+                                tanggal terbit faktur.</span>
+                        </div>
+                        <div style="font-size : 14px" class="row text-center font-weight-bold">
+                            <div class="col-6">
+                                <span>Tanda Terima</span>
+                            </div>
+                            <div class="col-6">
+                                <span>Hormat Kami</span>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+
+
+
+
+
+
+
+        <record model="report.paperformat" id="paperformat_amplop">
+            <field name="name">Amplop</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_height">110</field>
+            <field name="page_width">230</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_right">5</field>
+            <field name="margin_left">5</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="action_amplop_1" model="account.move" string="Print Amplop 1" report_type="qweb-pdf"
+            name="my_report.amplop_1" file="my_report.amplop_1" />
+
+        <record id="action_amplop_1" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_amplop" />
+        </record>
+
+        <template id="amplop_1">
+            <style>
+                .table-data,
+                .table-data th {
+                    border: 1px solid black;
+                }
+
+                .table-data .tr-body td {
+                    border-left: 1px solid black;
+                    border-right: 1px solid black;
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+                }
+
+                .tr-foot .td-foot {
+                    border-top: 1px solid black;
+                }
+            </style>
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page" style="font-size : 20px">
+                        <div class="row">
+                            <div class="col-5"></div>
+                            <div class="col-7">
+                                <br />
+                                <br />
+                                <span style="margin-left : 300px; font-size:40px;">
+                                    <b>FKT</b>
+                                </span>
+                                <br />
+                                <br />
+                                <span>Kepada Yth :</span>
+                                <br />
+                                <span t-field="o.partner_id" />
+                                <br />
+                                <br />
+                                <t t-if="o.partner_address_id">
+                                    <span t-field="o.partner_address_id" />
+                                </t>
+                                <t t-else="">
+                                    <span t-field="o.partner_id.street" />
+                                </t>
+                                <br />
+                                <br />
+                                <span>UP : BAG. AKUNTING</span>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+
+        <report id="action_amplop_2" model="account.move" string="Print Amplop 2" report_type="qweb-pdf"
+            name="my_report.amplop_2" file="my_report.amplop_2" />
+
+        <record id="action_amplop_2" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_amplop" />
+        </record>
+
+        <template id="amplop_2">
+            <style>
+                .table-data,
+                .table-data th {
+                    border: 1px solid black;
+                }
+
+                .table-data .tr-body td {
+                    border-left: 1px solid black;
+                    border-right: 1px solid black;
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+                }
+
+                .tr-foot .td-foot {
+                    border-top: 1px solid black;
+                }
+            </style>
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page" style="font-size : 20px">
+                        <div class="row">
+                            <div class="col-5" />
+                            <div class="col-7">
+                                <br />
+                                <span style="margin-left : 200px; font-size: 40px;">
+                                    <b>SURAT JALAN</b>
+                                </span>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <span>Kepada Yth :</span>
+                                <br />
+                                <span t-field="o.partner_id" />
+                                <br />
+                                <br />
+                                <t t-if="o.partner_address_id">
+                                    <span t-field="o.partner_address_id" />
+                                </t>
+                                <t t-else="">
+                                    <span t-field="o.partner_id.street" />
+                                </t>
+                                <br />
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+        <report id="action_surat_jalan_faktur" model="account.move" string="Print Surat Jalan" report_type="qweb-pdf"
+            name="my_report.surat_jalan_faktur" file="my_report.surat_jalan_faktur" />
+
+        <record id="action_surat_jalan_faktur" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_surat_jalan_faktur" />
+        </record>
+
+        <template id="surat_jalan_faktur">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="article">
+                        <div class="text-right">AKT-01.REV-01</div>
+                        <div class="row" style="margin-top : -20px">
+                            <div class="col-1">
+                                <img src="/web/binary/company_logo" style="max-height: 65px;" />
+                            </div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold">PT. PUTERA MULYA TERANG INDAH</h5>
+                                <p>Jl. Rancajigang No 200 Majalaya - Bandung 40382</p>
+                                <h2 class="font-weight-bold text-center">SURAT JALAN</h2>
+                            </div>
+                            <div class="col-6" style="font-size : 16px">
+                                Majalaya, <span t-field="doc.invoice_date"
+                                    t-options="{&quot;format&quot;: &quot;dd MMM yyyy&quot;}" />
+                                <br />
+                                <span class="font-weight-bold">Kepada Yth</span>
+                                <br />
+                                <span class="text-uppercase" t-field="doc.partner_id" />
+                                <br />
+                                <span class="text-uppercase" t-field="doc.partner_id.npwp" />
+                                <br />
+                                <p>
+                                    <t t-esc="doc.partner_id.street[:80] if doc.partner_id.street else ''" />
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row font-weight-bold" style="font-size : 18px ;">
+                            <div class="col-6">
+                                <span>No : </span>
+                                <span t-field="doc.surat_jalan_id.name" />
+                            </div>
+                            <div class="col-6 text-right">
+                                <t t-if="doc.payment_reference">
+                                    <span>No Faktur : </span>
+                                    <span t-field="doc.payment_reference" />
+                                </t>
+                                <t t-else="">
+                                    <span>No Faktur : </span>
+                                    <span t-field="doc.name" />
+                                </t>
+                            </div>
+                        </div>
+
+                        <table class="table-condensed" style="font-size : 18px ;" width="100%">
+                            <thead class="text-center">
+                                <tr>
+                                    <th style="border : 1px solid black" class="pl-1 pr-1" width="5%">NO</th>
+                                    <th style="border : 1px solid black" class="pl-1 pr-1">NAMA BARANG</th>
+                                    <th style="border : 1px solid black" class="pl-1 pr-1" width="10%">WARNA</th>
+                                    <th style="border : 1px solid black" class="pl-1 pr-1" width="15%">QTY</th>
+                                    <th style="border : 1px solid black" class="pl-1 pr-1" width="5%">PCS</th>
+                                    <th style="border : 1px solid black" class="pl-1 pr-1" width="20%">KETERANGAN</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="line_size" t-value="len(doc.invoice_line_ids.ids)" />
+                                <t t-set="range_line_null" t-value="8 - line_size" />
+                                <t t-set="no" t-value="0" />
+                                <t t-set="idx" t-value="0" />
+                                <t t-set="total_qty" t-value="0" />
+                                <t t-set="total_pcs" t-value="0" />
+                                <tr t-foreach="doc.invoice_line_ids" t-as="line" t-key="value_index">
+                                    <t t-if="no != 0">
+                                        <t t-set="idx" t-value="idx + 1" />
+                                    </t>
+                                    <t t-set="no" t-value="no + 1" />
+                                    <t t-set="om" t-value="doc.surat_jalan_id.line_ids" />
+                                    <t t-set="total_qty" t-value="total_qty + line.quantity" />
+                                    <t t-set="total_pcs" t-value="total_pcs + line.total_roll" />
+                                    <t t-set="dpp" t-value="line.quantity * line.price_unit" />
+                                    <t t-set="ppn" t-value="dpp * 10 / 100" />
+                                    <td style="border : 1px solid black" class="text-center">
+                                        <span t-esc="no" />
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-left pl-1">
+                                        <span t-field="line.product_id.name" />
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-center">
+                                        <span t-field="line.warna" />
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-right pr-1">
+                                        <t t-esc="'{0:,.2f}'.format(float(line.quantity))" />
+                                        <span t-field="line.product_uom_id" />
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-center">
+                                        <span t-esc="'{0:,.0f}'.format(float(line.total_roll))" />
+                                    </td>
+                                    <td style="border : 1px solid black ; font-size : 15px ;" class="text-right pr-1">
+                                        <t t-if="om">
+                                            <span t-esc="om[idx].om" />
+
+                                        </t>
+                                        <!-- <span t-field="doc.surat_jalan_id.line_ids" /> -->
+                                    </td>
+                                </tr>
+                                <tr t-foreach="range(range_line_null)" t-as="ex">
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                </tr>
+                                <tr>
+                                    <td style="border : 1px solid black ; height: 30px;" class="text-center"
+                                        colspan="3">
+                                        <span>JUMLAH</span>
+                                    </td>
+                                    <td style="border : 1px solid black ; height: 30px;" class="text-right pr-1">
+                                        <span t-esc="'{0:,.2f}'.format(float(total_qty))" />
+                                        <t t-if="doc.invoice_line_ids">
+                                            <span t-field="doc.invoice_line_ids[0].product_uom_id" />
+                                        </t>
+                                    </td>
+                                    <td style="border : 1px solid black ; height: 30px;" class="text-center">
+                                        <span t-esc="'{0:,.0f}'.format(float(total_pcs))" />
+                                    </td>
+                                    <td style="border : 1px solid black ; height: 30px;">
+                                        <span />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top : 10px" class="row">
+                            <div class="col-3 text-center">
+                                <span>Tanda Terima</span>
+                                <br />
+                                <br />
+                                <span class="line-ttd">_________________</span>
+                            </div>
+                            <div class="col-9 text-center">
+                                <span>Hormat Kami</span>
+                                <br />
+                                <br />
+                                <div class="hormat d-inline-flex">
+                                    <div class="pl-1 pr-1">
+                                        <span class="d-block">(_____________)</span>
+                                        <span>Ekspedisi</span>
+                                    </div>
+                                    <div class="pl-1 pr-1">
+                                        <span class="d-block">(_____________)</span>
+                                        <span>Satpam</span>
+                                    </div>
+                                    <div class="pl-1 pr-1">
+                                        <span class="d-block">(_____________)</span>
+                                        <span>PPC</span>
+                                    </div>
+                                    <div class="pl-1 pr-1">
+                                        <span class="d-block">(_____________)</span>
+                                        <span>Gudang Jadi</span>
+                                    </div>
+                                    <div class="pl-1 pr-1">
+                                        <span class="d-block">(_____________)</span>
+                                        <span>Akunting</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+
+
+        <report id="action_surat_jalan_faktur_2" model="account.move" string="Print Surat Jalan 2"
+            report_type="qweb-pdf" name="my_report.surat_jalan_faktur_2" file="my_report.surat_jalan_faktur_2" />
+
+        <record id="action_surat_jalan_faktur_2" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_surat_jalan_faktur" />
+        </record>
+
+        <template id="surat_jalan_faktur_2">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="article">
+                        <div class="text-right">AKT-01.REV-01</div>
+                        <div class="row" style="margin-top : -20px">
+                            <div class="col-6">
+                                <h2 class="font-weight-bold text-center">SURAT JALAN</h2>
+                            </div>
+                            <div class="col-6" style="font-size : 16px">
+                                Majalaya, <span t-field="doc.invoice_date"
+                                    t-options="{&quot;format&quot;: &quot;dd MMM yyyy&quot;}" />
+                                <br />
+                                <span class="font-weight-bold">Kepada Yth</span>
+                                <br />
+                                <span class="text-uppercase" t-field="doc.partner_id" />
+                                <br />
+                                <span class="text-uppercase" t-field="doc.partner_id.npwp" />
+                                <br />
+                                <p>
+                                    <t t-esc="doc.partner_id.street[:80] if doc.partner_id.street else ''" />
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row font-weight-bold" style="font-size : 18px ;">
+                            <div class="col-6">
+                                <span>No : </span>
+                                <span t-field="doc.surat_jalan_id.name" />
+                            </div>
+                            <div class="col-6 text-right">
+                                <t t-if="doc.payment_reference">
+                                    <span>No Faktur : </span>
+                                    <span t-field="doc.payment_reference" />
+                                </t>
+                                <t t-else="">
+                                    <span>No Faktur : </span>
+                                    <span t-field="doc.name" />
+                                </t>
+                            </div>
+                        </div>
+
+                        <table class="table-condensed" style="font-size : 18px ;" width="100%">
+                            <thead class="text-center">
+                                <tr>
+                                    <th style="border : 1px solid black" class="pl-1 pr-1" width="5%">NO</th>
+                                    <th style="border : 1px solid black" class="pl-1 pr-1">NAMA BARANG</th>
+                                    <th style="border : 1px solid black" class="pl-1 pr-1" width="10%">WARNA</th>
+                                    <th style="border : 1px solid black" class="pl-1 pr-1" width="15%">QTY</th>
+                                    <th style="border : 1px solid black" class="pl-1 pr-1" width="5%">PCS</th>
+                                    <th style="border : 1px solid black" class="pl-1 pr-1" width="20%">KETERANGAN</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="line_size" t-value="len(doc.invoice_line_ids.ids)" />
+                                <t t-set="range_line_null" t-value="8 - line_size" />
+                                <t t-set="no" t-value="0" />
+                                <t t-set="total_qty" t-value="0" />
+                                <t t-set="total_pcs" t-value="0" />
+                                <tr t-foreach="doc.invoice_line_ids" t-as="line">
+                                    <t t-set="no" t-value="no + 1" />
+                                    <t t-set="total_qty" t-value="total_qty + line.quantity" />
+                                    <t t-set="total_pcs" t-value="total_pcs + line.total_roll" />
+                                    <t t-set="dpp" t-value="line.quantity * line.price_unit" />
+                                    <t t-set="ppn" t-value="dpp * (sum(line.tax_ids.mapped('amount'))) / 100" />
+                                    <td style="border : 1px solid black" class="text-center">
+                                        <span t-esc="no" />
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-left pl-1">
+                                        <span t-field="line.product_id.name" />
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-center">
+                                        <span t-field="line.warna" />
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-right pr-1">
+                                        <t t-esc="'{0:,.2f}'.format(float(line.quantity))" />
+                                        <span t-field="line.product_uom_id" />
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-center">
+                                        <span t-esc="'{0:,.0f}'.format(float(line.total_roll))" />
+                                    </td>
+                                    <td style="border : 1px solid black ; font-size : 15px ;" class="text-right pr-1">
+                                        <span t-field="doc.surat_jalan_id.om" />
+                                    </td>
+                                </tr>
+                                <tr t-foreach="range(range_line_null)" t-as="ex">
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                </tr>
+                                <tr>
+                                    <td style="border : 1px solid black ; height: 30px;" class="text-center"
+                                        colspan="3">
+                                        <span>JUMLAH</span>
+                                    </td>
+                                    <td style="border : 1px solid black ; height: 30px;" class="text-right pr-1">
+                                        <span t-esc="'{0:,.2f}'.format(float(total_qty))" />
+                                        <t t-if="doc.invoice_line_ids">
+                                            <span t-field="doc.invoice_line_ids[0].product_uom_id" />
+                                        </t>
+                                    </td>
+                                    <td style="border : 1px solid black ; height: 30px;" class="text-center">
+                                        <span t-esc="'{0:,.0f}'.format(float(total_pcs))" />
+                                    </td>
+                                    <td style="border : 1px solid black ; height: 30px;">
+                                        <span />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top : 10px" class="row">
+                            <div class="col-3 text-center">
+                                <span>Tanda Terima</span>
+                                <br />
+                                <br />
+                                <span class="line-ttd">_________________</span>
+                            </div>
+                            <div class="col-9 text-center">
+                                <span>Hormat Kami</span>
+                                <br />
+                                <br />
+                                <div class="hormat d-inline-flex">
+                                    <div class="pl-1 pr-1">
+                                        <span class="d-block">(_____________)</span>
+                                        <span>Ekspedisi</span>
+                                    </div>
+                                    <div class="pl-1 pr-1">
+                                        <span class="d-block">(_____________)</span>
+                                        <span>Satpam</span>
+                                    </div>
+                                    <div class="pl-1 pr-1">
+                                        <span class="d-block">(_____________)</span>
+                                        <span>PPC</span>
+                                    </div>
+                                    <div class="pl-1 pr-1">
+                                        <span class="d-block">(_____________)</span>
+                                        <span>Gudang Jadi</span>
+                                    </div>
+                                    <div class="pl-1 pr-1">
+                                        <span class="d-block">(_____________)</span>
+                                        <span>Akunting</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+
+        <!-- <record model="report.paperformat" id="paperformat_mutasi_partner_report_new">
+            <field name="name">Mutasi Partner Report New</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_width">210</field>
+            <field name="page_height">150</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_right">5</field>
+            <field name="margin_left">0</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record> -->
+
+        <report id="action_mutasi_partner_report_new" model="blessing.mutasi.partner.report"
+            string="Print Mutasi Partner Report New" report_type="qweb-pdf" name="my_report.mutasi_partner_report_new"
+            file="my_report.mutasi_partner_report_new" />
+
+        <!-- <record id="action_mutasi_partner_report_new" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_mutasi_partner_report_new" />
+        </record> -->
+
+        <template id="mutasi_partner_report_new">
+            <t t-call="web.basic_layout">
+                <style>
+                    .table-data th {
+                        border: 1px solid lightgrey;
+                        background-color: #F0F0F0;
+                    }
+
+                    .table-data td {
+                        border: 1px solid lightgrey;
+                    }
+                </style>
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <h2>
+                            <div>
+                                <strong>
+                                    <span>MUTASI PARTNER REPORT</span>
+                                    <span>(</span>
+                                    <strong t-field="o.account_mutasi" style="text-transform: uppercase" />
+                                    <span>)</span>
+                                </strong>
+                            </div>
+                        </h2>
+                        <div>
+                            No Document : <span t-field="o.name" />
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-3">
+                                <strong>Periode :</strong>
+                                <br />
+                                <span t-field="o.start_date" />
+                                to
+                                <span t-field="o.end_date" />
+                            </div>
+                            <div class="col-2">
+                                <strong>Filters :</strong>
+                                <br />
+                                <div
+                                    t-if="o.check_draft_mutasi_partner == True and o.check_posted_mutasi_partner == True">
+                                    <span>Draft, Posted</span>
+                                </div>
+                                <div
+                                    t-if="o.check_draft_mutasi_partner == True and o.check_posted_mutasi_partner == False">
+                                    <span>Draft</span>
+                                </div>
+                                <div
+                                    t-if="o.check_draft_mutasi_partner == False and o.check_posted_mutasi_partner == True">
+                                    <span>Posted</span>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <strong>Admin :</strong>
+                                <br />
+                                <span t-field="o.write_uid" />
+                            </div>
+                            <div class="col-2">
+                                <strong>Saldo Awal :</strong>
+                                <br />
+                                <span t-field="o.start_amount" />
+                            </div>
+                            <div class="col-2">
+                                <strong>Saldo Akir :</strong>
+                                <br />
+                                <span t-field="o.final_amount" />
+                            </div>
+                        </div>
+                        <br />
+                        <table class="act_as_thead table-data" width="100%">
+                            <t t-set="sum_kolom" t-value="0" />
+                            <t t-set="sum_credit" t-value="0" />
+                            <t t-set="sum_saldo" t-value="0" />
+                            <t t-set="sum_thead" t-value="list()" />
+                            <t t-set="thead" t-value="docs.get_thead()" />
+                            <t t-set="sum_global" t-value="docs.get_by_global()" />
+                            <thead>
+                                <tr class="text-center">
+                                    <th width="2%" class="text-center">NO</th>
+                                    <th width="250px;">PARTNER</th>
+                                    <t t-if="o.account_mutasi == 'receivable'">
+                                        <th>GROUP COMPANY</th>
+                                    </t>
+                                    <th>OPENING</th>
+                                    <t t-foreach="thead" t-as="journal">
+                                        <th>
+                                            <strong t-esc="str(journal.name).upper()" />
+                                        </th>
+                                    </t>
+                                    <th>PPH</th>
+                                    <th>RETUR</th>
+                                    <th>PENYESUAIAN</th>
+                                    <!-- <th>Penjualan Lain2 + Cust Inv</th> -->
+                                    <th>CLOSING</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="total_retur" t-value="0" />
+                                <t t-set="total_pph23" t-value="0" />
+                                <t t-set="total_penyesuaian" t-value="0" />
+                                <t t-set="no" t-value="0" />
+                                <t t-set="pendapatan_ll" t-value="0" />
+                                <t t-set="pendapatan" t-value="0" />
+                                <t t-foreach="o.mutasi_ids" t-as="line_ids">
+                                    <t t-set="mutasi_partner" t-value="docs.get_by_partner(line_ids.partner_id.id)" />
+                                    <!-- <t t-set="opening" t-value="docs.get_opening_partner(line_ids.partner_id.id)" /> -->
+                                    <tr>
+                                        <td class="text-center">
+                                            <t t-set="no" t-value="no + 1" />
+                                            <span t-esc="no" />
+                                        </td>
+                                        <td class="text-left pl-2">
+                                            <span t-field="line_ids.partner_id" />
+                                        </td>
+                                        <t t-if="o.account_mutasi == 'receivable'">
+                                            <td class="text-center">
+                                                <span t-field="line_ids.partner_id.group_partner_id" />
+                                            </td>
+                                        </t>
+                                        <td class="text-right pr-2">
+                                            <t t-if="o.account_mutasi == 'receivable'">
+                                                <span t-esc="'{0:,.2f}'.format(line_ids.opening)" />
+                                            </t>
+                                            <t t-if="o.account_mutasi == 'payable'">
+                                                <span t-esc="'{0:,.2f}'.format(-1 * line_ids.opening)" />
+                                            </t>
+                                        </td>
+
+                                        <t t-set="i" t-value="0" />
+                                        <t t-foreach="thead" t-as="journal">
+                                            <td class="text-right pr-2">
+                                                <t t-if="str(journal.code) in mutasi_partner">
+                                                    <t t-if="o.account_mutasi == 'receivable'">
+                                                        <t t-if="journal.reverse_ar == True">
+                                                            <span t-esc="'{0:,.2f}'.format(-1 * mutasi_partner[str(journal.code)])" />
+                                                            <t t-if="str(journal.code) == 'ALL'">
+                                                                <t t-set="pendapatan_ll" t-value="pendapatan_ll + -1 * mutasi_partner[str(journal.code)]" />
+                                                            </t>
+                                                            <t t-if="str(journal.code) == 'INV'">
+                                                                <t t-set="pendapatan" t-value="pendapatan_ll + pendapatan" />
+                                                            </t>
+                                                        </t>
+                                                        <t t-if="journal.reverse_ar == False">
+                                                            <span t-esc="'{0:,.2f}'.format(mutasi_partner[str(journal.code)])" />
+                                                        </t>
+                                                    </t>
+                                                    <t t-if="o.account_mutasi == 'payable'">
+                                                        <t t-if="journal.reverse_ap == True">
+                                                            <span
+                                                                t-esc="'{0:,.2f}'.format(-1 * mutasi_partner[str(journal.code)])" />
+                                                        </t>
+                                                        <t t-if="journal.reverse_ap == False">
+                                                            <span
+                                                                t-esc="'{0:,.2f}'.format(mutasi_partner[str(journal.code)])" />
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                            </td>
+                                        </t>
+                                        <t t-set="i" t-value="i + 1" />
+
+
+                                        <td class="text-center">
+                                            <!-- PPH -->
+                                            <t
+                                                t-if="'{0:,.2f}'.format(o.get_pph_and_retur(line_ids.partner_id.id, o.id, 'pph23')) == '0.00'">
+                                                <span />
+                                            </t>
+                                            <t t-else="">
+                                                <span
+                                                    t-esc="'{0:,.2f}'.format(o.get_pph_and_retur(line_ids.partner_id.id, o.id, 'pph23'))" />
+                                            </t>
+                                            <t t-set="total_pph23"
+                                                t-value="total_pph23 + o.get_pph_and_retur(line_ids.partner_id.id, o.id, 'pph23')" />
+                                        </td>
+                                        <td class="text-center">
+                                            <t
+                                                t-if="'{0:,.2f}'.format(o.get_pph_and_retur(line_ids.partner_id.id, o.id, 'retur')) == '0.00'">
+                                                <span />
+                                            </t>
+                                            <t t-else="">
+                                                <span
+                                                    t-esc="'{0:,.2f}'.format(o.get_pph_and_retur(line_ids.partner_id.id, o.id, 'retur'))" />
+                                            </t>
+                                            <!-- RETUR -->
+                                            <t t-set="total_retur"
+                                                t-value="total_retur + o.get_pph_and_retur(line_ids.partner_id.id, o.id, 'retur')" />
+                                        </td>
+                                        <td class="text-center">
+                                            <!-- PENYESUAIAN -->
+                                            <t
+                                                t-if="o.get_pph_and_retur(line_ids.partner_id.id, o.id, 'penyesuaian') == 0.00">
+                                                <span/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="'{0:,.2f}'.format(o.get_pph_and_retur(line_ids.partner_id.id, o.id, 'penyesuaian'))" />
+                                                <t t-set="total_penyesuaian" t-value="total_penyesuaian + o.get_pph_and_retur(line_ids.partner_id.id, o.id, 'penyesuaian')" />
+                                            </t>
+                                        </td>
+
+                                        <td class="text-right pr-2">
+                                            <t t-if="o.account_mutasi == 'receivable'">
+                                                <t t-if="line_ids.balance">
+                                                    <span t-esc="'{0:,.2f}'.format(line_ids.balance)" />
+                                                </t>
+                                                <t t-else="">
+                                                    <span>-</span>
+                                                </t>
+                                            </t>
+                                            <t t-if="o.account_mutasi == 'payable'">
+                                                <t t-if="line_ids.balance">
+                                                    <span t-esc="'{0:,.2f}'.format(-1 * line_ids.balance)" />
+                                                </t>
+                                                <t t-else="">
+                                                    <span>-</span>
+                                                </t>
+                                            </t>
+                                            <t t-set="sum_saldo" t-value="sum_saldo + line_ids.balance" />
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <t t-if="o.account_mutasi == 'payable'">
+                                        <td class="text-center" colspan="2">Jumlah total
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td class="text-center" colspan="3">Jumlah total
+                                        </td>
+                                    </t>
+                                    
+                                    <td class="text-right pr-2">
+                                        <t t-if="o.account_mutasi == 'receivable'">
+                                            <span t-esc="'{0:,.2f}'.format(o.start_amount)" />
+                                        </t>
+                                        <t t-if="o.account_mutasi == 'payable'">
+                                            <span t-esc="'{0:,.2f}'.format(-1 * o.start_amount)" />
+                                        </t>
+                                    </td>
+
+                                    <t t-foreach="thead" t-as="journal">
+                                        <td class="text-right pr-2">
+                                            <t t-if="o.account_mutasi == 'receivable'">
+                                                <t t-if="journal.reverse_ar == True">
+                                                    <t t-if="str(journal.code) in sum_global">
+                                                        <strong t-esc="'{0:,.2f}'.format(-1*sum_global[str(journal.code)])" />
+                                                    </t>
+                                                    <t t-if="str(journal.code) not in sum_global">
+                                                        <strong>0</strong>
+                                                    </t>
+                                                </t>
+                                                <t t-if="journal.reverse_ar == False">
+                                                    <t t-if="str(journal.code) in sum_global">
+                                                        <strong t-esc="'{0:,.2f}'.format(sum_global[str(journal.code)])" />
+                                                    </t>
+                                                    <t t-if="str(journal.code) not in sum_global">
+                                                        <strong>0</strong>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                            <!--  -->
+                                            <t t-if="o.account_mutasi == 'payable'">
+                                                <t t-if="journal.reverse_ap == True">
+                                                    <t t-if="str(journal.code) in sum_global">
+                                                        <strong
+                                                            t-esc="'{0:,.2f}'.format(-1*sum_global[str(journal.code)])" />
+                                                    </t>
+                                                    <t t-if="str(journal.code) not in sum_global">
+                                                        <strong>0</strong>
+                                                    </t>
+                                                </t>
+                                                <t t-if="journal.reverse_ap == False">
+                                                    <t t-if="str(journal.code) in sum_global">
+                                                        <strong
+                                                            t-esc="'{0:,.2f}'.format(sum_global[str(journal.code)])" />
+                                                    </t>
+                                                    <t t-if="str(journal.code) not in sum_global">
+                                                        <strong>0</strong>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </td>
+                                    </t>
+
+
+                                    <td class="text-center">
+                                        <span t-esc="'{0:,.2f}'.format(total_pph23)" />
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-esc="'{0:,.2f}'.format(total_retur)" />
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-esc="'{0:,.2f}'.format(total_penyesuaian)" />
+                                    </td>
+
+                                    <td class="text-right pr-2">
+                                        <t t-if="o.account_mutasi == 'receivable'">
+                                            <span t-esc="'{0:,.2f}'.format(sum_saldo)" />
+                                        </t>
+                                        <t t-if="o.account_mutasi == 'payable'">
+                                            <span t-esc="'{0:,.2f}'.format(-1 * sum_saldo)" />
+                                        </t>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <report id="action_kartu_partner_report_new" model="blessing.mutasi.partner.report"
+            string="Print Kartu Partner Report New" report_type="qweb-pdf" name="my_report.kartu_partner_report_new"
+            file="my_report.kartu_partner_report_new" />
+
+        <!-- <record id="action_mutasi_partner_report_new" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_mutasi_partner_report_new" />
+        </record> -->
+
+        <template id="kartu_partner_report_new">
+            <t t-call="web.basic_layout">
+                <style>
+                    .table-data th {
+                        border: 1px solid lightgrey;
+                        background-color: #F0F0F0;
+                    }
+
+                    .table-data td {
+                        border: 1px solid lightgrey;
+                    }
+                </style>
+                <t t-foreach="docs" t-as="o">
+                    <div class="page" style="font-size : 25px">
+                        <h2>
+                            <div>
+                                <strong>
+                                    <span>Kartu Piutang</span>
+                                </strong>
+                            </div>
+                        </h2>
+                        <div>
+                            No Document : <span t-field="o.name"/>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-2">
+                                <strong>Periode :</strong>
+                                <br/>
+                                <span t-field="o.start_date"/>
+                                to
+                                <span t-field="o.end_date"/>
+                            </div>
+                            <div class="col-2">
+                                <strong>Customer :</strong>
+                                <br/>
+                                <span t-field="o.mutasi_partner_id"/>
+                            </div>
+                            <div class="col-2">
+                                <strong>Filters :</strong>
+                                <br/>
+                                <div t-if="o.check_draft_mutasi_partner == True and o.check_posted_mutasi_partner == True">
+                                    <span>Draft, Posted</span>
+                                </div>
+                                <div t-if="o.check_draft_mutasi_partner == True and o.check_posted_mutasi_partner == False">
+                                    <span>Draft</span>
+                                </div>
+                                <div t-if="o.check_draft_mutasi_partner == False and o.check_posted_mutasi_partner == True">
+                                    <span>Posted</span>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <strong>Admin :</strong>
+                                <br/>
+                                <span t-field="o.write_uid"/>
+                            </div>
+                            <div class="col-2">
+                                <strong>Saldo Awal :</strong>
+                                <br/>
+                                <span t-field="o.start_amount"/>
+                            </div>
+                            <div class="col-2">
+                                <strong>Saldo Akir :</strong>
+                                <br/>
+                                <span t-field="o.final_amount"/>
+                            </div>
+                        </div>
+                        <br/>
+
+                        <table class="act_as_thead table-data" width="100%">
+                            <t t-set="sum_kolom" t-value="0"/>
+                            <t t-set="sum_credit" t-value="0"/>
+                            <t t-set="sum_saldo" t-value="0"/>
+                            <t t-set="sum_thead" t-value="list()"/>
+                            <t t-set="thead" t-value="docs.get_thead()"/>
+                            <t t-set="sum_global" t-value="docs.get_by_global()"/>
+                            <thead>
+                                <tr class="text-center">
+                                    <th width="2%" class="text-center">NO</th>
+                                    <th>Tanggal</th>
+                                    <th>Keterangan</th>
+                                    <th>No Journal</th>
+                                    <th>Journal</th>
+                                    <th>No Kontrabon</th>
+                                    <th>Debet</th>
+                                    <th>Credit</th>
+                                    <th>Saldo</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="no" t-value="0"/>
+                                <t t-foreach="o.mutasi_ids.sorted(key=lambda r: r.date, reverse=False)" t-as="line_ids">
+                                    <t t-set="no" t-value="no + 1"/>
+                                    <tr>
+                                        <td class="text-center">
+                                            <span t-esc="no"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="line_ids.date" t-field-options="{&quot;format&quot;: &quot;dd-MMM-yyyy&quot;}"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="line_ids.name"/>
+                                        </td>
+                                        <td class="text-left pl-2">
+                                            <span t-field="line_ids.move_id"/>
+                                        </td>
+                                        <td class="text-left pl-2">
+                                            <span t-field="line_ids.journal_id"/>
+                                        </td>
+                                        <td class="text-left pl-2">
+                                            <span t-field="line_ids.move_id.kontrabon_id"/>
+                                        </td>
+                                        <td class="text-right pr-2">
+                                            <span t-field="line_ids.debet"/>
+                                        </td>
+                                        <td class="text-right pr-2">
+                                            <span t-field="line_ids.credit"/>
+                                        </td>
+                                        <td class="text-right pr-2">
+                                            <span t-field="line_ids.balance"/>
+                                        </td>
+                                        <td class="text-left pl-2">
+                                            <span t-field="line_ids.state_line"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <t t-set="tot_debet" t-value="0"/>
+                                <t t-set="tot_credit" t-value="0"/>
+                                <t t-set="tot_balance" t-value="0"/>
+                                <t t-foreach="o.mutasi_ids" t-as="line_ids">
+                                    <t t-set="tot_debet" t-value="tot_debet + line_ids.debet"/>
+                                    <t t-set="tot_credit" t-value="tot_credit + line_ids.credit"/>
+                                    <t t-set="tot_balance" t-value="tot_balance + line_ids.balance"/>
+                                </t>
+                                <tr>
+                                    <td class="text-center" colspan="6">Jumlah total
+                                        </td>
+                                    <td class="text-right pr-2">
+                                        <span t-esc="'{0:,.2f}'.format(tot_debet)"/>
+                                    </td>
+                                    <td class="text-right pr-2">
+                                        <span t-esc="'{0:,.2f}'.format(tot_credit)"/>
+                                    </td>
+                                    <td colspan="2">
+                                        <!--<span t-field="line_ids.state_line"/>-->
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+
+
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <report id="action_faktur_groupby_product" model="account.move" string="Print Faktur Group by Product"
+            report_type="qweb-pdf" name="my_report.faktur_groupby_product" file="my_report.faktur_groupby_product" />
+
+        <record id="action_faktur_groupby_product" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_faktur" />
+        </record>
+
+        <template id="faktur_groupby_product">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="article">
+                        <div class="text-right">AKT-01.REV-01</div>
+                        <div class="row" style="margin-top : -20px">
+                            <div class="col-1">
+                                <img src="/web/binary/company_logo" style="max-height: 65px;" />
+                            </div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold">PT. PUTERA MULYA TERANG INDAH</h5>
+                                <p>Jl. Rancajigang No 200 Majalaya - Bandung 40382</p>
+                                <h2 class="font-weight-bold text-center">FAKTUR</h2>
+                            </div>
+                            <div class="col-6" style="font-size : 16px">
+                                Majalaya, <span t-field="doc.invoice_date"
+                                    t-options="{&quot;format&quot;: &quot;dd MMM yyyy&quot;}" />
+                                <br />
+                                <span class="font-weight-bold">Kepada Yth</span>
+                                <br />
+                                <span class="text-uppercase" t-field="doc.partner_id" />
+                                <br />
+                                <span class="text-uppercase" t-field="doc.partner_id.npwp" />
+                                <br />
+                                <!--<span t-field="doc.partner_id.street"/>-->
+                                <p>
+                                    <t t-esc="doc.partner_id.street[:80] if doc.partner_id.street else ''" />
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <div class="row font-weight-bold" style="font-size : 20px ;">
+                            <div class="col-6">
+                                <t t-if="doc.payment_reference">
+                                    <span>No Faktur : </span>
+                                    <span t-field="doc.payment_reference" />
+                                </t>
+                                <t t-else="">
+                                    <span>No Faktur : </span>
+                                    <span t-field="doc.name" />
+                                </t>
+                            </div>
+                            <div class="col-6 text-right">
+                                <span>No : </span>
+                                <span t-field="doc.surat_jalan_id.name" />
+                            </div>
+                        </div>
+
+                        <table class="table-condensed" style="font-size : 18px ;" width="100%">
+                            <thead class="text-center">
+                                <tr>
+                                    <th style="border : 1px solid black" width="5%">PCS</th>
+                                    <th style="border : 1px solid black">NAMA BARANG</th>
+                                    <th style="border : 1px solid black" width="10%">@ HARGA</th>
+                                    <th style="border : 1px solid black" width="14%">DPP</th>
+                                    <th style="border : 1px solid black" width="12%">PPN</th>
+                                    <th style="border : 1px solid black" width="14%">JUMLAH</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="amount" t-value="0" />
+                                <t t-set="line_size" t-value="len(doc.get_line_groupby())" />
+                                <t t-set="range_line_null" t-value="8 - line_size" />
+
+                                <tr t-foreach="doc.get_line_groupby()" t-as="line">
+                                    <t t-set="amount" t-value="amount + line.get('jumlah')" />
+                                    <td style="border : 1px solid black" class="text-center">
+                                        <span t-esc="'{0:,.0f}'.format(float(line.get('total_roll')))" />
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-left pl-1">
+                                        <span t-esc="line.get('product_name')" />
+                                        <span t-esc="'{0:,.2f}'.format(float(line.get('qty')))" />
+                                        <span t-esc="line.get('uom_name')" />
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-right pr-1">
+                                        <!-- <span t-esc="'{0:,.2f}'.format(float(line.get('price')))" /> -->
+                                        <span t-esc="'{0:,.2f}'.format(float(line.get('dpp')/line.get('qty')))" />
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-right pr-1">
+                                        <span t-esc="'{0:,.2f}'.format(float(line.get('dpp')))" />
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-right pr-1">
+                                        <span t-esc="'{0:,.2f}'.format(float(line.get('ppn')))" />
+                                    </td>
+                                    <td style="border : 1px solid black" class="text-right pr-1">
+                                        <span t-esc="'{0:,.2f}'.format(line.get('jumlah'))" />
+                                    </td>
+                                </tr>
+                                <tr t-foreach="range(range_line_null)" t-as="ex">
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" />
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="row font-weight-bold">
+                            <div class="col-6" style="font-size : 14px">
+                                <u>
+                                    <span>KETERANGAN : </span>
+                                    <span t-field="doc.narration" />
+                                </u>
+                            </div>
+                            <div class="col-6" style="font-size : 20px ;">
+                                <div class="font-weight-bold float-right">
+                                    <span class="jumlah-label">JUMLAH Rp</span>
+                                    <span style="border : 1px solid black" t-esc="'{0:,.2f}'.format(float(amount))" />
+                                </div>
+                            </div>
+                        </div>
+                        <div style="font-size : 16px">
+                            <span class="d-block">Terbilang</span>
+                            <span># </span>
+                            <span t-field="doc.terbilang" />
+                            <span>#</span>
+                            <br />
+                            <span>Barang dapat diretur apabila tidak sesuai standar, ada cacat, maksimal 30 hari sejak
+                                tanggal terbit faktur.</span>
+                        </div>
+                        <div style="font-size : 14px" class="row text-center font-weight-bold">
+                            <div class="col-6">
+                                <span>Tanda Terima</span>
+                            </div>
+                            <div class="col-6">
+                                <span>Hormat Kami</span>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

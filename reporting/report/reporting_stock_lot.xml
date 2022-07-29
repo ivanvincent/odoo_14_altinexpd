@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="paper_format_reporting_stock_lot" model="report.paperformat">
+            <field name="name">Reporting Stock Lot</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <!-- <field name="page_height">0</field>
+            <field name="page_width">0</field> -->
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">45</field>
+            <field name="margin_bottom">25</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report string="Reporting Stock Lot" id="action_reporting_stock_lot" model="reporting.stock.lot" report_type="qweb-pdf" name="reporting.reporting_stock_lot" file="reporting.reporting_stock_lot"/>
+
+        <record id="action_reporting_stock_lot" model="ir.actions.report">
+            <field name="paperformat_id" eval="paper_format_reporting_stock_lot"/>
+        </record>
+
+        <template id="reporting_stock_lot">
+            <t t-call="web.html_container">
+                <t t-call="my_report.template_print">
+                    <div class="page">
+                        <t t-foreach="docs" t-as="o">
+                            <table class="table-condensed" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th style="border : 1px solid black" class="text-center">Product Category</th>
+                                        <th style="border : 1px solid black" class="text-center">Kode Barang</th>
+                                        <th style="border : 1px solid black" class="text-center">Product</th>
+                                        <th style="border : 1px solid black" class="text-center">Variasi</th>
+                                        <th style="border : 1px solid black" class="text-center">Uom</th>
+                                        <th style="border : 1px solid black" class="text-center">Start</th>
+                                        <th style="border : 1px solid black" class="text-center">Qty In</th>
+                                        <th style="border : 1px solid black" class="text-center">Qty Out</th>
+                                        <th style="border : 1px solid black" class="text-center">Return In</th>
+                                        <th style="border : 1px solid black" class="text-center">Return Out</th>
+                                        <th style="border : 1px solid black" class="text-center">Adjustment</th>
+                                        <th style="border : 1px solid black" class="text-center">Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.line_ids" t-as="l">
+                                        <tr>
+                                            <td style="border : 1px solid black" class="text-left">
+                                                <span t-field="l.categ_id"/>
+                                            </td>
+                                            <td style="border : 1px solid black" class="text-left">
+                                                <span t-field="l.product_code"/>
+                                            </td>
+                                            <td style="border : 1px solid black" class="text-left">
+                                                <span t-field="l.product_id.name"/>
+                                            </td>
+                                            <td style="border : 1px solid black" class="text-left">
+                                                <span t-field="l.variasi"/>
+                                            </td>
+                                            <td style="border : 1px solid black" class="text-left">
+                                                <span t-field="l.uom_id"/>
+                                            </td>
+                                            <td style="border : 1px solid black" class="text-right">
+                                                <span t-field="l.qty_start"/>
+                                            </td>
+                                            <td style="border : 1px solid black" class="text-right">
+                                                <span t-field="l.qty_in"/>
+                                            </td>
+                                            <td style="border : 1px solid black" class="text-right">
+                                                <span t-field="l.qty_out"/>
+                                            </td>
+                                            <td style="border : 1px solid black" class="text-right">
+                                                <span t-field="l.return_in"/>
+                                            </td>
+                                            <td style="border : 1px solid black" class="text-right">
+                                                <span t-field="l.return_out"/>
+                                            </td>
+                                            <td style="border : 1px solid black" class="text-right">
+                                                <span t-field="l.adjustment"/>
+                                            </td>
+                                            <td style="border : 1px solid black" class="text-right">
+                                                <span t-field="l.qty_balance"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

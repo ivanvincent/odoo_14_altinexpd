@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_picking_type_form_inherite">
+            <field name="name">stock.picking.type.form</field>
+            <field name="model">stock.picking.type</field>
+            <field name="inherit_id" ref="stock.view_picking_type_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='warehouse_id']" position="after">
+                    <field name="return_type"/>
+                    <field name="journal_mutation_id"/>
+                    <field name="is_multi_step"/>
+                    <field name="is_multi_location"/>
+                    <field name="is_stock_point"/>
+                    <field name="is_transit_transfer"/>
+                </xpath>
+
+                <xpath expr="//field[@name='default_location_dest_id']" position="after">
+                    <field name="default_location_siba_id" domain="[('usage', '=', 'internal')]" attrs="{'invisible':['|',('is_stock_point', '=', False),('is_multi_location', '=', False),('code', '!=', 'internal')],'required':[('is_stock_point','=',True)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

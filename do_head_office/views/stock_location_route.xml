@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="stock_location_route_inherit_view_form">
+            <field name="name">stock.location.route.form</field>
+            <field name="model">stock.location.route</field>
+            <field name="inherit_id" ref="stock.stock_location_route_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="create_vehicle_routes" string="Create Vehicle Rules " type="object" class="oe_highlight" />
+                        <button name="reset_rules" string="Reset Rules " type="object" />
+                    </header>
+                </xpath>
+
+                <xpath expr="//separator" position="before">
+                    <group>
+                        <group>
+                            <field name="is_route_vehicle"/>
+                            <field name="route_template_ids" widget="many2many_tags" attrs="{'invisible':[('is_route_vehicle', '=', False)]}"/>
+                        </group>
+                    </group>
+
+
+                    <notebook>
+                        <page string="SP FG Location">
+                            <field name="sp_fg_location_ids" >
+                                <tree>
+                                    <field name="display_name"/>
+                                    <field name="is_stock_point"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="SP SIBA Location">
+                            <field name="sp_siba_location_ids" >
+                                <tree>
+                                    <field name="display_name"/>
+                                    <field name="is_stock_point"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="SP Return Location">
+                            <field name="sp_return_location_ids" >
+                                <tree>
+                                    <field name="display_name"/>
+                                    <field name="is_stock_point"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Vehicle FG Location">
+                            <field name="vehicle_fg_location_ids" >
+                                <tree>
+                                    <field name="display_name"/>
+                                    <field name="is_stock_point"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Vehicle Location">
+                            <field name="vehicle_siba_location_ids" >
+                                <tree>
+                                    <field name="display_name"/>
+                                    <field name="is_stock_point"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Vehicle Return Location">
+                            <field name="vehicle_return_location_ids" >
+                                <tree>
+                                    <field name="display_name"/>
+                                    <field name="is_stock_point"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                    <!-- <field name="vehicle_location_ids" widget="many2many_tags" attrs="{'invisible':[('is_route_vehicle', '=', False)]}"/> -->
+
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+
+

@@ -1,0 +1,103 @@
+<odoo>
+    <data>
+		
+    	<record id="close_stock_period_search_view" model="ir.ui.view">
+            <field name="name">close.stock.period.search</field>
+            <field name="model">close.stock.period</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Close Stock Period">
+		            <field name="name"/>
+		            <field name="date"/>
+					<field name="warehouse_id"/>
+					<field name="state"/>
+                </search>
+            </field>
+        </record>
+
+		<record id="close_stock_period_tree_view" model="ir.ui.view">
+		    <field name="name">close.stock.period.tree</field>
+		    <field name="model">close.stock.period</field>
+		    <field name="type">tree</field>
+		    <field name="arch" type="xml">
+		        <tree string="Close Stock Period">
+		            <field name="name"/>
+		            <field name="date"/>
+					<field name="warehouse_id"/>
+					<field name="state"/>
+		        </tree>
+		     </field>
+		</record>
+		
+        <record model="ir.ui.view" id="close_stock_period_form_view">
+		    <field name="name">close.stock.period.form</field>
+		    <field name="model">close.stock.period</field>
+		    <field name="type">form</field>
+		    <field name="arch" type="xml">
+		    	
+		    	<form string="Close Stock Period">
+		    		<header>
+		    			<button name="action_close" string="Close This Period" type="object" class="oe_highlight" states="Draft"/>
+						<button name="action_draft" string="Reopen Period" type="object" class="oe_highlight" states="Closed"/>
+		    			<field name="state" widget="statusbar" statusbar_visible="Draft,Closed"/>
+		    		</header>
+		    		<sheet>
+		    			<div class="oe_title">
+		       				<h1>
+					 			<field name="name" readonly="1" class="oe_inline"/>
+		    			    </h1>
+	                    </div>
+	                    <group>
+							<group>
+								<field name="date" attrs="{'readonly': [('state','!=','Draft')]}"/>
+							</group>
+							<group>
+								<field name="warehouse_id" options="{'no_open':True, 'no_create':True}" attrs="{'readonly': [('state','!=','Draft')]}"/>
+							</group>
+	                    </group>
+						<notebook>
+							<page string="Audit Trail">
+								<group>
+									<group>
+										<field name="create_uid" readonly="1"/>
+										<field name="create_date" readonly="1"/>
+									</group>
+									<group>
+										<field name="write_uid" readonly="1"/>
+										<field name="write_date" readonly="1"/>
+									</group>
+								</group>
+							</page>
+						</notebook>
+		    		</sheet>
+		    	</form>
+		    	
+			</field>
+		</record>
+        
+		<record id="close_stock_period_action" model="ir.actions.act_window">
+            <field name="name">Close Stock Period</field>
+            <field name="res_model">close.stock.period</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+        
+        <record id="close_stock_period_action_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="close_stock_period_tree_view"/>
+            <field name="act_window_id" ref="close_stock_period_action"/>
+        </record>
+        
+        <record id="close_stock_period_action_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="close_stock_period_form_view"/>
+            <field name="act_window_id" ref="close_stock_period_action"/>
+        </record>
+        
+        <menuitem id="close_stock_period_menu" action="close_stock_period_action" name="Close Stock Period" parent="stock.menu_stock_warehouse_mgmt" sequence="5"/>
+    	
+    </data>
+</odoo>

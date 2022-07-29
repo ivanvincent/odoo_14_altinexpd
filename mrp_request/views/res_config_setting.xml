@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.mrp.request</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Manufacturing Request" data-key="mrp_request" string="MRP Request">
+                        <h2>Manufacturing Request</h2>
+                        <div class="row mt16 o_settings_container" name="devices_setting_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="mor_filter_product"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="mor_filter_product"/>
+                                    <div class="text-muted">
+                                        Force Domain of Product by Category
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6  o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Product Category</span>
+                                    <div class="text-muted">
+                                        <field name="mor_product_category_ids" widget="many2many_tags"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="mor_sequence_id"/>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="mor_sequence_id" required="1" class="o_light_label"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mrp_request_config_settings_action" model="ir.actions.act_window">
+            <field name="name">Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'mrp_request'}</field>
+        </record>
+
+
+        <record id="satuan_produksi_view_form" model="ir.ui.view">
+            <field name="name">satuan_produksi.view.form</field>
+            <field name="model">satuan.produksi</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="description"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="satuan_produksi_view_tree" model="ir.ui.view">
+            <field name="name">satuan_produksi.view.tree</field>
+            <field name="model">satuan.produksi</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="satuan_produksi_action">
+            <field name="name">Satuan Produksi</field>
+            <field name="res_model">satuan.produksi</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem id="mrp_request_config" name="Configuration" parent="main_mrp_request" sequence="99" groups="base.group_system">
+            <menuitem id="mrp_request_setting" name="Settings" action="mrp_request_config_settings_action" sequence="1"/>
+            <menuitem id="submenu_satuan_produksi" name="Satuan Produksi" action="satuan_produksi_action" />
+
+        </menuitem>
+    </data>
+</odoo>

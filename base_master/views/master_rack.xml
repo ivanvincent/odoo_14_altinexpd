@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record model="ir.ui.view" id="master_rack_tree">
+            <field name="name">master.rack.tree</field>
+            <field name="model">master.rack</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="warehouse_id"/>
+                    <field name="location_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record model="ir.ui.view" id="master_rack_form">
+            <field name="name">master.rack.form</field>
+            <field name="model">master.rack</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="warehouse_id"/>
+                            </group>
+                            <group>
+                                <field name="location_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="master_rack_action">
+            <field name="name">Master Rack</field>
+            <field name="res_model">master.rack</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            id="master_rack_menu"
+            name="Master Rack"
+            action="master_rack_action"
+            parent="menu_master"/>
+
+
+    </data>
+</odoo>

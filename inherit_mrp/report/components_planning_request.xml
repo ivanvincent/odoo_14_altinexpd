@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="paper_format_component_request" model="report.paperformat">
+        <field name="name">Component Request Paper</field>
+        <field name="default" eval="True" />
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">23</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">35</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <report id="action_report_components_request" model="mrp.production.planning" string="Print Components Request" report_type="qweb-pdf" name="inherit_mrp.report_components_request" file="inherit_mrp.report_components_request" />
+
+    <record id="action_report_components_request" model="ir.actions.report">
+        <field name="paperformat_id" eval="paper_format_component_request"/>
+    </record>
+
+    <template id="report_components_request">
+        <t t-call="web.basic_layout">
+            <style>
+                .table-data, .table-data th{
+                    border: 1px solid black;
+                }
+                .table-data .tr-body td {
+                    border-left: 1px solid black;
+                    border-right: 1px solid black;
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+                }
+                .tr-foot .td-foot {
+                    border-top: 1px solid black;
+                }
+            </style>
+            <div class="page">
+                <div class="title text-center">
+                    <h5 class="font-weight-bold">Permintaan Kain Greige</h5>
+                </div>
+
+                <table class="table-data text-center mt-4" width="100%">
+                    <thead>
+                        <th>No</th>
+                        <th>Tanggal</th>
+                        <th>Product</th>
+                        <th>Variant</th>
+                        <th>Greige</th>
+                        <th>Quantity</th>
+                        <th>Uom</th>
+                        <th>Machine</th>
+                    </thead>
+                    <tbody>
+                        <t t-set="no" t-value="0"/>
+                        <t t-set="tot_qty" t-value="0"/>
+                        <t t-foreach="docs" t-as="doc">
+
+
+                            <tr class="tr-body">
+                                <t t-set="no" t-value="no + 1"/>
+                                <td>
+                                    <span t-esc="no" />
+                                </td>
+                                <td>
+                                    <span t-field="doc.date_planned" />
+                                </td>
+                                <td>
+                                    <span t-field="doc.product_id.name" />
+                                </td>
+                                <td>
+                                    <span t-field="doc.variant_id.name" />
+                                </td>
+                                <td>
+                                    <span t-field="doc.greige_id.name" />
+                                </td>
+                                <td class="text-right pr-2">
+                                    <span t-field="doc.quantity" />
+                                </td>
+                                <td>
+                                    <span t-field="doc.uom_id.name" />
+                                </td>
+                                <td>
+                                    <span t-field="doc.machine_id.name" />
+                                </td>
+
+                            </tr>
+                        </t>
+
+                        <!-- <tr class="tr-foot">
+                                <td colspan="4" class="text-right pr-2 td-foot">
+                                    <t t-esc="tot_qty"/>
+                                </td>
+                                <td colspan="2" class="td-foot"></td>
+                            </tr> -->
+                    </tbody>
+                </table>
+
+                <div class="footer">
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <span>Adm Gudang</span>
+                            <br/>
+                            <!-- <span t-field="doc.scheduled_date"/> -->
+                            <br/>
+                            <span class="d-block mt-5">(______________)</span>
+                        </div>
+                        <div class="col-6">
+                            <span>Nama Jelas Wajib Dicantumkan</span>
+                            <br/>
+                            <span>MENGETAHUI</span>
+                            <br/>
+                            <span class="d-block mt-5">(______________)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </t>
+
+    </template>
+
+</odoo>

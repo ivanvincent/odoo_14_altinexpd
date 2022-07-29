@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_partner_account_form" model="ir.ui.view">
+            <field name="name">res.partner.account.form</field>
+            <field name="model">res.partner.account</field>
+            <field name="arch" type="xml">
+                <form string="Partner Account">
+                    <sheet>
+                        <group >
+                            <field name="name" />
+                        </group>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>                    
+
+                </form>
+            </field>
+        </record>
+
+        <record id="view_partner_account_tree" model="ir.ui.view">
+            <field name="name">res.partner.account.tree</field>
+            <field name="model">res.partner.account</field>
+            <field name="arch" type="xml">
+                <tree string="Partner Account">
+                    <field name="name" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_partner_account_search" model="ir.ui.view">
+            <field name="name">res.partner.account.search</field>
+            <field name="model">res.partner.account</field>
+            <field name="arch" type="xml">
+                <search string="Partner Account">
+                    <field name="name" filter_domain="[('name','ilike',self)]" string="Name"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_partner_account" model="ir.actions.act_window">
+            <field name="name">Partner Account</field>
+            <field name="res_model">res.partner.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_partner_account_search"/>
+            <field name="view_id" ref="view_partner_account_tree"/>
+        </record>
+
+        <menuitem action="action_partner_account" id="menu_action_partner_account" parent="menu_sale_config_partner_v13" sequence="1"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="group_kb_approve_purchasing" model="res.groups">
+            <field name="name">Kontrabon - Akses Button Purchasing  </field>
+        </record>
+    
+    </data>
+    
+
+</odoo>

@@ -1,0 +1,127 @@
+<odoo>
+	<data>
+
+		<record id="action_bank_statement_in" model="ir.actions.act_window">
+			<field name="name">Bank Statement In</field>
+			<field name="res_model">account.bank.statement</field>
+			<field name="domain">[('journal_id.type', '=', 'bank'),('operation_type','=','receipt')]</field>
+			<field name="context">{'journal_type':'bank','default_operation_type':'receipt'}</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="action_bank_statement_out" model="ir.actions.act_window">
+			<field name="name">Bank Statement Out</field>
+			<field name="res_model">account.bank.statement</field>
+			<field name="domain">[('journal_id.type', '=', 'bank'),('operation_type','=','payment')]</field>
+			<field name="context">{'journal_type':'bank','default_operation_type':'payment'}</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="action_cash_list_in" model="ir.actions.act_window">
+			<field name="name">Cash Registers In</field>
+			<field name="res_model">account.bank.statement</field>
+			<field name="domain">[('journal_id.type', '=', 'cash'),('operation_type','=','receipt')]</field>
+			<field name="context">{'journal_type':'cash','default_operation_type':'receipt'}</field>
+		</record>
+
+		<record id="action_cash_list_out" model="ir.actions.act_window">
+			<field name="name">Cash Registers Out</field>
+			<field name="res_model">account.bank.statement</field>
+			<field name="domain">[('journal_id.type', '=', 'cash'),('operation_type','=','payment')]</field>
+			<field name="context">{'journal_type':'cash','default_operation_type':'payment'}</field>
+		</record>
+
+		<record id="action_cash_line_list" model="ir.actions.act_window">
+			<field name="name">Cash Line Registers</field>
+			<field name="res_model">account.bank.statement.line</field>
+			<!-- <field name="domain">[('stetement_id.journal_id.type', '=', 'cash')]</field>
+            <field name="context">{'journal_type':'cash'}</field> -->
+			<!-- <field name="view_mode">tree,form</field> -->
+		</record>
+
+		<record id="action_mutasi_cashbank" model="ir.actions.act_window">
+			<field name="name">Rekap Registers</field>
+			<field name="res_model">account.bank.statement.line</field>
+			<!-- <field name="domain">[('stetement_id.journal_id.type', '=', 'cash')]</field>
+            <field name="context">{'journal_type':'cash'}</field> -->
+		</record>
+
+		<menuitem id="tj_bankcash_top" name="Bank and Cash" web_icon="tj_bankcash,static/description/icon.png" sequence="101">
+			<menuitem id="tj_bankcash_top_menu" name="Bank and Cash">
+				<menuitem id="tj_cash_bank_menu" name="Bank" sequence="1">
+					<menuitem id="tj_bankcash_in_menu" name="Bank Statement In" sequence="1" action="action_bank_statement_in"/>
+					<menuitem id="tj_bankcash_out_menu" name="Bank Statement Out" sequence="2" action="action_bank_statement_out"/>
+				</menuitem>
+				<menuitem id="tj_cash_root_menu" name="Cash" sequence="2">
+					<menuitem id="tj_cash_menu_in" action="action_cash_list_in" name="Cash Registers In" sequence="10"/>
+					<menuitem id="tj_cash_menu_out" action="action_cash_list_out" name="Cash Registers Out" sequence="11"/>
+					<!-- <menuitem id="tj_bankcash_menu3" action="action_cash_line_list" name="Cash Line Registers" sequence="10"/> -->
+				</menuitem>
+			</menuitem>
+		</menuitem>
+
+		<!-- parent="account.menu_finance" -->
+
+
+		<!-- <menuitem id="tj_bankcash_menu4" action="action_mutasi_cashbank" name="Mutasi Cash Bank" sequence="10" parent="tj_bankcash_top_menu"/>	  -->
+
+
+
+		<record id="account_move_pivot_view_form" model="ir.ui.view">
+			<field name="name">account.move.pivot.form</field>
+			<field name="model">account.move</field>
+			<field name="arch" type="xml">
+				<pivot string="Bill Analysis" disable_linking="True" display_quantity="true" sample="1">
+					<field name="partner_id" type="row"/>
+					<field name="amount_total" type="measure"/>
+				</pivot>
+			</field>
+		</record>
+
+		<record id="account_move_calendar_view_form" model="ir.ui.view">
+			<field name="name">account.move.calendar.form</field>
+			<field name="model">account.move</field>
+			<field name="arch" type="xml">
+				<calendar string="Scheduled Actions" date_start="invoice_date" color="partner_id">
+					<field name="name"/>
+					<field name="partner_id" filters="1" invisible="1"/>
+				</calendar>
+			</field>
+		</record>
+
+		<record id="res_partner_calendar_view_form" model="ir.ui.view">
+			<field name="name">res.partner.calendar.form</field>
+			<field name="model">res.partner</field>
+			<field name="arch" type="xml">
+				<calendar string="Scheduled Actions" date_start="create_date">
+					<field name="name"/>
+				</calendar>
+			</field>
+		</record>
+
+
+		<record id="res_partner_pivot_view_form" model="ir.ui.view">
+			<field name="name">res.partner.pivot.form</field>
+			<field name="model">res.partner</field>
+			<field name="arch" type="xml">
+				<pivot string="Partner" disable_linking="True" display_quantity="true" sample="1">
+					<field name="name" type="row"/>
+					<field name="credit_limit" type="measure"/>
+				</pivot>
+			</field>
+		</record>
+
+
+
+		<record id="account.action_move_in_invoice_type" model="ir.actions.act_window">
+			<field name="view_mode">tree,pivot,calendar,kanban,form</field>
+		</record>
+
+		<record id="account.res_partner_action_supplier" model="ir.actions.act_window">
+			<field name="view_mode">tree,pivot,calendar,kanban,form</field>
+		</record>
+
+
+
+	</data>
+</odoo>

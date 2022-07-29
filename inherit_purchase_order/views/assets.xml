@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="inherit_purchase_order_assets_backend" name="inherit purchase assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/inherit_purchase_order/static/src/js/reporting_backend.js"></script>
+            <script type="text/javascript" src="/inherit_purchase_order/static/src/js/reporting_widget.js"></script>
+            <!-- <link rel="stylesheet" type="text/scss" href="/inherit_purchase_order/static/src/scss/forecast_widget.scss"/> -->
+            <link rel="stylesheet" type="text/scss" href="/inherit_purchase_order/static/src/scss/purchase_report.scss"/>
+            <!-- <link rel="stylesheet" type="text/scss" href="/inherit_purchase_order/static/src/scss/stock_empty_screen.scss"/> -->
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="akses_machine_stock_move" model="res.groups">
+        <field name="name">Akses Machine Stock Move</field>
+    </record>
+
+</odoo>

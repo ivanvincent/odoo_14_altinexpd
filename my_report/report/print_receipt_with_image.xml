@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <report
+            id="action_report_stock_picking_receipt_with_image"
+            model="stock.picking"
+            string="Print Receipt (with image)"
+            report_type="qweb-pdf"
+            name="my_report.report_stock_picking_receipt_with_image"
+            file="my_report.report_stock_picking_receipt_with_image"
+        />
+
+        <record id="action_report_stock_picking_receipt_with_image" model="ir.actions.report">
+            <field name="paperformat_id" ref="my_report.paperformat_a4_receipt"/>
+        </record>
+    
+        <template id="report_stock_picking_receipt_with_image">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div>
+                            <span style="font-size:20px; font-weight: bold; font-family: 'Times New Roman'">PT. PUTERA MULYA TERANG INDAH</span><br/>
+                            <span>Jl Laswi No 2, Majalaya</span><br/>
+                            <span>Telp. -</span>
+                        </div>
+                        <div class="page" style="font-size: 15px; font-family: 'Times New Roman'">
+                            <center>
+                                <h5 style="font-weight:bold;">Faktur Penerimaan Sparepart</h5>
+                            </center>
+                            <div class="row">
+                                <div class="col-6">
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="15%">Nomor</td>
+                                            <td width="5%">:</td>
+                                            <td><span t-field="doc.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Vendor</td>
+                                            <td>:</td>
+                                            <td><span t-field="doc.partner_id.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alamat</td>
+                                            <td>:</td>
+                                            <td><span t-field="doc.partner_id.street"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Faktur</td>
+                                            <td>:</td>
+                                            <td><span t-field="doc.faktur_supplier"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <div>
+                                        <table width="100%">
+                                            <tr>
+                                                <td>No. Ref</td>
+                                                <td>:</td>
+                                                <td><span t-field="doc.origin"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tanggal</td>
+                                                <td>:</td>
+                                                <td><span t-field="doc.scheduled_date"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Jatuh Tempo</td>
+                                                <td>:</td>
+                                                <td><span t-field="doc.date_done"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Surat Jalan</td>
+                                                <td>:</td>
+                                                <td><span t-field="doc.surat_jalan_supplier"/></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table-condensed" width="100%" id="#table-data" style="margin-top:5px;">
+                                <thead>
+                                    <th style="border-top: 1px solid black; border-bottom: 1px solid black;">No</th>
+                                    <th style="border-top: 1px solid black; border-bottom: 1px solid black;">Kode</th>
+                                    <th style="border-top: 1px solid black; border-bottom: 1px solid black;">Nama Barang</th>
+                                    <th style="border-top: 1px solid black; border-bottom: 1px solid black;">Quantity Done</th>
+                                    <th style="border-top: 1px solid black; border-bottom: 1px solid black;">Uom</th>
+                                    <th styleW="border-top: 1px solid black; border-bottom: 1px solid black;">Image</th>
+                                </thead>
+                                <tbody>
+                                    <t t-set="no" t-value="0"/>
+                                    <t t-set="total_done" t-value="0"/>
+                                    <tr t-foreach="doc.move_ids_without_package" t-as="line">
+                                        <t t-set="no" t-value="no + 1"/>
+                                        <t t-set="total_done" t-value="total_done + line.quantity_done"/>
+                                        <td style="border-bottom: 1px solid black;" class="text-center"><span t-esc="no"/></td>
+                                        <td style="border-bottom: 1px solid black;"><span t-field="line.product_id.default_code"/></td>
+                                        <td style="border-bottom: 1px solid black;"><span t-field="line.product_id.name"/></td>
+                                        <td style="border-bottom: 1px solid black;"><span t-esc="'{0:,.2f}'.format(float(line.quantity_done))"/></td>
+                                        <td style="border-bottom: 1px solid black;"><span t-field="line.product_uom.name"/></td>
+                                        <td style="padding-top: -20px; border-bottom: 1px solid black;">
+                                            <table class="table table-condensed" width="100%">
+                                                <tr t-foreach="line.image_ids" t-as="line2">
+                                                    <td style="border : 0px;">
+                                                        <span t-esc="line2.image_desc" style="font-size: 14px;"/><br/>
+                                                        <img t-attf-src="data:image/*;base64,{{line2.image_binary}}" width="150px" height="150px"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3" class="text-right" style="border-top: 1px solid black;">Total Item : </td>
+                                        <td colspan="2" style="border-top: 1px solid black;"><t t-esc="'{0:,.2f}'.format(float(total_done))"/></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <div class="row" style="margin-top: 20px;">
+                                <div class="col-4 text-center">
+                                    <span>Menerima</span><br/><br/><br/><br/>
+                                    <span>____________</span>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <span>Mengetahui</span><br/><br/><br/><br/>
+                                    <span>____________</span>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <span>Kepala Gudang</span><br/><br/><br/><br/>
+                                    <span>____________</span>
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    
+    </data>
+    
+
+</odoo>

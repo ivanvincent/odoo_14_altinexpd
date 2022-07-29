@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record model="ir.ui.view" id="mrp_machine_tree">
+            <field name="name">mrp.machine.tree</field>
+            <field name="model">mrp.machine</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="number"/>
+                    <field name="location_id"/>
+                    <field name="is_under_mtc"/>
+                    <field name="purchase_date"/>
+                    <field name="expire_date"/>
+                    <field name="eff"/>
+                    <field name="rpm"/>
+                    <field name="lebar"/>
+                    <field name="kelompok"/>
+                    <field name="category_id"/>
+                    <field name="partner_id"/>
+                    <field name="panjang"/>
+                    <field name="berat"/>
+                    <field name="volume_air"/>
+                    <field name="speed"/>
+                    <field name="nozzle"/>
+                    <field name="jarum"/>
+                    <field name="description"/>
+                    <field name="is_active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record model="ir.ui.view" id="mrp_machine_form">
+            <field name="name">mrp.machine.form</field>
+            <field name="model">mrp.machine</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="number"/>
+                                <field name="location_id"/>
+                                <field name="is_under_mtc"/>
+                                <field name="purchase_date"/>
+                                <field name="expire_date"/>
+                                <field name="eff"/>
+                            </group>
+                            <group>
+                                <field name="rpm"/>
+                                <field name="lebar"/>
+                                <field name="kelompok"/>
+                                <field name="category_id"/>
+                                <field name="partner_id"/>
+                                <field name="speed"/>
+                                <field name="nozzle"/>
+                                <field name="jarum"/>
+                                <field name="description"/>
+                                <field name="is_active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="machine_category_action" model="ir.actions.act_window">
+            <field name="name">Machine Category</field>
+            <field name="res_model">mrp.machine.category</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="submenu_6" name="Machine" parent="menu_master" action="machine_action" />
+      
+        <menuitem id="machine_category_menu" name="Machine Category" parent="menu_master" action="machine_category_action" />
+
+
+    </data>
+</odoo>

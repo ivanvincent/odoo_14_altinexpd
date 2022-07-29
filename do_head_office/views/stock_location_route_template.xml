@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record model="ir.ui.view" id="stock_location_route_template_tree">
+            <field name="name">stock.location.route.template.tree</field>
+            <field name="model">stock.location.route.template</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="action_type"/>
+                    <field name="src_location_id"/>
+                    <field name="dest_location_id"/>
+                    <field name="picking_type_id"/>
+                    <field name="procure_method"/>
+                    <field name="auto"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record model="ir.ui.view" id="stock_location_route_template_form">
+            <field name="name">stock.location.route.template.form</field>
+            <field name="model">stock.location.route.template</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="action_type"/>
+                                <field name="src_location_id"/>
+                                <field name="dest_location_id"/>
+                            </group>
+                            <group>
+                                <field name="picking_type_id"/>
+                                <field name="procure_method"/>
+                                <field name="auto"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="stock_location_route_template_action">
+            <field name="name">Stock Location Route Template</field>
+            <field name="res_model">stock.location.route.template</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem action="stock_location_route_template_action" id="menu_action_stock_location_route_template_form" parent="stock.menu_warehouse_config" groups="stock.group_adv_location"/>
+
+
+    </data>
+</odoo>

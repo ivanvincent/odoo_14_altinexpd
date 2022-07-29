@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="paperformat_product_persupplier" model="report.paperformat">
+            <field name="name">Product persupplier A4</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">10</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+            id="action_report_product_persupplier"
+            model="product.persupplier.wizard"
+            string="Product persupplier"
+            report_type="qweb-pdf"
+            name="inherit_inventory.report_product_persupplier"
+            file="inherit_inventory.report_product_persupplier"
+            menu="False"
+        />
+
+        <record id="action_report_product_persupplier" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_product_persupplier"/>
+        </record>
+    
+        <template id="report_product_persupplier">
+            <t t-call="web.basic_layout">
+                <div class="page">            
+                    <t t-set="image_url" t-value="image_url"/>
+                    <h3 style="text-align: center; font-weight: bold;">Laporan Product Persupplier</h3>
+                    <div class="row" style="margin-bottom: 20px; margin-top:30px;">
+                        <div class="col-4">
+                            <span style="font-weight: bold;">Date Start</span><br/>
+                            <span t-esc="date_start"/>
+                        </div>
+                        <div class="col-4">
+                            <span style="font-weight: bold;">Date End</span><br/>
+                            <span t-esc="date_end"/>
+                        </div>
+                        <div class="col-4">
+                            <span style="font-weight: bold;">Vendor</span><br/>
+                            <span t-esc="vendor"/>
+                        </div>
+                    </div>
+                    <table class="table table-sm">
+                        <thead>
+                            <th>No</th>
+                            <th>Product</th>
+                            <th>No Po</th>
+                            <th>Tanggal Diterima</th>
+                            <th>Keterangan</th>
+                            <th>Foto</th>
+                        </thead>
+                        <tbody>
+                            <t t-set="no" t-value="0"/>
+                            <tr t-foreach="docs" t-as="line">
+                                <t t-set="no" t-value="no + 1"/>                                
+                                <td><span t-esc="no"/></td>
+                                <td><span t-esc="line['product_name']"/></td>
+                                <td><span t-esc="line['no_po']"/></td>
+                                <td><span t-esc="line['tanggal_receipt']"/></td>
+                                <td><span t-esc="line['keterangan']"/></td>
+                                <td style="padding-top: -20px;">
+                                    <table class="table table-condensed" width="100%">
+                                        <tr t-foreach="line['image_ids']" t-as="line2">
+                                            <td style="border : 0px;">
+                                                <span t-esc="line2['image_desc']" style="font-size: 9px;"/><br/>
+                                                <img t-att-src="'%s%s' % (image_url, line2['filename'])" width="150px" height="150px"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </template>
+    
+    </data>
+    
+
+</odoo>

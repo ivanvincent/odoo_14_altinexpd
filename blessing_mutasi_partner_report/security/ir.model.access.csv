@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_blessing_mutasi_partner_report_line,blessing_mutasi_partner_report_line,model_blessing_mutasi_partner_report_line,base.group_system,1,1,1,1
+access_blessing_mutasi_partner_report,blessing_mutasi_partner_report,model_blessing_mutasi_partner_report,base.group_system,1,1,1,1

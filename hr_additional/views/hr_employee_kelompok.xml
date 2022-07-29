@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record model="ir.ui.view" id="hr_employee_kelompok_tree">
+            <field name="name">hr.employee.kelompok.tree</field>
+            <field name="model">hr.employee.kelompok</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Form View -->
+        <record model="ir.ui.view" id="hr_employee_kelompok_form">
+            <field name="name">hr.employee.kelompok.form</field>
+            <field name="model">hr.employee.kelompok</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="description"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="hr_employee_kelompok_action">
+            <field name="name">Kelompok Kerja</field>
+            <field name="res_model">hr.employee.kelompok</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            id="hr_menu_employee_kelompok"
+            action="hr_employee_kelompok_action"
+            parent="hr.menu_human_resources_configuration"
+            sequence="3"
+            groups="base.group_no_one"/>
+
+    </data>
+</odoo>

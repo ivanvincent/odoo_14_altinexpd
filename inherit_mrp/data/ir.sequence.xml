@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="seq_bom" model="ir.sequence">
+            <field name="name">Bom</field>
+            <field name="code">mrp.bom</field>
+            <field name="prefix">BOM/%(year)s/%(day)s/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_mrp_sizing" model="ir.sequence">
+            <field name="name">Production Sizing</field>
+            <field name="code">manufacturing.production.sizing</field>
+            <field name="prefix">SZG/MO/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_mrp_weaving" model="ir.sequence">
+            <field name="name">Production Weaving</field>
+            <field name="code">manufacturing.production.weaving</field>
+            <field name="prefix">WV/MO/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_mrp_dyeing" model="ir.sequence">
+            <field name="name">Production Dyeing</field>
+            <field name="code">manufacturing.production.dyeing</field>
+            <field name="prefix">%(year)s%(month)s</field>
+            <field name="padding">5</field>
+        </record>
+
+        <record id="seq_mrp_twisting" model="ir.sequence">
+            <field name="name">Production Twisting</field>
+            <field name="code">manufacturing.production.twisting</field>
+            <field name="prefix">TWS/MO/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_mrp_papertube" model="ir.sequence">
+            <field name="name">Production Papertube</field>
+            <field name="code">manufacturing.production.papertube</field>
+            <field name="prefix">PPT/MO/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_mrp_packing" model="ir.sequence">
+            <field name="name">Production Packing</field>
+            <field name="code">manufacturing.production.packing</field>
+            <field name="prefix">PCK/MO/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_mrp_warping" model="ir.sequence">
+            <field name="name">Production Warping</field>
+            <field name="code">manufacturing.production.warping</field>
+            <field name="prefix">WRP/MO/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+        </record>
+
+
+    </data>
+
+
+</odoo>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <template id="assets_backend_inherit_ninebox" inherit_id="web.assets_backend" name="Sellingout">
+            <xpath expr="script[last()]" position="after">
+                <script type="text/javascript" src="/mdev_sellingout/static/src/js/tree_view_button.js"></script>
+            </xpath>
+        </template>
+</odoo>

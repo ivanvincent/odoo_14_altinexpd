@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="hr_department_analytic_account_form">
+            <field name="name">hr.department.form</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='parent_id']" position="before">
+                    <field name="analytic_account_id" options="{'no_open': True, 'no_create': True}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_credit_limit_form">
+            <field name="name">hr.employee.credit.limit.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//header" position="inside">
+                    <button name="action_reset_limit" string="Reset Limit" type="object" groups="hr.group_hr_manager" class="oe_highlight" />
+                </xpath>
+                
+                <xpath expr="//page[@name='hr_settings']//group[@name='active_group']" position="inside">
+                    <field name="credit_limit" groups="hr.group_hr_manager"/>
+                    <field name="sisa_limit" readonly="1"/>
+                    <field name="reset_limit" groups="hr.group_hr_manager"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="analityc_account_res_users_inherit_form">
+            <field name="name">res.users.form</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/div/group//field[@name='partner_id']" position="after">
+                    <field name="analytic_account_id" options="{'no_open': True, 'no_create': True}"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

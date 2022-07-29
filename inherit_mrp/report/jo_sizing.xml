@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="paperformat_jo_sizing" model="report.paperformat">
+        <field name="name">JO Sizing</field>
+        <field name="default" eval="True" />
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">23</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">35</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <report
+        id="action_report_mo_sizing"
+        model="mrp.production"
+        string="Print MO Sizing"
+        report_type="qweb-pdf"
+        name="inherit_mrp.report_mo_sizing"
+        file="inherit_mrp.report_mo_sizing"
+    />
+
+    <record id="action_report_mo_sizing" model="ir.actions.report">
+        <field name="paperformat_id" eval="paperformat_jo_sizing"/>
+    </record>
+
+    <template id="report_mo_sizing">
+        <t t-call="web.basic_layout">
+        <!-- <link rel="stylesheet" type="text/scss" href="/inherit_mrp/static/src/css/style.css"/> -->
+            <style>
+                .top .title {
+                    font-size: 20px;
+                    font-weight: 700;
+                    margin-bottom: 0;
+                }
+
+                .top .row .col .title p {
+                    font-size: 12px;
+                    font-weight: 700;
+                }
+
+                .top-table {
+                    line-height: 20px;
+                }
+
+                hr {
+                    border: 1px double black;
+                }
+
+                .sec-table-benang {
+                    margin-bottom:10px;
+                }
+
+                .table-data-benang tr th {
+                    border: 1px solid black;
+                    font-size: 14px;
+                }
+
+                .table-data-benang tr td {
+                    border: 1px solid black;
+                    text-align: center;
+                    font-size: 12px;
+                }
+
+                .table-data tr th {
+                    border: 1px solid black;
+                    font-size: 14px;
+                }
+
+                .table-data tr td {
+                    border: 1px solid black;
+                    text-align: center;
+                    font-size: 12px;
+                }
+
+                .tanda-tangan {
+                    margin-top: 30px;
+                    font-size: 12px;
+                }
+
+                .tanda-tangan .row .col {
+                    line-height: 1px;
+                }
+
+                .tanda-tangan .row .col .p-label{
+                    padding-bottom: 40px;
+                }
+            </style>
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+
+                    <div class="top">
+                        <div class="row">
+                            <div class="col-4">
+                                PMTI
+                            </div>
+                            <div class="col-4 text-center">
+                                <h4 class="title">JOB ORDER SIZING</h4>
+                                <p class="font-weight-bold"><span t-field="doc.name"/></p>
+                            </div>
+                            <div class="col-4 text-right">
+                                <p>PRC.11.7.Rev-03</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="top-table">
+                        <table>
+                            <tr>
+                                <td>Tanggal</td>
+                                <td class="pl-3 pr-2">:</td>
+                                <td><span t-field="doc.date_planned_start"/></td>
+                            </tr>
+                            <tr>
+                                <td>Unit Sizing</td>
+                                <td class="pl-3 pr-2">:</td>
+                                <td><span t-field="doc.unit_sizing"/></td>
+                            </tr>
+                            <tr>
+                                <td>No Kontrak</td>
+                                <td class="pl-3 pr-2">:</td>
+                                <td><span t-field="doc.sc_id"/></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <hr/>
+
+                    <div class="table-top-sub">
+                        <div class="row">
+                            <div class="col-6">
+                                <table>
+                                    <tr>
+                                        <td>Nama Design</td>
+                                        <td class="pl-3 pr-2">:</td>
+                                        <td class="font-weight-bold"><span t-field="doc.nama_design"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sisir</td>
+                                        <td class="pl-3 pr-2">:</td>
+                                        <td><span t-field="doc.sisir_id"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total End</td>
+                                        <td class="pl-3 pr-2">:</td>
+                                        <td><span t-field="doc.total_end"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-6">
+                                <table>
+                                    <tr>
+                                        <td>Jml Beam Stand</td>
+                                        <td class="pl-3 pr-2">:</td>
+                                        <td><span t-field="doc.jml_beam_stand"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total Order</td>
+                                        <td class="pl-3 pr-2">:</td>
+                                        <td><span class="pd-5" t-field="doc.jumlah_order"/> <span t-field="doc.product_uom_id"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                                
+                        </div>
+                    </div>
+
+                    <div class="sec-table-benang">
+                        <table class="table-data-benang" width="100%">
+                            <thead>
+                                <tr>
+                                    <th colspan="4" class="text-center">BENANG</th>
+                                </tr>
+                                <tr>
+                                    <td>Kode Benang</td>
+                                    <td>Name</td>
+                                    <td>Jenis Benang</td>
+                                    <td>qty</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.move_raw_ids" t-as="bng">
+                                    <td></td>
+                                    <td><span t-field="bng.product_id"/></td>
+                                    <td><span t-field="bng.jenis_benang"/></td>
+                                    <td><span t-field="bng.product_uom_qty"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
+                        <table class="table-data" width="100%">
+                            <thead>
+                                <tr>
+                                    <th colspan="10" class="text-center">RENCANA BEAMING</th>
+                                    <th colspan="6" class="text-center">AKTUALISASI</th>
+                                </tr>
+                                <tr>
+                                    <td>No</td>
+                                    <td>Kode Prod</td>
+                                    <td>TE (Helai)</td>
+                                    <td>Pjg/Beam (Yard)</td>
+                                    <td>Jml Beam</td>
+                                    <td>Type Beam</td>
+                                    <td>Lbr Beam (Inc)</td>
+                                    <td>Total Pjg</td>
+                                    <td>Unit WV</td>
+                                    <td>DT</td>
+                                    <td>DT</td>
+                                    <td>Jml</td>
+                                    <td>Akm</td>
+                                    <td>Pjg Bng</td>
+                                    <td>Pjg Bng</td>
+                                    <td>Ket</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="no" t-value="0"/>
+                                <t t-set="ttl_jml_beam" t-value="0"/>
+                                <t t-set="ttl_pjg_beam" t-value="0"/>
+                                <tr t-foreach="doc.beaming_ids" t-as="line">
+                                    <t t-set="no" t-value="no + 1"/>
+                                    <t t-set="ttl_jml_beam" t-value="line.jml_beam"/>
+                                    <t t-set="ttl_pjg_beam" t-value="line.jml_beam"/>
+                                    <td><span t-esc="no"/></td>
+                                    <td><span t-field="line.kode_prod"/></td>
+                                    <td><span t-field="line.te_helai"/></td>
+                                    <td><span t-field="line.qty_beam"/></td>
+                                    <td><span t-field="line.jml_beam"/></td>
+                                    <td><span t-field="line.type_beam_id"/></td>
+                                    <td><span t-field="line.lebar_beam"/></td>
+                                    <td><span t-field="line.total_panjang"/></td>
+                                    <td><span t-field="line.unit_wv"/></td>
+                                    <td><span t-field="line.date"/></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="font-weight-bold">
+                                    <td colspan="3">TOTAL</td>
+                                    <td colspan="2" class="text-right pr-2">+/- <span t-esc="ttl_jml_beam"/></td>
+                                    <td></td>
+                                    <td colspan="2" class="text-right pr-2">+/- <span t-esc="ttl_pjg_beam"/></td>
+                                    <td colspan="2">TOTAL</td>
+                                    <td colspan="6" border="0"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <div class="tanda-tangan">
+                        <div class="row">
+                            <div class="col-4">
+                                <p class="p-label">Dibuat Oleh :</p>
+                                <span class="d-block">Ayi Irma Kusumawati</span>
+                                <p>Tgl:</p>
+                            </div>
+                            <div class="col-4">
+                                <p class="p-label">Diperiksa Oleh :</p>
+                                <span class="d-block">Gunawan</span>
+                                <p>Tgl:</p>
+                            </div>
+                            <div class="col-4">
+                                <p class="p-label">Diterima Oleh :</p>
+                                <span class="d-block">Siswadi</span>
+                                <p>Tgl:</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </t>
+        </t>
+    </template>
+
+</odoo>

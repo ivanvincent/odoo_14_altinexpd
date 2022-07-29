@@ -1,0 +1,96 @@
+<odoo>
+    <data>
+
+        <!--<record id="action_scan_delivery_order_list" model="ir.actions.act_window">-->
+        <!--<field name="name">Scan Delivery Order</field>-->
+        <!--<field name="res_model">delivery.order.scan</field>-->
+        <!--<field name="view_mode">form,tree</field>-->
+        <!--<field name="help" type="html">-->
+        <!--<p class="oe_view_nocontent_create">-->
+        <!--Click to add a Scan Delivery order-->
+        <!--</p>-->
+        <!--<p>klik tombol create untuk bikin Scan DO baru</p>-->
+        <!--</field>-->
+        <!--</record>-->
+
+        <!--<record id="action_scan_delivery_order_list" model="ir.actions.client">-->
+        <!--<field name="name">ScanDO</field>-->
+        <!--<field name="tag">do_kiosk_mode</field>-->
+        <!--<field name="target">fullscreen</field>-->
+        <!--</record>-->
+
+        <record id="action_kontrabon_order_list" model="ir.actions.act_window">
+            <field name="name">Kontrabon Order</field>
+            <field name="res_model">kontrabon.order</field>
+            <field name="view_mode">tree,form</field>
+            <!-- ,pivot,calendar,graph -->
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a kontrabon order
+                </p>
+                <p>klik tombol create untuk bikin DO baru</p>
+            </field>
+        </record>
+
+        <record id="action_kontrabon_order_utang_list" model="ir.actions.act_window">
+            <field name="name">Kontrabon Order Utang</field>
+            <field name="res_model">kontrabon.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type_kontra', '=', 'in_invoice')]</field>
+            <field name="context">{'default_type_kontra':'in_invoice'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a kontrabon order
+                </p>
+                <p>klik tombol create untuk bikin DO baru</p>
+            </field>
+        </record>
+
+        <record id="action_kontrabon_order_piutang_list" model="ir.actions.act_window">
+            <field name="name">Kontrabon Order Piutang</field>
+            <field name="res_model">kontrabon.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type_kontra', '=', 'out_invoice')]</field>
+            <field name="context">{'default_type_kontra':'out_invoice'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a kontrabon order
+                </p>
+                <p>klik tombol create untuk bikin DO baru</p>
+            </field>
+        </record>
+
+        <record id="action_kontrabon_order_approve_purchasing_list" model="ir.actions.act_window">
+            <field name="name">Kontrabon Order Piutang</field>
+            <field name="res_model">kontrabon.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state_2', '=', 'show_button_approve_purchasing')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a kontrabon order
+                </p>
+                <p>klik tombol create untuk bikin DO baru</p>
+            </field>
+        </record>
+
+
+
+
+        <menuitem id="KB_0" name="Kontrabon" web_icon="tj_kontrabon,static/description/icon.png" sequence="20"/>
+        <menuitem id="KB_1" name="Kontrabon" parent="KB_0" sequence="20"/>
+        <menuitem id="menu_kontrabon_order1" name="Kontrabon Order" parent="KB_1" action="action_kontrabon_order_list" sequence="20"/>
+        <menuitem id="menu_kontrabon_order_utang" name="Kontrabon Order Utang" parent="KB_1" action="action_kontrabon_order_utang_list" sequence="20"/>
+        <menuitem id="menu_kontrabon_order_piutang" name="Kontrabon Order Piutang" parent="KB_1" action="action_kontrabon_order_piutang_list" sequence="20"/>
+        <menuitem id="menu_kontrabon_order_approve_purchasing" name="Kontrabon Order Approve Purchasing" parent="KB_1" action="action_kontrabon_order_approve_purchasing_list" sequence="20"/>
+
+
+        <!--<menuitem id="menu_delivery_order0"-->
+        <!--name="Scan Delivery Order"-->
+        <!--parent="do_1"-->
+        <!--action="action_scan_delivery_order_list"-->
+        <!--groups="tj_delivery_order.group_user,tj_delivery_order.group_manager"-->
+        <!--sequence="50"/>-->
+
+
+    </data>
+</odoo>

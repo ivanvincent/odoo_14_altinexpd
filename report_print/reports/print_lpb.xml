@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <report string="Print LPB" 
+        id="action_print_lpb" 
+        model="stock.picking" 
+        report_type="qweb-pdf" 
+        name="report_print.print_lpb" 
+        file="report_print.print_lpb" />
+
+        <template id="print_lpb">
+            <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div class="text-center">
+                        <h3><b>BUKTI PENERIMAAN BARANG</b></h3>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-2">
+                            No Dok. <br/>
+                            Tanggal <br/>
+                            Tujuan <br/>
+                            Supplier <br/>
+                            SJ Suplier <br/>
+                        </div>
+                        <div class="col-4">
+                            : <span t-field="o.name"/> <br/>
+                            : <span t-field="o.date_done"/> <br/>
+                            : <span t-field="o.location_dest_id"/> <br/>
+                            : <span t-field="o.partner_id"/> <br/>
+                            : <span t-field="o.surat_jalan_supplier"/> <br/>
+                        </div>
+
+                        <div class="col-2">
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            PO No. <br/>
+                        </div>
+                        <div class="col-4">
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            : <span t-field="o.origin"/> <br/>
+                        </div>
+                        
+                    
+                    </div><br/>
+
+                    <table class="table table-condensed table-striped table-bordered">
+                            <tr>
+                                <td>No</td>
+                                <td>Kode</td>
+                                <td>Nama Barang</td>
+                                <td>Quantity</td>
+                                <td>Satuan</td>
+                                <td>Keterangan</td>
+                            </tr>
+
+                            <tr t-foreach="o.move_ids_without_package" t-as="line">
+                                <td><span t-esc="line_index + 1"/></td>
+                                <td><span t-field="line.product_id.default_code"/></td>
+                                <td><span t-field="line.product_id.name"/></td>
+                                <td><span t-field="line.quantity_done"/></td>
+                                <td><span t-field="line.product_uom"/></td>
+                                <td><span t-field="line.note"/></td>
+                            </tr>
+                    </table>
+                    
+
+                    
+                        <div>Note: <span t-field="o.note"></span></div><br/>
+                    <div class="row">
+                        <div class="col-4 text-center">
+                            Dibuat Oleh <br/>
+                            <span t-field="o.date_done"></span><br/><br/><br/>
+                            (_______________________)
+                        </div>
+                        <div class="col-4 text-center">
+                            <!-- Penerima <br/><br/><br/><br/>
+                            (_______________________) -->
+                        </div>
+                        <div class="col-4 text-center">
+                            Pengirim <br/><br/><br/><br/>
+                            (_______________________)
+                        </div>
+                    </div>
+                
+
+                </div>
+            </t>
+            </t>
+        </template>
+    
+    </data>
+    
+
+</odoo>

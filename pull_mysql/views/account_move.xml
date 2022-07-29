@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="pull_cron_sj_form">
+            <field name="name">account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account_edi.view_move_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='button_draft']" position="after">
+                    <button name="open_print_inv_wizard" type="object" string="Print" attrs="{'invisible': [('x_pro_no_sj', '=', False)]}"/>
+                </xpath>
+
+                <xpath expr="//div[@name='journal_div']" position="after">
+                    <field name="om_lama"/>
+                    <field name="order_polos"/>
+                    <field name="surat_jalan_id" options="{'no_open': True, 'no_create': True}" domain="[('is_invoiced', '=', False)]" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    <!-- <field name="x_pro_no_sj" string="Surat Jalan" readonly="1" attrs="{'invisible':[('surat_jalan_id', '!=', False)]}"/> -->
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='quantity']" position="before">
+                    <field name="greige_id" invisible="1"/>
+                    <field name="warna"/>
+                    <field name="grade_id"/>
+                    <field name="total_roll"/>
+                    <field name="harga_om"/>
+                </xpath>
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='quantity']" position="after">                    
+                    <field name="qty_kg" optional="hide"/>
+                    <field name="qty_meter" optional="hide"/>
+                    <field name="qty_yard" optional="hide"/>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="after">
+                    <field name="warna" invisible="1"/>
+                    <field name="greige_id" invisible="1"/>
+                    <field name="grade_id" invisible="1"/>
+                    <field name="total_roll" invisible="1"/>
+                    <field name="harga_om" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="view_out_invoice_tree_inherit" model="ir.ui.view">
+            <field name="name">account.out.invoice.tree</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_invoice_tree"/>
+            <!-- <field name="mode">primary</field> -->
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="payment_reference"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_partner_form" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//page[@name='sales_purchases']/group/group[@name='sale']" position="before">
+                    <group name="customer_code" string="Customer">
+                        <field name="customer_rank" invisible="1"/>
+                        <field name="kode_customer" string="Internal Code" />
+                        <field name="kext_customer" string="External Code" />
+                    </group>
+                    <group name="supplier_code" string="Supplier">
+                        <field name="supplier_rank" invisible="1"/>
+                        <field name="kode_supplier" string="Internal Code" />
+                        <field name="kext_supplier" string="External Code" />
+                    </group>
+                </xpath>
+
+                <field name="name" position="attributes">
+                    <attribute name="placeholder">Nama</attribute>
+                </field>
+                <field name="street" position="attributes">
+                    <attribute name="placeholder">Alamat</attribute>
+                </field>
+                <field name="street2" position="attributes">
+                    <attribute name="placeholder">Kecamatan</attribute>
+                </field>
+                <field name="city" position="attributes">
+                    <attribute name="placeholder">Kab./Kota</attribute>
+                </field>
+                <field name="state_id" position="attributes">
+                    <attribute name="placeholder">Provinsi</attribute>
+                </field>
+                <field name="zip" position="attributes">
+                    <attribute name="placeholder">KDPOS</attribute>
+                </field>
+                <field name="country_id" position="attributes">
+                    <attribute name="placeholder">Negara</attribute>
+                </field>
+
+                <field name="vat" position="attributes">
+                    <attribute name="attrs"> {'invisible':[('partner_tax_type','!=','pkp')],'required':[('partner_tax_type','=','pkp')]}
+                    </attribute>
+                    <attribute name="string">NPWP</attribute>
+                    <attribute name="placeholder">99.999.999.9-999.999</attribute>
+                </field>
+
+                <field name="function" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="website" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="lang" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+
+                <field name="phone" position="after">
+                    <field name="fax_no" widget="phone" />
+                </field>
+
+            </field>
+        </record>
+
+        <record id="view_partner_tree" model="ir.ui.view">
+            <field name="name">res.partner.tree</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+
+                <field name="display_name" position="after">
+                    <field name="street2" optional="hide" string="Address" />
+                    <field name="mobile" />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
+
+<!-- <field name="partner_tax_type" position="attributes">
+                <attribute name="invisible">1</attribute>                        
+            </field> -->
+<!-- 
+            <field name="email" position="attributes">
+                <attribute name="invisible">1</attribute>                        
+            </field>
+            <field name="phone" position="attributes">
+                <attribute name="invisible">1</attribute>                        
+            </field>
+                 -->
+<!-- 
+            <record id="view_partner_search" model="ir.ui.view">
+                <field name="name">res.partner.search</field>
+                <field name="model">res.partner</field>
+                <field name="inherit_id" ref="base.view_res_partner_filter"/>
+                <field name="arch" type="xml">
+
+                    <xpath expr="//filter[@name='group_country']" position="after">
+                        <separator />
+                        <filter name="group_jalur" string="Partner Route" context="{'group_by': 'custom_jalur_id'}" />
+                        <filter name="group_group" string="Partner Group" context="{'group_by': 'custom_group_id'}" />
+                        <filter name="group_division" string="Partner Division" context="{'group_by': 'custom_div_id'}" />
+
+                    </xpath>
+
+                </field>
+            </record>
+                -->

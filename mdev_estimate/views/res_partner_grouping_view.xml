@@ -1,0 +1,147 @@
+<odoo>
+    <data>
+        <record id="mdev_res_partner_grouping_form" model="ir.ui.view">
+            <field name="name">mdev.res.partner.grouping.form</field>
+            <field name="model">res.partner.jalur.line</field>
+            <field name="arch" type="xml">
+                <form string="Partner Grouping">
+                    <sheet>
+
+                        <widget name="web_ribbon" text="Disabled" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <group col="4" string="Customer" >
+                            <field name="jalur_line_id" colspan="4" options="{'no_create': True}" />
+
+                            <field name="cust_int_code" readonly="1" />
+                            <field name="cust_ext_code" readonly="1" />
+                            <field name="cust_city" readonly="1" />
+                            <field name="cust_phone" readonly="1" />
+                            <field name="cust_mobile" readonly="1" />
+                            <field name="cust_ltime" readonly="1" />
+
+                            <separator colspan="4" string="Grouping" />
+                            <field name="cust_type" colspan="4" readonly="1" string="Type" />
+                            <field name="account_id" colspan="4" readonly="1" string="Account" />
+                            <field name="divisi_id" colspan="4" readonly="1" string="Division" />
+                            <field name="group_id" colspan="4" readonly="1" string="Group" />
+                            <field name="cust_cluster" colspan="4" readonly="1" />
+                            <field name="group_delivery" colspan="4" readonly="1" />
+
+                        </group>
+
+                        <group col="4" string="Schedule" >
+                            <field name="jalur_id" colspan="4" options="{'no_create': True, 'no_create_edit':True, 'no_open':True}" />
+<!-- 
+                            <field name="salesperson" colspan="4" /> 
+ -->
+                            <field name="jwk"/>
+                            <field name="jam" widget="float_time" />
+                        </group>
+                        <field name="active" invisible="1" />
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>                    
+
+                </form>
+            </field>
+        </record>
+
+        <record id="mdev_res_partner_grouping_tree" model="ir.ui.view">
+            <field name="name">mdev.res.partner.grouping.tree</field>
+            <field name="model">res.partner.jalur.line</field>
+            <field name="arch" type="xml">
+
+                <tree string="Customer Grouping" import="false" >
+
+                    <field name="jalur_line_id" />
+
+                    <field name="cust_int_code" optional="hide" />
+                    <field name="cust_ext_code" optional="hide" />
+                    <field name="cust_city" optional="hide" />
+                    <field name="cust_phone" optional="hide" />
+                    <field name="cust_mobile" optional="hide" />
+                    <field name="cust_email" optional="hide" />
+                    <field name="cust_ltime" optional="show" />
+
+                    <field name="cust_type" string="Type" />
+
+                    <field name="account_id" string="Account" />
+                    <field name="divisi_id" string="Division" />
+
+                    <field name="group_id" string="Group" />
+                    <field name="cust_cluster" optional="hide" />
+                    <field name="group_delivery" optional="show" />
+
+                    <field name="jalur_id"/>
+                    <field name="salesperson" optional="show" /> 
+                    <field name="jwk" string="Schedule" />
+                    <field name="jam" string="Time" widget="float_time" />
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="mdev_res_partner_grouping_search" model="ir.ui.view">
+            <field name="name">mdev.res.partner.grouping.search</field>
+            <field name="model">res.partner.jalur.line</field>
+            <field name="arch" type="xml">
+                <search string="Customer Grouping" >
+
+                    <field string="Customer" name="jalur_line_id"/>
+
+                    <field string="Account" name="account_id"/>
+                    <field string="Division" name="divisi_id"/>
+
+                    <field string="Group" name="group_id"/>
+                    <field string="Route" name="jalur_id"/>
+                    <field string="Salesperson" name="salesperson"/>
+                    <field string="Schedule" name="jwk"/>
+                    <field string="Time" name="jam"/>
+
+                    <filter string="My Documents" name="filter_mydocument" domain="['|',('create_uid', '=', uid),('write_uid', '=', uid)]"/>
+                    <separator/>
+                    <filter string="Senin" name="filter_jwk_1" domain="[('jwk','=',1 )]" />
+                    <filter string="Selasa" name="filter_jwk_2" domain="[('jwk','=',2 )]" />
+                    <filter string="Rabu" name="filter_jwk_3" domain="[('jwk','=',3 )]" />
+                    <filter string="Kamis" name="filter_jwk_4" domain="[('jwk','=',4 )]" />
+                    <filter string="Jum'at" name="filter_jwk_5" domain="[('jwk','=',5 )]" />
+                    <filter string="Sabtu" name="filter_jwk_6" domain="[('jwk','=',6 )]" />
+                    <filter string="Minggu" name="filter_jwk_7" domain="[('jwk','=',7 )]" />
+                    <separator />
+                    <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                    <filter name="inactive" string="Disabled" domain="[('active', '=', False)]"/>
+
+                    <filter string="Customer" name="jalur_line_id" context="{'group_by': 'jalur_line_id'}"/>
+                    <filter string="Type" name="group_type" domain="[]" context="{'group_by':'cust_type'}"/>
+                    <separator />
+                    <filter string="Account" name="account_id" context="{'group_by': 'account_id'}"/>
+                    <filter string="Division" name="divisi_id" context="{'group_by': 'divisi_id'}"/>
+                    <filter string="Group" name="group_id" context="{'group_by': 'group_id'}"/>
+                    <separator />
+                    <filter string="Route" name="jalur_id" context="{'group_by': 'jalur_id'}"/>
+                    <filter string="Salesperson" name="salesperson" context="{'group_by': 'salesperson'}" />
+                    <separator />
+                    <filter string="Schedule" name="jwk" context="{'group_by': 'jwk'}" />
+                    <filter string="Time" name="jam" context="{'group_by': 'jam'}" />
+                </search>
+            </field>
+        </record>
+
+        <record id="mdev_res_partner_grouping_action" model="ir.actions.act_window">
+            <field name="name">Customer Grouping</field>
+            <field name="res_model">res.partner.jalur.line</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
+            <field name="search_view_id" ref="mdev_res_partner_grouping_search"/>
+            <field name="view_id" ref="mdev_res_partner_grouping_tree"/>
+            <field name="context">{
+                                    'search_default_filter_mydocument':1,
+                                }
+            </field>
+        </record>
+
+        <menuitem action="mdev_res_partner_grouping_action" id="menu_mdev_res_partner_grouping" parent="est_template_menu" sequence="1"/>
+    </data>
+</odoo>

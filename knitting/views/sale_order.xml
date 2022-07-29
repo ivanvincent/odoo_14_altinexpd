@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="mrp_production_sale_view_form">
+            <field name="name">mrp.production.sale.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page/field[@name='order_line']/tree/field[@name='invoice_status']" position="after">
+                    <field name="mrp_ids" optional="hide" widget="many2many_tags"/>
+                    <field name="mrp_quantity" optional="hide"/>
+                    <field name="mrp_produced_qty" optional="hide"/>
+                    <field name="remaining_qty" optional="hide"/>
+                </xpath>
+
+                <xpath expr="//page/field[@name='order_line']/tree/field[@name='product_id']" position="after">
+                    <field name="html_color" widget="color" optional="show" string="Color"/>
+                </xpath>
+                <xpath expr="//page/field[@name='order_line']/tree/field[@name='product_uom_qty']" position="attributes">
+                    <attribute name="sum">Total Qty</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="so_outstanding_tree_view">
+            <field name="name">sale.order.line.tree</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="inherit_sale_order.follow_up_marketing_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="before">
+                    <field name="product_code"/>
+                </xpath>
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="design_id"/>
+                    <field name="html_color" widget="color" string="Color"/>
+                </xpath>
+                <xpath expr="//field[@name='product_uom_qty']" position="after">
+                    <field name="mrp_ids" optional="hide" widget="many2many_tags"/>
+                    <field name="mrp_produced_qty" sum="Total"/>
+                    <field name="remaining_qty" sum="Total"/>
+                    <field name="greige_id"/>
+                    <field name="greige_stock_quantity" sum="Total"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="follow_up_mkt_inherit_tree_view">
+            <field name="name">follow.up.mkt.inherit.tree</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="inherit_sale_order.sale_order_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="before">
+                    <field name="product_code"/>
+                </xpath>
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="design_id"/>
+                    <field name="html_color" widget="color" string="Color"/>
+                </xpath>
+                <xpath expr="//field[@name='product_uom_qty']" position="after">
+                    <field name="mrp_ids" optional="hide" widget="many2many_tags"/>
+                    <field name="mrp_produced_qty" sum="Total"/>
+                    <field name="remaining_qty" sum="Total"/>
+                    <field name="greige_id"/>
+                    <field name="greige_stock_quantity" sum="Total"/>
+                </xpath>
+            </field>
+        </record>
+
+
+
+        <record model="ir.ui.view" id="mrp_dyeing_failed_tree">
+            <field name="name">mrp.production.tree.dyeing</field>
+            <field name="model">mrp.production</field>
+            <field name="arch" type="xml">
+                <tree default_order="name desc" create="false">
+                    <field name="name" />
+                    <field name="date_planned_start"/>
+                    <field name="partner_id" />
+                    <field name="sale_id" />
+                    <field name="sale_type" />
+                    <field name="product_qty" />
+                    <field name="qty_produced" />
+                    <field name="state" widget="badge" decoration-info="state == 'confirm'" decoration-success="state == 'done'"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="mrp_dyeing_failed_action" model="ir.actions.act_window">
+            <field name="name">Dyeing Production Failed</field>
+            <field name="res_model">mrp.production</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[('type_id', '=', 2),('is_dyeing_failed','=',True)]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('knitting.mrp_dyeing_failed_tree')})
+                ]"/>
+        </record>
+
+
+        <menuitem
+            id="dyeing_failed_menu"
+            name="Dyeing Production Failed"
+            action="mrp_dyeing_failed_action"
+            parent="sale.sale_menu_root"
+            sequence="3"
+        />
+
+    </data>
+</odoo>

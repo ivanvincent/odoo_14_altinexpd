@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="mrp_dopping_wizard_form" model="ir.ui.view">
+            <field name="name">mrp.dopping.form</field>
+            <field name="model">mrp.dopping.wizard</field>
+            <field name="arch" type="xml">
+                <form >
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="mrp_id" invisible="1"/>
+                                <field name="type_id" readonly="1"/>
+                                <field name="product_id" invisible="1"/>
+                                <field name="date" required="1"/>
+                                <field name="employee_id" required="1"/>
+                                <field name="shift" required="1"/>
+                                <field name="type_transfer" required="1"/>
+                                <field name="type_dopping" required="1"/>
+                                <field name="quantity"/>
+                            </group>
+                        </group>
+                        <footer>
+                            <button name="do_transfer" type="object" string="Transfer" class="oe_highlight"/>
+                            <button name="cancel" type="special" special="cancel" string="Cancel" />
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

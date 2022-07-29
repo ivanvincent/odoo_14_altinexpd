@@ -1,0 +1,47 @@
+<odoo>
+	<data>
+		<record id="view_partner_cabang_form" model="ir.ui.view">
+			<field name="name">res.partner.cabang.form</field>
+			<field name="model">res.partner.cabang</field>
+			<field name="arch" type="xml">
+				<form string="Partner Cabang">
+					<sheet>
+						<group>
+							<group>
+								<field name="name"/>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="view_partner_cabang_tree" model="ir.ui.view">
+			<field name="name">res.partner.cabang.tree</field>
+			<field name="model">res.partner.cabang</field>
+			<field name="arch" type="xml">
+				<tree string="Cabang Customer">
+					<field name="name"/>
+					
+				</tree>
+			</field>
+		</record>
+		<record id="view_partner_cabang_search" model="ir.ui.view">
+			<field name="name">res.partner.cabang.search</field>
+			<field name="model">res.partner.cabang</field>
+			<field name="arch" type="xml">
+				<search string="Cabang Customer">
+					<field name="name" filter_domain="[('name','ilike',self)]" string="Area Name"/>
+					
+				</search>
+			</field>
+		</record>
+		<record id="action_partner_cabang" model="ir.actions.act_window">
+            <field name="name">Cabang Customer</field>
+            <field name="res_model">res.partner.cabang</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_partner_cabang_search"/>
+            <field name="view_id" ref="view_partner_cabang_tree"/>
+        </record>
+        <menuitem action="action_partner_cabang" id="menu_action_partner_cabang" parent="menu_sale_config_partner_sti" sequence="15"/>
+	</data>
+</odoo>

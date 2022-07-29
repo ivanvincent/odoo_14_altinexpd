@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="laporan_produksi_dyeing_paperformat" model="report.paperformat">
+            <field name="name">Laporan Produksi Dyeing</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">2</field>
+            <field name="margin_bottom">2</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="action_report_produksi_dyeing" model="ir.actions.report">
+            <field name="name">Report Produksi Dyeing</field>
+            <field name="model">laporan.produksi.dyeing</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">inherit_mrp.report_laporan_produksi_dyeing</field>
+            <field name="report_file">inherit_mrp.report_laporan_produksi_dyeing</field>
+            <field name="print_report_name">'%s - %s' % (object.date_start, object.date_end)</field>
+            <field name="binding_model_id" ref="model_laporan_produksi_dyeing"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" eval="laporan_produksi_dyeing_paperformat"/>
+        </record>
+    
+        <template id="report_laporan_produksi_dyeing">
+            <t t-call="web.basic_layout">
+            <style>
+                .table-data, .table-data th, .table-data td {
+                    border: 1px solid black;
+                    text-align: center;
+                }
+            </style>
+                <!-- <t t-foreach="docs" t-as="o"> -->
+                    <div class="page">
+                        <center>
+                            <h3 class="font-weight-bold">Laporan Produksi Dyeing</h3>
+                            <h6 class="font-weight-bold">(Periode <t t-esc="date_start"/> - <t t-esc="date_end"/>)</h6>
+                        </center>
+                        <t t-foreach="list_date" t-as="lst_date">
+                            <h5><span class="font-weight-bold" t-esc="lst_date" style="margin-top: 5px;"/></h5>
+                            <table class="table-data" width="100%">
+                                <thead>
+                                    <th>NO</th>
+                                    <th>NO PO</th>
+                                    <th>NAMA BARANG</th>
+                                    <th>QTY</th>
+                                    <th>HARGA</th>
+                                    <th>JUMLAH</th>
+                                </thead>
+                                <tbody>
+                                    <t t-set="no" t-value="0"/>
+                                    <tr t-foreach="filter(lambda x: x['date'] == lst_date, docs)" t-as="o">
+                                        <t t-set="no" t-value="no + 1"/>
+                                        <td><span t-esc="no" /></td>
+                                        <td><span t-esc="o.get('date')" /></td>
+                                        <td><span t-esc="product_id" /></td>
+                                        <td><span t-esc="o.get('no_so')" /></td>
+                                        <td><span t-esc="o.get('qty_yard_kp')" /></td>
+                                        <td><span t-esc="qty_kg" /></td>
+                                        <td><span t-esc="qty_mtr" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                    </div>
+                <!-- </t> -->
+            </t>
+        </template>
+    
+    </data>
+    
+
+</odoo>

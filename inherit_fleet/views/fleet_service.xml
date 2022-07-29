@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="fleet_service_inherit_form">
+            <field name="name">fleet.vehicle.log.services.form</field>
+            <field name="model">fleet.vehicle.log.services</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_log_services_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='vehicle_id']" position="after">
+                    <field name="maintener_id" options="{'no_open': True, 'no_create': True}"/>
+                </xpath>
+
+
+                <xpath expr="//field[@name='purchaser_id']" position="replace">
+                    <field name="driver_id" options="{'no_open': True, 'no_create': True}"/>
+                </xpath>
+
+
+                <xpath expr="//sheet" position="inside">
+                    <notebook>
+                        <page string="History">
+                            <field name="history_ids">
+                                <tree editable="bottom">
+                                    <field name="rr_id" options="{'no_open': True, 'no_create': True}" required="1"/>
+                                    <field name="product_id" options="{'no_open': True, 'no_create': True}" required="1"/>
+                                    <field name="mtc_type"/>
+                                    <field name="product_uom_qty" sum="Total"/>
+                                    <field name="product_uom_id" options="{'no_open': True, 'no_create': True}"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

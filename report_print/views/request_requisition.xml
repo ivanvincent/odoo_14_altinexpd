@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_request_requisition_print_form">
+            <field name="name">request.requisition.form</field>
+            <field name="model">request.requisition</field>
+            <field name="inherit_id" ref="request_requisition.view_request_requisition_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header[last()]" position="inside">
+                    <button name="print_rr" string="Print" type="object" class="oe_highlight"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

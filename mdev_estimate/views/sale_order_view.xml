@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="mdev_sale_order_form" model="ir.ui.view">
+        <field name="name">mdev.sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='other_information']/group/group[@name='sale_shipping']" position="inside">
+
+                <field name="custom_div_id" options="{'no_create': True, 'no_create_edit':True}" />
+                <field name="custom_group_id" options="{'no_create': True, 'no_create_edit':True}" />
+                <field name="custom_jalur_id" options="{'no_create': True, 'no_create_edit':True}" />
+                <field name="custom_jalur_jwk" readonly="1" />
+
+            </xpath>
+
+            <xpath expr="//page[@name='other_information']/group/group[@name='sale_reporting']/group[@name='technical']" position="inside">
+
+                <field name="custom_cluster_id" options="{'no_create': True, 'no_create_edit':True}" readonly="1" />
+
+            </xpath>
+
+
+        </field>
+    </record>
+
+    <record id="mdev_sale_order_tree" model="ir.ui.view">
+        <field name="name">mdev.sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+
+            <field name="partner_id" position="after">
+                <field name="custom_city" optional="hide" readonly="1" />
+                <field name="custom_cluster_id" optional="hide" readonly="1" />
+                <field name="custom_div_id" optional="hide" readonly="1" />
+                <field name="custom_group_id" optional="hide" readonly="1" />
+                <field name="custom_jalur_id" optional="show" readonly="1" />
+                <field name="custom_jalur_jwk" optional="hide" readonly="1" />
+            </field>
+
+            <field name="user_id" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </field>
+            <field name="team_id" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </field>
+
+        </field>
+    </record>
+
+</odoo>

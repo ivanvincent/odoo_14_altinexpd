@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="stock_summary_paper_format" model="report.paperformat">
+            <field name="name">Stock Summary</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">23</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+
+        <report id="action_report_stock_summary" model="tj.summary.rak.variasi" string="Stock Summary"
+            name="stock_summary_rak_variasi.stock_summary_report_template" report_type="qweb-pdf"
+            paperformat="stock_summary_rak_variasi.stock_summary_paper_format" />
+        />
+
+        <template id="stock_summary_report_template">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page">
+                        <style>
+                            .table-condensed th {
+                                border: 1px solid black;
+                                text-align: center;
+                            }
+
+                            .table-condensed td {
+                                border: 1px solid black;
+                            }
+                        </style>
+                        <t t-foreach="docs" t-as="o">
+                            <div class="page" style="font-size : 12px">
+                                <div class="col-xs-1" style="margin-left: -10px">
+                                    <img src="/web/binary/company_logo"
+                                        style="width:125px; height: 125px; padding:5px 0px" align="left" />
+                                </div>
+                                <div class="col-xs-8 col-xs-offset-1">
+                                    <b>PT. Putera Mulya Terang Indah</b>
+                                    <br />
+                                    Jl. Rancajigang No.200, Wangisagara, Kec. Majalaya, Bandung, Jawa Barat 40392
+                                    <br />
+                                    Telp (022) 5951602
+                                    <br />
+                                </div>
+                                <br />
+                                <br />
+                                <br />
+                                <div style="margin-top: 30px ; border-left: 0px solid white ; border-top: 2px solid black; border-bottom: 0px solid white ;  border-right: 0px solid white; background-color:white;"
+                                    width="100%">
+                                    <h3>
+                                        <center>Stock Summary
+                                            <span t-field="o.location_id" />
+                                        </center>
+                                    </h3>
+                                </div>
+                                <table width="100%">
+                                    <tr>
+                                        <td class="text-left">Start Date</td>
+                                        <td class="text-left">:
+                                            <span t-field="o.date_start" />
+                                        </td>
+                                        <td class="text-right">End Date</td>
+                                        <td class="text-right">:
+                                            <span t-field="o.date_end" />
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table class="table-condensed" width="100%">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <td>Product</td>
+                                            <td>Uom</td>
+                                            <td>Saldo Qty</td>
+                                            <td>Terima Qty</td>
+                                            <td>Keluar Qty</td>
+                                            <td>Adj Qty</td>
+                                            <td>Balance Qty</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="o.stock_summary_line_2" t-as="line">
+                                            <tr>
+                                                <td style="padding-left: 5px;">
+                                                    <span t-esc="line.product_id.name" />
+                                                </td>
+                                                <td class="text-right" style="padding-right: 5px;">
+                                                    <span t-esc="line.saldo_awal_qty" />
+                                                </td>
+                                                <td class="text-right" style="padding-right: 5px;">
+                                                    <span t-esc="line.terima_qty" />
+                                                </td>
+                                                <td class="text-right" style="padding-right: 5px;">
+                                                    <span t-esc="line.keluar_qty" />
+                                                </td>
+                                                <td class="text-right" style="padding-right: 5px;">
+                                                    <span t-esc="line.adj_qty" />
+                                                </td>
+                                                <td class="text-right" style="padding-right: 5px;">
+                                                    <span t-esc="line.balance_qty" />
+                                                </td>
+                                                <td style="padding-left: 5px;">
+                                                    <span t-esc="line.product_uom_id.name" />
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                                <table width="100%" style="margin-top : 50px">
+                                    <tr>
+                                        <td class="text-center">
+                                            <span t-field="o.env.user.name" />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            _______________
+                                        </td>
+                                        <td class="text-center">
+                                            Mengetahui
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            _______________
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+
+
+
+
+
+        <report id="action_report_stock_summary_opname" model="tj.summary.rak.variasi" string="Stock Summary Opname"
+            name="stock_summary_rak_variasi.stock_summary_opname_report_template" report_type="qweb-pdf"
+            paperformat="stock_summary_rak_variasi.stock_summary_paper_format" />
+        />
+
+        <template id="stock_summary_opname_report_template">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page">
+                        <style>
+                            .table-condensed th {
+                                border: 1px solid black;
+                                text-align: center;
+                            }
+
+                            .table-condensed td {
+                                border: 1px solid black;
+                            }
+                        </style>
+                        <t t-foreach="docs" t-as="o">
+                            <div class="page" style="font-size : 15px">
+                                <div class="col-xs-1" style="margin-left: -10px">
+                                    <img src="/web/binary/company_logo" style="width:100px; height: 100px; padding:5px 0px" align="left"/>
+                                </div>
+                                <div class="col-xs-8 col-xs-offset-1" style="font-size : 18px">
+                                    <b>PT. Putera Mulya Terang Indah</b>
+                                    <br/>
+                                    Jl. Rancajigang No.200, Wangisagara, Kec. Majalaya, Bandung, Jawa Barat 40392
+                                    <br/>
+                                    Telp (022) 5951602
+                                    <br/>
+                                </div>
+                                <br/>
+                                <div style="border-left: 0px solid white ; border-top: 2px solid black; border-bottom: 0px solid white ;  border-right: 0px solid white; background-color:white;" width="100%">
+                                    <h3>
+                                        <center>Stock Summary
+                                            <span t-field="o.location_id"/>
+                                        </center>
+                                    </h3>
+                                </div>
+                                <table width="100%">
+                                    <tr>
+                                        <td class="text-left">Start Date</td>
+                                        <td class="text-left">:
+                                            <span t-field="o.date_start"/>
+                                        </td>
+                                        <td class="text-right">End Date</td>
+                                        <td class="text-right">:
+                                            <span t-field="o.date_end"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table class="table-condensed" width="100%">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <td>No</td>
+                                            <td>Code Product</td>
+                                            <td>Product</td>
+                                            <td>Uom</td>
+                                            <td>Balance</td>
+                                            <td>Opname</td>
+                                            <td>Selisih</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="no" t-value="0"/>
+                                        <t t-foreach="o.stock_summary_line_2" t-as="line">
+                                            <t t-set="no" t-value="no + 1"/>
+                                            <tr>
+                                                <td style="padding-left: 5px;" class="text-center">
+                                                    <span t-esc="no"/>
+                                                </td>
+                                                <td class="text-left" style="padding-left: 5px;">
+                                                    <span t-field="line.product_id.default_code"/>
+                                                </td>
+                                                <td class="text-left" style="padding-left: 5px;">
+                                                    <span t-field="line.product_id.name"/>
+                                                </td>
+                                                <td class="text-left" style="padding-left: 5px;">
+                                                    <span t-field="line.product_uom_id.name"/>
+                                                </td>
+                                                <td class="text-right" style="padding-right: 5px;">
+                                                    <span t-esc="line.balance_qty"/>
+                                                </td>
+                                                <td class="text-right" style="padding-right: 5px;">
+                                                    <!-- <span t-esc="line.adj_qty" /> -->
+                                                </td>
+                                                <td class="text-right" style="padding-right: 5px;">
+                                                    <!-- <span t-esc="line.keluar_qty" /> -->
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                                <table width="100%" style="margin-top : 50px">
+                                    <tr>
+                                        <td class="text-center">
+                                            <span t-field="o.env.user.name"/>
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            _______________
+                                        </td>
+                                        <td class="text-center">
+                                            Mengetahui
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            _______________
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

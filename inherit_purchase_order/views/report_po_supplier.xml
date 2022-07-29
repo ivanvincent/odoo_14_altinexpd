@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record model="ir.ui.view" id="report_po_supplier_tree">
+            <field name="name">report.po.supplier.tree</field>
+            <field name="model">report.po.supplier</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="amount_total" sum="Total" widget='monetary' decoration-bf="1" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record model="ir.ui.view" id="report_po_supplier_form">
+            <field name="name">report.po.supplier.form</field>
+            <field name="model">report.po.supplier</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_calculate" string="Calculate" class="oe_highlight" type="object"/>
+                        <button name="action_open_purchase_wizard" string="Print" class="oe_highlight" type="object"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date_start"/>
+                                <field name="user_id"/>
+                            </group>
+                            <group>
+                                <field name="date_end"/>
+                                <field name="amount_total" widget='monetary'/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Details">
+                                <field name="line_ids" readonly="1">
+                                    <tree>
+                                        <field name="partner_id"/>
+                                        <field name="amount" sum="Total" widget='monetary'/>
+                                        <field name="currency_id" invisible="1"/>
+                                    </tree>
+                                    <form>
+                                        <sheet>
+                                            <group>
+                                                <group>
+                                                    <field name="partner_id"/>
+                                                </group>
+                                                <group>
+                                                    <field name="currency_id" invisible="1"/>
+                                                    <field name="amount" widget='monetary' decoration-bf="1" />
+                                                </group>
+                                            </group>
+                                            <notebook>
+                                                <page string="Details">
+                                                    <field name="history_ids">
+                                                        <tree>
+                                                            <field name="product_id"/>
+                                                            <field name="purchase_id"/>
+                                                            <field name="quantity" sum="Total"/>
+                                                            <field name="bill_id" string="Bill"/>
+                                                            <field name="bill_qty" string="Billed" sum="Total"/>
+                                                            <field name="product_uom_id"/>
+                                                            <field name="price_unit" sum="Total"/>
+                                                            <field name="price_subtotal" sum="Total"/>
+                                                            <field name="price_tax" sum="Total"/>
+                                                            <field name="price_total" sum="Total"/>
+                                                        </tree>
+                                                        <form string="">
+                                                            <sheet>
+                                                                <group>
+                                                                    <group>
+                                                                        <field name="product_id"/>
+                                                                        <field name="purchase_id"/>
+                                                                        <field name="quantity" sum="Total"/>
+                                                                        <field name="bill_id" string="Bill"/>
+                                                                        <field name="bill_qty" string="Billed" sum="Total"/>
+                                                                        <field name="product_uom_id"/>
+                                                                    </group>
+                                                                    <group>
+                                                                        <field name="price_unit" sum="Total"/>
+                                                                        <field name="price_subtotal" sum="Total"/>
+                                                                        <field name="price_tax" sum="Total"/>
+                                                                        <field name="price_total" sum="Total"/>
+                                                                    </group>
+                                                                </group>
+                                                            </sheet>
+                                                        </form>
+                                                    </field>
+                                                </page>
+                                            </notebook>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="report_po_supplier_action">
+            <field name="name">Report Supplier GLobal</field>
+            <field name="res_model">report.po.supplier</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <record id="action_purchase_report" model="ir.actions.client">
+            <field name="name">Purchase Report</field>
+            <field name="tag">purchase_report_generic</field>
+            <field name="context" eval="{'url': '/stock/output_format/purchase/active_id', 'model': 'report.po.supplier'}" />
+        </record>
+
+
+        <menuitem id="submenu_report_po_supplier" name="Report Supplier GLobal" parent="purchase.purchase_report" action="report_po_supplier_action" />
+
+    </data>
+</odoo>

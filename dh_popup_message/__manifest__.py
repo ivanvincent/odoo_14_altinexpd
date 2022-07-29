@@ -1,0 +1,20 @@
+{
+    "name": "Wibicon Popup Message",
+    'author': 'Wibicon, Deni Hidayat',
+    'company': 'Wibicon',
+    'website': "https://www.wibicon.com",
+    "category": "Generic Modules/Extra Tools",
+    "license": "OPL-1",
+    "summary": "Popup Message Custom Alert",
+    "description": """Popup Message Custom Alert Wizard """,
+    "version": "14.0.1",
+    "depends": ["base", "web"],
+    "data": [
+        "security/ir.model.access.csv",
+        "wizard/dh_popup_message_wizard.xml",
+    ],
+    "images": ["static/description/icon.png", ],
+    'installable': True,
+    'auto_install': False,
+    'application': False,
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="res_users_inherit_form">
+            <field name="name">res.users.form</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/div/group//field[@name='partner_id']" position="after">
+                    <field name="tag_employee_id"/>
+                    <field name="department_id"/>
+                    <field name="job_id"/>
+                    <field name="parent_id"/>
+                    <field name="device_id"/>
+                    <field name="fcm_key"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

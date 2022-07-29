@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="paperformat_mutasi_piutang" model="report.paperformat">
+            <field name="name">Mutasi Piutang</field>
+            <field name="default" eval="True" />
+            <field name="format">Folio</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report 
+            string="Print Mutasi Partner Report"
+            id="blessing_mutasi_partner_report_action"
+            model="blessing.mutasi.partner.report"
+            report_type="qweb-pdf"
+            name="blessing_mutasi_partner_report.report_mutasi_partner"
+            file="blessing_mutasi_partner_report.report_mutasi_partner"
+        />
+
+        <record id="blessing_mutasi_partner_report_action" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_mutasi_piutang"/>
+        </record>
+</odoo>

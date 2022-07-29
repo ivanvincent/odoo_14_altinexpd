@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_set_kontrabon_form" model="ir.ui.view">
+        <field name="name">set.kontrabon.wizard.form</field>
+        <field name="model">set.kontrabon.wizard</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <div style="white-space: pre-line;">
+                        <p>
+                            <h5>Jika Kontrabon di isi Sistem akan :</h5>
+                                                menambahkan invoice yang di pilih ke Kontrabon(status draft dan confirm) tsb 
+                        </p>
+                    </div>
+                    <newline />
+                    <group>
+                        <field name="kontrabon_id" options="{'no_open': True, 'no_create': True}"/>
+                    </group>
+                    <notebook>
+                        <page string="Invoice">
+                            <field name="invoice_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="invoice_date"/>
+                                    <field name="invoice_payment_term_id"/>
+                                    <field name="move_type"/>
+                                    <field name="state"/>
+                                    <field name="state_kb" widget="badge" decoration-success="state_kb == 'approve'"/>
+                                    <field name="payment_state" widget="badge"/>
+                                    <field name="amount_total"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button name="process" type="object" string="Process" class="oe_highlight"/>
+                    <button name="cancel" type="special" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- <record id="set_kontrabon_action" model="ir.actions.act_window">
+        <field name="name">Set Kontrabon</field>
+        <field name="res_model">create.wizard.kp</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="create_wizard_kp_form"/>
+    </record> -->
+
+    <record id="set_kontrabon_wizard_kp" model="ir.actions.act_window">
+        <field name="name">Set Kontrabon</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">set.kontrabon.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_account_move" />
+        <field name="binding_view_types">list</field>
+        <field name="view_id" ref="view_set_kontrabon_form"/>
+    </record>
+
+
+
+
+</odoo>

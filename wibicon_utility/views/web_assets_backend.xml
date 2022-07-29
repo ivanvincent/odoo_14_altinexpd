@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="list_collapse_action" model="ir.actions.client">
+            <field name="tag">list_collapse_action</field>
+            <field name="name">List</field>
+        </record>
+
+        <template id="wibicon_utility_date_range_assets_backend" inherit_id="web.assets_backend" name="Wibicon Date Range Backend Assets">
+            <xpath expr="link[last()]" position="after">
+                <link rel="stylesheet" type="text/scss" href="/wibicon_utility/static/src/js/components/tree_item/tree_item.scss"/>
+                <link rel="stylesheet" type="text/scss" href="/wibicon_utility/static/src/js/owl_tree/owl_tree_view.scss"/>
+                <link rel="stylesheet" type="text/scss" href="/wibicon_utility/static/src/lib/dx.light.css"/>
+            </xpath>
+
+
+            <xpath expr="script[last()]" position="after">
+                <link rel="stylesheet" type="text/css" href="/wibicon_utility/static/src/css/main.css"/>
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/date_range.js"></script>
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/barcode.js"></script>
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/custom_list.js"></script>
+                <!-- <script src="https://cdn3.devexpress.com/jslib/21.2.4/js/dx.all.js"  crossorigin=""></script> -->
+
+                <!-- <script type="text/javascript" src="/wibicon_utility/static/src/lib/dx.all.js" lazy_load="True" defer_load="True"></script> -->
+
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/list/web_basicview.js"></script>
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/list/list_editable_renderer.js"></script>
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/list/list_model.js"></script>
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/list/list_renderer.js"></script>
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/list/list_view.js"></script>
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/list/list_controller.js"></script>
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/list/list_confirm_dialog.js"></script>
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/collapse/collapse_action.js"></script>
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/collapse/collapse_controller.js"></script>
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/collapse/collapse_model.js"></script>
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/collapse/collapse_renderer.js"></script>
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/collapse/collapse_view.js"></script>
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/owl_tree/owl_tree_controller.js"></script>
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/owl_tree/owl_tree_model.js"></script>
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/owl_tree/owl_tree_renderer.js"></script>
+                <script type="text/javascript" src="/wibicon_utility/static/src/js/owl_tree/owl_tree_view.js"></script>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

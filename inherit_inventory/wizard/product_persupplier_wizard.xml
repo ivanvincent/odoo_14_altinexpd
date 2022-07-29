@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="product_persupplier_wizard_form" model="ir.ui.view">
+            <field name="name">product.persupplier.wizard.form</field>
+            <field name="model">product.persupplier.wizard</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_print" type="object" string="Print" class="oe_highlight"/>
+                        <button name="cancel" type="special" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="laporan_product_persupplier_action" model="ir.actions.act_window">
+            <field name="name">Laporan Product Persupplier</field>
+            <field name="res_model">product.persupplier.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="product_persupplier_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+            id="product_persupplier_wizard_menu"
+            name="Laporan product persupplier"
+            action="laporan_product_persupplier_action"
+            parent="stock.menu_warehouse_report"
+            sequence="160"/>
+    
+    </data>
+    
+
+</odoo>

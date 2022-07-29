@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+
+		<record id="sellingout_xls_form" model="ir.ui.view">
+			<field name="name">sellingout.xls.form</field>
+			<field name="model">sellingout.xls</field>
+			<field name="arch" type="xml">
+				<form string="Upload a XLS file">
+					<group col="4">
+						<field name="template" />
+						<field name="batch_limit" options="{'type': 'number', 'step': 500}" />
+					</group>
+					<group>
+						<field name="xls_file" />
+					</group>
+					<footer>
+						<button name="upload_xls_file" type="object" string="Upload" class="oe_highlight"/>
+						<button special="cancel" string="Cancel"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+
+
+	</data>
+</odoo>

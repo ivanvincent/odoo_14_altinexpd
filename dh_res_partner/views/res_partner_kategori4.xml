@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+        <record id="view_partner_kategori4_form" model="ir.ui.view">
+            <field name="name">res.partner.kategori4.form</field>
+            <field name="model">res.partner.kategori4</field>
+            <field name="arch" type="xml">
+                <form string="Partner Kategori 4">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="kategori3_id"/>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_partner_kategori4_tree" model="ir.ui.view">
+            <field name="name">res.partner.kategori4.tree</field>
+            <field name="model">res.partner.kategori4</field>
+            <field name="arch" type="xml">
+                <tree string="Partner Kategori 4">
+                    <field name="kategori3_id"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_partner_kategori4_search" model="ir.ui.view">
+            <field name="name">res.partner.kategori4.search</field>
+            <field name="model">res.partner.kategori4</field>
+            <field name="arch" type="xml">
+                <search string="Partner Kategori 4">
+                    <field name="kategori3_id"/>
+                    <field name="name" filter_domain="[('name','ilike',self)]" string="Name"/>
+                </search>
+            </field>
+        </record>
+        <record id="action_partner_kategori4" model="ir.actions.act_window">
+            <field name="name">Partner Kategori 4</field>
+            <field name="res_model">res.partner.kategori4</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_partner_kategori4_search"/>
+            <field name="view_id" ref="view_partner_kategori4_tree"/>
+        </record>
+        <menuitem action="action_partner_kategori4" id="menu_action_partner_kategori4" parent="sale.menu_sale_config"
+                  sequence="15"/>
+    </data>
+</odoo>

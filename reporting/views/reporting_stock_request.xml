@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record model="ir.ui.view" id="reporting_stock_request_tree">
+            <field name="name">reporting.stock.request.tree</field>
+            <field name="model">reporting.stock.request</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="warehouse_id"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record model="ir.ui.view" id="reporting_stock_request_form">
+            <field name="name">reporting.stock.request.form</field>
+            <field name="model">reporting.stock.request</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_calculate" type="object" string="Calculate" class="oe_highlight"/>
+
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="warehouse_id"/>
+                            </group>
+                            <group>
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Details">
+                                <field name="line_ids">
+                                    <tree>
+                                        <field name="product_id"/>
+                                        <field name="spesification"/>
+                                        <field name="location_id"/>
+                                        <field name="rr_id"/>
+                                        <field name="rr_date"/>
+                                        <field name="rr_qty"/>
+                                        <field name="rr_kirim"/>
+                                        <field name="rr_sisa"/>
+                                        <field name="pr_id"/>
+                                        <field name="pr_date"/>
+                                        <field name="pr_qty"/>
+                                        <field name="po_id"/>
+                                        <field name="po_date"/>
+                                        <field name="po_qty"/>
+                                        <field name="po_receipt"/>
+                                        <field name="po_sisa"/>
+                                        <field name="uom_id"/>
+                                    </tree>
+                                    <form string="">
+                                        <sheet>
+                                            <div class="oe_title">
+                                                <h1>
+                                                    <field name="product_id" readonly="1"/>
+                                                </h1>
+                                            </div>
+                                            <group>
+                                                <group>
+                                                    <field name="spesification"/>
+                                                    <field name="location_id"/>
+                                                </group>
+                                            </group>
+                                            <newline />
+                                            <separator />
+                                            <newline />
+                                            <group string="Request Requisition">
+                                                <field name="rr_id"/>
+                                                <field name="rr_date"/>
+                                                <field name="rr_qty"/>
+                                                <field name="rr_kirim"/>
+                                                <field name="rr_sisa"/>
+                                                <field name="uom_id"/>
+                                            </group>
+                                            <group string="Purchase Request">
+                                                <field name="pr_id"/>
+                                                <field name="pr_date"/>
+                                                <field name="pr_qty"/>
+                                                <field name="uom_id"/>
+                                            </group>
+                                            <group string="Purchase Order">
+                                                <field name="po_id" options="{'no_open': True, 'no_create': True}"/>
+                                                <field name="po_date"/>
+                                                <field name="po_qty"/>
+                                                <field name="po_receipt"/>
+                                                <field name="po_sisa"/>
+                                                <field name="uom_id"/>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="reporting_stock_request_action">
+            <field name="name">Reporting Request</field>
+            <field name="res_model">reporting.stock.request</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+        <menuitem id="submenu_reporting_stock_request" name="Reporting Request" parent="reporting_menu" action="reporting_stock_request_action" />
+
+        <menuitem id="reporting_root_menu_rr" name="Reporting" parent="request_requisition.icon_request_requisition_menu">
+            <menuitem id="reporting_stock_request_at_rr" name="Reporting Request" action="reporting_stock_request_action" />
+        </menuitem>
+
+        <menuitem id="reporting_root_menu_pr" name="Reporting" parent="purchase_request.parent_menu_purchase_request">
+            <menuitem id="reporting_stock_request_at_pr" name="Reporting Request" action="reporting_stock_request_action" />
+        </menuitem>
+
+
+
+
+    </data>
+</odoo>

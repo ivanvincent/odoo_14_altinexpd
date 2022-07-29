@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="laporan_pemakaian_form" model="ir.ui.view">
+            <field name="name">laporan.pemakaian.form</field>
+            <field name="model">laporan.pemakaian.wizard</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="picking_type_id"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="is_details"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_export_xlsx" type="object" string="Export Xlsx" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="laporan_pemakaian_action" model="ir.actions.act_window">
+            <field name="name">Laporan Pemakaian Gudang</field>
+            <field name="res_model">laporan.pemakaian.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+            id="laporan_pemakaian_gudang_menu"
+            name="Laporan Pemakaian Gudang"
+            action="laporan_pemakaian_action"
+            parent="stock.menu_warehouse_report"
+            sequence="181"/>
+    
+    </data>
+    
+
+</odoo>

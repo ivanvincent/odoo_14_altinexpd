@@ -1,0 +1,102 @@
+<odoo>
+	<record id="view_order_form_inherit_sharon" model="ir.ui.view">
+		<field name="name">sale.order.form.inherit.sharon</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+<!--         	<field name="client_order_ref" position="replace">
+                <field name="any_quick_leadtime"/>
+            </field>
+ -->
+        	<field name="payment_term_id" position="after">
+
+<!--         		<field name="client_order_ref"/>
+                <field name="origin"/>
+ -->                
+<!--                <field name="lpb"/>-->
+<!--                <field name="canvasser_pick_id"/>-->
+        	</field>
+            <xpath expr="//form/sheet/notebook/page[@name='order_lines']/field[@name='order_line']/tree" position="attributes">
+                <attribute name="editable">bottom</attribute>
+            </xpath>
+<!-- 
+            <xpath expr="//form/sheet/notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='product_id']" position="before">
+                <field name="is_free_product"/>
+            </xpath>
+ -->
+        	<xpath expr="//form/sheet/notebook/page[@name='order_lines']/field[@name='order_line']/form/group[1]/group[1]/field[@name='product_id']" position="attributes">
+        		<attribute name="domain">[('customer_ids','=',parent.partner_id),('sale_ok','=',True)]</attribute>
+        	</xpath>
+<!-- 
+            <xpath expr="//form/sheet/notebook/page[@name='order_lines']/field[@name='order_line']/form/group[1]/group[1]/field[@name='product_id']" position="before">
+                <field name="is_free_product"/>
+            </xpath>
+ -->            
+            <field name="partner_shipping_id" position="after">
+<!--                <field name="custom_div_id"/>-->
+<!--                <field name="custom_jalur_id"/>-->
+<!--                <field name="custom_group_id"/>-->
+<!--                <field name="custom_type_id"/>-->
+<!--                <field name="custom_loc_type_id"/>-->
+            </field>
+            
+        </field>
+    </record>
+
+    
+    <record id="view_order_tree_inherit_sharon" model="ir.ui.view">
+        <field name="name">sale.order.tree.inherit.sharon</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="before">
+                <field name="validity_date"/>
+            </field>
+            <field name="partner_id" position="after">
+                <field name="partner_invoice_id"/>
+                <field name="partner_shipping_id"/>
+<!--                <field name="custom_div_id"/>-->
+<!--                <field name="custom_jalur_id"/>-->
+<!--                <field name="custom_group_id"/>-->
+<!--                <field name="custom_type_id"/>-->
+<!--                <field name="custom_loc_type_id"/>-->
+            </field>
+        </field>
+    </record>
+
+    <record id="view_sales_order_filter_fi_sales" model="ir.ui.view">
+        <field name="name">sale.order.filter.fi.sales</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="partner_invoice_id"/>
+                <field name="partner_shipping_id"/>
+            </field>
+            <filter name="order_month" position="after">
+                <filter string="Shipping Address" name="shipping_address" domain="[]" context="{'group_by':'partner_shipping_id'}"/>
+                <filter string="Invoice Address" name="invoice_address" domain="[]" context="{'group_by':'partner_invoice_id'}"/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="view_sale_quote_tree_inherit_sharon" model="ir.ui.view">
+        <field name="name">sale.quote.tree.inherit.sharon</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="arch" type="xml">
+             <field name="partner_id" position="before">
+                <field name="validity_date"/>
+            </field>
+            <field name="partner_id" position="after">
+<!--                <field name="custom_div_id"/>-->
+<!--                <field name="custom_jalur_id"/>-->
+<!--                <field name="custom_group_id"/>-->
+<!--                <field name="custom_type_id"/>-->
+<!--                <field name="custom_loc_type_id"/>-->
+            </field>
+            
+        </field>
+    </record>
+</odoo>

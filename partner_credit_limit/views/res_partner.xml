@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="partner_credit_limit_inherit_tree">
+            <field name="name">partner.credit.limit.inherit.tree</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='display_name']" position="before">
+                    <field name="ref"/>
+                </xpath>
+                <xpath expr="//field[@name='display_name']" position="after">
+                    <field name="group_partner_id"/>
+                    <field name="credit"/>
+                    <field name="debit"/>
+                    <field name="over_credit"/>
+                    <field name="credit_limit"/>
+                    <field name="outstanding_credit_limit"/>
+                    <field name="is_over_limit"/>
+                </xpath>
+                <xpath expr="//field[@name='city']" position="after">
+                    <field name="property_account_receivable_id"/>
+                    <field name="property_account_payable_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_res_partner_form_inherit" model="ir.ui.view">
+            <field name="name">view.res.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <group>
+                    <group>
+
+                        <field name="is_group_company" widget="boolean_toggle"/>
+                        <field name="credit"/>
+                        <field name="over_credit"/>
+
+                    </group>
+                    <group>
+                        <field name="group_partner_id" attrs="{'invisible': [('is_group_company','=',True)]}" options="{'no_open': True, 'no_create': True}"/>
+                        <field name="status_customer"/>
+                        <field name="debit"/>
+                        <field name="credit_limit"/>
+                        <field name="outstanding_credit_limit"/>
+                    </group>
+                </group>
+
+                <div name="button_box" position="inside">
+                    <button type="object" class="oe_stat_button" name="action_overdue_invoice" icon="fa-pencil-square-o" context="{'default_partner_id': active_id}">
+                        <div class="o_form_field o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="total_overdue"/>
+                            </span>
+                            <span class="o_stat_text">Overdue</span>
+                        </div>
+                    </button>
+                </div>
+
+
+                <xpath expr="//notebook/page[@name='contact_addresses']" position="before">
+                    <page string="Members Of Group" attrs="{'invisible':[('is_group_company', '=', False)]}" autofocus="autofocus">
+                        <field name="partner_group_ids">
+                            <tree create="false">
+                                <field name="user_id"/>
+                                <field name="name"/>
+                                <field name="credit"/>
+                                <field name="property_account_receivable_id"/>
+                                <field name="credit_limit"/>
+                                <field name="outstanding_credit_limit"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+
+
+
+                <xpath expr="//group[@name='container_row_2']" position="inside">
+                    <group name="container_row_credit">
+                        <group string="Credit Limit" colspan="2">
+                            <field name="credit_check"/>
+                            <field name="credit_warning" attrs="{'invisible': [('credit_check', '=', False)]}"/>
+                            <field name="credit_blocking" attrs="{'invisible': [('credit_check', '=', False)]}"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_overdue_invoice" model="ir.actions.act_window">
+            <field name="name">Overdue Invoices</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" ref="account.view_out_invoice_tree"/>
+            <!-- <field name="search_view_id" ref="view_account_invoice_filter"/> -->
+            <!-- <field name="domain">[('move_type', '=', 'out_invoice')]</field> -->
+            <!-- <field name="context">{'default_move_type': 'out_invoice'}</field> -->
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                Create a customer invoice
+                </p>
+                <p>
+                Create invoices, register payments and keep track of the discussions with your customers.
+                </p>
+            </field>
+        </record>
+
+
+        <record id="invoices_green_action" model="ir.actions.act_window">
+            <field name="name">Invoices Green</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('move_type', '=','out_invoice'),('invoice_date_due','&gt;', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d 00:00:00')), ('invoice_date_due','&lt;', (context_today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d 00:00:00')), ('state','!=','paid'),]</field>
+        </record>
+
+
+        <record id="invoices_yellow_action" model="ir.actions.act_window">
+            <field name="name">Invoices Yellow</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('move_type', '=','out_invoice'),('invoice_date_due','&gt;', (context_today() - datetime.timedelta(days=15)).strftime('%Y-%m-%d 00:00:00')), 
+            ('invoice_date_due','&lt;', (context_today() - datetime.timedelta(days=8)).strftime('%Y-%m-%d 00:00:00')), ('state','!=','paid')]</field>
+        </record>
+
+
+        <record id="invoices_red_action" model="ir.actions.act_window">
+            <field name="name">Invoices Red</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('move_type', '=','out_invoice'),('invoice_date_due','&lt;', (context_today() - datetime.timedelta(days=16)).strftime('%Y-%m-%d 00:00:00')), ('state','!=','paid')]</field>
+        </record>
+
+
+        <menuitem id="invoices_menu" name="Invoices" parent="account.menu_finance" sequence="2">
+            <menuitem id="menu_action_move_out_invoice_type" name="Invoices" action="account.action_move_out_invoice_type"/>
+            <menuitem id="sorted_invoices_menu" name="Sorted Invoices">
+                <menuitem id="menu_invoices_green" name="Invoices Green" action="invoices_green_action"/>
+                <menuitem id="menu_invoices_yellow" name="Invoices Yellow" action="invoices_yellow_action"/>
+                <menuitem id="menu_invoices_red" name="Invoices Red" action="invoices_red_action"/>
+            </menuitem>
+        </menuitem>
+
+
+
+
+        <record id="partner_group_setted_limit_action" model="ir.actions.act_window">
+            <field name="name">Customers Setted Credit Limit</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('credit_limit','&gt;',0)]</field>
+        </record>
+
+        <record id="partner_group_not_set_limit_action" model="ir.actions.act_window">
+            <field name="name">Customers Not Set Credit Limit</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('credit_limit','=',0.00)]</field>
+            <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_customer_rank': 1}</field>
+        </record>
+
+        <record id="partner_group_limit_action" model="ir.actions.act_window">
+            <field name="name">Customers Groups Credit Limit</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('group_partner_id','!=',False)]</field>
+            <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_customer_rank': 1}</field>
+        </record>
+
+        <!-- <record id="partner_group_setted_limit_action" model="ir.actions.act_window">
+            <field name="name">Customers Groups Credit Limit</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('credit','&gt;',True)]</field>
+            <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_customer_rank': 1}</field>
+        </record> -->
+
+        <record id="partner_group_over_limit_action" model="ir.actions.act_window">
+            <field name="name">Customers Over Credit Limit</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_over_limit','=',True)]</field>
+            <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_customer_rank': 1}</field>
+        </record>
+
+
+        <menuitem id="partner_groups_menu" name="Groups Company" parent="account.menu_finance_receivables">
+            <menuitem id="menu_credit_limit_groups" name="Groups Credit Limit" action="partner_group_limit_action"/>
+            <menuitem id="sorted_credit_limit" name="Sorted Limit">
+                <menuitem id="menu_credit_limit_setted" name="Setted Credit Limit " action="partner_group_setted_limit_action"/>
+                <menuitem id="menu_credit_limit_not_set" name="Not Set Credit LimIt" action="partner_group_not_set_limit_action"/>
+                <menuitem id="menu_credit_limit_over" name="Over Credit LimIt" action="partner_group_over_limit_action"/>
+            </menuitem>
+        </menuitem>
+
+
+
+    </data>
+</odoo>

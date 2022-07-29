@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="laporan_penjualan_form" model="ir.ui.view">
+        <field name="name">laporan_penjualan.form</field>
+        <field name="model">laporan.penjualan.wizard</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="type"/>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_generate_xslx" type="object" string="Export Excel" class="oe_highlight"/>
+                    <button name="cancel" type="special" string="Cancel" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="laporan_penjualan_action" model="ir.actions.act_window">
+        <field name="name">Laporan Penjualan</field>
+        <field name="res_model">laporan.penjualan.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" eval="laporan_penjualan_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="laporan_penjualan_menu"
+        name="Laporan penjualan"
+        action="laporan_penjualan_action"
+        parent="accounting_pdf_reports.menu_finance_legal_statement"
+        sequence="10"/>
+
+</odoo>

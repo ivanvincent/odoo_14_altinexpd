@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="print_planning_workorder" model="reporting.mrp.workorder" string="Print RKJD" name="reporting.print_planning_workorder_template" report_type="qweb-pdf" print_report_name="'report_planning_%s-_%s' % (object.start_date,object.end_date)"/>
+        />
+
+
+        <template id="print_planning_workorder_template">
+            <t t-call="web.basic_layout">
+                <style>     
+                            .date{
+                                float:right;
+                                margin-bottom:20px;
+                            }
+                            table.table-wo {
+                                font-size: 13px;
+                                border-collapse: collapse;
+                                width: 100%;
+                            }
+                            table.table-wo td, table th {
+                                border: 1px solid #ddd;
+                                padding: 8px;
+                            }
+                            table.table-wo tr:nth-child(even){background-color: #f2f2f2;}
+                </style>
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page">
+                        <div style="margin-top: 30px; margin-bottom: 30px;  ">
+                            <h5>
+                                <center>
+                                    Rencana Kerja Jet Dyeing
+                                </center>
+                            </h5>
+                        </div>
+                        <div class="date">
+                            <table class="table-condensed">
+                                <tr>
+                                    <td style="width:200px; display:block;">
+                                        <span>Start Date</span>
+                                    </td>
+                                    <td>
+                                        <span t-esc="doc.start_date"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:200px; display:block;">
+                                        <span>End Date</span>
+                                    </td>
+                                    <td>
+                                        <span t-esc="doc.end_date"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <table class="table-wo mt-3">
+                            <tr>
+                                <th>
+                                        No
+                                </th>
+                                <th>
+                                        Sale Order
+                                </th>
+                                <th>
+                                        Batch
+                                </th>
+                                <th>
+                                        Product
+                                </th>
+                                <th>
+                                        Color
+                                </th>
+                                <th>
+                                        Qty
+                                </th>
+                                <th>
+                                        Uom
+                                </th>
+                                <th>
+                                        Customer
+                                </th>
+                                <th>
+                                        Workcnter
+                                </th>
+                                <th>
+                                        Machine
+                                </th>
+                            </tr>
+                            <t t-set="no" t-value="0"/>
+                            <t t-foreach="doc.line_ids" t-as="line">
+                                <t t-set="no" t-value="no + 1"/>
+                                <tr>
+                                    <td>
+                                        <span t-esc="no"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.sale_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.production_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.product_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.color_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.quantity"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.uom_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.partner_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.workcenter_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.machine_id.name"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

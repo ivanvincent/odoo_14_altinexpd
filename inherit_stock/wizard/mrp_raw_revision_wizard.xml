@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="mrp_raw_revision_wizard" model="ir.ui.view">
+            <field name="name">mrp.raw.revision.wizard</field>
+            <field name="model">mrp.raw.revision.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="picking_id" options="{'no_open': True, 'no_create': True}" readonly="1"/>
+                                <field name="production_id" options="{'no_open': True, 'no_create': True}" readonly="1"/>
+                                <field name="greige_id" options="{'no_open': True, 'no_create': True}" readonly="1"/>
+                                <field name="product_id" options="{'no_open': True, 'no_create': True}" attrs="{'invisible':[('product_id', '=', False)]}" readonly="1"/>
+                            </group>
+                            <group>
+                                <!-- <label for="quantity" string="Quantity"/>
+                                <div class="o_row no-gutters d-flex">
+                                    <field name="quantity" class="oe_inline text-left" string="Quantity" readonly="1"/>
+                                    <label for="uom_id" string="" class="oe_inline" />
+                                    <field name="uom_id" readonly="1" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom" class="oe_inline o_form_uri"/>
+                                </div> -->
+                                <field name="user_id" options="{'no_open': True, 'no_create': True}" readonly="1" />
+                                <field name="note"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Details">
+                                <field name="move_raw_ids" readonly="1" widget="one2many">
+                                    <tree>
+                                        <field name="product_id"/>
+                                        <field name="product_uom"/>
+                                        <field name="quantity_done"/>
+                                        <field name="state" widget="badge"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                    <footer>
+                        <button type="object" name="create_revision" string="Apply Revision" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

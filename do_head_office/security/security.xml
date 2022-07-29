@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.module.category" id="module_do_head_office">
+            <field name="name">DO Head Office</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <record model="res.groups" id="group_do_head_office_user">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_do_head_office"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record model="res.groups" id="group_do_head_office_manager">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_do_head_office"/>
+            <field name="implied_ids" eval="[(4, ref('do_head_office.group_do_head_office_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="do_head_office_own_document_only" model="ir.rule">
+            <field name="name">Own Document Only</field>
+            <field name="model_id" search="[('model','=','do.head.office')]" model="ir.model" />
+            <field name="groups" eval="[(4, ref('do_head_office.group_do_head_office_user'))]"/>
+            <field name="domain_force">[('user_id','=',user.id)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="do_head_office_all_document" model="ir.rule">
+            <field name="name">All Document</field>
+            <field name="model_id" search="[('model','=','do.head.office')]" model="ir.model" />
+            <field name="groups" eval="[(4, ref('do_head_office.group_do_head_office_manager'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+
+    </data>
+</odoo>

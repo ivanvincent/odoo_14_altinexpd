@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="fleet_vehicle_category_form">
+            <field name="name">fleet.vehicle.model.form</field>
+            <field name="model">fleet.vehicle.model</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_model_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='manager_id']" position="after">
+                    <field name="category_id" options="{'no_open': True, 'no_create': True}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fleet_vehicle_inherit_view_form">
+            <field name="name">fleet.vehicle.inherit.form</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='odometer']" position="after">
+                    <field name="fg_stock_location_id" invisible="1" options="{'no_open': True, 'no_create': True}"/>
+                    <field name="siba_stock_location_id" invisible="1" options="{'no_open': True, 'no_create': True}"/>
+                    <field name="return_stock_location_id" invisible="1" options="{'no_open': True, 'no_create': True}"/>
+                </xpath>
+                <xpath expr="//field[@name='description']" position="after">
+                    <field name="warehouse_id" options="{'no_open': True, 'no_create': True}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fleet_vehicle_view_inherit_tree">
+            <field name="name">fleet.vehicle.tree</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='active']" position="after">
+                    <field name="fg_stock_location_id" invisible="1"/>
+                    <field name="siba_stock_location_id" invisible="1"/>
+                    <field name="return_stock_location_id" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+
+
+        <record id="fleet_vehicle_category_view_tree" model="ir.ui.view">
+            <field name="name">fleet_vehicle_category.view.tree</field>
+            <field name="model">fleet.vehicle.category</field>
+            <field name="arch" type="xml">
+                <tree string="" editable="bottom">
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="fleet_vehicle_category_view_form" model="ir.ui.view">
+            <field name="name">fleet.vehicle.category.view.form</field>
+            <field name="model">fleet.vehicle.category</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="fleet_vehicle_category_action" model="ir.actions.act_window">
+            <field name="name">Vehicle Category</field>
+            <field name="res_model">fleet.vehicle.category</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem id="fleet_vehicle_category_menu" name="Vehicle Category" parent="fleet.fleet_configuration" action="fleet_vehicle_category_action" />
+
+    </data>
+</odoo>

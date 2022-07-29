@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- <record id="kontrabon_order_button" model="ir.ui.view">
+             <field name="name">kontrabon_order_button</field>
+             <field name="model">kontrabon.order</field>            
+             <field name="arch" type="xml">
+                 <xpath expr="/form/*" position="before">
+                    <header>
+                            <button string="Draft" type="object" name="action_draft" attrs="{'invisible':[('state','=','0')]}" />
+                            <button string="Done" type="object" name="action_done" attrs="{'invisible':[('state','=','1')]}" />
+                    </header>
+                 </xpath>
+             </field>
+        </record> -->
+        <!-- calendar -->
+        <record id="kontrabon_order_cal" model="ir.ui.view">
+            <field name="name">kontrabon_order_cal</field>
+            <field name="model">kontrabon.order</field>
+            <field name="arch" type="xml">
+                <calendar string="kontrabonorder" date_start="tanggal" mode="month">
+                    <field name="name" />
+                </calendar>
+            </field>
+        </record>
+
+        <!--graph-->
+        <record id="view_kontrabon_order_graph" model="ir.ui.view">
+            <field name="name">kontrabon.order.graph</field>
+            <field name="model">kontrabon.order</field>
+            <field name="arch" type="xml" >
+                <graph string="kontrabonorder" type="bar" >
+                    <field name="tanggal" />
+                    <field name="collector_id" operator="+"/>
+                    <!-- <field name="nomobil_id" operator="+"/>
+                    <field name="supir_id" operator="+"/>
+                    <field name="kenek_id" operator="+"/> -->
+                </graph>
+            </field>
+        </record>
+
+        <!--pivot-->
+        <!-- <record id="view_kontrabon_order_pivot" model="ir.ui.view">
+            <field name="name">kontrabon.order.pivot</field>
+            <field name="model">kontrabon.order</field>
+            <field name="arch" type="xml" >
+                <pivot string="kontrabonorder" type="bar" >
+                    <field name="tanggal" interval="month" type="row"/>
+                    <field name="collector_id" type="col"/>
+                 
+                </pivot>
+            </field>
+        </record> -->
+
+        <!-- search -->
+        <record id="kontrabon_order_search" model="ir.ui.view">
+            <field name="name">kontrabon_order_search</field>
+            <field name="model">kontrabon.order</field>
+            <field name="arch" type="xml">
+                <search string="Search kontrabon Order">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="inv_ids"/>
+
+                        <!--<group string="Group By..">-->
+                            <!--<filter string="Course" domain="[]"-->
+                                <!--context="{'group_by':'course_id'}"/>-->
+                            <!--<filter string="Instructor" domain="[]"-->
+                                <!--context="{'group_by':'instructor_id'}"/>-->
+                            <!--<filter string="Date" domain="[]"-->
+                                <!--context="{'group_by':'start_date'}"/>-->
+                        <!--</group>-->
+                </search>
+            </field>
+        </record>
+
+        <record id="view_kontrabon_order_tree" model="ir.ui.view">
+            <field name="name">kontrabon.order.tree</field>
+            <field name="model">kontrabon.order</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="kontrabonorder" >
+                    <field name="name"/>
+                    <field name="tanggal" />
+                    <field name="partner_id"/>
+                    <field name="collector_id" />
+                    <field name="amount" sum="amount"/>
+                    <field name="description" />
+                    <field name="state" />
+
+                    <!--<field name="tanggal_out" />
+                    <field name="tanggal_in" />
+                    <field name="kategori"/>
+                    <field name="rit" />
+                    <field name="nomobil_id" />
+                    <field name="kapasitas" sum="Total Kapasitas" widget="monetary" />
+                    <field name="supir_id" />
+                    <field name="kenek_id" />
+                    <field name="rpsupir" />
+                    <field name="rpkenek" />
+                    <field name="tot_qty" sum="Total Quantity" widget="monetary" />
+                    <field name="insentif_supir" sum="Total Insentif Driver" widget="monetary" />
+                    <field name="insentif_kenek" sum="Total Insentif Helper" widget="monetary" />
+                    <field name="isi" sum="Total Isi" widget="monetary" />
+                    <field name="persen" sum="Total Persen" widget="monetary" />-->
+                    <field name="inv_ids" string="Invoice List" />                    
+                </tree>
+            </field>
+        </record>
+
+         <record id="view_kontrabon_order_form" model="ir.ui.view">
+            <field name="name">kontrabon.order.form</field>
+            <field name="model">kontrabon.order</field>
+            <field name="type">form</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="kontrabon Order Form">
+                    <!--<header>-->
+                        <!--&lt;!&ndash;type="object" name="action_confirm"&ndash;&gt;-->
+                        <!--<button string="Confirm" type="workflow" name="signal_confirm"-->
+                                <!--&lt;!&ndash;groups="academic.group_manager" states="draft" />&ndash;&gt;-->
+                        <!--&lt;!&ndash;type="object" name="action_done"&ndash;&gt;-->
+                        <!--<button string="Mark as Done" type="workflow"-->
+                                <!--groups="tj_delivery_order.group_manager" name="signal_done" states="confirmed" />-->
+                        <!--<button string="Mark as Done" type="object" name="action_draft" states="confirmed" />-->
+                        <!--<button string="Reset to Draft" type="workflow" name="signal_draft" states="confirmed,done" />-->
+                        <!--&lt;!&ndash;<button string="Reset to Draft" type="object" name="action_cancel" states="confirmed,done" />&ndash;&gt;-->
+                        <!--<button string="Cancel" type="workflow"-->
+                                <!--groups="tj_delivery_order.group_manager" name="signal_confirm_cancel" states="confirmed" />-->
+                        <!--<button string="Set to Draft" type="workflow"-->
+                                <!--groups="tj_delivery_order.group_manager" name="signal_cancel" states="cancel" />-->
+                        <!--<field name="state" widget="statusbar" />-->
+                    <!--</header>-->
+
+                    <header>
+                        <field name="is_ada_biaya" invisible="1"/>
+                        <field name="state_2" invisible="1"/>
+                        <button name="action_confirm" string='Confirm' type="object" class="oe_highlight" attrs="{'invisible': [('state', 'not in', ('draft'))]}"/>
+                        <button name="action_approve_purchasing" type="object" string="Approve purchasing"  class="oe_highlight" group="tj_kontrabon.group_kb_approve_purchasing" attrs="{'invisible':[('state_2', '!=', 'show_button_approve_purchasing')]}"/>
+                        <!-- <button name="action_approve" type="object" string="Approve" attrs="{'invisible':[('state', '!=', 'confirm'), ('is_ada_biaya', '=', False)]}" class="oe_highlight"/> -->
+                        <button name="action_approve" type="object" string="Approve" states="approve_purchasing" class="oe_highlight"/>
+                        <button name="action_approve" type="object" string="Approve"  class="oe_highlight" attrs="{'invisible':[('state_2', '!=', 'show_button_approve_2')]}"/>
+                        <button name="action_done" string='Done' type="object" class="oe_highlight" states="approve"/>
+                        <button name="action_cancel" string='Cancel' type="object" attrs="{'invisible': [('state', 'in', ('cancel'))]}"/>
+                        <button name="action_draft" string='Set to Draft' type="object" class="oe_highlight" attrs="{'invisible': [('state', 'not in', ('cancel'))]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,approve_purchasing,approve,done,cancel"/>
+                    </header>
+
+                    <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <field name="total_journal" invisible="1"/>
+                        <button type="object" name="action_view_journal_entries" class="oe_stat_button" icon="fa-align-justify" attrs="{'invisible':[('total_journal', '=', 0)]}">
+                            Journal Entries
+                        </button>
+                    </div>
+                            <div class="oe_title">
+                                <!--<label for="name" class="oe_edit_only" string="Delivery Order Name"/>-->
+                                <h1>
+                                    <field name="name" readonly="1"/>
+                                </h1>
+                            </div>
+                              <group>
+                                    <group>
+                                        <field name="tanggal" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="partner_id" />
+                                        <field name="collector_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="description" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="tgl_jth_tempo"/>
+                                        <field name="tgl_cair"/>
+                                    </group>
+                                    <group>
+                                        <field name="type_kontra" />
+                                        <field name="no_kb" />
+                                        <field name="set_makloon"/>
+                                        <field name="bank_id"/>
+                                        <field name="no_bbk"/>
+                                        <field name="no_faktur_pajak"/>
+                                        <field name="company_id" invisible="1"/>
+                                    </group>
+                                    <!-- <group>
+                                        <field name="faktur" placeholder="XXX.XX.XXXXXXXX"/>
+                                        <field name="invoice_supplier"/>
+                                        <field name="sj_supplier"/>
+                                    </group> -->
+                                </group>
+                             <notebook>
+                                <page string="Invoice Lines">
+                                    <!--so_ids
+
+                                ,('kontrabon_id','ISNULL,'')  ('mydatetime','=',False)
+                                ,('type','=',type_kontra)
+                                
+                                -->
+                                
+                                    <field name="inv_ids"
+                                        domain="[ ('state','=','posted'),('partner_id','=',partner_id),('kontrabon_id','=',False), ('amount_residual_signed', '!=', 0)]"
+                                        context="{'tree_view_ref':'account.invoice_tree'}" attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                     >
+
+                                        <tree string="Invoice Orders" default_order="invoice_date,payment_reference asc">
+                                            <field name="name"/>
+                                            <field name="payment_reference"/>
+                                            <field name="invoice_date"/>
+                                            <field name="invoice_date_due"/>
+                                            <field name="partner_id"/>
+                                            <field name="kontrabon_id" readonly="1"/>
+                                            <field name="invoice_origin"/>
+                                            <field name="amount_total"/>
+                                            <field name="amount_residual_signed" sum="amount_residual_signed"/>
+                                            <field name="amount_kb"/>
+                                            <field name="team_id" readonly="1"/>
+                                            <field name="state"/>
+                                            <field name="faktur"/>
+                                            <field name="invoice_supplier"/>
+                                            <field name="sj_supplier"/>
+                                            <field name="company_id" invisible="1"/>
+                                            
+                                        </tree>
+                                        <form string="Invoice Orders">
+                                            <group col="4">
+                                                <group>
+                                                    <field name="company_id" invisible="1"/>
+                                                    <field name="amount_total" />
+                                                    <field name="move_id" />
+                                                    <field name="invoice_date" />
+                                                    <field name="invoice_date_due" />
+                                                    <field name="partner_id" />
+                                                </group>
+                                                <group>
+                                                    <field name="kontrabon_id" readonly="1"/>
+                                                    <field name="invoice_origin" />
+                                                    <field name="amount_residual_signed" />
+                                                    <field name="team_id" readonly="1"/>
+                                                    <field name="amount_kb"/>
+                                                    <field name="faktur"/>
+                                                    <field name="invoice_supplier"/>
+                                                    <field name="sj_supplier"/>
+                                                    <field name="state"/>
+                                                    <!-- <field name="invoice_payment_state"/> -->
+                                                </group>
+                                            </group>
+                                                <!-- <field name="name" /> -->
+                                                <!-- <field name="date_invoice" /> -->
+                                                <!-- <field name="date_due" /> -->
+                                                <!-- <field name="partner_id" /> -->
+                                                <!-- <field name="kontrabon_id" readonly="1"/> -->
+                                                <!-- <field name="origin" /> -->
+                                                <!-- <field name="amount_total_signed" sum="amount_total_signed"/> -->
+                                                <!-- <field name="team_id" readonly="1"/> -->
+                                                <!-- <field name="state" invisible="1"/> -->
+                                        </form>
+                                    </field>
+                                </page>
+                                   <page string="Biaya Lain-lain">
+                                    <group>
+                                        <group>
+                                            <field name="label" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                            <field name="amount_admin_cost" attrs="{'readonly': [('state', '!=', 'draft')]}" invisible="1"/>
+                                            <field name="journal_id" attrs="{'required': [('amount_admin_cost', '>', 0)],'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}"/>
+                                        </group>
+                                        <group>
+                                            <field name="account_credit_id" attrs="{'required': [('amount_admin_cost', '>', 0)],'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}"/>
+                                            <field name="account_debit_id" attrs="{'required': [('amount_admin_cost', '>', 0)],'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="">
+                                    <field name="inv_line_ids">
+                                        <!-- <tree string="Invoice Line"> -->
+                                    </field>                         
+                                </page>
+                            </notebook>
+                            <field name="amount_to_text"/>
+                     </sheet>
+                     <div class="oe_chatter">
+                            <!-- <field name="message_follower_ids" widget="mail_followers"/> -->
+                            <!-- <field name="message_ids" widget="mail_thread"/> -->
+                        </div>
+                </form>
+            </field>
+        </record>
+
+
+ <!-- top level menu: no parent -->
+    <menuitem id="main_do_access_rights_menu" name="kontrabon Order"/>
+    <menuitem id="access_rights_menu" name="Rights demo" parent="main_do_access_rights_menu"/>
+    <!-- Add the security groups here to allow only access for specific user groups! -->
+    <!--<menuitem id="menu_detail_access_admin_rights" action="view_delivery_order_form" parent="access_rights_menu"-->
+      <!--groups="tj_delivery_order_group_manager"/>-->
+    <!--<menuitem id="menu_detail_access_user_rights" action="view_delivery_order_form" parent="access_rights_menu"-->
+      <!--groups="tj_delivery_order_group_user"/>-->
+
+    </data>
+</odoo> 

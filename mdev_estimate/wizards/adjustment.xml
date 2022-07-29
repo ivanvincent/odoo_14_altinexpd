@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record model="ir.ui.view" id="estimate_adjustment_wizard">
+        <field name="name">Adjustment</field>
+        <field name="model">estimate.adjustment.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Estimate Adjustment">
+                <group>
+                    <field name="adjustment_type" widget="radio"/>
+                </group>
+                
+                <group>
+                    <group name="pricelist_rule_method">
+                        <field name="compute_value" string="Compute Quantity" widget="radio"/>
+                    </group>
+                    <group name="pricelist_rule_base">
+                        <field name="fixed_value" attrs="{'invisible':[('compute_value', '!=', 'fixed')]}" options="{'type': 'number', 'step': 1}"/>
+                        <label for="percent_value" attrs="{'invisible':[('compute_value', '!=', 'percentage')]}"/>
+                        <div attrs="{'invisible':[('compute_value', '!=', 'percentage')]}">
+                            <field name="percent_value"
+                                class="oe_inline"
+                                attrs="{'invisible':[('compute_value', '!=', 'percentage')]}"
+                                options="{'type': 'number', 'step': 1}" />
+                            %%
+                        </div>
+                    </group>
+                </group>
+
+                <label for="reason" />
+                <field name="reason" />
+
+                <footer>
+                    <button name="adjust" string="Process" type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>    

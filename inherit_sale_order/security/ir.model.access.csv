@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_create_wizard_kp,create_wizard_kp,model_create_wizard_kp,base.group_system,1,1,1,1
+access_create_wizard_kp_leads,create_wizard_kp_leads,model_create_wizard_kp_line,base.group_system,1,1,1,1
+access_sale_product_history,sale_product_history,model_sale_product_history,base.group_system,1,1,1,1
+access_sale_product_history_line,sale_product_history_line,model_sale_product_history_line,base.group_system,1,1,1,1
+access_detail_mo_wizard,detail_mo_wizard,model_detail_mo_wizard,base.group_system,1,1,1,1

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- tj_rutesale = folder name addons-->
+        <report 
+            id="report_rute_sale_menu"
+            string="Print"
+            model="rute.sale" 
+            report_type="qweb-pdf"
+            file="tj_rutesale.report_rutesale" 
+            name="tj_rutesale.report_rutesale" 
+        />
+
+        <template id="report_rute_sale_document">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    
+                    <h2>
+                        SURAT PERINTAH RUTE SALE
+                        <br/>Nomor: <span t-field="o.name"/>
+                    </h2>
+
+                    <table>
+                        <tr><td>Tanggal</td><td><span t-field="o.date_plan"/></td></tr>
+                        <tr><td>Sales</td><td><span t-field="o.sales_id"/></td></tr>
+                        <tr><td>Group</td><td><span t-field="o.group_id"/></td></tr>
+                        <tr><td>Keluar Pabrik</td><td><span t-field="o.datetime_out"/></td></tr>
+                        <tr><td>Masuk Pabrik</td><td><span t-field="o.datetime_out"/></td></tr>
+                    </table>
+
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Alamat</th>
+                                <th class="text-right">State Visit</th>
+                                <th class="text-right">SO</th>
+                                <th class="text-right">SO Amount</th>
+                                <th class="text-right">SO Qty</th>
+                                <th class="text-right">Time Start</th>
+                                <th class="text-right">Akurasi</th>
+                                <th class="text-right">Tepat GPS</th>
+                            </tr>
+                       </thead>
+
+                       <tbody class="tj_rutesale_tbody">
+                            <tr t-foreach="o.rute_cust_ids.sorted(key=lambda a:(a.l.datetime_start))" t-as="l">
+                                <td>
+                                   <span t-field="l.partner_id"/>
+                                </td>
+         
+                                <td class="text-right">
+                                    <!-- <span t-field="l.partner_id" /> -->
+                                </td>
+                                <td class="text-left">
+                                    <span t-field="l.state_visit_id" />
+                                </td>
+                                <td class="text-left">
+                                    <span t-field="l.so_id" />
+                                </td>
+                                <td class="text-right">
+                                    <!-- <span t-field="l.so_amount" /> -->
+                                </td>
+                                <td class="text-right">
+                                    <!-- <span t-field="l.so_qty" /> -->
+                                </td>
+                                <td class="text-left">
+                                    <span t-field="l.datetime_start" />
+                                </td>                                
+                                <td class="text-right">
+                                    <span t-field="l.akurasi" />
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="l.tepat_tidak" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="row">
+                        <div class="col-xs-4 pull-right">
+                            <table class="table table-condensed">
+                                <tr class="border-black">
+                                    <td><strong>Total </strong></td>
+                                    <td class="text-right">
+                                        <span t-field="o.jumlah" />
+                                    </td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td><strong>Jumlah Toko </strong></td>
+                                    <td class="text-right">
+                                        <span t-field="o.jumlah_toko" />
+                                    </td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td><strong>Jumlah Kunjungan </strong></td>
+                                    <td class="text-right">
+                                        <span t-field="o.jumlah_kunjungan" />
+                                    </td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td><strong>Persen Kunjungan (%) </strong></td>
+                                    <td class="text-right">
+                                        <span t-field="o.persen_kunjungan" />
+                                    </td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td><strong>Persen Tepat (%) </strong></td>
+                                    <td class="text-right">
+                                        <span t-field="o.persen_tepat" />
+                                    </td>
+                                </tr>
+
+                                <tr class="border-black">
+                                    <td><strong>Total Order (Qty)</strong></td>
+                                    <td class="text-right">
+                                        <span t-field="o.jumlah" />
+                                    </td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td><strong>Total Order (Rp)</strong></td>
+                                    <td class="text-right">
+                                        <span t-field="o.amount_rute" />
+                                    </td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td><strong>No Kontrabon</strong></td>
+                                    <td class="text-right">
+                                        <span t-field="o.kontrabon_id" />
+                                    </td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td><strong>Jumlah titipan</strong></td>
+                                    <td class="text-right">
+                                        <span t-field="o.count_pay" />
+                                    </td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td><strong>Total (Titipan Uang)</strong></td>
+                                    <td class="text-right">
+                                        <span t-field="o.amount_pay" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="oe_structure"/>
+                </div>
+            </t>
+        </template>
+
+        <!-- tj_rutesale = folder name addons-->
+        <!-- <template id="rute_sale_report">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'unit_id.company_id.partner_id.lang', 'tj_rutesale.report_rute_sale_document')"/>
+                </t>
+            </t>
+        </template>
+ -->
+
+        <template id="report_rutesale">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="tj_rutesale.report_rute_sale_document"/>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

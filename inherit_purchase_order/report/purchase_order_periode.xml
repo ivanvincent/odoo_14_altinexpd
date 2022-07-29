@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="paperformat_po_periode" model="report.paperformat">
+            <field name="name">European A4</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">23</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="action_report_purchase_order" model="purchase.order.pdf.wizard" string="purchase.order.pdf.wizard" report_type="qweb-pdf" name="inherit_purchase_order.report_purchase_order_periode" file="inherit_purchase_order.report_purchase_order_periode" />
+
+        <record id="action_report_purchase_order" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_po_periode"/>
+        </record>
+
+        <template id="report_purchase_order_periode">
+            <t t-call="web.basic_layout">
+                <style>
+                    table {
+                        margin-top: 20px;
+                    }
+                </style>
+                <div class="page">
+                    <div class="row">
+                        <div class="col-6">
+                            <span class="font-weight-bold d-block">Date Start</span>
+                            <t t-esc="date_start"/>
+                        </div>
+                        <div class="col-6">
+                            <span class="font-weight-bold d-block">Date End</span>
+                            <t t-esc="date_end"/>
+                        </div>
+                    </div>
+
+                    <table class="table table-sm">
+                        <thead>
+                            <th>No</th>
+                            <th>Order Reference</th>
+                            <th>Vendor</th>
+                            <th>Source Document</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                        </thead>
+                        <tbody>
+                            <t t-set="no" t-value="0"/>
+                            <tr t-foreach="docs" t-as="data">
+                                <t t-set="no" t-value="no + 1"/>
+                                <td>
+                                    <t t-esc="no"/>
+                                </td>
+                                <td>
+                                    <span t-esc="data.get('name', '')" />
+                                </td>
+                                <td>
+                                    <span t-esc="data.get('vendor', '')" />
+                                </td>
+                                <td>
+                                    <span t-esc="data.get('origin', '')" />
+                                </td>
+                                <td>
+                                    <span t-esc="data.get('amount_total', '')" />
+                                </td>
+                                <td>
+                                    <span t-esc="data.get('inv_state', '')" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </template>
+
+    </data>
+
+
+</odoo>

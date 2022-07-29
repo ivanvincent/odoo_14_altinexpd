@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="report.paperformat" id="produksi_inspect_barcode_format">
+            <field name="name">Produksi Inspect Barcode</field>
+            <field name="default" eval="False" />
+            <field name="format">custom</field>
+            <field name="page_width">100</field>
+            <field name="page_height">50</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field> <!-- Tips : Hide unnecessary header -->
+        </record>
+
+        <record id="action_report_produksi_inspect_barcode" model="ir.actions.report">
+            <field name="name">Produksik Inspect List Barcode</field>
+            <field name="model">produksi.inspect</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">knitting.report_produksi_inspect_barcode</field>
+            <field name="report_file">knitting.report_produksi_inspect_barcode</field>
+            <field name="print_report_name">'%s' % object.name</field>
+            <field name="binding_model_id" ref="model_produksi_inspect"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" eval="produksi_inspect_barcode_format"/>
+        </record>
+
+        <template id="report_produksi_inspect_barcode_detail">
+            <t t-call="web.basic_layout">
+            <div class="page">
+                <center>
+                <img t-if="line.lot_id.name" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;' % ('Code128', line.lot_id.name, 800, 150)" style="width : 650px ; height : 100px"/>
+                <br/>
+                    <span t-field="line.lot_name" style="font-size: 1.5rem;"/><br/><br/>
+                    <span t-field="line.product_id" style="font-size: 2rem;"/><br/>
+                    <span t-field="line.quantity" style="font-size: 2rem;"/>  <span t-field="line.product_uom_id.name" style="font-size: 2rem;"/>
+                </center>
+            </div>
+            </t>
+        </template>
+
+        <template id="report_produksi_inspect_barcode">
+            <t t-foreach="docs" t-as="o">
+                <t t-foreach="o.moveline_before_ids" t-as="line">
+                    <t t-call="knitting.report_produksi_inspect_barcode_detail"/>
+                </t>
+            </t>
+        </template>
+
+
+    </data>
+</odoo>

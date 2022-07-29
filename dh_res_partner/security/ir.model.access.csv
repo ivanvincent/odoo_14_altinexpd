@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_res_partner_cluster,access.res.partner.cluster,dh_res_partner.model_res_partner_cluster,base.group_user,1,1,1,1
+access_res_partner_dc1,access.res.partner.dc1,dh_res_partner.model_res_partner_dc1,base.group_user,1,1,1,1
+access_res_partner_divisi1,access.res.partner.divisi1,dh_res_partner.model_res_partner_divisi1,base.group_user,1,1,1,1
+access_res_partner_divisi2,access.res.partner.divisi2,dh_res_partner.model_res_partner_divisi2,base.group_user,1,1,1,1
+access_res_partner_kategori1,access.res.partner.kategori1,dh_res_partner.model_res_partner_kategori1,base.group_user,1,1,1,1
+access_res_partner_kategori2,access.res.partner.kategori2,dh_res_partner.model_res_partner_kategori2,base.group_user,1,1,1,1
+access_res_partner_kategori3,access.res.partner.kategori3,dh_res_partner.model_res_partner_kategori3,base.group_user,1,1,1,1
+access_res_partner_kategori4,access.res.partner.kategori4,dh_res_partner.model_res_partner_kategori4,base.group_user,1,1,1,1
+access_res_partner_region,access.res.partner.region,dh_res_partner.model_res_partner_region,base.group_user,1,1,1,1
+access_res_partner_jalur,access.res.partner.jalur,dh_res_partner.model_res_partner_jalur,base.group_user,1,1,1,1
+access_res_partner_jalur_line,access.res.partner.jalur.line,dh_res_partner.model_res_partner_jalur_line,base.group_user,1,1,1,1
+access_res_partner_kelompok,access.res.partner.kelompok,dh_res_partner.model_res_partner_kelompok,base.group_user,1,1,1,1
+
+access_res_partner_account,access.res.partner.account,mdev_sharon.model_res_partner_account,base.group_user,1,1,1,1

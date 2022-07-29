@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- <record model="ir.ui.view" id="purchase_order_line_schedule_form2">
+        <field name="name">purchase_discount.order.line.schedule.form2</field>
+        <field name="model">purchase.order.line</field>
+        <field name="inherit_id" ref="purchase.purchase_order_line_form2" />
+        <field name="arch" type="xml">
+            <field name="price_unit" position="before">
+                <button name="action_open_schedule" icon="fa-list" type="object"/>
+            </field>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="purchase_order_line_schedule_tree">
+        <field name="name">purchase_discount.order.line.schedule.tree</field>
+        <field name="model">purchase.order.line</field>
+        <field name="inherit_id" ref="purchase.purchase_order_line_tree" />
+        <field name="arch" type="xml">
+            <field name="price_unit" position="before">
+                <button name="action_open_schedule" icon="fa-list"/>
+            </field>
+        </field>
+    </record> -->
+
+    <record model="ir.ui.view" id="purchase_order_schedule_form">
+        <field name="name">purchase_discount.purchase.order.schedule.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='order_line']/tree/field[@name='remarks']"
+                position="after"
+            >
+                <button name="action_open_schedule" icon="fa-list" type="object"/>
+            </xpath>
+            
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="purchase_order_line_schedule_form">
+        <field name="name">purchase_discount.purchase.order.schedule.form</field>
+        <field name="model">purchase.order.line</field>        
+        <field name="arch" type="xml">
+            <form>
+                <!-- <group> -->
+                    <field name="line_schedule_ids">
+                        <tree editable="bottom">
+                            <field name="date_schedule" />
+                            <field name="quantity_schedule" sum="1"/>
+                        </tree>
+                    </field>
+                <!-- </group> -->
+
+            </form>
+            
+        </field>
+    </record>
+
+    <record id="purchas_order_line_schedule_action" model="ir.actions.act_window">
+        <field name="name">Date Schedule</field>
+        <field name="res_model">purchase.order.line</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="purchase_order_line_schedule_form"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="1">
+    
+        <record id="seq_product_benang" model="ir.sequence">
+            <field name="name">Seq Product Benang</field>
+            <field name="code">seq.product.benang</field>
+            <field name="prefix"></field>
+            <field name="padding">4</field>
+        </record>
+    
+    </data>
+    
+
+</odoo>

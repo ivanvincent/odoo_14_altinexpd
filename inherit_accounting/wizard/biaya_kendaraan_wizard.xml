@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="biaya_kendaraan_wizard_form" model="ir.ui.view">
+            <field name="name">biaya.kendaraan.wizard.form</field>
+            <field name="model">biaya.kendaraan.wizard</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="is_global"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="generate_view" type="object" string="View" class="oe_highlight"/>
+                        <button name="generate_pdf" type="object" string="Generate to pdf" class="oe_highlight"/>
+                        <button name="generate_xlsx" type="object" string="Generate to xlsx" class="oe_highlight"/>
+                        <button name="cancel" type="special" special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="biaya_kendaraan_wizard_action" model="ir.actions.act_window">
+            <field name="name">Report Biaya Kendaraan</field>
+            <field name="res_model">biaya.kendaraan.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+            id="biaya_kendaraan_wizard_menu"
+            name="Report Biaya Kendaraan"
+            action="biaya_kendaraan_wizard_action"
+            parent="accounting_pdf_reports.menu_finance_legal_statement"
+            groups="account.group_account_readonly"
+            sequence="23"/>
+
+    
+    </data>
+    
+
+</odoo>

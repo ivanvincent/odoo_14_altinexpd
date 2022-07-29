@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="paperformat_jo_twisting" model="report.paperformat">
+            <field name="name">JO twisting</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">23</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+    
+        <report
+            id="action_report_mo_twisting"
+            model="mrp.production"
+            string="Print MO Twisting"
+            report_type="qweb-pdf"
+            name="inherit_mrp.report_mo_twisting"
+            file="inherit_mrp.report_mo_twisting"
+        />
+
+        <record id="action_report_mo_twisting" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_jo_twisting"/>
+        </record>
+
+        <template id="report_mo_twisting">
+            <t t-call="web.basic_layout">
+                <link rel="stylesheet" type="text/scss" href="/inherit_mrp/static/src/css/jo_twisting.css"/>
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page">
+                        
+                        <div class="title">
+                            <h4>JOB ORDER TWISTING</h4>
+                            <h4>NO JO: <span t-field="doc.name"/></h4>
+                        </div>
+
+                        <div class="data-header">
+                            <div class="row">
+                                <div class="col-6">
+                                    <table>
+                                        <tr>
+                                            <td>Revisi</td>
+                                            <td class="pl-3 pr-3">:</td>
+                                            <td><span t-field="doc.revisi" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tanggal</td>
+                                            <td class="pl-3 pr-3">:</td>
+                                            <td><span t-field="doc.date_planned_start" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>No OM</td>
+                                            <td class="pl-3 pr-3">:</td>
+                                            <td class="font-weight-bold">-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nama Design</td>
+                                            <td class="pl-3 pr-3">:</td>
+                                            <td class="font-weight-bold"><span t-field="doc.nama_design" /></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <table>
+                                        <tr>
+                                            <td>Total Order Marketing</td>
+                                            <td class="pl-3 pr-3">:</td>
+                                            <td><span t-field="doc.jumlah_order" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Order Penarikan SW</td>
+                                            <td class="pl-3 pr-3">:</td>
+                                            <td><span t-field="doc.order_penarikan_sw" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Jenis Order</td>
+                                            <td class="pl-3 pr-3">:</td>
+                                            <td><span t-field="doc.jenis_order" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Jenis Mesin Weaving</td>
+                                            <td class="pl-3 pr-3">:</td>
+                                            <td><span t-field="doc.jenis_mesin" /></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="body-data">
+                            <em><span class="font-weight-bold">KONTRUKSI</span></em>
+                            <table width="100%" class="table-data">
+                                <thead>
+                                    <th>No</th>
+                                    <th>Kd Bng</th>
+                                    <th>Jenis Benang</th>
+                                    <th>Supplier</th>
+                                    <th>Lot</th>
+                                    <th>Brt/Cns</th>
+                                    <th>T/M</th>
+                                    <th>TWIST</th>
+                                    <th>TC %</th>
+                                    <th>DA</th>
+                                    <th>Gramasi (Kg)</th>
+                                    <th>Keb. Kg</th>
+                                    <th>Brt/Cyi (Kg)</th>
+                                </thead>
+                                <tbody>
+                                    <t t-set="no" t-value="0"/>
+                                    <tr t-foreach="doc.move_raw_ids" t-as="line">
+                                        <t t-set="no" t-value="no + 1"/>
+                                        <td><span t-esc="no" /></td>
+                                        <td><span t-field="line.kode_benang" /></td>
+                                        <td><span t-field="line.product_id" /></td>
+                                        <td><span t-field="line.partner_id" /></td>
+                                        <td><span t-field="line.lot_id" /></td>
+                                        <td><span t-field="line.jml_creel" /></td>
+                                        <td><span t-field="line.tm" /></td>
+                                        <td><span t-field="line.twist" /></td>
+                                        <td><span t-field="line.tc_percent" /></td>
+                                        <td><span t-field="line.da" /></td>
+                                        <td><span t-field="line.gramasi" /></td>
+                                        <td><span t-field="line.product_qty" /></td>
+                                        <td><span t-field="line.brt_cyi" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>Catatan : <span t-field="doc.note"/></p>
+                        </div>
+
+                        <div class="info-ttd">
+                            <div class="row text-center">
+                                <div class="col-4">
+                                    <p>Dibuat Oleh:</p>
+                                    <p class="user">Rendi T</p>
+                                    <p>Tgl :</p>
+                                </div>
+                                <div class="col-4">
+                                    <p>Disetujui Oleh:</p>
+                                    <p class="user">A. Gunawan</p>
+                                    <p>Tgl :</p>
+                                </div>
+                                <div class="col-4">
+                                    <p>Diterima Oleh:</p>
+                                    <p class="user">Ayi Ara</p>
+                                    <p>Tgl :</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    
+    </data>
+    
+
+</odoo>

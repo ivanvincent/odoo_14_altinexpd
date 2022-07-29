@@ -1,0 +1,45 @@
+<odoo>
+	<data>
+		<record id="view_partner_wilayah_form" model="ir.ui.view">
+			<field name="name">res.partner.wilayah.form</field>
+			<field name="model">res.partner.wilayah</field>
+			<field name="arch" type="xml">
+				<form string="Partner Cabang">
+					<sheet>
+						<group>
+							<group>
+								<field name="name"/>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="view_partner_wilayah_tree" model="ir.ui.view">
+			<field name="name">res.partner.wilayah.tree</field>
+			<field name="model">res.partner.wilayah</field>
+			<field name="arch" type="xml">
+				<tree string="Wilayah Customer">
+					<field name="name"/>
+				</tree>
+			</field>
+		</record>
+		<record id="view_partner_wilayah_search" model="ir.ui.view">
+			<field name="name">res.partner.wilayah.search</field>
+			<field name="model">res.partner.wilayah</field>
+			<field name="arch" type="xml">
+				<search string="Wilayah Customer">
+					<field name="name" filter_domain="[('name','ilike',self)]" string="Area Name"/>
+				</search>
+			</field>
+		</record>
+		<record id="action_partner_wilayah" model="ir.actions.act_window">
+            <field name="name">Partner Wilayah</field>
+            <field name="res_model">res.partner.wilayah</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_partner_wilayah_search"/>
+            <field name="view_id" ref="view_partner_wilayah_tree"/>
+        </record>
+        <menuitem action="action_partner_wilayah" id="menu_action_partner_wilayah" parent="menu_sale_config_partner_sti" sequence="3"/>
+	</data>
+</odoo>

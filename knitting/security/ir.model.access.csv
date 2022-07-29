@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_mrp_request,mrp.request,model_mrp_request,base.group_system,1,1,1,1
+access_mrp_request_detail,mrp.request.detail,model_mrp_request_detail,base.group_system,1,1,1,1
+access_produksi_knitting,produksi.knitting,model_produksi_knitting,base.group_system,1,1,1,1
+access_produksi_knitting_line,produksi.knitting.line,model_produksi_knitting_line,base.group_system,1,1,1,1
+access_produksi_inspect,produksi.inspect,model_produksi_inspect,base.group_system,1,1,1,1
+access_produksi_inspect_line,produksi.inspect.line,model_produksi_inspect_line,base.group_system,1,1,1,1
+access_mrp_greige_stock,mrp.greige.stock,model_mrp_greige_stock,base.group_system,1,1,1,1
+access_mrp_yarn_stock,mrp.yarn.stock,model_mrp_yarn_stock,base.group_system,1,1,1,1
+access_mrp_request_component,mrp.request.component,model_mrp_request_component,base.group_system,1,1,1,1
+access_inspect_transfer_wizard,inspect.transfer.wizard,model_inspect_transfer_wizard,base.group_system,1,1,1,1
+access_sale_order_line_temp,sale.order.line.temp,model_sale_order_line_temp,base.group_system,1,1,1,1
+access_stock_production_lot_temp,stock.production.lot.temp,model_stock_production_lot_temp,base.group_system,1,1,1,1
+access_machine_planning_temp,machine_planning_temp,model_machine_planning_temp,base.group_system,1,1,1,1
+access_inspect_return_wizard,inspect_return_wizard,model_inspect_return_wizard,base.group_system,1,1,1,1

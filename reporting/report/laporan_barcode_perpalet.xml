@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="report.paperformat" id="paperformat_laporan_barcode_perpalet">
+            <field name="name">Laporan Barcode Perpalet</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_width">210</field>
+            <field name="page_height">297</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">2</field>
+            <field name="margin_bottom">2</field>
+            <field name="margin_right">2</field>
+            <field name="margin_left">2</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="action_laporan_barcode_perpalet" model="reporting.stock.lot" string="Laporan Barcode Perpalet" report_type="qweb-pdf" name="reporting.laporan_barcode_perpalet" file="reporting.laporan_barcode_perpalet" />
+
+        <record id="action_laporan_barcode_perpalet" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_laporan_barcode_perpalet" />
+        </record>
+
+        <!-- <template id="laporan_barcode_perpalet">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="rack" t-value="o.group_by_rack()" />
+                <t t-foreach="rack" t-as="r">
+                    <t t-call="reporting.laporan_barcode_perpalet_tmp" />
+                </t>
+            </t>
+        </template> -->
+
+        <template id="laporan_barcode_perpalet">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="rack" t-value="o.group_by_rack()" />
+                <t t-foreach="rack" t-as="r">
+                    <t t-call="web.basic_layout">
+                        <style>
+                            @font-face {
+                                font-family: 'Courier New';
+                                font-style: normal;
+                                font-weight: 400;
+                                src: local('Courier New'), local('CourierNewPSMT'), url(http://themes.googleusercontent.com/licensed/font?kit=p0pJArTTK5Heq6xbYtNwnp0EAVxt0G0biEntp43Qt6E) format('truetype');
+                            }
+
+                            .Courier {
+                                font-family: Courier New;
+                            }
+
+                            .table-data th,
+                            .table-data td {
+                                border: 1px solid black;
+                                font-family: Courier New;
+                            }
+                        </style>
+
+                        <div class="page">
+                            <div class="text-right">GREY REV-01</div>
+                            <div class="text-center" style="margin-top : -20px">
+                                <b>Laporan Barcode Perpalet</b>
+                                <br />
+                                <span t-esc="r['rack_name']" />
+                            </div>
+                            <table class="table-condensed table-data Courier" width="100%">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>No</th>
+                                        <th>Barcode</th>
+                                        <th>Kode Barang</th>
+                                        <th>Nama Barang</th>
+                                        <th>No Warna</th>
+                                        <th>Grade</th>
+                                        <th>Quantity</th>
+                                        <th>Tanggal Prod</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="no" t-value="0" />
+                                    <t t-foreach="o.lot_ids" t-as="l">
+                                        <t t-if="r['rack_name'] == l.rack_id.name">
+                                            <t t-set="no" t-value="no + 1" />
+                                            <tr>
+                                                <td>
+                                                    <span t-esc="no" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="l.lot_id.name" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="l.product_code" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="l.product_id.name" />
+                                                </td>
+                                                <td>
+                                                    <!-- <span t-field="l."/> -->
+                                                </td>
+                                                <td>
+                                                    <span t-field="l.grade_id.name" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="l.lot_id.product_qty" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="l.lot_id.tanggal_produksi" />
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="mdev_res_config_settings_form" model="ir.ui.view">
+            <field name="name">mdev_res.config.settings.form</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Sharon" string="Sharon" data-key="mdev_sharon" groups="base.group_system">
+                        <h2>Sharon Addons</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="gbb_warehouse_id"/>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="gbb_warehouse_id" required="1" class="o_light_label" domain="[('company_id', '=', company_id)]" context="{'default_company_id': company_id}"/>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box" title="Show organizational chart on employee form">
+                                <div class="o_setting_right_pane">
+                                    <label for="gpr_warehouse_id"/>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="gpr_warehouse_id" required="1" class="o_light_label" domain="[('company_id', '=', company_id)]" context="{'default_company_id': company_id}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="gpj_warehouse_id"/>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="gpj_warehouse_id" required="1" class="o_light_label" domain="[('company_id', '=', company_id)]" context="{'default_company_id': company_id}"/>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box" title="Show organizational chart on employee form">
+                                <div class="o_setting_right_pane">
+                                    <label for="grr_warehouse_id"/>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="grr_warehouse_id" required="1" class="o_light_label" domain="[('company_id', '=', company_id)]" context="{'default_company_id': company_id}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mdev_config_settings_action" model="ir.actions.act_window">
+            <field name="name">Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'mdev_sharon'}</field>
+        </record>
+
+        <menuitem id="mdev_menu_settings" name="Settings" parent="mdev_conf_menu" sequence="0" action="mdev_config_settings_action" groups="base.group_system"/>
+    </data>
+</odoo>
+

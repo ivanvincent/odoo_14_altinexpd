@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="hr_department_additional_form">
+            <field name="name">hr.department.form</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="after">
+                    <notebook>
+                        <page string="Member">
+                            <field name="member_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="gender"/>
+                                    <field name="marital"/>
+                                    <field name="identification_id"/>
+                                    <field name="job_title"/>
+                                    <field name="work_phone"/>
+                                    <field name="golongan_id"/>
+                                    <field name="kelompok_id"/>
+                                    <field name="grop_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
+                <xpath expr="//group" position="inside">
+                    <field name="default_code"/>
+                    <field name="jumlah_mpp"/>
+                    <field name="jumlah_actual_karyawan"/>
+                    <field name="kebutuhan"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

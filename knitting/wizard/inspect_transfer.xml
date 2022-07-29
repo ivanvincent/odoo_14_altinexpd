@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="inspect_transfer_wizard_form" model="ir.ui.view">
+            <field name="name">inspect.transfer.form</field>
+            <field name="model">inspect.transfer.wizard</field>
+            <field name="arch" type="xml">
+                <form >
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="inspect_id" readonly="1"/>
+                                <field name="transfer_type" widget="radio" options="{'horizontal':true}"/>
+                                <field name="picking_id" attrs="{'invisible':[('transfer_type', '=', 'new')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Line">
+                                <field name="moveline_ids" readonly="1"  widget="one2many">
+                                    <tree>
+                                        <field name="lot_id"/>
+                                        <field name="product_id"/>
+                                        <field name="quantity"/>
+                                        <field name="product_uom_id"/>
+                                        <field name="grade_id"/>
+                                        <field name="state" widget="badge" decoration-info="state == 'produced'"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <footer>
+                            <button name="do_transfer" type="object" string="Transfer" class="oe_highlight"/>
+                            <button name="cancel" type="special" special="cancel" string="Cancel" />
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,45 @@
+<odoo>
+	<data>
+		<record id="view_partner_cluster_form" model="ir.ui.view">
+			<field name="name">res.partner.cluster.form</field>
+			<field name="model">res.partner.cluster</field>
+			<field name="arch" type="xml">
+				<form string="Partner Cluster">
+					<sheet>
+						<group>
+							<field name="name"/>
+							<field name="code"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="view_partner_cluster_tree" model="ir.ui.view">
+			<field name="name">res.partner.cluster.tree</field>
+			<field name="model">res.partner.cluster</field>
+			<field name="arch" type="xml">
+				<tree string="Partner Cluster">
+					<field name="name"/>
+					<field name="code"/>
+				</tree>
+			</field>
+		</record>
+		<record id="view_partner_cluster_search" model="ir.ui.view">
+			<field name="name">res.partner.cluster.search</field>
+			<field name="model">res.partner.cluster</field>
+			<field name="arch" type="xml">
+				<search string="Partner Cluster">
+					<field name="name" filter_domain="[('name','ilike',self)]" string="Name"/>
+				</search>
+			</field>
+		</record>
+		<record id="action_partner_cluster" model="ir.actions.act_window">
+            <field name="name">Partner Cluster</field>
+            <field name="res_model">res.partner.cluster</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_partner_cluster_search"/>
+            <field name="view_id" ref="view_partner_cluster_tree"/>
+        </record>
+        <menuitem action="action_partner_cluster" id="menu_action_partner_cluster" parent="sale.menu_sale_config" sequence="17"/>
+	</data>
+</odoo>

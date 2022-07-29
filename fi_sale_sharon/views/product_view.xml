@@ -1,0 +1,15 @@
+<odoo>
+    <record id="product_product_form_inherit_sharon" model="ir.ui.view">
+        <field name="name">product.product.form.inherit.sharon</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <group name="description" position="after">
+            	<newline/>
+            	<group string="Customers" name="customer_datas">
+            		<field name="customer_ids" colspan="4" nolabel="1"/>
+            	</group>
+            </group>              
+        </field>
+    </record>
+</odoo>

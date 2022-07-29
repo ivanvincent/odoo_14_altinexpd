@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="action_report_produksi_dyeing_workcenter" model="ir.actions.report">
+            <field name="name">Report Produksi Dyeing Workcenter</field>
+            <field name="model">laporan.produksi.dyeing</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">inherit_mrp.report_laporan_produksi_dyeing_workcenter</field>
+            <field name="report_file">inherit_mrp.report_laporan_produksi_dyeing_workcenter</field>
+            <field name="print_report_name">'%s - %s' % (object.date_start, object.date_end)</field>
+            <field name="binding_model_id" ref="model_laporan_produksi_dyeing"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" eval="laporan_produksi_dyeing_paperformat"/>
+        </record>
+    
+        <template id="report_laporan_produksi_dyeing_workcenter">
+            <t t-call="web.basic_layout">
+            <style>
+                .table-data, .table-data th, .table-data td {
+                    border: 1px solid black;
+                    text-align: center;
+                }
+            </style>
+                <!-- <t t-foreach="docs" t-as="o"> -->
+                    <div class="page">
+                        <center>
+                            <h3 class="font-weight-bold">Laporan Produksi Dyeing Workcenter</h3>
+                            <h6 class="font-weight-bold">(Periode <t t-esc="date_start"/> - <t t-esc="date_end"/>)</h6>
+                        </center>
+                        <t t-foreach="list_date" t-as="lst_date">
+                            <h5><span class="font-weight-bold" t-esc="lst_date" style="margin-top: 5px;"/></h5>
+                            <t t-foreach="list_workcenter" t-as="lst_wc">
+                                <h5 class="ml-3"><span class="font-weight-bold" t-esc="lst_wc" style="margin-top: 5px;"/></h5>
+                                <table class="table-data" width="100%">
+                                    <thead>
+                                        <th>NO</th>
+                                        <th>DATE</th>
+                                        <th>MESIN</th>
+                                        <th>NO SO</th>
+                                        <th>PRODUCT</th>
+                                        <th>QTY YARD</th>
+                                        <th>QTY KG</th>
+                                        <th>QTY MTR</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="filter(lambda x: x['date'] == lst_date and x['workcenter'] == lst_wc, docs)" t-as="o">
+                                            <t t-set="product_id" t-value="me.product_name(o.get('product_id'))"/>
+                                            <t t-set="qty_mtr" t-value="me.get_qty_mtr(o.get('mo_id'))"/>
+                                            <t t-set="qty_kg" t-value="me.get_qty_kg(o.get('mo_id'))"/>
+                                            <td><span t-esc="o.get('no_mo')" /></td>
+                                            <td><span t-esc="o.get('date')" /></td>
+                                            <td><span t-esc="o.get('mesin')" /></td>
+                                            <td><span t-esc="product_id" /></td>
+                                            <td><span t-esc="o.get('no_so')" /></td>
+                                            <td><span t-esc="o.get('qty_yard_kp')" /></td>
+                                            <td><span t-esc="qty_kg" /></td>
+                                            <td><span t-esc="qty_mtr" /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </t>
+                        </t>
+                    </div>
+                <!-- </t> -->
+            </t>
+        </template>
+    
+    </data>
+    
+
+</odoo>

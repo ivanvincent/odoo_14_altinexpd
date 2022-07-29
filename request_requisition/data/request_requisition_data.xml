@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2018-2019 ForgeFlow, S.L.
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl-3.0) -->
+<odoo>
+    <!-- Request-related subtypes for messaging / Chatter -->
+<!--     <record id="mt_request_to_approve" model="mail.message.subtype">
+        <field name="name">Request to be approved</field>
+        <field name="res_model">request.requisition</field>
+        <field name="default" eval="True" />
+        <field name="description">Request to be approved</field>
+    </record>
+    <record id="mt_request_approved" model="mail.message.subtype">
+        <field name="name">Request approved</field>
+        <field name="res_model">request.requisition</field>
+        <field name="default" eval="True" />
+        <field name="description">Request approved</field>
+    </record>
+    <record id="mt_request_rejected" model="mail.message.subtype">
+        <field name="name">Request rejected</field>
+        <field name="res_model">request.requisition</field>
+        <field name="default" eval="True" />
+        <field name="description">Request rejected</field>
+    </record>
+    <record id="mt_request_done" model="mail.message.subtype">
+        <field name="name">Request done</field>
+        <field name="res_model">request.requisition</field>
+        <field name="default" eval="True" />
+        <field name="description">Request is done</field>
+    </record> -->
+</odoo>

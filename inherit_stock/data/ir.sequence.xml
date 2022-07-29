@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="seq_barcode_greige" model="ir.sequence">
+            <field name="name">Barcode Greige</field>
+            <field name="code">stock.production.lot.greige</field>
+            <field name="prefix">G%(year)s%(month)s</field>
+            <field name="padding">5</field>
+        </record>
+
+        <record id="seq_mrp_raw_revision" model="ir.sequence">
+            <field name="name">Raw Revision</field>
+            <field name="code">mrp.raw.revision</field>
+            <field name="prefix">REV/%(year)s/%(month)s/</field>
+            <field name="padding">5</field>
+        </record>
+
+    </data>
+
+
+</odoo>

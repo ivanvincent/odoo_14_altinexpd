@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.module.category" id="module_pull_mysql">
+            <field name="name">Pull MySQL</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <record model="res.groups" id="group_pull_mysql_user">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_pull_mysql"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record model="res.groups" id="group_pull_mysql_manager">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_pull_mysql"/>
+            <field name="implied_ids" eval="[(4, ref('pull_mysql.group_pull_mysql_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record model="res.groups" id="group_pull_mysql_rollback">
+            <field name="name">Rollback</field>
+            <field name="category_id" ref="module_pull_mysql"/>
+            <field name="implied_ids" eval="[(4, ref('pull_mysql.group_pull_mysql_manager'))]"/>
+        </record>
+
+
+    </data>
+</odoo>

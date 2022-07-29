@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <div t-name="wibicon_utility.OWLTreeRenderer" class="o_owl_tree_view" owl="1">
+        <div class="o_grid_container" id="gridContainer" t-ref="gridContainer"></div>
+    </div>
+
+</templates>

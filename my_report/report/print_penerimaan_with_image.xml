@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <report
+            id="action_report_stock_picking_penerimaan_with_image"
+            model="stock.picking"
+            string="Print Penerimaan (with image)"
+            report_type="qweb-pdf"
+            name="my_report.report_stock_picking_penerimaan_with_image"
+            file="my_report.report_stock_picking_penerimaan_with_image"
+        />
+
+        <template id="report_stock_picking_penerimaan_with_image">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                <div class="header" style="font-size: 13px;">
+                    <div class="col-xs-1" style="margin-left: -10px">
+                        <img src="/web/binary/company_logo" style="width:125px; padding:5px 0px" align="left" />
+                    </div>
+                    <div class="col-xs-8 col-xs-offset-1">
+                            <span style="padding-left: 10px;"><b>PT. PUTERA MULYA TERANG INDAH</b></span>
+                            <br />
+                            <span style="padding-left: 10px;">JL. RAYA LASWI NO. 2</span>
+                            <br />
+                            <span style="padding-left: 10px;">Tlp. 022-5951222</span>
+                            <br />
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                </div>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div
+                                style="margin-top: 00px ;margin-bottom: 10px ; border-left: 0px solid white ; border-top: 2px solid black; border-bottom: 0px solid white ;  border-right: 0px solid white; background-color:white;">
+                                <h4 style="margin-top: 10px;">
+                                    <center>
+                                        <span t-field="o.name" />
+                                    </center>
+                                </h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <table width="80%">
+                                        <tr>
+                                            <td>Supplier</td>
+                                            <td>:</td>
+                                            <td><span t-field="o.partner_id.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Receiping Date</td>
+                                            <td>:</td>
+                                            <td><span t-field="o.scheduled_date" t-field-options="{&quot;format&quot;: &quot;dd / MMMM / yyyy&quot;}"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <table width="80%" style="float: right;">
+                                        <tr>
+                                            <td>Source Document</td>
+                                            <td>:</td>
+                                            <td><span t-field="o.origin"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <table class="table-condensed" width="100%" border="1" style="margin-top:20px;">
+                                <thead>
+                                    <td style="border: 1px solid black;" class="text-center" width="5%">No</td>
+                                    <td style="border: 1px solid black;" class="text-center" width="55%">Product</td>
+                                    <td style="border: 1px solid black;" class="text-center" width="15%">Demand</td>
+                                    <td style="border: 1px solid black;" class="text-center" width="15%">Done</td>
+                                    <td style="border: 1px solid black;" class="text-center" width="15%">Uom</td>
+                                    <td style="border: 1px solid black;" class="text-center" width="15%">Image</td>
+                                </thead>
+                                <tbody>
+                                    <t t-set="no" t-value="1"/>
+                                    <tr t-foreach="o.move_ids_without_package" t-as="line">
+                                        <td style="border: 1px solid black;" class="text-center"><span t-esc="no"/> <t t-set="no" t-value="no + 1"/></td>
+                                        <td style="border: 1px solid black; padding-left: 5px;" class="text-left"><span t-field="line.product_id.name"/></td>
+                                        <td style="border: 1px solid black; padding-right: 5px;" class="text-right"><span t-field="line.product_uom_qty"/></td>
+                                        <td style="border: 1px solid black; padding-right: 5px;" class="text-right"><span t-field="line.quantity_done"/></td>
+                                        <td style="border: 1px solid black;" class="text-center"><span t-field="line.product_uom.name"/></td>
+                                        <td style="padding-top: -20px; border: 1px solid black;">
+                                            <table class="table table-condensed" width="100%">
+                                                <tr t-foreach="line.image_ids" t-as="line2">
+                                                    <td style="border : 0px;">
+                                                        <span t-esc="line2.image_desc" style="font-size: 14px;"/><br/>
+                                                        <img t-attf-src="data:image/*;base64,{{line2.image_binary}}" width="150px" height="150px"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-condensed" style="margin-top:80px">
+                                <tr>
+                                    <td class="text-center">
+                                        Diperiksa oleh
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <br />
+                                        (_______________)
+                                    </td>
+                                    <td class="text-center">
+                                        Menyetujui
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <br />
+                                        (_______________)
+                                    </td>
+                                    <td class="text-center">
+                                        Dibuat Oleh
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <br />
+                                        (_______________)
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    
+    </data>
+    
+
+</odoo>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+
+        <report id="action_report_purchase_order_product" model="report.po.supplier" string="Purchase Order Product" report_type="qweb-pdf" name="inherit_purchase_order.report_po_product" file="inherit_purchase_order.report_po_product" />
+
+        <record id="action_report_purchase_order_product" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_po_global" />
+        </record>
+
+        <template id="report_po_product">
+            <t t-call="web.basic_layout">
+                <style>
+                  .title {
+                           padding: 0;
+                  }
+                </style>
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page">
+                        <div class="title text-center mb-4">
+                            <h4 class="font-weight-bold">PT. MULTI STAR RUKUN ABADI</h4>
+                            <h3 class="font-weight-bold" style="color : #A04040;">Pembelian per Barang</h3>
+                            <div class="date_header">
+                                <span class="font-weight-bold">Dari <span class="font-weight-bold" t-field="doc.date_start" t-options="{&quot;format&quot;: &quot;dd MMM yyyy&quot;}"/>
+                                ke  <span class="font-weight-bold" t-field="doc.date_end" t-options="{&quot;format&quot;: &quot;dd MMM yyyy&quot;}" />
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="justify-center">
+                        <table class="table-condensed table-sm  mx-auto">
+                            <thead>
+                                <tr style="border-bottom: 1px solid black !important;">
+                                    <th class="text-left" style="color:#000080;">
+                                        <span>Keterangan Barang</span>
+                                    </th>
+                                    <th class="text-center" style="color:#000080;">
+                                        <span>Kuantitas</span>
+                                    </th>
+                                    <th class="text-center" style="color:#000080;">
+                                        <span>Satuan</span>
+                                    </th>
+                                    <th class="text-center" style="color:#000080;">
+                                        <span>Jumlah</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.line_ids" t-as="line">
+                                    <tr t-foreach="line.history_ids" t-as="history">
+                                        <td>
+                                            <span t-esc="history.product_id.name"></span>
+                                        </td>
+                                        <td>
+                                            <span t-esc="history.product_uom_id.name"></span>
+                                        </td>
+                                        <td>
+                                            <span t-esc="history.quantity"></span>
+                                        </td>
+                                        <td>
+                                            <span t-esc="history.price_total" t-options='{"widget": "monetary", "display_currency": history.currency_id}'></span>
+                                        </td>
+
+                                    </tr>
+
+                                </tr>
+                                <tr class="text-right">
+                                    <td colspan="99 mt-2" style="border-top: 1px solid black !important;">
+                                        <span t-esc="doc.amount_total" class="font-weight-bold" style="color : #000080; " t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
+                                            />
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div t-attf-class="footer o_background_footer">
+                                            <div style="color:black !important;border-top: 1px solid black !important;">
+                                                <div class="mt-2 float-left" name="pager" t-if="report_type == 'pdf'">
+                                                    <span> Cetak di : <span t-esc="datetime.datetime.now().strftime('%d-%B-%Y %H:%M')"/>
+                                                    </span>
+                                                </div>
+                                                <div class="mt-2 float-right" name="pager" t-if="report_type == 'pdf'">
+                                (                                                    <span class="page"/>
+ )
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+                                </t>
+                            </t>
+
+                        </template>
+
+                    </data>
+                </odoo>

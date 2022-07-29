@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="type_beam_form" model="ir.ui.view">
+            <field name="name">type.beam.form</field>
+            <field name="model">type.beam</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <field name="name"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="type_beam_tree" model="ir.ui.view">
+            <field name="name">type.beam.tree</field>
+            <field name="model">type.beam</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="type_beam_action" model="ir.actions.act_window">
+            <field name="name">Type Beam</field>
+            <field name="res_model">type.beam</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            id="type_beam_menu"
+            name="Type Beam"
+            action="type_beam_action"
+            parent="menu_master"
+            sequence="230"/>
+    
+    </data>
+    
+
+</odoo>

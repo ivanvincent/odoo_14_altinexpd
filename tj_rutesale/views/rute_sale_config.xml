@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record model="ir.ui.view" id="rute_sale_config_tree">
+            <field name="name">rute.sale.config.tree</field>
+            <field name="model">rute.sale.config</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="warehouse_id"/>
+                    <field name="default_picking_type_id"/>
+                    <field name="default_location_fg_id"/>
+                    <field name="default_location_siba_id"/>
+                    <field name="default_location_return_id"/>
+                    <field name="product_category_ids" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record model="ir.ui.view" id="rute_sale_config_form">
+            <field name="name">rute.sale.config.form</field>
+            <field name="model">rute.sale.config</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="warehouse_id"/>
+                                <field name="default_picking_type_id"/>
+                                <field name="product_category_ids" widget="many2many_tags"/>
+                            </group>
+                            <group>
+                                <field name="default_location_fg_id"/>
+                                <field name="default_location_siba_id"/>
+                                <field name="default_location_return_id"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Allowed Expense">
+                                <field name="rute_sale_expense_ids" domain="[('is_active', '=', True)]">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="rute_sale_config_action">
+            <field name="name">Setting</field>
+            <field name="res_model">rute.sale.config</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem id="submenu_rute_sale_config" name="Setting" parent="rute_sale_config_menu" action="rute_sale_config_action" sequence="1" groups="base.group_system" />
+
+    </data>
+</odoo>

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_history_mtc_user,access_history_mtc_user,inherit_fleet.model_fleet_mtc_history,fleet.fleet_group_user,1,1,1,1
+access_history_mtc_manager,access_history_mtc_manager,inherit_fleet.model_fleet_mtc_history,fleet.fleet_group_user,1,1,1,1
+access_fleet_vehicle_category_manager,access_fleet_vehicle_category_manager,inherit_fleet.model_fleet_vehicle_category,fleet.fleet_group_manager,1,1,1,1

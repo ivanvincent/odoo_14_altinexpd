@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="stock_production_lot_inherit_tree">
+            <field name="name">stock.production.lot.tree</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='product_id']" position="before">
+                    <field name="tanggal_produksi"/>
+                </xpath>
+
+
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="no_warna" optional="show"/>
+                    <field name="pic" optional="hide"/>
+                    <field name="lebar" optional="hide"/>
+                    <field name="grade_id"/>
+                    <field name="rack_id"/>
+                    <field name="no_om" optional="hide"/>
+                    <field name="product_qty"/>
+                    <field name="picking_ids" widget="many2many_tags"/>
+                    <field name="state" widget="badge"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="stock_production_lot_inherit_form">
+            <field name="name">stock.production.lot.form</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//form/sheet" position="before">
+                    <header>
+                        <button name='open_split_barcode_wizard_form' attrs="{'invisible':[('product_qty', '=', 0)]}" type='object' class="oe_highlight" string='Split' />
+                    </header>
+                </xpath>
+
+
+                <xpath expr="//div[@class='oe_title']" position="replace">
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. LOT/0001/20121" readonly="1"/>
+                        </h1>
+                    </div>
+                </xpath>
+                <xpath expr="//group[@name='main_group']" position="replace">
+                    <group>
+                        <group>
+                            <field name="product_id" context="{'default_type': 'product'}" readonly="context.get('set_product_readonly', False)" force_save="1" help="Product this lot/serial number contains. You cannot change it anymore if it has already been moved."/>
+                            <!-- <field name="product_category"/> -->
+                            <label for="product_qty" attrs="{'invisible': [('display_complete', '=', False)]}"/>
+                            <div class="o_row" attrs="{'invisible': [('display_complete', '=', False)]}">
+                                <field name="product_qty"/>
+                                <field name="product_uom_id" readonly="1" groups="uom.group_uom"/>
+                            </div>
+                            <field name="location_id" readonly="0" groups="mrp.group_mrp_manager"/>
+                            <field name="ref"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <!-- <field name="production_id" readonly="0" groups="mrp.group_mrp_manager"/>
+                            <field name="production_type_id" readonly="0" groups="mrp.group_mrp_manager"/>
+                            <field name="beam_id" readonly="0" groups="mrp.group_mrp_manager"/>
+                            <field name="tanggal_beam" readonly="0" groups="mrp.group_mrp_manager"/>
+                            <field name="beam_type_id" readonly="1" groups="mrp.group_mrp_manager"/> -->
+                            <field name="shift" readonly="0" groups="mrp.group_mrp_manager"/>
+                        </group>
+                        <group>
+                            <field name="no_warna" readonly="1"/>
+                            <field name="pic" readonly="1"/>
+                            <field name="gramasi_finish" readonly="1"/>
+                            <field name="lebar_finish" readonly="1"/>
+                            <field name="tanggal_produksi" readonly="1" string="Production Date"/>
+                            <field name="inspect_id" readonly="1"/>
+                            <field name="inspect_date" readonly="1"/>
+                            <field name="grade_id" readonly="1"/>
+                            <field name="rack_id" readonly="1"/>
+                            <field name="no_om" readonly="1"/>
+                            <field name="product_age" readonly="1"/>
+                            <field name="category_age" readonly="1"/>
+                        </group>
+                    </group>
+                </xpath>
+                <!-- <xpath expr="//notebook" position="inside">
+                    <page string="History">
+                        <field name="move_line_ids">
+                            <tree readonly="1">
+                                <field name="date"/>
+                                <field name="lot_parent_name" string="Parent"/>
+                                <field name="lot_id" optional="hide"/>
+                                <field name="lot_prepare_id" optional="hide"/>
+                                <field name="production_id" optional="hide"/>
+                                <field name="sj_pro_app" optional="show"/>
+                                <field name="production_type_id" optional="hide"/>
+                                <field name="product_id"/>
+                                <field name="quantity"/>
+                                <field name="employee_id" optional="hide"/>
+                                <field name="shift" optional="hide"/>
+                                <field name="is_inspected" optional="hide"/>
+                                <field name="state" widget="badge"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath> -->
+            </field>
+        </record>
+
+        <record id="action_create_picking" model="ir.actions.server">
+            <field name="name">Create Picking (Surat Jalan)</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_stock_production_lot"/>
+            <field name="binding_model_id" ref="model_stock_production_lot"/>
+            <field name="groups_id" eval="[(4, ref('stock.group_stock_manager'))]"/>
+            <field name="state">code</field>
+            <field name="code">
+            if records:
+                action = records._create_picking()
+            </field>
+        </record>
+
+
+
+
+        <!-- 
+        <menuitem id="menu_serial_number_own_location" action="stock.action_production_lot_form" name="Lots / Serial Number" parent="stock.menu_stock_root" sequence="9" groups="group_stock_production_lot"/> -->
+
+    </data>
+</odoo>

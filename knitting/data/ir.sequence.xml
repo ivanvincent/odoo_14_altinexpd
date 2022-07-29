@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="seq_mrp_request_sizing" model="ir.sequence">
+            <field name="name">Production Sizing</field>
+            <field name="code">manufacturing.production.request.sizing</field>
+            <field name="prefix">SZG/MR/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_mrp_request_weaving" model="ir.sequence">
+            <field name="name">Production Weaving</field>
+            <field name="code">manufacturing.production.request.weaving</field>
+            <field name="prefix">WV/MR/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_mrp_request_dyeing" model="ir.sequence">
+            <field name="name">Production Dyeing</field>
+            <field name="code">manufacturing.production.request.dyeing</field>
+            <field name="prefix">DYE/MR/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_mrp_request_twisting" model="ir.sequence">
+            <field name="name">Production Twisting</field>
+            <field name="code">manufacturing.production.request.twisting</field>
+            <field name="prefix">TWS/MR/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_mrp_inspect_fg" model="ir.sequence">
+            <field name="name">Inspect Finish Goods</field>
+            <field name="code">mrp.inspect</field>
+            <field name="prefix">INS/GDJ/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="seq_stock_production_lot_gdj" model="ir.sequence">
+            <field name="name">Barcode Gudang Jadi</field>
+            <field name="code">stock.production.lot.gdj</field>
+            <field name="prefix">J%(year)s%(month)s</field>
+            <field name="padding">6</field>
+        </record>
+
+    </data>
+
+
+</odoo>

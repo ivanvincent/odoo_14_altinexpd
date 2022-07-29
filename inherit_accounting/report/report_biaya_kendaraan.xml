@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="paperformat_report_biaya_kendaraan" model="report.paperformat">
+        <field name="name">A4</field>
+        <field name="default" eval="True" />
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">35</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_biaya_kendaraan" model="ir.actions.report">
+        <field name="name">Report Biaya Kendaraaan</field>
+        <field name="model">biaya.kendaraan.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inherit_accounting.report_biaya_kendaraan</field>
+        <field name="report_file">inherit_accounting.report_biaya_kendaraan</field>
+        <field name="print_report_name">'%s' % object.name</field>
+        <field name="binding_model_id" ref="model_biaya_kendaraan_wizard"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" eval="paperformat_report_biaya_kendaraan" />
+    </record>
+
+    <template id="report_biaya_kendaraan">
+        <t t-call="web.basic_layout">
+            <style>
+                .title {
+                        padding: 0;
+                }
+                .tabel {
+                    font-size:1rem;
+                }
+            </style>
+                <div class="page">
+                    <div class="title text-center mb-4">
+                        <h4 class="font-weight-bold">PT. MULTI STAR RUKUN ABADI</h4>
+                        <h3 class="font-weight-bold" style="color : #A04040;">Report Biaya Kendaraaan</h3>
+                        <div class="date_header">
+                            <span class="font-weight-bold">Dari <span class="font-weight-bold" t-esc="date_start"/>
+                            ke  <span class="font-weight-bold" t-esc="date_end" />
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="justify-center">
+                        <table class="table-condensed table-sm  mx-auto tabel">
+                            <thead>
+                                <tr style="border-bottom: 1px solid black !important;">
+                                    <th class="text-left" style="color:#000080;">
+                                        <span>Stock Point</span>
+                                    </th>
+                                    <th class="text-left" style="color:#000080;">
+                                        <span>Vehicle</span>
+                                    </th>
+                                    <th class="text-left" style="color:#000080;">
+                                        <span>Date</span>
+                                    </th>
+                                    <th class="text-left" style="color:#000080;">
+                                        <span>No Picking</span>
+                                    </th>
+                                    <th class="text-left" style="color:#000080;">
+                                        <span>Source Document</span>
+                                    </th>
+                                    <th class="text-left" style="color:#000080;">
+                                        <span>Product</span>
+                                    </th>
+                                    <th class="text-center" style="color:#000080;">
+                                        <span>Quantity</span>
+                                    </th>
+                                    <th class="text-center" style="color:#000080;">
+                                        <span>Price Unit</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="docs" t-as="detail">
+                                    <td class="pt-0 pb-0"><span t-esc="detail.get('stock_point')"/></td>
+                                    <td class="pt-0 pb-0"><span t-esc="detail.get('vehicle')"/></td>
+                                    <td class="pt-0 pb-0"><span t-esc="detail.get('date')"/></td>
+                                    <td class="pt-0 pb-0"><span t-esc="detail.get('name')"/></td>
+                                    <td class="pt-0 pb-0"><span t-esc="detail.get('origin')"/></td>
+                                    <td class="pt-0 pb-0"><span t-esc="detail.get('product')"/></td>
+                                    <td class="pt-0 pb-0"><span t-esc="detail.get('product_uom_qty')"/></td>
+                                    <td class="pt-0 pb-0"><span t-esc="detail.get('price_unit')"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div t-attf-class="footer o_background_footer">
+                        <div style="color:black !important;border-top: 1px solid black !important;">
+                                <div class="mt-2 float-left" name="pager" t-if="report_type == 'pdf'">
+                                    <span> Cetak di : <soan t-esc="datetime.datetime.now().strftime('%d-%B-%Y %H:%M')"/> </span> 
+                                </div>
+                                <div class="mt-2 float-right" name="pager" t-if="report_type == 'pdf'">
+                                    ( <span class="page"/> )
+                                </div>
+                        </div>
+                    </div>
+                </div>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record model="report.paperformat" id="penerimaan_a5">
+            <field name="name">paperformat.penerimaan.a5</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_width">210</field>
+            <field name="page_height">140</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">30</field>
+            <field name="margin_right">10</field>
+            <field name="margin_left">10</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+    
+        <report
+            id="action_report_stock_picking_penerimaan"
+            model="stock.picking"
+            string="Print Penerimaan"
+            report_type="qweb-pdf"
+            name="my_report.report_stock_picking_penerimaan"
+            file="my_report.report_stock_picking_penerimaan"
+        />
+
+        <record id="action_report_stock_picking_penerimaan" model="ir.actions.report">
+            <field name="paperformat_id" eval="penerimaan_a5"/>
+        </record>
+
+        <template id="report_stock_picking_penerimaan">
+            <t t-call="web.basic_layout">
+            <style>
+                .table-data, .table-data th{
+                    border: 1px solid black;
+                }
+                .table-data .tr-body td {
+                    border-left: 1px solid black;
+                    border-right: 1px solid black;
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+                }
+                .tr-foot .td-foot {
+                    border-top: 1px solid black;
+                }
+            </style>
+                <t t-foreach="docs" t-as="doc">
+                        <div class="page">
+                            <div class="title text-center">
+                                <h5 class="font-weight-bold">BON PENERIMAAN BARANG</h5>
+                            </div>
+
+                            <div class="row mt-lg-3">
+                                <div class="col-6">
+                                    <table>
+                                        <tr>
+                                            <td>No Bukti</td>
+                                            <td class="pl-2 pr-2">:</td>
+                                            <td class="font-weight-bold"><span t-field="doc.name" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tanggal</td>
+                                            <td class="pl-2 pr-2">:</td>
+                                            <td><span t-field="doc.scheduled_date" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Surat Jalan</td>
+                                            <td class="pl-2 pr-2">:</td>
+                                            <td><span t-field="doc.faktur_supplier" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Keterangan</td>
+                                            <td class="pl-2 pr-2">:</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <table>
+                                        <tr>
+                                            <td>Supplier</td>
+                                            <td class="pl-2 pr-2">:</td>
+                                            <td><span t-field="doc.partner_id.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alamat</td>
+                                            <td class="pl-2 pr-2">:</td>
+                                            <td><span t-field="doc.partner_id.street"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <table class="table-data text-center mt-4" width="100%">
+                                <thead>
+                                    <th>NO</th>
+                                    <th>KODE</th>
+                                    <th>NAMA BARANG</th>
+                                    <th>QTY</th>
+                                    <th>SATUAN</th>
+                                    <th>KETERANGAN</th>
+                                </thead>
+                                <tbody>
+                                    <t t-set="no" t-value="0"/>
+                                    <t t-set="tot_qty" t-value="0"/>
+                                    <tr t-foreach="doc.move_ids_without_package" t-as="line" class="tr-body">
+                                        <t t-set="no" t-value="no + 1"/>
+                                        <t t-set="tot_qty" t-value="line.quantity_done"/>
+                                        <td><span t-esc="no" /></td>
+                                        <td><span t-field="line.product_id.default_code" /></td>
+                                        <td><span t-field="line.product_id.name" /></td>
+                                        <td class="text-right pr-2"><span t-field="line.quantity_done" /></td>
+                                        <td><span t-field="line.product_uom.id" /></td>
+                                        <td><span t-field="line.x_ket" /></td>
+                                    </tr>
+                                    <tr class="tr-foot">
+                                        <td colspan="4" class="text-right pr-2 td-foot"><t t-esc="tot_qty"/></td>
+                                        <td colspan="2" class="td-foot"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="footer">
+                                <div class="row text-center">
+                                    <div class="col-6">
+                                        <span>Adm Gudang</span><br/>
+                                        <span t-field="doc.scheduled_date"/><br/>
+                                        <span class="d-block mt-5">(______________)</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span>Nama Jelas Wajib Dicantumkan</span><br/>
+                                        <span>MENGETAHUI</span><br/>
+                                        <span class="d-block mt-5">(______________)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+        </template>
+    
+    </data>
+    
+
+</odoo>

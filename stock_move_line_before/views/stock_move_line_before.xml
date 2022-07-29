@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record model="ir.ui.view" id="stock_move_line_before_tree">
+            <field name="name">stock.move.line.before.tree</field>
+            <field name="model">stock.move.line.before</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="date"/>
+                    <field name="location_id"/>
+                    <field name="production_id"/>
+                    <field name="production_type_id"/>
+                    <field name="machine_id"/>
+                    <field name="lot_id"/>
+                    <field name="lot_prepare_id"/>
+                    <field name="product_id"/>
+                    <field name="quantity"/>
+                    <field name="employee_id"/>
+                    <field name="maintenance_id"/>
+                    <field name="ka_shift_id"/>
+                    <field name="work_time"/>
+                    <field name="pic"/>
+                    <field name="rpm"/>
+                    <field name="shift"/>
+                    <field name="is_inspected"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record model="ir.ui.view" id="stock_move_line_before_form">
+            <field name="name">stock.move.line.before.form</field>
+            <field name="model">stock.move.line.before</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date"/>
+                                <field name="lot_id"/>
+                                <field name="lot_prepare_id"/>
+                                <field name="product_id"/>
+                                <field name="quantity"/>
+                                <field name="maintenance_id"/>
+                                <field name="ka_shift_id"/>
+                                <field name="work_time"/>
+                            </group>
+                            <group>
+                                <field name="location_id"/>
+                                <field name="production_id"/>
+                                <field name="employee_id"/>
+                                <field name="pic"/>
+                                <field name="rpm"/>
+                                <field name="shift"/>
+                                <field name="is_inspected"/>
+                            </group>
+                        </group>
+                        <!-- <notebook>
+                            <page string="Defect">
+                                <field name="defect_ids">
+                                    <tree readonly="1">
+                                        <field name="defect_id"/>
+                                        <field name="start_with"/>
+                                        <field name="end_with"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook> -->
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="stock_move_line_before_action">
+            <field name="name">Stock Move Line Before</field>
+            <field name="res_model">stock.move.line.before</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+           <menuitem id="menu_stock_move_line_before_report"
+            name="Stock Move Line Before"
+            parent="mrp.menu_mrp_reporting"
+            action="stock_move_line_before_action"
+            sequence="12"/>
+
+        <!-- <menuitem id="main_stock_move_line_before" name="Stock Move Line Before" />
+
+        <menuitem id="menu_stock_move_line_before" name="Stock Move Line Before" parent="main_stock_move_line_before" />
+
+        <menuitem id="submenu_stock_move_line_before" name="Stock Move Line Before" parent="menu_stock_move_line_before" action="stock_move_line_before_action" /> -->
+
+    </data>
+</odoo>

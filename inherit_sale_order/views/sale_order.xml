@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="inherit_sale_order_tree">
+            <field name="name">sale.order.inherit.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="design_id"/>
+                    <field name="color_ids" widget="many2many_tags"/>
+                    <field name="product_code"/>
+                    <field name="product_id"/>
+                    <field name="handling_id"/>
+                    <field name="keterangan"/>
+                </xpath>
+
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="string">User Mkt</attribute>
+                </xpath>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="inherit_sale_order_quotations_tree">
+            <field name="name">sale.order.inherit.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="design_id"/>
+                    <field name="color_ids" widget="many2many_tags"/>
+                    <field name="product_code"/>
+                    <field name="product_id"/>
+                    <field name="handling_id"/>
+                    <field name="keterangan"/>
+                </xpath>
+            </field>
+        </record>
+
+
+
+
+        <record model="ir.ui.view" id="inherit_sale_order_form">
+            <field name="name">sale.order.inherit.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="sale_type" options="{'horizontal': true}" widget="radio" required="1"/>
+                    <field name="hanger_code" attrs="{'required':[('sale_type', '!=', False)]}"/>
+                    <label for="product_id" attrs="{'required':[('sale_type', '!=', False)]}"/>
+                    <div name="Product" attrs="{'required':[('sale_type', '!=', False)]}">
+                        <field name="product_id" class="oe_inline" options="{'no_create': True}"/>
+                        <button name="create_variant" icon="fa-arrow-right" type="object" class="oe_inline">
+                            <span>
+                                Generate Detail Om
+                            </span>
+                        </button>
+                    </div>
+                    <field name="amount_qty" String="Total Quantity"/>
+                    <field name="qty_unit"/>
+                    <label for="harga"/>
+                    <span name="Harga">
+                        <field name="harga" class="oe_inline"/>
+                        <button name="force_price" type="object" class="oe_highlight" string="Force price" attrs="{'invisible':[('is_force_price', '=', True)]}" groups="inherit_sale_order.groups_access_button_force_price"/>
+                        <field name="is_force_price" invisible="1"/>
+                    </span>
+                    <field name="kontruksi" attrs="{'invisible':[('hanger_code', '=', False)]}"/>
+                    <label for="gramasi" string="Gramasi / Lebar" attrs="{'invisible':[('hanger_code', '=', False)]}"/>
+                    <div class="gramasi_lebar_container" attrs="{'invisible':[('hanger_code', '=', False)]}">
+                        <field name="gramasi" class="oe_inline"/>
+                        <span> / </span>
+                        <field name="lebar" class="oe_inline"/>
+                    </div>
+                    <field name="handling_id" attrs="{'invisible':[('hanger_code', '=', False)]}"/>
+                    <field name="density" attrs="{'invisible':[('hanger_code', '=', False)]}"/>
+                    <field name="pita" />
+                    <field name="grade_id" options="{'no_open': True, 'no_create': True}" attrs="{'required':[('sale_type', '!=', False)]}"/>
+                    <label for="uk" string="UK / LF"/>
+                    <div class="uk_lf_container">
+                        <field name="uk" class="oe_inline" placeholder="UK"/>
+                        <span> / </span>
+                        <field name="lf" class="oe_inline" placeholder="LF"/>
+                    </div>
+                    <field name="handfeel"/>
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="greige_id" attrs="{'required':[('sale_type', '!=', False)]}"/>
+                    <field name="design_id" domain="[('labdip_id', '!=', False)]" attrs="{'required':[('sale_type', '!=', False)]}"/>
+                    <field name="nama_dagang_id"/>
+                    <field name="employee_id"/>
+                    <field name="color_ids" attrs="{'required':[('sale_type', '!=', False)]}" class="oe_inline" domain="[('design_id', '=', design_id)]"/>
+                    <field name="keterangan"/>
+                </xpath>
+
+                <xpath expr="//page/field[@name='order_line']/tree/field[@name='product_id']" position="after">
+                    <field name="design_id" optional="show" string="Design"/>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button" name="action_open_mrp_production" type="object" icon="fa-wrench" attrs="{'invisible': [('total_mrp_production', '=', 0)]}" groups="mrp.group_mrp_user">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="total_mrp_production"/>
+                            </span>
+                            <span class="o_stat_text">Manufacturing</span>
+                        </div>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

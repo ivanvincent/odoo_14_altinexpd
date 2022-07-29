@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record model="ir.ui.view" id="mrp_request_tree_warping">
+            <field name="name">mrp.request.tree.warping</field>
+            <field name="model">mrp.request</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="tanggal" />
+                    <field name="production_type_id" />
+                    <field name="partner_id" />
+                    <field name="product_id" />
+                    <field name="pakan" />
+                    <field name="pic" />
+                    <field name="lebar" />
+                    <field name="std_susut" />
+                    <field name="jumlah_spk"/>
+                    <field name="location_id" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record model="ir.ui.view" id="mrp_request_form_warping">
+            <field name="name">mrp.request.form.warping</field>
+            <field name="model">mrp.request</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <!-- <button name='request_material' type='object' class="oe_highlight" string='Request Material' states="confirm" /> -->
+                        <button name='action_confirm' type='object' class="oe_highlight" string='Confirm' states="draft" />
+                        <button name='action_draft' type='object' string='Set to draft' states="confirm" />
+                        <field name="state" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object" name="action_view_picking" class="oe_stat_button" icon="fa-truck">
+                                <field name="picking_count" widget="statinfo" string="Request" help="Incoming Greige"/>
+                                <field name="picking_ids" invisible="1"/>
+                            </button>
+                        </div>
+                        <div class="oe_title" string="Ref">
+                            <h1>
+                                <field name="name" readonly="1" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="production_type_id" options="{'no_open': True, 'no_create': True}" required="1"/>
+                                <field name="mkt_production_id" />
+                                <field name="type_twist" />
+                                <field name="tanggal" />
+                                <field name="greige_id" string="Nama Design"/>
+                                <field name="revisi" />
+                            </group>
+                            <group>
+                                <field name="qty_mkt" />
+                                <field name="qty_tarik" />
+                                <!-- <field name="yarn_type" /> -->
+                                <field name="weaving_mc_type" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Manufacturing Order">
+                                <field name="mrp_ids" attrs="{'readonly':[('state','!=','draft')]}">
+                                    <tree string="Manufacturing Order " editable="bottom" options="{'no_open':False}">
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="product_uom_category_id" invisible="1"/>
+                                        <field name="name" readonly="1"/>
+                                        <field name="product_id" readonly="1" optional="show"/>
+                                        <field name="machine_id"/>
+                                        <field name="remaining_qty" attrs="{'column_invisible': [('parent.production_type_id', '!=', 2)]}"/>
+                                        <field name="product_qty" sum="Total Qty" string="Quantity" readonly="1" optional="show"/>
+                                        <field name="product_uom_id" string="Unit of Measure" options="{'no_open':True,'no_create':True}" groups="uom.group_uom" optional="show"/>
+                                        <field name="state" optional="show" widget="badge" decoration-success="state == 'done'" decoration-info="state not in ('done', 'cancel')"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="mrp_request_warping_action">
+            <field name="name">Manufacturing Request Warping</field>
+            <field name="res_model">mrp.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('production_type_id', '=', 6)]</field>
+            <field name="context">{'default_production_type_id': 6}</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('knitting.mrp_request_tree_warping')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('knitting.mrp_request_form_warping')})]"/>
+        </record>
+
+
+        <menuitem id="menu_mrp_request_warping" name="Warping" sequence="3" parent="mrp_request_menu" action="mrp_request_warping_action"/>
+
+
+    </data>
+</odoo>

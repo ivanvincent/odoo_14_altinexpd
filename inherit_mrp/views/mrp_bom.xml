@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="mrp_bom_inherit_form">
+            <field name="name">mrp.bom.inherit.form</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//widget[@name='web_ribbon']" position="after">
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='type']" position="after">
+                    <label for="labdip_id" string="Labdip" />
+                    <div class="d-flex">
+                        <field name="labdip_id"/>
+                        <field name="color_final_id"/>
+                    </div>
+                    <field name="td_id"/>
+                    <!-- <field name="flowprocess_id"/> -->
+                    <field name="tot_biaya"/>
+                    <field name="besar_waste"/>
+                </xpath>
+                <xpath expr="//group/group[2]" position="after">
+                    <group>
+                        <field name="standard_price"/>
+                        <field name="raw_cost"/>
+                        <field name="qty_weight"/>
+                        <field name="total_price_flowprocess"/>
+                        <field name="total_price_var_cost"/>
+                        <field name="total_unit_cost"/>
+                    </group>
+                </xpath>
+                <xpath expr="//page[@name='components']" position="before">
+                    <page string="Material Td">
+                        <field name="material_td_ids">
+                            <tree editable="bottom">
+                                <field name="product_id"/>
+                                <field name="location_id"/>
+                                <field name="workcenter_id"/>
+                                <field name="quantity"/>
+                                <field name="product_uom_id"/>
+                                <field name="quantity_finish"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="First">
+                        <field name="mrp_first_compenent_ids" attrs="{'readonly': [('state', '=', 'confirm')]}">
+                            <tree editable="bottom">
+                                <field name="product_id"/>
+                                <field name="kategori_id"/>
+                                <field name="kategori_obat"/>
+                                <field name="location_id"/>
+                                <field name="quantity"/>
+                                <field name="product_uom_id"/>
+                                <field name="quantity_finish"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_confirm" type="object" string="Confirm" class="oe_highlight" states="draft"/>
+                        <button name="action_set_to_draft" type="object" string="Set to draft" states="confirm"/>
+                        <button name="get_flowprocess" type="object" string="Get Flowprocess" class="oe_highlight" invisible="1"/>
+                        <button name="action_get_material_lab" type="object" string="Get Material Labdip" class="oe_highlight"/>
+                        <button name="action_get_material_td" type="object" string="Get Material TD" class="oe_highlight"/>
+                    </header>
+                </xpath>
+                <xpath expr="//page[@name='miscellaneous']" position="after">
+                    <page string="Variable Cost">
+                        <field name="cost_ids">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="amount"/>
+                                <field name="amount_tot"/>
+                                <field name="price_unit"/>
+                                <field name="amount_cost" sum="Total"/>
+                                <field name="keterangan"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+                <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_uom_id']" position="after">
+                    <field name="standard_price"/>
+                    <field name="total_price"/>
+                </xpath>
+                <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_id']" position="after">
+                    <field name="lot_id"/>
+                    <field name="type"/>
+                </xpath>
+                <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_qty']" position="attributes">
+                    <attribute name="digits">[12,5]</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+
+        <record model="ir.ui.view" id="mrp_bom_inherit_tree_tree">
+            <field name="name">mrp.bom.inherit.tree</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_tmpl_id']" position="before">
+                    <field name="name"/>
+                </xpath>
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="total_price_flowprocess"/>
+                    <field name="total_price_var_cost"/>
+                    <field name="total_unit_cost"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

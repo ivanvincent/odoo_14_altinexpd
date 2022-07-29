@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="purchase_order_pdf_wizard_form" model="ir.ui.view">
+            <field name="name">purchase.order.pdf.wizard.form</field>
+            <field name="model">purchase.order.pdf.wizard</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                            </group>
+                        </group>
+                        <footer>
+                            <button name="action_get_pdf" type="object" string="Print" class="oe_highlight"/>
+                            <button name="cancel" type="special" special="cancel" string="Cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="purchase_order_pdf_wizard_action" model="ir.actions.act_window">
+            <field name="name">Print purchase order</field>
+            <field name="res_model">purchase.order.pdf.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="purchase_order_pdf_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <!-- <menuitem
+            id="purchase_order_pdf_wizard_menu"
+            name="Print Purchase Order"
+            action="purchase_order_pdf_wizard_action"
+            parent="purchase.purchase_report"
+            sequence="20"/> -->
+    
+    </data>
+    
+
+</odoo>

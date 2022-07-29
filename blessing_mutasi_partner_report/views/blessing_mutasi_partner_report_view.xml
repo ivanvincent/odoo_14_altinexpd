@@ -1,0 +1,39 @@
+<odoo>
+    <data>
+
+
+        <record id="action_blessing_mutasi_partner_payable_report_list" model="ir.actions.act_window">
+            <field name="name">Mutasi Partner Report Payable List</field>
+            <field name="res_model">blessing.mutasi.partner.report</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="domain">[('account_mutasi', '=', 'payable')]</field>
+            <field name="context">{'default_account_mutasi':'payable'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a Mutasi Partner Report
+                </p>
+                <p>klik tombol create untuk bikin report baru</p>
+            </field>
+        </record>
+
+
+
+        <record id="action_blessing_mutasi_partner_receiveble_report_list" model="ir.actions.act_window">
+            <field name="name">Mutasi Partner Report Receivable List</field>
+            <field name="res_model">blessing.mutasi.partner.report</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="domain">[('account_mutasi', '=', 'receivable')]</field>
+            <field name="context">{'default_account_mutasi':'receivable'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a Mutasi Partner Report
+                </p>
+                <p>klik tombol create untuk bikin report baru</p>
+            </field>
+        </record>
+
+        <menuitem id="menu_mutasi_partner_payable_report" name="Mutasi Partner Report Payable" parent="accounting_pdf_reports.menu_finance_legal_statement" action="action_blessing_mutasi_partner_payable_report_list" sequence="21"/>
+
+        <menuitem id="menu_mutasi_partner_receievable_report" name="Mutasi Partner Report Receivable" parent="accounting_pdf_reports.menu_finance_legal_statement" action="action_blessing_mutasi_partner_receiveble_report_list" sequence="22"/>
+    </data>
+</odoo>

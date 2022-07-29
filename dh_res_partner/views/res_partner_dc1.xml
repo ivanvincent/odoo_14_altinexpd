@@ -1,0 +1,48 @@
+<odoo>
+	<data>
+		<record id="view_partner_dc1_form" model="ir.ui.view">
+			<field name="name">res.partner.dc1.form</field>
+			<field name="model">res.partner.dc1</field>
+			<field name="arch" type="xml">
+				<form string="Partner DC 1">
+					<sheet>
+						<group>
+							<group>
+								<field name="code"/>
+								<field name="name"/>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="view_partner_dc1_tree" model="ir.ui.view">
+			<field name="name">res.partner.dc1.tree</field>
+			<field name="model">res.partner.dc1</field>
+			<field name="arch" type="xml">
+				<tree string="Partner DC 1">
+					<field name="code"/>
+					<field name="name"/>
+				</tree>
+			</field>
+		</record>
+		<record id="view_partner_dc1_search" model="ir.ui.view">
+			<field name="name">res.partner.dc1.search</field>
+			<field name="model">res.partner.dc1</field>
+			<field name="arch" type="xml">
+				<search string="Partner DC 1">
+					<field name="code" />
+					<field name="name" filter_domain="[('name','ilike',self)]" string="Name"/>
+				</search>
+			</field>
+		</record>
+		<record id="action_partner_dc1" model="ir.actions.act_window">
+            <field name="name">Partner DC 1</field>
+            <field name="res_model">res.partner.dc1</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_partner_dc1_search"/>
+            <field name="view_id" ref="view_partner_dc1_tree"/>
+        </record>
+        <menuitem action="action_partner_dc1" id="menu_action_partner_dc1" parent="menu_sale_config_partner_edp" sequence="15"/>
+	</data>
+</odoo>

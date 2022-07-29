@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <report string="Print Bank Masuk" 
+        id="action_print_bank_masuk" 
+        model="account.bank.statement" 
+        report_type="qweb-pdf" 
+        name="report_print.print_bank_masuk" 
+        file="report_print.print_bank_masuk" />
+
+        <template id="print_bank_masuk">
+            <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div class="text-center">
+                        <h3><b>BUKTI PENERIMAAN BANK</b></h3>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-2">
+                            Pay Ref <br/>
+                            Total <br/>
+                        </div>
+                        <div class="col-4">
+                            : <span t-field="o.name"/> <br/>
+                            : <span t-field="o.date_done"/> <br/>
+                        </div>
+
+                        <div class="col-2">
+                            Date<br/>
+                            No. BBK<br/>
+                            
+                        </div>
+                        <div class="col-4">
+                            : <span t-field="o.origin"/> <br/>
+                            : <span t-field="o.origin"/> <br/>
+                        </div>
+                        
+                    
+                    </div><br/>
+
+                    <table class="table table-condensed table-striped table-bordered">
+                            <tr>
+                                <td>No</td>
+                                <td>Kode</td>
+                                <td>Nama Barang</td>
+                                <td>Quantity</td>
+                                <td>Satuan</td>
+                                <td>Keterangan</td>
+                            </tr>
+
+                            <tr t-foreach="o.move_ids_without_package" t-as="line">
+                                <td><span t-esc="line_index + 1"/></td>
+                                <td><span t-field="line.product_id.default_code"/></td>
+                                <td><span t-field="line.product_id.name"/></td>
+                                <td><span t-field="line.quantity_done"/></td>
+                                <td><span t-field="line.product_uom"/></td>
+                                <td><span t-field="line.note"/></td>
+                            </tr>
+                    </table>
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-4 text-center">
+                            Dibuuat Oleh <br/>
+                            <span t-field="o.date_done"></span><br/><br/><br/>
+                            (_______________________)
+                        </div>
+                        <div class="col-4 text-center">
+                            Penerima <br/><br/><br/><br/>
+                            (_______________________)
+                        </div>
+                        <div class="col-4 text-center">
+                            Pengirim <br/><br/><br/><br/>
+                            (_______________________)
+                        </div>
+                    </div>
+                
+
+                </div>
+            </t>
+            </t>
+        </template>
+    
+    </data>
+    
+
+</odoo>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="view_rute_partner_tree" model="ir.ui.view">
+            <field name="name">rute_partner.tree</field>
+            <field name="model">rute.partner</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="rute_partner">
+                    <field name="category"/>
+                    <field name="partner_id"/>
+                    <field name="seminggu"/>
+                    <field name="qty_rata2"/>
+                    <field name="k_senin"/>
+                    <field name="k_selasa"/>
+                    <field name="k_rabu"/>
+                    <field name="k_kamis"/>
+                    <field name="k_jumat"/>
+                    <field name="k_sabtu"/>
+                    <field name="k_minggu"/>
+
+                    <field name="s_senin"/>
+                    <field name="s_selasa"/>
+                    <field name="s_rabu"/>
+                    <field name="s_kamis"/>
+                    <field name="s_jumat"/>
+                    <field name="s_sabtu"/>
+                    <field name="s_minggu"/>
+
+                    <field name="g_senin"/>
+                    <field name="g_selasa"/>
+                    <field name="g_rabu"/>
+                    <field name="g_kamis"/>
+                    <field name="g_jumat"/>
+                    <field name="g_sabtu"/>
+                    <field name="g_minggu"/>
+
+
+
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_rute_partner_form" model="ir.ui.view">
+            <field name="name">rute_partner.form</field>
+            <field name="model">rute.partner</field>
+            <field name="type">form</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="rute_partner">
+                    <sheet>
+
+                        <group col="4" string = "Group 1">
+                            <field name="category"/>
+                            <field name="partner_id"/>
+                            <field name="seminggu"/>
+                            <field name="qty_rata2"/>
+                        </group>
+                        <group col="4" string = "Group 2">
+                            <field name="k_senin"/>
+                            <field name="k_selasa"/>
+                            <field name="k_rabu"/>
+                            <field name="k_kamis"/>
+                            <field name="k_jumat"/>
+                            <field name="k_sabtu"/>
+                            <field name="k_minggu"/>
+                        </group>
+                        <group col="4" string = "Group 3">
+                            <field name="s_senin"/>
+                            <field name="s_selasa"/>
+                            <field name="s_rabu"/>
+                            <field name="s_kamis"/>
+                            <field name="s_jumat"/>
+                            <field name="s_sabtu"/>
+                            <field name="s_minggu"/>
+                        </group>
+                        <group col="4" string = "Group 4">
+                            <field name="g_senin"/>
+                            <field name="g_selasa"/>
+                            <field name="g_rabu"/>
+                            <field name="g_kamis"/>
+                            <field name="g_jumat"/>
+                            <field name="g_sabtu"/>
+                            <field name="g_minggu"/>
+
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

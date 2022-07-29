@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="1">
+    
+        <record id="seq_inv_custom" model="ir.sequence">
+            <field name="name">Seq Inv Custom</field>
+            <field name="code">seq.inv.custom</field>
+            <field name="prefix">%(y)s/%(month)s/AKT/FKT/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_inv_bs_custom" model="ir.sequence">
+            <field name="name">Seq Inv Bs Custom</field>
+            <field name="code">seq.inv.bs.custom</field>
+            <field name="prefix">%(y)s/%(month)s/LLL/FKT/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_inv_credit_note_custom" model="ir.sequence">
+            <field name="name">Seq Inv Credit Note Custom</field>
+            <field name="code">seq.inv.credit.note.custom</field>
+            <field name="prefix">R/%(y)s/%(month)s/FKT/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    
+    </data>
+    
+
+</odoo>

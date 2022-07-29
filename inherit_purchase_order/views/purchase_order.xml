@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="inherit_purchase_order_form">
+            <field name="name">purchase.order.inherit1.form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+
+
+                <xpath expr="//field[@name='order_line']//tree" position="attributes">
+                    <attribute name="decoration-success">"state == 'purchase'"</attribute>
+                    <attribute name="decoration-info">"state == 'draft'"</attribute>
+                    <attribute name="decoration-danger">"state == 'reject'"</attribute>
+                </xpath>
+
+                <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                    <button type="object" name="action_view_release" class="oe_stat_button" icon="fa-dropbox" attrs="{'invisible':[('state', 'not in', ('purchase', 'done'))]}">
+                        <field name="total_release" widget="statinfo" string="Release"/>
+                    </button>
+                </xpath>
+
+                <xpath expr="//button[@id='draft_confirm']" position="attributes">
+                    <attribute name="groups">inherit_purchase_order.group_purchase_approver</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='button_unlock']" position="after">
+                    <button name="button_reject" string="Reject" style="background-color:red;" states="draft" type="object" class="btn-danger" groups="inherit_purchase_order.group_purchase_approver" />
+                </xpath>
+
+                <xpath expr="//button[@id='bid_confirm']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='action_rfq_send']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="street_delivery"/>
+                </xpath>
+
+                <xpath expr="//field[@name='partner_ref']" position="after">
+                    <field name="purchase_category_id"/>
+                    <field name="payment_term_id"/>
+                </xpath>
+
+                <xpath expr="//field[@name='order_line']//tree/field[@name='name']" position="after">
+                    <field name="specifications"/>
+                    <field name="no_komunikasi"/>
+                    <field name="lot_id" options="{'no_open': True, 'no_create': True}"/>
+                    <field name="grade_id"/>
+                    <field name="is_receipt_done" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='order_line']//tree/field[@name='product_uom']" position="attributes">
+                    <attribute name="string">Satuan</attribute>
+                </xpath>
+
+
+                <xpath expr="//field[@name='order_line']//tree/field[@name='qty_received']" position="after">
+                    <field name="qty_sisa"/>
+                </xpath>
+
+
+                <xpath expr="//field[@name='order_line']//tree/field[@name='price_subtotal']" position="after">
+                    <field name="f_discount" optional="hide"/>
+                    <field name="remarks" optional="hide"/>
+                </xpath>
+
+
+                <xpath expr="//field[@name='qty_received']" position="after">
+                    <field name="qty_released" attrs="{'column_invisible': [('parent.state', 'not in', ('purchase', 'done'))]}" optional="hide"/>
+                </xpath>
+
+                <xpath expr="//header/button[6]" position="attributes">
+                    <attribute name="groups">account.group_account_manager</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+
+        <record id="purchase_order_inherit_ipo_tree" model="ir.ui.view">
+            <field name="name">purchase.order.inherit.tree</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_kpis_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="after">
+                    <field name="date_datang_barang"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="purchase_order_search">
+            <field name="name">purchase.order.search</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="origin"/>
+                    <field name="lot_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <menuitem id="purchase_analysis_menu" name="Purchase Analysis" action="purchase.action_purchase_order_report_all" parent="purchase.purchase_report" sequence="10"/>
+
+    </data>
+</odoo>

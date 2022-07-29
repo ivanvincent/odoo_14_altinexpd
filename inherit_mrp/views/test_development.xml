@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="test_development_inherit_tree_form">
+            <field name="name">test.development.tree</field>
+            <field name="model">test.development</field>
+            <field name="inherit_id" ref="test_development.test_development_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="tanggal" />
+                </xpath>
+                <xpath expr="//field[@name='greige_id']" position="after">
+                    <field name="customer_id" />
+                    <field name="quantity" />
+                    <field name="uom_id" />
+                    <field name="state" widget="badge" decoration-info="state == 'confirm'" decoration-warning="state == 'to_approve'" decoration-success="state == 'done'"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="test_development_inherit_form">
+            <field name="name">test.development.form</field>
+            <field name="model">test.development</field>
+            <field name="inherit_id" ref="test_development.test_development_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="before">
+                    <field name="production_type" options="{'no_open': True, 'no_create': True}"/>
+                    <field name="component_category" invisible="1"/>
+                    <field name="finished_category" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='product_id']" position="attributes">
+                    <attribute name="domain">[('categ_id','in',finished_category)]</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="td_proses_trial_inherit_form">
+            <field name="name">test.development.proses.trial.form</field>
+            <field name="model">test.development.proses.trial</field>
+            <field name="inherit_id" ref="test_development.td_proses_trial_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='mesin_id']" position="after">
+                    <field name="program_id"/>
+                    <field name="hours" widget="float_time"/>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="test_development_final_inherit_form">
+            <field name="name">test.development.final.form</field>
+            <field name="model">test.development.final</field>
+            <field name="inherit_id" ref="test_development.td_final_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='no_urut']" position="after">
+                    <field name="program_id"/>
+                    <field name="hours" widget="float_time"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+    
+        <record id="view_employee_form" model="ir.ui.view">
+            <field name="name">hr.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='department_id']" position="before">
+                    <field name="employee_id" required="1" />
+                </xpath>
+                <xpath expr="//field[@name='parent_id']" position="attributes">
+                    <attribute name="string">Superior</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_employee_tree" model="ir.ui.view">
+            <field name="name">hr.employee.tree</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml">
+
+                <field name="name" position="after">
+                    <field name="employee_id" />
+                    <field name="mobile_phone" />
+                </field>
+                <xpath expr="//field[@name='parent_id']" position="attributes">
+                    <attribute name="string">Superior</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="hr_kanban_view_employees" model="ir.ui.view">
+            <field name="name">hr.employee.kanban</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+            <field name="arch" type="xml">
+
+                <ul position="inside">
+                    <li>
+                        <field name="employee_id"/>
+                    </li>
+                    <li>
+                        <field name="mobile_phone"/>
+                    </li>
+                </ul>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

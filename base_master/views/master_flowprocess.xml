@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="master_flowprocess_form" model="ir.ui.view">
+            <field name="name">Master Flowprocess Form</field>
+            <field name="model">master.flowprocess</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <div class="oe_title">
+                                    <h1><field name="name"/></h1>
+                                </div>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Flowprocess">
+                                <field name="flowprocess_line_ids">
+                                    <tree>
+                                        <field name="workcenter_id"/>
+                                        <field name="no_urut"/>
+                                        <field name="mesin_id"/>
+                                        <!-- <field name="process_type_id"/> -->
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="workcenter_id"/>
+                                            <field name="no_urut"/>
+                                            <field name="mesin_id"/>
+                                            <!-- <field name="process_type_id"/> -->
+                                        </group>
+                                        <notebook>
+                                            <page string="Parameter">
+                                                <field name="parameter_ids">
+                                                    <tree editable="bottom">
+                                                        <field name="no_urut"/>
+                                                        <field name="parameter_id"/>
+                                                        <!-- <field name="qty_plan"/> -->
+                                                        <field name="plan"/>
+                                                        <field name="qty_actual"/>
+                                                        <field name="uom_id"/>
+                                                    </tree>
+                                                </field>
+                                            </page>
+                                            <page string="Chemical">
+                                                <field name="chemical_ids">
+                                                    <tree editable="bottom">
+                                                        <field name="no_urut"/>
+                                                        <field name="product_id"/>
+                                                        <field name="quantity"/>
+                                                        <field name="uom_id"/>
+                                                    </tree>
+                                                </field>
+                                            </page>
+                                        </notebook>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="master_flowprocess_tree" model="ir.ui.view">
+            <field name="name">master.flowprocess.tree</field>
+            <field name="model">master.flowprocess</field>
+            <field name="arch" type="xml">
+                <tree default_order="name asc">
+                    <field name="name"/>
+                    <field name="workcenter_name"/>
+                    <field name="flowprocess_line_ids"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="master_flowprocess_action" model="ir.actions.act_window">
+            <field name="name">Master Flowprocess</field>
+            <field name="res_model">master.flowprocess</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            id="master_flowprocess_menu"
+            name="Master Flowprocess"
+            action="master_flowprocess_action"
+            parent="menu_master"
+            sequence="200"/>
+    
+    </data>
+    
+
+</odoo>

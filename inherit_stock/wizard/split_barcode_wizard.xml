@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="split_barcode_wizard" model="ir.ui.view">
+            <field name="name">split.barcode.wizard</field>
+            <field name="model">split.barcode.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="sj_pro_app" invisible="1"/>
+                                <field name="lot_id" options="{'no_open': True, 'no_create': True}" readonly="1"/>
+                                <field name="product_id" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="picking_id" readonly="1" attrs="{'invisible':[('picking_id', '=', False)]}"/>
+                                <field name="warehouse_id" readonly="1" attrs="{'invisible':[('warehouse_id', '=', False)]}"/>
+                                <field name="location_id" readonly="1" attrs="{'invisible':[('location_id', '=', False)]}"/>
+                            </group>
+                            <group>
+                                <label for="quantity" string="Quantity"/>
+                                <div class="o_row no-gutters d-flex">
+                                    <field name="quantity" class="oe_inline text-left" string="Quantity" readonly="1"/>
+                                    <label for="product_uom_id" string="" class="oe_inline" />
+                                    <field name="product_uom_id" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom" class="oe_inline o_form_uri"/>
+                                </div>
+                                <field name="lot_name"/>
+                                <label for="new_quantity" string="New Quantity"/>
+                                <div class="o_row no-gutters d-flex">
+                                    <field name="new_quantity" class="oe_inline text-left" string="New Quantity"/>
+                                    <label for="product_uom_id" string="" class="oe_inline" />
+                                    <field name="product_uom_id" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom" class="oe_inline o_form_uri"/>
+                                </div>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="action_split" string="Split" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="report.paperformat" id="paperformat_lap_pengeluaran_kain_greige_wizard">
+            <field name="name">Laporan Pengeluaran Kain Greige</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_width">210</field>
+            <field name="page_height">297</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">2</field>
+            <field name="margin_bottom">2</field>
+            <field name="margin_right">2</field>
+            <field name="margin_left">2</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="action_lap_pengeluaran_kain_greige_wizard" model="ir.actions.report">
+            <field name="name">Laporan Pengeluaran Kain Greige</field>
+            <field name="model">lap_pengeluaran_kain_greige.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">reporting.lap_pengeluaran_kain_greige_wizard</field>
+            <field name="report_file">reporting.lap_pengeluaran_kain_greige_wizard</field>
+            <field name="print_report_name">'%s - %s' % (object.date_start, object.date_end)</field>
+            <field name="binding_model_id" ref="model_lap_pengeluaran_kain_greige_wizard" />
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" eval="paperformat_lap_pengeluaran_kain_greige_wizard" />
+        </record>
+
+
+        <template id="lap_pengeluaran_kain_greige_wizard">
+            <t t-call="web.basic_layout">
+                <style>
+                    @font-face {
+                        font-family: 'Courier New';
+                        font-style: normal;
+                        font-weight: 400;
+                        src: local('Courier New'), local('CourierNewPSMT'), url(http://themes.googleusercontent.com/licensed/font?kit=p0pJArTTK5Heq6xbYtNwnp0EAVxt0G0biEntp43Qt6E) format('truetype');
+                    }
+
+                    .Courier {
+                        font-family: Courier New;
+                    }
+
+                    .table-data th,
+                    .table-data td {
+                        border: 1px solid black;
+                        font-family: Courier New;
+                    }
+                </style>
+                <!-- <t t-foreach="docs" t-as="o"> -->
+                <div class="page Courier" style="font-size : 18px">
+                    <div class="text-right">GG-02.5 REV-00</div>
+                    <div class="text-center" style="margin-top : -20px">
+                        <b>
+                            <span>LAPORAN PENGELUARAN KAIN GREY</span>
+                            <span t-esc="location_id"/>
+                        </b>
+                    </div>
+                    <div class="text-center">
+                        <span>Periode</span>
+                        <span t-esc="date_start"/>
+                        <span>s/d</span>
+                        <span t-esc="date_end"/>
+                    </div>
+
+                    <table class="table-condensed table-data" width="100%">
+                        <thead class="text-center">
+                            <tr>
+                                <th rowspan="2">No</th>
+                                <th rowspan="2">KD KAIN</th>
+                                <th rowspan="2">JENIS KAIN</th>
+                                <th colspan="2">KAIN</th>
+                                <th colspan="2">BS</th>
+                            </tr>
+                            <tr>
+                                <th>GULUNG</th>
+                                <th>QUANTITY</th>
+                                <th>GULUNG</th>
+                                <th>QUANTITY</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="no" t-value="0" />
+                            <t t-set="tot_roll" t-value="0" />
+                            <t t-set="tot_qty" t-value="0" />
+                            <t t-set="tot_x_roll" t-value="0" />
+                            <t t-set="tot_x_qty" t-value="0" />
+                            <tr t-foreach="docs" t-as="doc">
+                                <t t-set="no" t-value="no + 1" />
+                                <t t-set="x_roll" t-value="doc['x_roll'] if doc['x_roll'] else 0" />
+                                <t t-set="x_qty" t-value="doc['x_qty'] if doc['x_qty'] else 0" />
+
+                                <t t-set="tot_roll" t-value="tot_roll + doc['roll']" />
+                                <t t-set="tot_qty" t-value="tot_qty + doc['qty']" />
+                                <t t-set="tot_x_roll" t-value="tot_x_roll + x_roll" />
+                                <t t-set="tot_x_qty" t-value="tot_x_qty + x_qty" />
+                                <td class="text-center">
+                                    <span t-esc="no" />
+                                </td>
+                                <td>
+                                    <span t-esc="doc['code']" />
+                                </td>
+                                <td>
+                                    <span t-esc="doc['product']" />
+                                </td>
+                                <td class="text-right pr-1">
+                                    <span t-esc="doc['roll']" />
+                                </td>
+                                <td class="text-right pr-1">
+                                    <span t-esc="'{0:,.2f}'.format(float(doc['qty']))" />
+                                </td>
+                                <td class="text-right pr-1">
+                                    <span t-esc="x_roll" />
+                                </td>
+                                <td class="text-right pr-1">
+                                    <span t-esc="'{0:,.2f}'.format(float(x_qty))" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-center">TOTAL</td>
+                                <td class="text-right">
+                                    <span t-esc="tot_roll" />
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="'{0:,.2f}'.format(float(tot_qty))" />
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="tot_x_roll" />
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="'{0:,.2f}'.format(float(tot_x_qty))" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table-condensed" width="100%">
+                        <tr class="text-center">
+                            <td>
+                                <span>Diketahui / Disetujui</span>
+                            </td>
+                            <td>
+                                <span>Pembuat Data</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+
+                <!-- </t> -->
+            </t>
+        </template>
+    </data>
+</odoo>

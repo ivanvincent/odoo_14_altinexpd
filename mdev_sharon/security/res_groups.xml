@@ -1,0 +1,14 @@
+<odoo>
+	<data noupdate="0">
+
+        <record id="sharon_group_category" model="ir.module.category">
+			<field name="name">Sharon Groups</field>
+		</record>
+
+        <record id="sharon_group_sysadmin" model="res.groups">
+            <field name="category_id" ref="sharon_group_category"/>
+            <field name="name">System Administrator</field>
+        </record>
+		
+    </data>
+</odoo>

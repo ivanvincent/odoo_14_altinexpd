@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="report_request_requisition">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="page ; font-size : 12px">
+                    <div class="oe_structure" />
+                    <t t-if="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id" />
+                    </t>
+                    <t t-if="not o or not 'company_id' in o">
+                        <t t-set="company" t-value="res_company" />
+                    </t>
+
+                    <table class="table-condensed" width="100%">
+                        <thead>
+                            <tr>
+                                <b>
+                                    <td style="border : 0px solid white; font-size: 20px;" class="text-center font-weight-bold">
+                                        <!-- <span t-esc="company_id" /> -->
+                                        <span>PT. MULTI STAR RUKUN ABADI</span>
+                                    </td>
+                                    <td style="border-top : 0px solid white ; border-right : 0px solid white ; border-left : 0px solid white ; border-bottom : 1px solid black"
+                                        class="text-center">BUKTI MINTA BARANG</td>
+                                    <td style="border : 0px solid white; font-size: 20px;" class="text-center font-weight-bold">NO. <span
+                                            t-field="o.name" /></td>
+                                </b>
+                            </tr>
+                            <tr>
+                                <td style="border : 0px solid white" class="text-center" width="25%" />
+                                <td style="border : 0px solid white" class="text-center" width="50%">
+                                    <span>YTH : </span><span t-field="o.assigned_to" /><span> - </span><span
+                                        t-field="o.warehouse_id" />
+                                </td>
+                                <td style="border : 0px solid white" class="text-center" width="25%" />
+                            </tr>
+                            <tr>
+                                <td colspan="3"><span>Harap diberikan barang sbb :</span></td>
+                            </tr>
+                        </thead>
+                    </table>
+
+                    <table class="table-condensed" width="1000px">
+                        <thead>
+                            <tr class="text-center">
+                                <th style="border : 1px solid black" width="5%">
+                                    <center>NO</center>
+                                </th>
+                                <th style="border : 1px solid black">
+                                    <span>Product</span>
+                                </th>
+                                <th style="border : 1px solid black">
+                                    <span>Spec</span>
+                                </th>
+                                <th style="border : 1px solid black">
+                                    <span>Quantity</span><br />
+                                </th>
+                                <th style="border : 1px solid black">
+                                    <span>Uom</span>
+                                </th>
+                                <th style="border : 1px solid black">
+                                    <span>Keterangan</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="no" t-value="0" />
+                            <tr t-foreach="o.order_ids" t-as="line">
+                                <t t-set="no" t-value="no + 1" />
+                                <td style="border : 1px solid black;" class="text-center">
+                                    <span t-esc="no" />
+                                </td>
+                                <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                    <span t-field="line.product_id" />
+                                </td>
+                                <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                    <span t-field="line.spesification" />
+                                </td>
+                                <td style="border : 1px solid black ; padding-right : 10px" class="text-right">
+                                    <span t-field="line.quantity" />
+                                </td>
+                                <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                    <span t-field="line.uom_id" />
+                                </td>
+                                <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                    <span t-esc="line.name" />
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table-condensed" width="100%">
+                        <thead>
+                            <tr>
+                                <td class="text-right" colspan="3">BANDUNG, <span t-field="o.request_date" /></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <center>
+                                        MENYETUJUI,
+                                        <br /><br /><br /><br /><br />
+                                        <span>(</span><span style="padding-left: 65px; padding-right: 65px;"></span><span>)</span>
+
+                                    </center>
+                                </td>
+                                <td>
+                                    <center>
+                                        DIMINTA OLEH,
+                                        <br /><br /><br /><br /><br />
+                                        <span>(</span><span class="pl-5 pr-5" t-field="o.requested_by" /><span>)</span>
+                                    </center>
+                                </td>
+                                <td>
+                                    <center>
+                                        YANG MEMERLUKAN,
+                                        <br /><br /><br /><br /><br />
+                                        <span>(</span><span class="pl-5 pr-5" t-field="o.pegawai_id" /><span>)</span>
+                                    </center>
+                                </td>
+                            </tr>
+                        </thead>
+                    </table>
+
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
