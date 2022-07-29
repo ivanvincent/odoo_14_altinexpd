@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+<!-- The following code block conflicts with 'website' module as they replace the same component -->
+<!-- 'website' module is used in the digital portal of Weevy -->
+	<!-- <template id="frontend_layout" inherit_id="portal.frontend_layout" priority="17"> -->
+		<!-- <xpath expr="//nav[@class='navbar navbar-expand navbar-light bg-light']" position="attributes"> -->
+			<!-- <attribute name="class">navbar navbar-expand navbar-light shadow-sm</attribute> -->
+		<!-- </xpath> -->
+	<!-- </template> -->
+
+<!-- class 'shadow-sm' is not rendering properly - need to investigate further -->
+	<template id="portal_frontend_layout_weevy" name="Portal Frontend Layout Weevy" inherit_id="portal.frontend_layout" priority="17">
+		<xpath expr="//header[@id='top']" position="attributes">
+			<attribute name="class">border-bottom</attribute>
+		</xpath>
+	</template>
+
+	<template id="web_frontend_layout_weevy" name="Web Frontend Layout Weevy" inherit_id="web.frontend_layout" priority="17">
+		<xpath expr="//footer[@id='bottom']" position="attributes">
+			<attribute name="t-attf-class">bg-weevy border-top o_footer</attribute>
+		</xpath>
+	</template>
+
+	<template id="brand_frontend_layout_weevy" name="Brand Frontend Layout Weevy" inherit_id="web.brand_promotion" priority="17">
+		<xpath expr="//div[hasclass('o_brand_promotion')]" position="replace">
+			<div class="o_brand_promotion" />
+		</xpath>
+	</template>
+
+	<template id="brand_frontend_footer_layout_weevy" name="Brand Frontend Footer Layout Weevy" inherit_id="web.frontend_layout" priority="17">
+		<xpath expr="//span[@class='o_footer_copyright_name mr-2']" position="replace">
+			<span class="o_footer_copyright_name mr-2">Portal <span t-field="res_company.name" itemprop="name">Company name</span> - weevy.io</span>
+		</xpath>
+	</template>
+</odoo>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Default Values of global Settings -->
+        <!-- FixMe: Change the Default values of all fields -->
+        <record model="ks.global.config" id="ks_global_config_single_rec">
+            <field name="scope_ks_auto_dark_mode">User</field>
+            <field name="scope_ks_list_density">User</field>
+            <field name="scope_ks_click_edit">Global</field>
+            <field name="scope_ks_menu_bar">Global</field>
+            <field name="scope_ks_favorite_bar">User</field>
+            <field name="scope_ks_chatter">Global</field>
+            <field name="scope_ks_website_title">Global</field>
+            <field name="scope_ks_favicon">User</field>
+            <field name="scope_ks_company_logo">Global</field>
+            <field name="scope_ks_enterprise_apps">User</field>
+            <field name="scope_ks_odoo_referral">User</field>
+            <field name="scope_ks_theme_style">Global</field>
+            <field name="scope_ks_colors_theme">Global</field>
+            <field name="scope_ks_font_style">Global</field>
+            <field name="scope_ks_font_size">Global</field>
+            <field name="scope_ks_button_style">Global</field>
+            <field name="scope_ks_body_background">Global</field>
+            <field name="scope_ks_app_drawer_background">Global</field>
+            <field name="scope_ks_radio_button_style">Global</field>
+            <field name="scope_ks_separator_style">Global</field>
+            <field name="scope_ks_tab_style">Global</field>
+            <field name="scope_ks_checkbox_style">Global</field>
+            <field name="scope_ks_popup_animation_style">Global</field>
+            <field name="scope_ks_loaders">Global</field>
+            <field name="scope_ks_icon_design">User</field>
+            <field name="scope_ks_login_page_style">User</field>
+            <field name="scope_ks_login_background_image">User</field>
+            <field name="scope_ks_header">User</field>
+            <field name="scope_ks_footer">User</field>
+            <field name="ks_login_page_logo" type="base64" file="ks_curved_backend_theme/static/description/img/logo/logo_login.png"/>
+            <field name="ks_login_page_logo_enable">true</field>
+            <field name="ks_login_page_style">Style2</field>
+            <field name="ks_pwa_icon" type="base64" file="ks_curved_backend_theme/static/description/weevy/pwa_logo_small-min.png"/>
+        </record>
+    </data>
+</odoo>

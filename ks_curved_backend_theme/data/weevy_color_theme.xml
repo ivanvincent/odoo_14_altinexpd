@@ -1,0 +1,22 @@
+<!-- This file is no longer loaded as the 'Default' flag is not honored on tenant init -->
+<!-- The loaded styling can be found on ks_color_theme.xml -->
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    <data noupdate="1">-->
+    <data>
+        <record model="ks.color.theme" id="ks_color_theme_temp_weevy">
+            <field name="ks_body_background">#ffffff</field>
+            <field name="ks_menu">#454546</field>
+            <field name="ks_menu_hover">#f5f5f5</field>
+            <field name="ks_button">#141CBA</field>
+            <field name="ks_border">#141CBA</field>
+            <field name="ks_heading">#141CBA</field>
+            <field name="ks_link">#141CBA</field>
+            <field name="ks_primary_color">#141CBA</field>
+            <field name="ks_tooltip">#dee2e6</field>
+            <field name="ks_default">True</field>
+            <field name="ks_template">True</field>
+            <field name="name">Weevy</field>
+        </record>
+    </data>
+</odoo>
