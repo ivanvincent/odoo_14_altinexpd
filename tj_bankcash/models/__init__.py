@@ -4,6 +4,4 @@ from . import expenses
 from . import product
 from . import res_partner
 from . import trial_balance_new
-from . import kategori_kas
-from . import account_journal
-from . import terbilang
+# from . import account_bank_statement_image

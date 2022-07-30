@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="ScannerHomePage" owl="1">
+
+        <div class="o_wibicon_client_action drawer h-screen">
+            <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+            <div class="drawer-content">
+                <HeaderScreen state="state"/>
+                <div class="row w-full">
+                    <!-- <div class="row w-full h-full"> -->
+                    <div class="w-full h-full">
+                        <!-- <div class="w-full h-full container-fluid"> -->
+                        <div class="d-flex w_scanner_wrapper mx-auto justify-content-center h-100 align-items-center" t-if="!state.isMo" t-att-class="{ oe_hidden: state.isMo }">
+                            <EmployeeScannerScreen scanned="state" />
+                            <OrderScannerScreen t-if="state.isEmployee" scanned="state" t-att-class="{ oe_hidden: !state.isEmployee }"/>
+                        </div>
+                        <WorkOrderScreen class="o_wo_container w-full h-100" t-if="state.isEmployee and state.isMo and state.mrp.state !== 'draft' and state.mrp.state !== 'cancel' and state.mrp.state !== 'done'" state="state" t-att-class="{ 'oe_hidden': !state.isMo,'is-open':state.isMo} "/>
+                        <input type="checkbox" id="about_modal" class="modal-toggle" />
+                        <label for="about_modal" class="modal cursor-pointer">
+                            <label class="modal-box relative" for="">
+                                <h3 class="text-lg font-bold">Wibicon Scanner APp</h3>
+                                <p class="py-4">"Lorem dolor sit amet, consectetur adipiscing elit. Pellentesque vel mi ut elit tempor aliquam eget eget enim. Proin cursus eleifend pretium. Aliquam cursus "</p>
+                            </label>
+                        </label>
+                    </div>
+                    <!-- <script type="text/javascript" src="/wibicon_mo_scanner/static/src/lib/tailwind.config.js"></script> -->
+                </div>
+            </div>
+            <div class="drawer-side">
+                <label for="my-drawer" class="drawer-overlay"></label>
+                <ul class="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
+                    <!-- Sidebar content here -->
+                    <li t-if="state.isEmployee and state.isMo and state.mrp.state !== 'draft' and state.mrp.state !== 'cancel' and state.mrp.state !== 'done'" t-att-class="{ 'oe_hidden': !state.isMo,'is-open':state.isMo}">
+                        <a>Work In Progress</a>
+                    </li>
+                    <li>
+                        <a>Report</a>
+                    </li>
+                    <li>
+                        <a>About</a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- <div class="drawer-side" t-if="state.isEmployee and state.isMo and state.mrp.state !== 'draft' and state.mrp.state !== 'cancel' and state.mrp.state !== 'done'  " scanned="state" t-att-class="{ oe_hidden: !state.isEmployee }">
+                <label for="my-drawer" class="drawer-overlay"></label>
+                <ul class="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
+                    <li>
+                        <a>Sidebar Item 1</a>
+                    </li>
+                    <li>
+                        <a>Sidebar Item 2</a>
+                    </li>
+
+                </ul>
+            </div> -->
+        </div>
+    </t>
+
+</templates>

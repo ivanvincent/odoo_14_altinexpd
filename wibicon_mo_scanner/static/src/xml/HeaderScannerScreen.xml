@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="HeaderScannerScreen" owl="1">
+        <!-- <header class="navbar sticky-top o_main_navbar flex-md-nowrap p-0 shadow">
+            <a class="o_brand col-md-3 text-white col-lg-2 me-0 px-3" href="/mrp/scanner">Wibicon Scanner App</a>
+        </header> -->
+        <div class="w-full navbar  sticky-top  o_main_navbar">
+            <div class="flex-none">
+                <label for="my-drawer" class="btn btn-square btn-ghost">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </label>
+
+                <!-- <button class="btn btn-square btn-ghost drawer-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button> -->
+            </div>
+            <div class="flex-1">
+                <t t-if="props.state.mrp">
+                    <a class="btn btn-ghost normal-case text-xl" t-esc="props.state.mrp.name"></a>
+
+                </t>
+                <t t-else="">
+
+                    <a class="btn btn-ghost normal-case text-xl">Wibicon Scanner</a>
+
+                </t>
+            </div>
+            <div class="flex-none">
+                <ul class="menu menu-horizontal p-0">
+                    <li>
+                        <a t-esc="props.state.employee.name"></a>
+                    </li>
+                </ul>
+                <button class="btn btn-square btn-ghost">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+    </t>
+
+</templates>

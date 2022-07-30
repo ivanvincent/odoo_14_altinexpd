@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100&family=Viga&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Lato:wght@100family=Digital+Numbers&display=swap');
+
+
+
+.o_field_scale {
+    display: flex !important;
+    width: 120px;
+    height: 70px;
+    align-items: center;
+    margin-bottom: 12px;
+    margin-right: 12px;
+    /* border: 1px solid black; */
+    border: 1px solid #c8c8d3;
+    box-shadow: 0 4px 20px rgb(0 0 0 / 15%);
+    position: relative;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+    flex-direction: column;
+    cursor: pointer;
+    border-radius: 4px;
+
+    /* flex-wrap: wrap; */
+
+}
+
+
+.o_field_scale:hover {
+    border: 1px solid #cd3d73;
+
+}
+
+
+.o_corner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+    top: 0;
+    right: 0;
+    background-color: #00838d;
+    border-radius: 0 4px 0 32px;
+}
+
+
+.o_arrow {
+    margin-top: -4px;
+    margin-right: -4px;
+    color: white;
+    font-family: courier, sans;
+}
+
+.o_field_scale .o_corner {
+    background-color: #00838d;
+    height: 100%;
+    width: 16px;
+    padding-right: 9px;
+    border-radius: 0;
+    transform: skew(6deg);
+    margin-right: -36px;
+    align-items: start;
+    background-image: linear-gradient(-45deg, #8f479a 1%, #dc2a74 100%);
+}
+
+
+.o_field_scale .o_arrow {
+    transform: skew(-6deg);
+    margin-left: -2px;
+    margin-top: 9px;
+    opacity: 0;
+}
+
+.o_field_scale:hover .o_corner {
+
+    margin-right: -12px;
+}
+
+.o_field_scale:hover .o_arrow {
+
+    opacity: 1;
+}
+
+.o_scale_title {
+    display: flex;
+    align-self: flex-end;
+    padding-right: 12px;
+
+}
+
+.o_scale_uom {
+
+    cursor: pointer;
+    font-family: Digital Numbers;
+    font-weight: Regular;
+}
+
+.o_scale_value {
+    /* display: block; */
+    /* padding: 24px; */
+    /* font-size: 96px; */
+    opacity: 1;
+    text-align: center;
+    padding-left: 24px;
+    padding-right: 24px;
+
+}
+
+.o_form_scale_controls {
+
+
+    /* box-shadow: none; */
+
+}

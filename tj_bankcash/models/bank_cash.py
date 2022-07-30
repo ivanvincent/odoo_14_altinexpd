@@ -1,8 +1,6 @@
 from odoo import api, models, fields, exceptions
 import logging
 _logger = logging.getLogger(__name__)
-from . import terbilang as tmb
-from odoo.exceptions import UserError
 
 
 class TjAccountJournal(models.Model):
@@ -34,28 +32,7 @@ class Bankstatement(models.Model):
         ('receipt', 'Receipt')],
         "Type",
         required=True, default="payment",)
-    
-    pengantar = fields.Char(string='Pengantar')
-    penyerah = fields.Char(string='Penyerah')
-    penerima = fields.Char(string='Penerima')
-    terbilang           = fields.Text(string='Terbilang', compute='_compute_terbilang')
-
-    
-    def action_open_invoices(self):
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Pilih Invoice',
-            'res_model': 'bank.statement.wizard',
-            'view_mode': 'form',
-            'context':{'default_statement_id':self.id},
-            'target': 'new',
-        }
-    
-    
-    
-    def _compute_terbilang(self):
-        for rec in self:
-            rec.terbilang = tmb.terbilang(float(rec.total_in if rec.total_in else abs(rec.total_out)),'IDR', 'id')
+    # readonly=True, states={'draft': [('readonly', False)]}
 
     @api.model
     def create(self, vals):
@@ -63,14 +40,14 @@ class Bankstatement(models.Model):
         if not value.bk_seq_id or not value.bk_seq_out_id:
             raise exceptions.Warning('Bankcash sequence id belum di set!')
         else:
-            seq = self.env['ir.sequence'].browse(int(value.bk_seq_id))
-            if self._context.get('default_operation_type') == 'payment' or vals.get('operation_type') == 'payment':
+            if vals['operation_type'] == 'payment':
                 seq = self.env['ir.sequence'].browse(int(value.bk_seq_out_id))
-            vals['name'] = seq.next_by_id()
+            else:
+                seq = self.env['ir.sequence'].browse(int(value.bk_seq_id))
+            kode = str(seq.code) or ''
+            vals['name'] = self.env['ir.sequence'].next_by_code(kode)
             res = super(Bankstatement, self).create(vals)
             return res
-    
-
 
     @api.onchange('line_ids')
     def onchange_partner_id(self):
@@ -83,95 +60,75 @@ class BankstatementLine(models.Model):
     # CUSTOM CODE TO SORT BANK STATEMENT LINE BY NUMBER
     _order = 'id asc'
 
-    employee_id     = fields.Many2one(comodel_name="hr.employee", string="Employee", required=False,track_visibility='onchange', )
-    an_giro         = fields.Char(string="A.n Giro", required=False, track_visibility='onchange', )
-    no_giro         = fields.Char(string="No Giro", required=False, track_visibility='onchange', )
-    tgl_jt          = fields.Date(string="Tgl Jatuh Tempo", required=False, track_visibility='onchange', )
-    no_po           = fields.Char(string="No Po", required=False, track_visibility='onchange', )
-    no_receive      = fields.Char(string="No Receive", required=False, track_visibility='onchange', )
-    number          = fields.Char(string="Number", )
-    journal_id_2    = fields.Many2one('account.journal', string='Journal 2', related="move_id.journal_id", )
-    date_2          = fields.Date(string='Date 2', related="move_id.date", store=True,)
-    ref_2           = fields.Char(string='Ref 2', related="move_id.ref", store=True,)
-    narration_2     = fields.Text(string='Narration 2')
-    kategori_id     = fields.Many2one('kategori.kas', string='Kategori')
-    debit           = fields.Monetary('Debit')
-    credit          = fields.Monetary('Credit')
-    invoice_id      = fields.Many2one('account.move', string='Invoice')
-    amount_total    = fields.Monetary(string='Inv Total',compute='_compute_outstanding')
-    outstanding     = fields.Monetary(compute='_compute_outstanding', string='Outstanding', store=False)
-    
-    
-    
-    
-    @api.model_create_multi
-    def create(self, vals_list):
-        res = super(BankstatementLine, self).create(vals_list)
-        import logging;
-        _logger = logging.getLogger(__name__)
-        _logger.warning('='*40)
-        _logger.warning('vals_list')
-        _logger.warning(vals_list)
-        _logger.warning('='*40)
-        
-        return res
-        
-    
-    
-    def _seek_for_lines(self):
-        res = super(BankstatementLine, self)._seek_for_lines()
-        liquidity_lines, suspense_lines, other_lines = res
-        to_delete = [x.id for x in self.move_id.line_ids.filtered(lambda l:l.credit == 0.0 and l.debit == 0.0)]
-        # for line in liquidity_lines.filtered(lambda l:l.id in to_delete):
-        #     line.unlink()
-        # liquidity_lines = liquidity_lines.filtered(lambda l:l.id  not in to_delete)
-        # for line in suspense_lines.filtered(lambda l:l.id in to_delete):
-        #     line.unlink()
-        # for line in other_lines.filtered(lambda l:l.id in to_delete):
-        #     line.unlink()
-        # import logging;
-        # _logger = logging.getLogger(__name__)
-        # _logger.warning('='*40)
-        # _logger.warning('on _seek_for_lines')
-        # # _logger.warning()
-    
-        # _logger.warning('liquidity_lines')
-        # # _logger.warning([(line.account_id.name,line.credit,line.debit) for line in liquidity_lines])
-        # _logger.warning(len(liquidity_lines))
-        # _logger.warning('suspense_lines')
-        # _logger.warning(suspense_lines)
-        # _logger.warning('other_lines')
-        # _logger.warning([x.account_id.name for x in other_lines])
-        # # raise UserError('Mohon maaf tidak bisa ..')
-        # _logger.warning('='*40)
-        return res
-        
-    
-    @api.depends('partner_id','credit','debit')
-    def _compute_outstanding(self):
-        for line in self:
-            if line.partner_id and line.invoice_id and line.invoice_id.payment_state == 'not_paid':
-                line.amount_total = line.invoice_id.amount_total
-                line.outstanding = line.amount_total - line.credit if line.credit else 0
-            elif line.partner_id and line.invoice_id and line.invoice_id.payment_state == 'partial':
-                line.amount_total = line.invoice_id.amount_residual
-                line.outstanding = line.invoice_id.amount_residual - line.credit
-            else :
-                line.outstanding = 0
-                line.amount_total  = 0
-    
+    employee_id = fields.Many2one(comodel_name="hr.employee", string="Employee", required=False,
+                                  track_visibility='onchange', )
+    an_giro = fields.Char(string="A.n Giro", required=False, track_visibility='onchange', )
+    no_giro = fields.Char(string="No Giro", required=False, track_visibility='onchange', )
+    tgl_jt = fields.Date(string="Tgl Jatuh Tempo", required=False, track_visibility='onchange', )
+    no_po = fields.Char(string="No Po", required=False, track_visibility='onchange', )
+    no_receive = fields.Char(string="No Receive", required=False, track_visibility='onchange', )
+    number = fields.Char(string="Number", )
+    journal_id_2 = fields.Many2one('account.journal', string='Journal 2', related="move_id.journal_id", )
+    date_2 = fields.Date(string='Date 2', related="move_id.date", store=True,)
+    ref_2 = fields.Char(string='Ref 2', related="move_id.ref", store=True,)
+    narration_2 = fields.Text(string='Narration 2')
+    product_id = fields.Many2one('product.product', string='Product')
+    quantity = fields.Float(string='Qty')
+    uom_id = fields.Many2one('uom.uom', string='Uom', related="product_id.uom_id")
+    price = fields.Float(string='Price')
+    # image_ids = fields.One2many('account.bank.statement.image', 'account_bank_statement_line_id', 'Line')
+    order_id = fields.Many2one('store.order', 'Invoice')
 
-    @api.onchange('credit','debit')
-    def onchange_credit(self):
-        for line in self:
-            line.amount = line.debit - line.credit
+    @api.onchange('price','quantity')
+    def _onchange_quantity(self):
+        if self.price or self.quantity:
+            amount = self.price * self.quantity
+            self.amount = -abs(amount) if self.statement_id.operation_type == 'payment' else abs(amount)
 
+    # @api.model
+    # def create(self, vals):
+
+        # if vals.get('journal_id') == 6:
+        #     seq_id = self.env.ref('tj_bankcash.seq_kas_line6')
+        # elif vals.get('journal_id') == 21:
+        #     seq_id = self.env.ref('tj_bankcash.seq_kas_line6')    
+        # elif vals.get('journal_id') == 33:
+        #     seq_id = self.env.ref('tj_bankcash.seq_kas_line33')
+        # elif vals.get('journal_id') == 37:
+        #     seq_id = self.env.ref('tj_bankcash.seq_kas_line37')
+        # elif vals.get('journal_id') == 38:
+        #     seq_id = self.env.ref('tj_bankcash.seq_kas_line38')
+        # elif vals.get('journal_id') == 39:
+        #     seq_id = self.env.ref('tj_bankcash.seq_kas_line39')
+        # elif vals.get('journal_id') == 40:
+        #     seq_id = self.env.ref('tj_bankcash.seq_kas_line40')
+        # elif vals.get('journal_id') == 41:
+        #     seq_id = self.env.ref('tj_bankcash.seq_kas_line41')
+        # elif vals.get('journal_id') == 42:
+        #     seq_id = self.env.ref('tj_bankcash.seq_kas_line42')
+        # elif vals.get('journal_id') == 43:
+        #     seq_id = self.env.ref('tj_bankcash.seq_kas_line43')
+        # else:
+        #     seq_id = self.env.ref('tj_bankcash.seq_bank_line7')
+
+        # vals['number'] = seq_id.next_by_id()
+        # return super(BankstatementLine, self).create(vals)
 
     @api.onchange('employee_id')
     def onchange_employee_id(self):
         if self.employee_id:
             self.partner_id = self.employee_id.partner_id.id
 
+    # @api.onchange('partner_id')
+    # def onchange_employee_id(self):
+    #     if self.partner_id:
+    #         self.statement_id.partner_id = self.partner_id.id
+
+    def action_show_image(self):
+        action = self.env.ref('tj_bankcash.account_bank_statement_image_action').read()[0]
+        action['res_id'] = self.id
+        action['name'] = "Images of %s" % (self.payment_ref)
+        return action
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'

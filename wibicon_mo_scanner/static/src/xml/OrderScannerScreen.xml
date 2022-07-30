@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="OrderScannerScreen" owl="1">
+        <div id="formOrderScanner">
+            <input id="inputOrderBarcode" class="w_scanner text-5xl font-bold" type="text" placeholder="eg : mo/dye/x" required="true" autofocus="true" />
+            <label for="inputOrderBarcode">
+                <!-- <span class="label-text">Scan Barcode Here</span> -->
+                <h2 class="label-text text-5xl font-bold">SCAN BARCODE HERE</h2>
+                <span class="nav-dot"></span>
+            </label>
+            <!-- <button class="submit-button w_scanner" type="submit">SEND QUERY</button> -->
+        </div>
+
+
+
+
+    </t>
+
+</templates>

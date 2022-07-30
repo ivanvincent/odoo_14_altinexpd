@@ -7,12 +7,6 @@ class AccountMove(models.Model):
 
     expenses_id = fields.Many2one("account.expenses", "Expenses")
 
-    def action_post(self):
-        res = super(AccountMove, self).action_post()
-        if self.journal_id.name == 'Vendor Bills':
-            self.partner_id.write({'is_created_bills': True})
-        return res
-
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'

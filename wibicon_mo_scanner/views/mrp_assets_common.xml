@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="wibicon_mo_scanner.assets" name="wibicon_mo_scanner assets">
+            <link rel="stylesheet" href="/web/static/lib/fontawesome/css/font-awesome.css"/>
+            <link rel="stylesheet" type="text/scss" href="/wibicon_mo_scanner/static/src/scss/main.scss"/>
+            <link rel="stylesheet" href="/wibicon_mo_scanner/static/src/css/screen.css"/>
+            <link rel="stylesheet" type="text/scss" href="/wibicon_mo_scanner/static/src/scss/work_order.scss"/>
+            <link rel="stylesheet" href="/wibicon_mo_scanner/static/src/lib/bootstrap/bootstrap.min.css"/>  
+            <link rel="stylesheet" href="/wibicon_mo_scanner/static/src/lib/datatables/datatables.min.css"/>
+            <!-- <link rel="stylesheet" type="text/scss" href="/wibicon_mo_scanner/static/src/lib/select2bs.scss"/> -->
+            <link rel="stylesheet" href="/wibicon_mo_scanner/static/src/lib/daisy/full.css"/>
+            <!-- <link rel="stylesheet" href="/wibicon_mo_scanner/static/src/lib/select2.min.css"/> -->
+            <link rel="stylesheet" href="/wibicon_mo_scanner/static/src/lib/materialize/mstepper.min.css"/>
+            <link rel="stylesheet" href="/wibicon_mo_scanner/static/src/lib/alertifyjs/css/alertify.css"/>
+            <link rel="stylesheet" href="/wibicon_mo_scanner/static/src/lib/autocomplete.css"/>
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/lib/datatables/datatables.js"></script>
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/lib/materialize/mstepper.min.js"/>
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/lib/alertifyjs/alertify.js"></script>
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/lib/tailwindcss.js"></script>
+            <!-- <script type="text/javascript" src="/wibicon_mo_scanner/static/src/lib/stimulus.js"></script> -->
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/lib/select2.min.js"></script>
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/lib/autocomplete.min.js"></script>
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/lib/bootstrap/bootstrap.bundle.min.js"></script>
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/lib/bootstrap/bs-stepper.min.js"></script>
+            <!-- <script type="text/javascript" src="/wibicon_mo_scanner/static/src/lib/mqtt/mqttws31.js"></script> -->
+
+
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/js/ClassRegistry.js"></script>
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/js/AutoComplete.js"></script>
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/js/ScannerComponent.js"></script>
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/js/EmployeeScannerScreen.js"></script>
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/js/HeaderScannerScreen.js"></script>
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/js/WorkOrderScreen.js"></script>
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/js/OrderScannerScreen.js"></script>
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/js/MainScreen.js"></script>
+            <!-- <script type="text/javascript" src="/wibicon_mo_scanner/static/src/js/BoxContext.js"></script> -->
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/js/ComponentRegistry.js"></script>
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/js/Registries.js"></script>
+            <!-- <script type="text/javascript" src="/wibicon_mo_scanner/static/src/js/db.js"></script> -->
+            <!-- <script type="text/javascript" src="/wibicon_mo_scanner/static/src/js/models.js"></script> -->
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/js/ScannerGui.js"></script>
+            <script type="text/javascript" src="/wibicon_mo_scanner/static/src/js/ScannerApp.js"></script>
+
+            <script>
+                    tailwind.config = {
+                    theme: {
+                        extend: {
+                        colors: {
+                            clifford: '#da373d',
+                            odoobrand: '#875A7B',
+                            odooprimary: '#00A09D',
+                        }
+                        }
+                    }
+                    }
+            </script>
+
+
+
+
+        </template>
+
+
+        <template id="wibicon_mo_scanner.assets_backend" name="Wibicon MO Scanner UI Backend Assets" inherit_id="web.assets_backend" primary="True">
+        </template>
+
+        <template id="wibicon_mo_scanner.assets_common" name="Wibicon MO Scanner Assets Common">
+            <t t-call-assets="wibicon_mo_scanner.assets" t-js="false" />
+            <t t-call-assets="web.assets_common" t-css="false" />
+            <t t-call-assets="wibicon_mo_scanner.assets_backend" t-css="false" />
+            <t t-call-assets="wibicon_mo_scanner.assets" t-css="false" />
+        </template>
+    </data>
+</odoo>

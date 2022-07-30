@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="EmployeeScannerScreen" owl="1">
+        <div id="formScanner">
+            <div t-if="!props.scanned.isEmployee and !props.scanned.isMo" class="employee_scanner_wrapper" t-att-class="{ oe_hidden: props.scanned.isEmployee }">
+                <input id="inputBarcode" class="w_scanner text-5xl font-bold" type="text" required="true" autofocus="true" />
+                <label for="inputBarcode">
+                    <!-- <p class="text-gray-800  translate-y-2/4 text-4xl text-left dark:text-white font-bold my-4">
+                        Scan ID Card Here
+                    </p> -->
+                    <h2 class="label-text text-5xl font-bold">SCAN ID CARD HERE</h2>
+                    <!-- <h2 class="label-text text-gray-800">Scan ID Card Here</h2> -->
+                    <span class="nav-dot"></span>
+                    <div class="fill-button-trigger">CLick here and fill the form2323</div>
+                </label>
+            </div>
+        </div>
+
+
+
+    </t>
+
+</templates>

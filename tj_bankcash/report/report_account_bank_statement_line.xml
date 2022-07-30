@@ -10,9 +10,9 @@
         />
 
     <template id="report_account_bank_statement_line_menu">
-    <t t-call="report.html_container">
-        <t t-foreach="docs" t-as="l">
-            <t t-call="report.external_layout">
+    <t t-call="web.html_container">
+        <!-- <t t-foreach="docs" t-as="l"> -->
+            <t t-call="web.external_layout">
                 <div class="page">
                     <table class="table table-condensed">
                     <thead>
@@ -26,11 +26,11 @@
                     </thead>
                     </table>                
                     <div class="oe_structure"/>
-                        <td>
-                            <strong>Partner</strong><span t-field="l.partner_id"/><br/>
-                            <strong>Reference</strong><span t-field="l.ref"/><br/>
-                            <strong>Note </strong><span t-field="l.note"/>
-                        </td>
+                        <!-- <td> -->
+                            <!-- <strong>Partner</strong><span t-field="l.partner_id"/><br/>
+                            <strong>Reference</strong><span t-field="l.ref"/><br/> -->
+                            <!-- <strong>Note </strong><span t-field="l.note"/> -->
+                        <!-- </td> -->
                                 <div class="col-xs-20" style="padding:0;">
                                     <table class="table table-condensed">
                                     <thead>
@@ -38,33 +38,44 @@
                                             <th><strong>Statement</strong></th>
                                             <th><strong>Date</strong></th>
                                             <th><strong>Label </strong></th>
+                                            <th><strong>Partner </strong></th>
                                             <th><strong>Amount</strong></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <t t-set="tot_amount" t-value="0"/>
+                                        <tr t-foreach="docs" t-as="l">
+                                            <t t-set="tot_amount" t-value="tot_amount + l.amount"/>
                                             <td>
                                                 <span t-field="l.statement_id"/>
                                             </td>
                                             <td name="l.date">
                                                 <span t-field="l.date"/>
                                             </td>
-                                            <td t-if="l.name">
-                                                <span t-field="l.name"/>
+                                            <td t-if="l.payment_ref">
+                                                <span t-field="l.payment_ref"/>
+                                            </td>
+                                            <td t-if="l.partner_id">
+                                                <span t-field="l.partner_id"/>
                                             </td>
                                             <td name="l.amount">
                                                 <span t-field="l.amount"/>
                                             </td>
                                         </tr>
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="4" class="font-weight-bold text-center">Grand Total</td>
+                                            <td><span t-esc="'{0:,.2f}'.format(float(tot_amount))"/></td>
+                                        </tr>
+                                    </tfoot>
                                     </table>
                                 </div>
                     <div class="oe_structure"/>
                                     
-                                </div>
-                                
+            </div>
         </t>
-        </t>
+        <!-- </t> -->
     </t>    
     </template>
 </odoo>

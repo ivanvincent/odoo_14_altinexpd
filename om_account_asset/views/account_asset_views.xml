@@ -280,7 +280,7 @@
         <field name="model">account.asset.asset</field>
         <field name="arch" type="xml">
             <tree string="Assets" decoration-info="(state == 'draft')" decoration-muted="(state == 'close')">
-                <field name="sequence_number"/>
+                <!-- <field name="sequence_number"/> -->
                 <field name="name"/>
                 <field name="category_id" string="Asset Category"/>
                 <field name="date"/>
@@ -290,7 +290,7 @@
                 <field name="currency_id" groups="base.group_multi_currency"/>
                 <field name="company_id" groups="base.group_multi_company"/>
                 <field name="code"/>
-                <field name="description"/>
+                <!-- <field name="description"/> -->
                 <field name="note"/>
                 <field name="state"/>
             </tree>

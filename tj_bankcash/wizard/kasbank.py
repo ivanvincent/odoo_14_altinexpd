@@ -1,5 +1,5 @@
 from odoo import fields, api, models
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 import pytz
 from pytz import timezone
 # tj.kasbank.wizard
@@ -40,7 +40,7 @@ class tj_kasbank_wizard(models.TransientModel):
             (select name from account_journal aj where aj.id=data.journal_id) as journal,
             data.* from (
 
-            select '"""+ date.strftime('%Y-%m-%d') +"""' as date,b.journal_id,0 as account_id,0 as partner_id,'' as ref,'' as note,'' as name,'' as number,sum(b.amount) as sawal,0 as penerimaan,0 as pengeluaan,0 as sakir,1 as id, '' as code from account_bank_statement a left join account_bank_statement_line b on a.id=b.statement_id  where """ + where_journal + """ and  """+ where_end_date_awal +""" group by b.journal_id
+            select '"""+ date.strftime('%Y-%m-%d') +"""' as date,b.journal_id,0 as account_id,0 as partner_id,'' as ref,'' as note,'' as name,'' as number,sum(b.amount) as sawal,0 as penerimaan,0 as pengeluaan,0 as sakir,1 as id, a.name as code from account_bank_statement a left join account_bank_statement_line b on a.id=b.statement_id  where """ + where_journal + """ and  """+ where_end_date_awal +""" group by b.journal_id, code
                   
             UNION
             select b.date_2,b.journal_id, 0 as account_id,b.partner_id,b.ref_2,b.narration_2,b.payment_ref,a.number,0 as sawal,b.amount as penerimaan,0 as pengeluaran,0 sakir,b.id, a.name as code from account_bank_statement a left join account_bank_statement_line b on a.id=b.statement_id  where """ + where_journal + """ and b.amount > 0
@@ -51,7 +51,7 @@ class tj_kasbank_wizard(models.TransientModel):
                 and """+ where_start_date +""" and """+ where_end_date +"""                  
                 
                 ) data
-                order by date,name,number
+                order by date,number
         """
         self._cr.execute(query)
         return self._cr.dictfetchall()
@@ -76,17 +76,18 @@ class tj_kasbank_wizard(models.TransientModel):
     def action_print(self):
         """Call when button 'Get Report' clicked.
         """
+        print('action_print')
+        print(len(self.get_results()))
         data = {
             'ids': self.ids,
             'model': self._name,
             'form': {
-                'date_start': self.start_date.strftime('%d/%m/%Y'),
-                'date_end': self.end_date.strftime('%d/%m/%Y'),
-                'journal_id': self.journal_id.name,
+                'date_start': self.start_date,
+                'date_end': self.end_date,
+                'journal_id': self.journal_id,
                 'record': self.get_results()
             },
         }
-        print('=========data=========',data)
         return self.env.ref('tj_bankcash.record_bankcash_id').report_action(self,data=data)
 
 
@@ -104,7 +105,7 @@ class ValueReport(models.AbstractModel):
                 ('date_order','<=',date_end)
                 ]
         print("========================")
-        print('date_end', date_end)
+        print(record)
 
         return {
             'doc_ids': docids,
@@ -113,7 +114,6 @@ class ValueReport(models.AbstractModel):
             'data': data,
             'journal': journal_id,
             'date_start':date_start,
-            'date_end':date_end,
             }
 
  
