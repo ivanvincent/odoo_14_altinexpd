@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_contract,sale.contract,model_sale_contract,sales_team.group_sale_salesman,1,1,1,0
+access_sale_contract_line,sale.contract.line,model_sale_contract_line,sales_team.group_sale_salesman,1,1,1,1
+access_sale_contract_category,sale.contract.category,model_sale_contract_category,sales_team.group_sale_salesman,1,1,1,0
+access_sale_contract_mgr,sale.contract.mgr,model_sale_contract,account.group_account_user,1,1,1,1
+access_sale_contract_line_mgr,sale.contract.line.mgr,model_sale_contract_line,account.group_account_user,1,1,1,1
+access_sale_contract_category_mgr,sale.contract.category.mgr,model_sale_contract_category,account.group_account_user,1,1,1,1
+
+
+access_sale_contract_packing,sale.contract.packing,model_sale_contract_packing,base.group_system,1,1,1,1
+access_accessories,accessories,model_accessories,base.group_system,1,1,1,1
+access_hang_tag,hang.tag,model_hang_tag,base.group_system,1,1,1,1
+access_sales_all_multi_product,sales_all_multi_product,model_sales_all_multi_product,base.group_system,1,1,1,1
+access_sale_contract_process,sale_contract_process,model_sale_contract_process,base.group_system,1,1,1,1

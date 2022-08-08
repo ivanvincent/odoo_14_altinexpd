@@ -1,0 +1,168 @@
+<odoo>
+    <data>
+
+        <!-- Created new Form View for wizard all products-->
+        <record id="sales_all_form_view_select_multi_product_wizard" model="ir.ui.view">
+            <field name="name">sales.all.form.view.select.multi.product.wizard</field>
+            <field name="model">sales.all.multi.product</field>
+            <field name="arch" type="xml">
+                <form string="Select Multiple product">
+                    <group>
+                        <field name="product_ids" nolabel="1">
+                            <tree>
+                                <field name="default_code"/>
+                                <field name="name"/>
+                                <!-- <field name="part_no"/>
+                                <field name="item_no"/> -->
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button class="btn-primary" name="add_product" type="object" string="Apply"/>
+                        Or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Created new Form View for wizard forcaste product-->
+        <record id="sales_forcast_form_view_select_multi_product_wizard" model="ir.ui.view">
+            <field name="name">sales.forcast.form.view.select.multi.product.wizard</field>
+            <field name="model">sales.forcast.multi.product</field>
+            <field name="arch" type="xml">
+                <form string="Select Multiple Product Forcast">
+                    <field name="contract_id" string="Nomor Forcast" readonly="1"/>
+                    <group>
+                        <field name="contract_line_ids" domain="[('order_id','=', contract_id)]" nolabel="1">
+                            <tree>
+                                <field name="product_id"/>
+                                <field name="part_no"/>
+                                <field name="item_no"/>
+                                <field name="qty_so" sum='qty_so' readonly="1"/>
+                                <field name="qty_do" sum='qty_do' readonly="1"/>
+                                <field name="qty_toinv" sum='qty_toinv' invisible="1"/>
+                                <field name="qty_inv" sum='qty_inv' readonly="1"/>
+                                <field name="qty" sum='qty'/>
+                                <field name="price_unit" widget="monetary"/>
+                                <field name="price_subtotal" widget="monetary"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button class="btn-primary" name="add_product" type="object" string="Apply"/>
+                        Or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Created new action for wizard view all product-->
+        <record id="action_sales_forcast_select_multi_product_wizard" model="ir.actions.act_window">
+            <field name="name">Select Multiple Product</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sales.all.multi.product</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <!-- Inherit Sale Form View to Modify it -->
+        <record id="action_view_sales_forcast_add_selection_button" model="ir.ui.view">
+            <field name="name">action.view.sales.forcast.add.selection.button</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <header position="inside">
+                    <!-- button select view all product master-->
+                    <button 
+                        name="%(action_sales_forcast_select_multi_product_wizard)d" 
+                        type="action" 
+                        class="btn-primary"
+                        attrs="{'invisible': [('state', '!=', 'draft')]}" 
+                        string="Select Product All"/>
+                </header>
+                <field name="order_line" position="before">                
+                    <!-- button select view forcast product master-->
+                    <button 
+                        name="action_select_product"
+                        type="object" 
+                        class="btn-primary"
+                        attrs="{'invisible': [('state', '!=', 'draft')]}" 
+                        string="Product Forcast"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="angkring_sale_order_form_view" model="ir.ui.view">
+            <field name="name">angkring.sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                
+                <field name="partner_id" position="before">
+                    <field name="contract_id" domain="[('state','not in',['draft','cancel'])]" attrs="{'readonly': [('state','not in',['draft','sent'])]}" options="{'no_create_edit':True, 'no_open':True}"/>
+                    <!-- <field name="contract_id" readonly="1"/> -->
+                </field>
+
+                <xpath expr="//field[@name='order_line']/tree//field[@name='product_id']" position="after">
+                    <field name="contract_line_id" invisible="1"/>
+                </xpath>
+                
+             </field>
+        </record>
+
+        <record id="angkring_sale_order_tree_view" model="ir.ui.view">
+            <field name="name">angkring.sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">                
+                <field name="name" position="after">
+                    <field name="contract_id"/>
+                </field>                
+             </field>
+        </record>
+
+<!--         <record id="angkring_sale_order_line_tree_view" model="ir.ui.view">
+            <field name="name">sale.order.line.tree</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <tree string="SO Line" create="false"  >
+                    <field name="order_id"/>                
+                    <field name="product_id"/>
+                    <field name="product_uom_qty" sum='qty'/>
+                    <field name="price_unit" widget="monetary"/>
+                    <field name="price_subtotal" widget="monetary"/>
+                    <field name="discount" widget="monetary"/>
+                    <field name="tax_id"/>
+                    <field name="price_total" widget="monetary"/>
+                    <field name="price_subtotal_incl" invisible="1" widget="monetary"/>
+                    <field name="tax_ids_after_fiscal_position" widget="many2many_tags"/>
+                    <field name="notice"/>
+                </tree>
+            </field>
+        </record> -->
+
+        <record id="angkring_sale_order_line_action" model="ir.actions.act_window">
+            <field name="name">Sale Order Detail</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order.line</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="context">{'}</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new order.
+                </p><p>
+                    Use this menu to browse previous SC. To record new
+                    SC, you may use the menu <i>Your Session</i> for
+                    the touchscreen interface.
+                </p>
+            </field>
+        </record>
+        
+    </data>
+</odoo>
