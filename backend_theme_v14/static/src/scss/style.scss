@@ -19,7 +19,6 @@ $brand-primary-dark: darken($brand-primary, 10%);
 $brand-secondary-dark: darken($brand-secondary, 10%);
 
 body {
-
     font-family: "Roboto";
 }
 
@@ -60,13 +59,13 @@ html .o_web_client {
         flex: 0 0 100%;
     }
 
-    >.o_action_manager {
-        @media (max-width: 768px) {
-            flex: 0 0 100%;
-        }
-        flex: 0 0 calc(100% - 180px);
-        height: calc(100% - 46px) !important;
-    }
+    // >.o_action_manager {
+    //     @media (max-width: 768px) {
+    //         flex: 0 0 100%;
+    //     }
+    //     flex: 0 0 calc(100% - 180px);
+    //     height: calc(100% - 46px) !important;
+    // }
 
     .toggle-sidebar~.o_action_manager {
         flex: 0 0 100%;
