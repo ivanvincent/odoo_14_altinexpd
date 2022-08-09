@@ -8,7 +8,9 @@ class PurchaseOrderLine(models.Model):
     no_komunikasi           = fields.Char(string="No Komunikasi")
     remarks                 = fields.Char(string='Remarks')
     kode_barang             = fields.Char(string='Kode Barang', related='product_id.default_code')
-    qty_released            = fields.Float(string='Released', compute='_compute_qty_released', digits=(12,5))
+    qty_released            = fields.Float(string='Released',
+    #  compute='_compute_qty_released',
+      digits=(12,5))
     f_discount              = fields.Float(string='Discount', store=True,)
     qty_sisa                = fields.Float(string='Qty Sisa', compute='_compute_qty_sisa',)
     box                     = fields.Integer(string='Box')
