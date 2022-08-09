@@ -763,55 +763,55 @@ html .o_web_client .o_action_manager .o_action {
     }
 
     // Sided chatter, if user wants
-    .o_chatter_position_sided & {
-        @include media-breakpoint-up(lg) {
-            .o_form_view:not(.o_form_nosheet) {
-                display: flex;
-                flex-flow: row nowrap;
-                height: 100%;
+    // .o_chatter_position_sided & {
+    //     @include media-breakpoint-up(lg) {
+    //         .o_form_view:not(.o_form_nosheet) {
+    //             display: flex;
+    //             flex-flow: row nowrap;
+    //             height: 100%;
 
-                .o_form_sheet_bg {
-                    flex: 1 1 auto;
-                    overflow: auto;
+    //             .o_form_sheet_bg {
+    //                 flex: 1 1 auto;
+    //                 overflow: auto;
 
-                    > .o_form_sheet {
-                        min-width: unset;
-                    }
-                }
+    //                 > .o_form_sheet {
+    //                     min-width: unset;
+    //                 }
+    //             }
 
-                .o_FormRenderer_chatterContainer {
-                    border-left: 1px solid gray("400");
-                    flex: 0 0 $chatter_zone_width;
-                    max-width: initial;
-                    min-width: initial;
-                    overflow: auto;
+    //             .o_FormRenderer_chatterContainer {
+    //                 border-left: 1px solid gray("400");
+    //                 flex: 0 0 $chatter_zone_width;
+    //                 max-width: initial;
+    //                 min-width: initial;
+    //                 overflow: auto;
 
-                    .o_chatter_header_container {
-                        padding-top: $grid-gutter-width * 0.5;
-                        top: 0;
-                        position: sticky;
-                        background-color: $o-view-background-color;
-                        z-index: 1;
+    //                 .o_chatter_header_container {
+    //                     padding-top: $grid-gutter-width * 0.5;
+    //                     top: 0;
+    //                     position: sticky;
+    //                     background-color: $o-view-background-color;
+    //                     z-index: 1;
 
-                        // Scrollable input text to avoid hide conversation & buttons
-                        .o_composer_text_field {
-                            max-height: 120px;
-                            overflow-y: auto !important; /* Forced because Odoo uses inline style */
-                        }
-                        .o_attachments_list {
-                            overflow: auto;
-                            max-height: $o-mail-attachment-image-size * 3;
-                            margin-top: 0.4em;
-                        }
-                        .o_attachments_previews {
-                            overflow: auto;
-                            max-height: $o-mail-attachment-image-size * 6;
-                        }
-                    }
-                }
-            }
-        }
-    }
+    //                     // Scrollable input text to avoid hide conversation & buttons
+    //                     .o_composer_text_field {
+    //                         max-height: 120px;
+    //                         overflow-y: auto !important; /* Forced because Odoo uses inline style */
+    //                     }
+    //                     .o_attachments_list {
+    //                         overflow: auto;
+    //                         max-height: $o-mail-attachment-image-size * 3;
+    //                         margin-top: 0.4em;
+    //                     }
+    //                     .o_attachments_previews {
+    //                         overflow: auto;
+    //                         max-height: $o-mail-attachment-image-size * 6;
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 }
 
 // Sticky Header & Footer in List View
