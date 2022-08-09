@@ -8,7 +8,9 @@ _logger = logging.getLogger(__name__)
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    total_release        = fields.Integer(string='Release', compute='_compute_picking_release', default=0)
+    total_release        = fields.Integer(string='Release', 
+    # compute='_compute_picking_release',
+     default=0)
     purchase_category_id = fields.Many2one('purchase.order.category', string='Category')
     state                = fields.Selection(selection_add=[("reject", "Rejected")])
     payment_term_id      = fields.Many2one('account.payment.term', string='Payment Term')
