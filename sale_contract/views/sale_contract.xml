@@ -115,8 +115,14 @@
                             <tree string="Order lines" editable="bottom">
                                 <field name="product_id"/>
                                 <!-- <field name="default_code"/> -->
-                                <field name="part_no"/>
-                                <field name="item_no"/>
+                                <!-- <field name="part_no"/>
+                                <field name="item_no"/> -->
+                                <field name="embos"/>
+                                <field name="tip"/>
+                                <field name="product_ingredient_id"/>
+                                <field name="size"/>
+                                <field name="department_id"/>
+                                <field name="payment_term_id"/>
                                 <field name="qty_so" sum='qty_so' readonly="1"/>
                                 <button name="action_view_so" type="object" icon="fa-list" string="Sale Order Line"/>
                                 <field name="qty_do" sum='qty_do' readonly="1"/>
