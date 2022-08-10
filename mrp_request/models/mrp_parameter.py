@@ -6,4 +6,5 @@ class MrpParameter(models.Model):
 
     name        = fields.Char(string='Parameter')
     uom_id      = fields.Many2one('uom.uom', string='Uom')
+    code        = fields.Char(string='Code')
     description = fields.Text(string='Descriptions')
