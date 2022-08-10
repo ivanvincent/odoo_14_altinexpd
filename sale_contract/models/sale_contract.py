@@ -7,6 +7,12 @@ from odoo import models, fields, api, tools, _
 from odoo.exceptions import ValidationError, UserError, Warning
 import odoo.addons.decimal_precision as dp
 from odoo.tools import float_is_zero
+import requests
+import urllib
+import base64
+from werkzeug import FileStorage
+from io import BytesIO
+import os
 
 _logger = logging.getLogger(__name__)
 
@@ -126,6 +132,10 @@ class SaleContract(models.Model):
     partner_id = fields.Many2one('res.partner', string='Customer',)
     set_duplicate_product =  fields.Boolean(string="Allow Duplicate Product", default=False)
     process                     = fields.Many2one('sale.contract.process',string='Process')
+    image_binary = fields.Binary(string='Image', compute='_compute_img')
+    format_file = fields.Char(string='Format File')
+    design_code = fields.Char(string='Design Code')
+
 
 
     @api.constrains('lines','set_duplicate_product')
@@ -205,6 +215,57 @@ class SaleContract(models.Model):
             if any(line.qty_inv for line in contract.lines):
                 contract.state = 'invoiced'
 
+    def _compute_img(self):
+        for rec in self:
+            url = self.env.ref('sale_contract.url_image_sc').read()[0]['value']
+            path_url = "%s%s%s" % (url, rec.id, rec.format_file)
+            rec.image_binary = self.load_image_from_url(path_url)
+    
+    def load_image_from_url(self, url):
+        localhost = self.env['ir.config_parameter'].search([('key', '=', 'web.base.url')]).value
+        data = False
+        if self.exists(url):
+            data = base64.b64encode(requests.get(url.strip()).content).replace(b'\n', b'')
+        else:
+            data = base64.b64encode(requests.get(localhost+'/web/static/src/img/placeholder.png'.strip()).content).replace(b'\n', b'')
+        return data
+
+    def exists(self, url):  
+        return requests.head(url).status_code < 400
+
+    @api.model
+    def create(self, values):
+        path   = self.env.ref('sale_contract.path_image_sc').read()[0]['value']
+        result = super(SaleContract, self).create(values)
+        file_name    = result.id
+        binary       = values['image_binary']
+        file_data    = BytesIO(base64.b64decode(binary))
+        content_type = 'image/png' if binary[0] == 'i' else 'image/jpeg'
+        file         = FileStorage(file_data, filename=file_name, content_type=content_type)
+        format_file  = '.png' if content_type == 'image/png' else '.jpeg'
+        file.save(os.path.join(path, str(file_name) + format_file))
+        self.browse(file_name).write({'format_file' : format_file})
+        return result
+
+    def write(self, values):
+        if values.get('image_binary', False):
+            path   = self.env.ref('sale_contract.path_image_sc').read()[0]['value']
+            file_name    = self.id
+            binary       = values['image_binary']
+            file_data    = BytesIO(base64.b64decode(binary))
+            content_type = 'image/png' if binary[0] == 'i' else 'image/jpeg'
+            file         = FileStorage(file_data, filename=file_name, content_type=content_type)
+            format_file  = '.png' if content_type == 'image/png' else '.jpeg'
+            file.save(os.path.join(path, str(file_name) + format_file))
+        return super(SaleContract, self).write(values)
+    
+
+    def unlink(self):
+        path   = self.env.ref('sale_contract.path_image_sc').read()[0]['value']
+        for rec in self:
+            file = "%s%s%s" % (path, rec.id, rec.format_file)
+            os.remove(file)
+        return super(SaleContract, self).unlink()
 
 
 class SaleContractLine(models.Model):
@@ -263,6 +324,7 @@ class SaleContractLine(models.Model):
     size = fields.Char(string='Size')
     department_id = fields.Many2one('hr.department', string='Dept')
     payment_term_id = fields.Many2one('account.payment.term', string='Payment Term')
+    image_binary = fields.Binary(string='Image', store=False, compute='_compute_img')
     # pack_lot_ids = fields.One2many('pos.pack.operation.lot', 'pos_order_line_id', string='Lot/serial Number')
     # warna = fields.Char(string='Warna')
     # barcode = fields.Char(string='Barcode')
@@ -349,3 +411,60 @@ class SaleContractLine(models.Model):
         if inv_lines:
             action['domain'] = [('id', 'in', inv_lines.ids)]
         return action
+
+
+    # Start Function ALl About Image
+    # def _compute_img(self):
+    #     print('====================_compute_img========================')
+    #     for rec in self:
+    #         url = self.env.ref('sale_contract.url_image_sc').read()[0]['value']
+    #         path_url = "%s%s" % (url, rec.filename)
+    #         rec.image_binary = self.load_image_from_url(path_url)
+    
+    # def load_image_from_url(self, url):
+    #     localhost = self.env['ir.config_parameter'].search([('key', '=', 'web.base.url')]).value
+    #     data = False
+    #     if self.exists(url):
+    #         data = base64.b64encode(requests.get(url.strip()).content).replace(b'\n', b'')
+    #     else:
+    #         data = base64.b64encode(requests.get(localhost+'/web/static/src/img/placeholder.png'.strip()).content).replace(b'\n', b'')
+    #     return data
+
+    # def exists(self, url):  
+    #     a=urllib.request.urlopen(url)
+    #     return a.getcode() == 200
+
+    # @api.model
+    # def create(self, values):
+    #     path   = self.env.ref('sale_contract.path_image_sc').read()[0]['value']
+    #     result = super(SaleContractLine, self).create(values)
+    #     file_name    = result.id
+    #     binary       = values['image_binary']
+    #     file_data    = BytesIO(base64.b64decode(binary))
+    #     content_type = 'image/png' if binary[0] == 'i' else 'image/jpeg'
+    #     file         = FileStorage(file_data, filename=file_name, content_type=content_type)
+    #     format_file  = '.png' if content_type == 'image/png' else '.jpeg'
+    #     file.save(os.path.join(path, str(file_name) + format_file))
+    #     self.browse(file_name).write({'format_file' : format_file})
+    #     return result
+
+    # def write(self, values):
+    #     if values.get('image_binary', False):
+    #         path   = self.env.ref('sale_contract.path_image_sc').read()[0]['value']
+    #         file_name    = self.id
+    #         binary       = values['image_binary']
+    #         file_data    = BytesIO(base64.b64decode(binary))
+    #         content_type = 'image/png' if binary[0] == 'i' else 'image/jpeg'
+    #         file         = FileStorage(file_data, filename=file_name, content_type=content_type)
+    #         format_file  = '.png' if content_type == 'image/png' else '.jpeg'
+    #         file.save(os.path.join(path, str(file_name) + format_file))
+    #     return super(SaleContractLine, self).write(values)
+    
+
+    # def unlink(self):
+    #     path   = self.env.ref('sale_contract.path_image_sc').read()[0]['value']
+    #     for rec in self:
+    #         file = "%s%s%s" % (path, rec.id, rec.format_file)
+    #         os.remove(file)
+    #     return super(SaleContractLine, self).unlink()
+    # End Function ALl About Image

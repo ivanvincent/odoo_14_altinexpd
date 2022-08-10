@@ -62,7 +62,8 @@
                             .o_form_view .o_form_sheet_bg&gt;.o_form_sheet {
                                 width: 100%;
                             }
-                        </style>
+                    </style>
+                    <field name="image_binary" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}" modifiers="{}" id="image_binary" readonly="0"/>
                     <div class="oe_title">
                         <h1>
                             <field name="name" readonly="1" attrs="{'readonly': [('state','!=','draft')]}"/>
@@ -84,6 +85,7 @@
                         <group string="Info">
                                 <field name="no_bon" attrs="{'readonly': [('state','!=','draft')]}"/>
                                 <field name="process"/>
+                                <field name="design_code"/>
                                 <!-- <field name="lebar_finish"/>
                                 <field name="gramasi_finish"/>
                                 <field name="potongan_pinggir"/> -->
@@ -122,7 +124,8 @@
                                 <field name="product_ingredient_id"/>
                                 <field name="size"/>
                                 <field name="department_id"/>
-                                <field name="payment_term_id"/>
+                                <!-- <field name="payment_term_id"/> -->
+                                <!-- <field name="image_binary" widget="image" class="oe_avatar"/> -->
                                 <field name="qty_so" sum='qty_so' readonly="1"/>
                                 <button name="action_view_so" type="object" icon="fa-list" string="Sale Order Line"/>
                                 <field name="qty_do" sum='qty_do' readonly="1"/>

@@ -35,6 +35,7 @@
         'product',
     ],
     'data': [
+        'data/ir.config_parameter.xml',
         'data/ir_sequence_data.xml',
         'security/ir.model.access.csv',
         'views/sale_contract.xml',
