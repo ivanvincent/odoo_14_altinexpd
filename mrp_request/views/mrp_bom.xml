@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="mrp_operation_template_form">
+            <field name="name">mrp.bom.form</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="operation_template_id"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="mrp_routing_inherit_tree">
+            <field name="name">	mrp.routing.workcenter.inherit.tree</field>
+            <field name="model">mrp.routing.workcenter</field>
+            <field name="inherit_id" ref="mrp.mrp_routing_workcenter_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='workcenter_id']" position="after">
+                    <field name="template_line_id" invisible="1"/>
+                    <field name="machine_id" options="{'no_open': True, 'no_create': True}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="mrp_routing_inherit_form">
+            <field name="name">mrp.routing.workcenter.form</field>
+            <field name="model">mrp.routing.workcenter</field>
+            <field name="inherit_id" ref="mrp.mrp_routing_workcenter_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='workcenter_id']" position="after">
+                    <field name="machine_id"/>
+                </xpath>
+                <xpath expr="//page[@name='worksheet']" position="before">
+                    <page string="Parameter">
+                        <field name="parameter_ids" editable="bottom">
+                            <tree>
+                                <field name="sequence"/>
+                                <field name="parameter_id" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="factor"/>
+                                <field name="uom_id" options="{'no_open': True, 'no_create': True}"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

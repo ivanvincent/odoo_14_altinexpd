@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="mrp_workorder_split_wizard_view_form" model="ir.ui.view">
+            <field name="name">mrp.workorder.split.wizard</field>
+            <field name="model">mrp.workorder.split.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <div style="white-space: pre-line;">
+                        <p>
+                        Fitur ini bisa digunakan untuk keperluan sbb.. :
+                            1. split quantity wo produksi sesuai kapasitas mesin
+                        </p>
+                    </div>
+                    <group>
+                        <group string="Manufacturing Order">
+                            <field name="production_id" readonly="1"/>
+                            <label for="product_qty" string="Quantity"/>
+                            <div class="o_row no-gutters d-flex">
+                                <field name="product_qty" class="oe_inline text-left" readonly="1"/>
+                                <label for="product_uom_id" class="oe_inline" string=""/>
+                                <field name="product_uom_id" class="oe_inline" readonly="1" options="{'no_open': True, 'no_create': True}"/>
+                            </div>
+                            <label for="production_qty" string="Quantity Produksi"/>
+                            <div class="o_row no-gutters d-flex">
+                                <field name="production_qty" class="oe_inline text-left" readonly="1"/>
+                                <label for="satuan_id" class="oe_inline" string=""/>
+                                <field name="satuan_id" class="oe_inline" readonly="1" options="{'no_open': True, 'no_create': True}"/>
+                            </div>
+                        </group>
+                        <group string="Split Here">
+                            <field name="split_qty"/>
+                            <label for="qty_per_wo" string="Quantity Per WO"/>
+                            <div class="o_row no-gutters d-flex">
+                                <field name="qty_per_wo" class="oe_inline text-left" readonly="1"/>
+                                <label for="satuan_id" class="oe_inline" string=""/>
+                                <field name="satuan_id" class="oe_inline" readonly="1" options="{'no_open': True, 'no_create': True}"/>
+                            </div>
+                        </group>
+                    </group>
+                    <footer>
+                        <button type="object" name="action_split_workorder" string="Do Split" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -13,5 +13,28 @@
                 </xpath>
             </field>
         </record>
+
+        <!-- <record model="ir.ui.view" id="inherit_line_product_tree">
+            <field name="name">line.product.tree</field>
+            <field name="model">line.product</field>
+            <field name="inherit_id" ref="base_master.line_product_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='capacity']" position="after">
+                    <field name="satuan_id"/>
+                </xpath>
+            </field>
+        </record> -->
+
+        <!-- <record model="ir.ui.view" id="inherit_line_product_form">
+            <field name="name">line.product.form</field>
+            <field name="model">line.product</field>
+            <field name="inherit_id" ref="base_master.line_product_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='capacity']" position="after">
+                    <field name="satuan_id"/>
+                </xpath>
+            </field>
+        </record> -->
+
     </data>
 </odoo>

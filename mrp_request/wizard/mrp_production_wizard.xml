@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="mrp_production_wizard_view_form" model="ir.ui.view">
+            <field name="name">mrp.generate.production.wizard.form</field>
+            <field name="model">mrp.generate.production.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <div style="white-space: pre-line;">
+                        <p>
+                        Fitur ini bisa digunakan untuk keperluan sbb.. :
+                        1. Membuat <b> Manufacture order </b>
+                        </p>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="estimated_id" invisible="1"/>
+                            <field name="mrp_request_id" options="{'no_open': True, 'no_create': True}" readonly="1"/>
+                            <field name="product_id" options="{'no_open': True, 'no_create': True}"/>
+
+                            <label for="production_qty" string="Quantity Permintaan" />
+                            <div class="o_row no-gutters d-flex ">
+                                <field name="production_qty" readonly="1" class="oe_inline text-left"/>
+                                <label for="satuan_id" string="" class="oe_inline" />
+                                <field name="satuan_id" options="{'no_open': True, 'no_create': True}"/>
+                            </div>
+                            <label for="product_uom_qty" string="Quantity Conversi" />
+                            <div class="o_row no-gutters d-flex ">
+                                <field name="product_uom_qty" readonly="1" class="oe_inline text-left"/>
+                                <label for="product_uom_id" string="" class="oe_inline" />
+                                <field name="product_uom_id" options="{'no_open': True, 'no_create': True}"/>
+                            </div>
+                            <label for="mo_outstanding_qty" string="Sisa Permintaan" />
+                            <div class="o_row no-gutters d-flex ">
+                                <field name="mo_outstanding_qty" readonly="1" class="oe_inline text-left"/>
+                                <label for="satuan_id" string="" class="oe_inline" />
+                                <field name="satuan_id" options="{'no_open': True, 'no_create': True}"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="mo_count"/>
+                            <field name="konversi_butir"/>
+                            <field name="konversi_bungkus"/>
+                            <label for="mo_qty" string="Quantity Produksi" />
+                            <div class="o_row no-gutters d-flex ">
+                                <field name="mo_qty" class="oe_inline text-left"/>
+                                <label for="satuan_id" string="" class="oe_inline" />
+                                <field name="satuan_id" options="{'no_open': True, 'no_create': True}"/>
+                            </div>
+                            <field name="product_qty_conv" force_save="1" readonly="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button type="object" name="do_generate" string="Generate" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

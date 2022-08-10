@@ -18,3 +18,11 @@ class Product(models.Model):
     satuan_id   = fields.Many2one('satuan.produksi', string='Satuan Produksi')
     konversi_butir  = fields.Float(string='Butir')
     konversi_bungkus  = fields.Float(string='Bungkus')
+
+
+class LineProduct(models.Model):
+    _inherit = 'line.product'
+    
+    satuan_id = fields.Many2one('satuan.produksi', string='Satuan Produksi')
+
+    

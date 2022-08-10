@@ -9,9 +9,10 @@ class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
     
     
-    mor_sequence_id          = fields.Many2one('ir.sequence', string='Sequence')
+    mor_sequence_id          = fields.Many2one('ir.sequence', string='MOR Sequence')
     mor_filter_product       = fields.Boolean(string='Filter Product',default=True)
     mor_product_category_ids = fields.Many2many(comodel_name='product.category', relation='mor_product_category_rel',string='Product Category')
+    wo_sequence_id           = fields.Many2one('ir.sequence', string='WO Sequence')
     
     
     @api.model
@@ -21,10 +22,12 @@ class ResConfigSettings(models.TransientModel):
         mor_filter_product       = ir_config.get_param('mor_filter_product')
         mor_product_category_ids   = ir_config.get_param('mor_product_category_ids')
         mor_sequence_id  = ir_config.get_param('mor_sequence_id')
+        wo_sequence_id  = ir_config.get_param('wo_sequence_id')
         
         res.update(
             mor_filter_product=mor_filter_product,
             mor_sequence_id=int(mor_sequence_id),
+            wo_sequence_id=int(wo_sequence_id),
             mor_product_category_ids=[(6, 0, literal_eval(mor_product_category_ids))] if mor_product_category_ids else False,
         )
         
@@ -37,6 +40,7 @@ class ResConfigSettings(models.TransientModel):
         ir_config.set_param("mor_filter_product", self.mor_filter_product or False)
         ir_config.set_param("mor_product_category_ids", self.mor_product_category_ids.ids)
         ir_config.set_param("mor_sequence_id", self.mor_sequence_id.id)
+        ir_config.set_param("wo_sequence_id", self.wo_sequence_id.id)
         
         
         

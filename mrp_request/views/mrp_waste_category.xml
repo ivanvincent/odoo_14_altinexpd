@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record model="ir.ui.view" id="mrp_waste_category_tree">
+            <field name="name">mrp.waste.category.tree</field>
+            <field name="model">mrp.waste.category</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="is_active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record model="ir.ui.view" id="mrp_waste_category_form">
+            <field name="name">mrp.waste.category.form</field>
+            <field name="model">mrp.waste.category</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="description"/>
+                                <field name="is_active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="mrp_waste_category_action">
+            <field name="name">Waste Category</field>
+            <field name="res_model">mrp.waste.category</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem id="menu_mrp_waste_category" groups="mrp.group_mrp_manager"  name="Waste Category" parent="mrp.menu_mrp_configuration" action="mrp_waste_category_action" />
+
+    </data>
+</odoo>

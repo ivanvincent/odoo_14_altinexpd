@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="mrp_workcenter_dyeing_scr_view_gantt" model="ir.ui.view">
+            <field name="name">mrp.workorder.gantt</field>
+            <field name="model">mrp.workorder</field>
+            <field name="arch" type="xml">
+
+                <gantt date_stop="date_planned_finished" default_scale="day" plan="0" date_start="date_planned_start" default_group_by="machine_id" string="Machine" create="0">
+                    <field name="date_planned_start"/>
+                    <field name="machine_id"/>
+                    <!-- <field name="html_color"/> -->
+
+                    <field name="json_popover"/>
+                </gantt>
+            </field>
+        </record>
+
+
+        <record id="planning_wo_gantt_view_action" model="ir.actions.act_window">
+            <field name="name">Workorder Gantt</field>
+            <field name="res_model">mrp.workorder</field>
+            <field name="view_mode">gantt</field>
+            <field name="context">{'display_date_planned':1,'display_product_and_color':1}</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'gantt', 'view_id': ref('mrp_request.mrp_workcenter_dyeing_scr_view_gantt')})]"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to start preparing a new prepaid revenue.
+                </p><p>
+                This view can be used by accountants in order to collect information about prepaid revenues based on start date and end date. It then allows to generate the corresponding cutoff journal entry in one click.
+                </p>
+            </field>
+        </record>
+
+
+        <record id="inherit_mrp_workorder_detail_view_form" model="ir.ui.view">
+            <field name="name">mrp_workorder_detail.view.form</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.mrp_production_workorder_form_view_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='time_tracking']" position="before">
+                    <page string="Workorder Details">
+                        <field name="workorder_ids" context="{'default_workcenter_id': workcenter_id, 'default_workorder_id': id}">
+                            <tree editable="bottom">
+                                <field name="date"/>
+                                <field name="workcenter_id" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="machine_id" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="no_machine"/>
+                                <field name="location_id" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="employee_id" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="shift"/>
+                                <field name="product_uom_qty"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Parameters">
+                        <field name="parameter_ids">
+                            <tree >
+                                <field name="sequence"/>
+                                <field name="parameter_id" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="factor"/>
+                                <field name="uom_id" options="{'no_open': True, 'no_create': True}"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="mrp_workorder_inherit_view_tree">
+            <field name="name">mrp.workorder.tree</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.mrp_production_workorder_tree_editable_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='workcenter_id']" position="after">
+                    <field name="product_id"/>
+                    <field name="product_code"/>
+                    <field name="machine_id"/>
+                    <field name="production_qty"/>
+                    <field name="satuan_id"/>
+                    <field name="actual_qty"/>
+                    <field name="product_uom_id"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <menuitem id="planning_workorder_menu" name="Workorder Gantt" parent="mrp.mrp_planning_menu_root" action="planning_wo_gantt_view_action" sequence="10" groups="mrp.group_mrp_routings"/>
+        <menuitem id="menu_mrp_workorder_workcenter" name="On Progress" sequence="2" action="mrp.action_mrp_workorder_workcenter" parent="mrp.mrp_planning_menu_root"/>
+        
+    </data>
+</odoo>

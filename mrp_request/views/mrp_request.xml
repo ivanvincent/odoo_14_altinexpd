@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[{
+                'xml_id': 'stock.stock_location_stock',
+                'record': obj().env.ref('stock.warehouse0').lot_stock_id,
+                'noupdate': True,
+            }, {
+                'xml_id': 'stock.stock_location_company',
+                'record': obj().env.ref('stock.warehouse0').wh_input_stock_loc_id,
+                'noupdate': True,
+            }, {
+                'xml_id': 'stock.stock_location_output',
+                'record': obj().env.ref('stock.warehouse0').wh_output_stock_loc_id,
+                'noupdate': True,
+            }, {
+                'xml_id': 'stock.location_pack_zone',
+                'record': obj().env.ref('stock.warehouse0').wh_pack_stock_loc_id,
+                'noupdate': True,
+            }, {
+                'xml_id': 'stock.picking_type_internal',
+                'record': obj().env.ref('stock.warehouse0').int_type_id,
+                'noupdate': True,
+            }, {
+                'xml_id': 'stock.picking_type_in',
+                'record': obj().env.ref('stock.warehouse0').in_type_id,
+                'noupdate': True,
+            }, {
+                'xml_id': 'stock.picking_type_out',
+                'record': obj().env.ref('stock.warehouse0').out_type_id,
+                'noupdate': True,
+            }]"/>
+        </function>
+
+        
         <!-- List View -->
         <record model="ir.ui.view" id="mrp_request_tree">
             <field name="name">mrp.request.tree</field>
@@ -24,15 +58,21 @@
                 <form>
                     <header>
                         <button name="action_confirm" string="Confirm" states="draft" type="object" class="oe_highlight" />
-                        <button name="action_confirm" string="Done" states="confirm" type="object" class="oe_highlight" />
+                        <!-- <button name="action_confirm" string="Done" states="confirm" type="object" class="oe_highlight" /> -->
+                        <button name="action_estimated" string="do Estimate" states="confirm" class="oe_highlight" type="object"/>
+                        <!-- <button name="action_generate" attrs="{'invisible':['|',('state', '=', 'draft'),('line_ids', '!=', [])]}" string="Generate" class="oe_highlight" type="object"/> -->
+                        <button name="action_create_production" attrs="{'invisible':['|',('state', '!=', 'estimated'),('production_ids', '!=', [])]}" string="Make Order" class="oe_highlight" type="object"/>
+                        <button name="action_cancel_estimate" string="Cancel Estimate" states="estimated" type="object"/>
                         <button name="action_back_to_draft" string="Back to Draft" states="confirm" type="object"/>
-                        <button name="action_generate" string="Generate" class="oe_highlight" type="object"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button class="oe_stat_button" type="object" name="action_view_picking" help="Melihat Tranfer Permintaan Bahan Baku" icon="fa-truck">
                                 <field name="picking_count" widget="statinfo" string="Transfer"/>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="action_view_production" help="Melihat Kartu Produksi" icon="fa-building-o">
+                                <field name="production_count" widget="statinfo" string="Production"/>
                             </button>
                         </div>
                         <div class="oe_title">
@@ -42,27 +82,16 @@
                         </div>
                         <group>
                             <group>
+                                <!-- <field name="type_id" options="{'no_open': True, 'no_create': True}"/> -->
                                 <field name="request_date"/>
                             </group>
                             <group>
-                                <!-- <field name="order_ids" widget="many2many_tags" options="{'no_open': True, 'no_create': True}"/> -->
                                 <field name="user_id" options="{'no_open': True, 'no_create': True}"/>
                             </group>
                         </group>
 
                         <notebook>
-                            <!-- <page string="Order">
-                                <field name="order_ids">
-                                    <tree>
-                                        <field name="name"/>
-                                        <field name="warehouse_id"/>
-                                        <field name="jalur_id"/>
-                                        <field name="state"/>
-                                        <field name="amount_quantity"/>
-                                    </tree>
-                                </field>
-                            </page> -->
-                            <page string="Detail Request">
+                            <!-- <page string="Detail Request">
                                 <field name="order_lines" widget="one2many">
                                     <tree editable="bottom">
                                         <field name="date_production"/>
@@ -73,9 +102,9 @@
                                         <field name="product_uom_id"/>
                                     </tree>
                                 </field>
-                            </page>
+                            </page> -->
                             <page string="Detail">
-                                <field name="line_ids" mode="tree,kanban" widget="section_and_note_one2many" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                <field name="line_ids" mode="tree,kanban" widget="section_and_note_one2many" attrs="{'readonly': [('state', 'not in', ('draft','confirm'))]}">
                                     <tree editable="bottom">
                                         <control>
                                             <create name="add_product_control" string="Add a product"/>
@@ -83,17 +112,68 @@
                                             <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
                                         </control>
                                         <field name="display_type" invisible="1"/>
+                                        <field name="type_id"/>
                                         <field name="line_product_id"/>
                                         <field name="product_id"/>
                                         <field name="name" optional="hide"/>
                                         <field name="default_code"/>
+                                        <field name="qty_onhand"/>
                                         <field name="product_uom_qty" sum="Total"/>
                                         <field name="product_uom_id"/>
                                         <field name="konversi_butir"/>
-                                        <field name="satuan_id"/>
+                                        <!-- <field name="capacity"/> -->
                                         <field name="product_qty_conv"/>
-                                        <field name="product_qty_est"/>
-                                        <field name="product_orig_ids"/>
+                                        <field name="product_qty_est" sum="Total"/>
+                                        <field name="satuan_id"/>
+                                        <field name="product_orig_id_domain" invisible="1"/>
+                                        <field name="product_qty_est_conv" sum="Total"/>
+                                        <field name="product_orig_id" domain="product_orig_id_domain" options="{'no_open': True, 'no_create': True}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Group By Line">
+                                <field name="order_lines_product">
+                                    <tree>
+                                        <field name="line_product_id" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="product_ids" widget="many2many_tags"/>
+                                        <field name="konversi_butir"/>
+                                        <field name="qty_conv"/>
+                                        <!-- <field name="capacity"/> -->
+                                        <field name="qty_production"/>
+                                        <field name="satuan_id"/>
+                                        <field name="qty_production_conv"/>
+                                        <field name="product_uom_id" options="{'no_open': True, 'no_create': True}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Estimated">
+                                <field name="estimated_ids" attrs="{'invisible':[('state', '=', 'draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="estimate_date" readonly="1"/>
+                                        <field name="type_id" readonly="1"/>
+                                        <field name="production_date"/>
+                                        <field name="product_id" readonly="1"/>
+                                        <field name="default_code" readonly="1"/>
+                                        <field name="production_qty" readonly="1" sum="Total"/>
+                                        <field name="satuan_id" readonly="1"/>
+                                        <field name="product_uom_qty" readonly="1" sum="Total"/>
+                                        <field name="product_uom_id" readonly="1"/>
+                                        <field name="production_ids" widget="many2many_tags" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Production">
+                                <field name="production_ids" attrs="{'invisible':[('state', '=', 'draft')]}">
+                                    <tree>
+                                        <field name="name" readonly="1"/>
+                                        <field name="type_id" readonly="1"/>
+                                        <field name="date_planned_start"/>
+                                        <field name="picking_type_id" readonly="1"/>
+                                        <field name="mrp_qty_produksi" readonly="1" sum="Total"/>
+                                        <field name="satuan_id" readonly="1"/>
+                                        <field name="product_id" readonly="1"/>
+                                        <field name="product_qty" readonly="1" sum="Total"/>
+                                        <field name="product_uom_id" readonly="1"/>
                                     </tree>
                                 </field>
                             </page>
@@ -112,11 +192,12 @@
             <field name="name">Manufacturing Request</field>
             <field name="res_model">mrp.request</field>
             <field name="view_mode">tree,form</field>
+
         </record>
 
 
         <!-- Search View -->
-        <record model="ir.ui.view" id="stock_point_order_line_view_search">
+        <!-- <record model="ir.ui.view" id="stock_point_order_line_view_search">
             <field name="name">stock.point.order.line.search</field>
             <field name="model">stock.point.order.line</field>
             <field name="arch" type="xml">
@@ -133,10 +214,10 @@
                     </group>
                 </search>
             </field>
-        </record>
+        </record> -->
 
 
-        <record id="stock_point_order_line_action" model="ir.actions.act_window">
+        <!-- <record id="stock_point_order_line_action" model="ir.actions.act_window">
             <field name="name">Stock Point Order</field>
             <field name="res_model">stock.point.order.line</field>
             <field name="view_mode">tree,form,pivot,graph,calendar</field>
@@ -146,8 +227,8 @@
             <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'tree', 'view_id': ref('stock_point_order.stock_point_order_line_tree')}),
                 (0, 0, {'view_mode': 'pivot', 'view_id': ref('stock_point_order.stock_point_order_line_pivot_view')}),
-                (0, 0, {'view_mode': 'calendar', 'view_id': ref('stock_point_order.stock_point_order_line_view_graph')}),
-                (0, 0, {'view_mode': 'graph', 'view_id': ref('stock_point_order.stock_point_order_line_view_calender')}),
+                (0, 0, {'view_mode': 'calendar', 'view_id': ref('stock_point_order.stock_point_order_line_view_calender')}),
+                (0, 0, {'view_mode': 'graph', 'view_id': ref('stock_point_order.stock_point_order_line_view_graph')}),
                 ]"/>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -157,12 +238,38 @@
                 This view can be used by accountants in order to collect information about prepaid revenues based on start date and end date. It then allows to generate the corresponding cutoff journal entry in one click.
                 </p>
             </field>
-        </record>
+        </record> -->
+
+        <!-- <record id="stock_point_order_line_planned_action" model="ir.actions.act_window">
+            <field name="name">Stock Point Order Planned</field>
+            <field name="res_model">stock.point.order.line</field>
+            <field name="view_mode">tree,form,pivot,graph,calendar</field>
+            <field name="domain">[('state', '=', 'confirm'),('mrp_request_id','!=',False)]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="stock_point_order_line_view_search"/>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('stock_point_order.stock_point_order_line_tree')}),
+                (0, 0, {'view_mode': 'pivot', 'view_id': ref('stock_point_order.stock_point_order_line_pivot_view')}),
+                (0, 0, {'view_mode': 'calendar', 'view_id': ref('stock_point_order.stock_point_order_line_view_calender')}),
+                (0, 0, {'view_mode': 'graph', 'view_id': ref('stock_point_order.stock_point_order_line_view_graph')}),
+                ]"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to start preparing a new prepaid revenue.
+                </p>
+                <p>
+                This view can be used by accountants in order to collect information about prepaid revenues based on start date and end date. It then allows to generate the corresponding cutoff journal entry in one click.
+                </p>
+            </field>
+        </record> -->
 
         <menuitem id="main_mrp_request" name="Manufacturing Request" web_icon="mrp_request,static/description/icon.png">
-            <menuitem id="menu_mrp_request" name="Manufacturing Request">
+            <!-- <menuitem id="menu_stock_point_order" name="Stock Point Order" sequence="00">
+                <menuitem id="submenu_stock_point_order_unplan_menu" name="Stock Point Order Unplan" action="stock_point_order_line_action" />
+                <menuitem id="submenu_stock_point_order_plan_menu" name="Stock Point Order Planned" action="stock_point_order_line_planned_action" />
+            </menuitem> -->
+            <menuitem id="menu_mrp_request" name="Manufacturing Request" sequence="01">
                 <menuitem id="submenu_mrp_request" name="Manufacturing Request" action="mrp_request_action" />
-                <menuitem id="submenu_stock_point_order_menu" name="Stock Point Order" action="stock_point_order_line_action" />
             </menuitem>
         </menuitem>
 

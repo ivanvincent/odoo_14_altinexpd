@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="mrp_production_form">
+            <field name="name">mrp.production.form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <!-- <xpath expr="//header/button[@name='action_cancel']" position="before">
+                    <button name="action_split_workorder" string="Split WorkOrder" attrs="{'invisible':['|',('state', 'not in', ('draft','confirm')),('splitted_wo','=',True)]}" type="object" class="oe_highlight" />
+                    <button name="action_cancel_split" string="Cancel Split" attrs="{'invisible':['|',('state', 'not in', ('draft','confirm')),('splitted_wo','=',False)]}" groups="base.group_system" type="object" class="oe_highlight" />
+                </xpath> -->
+
+
+                <xpath expr="//field[@name='bom_id']" position="before">
+                    <label for="mrp_qty_produksi" string="Quantity Produksi"/>
+                    <div class="o_row no-gutters d-flex">
+                        <field name="mrp_qty_produksi" class="oe_inline text-left" readonly="1"/>
+                        <label for="satuan_id" string="" class="oe_inline"/>
+                        <field name="satuan_id" class="oe_inline" readonly="1" options="{'no_open': True, 'no_create': True}"/>
+                        <span class="text-bf">To Produce</span>
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="before">
+                    <field name="request_id" readonly="1"/>
+                    <field name="splitted_wo" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='product_id']" position="before">
+                    <field name="type_id" options="{'no_open': True, 'no_create': True}" required="1"/>
+                </xpath>
+                <!-- <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="html_color" widget="color"/>
+                </xpath> -->
+            </field>
+        </record>
+
+        <!-- <record model="ir.ui.view" id="inherit_mrp_production_tree_view">
+            <field name="name">mrp.production.tree</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="html_color" widget="color"/>
+                </xpath>
+            </field>
+        </record> -->
+
+
+    </data>
+</odoo>

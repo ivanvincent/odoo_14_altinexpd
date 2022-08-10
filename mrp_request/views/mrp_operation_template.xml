@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record model="ir.ui.view" id="mrp_operation_template_view_tree">
+            <field name="name">mrp.operation.template.tree</field>
+            <field name="model">mrp.operation.template</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="mrp_operation_template_parameter_view_form" model="ir.ui.view">
+            <field name="name">mrp_operation_template_parameter.view.form</field>
+            <field name="model">mrp.operation.template.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="workcenter_id" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="machine_id"/>
+                        </group>
+                        <notebook>
+                            <page string="Paramaters">
+                                <field name="parameter_ids">
+                                    <tree editable="bottom">
+                                        <field name="sequence"/>
+                                        <field name="parameter_id" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="factor"/>
+                                        <field name="uom_id" options="{'no_open': True, 'no_create': True}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record model="ir.ui.view" id="mrp_operation_template_view_form">
+            <field name="name">mrp.operation.template.form</field>
+            <field name="model">mrp.operation.template</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="description"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Details">
+                                <field name="line_ids">
+                                    <tree editable="bottom">
+                                        <field name="sequence"/>
+                                        <field name="workcenter_id" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="machine_id" options="{'no_open': True, 'no_create': True}"/>
+                                        <button name="action_open_parameters" type="object" icon="fa-list"/>
+                                    </tree>
+                                    <form>
+                                        <sheet>
+                                            <group>
+                                                <field name="sequence"/>
+                                                <field name="workcenter_id" options="{'no_open': True, 'no_create': True}"/>
+                                                <field name="machine_id" options="{'no_open': True, 'no_create': True}"/>
+                                            </group>
+                                            <notebook>
+                                                <page string="Paramaters">
+                                                    <field name="parameter_ids">
+                                                        <tree editable="bottom">
+                                                            <field name="sequence"/>
+                                                            <field name="parameter_id" options="{'no_open': True, 'no_create': True}"/>
+                                                            <field name="factor"/>
+                                                            <field name="uom_id" options="{'no_open': True, 'no_create': True}"/>
+                                                        </tree>
+                                                    </field>
+                                                </page>
+                                            </notebook>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="mrp_operation_template_action">
+            <field name="name">Operations Template</field>
+            <field name="res_model">mrp.operation.template</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem id="menu_mrp_operation_template" name="Operations Template" parent="mrp.menu_mrp_configuration" action="mrp_operation_template_action" />
+
+    </data>
+</odoo>
