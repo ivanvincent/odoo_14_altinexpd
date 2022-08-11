@@ -22,7 +22,7 @@
                     <sheet>
                         <group>
                             <field name="workcenter_id" options="{'no_open': True, 'no_create': True}"/>
-                            <field name="machine_id"/>
+                            <field name="machine_id" invisible="1"/>
                         </group>
                         <notebook>
                             <page string="Paramaters">
@@ -32,6 +32,7 @@
                                         <field name="parameter_id" options="{'no_open': True, 'no_create': True}"/>
                                         <field name="factor"/>
                                         <field name="uom_id" options="{'no_open': True, 'no_create': True}"/>
+                                        <button name="action_open_tools" type="object" icon="fa-list"/>
                                     </tree>
                                 </field>
                             </page>
@@ -51,6 +52,7 @@
                         <group>
                             <group>
                                 <field name="name"/>
+                                <field name="product_id"/>
                             </group>
                             <group>
                                 <field name="description"/>
@@ -62,7 +64,7 @@
                                     <tree editable="bottom">
                                         <field name="sequence"/>
                                         <field name="workcenter_id" options="{'no_open': True, 'no_create': True}"/>
-                                        <field name="machine_id" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="machine_id" options="{'no_open': True, 'no_create': True}" invisible="1"/>
                                         <button name="action_open_parameters" type="object" icon="fa-list"/>
                                     </tree>
                                     <form>
