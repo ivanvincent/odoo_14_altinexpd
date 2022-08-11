@@ -237,14 +237,15 @@ class SaleContract(models.Model):
     def create(self, values):
         path   = self.env.ref('sale_contract.path_image_sc').read()[0]['value']
         result = super(SaleContract, self).create(values)
-        file_name    = result.id
-        binary       = values['image_binary']
-        file_data    = BytesIO(base64.b64decode(binary))
-        content_type = 'image/png' if binary[0] == 'i' else 'image/jpeg'
-        file         = FileStorage(file_data, filename=file_name, content_type=content_type)
-        format_file  = '.png' if content_type == 'image/png' else '.jpeg'
-        file.save(os.path.join(path, str(file_name) + format_file))
-        self.browse(file_name).write({'format_file' : format_file})
+        if values.get('image_binary', False):
+            file_name    = result.id
+            binary       = values['image_binary']
+            file_data    = BytesIO(base64.b64decode(binary))
+            content_type = 'image/png' if binary[0] == 'i' else 'image/jpeg'
+            file         = FileStorage(file_data, filename=file_name, content_type=content_type)
+            format_file  = '.png' if content_type == 'image/png' else '.jpeg'
+            file.save(os.path.join(path, str(file_name) + format_file))
+            self.browse(file_name).write({'format_file' : format_file})
         return result
 
     def write(self, values):

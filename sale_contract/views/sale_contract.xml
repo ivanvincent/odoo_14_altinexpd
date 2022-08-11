@@ -73,11 +73,12 @@
                         <!-- <group col="4" name="order_fields">-->
                         <group string="Order">
                             <field name="category_id" attrs="{'readonly': [('state','!=','draft')]}"/>
+                                <!-- domain="[('customer_rank','&gt;',0)]"  -->
                             <field 
                                 name="partner_id" 
-                                domain="[('customer_rank','&gt;',0)]" 
                                 context="{'search_default_customer':1, 'res_partner_search_mode': 'customer','default_is_company': True, 'default_customer_rank': 1 }"
                                 attrs="{'readonly': [('state','!=','draft')]}"
+                                required="1"
                                 />
                             <!-- <field name="partner_code" attrs="{'readonly': [('state','!=','draft')]}"/> -->
                             <field name="date_order" attrs="{'readonly': [('state','!=','draft')]}"/>
@@ -126,6 +127,9 @@
                                 <field name="department_id"/>
                                 <!-- <field name="payment_term_id"/> -->
                                 <!-- <field name="image_binary" widget="image" class="oe_avatar"/> -->
+                                <field name="price_unit" widget="monetary"/>
+                                <field name="qty" sum='qty'/>
+                                <field name="price_subtotal" widget="monetary"/>
                                 <field name="qty_so" sum='qty_so' readonly="1"/>
                                 <button name="action_view_so" type="object" icon="fa-list" string="Sale Order Line"/>
                                 <field name="qty_do" sum='qty_do' readonly="1"/>
@@ -133,9 +137,6 @@
                                 <field name="qty_toinv" sum='qty_toinv' invisible="1"/>
                                 <field name="qty_inv" sum='qty_inv' readonly="1"/>
                                 <button name="action_view_inv" type="object" icon="fa-list" string="Invoice Line"/>
-                                <field name="qty" sum='qty'/>
-                                <field name="price_unit" widget="monetary"/>
-                                <field name="price_subtotal" widget="monetary"/>
                                 <!-- <field name="tax_ids"/> -->
                                 <!-- <field name="tax_id"/> -->
                                 <!-- <field name="tax_ids_after_fiscal_position" widget="many2many_tags"/> -->

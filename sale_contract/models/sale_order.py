@@ -100,7 +100,8 @@ class SaleOrderContract(models.Model):
     _inherit = 'sale.order'
 
     contract_id = fields.Many2one('sale.contract', string='Sales Forecast', copy=False)
-    no_wo       = fields.Char('Work Order')
+    # no_wo       = fields.Char('Work Order')
+    design_code = fields.Char(string='Design Code')
 
     def action_select_product(self):
         view_id = self.env.ref('sale_contract.sales_forcast_form_view_select_multi_product_wizard')
@@ -117,24 +118,26 @@ class SaleOrderContract(models.Model):
             'context': self.env.context,
             }
 
-    @api.onchange('contract_id')
-    def contract_change(self):
-        if self.contract_id :
-            for rec in self:
-                rec.partner_id = rec.contract_id.partner_id.id
-                rec.pricelist_id = rec.contract_id.pricelist_id.id
-                rec.client_order_ref = rec.contract_id.no_bon
-                rec.payment_term_id = rec.contract_id.term_of_payment.id
+    # @api.onchange('contract_id')
+    # def contract_change(self):
+    #     if self.contract_id :
+    #         for rec in self:
+    #             rec.partner_id = rec.contract_id.partner_id.id
+    #             rec.pricelist_id = rec.contract_id.pricelist_id.id
+    #             rec.client_order_ref = rec.contract_id.no_bon
+    #             rec.payment_term_id = rec.contract_id.term_of_payment.id
 
 
     @api.onchange('contract_id')
     def _contract_change(self):
         if self.contract_id :
+            print('_contract_change')
             for rec in self:
                 rec.partner_id = rec.contract_id.partner_id.id
                 rec.pricelist_id = rec.contract_id.pricelist_id.id
                 rec.client_order_ref = rec.contract_id.no_bon
                 rec.payment_term_id = rec.contract_id.term_of_payment.id
+                rec.design_code = rec.contract_id.design_code
                 
                 # rec.write({
                 #     'partner_id' : rec.contract_id.partner_id.id,
@@ -181,7 +184,6 @@ class SaleOrderContract(models.Model):
                 #     'contract_line_id'  : line.id,
                 # }                
                 # self.order_line.create(raw_data)
-            return
             
     # @api.multi
     # def action_confirm(self):
