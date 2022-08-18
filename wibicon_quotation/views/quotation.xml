@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="_form" model="ir.ui.view">
+            <field name="name">quotation.form</field>
+            <field name="model">quotation</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_confirm" type="object" string="Confirm" states="draft"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="date"/>
+                            <field name="design_code_id"/>
+                            <field name="image_binary" widget='image' class='oe_avatar'/>
+                        </group>
+                        <notebook>
+                            <page name="Details" string="string">
+                                <field name="line_ids">
+                                    <tree editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="embos"/>
+                                        <field name="tip"/>
+                                        <field name="size"/>
+                                        <field name="quantity"/>
+                                        <field name="price_unit"/>
+                                        <field name="tax_ids" widget="many2many_tags"/>
+                                        <field name="sub_total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="quotation_tree" model="ir.ui.view">
+            <field name="name">quotation.tree</field>
+            <field name="model">quotation</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="design_code_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="quotation_action" model="ir.actions.act_window">
+            <field name="name">Quotation</field>
+            <field name="res_model">quotation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <menuitem
+            id="Quotation_menu"
+            name="Quotation"
+            sequence="30"
+        />
+        <menuitem
+            id="quotation_1_menu"
+            name="Quotation"
+            action="quotation_action"
+            parent="Quotation_menu"
+            sequence="1"/>
+    
+    </data>
+    
+
+</odoo>
+
+

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+user_quotation,quotation,model_quotation,base.group_system,1,1,1,1
+manager_quotation,quotation_line,model_quotation_line,base.group_system,1,1,1,1
+
