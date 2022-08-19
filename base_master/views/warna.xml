@@ -137,11 +137,6 @@
             <field name="res_model">makloon.grade</field>
             <field name="view_mode">tree,form</field>
         </record>
-        <record model="ir.actions.act_window" id="design_action">
-            <field name="name">Design</field>
-            <field name="res_model">makloon.design</field>
-            <field name="view_mode">tree,form</field>
-        </record>
         <record model="ir.actions.act_window" id="fabric_base_action">
             <field name="name">Fabric Base</field>
             <field name="res_model">fabric.base</field>
@@ -203,23 +198,23 @@
 
         <menuitem id="menu_master" name="Master" parent="main_master" />
 
-        <menuitem id="submenu_warna" name="Warna" parent="menu_master" action="warna_action" />
+        <!-- <menuitem id="submenu_warna" name="Warna" parent="menu_master" action="warna_action" /> -->
         <menuitem id="submenu_2" name="Shift" parent="menu_master" action="ship_action" />
         <menuitem id="submenu_3" name="Packing" parent="menu_master" action="packing_action" />
         <menuitem id="submenu_4" name="Accessories" parent="menu_master" action="accessories_action" />
-        <menuitem id="submenu_5" name="Hangtag" parent="menu_master" action="hangtag_action" />
+        <!-- <menuitem id="submenu_5" name="Hangtag" parent="menu_master" action="hangtag_action" /> -->
         <menuitem id="submenu_7" name="Grade" parent="menu_master" action="grade_action" />
-        <menuitem id="submenu_8" name="Design" parent="menu_master" action="design_action" />
-        <menuitem id="submenu_9" name="Fabric Base" parent="menu_master" action="fabric_base_action" />
+        <!-- <menuitem id="submenu_8" name="Design" parent="menu_master" action="design_action" /> -->
+        <!-- <menuitem id="submenu_9" name="Fabric Base" parent="menu_master" action="fabric_base_action" /> -->
         <menuitem id="submenu_10" name="Process Type" parent="menu_master" action="process_type_action" />
         <menuitem id="submenu_11" name="Process Category" parent="menu_master" action="process_category_action" />
         <menuitem id="submenu_12" name="Master Proses" parent="menu_master" action="master_proses_action" />
         <menuitem id="submenu_13" name="Master Parameter" parent="menu_master" action="master_parameter_action" />
-        <menuitem id="submenu_14" name="Group Product" parent="menu_master" action="group_product_action" />
-        <menuitem id="submenu_17" name="Line Product" parent="menu_master" action="line_product_action" />
-        <menuitem id="submenu_18" name="Merk Product" parent="menu_master" action="merk_product_action" />
-        <menuitem id="submenu_15" name="Marketing Category" parent="menu_master" action="master_mkt_category_action" />
-        <menuitem id="submenu_16" name="Final Set" parent="menu_master" action="final_set_action" />
+        <!-- <menuitem id="submenu_14" name="Group Product" parent="menu_master" action="group_product_action" /> -->
+        <!-- <menuitem id="submenu_17" name="Line Product" parent="menu_master" action="line_product_action" /> -->
+        <!-- <menuitem id="submenu_18" name="Merk Product" parent="menu_master" action="merk_product_action" /> -->
+        <!-- <menuitem id="submenu_15" name="Marketing Category" parent="menu_master" action="master_mkt_category_action" /> -->
+        <!-- <menuitem id="submenu_16" name="Final Set" parent="menu_master" action="final_set_action" /> -->
         
 
 

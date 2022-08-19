@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="makloon_design_form" model="ir.ui.view">
+            <field name="name">makloon_design.form</field>
+            <field name="model">makloon.design</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button name="action_lock" type="object" string="Lock" class="oe_highlight" states="unlock"/>
+                        <button name="action_unlock" type="object" string="Unlock" states="lock"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date"/>
+                                <field name="employee_id"/>
+                                <field name="note"/>
+                            </group>
+                            <group string="Design Approved">
+                                <field name="drawing_internal" widget="image" class="oe_avatar"/>
+                                <field name="drawing_external" widget="image" class="oe_avatar"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="History Design" string="string">
+                                <field name="makloon_design_line">
+                                    <tree editable="bottom">
+                                        <field name="drawing_internal" widget="image" class="oe_avatar"/>
+                                        <field name="drawing_external" widget="image" class="oe_avatar"/>
+                                        <field name="state" widget="badge" decoration-success="state == 'approved'" decoration-danger="state == 'reject'"/>
+                                        <button name="action_approve" type="object" string="Approve" states="draft"/>
+                                        <button name="action_reject" type="object" string="Reject" states="draft"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="makloon_design_tree" model="ir.ui.view">
+            <field name="name">makloon_design.tree</field>
+            <field name="model">makloon.design</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="employee_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="makloon_design_action">
+            <field name="name">Design</field>
+            <field name="res_model">makloon.design</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="submenu_8" name="Design" parent="menu_master" action="makloon_design_action" sequence="8"/>
+    
+    </data>
+    
+
+</odoo>

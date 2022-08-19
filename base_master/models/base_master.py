@@ -1,3 +1,4 @@
+from email.policy import default
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
@@ -97,7 +98,20 @@ class MakloonDesign(models.Model):
     _name = 'makloon.design'
 
     name = fields.Char(string='Name')
-    motive = fields.Char(string='Motive')
+    date = fields.Date(string='Date')
+    makloon_design_line = fields.One2many('makloon.design.line', 'design_id', 'Line')
+    drawing_internal = fields.Binary(string='Drawing Internal', store=False,)
+    drawing_external = fields.Binary(string='Drawing External', store=False,)
+    employee_id = fields.Many2one('hr.employee', string='Design By')
+    note = fields.Char(string='Note')
+    state = fields.Selection([('unlock', 'Unlock'),('lock', 'Lock')], string='State', default='unlock')
+
+    def action_lock(self):
+        self.state = 'lock'
+    
+    def action_unlock(self):
+        self.state = 'unlock'
+
 
 class FabricBase(models.Model):
     _name = 'fabric.base'
@@ -156,3 +170,19 @@ class MerkProduct(models.Model):
 
     name        = fields.Char(string='Name')
     description = fields.Text(string='Description')
+
+class MakloonDesignLine(models.Model):
+    _name = 'makloon.design.line'
+
+    drawing_internal = fields.Binary(string='Drawing Internal', store=False,)
+    drawing_external = fields.Binary(string='Drawing External', store=False,)
+    design_id = fields.Many2one('makloon.design', 'Design')
+    state = fields.Selection([("draft","Draft"),("approved","Approved"),("reject", "reject")], string='State', default='draft')
+
+    def action_approve(self):
+        for rec in self:
+            rec.state = 'approve'
+
+    def action_reject(self):
+        for rec in self:
+            rec.state = 'reject'
