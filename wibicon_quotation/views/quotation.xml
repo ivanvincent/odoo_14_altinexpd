@@ -3,7 +3,7 @@
 
     <data>
     
-        <record id="_form" model="ir.ui.view">
+        <record id="quotation_form" model="ir.ui.view">
             <field name="name">quotation.form</field>
             <field name="model">quotation</field>
             <field name="arch" type="xml">
