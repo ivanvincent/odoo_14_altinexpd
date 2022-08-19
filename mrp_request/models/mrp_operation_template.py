@@ -56,6 +56,7 @@ class MrpOperationTemplatelineParameter(models.Model):
     factor       = fields.Float(string='Factor')
     uom_id = fields.Many2one(comodel_name='uom.uom',related="parameter_id.uom_id",string='Uom')
     mrp_operation_template_line_parameter_tool_ids = fields.One2many('mrp.operation.template.line.parameter.tool', 'template_line_parameter_id', 'Tool Line')
+    machine_id = fields.Many2one('mrp.machine', string='Machine')
     
     def _get_sequence(self):
         seq = 0
