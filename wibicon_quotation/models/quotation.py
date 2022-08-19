@@ -35,3 +35,4 @@ class QuotationLine(models.Model):
     tax_ids = fields.Many2many(comodel_name='account.tax', string='Tax')
     sub_total = fields.Float(string='Sub Total')
     quotation_id = fields.Many2one('quotation', string='Quotation')
+    treatment_id = fields.Many2one('treatment', string='Treatment')

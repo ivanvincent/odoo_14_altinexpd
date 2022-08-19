@@ -122,8 +122,9 @@
                                 <field name="item_no"/> -->
                                 <field name="embos"/>
                                 <field name="tip"/>
-                                <field name="product_ingredient_id"/>
+                                <field name="product_ingredient_id" string="Material"/>
                                 <field name="size"/>
+                                <field name="treatment_id"/>
                                 <field name="department_id"/>
                                 <!-- <field name="payment_term_id"/> -->
                                 <!-- <field name="image_binary" widget="image" class="oe_avatar"/> -->

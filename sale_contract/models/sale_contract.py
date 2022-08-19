@@ -326,6 +326,7 @@ class SaleContractLine(models.Model):
     department_id = fields.Many2one('hr.department', string='Dept')
     payment_term_id = fields.Many2one('account.payment.term', string='Payment Term')
     image_binary = fields.Binary(string='Image', store=False, compute='_compute_img')
+    treatment_id = fields.Many2one('treatment', string='Treatment')
     # pack_lot_ids = fields.One2many('pos.pack.operation.lot', 'pos_order_line_id', string='Lot/serial Number')
     # warna = fields.Char(string='Warna')
     # barcode = fields.Char(string='Barcode')
