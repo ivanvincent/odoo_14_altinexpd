@@ -193,6 +193,7 @@ class ManufacturingRequest(models.Model):
     def _prepare_bom(self, product_id, product_tmpl_id, operation_tmpl_id):
         bom_obj = self.env['mrp.bom'].search([('product_tmpl_id','=',product_tmpl_id.id),('operation_template_id', '=', operation_tmpl_id.id)],limit=1)
         if bom_obj:
+            bom_obj._get_operations()
             return bom_obj
         else:
             bom_obj = self.env['mrp.bom'].create({
