@@ -7,10 +7,20 @@ class MrpProduction(models.Model):
     
     type_id          = fields.Many2one('mrp.production.type', string='Type')
     request_id       = fields.Many2one('mrp.request', string='MRP Request')
+    treatment_id     = fields.Many2one('treatment', string='Treatment')
+    sales_id         = fields.Many2one('sale.order', string='Sale Order')
+    shape            = fields.Char(string='Shape')
     # html_color       = fields.Char(related='product_id.html_color', string='Color',store=True,)
     satuan_id        = fields.Many2one(related='product_id.satuan_id', string='Satuan Produksi')
     mrp_qty_produksi = fields.Float(string='Quantity Produksi')
     splitted_wo      = fields.Boolean(string='Splitted Workorder ?')
+
+    ukuran_tip       = fields.Char(string='Ukuran Tip/LBG')
+    bentuk_tip       = fields.Char(string='Bentuk Tip')
+    penandaan_tip    = fields.Char(string='Penandaan Tip')
+    bahan            = fields.Char(string='Bahan')
+    ukuran           = fields.Char(string='Ukuran')
+    kode_bahan       = fields.Char(string='Kode Bahan')
     
     
     def action_split_workorder(self):

@@ -71,19 +71,19 @@
                                 <td style="border-left : 0px solid white ; border-top : 1px solid black ; border-bottom : 1px solid black ; border-right : 1px solid black">
                                     <b>
                                         <span>:</span>
-                                        <!-- <span t-field="o.sale_id"/> -->
+                                        <span t-field="o.request_id.sale_id"/>
                                     </b>
                                 </td>
                                 <td width="5%"/>
                                 <td style="border-left : 1px solid black ; border-top : 1px solid black ; border-bottom : 1px solid black ; border-right : 0px solid white ; padding-left : 10px">
                                     <b>
-                                        <span>MOTIF</span>
+                                        <span>TREATMENT</span>
                                     </b>
                                 </td>
                                 <td style="border-left : 0px solid white ; border-top : 1px solid black ; border-bottom : 1px solid black ; border-right : 1px solid black">
                                     <b>
                                         <span>:</span>
-                                        <span>MOTIF</span>
+                                        <span>PLATTING</span>
                                     </b>
                                 </td>
                                 <td width="5%"/>
@@ -114,7 +114,7 @@
                                     <br/>
                                     <span>TYPE</span>
                                     <br/>
-                                    <span>SUSUT</span>
+                                    <span>MODEL MESIN</span>
                                     <br/>
                                     <!-- <span>QTY REQUEST GREIGE</span>
                                     <br/> -->
@@ -143,17 +143,17 @@
                                 </td>
                                 <td wdith="5%"/>
                                 <td>
-                                    <span>NO BATCH</span>
+                                    <span>UKURAN TIP/LBG</span>
                                     <br/>
-                                    <span>NO BATCH REF</span>
+                                    <span>BENTUK TIP</span>
                                     <br/>
-                                    <span>CW</span>
+                                    <span>PENANDAAN TIP</span>
                                     <br/>
                                     <!-- <span>DASAR KAIN</span>
                                     <br/> -->
-                                    <span>PROSES</span>
+                                    <span>BAHAN/UKURAN</span>
                                     <br/>
-                                    <span>MESIN</span>
+                                    <span>KODE BAHAN</span>
                                     <br/>
                                 </td>
                                 <td>
@@ -213,17 +213,13 @@
                                 </td>
                                 <td wdith="5%"/>
                                 <td>
-                                    <span>KATEGORI</span>
+                                    <span>TIM</span>
                                     <br/>
-                                    <span>GRADING</span>
-                                    <br/>
-                                    <span>PIECE LENGTH</span>
-                                    <br/>
-                                    <span>MAX JOIN PCS</span>
+                                    <span>TREATMENT</span>
                                     <br/>
                                     <span>PACKING</span>
                                     <br/>
-                                    <span>AKSESORIES</span>
+                                    <span>HRC</span>                                                                        
                                     <br/>
                                     <span>HANGTAG</span>
                                     <br/>
