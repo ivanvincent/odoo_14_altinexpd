@@ -63,6 +63,7 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td width="5%"/>
                                 <td style="border-left : 1px solid black ; border-top : 1px solid black ; border-bottom : 1px solid black ; border-right : 0px solid white ; padding-left : 10px">
                                     <b>
                                         <span>NO. SO</span>
@@ -105,7 +106,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td width="5%">
+                                <td>
                                     <span>DELIVERY DATE</span>
                                     <br/>
                                     <span>KODE CUSTOMER</span>
