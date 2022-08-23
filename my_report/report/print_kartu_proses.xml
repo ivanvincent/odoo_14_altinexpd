@@ -286,10 +286,14 @@
                                             <span>NAMA OPERATOR / SHIFT</span>
                                         </td>
                                         <td rowspan="2" style="border : 1px solid black">
-                                            <span>TGL</span>
+                                            <span>TANGGAL</span>
                                         </td>
+                                        
                                         <td rowspan="2" style="border : 1px solid black">
                                             <span>KETERANGAN</span>
+                                        </td>
+                                        <td rowspan="2" style="border : 1px solid black">
+                                            <span>BARCODE WO</span>
                                         </td>
                                     </tr>
                                     <tr class="text-center">
@@ -377,6 +381,9 @@
                                             </td>
                                             <td style="border : 1px solid black">
                                                 <img t-if="flowproses_line.id" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;' % ('Code128', flowproses_line.id, 600, 100)" style="width : 300px ; height : 55px"/>
+                                            </td>
+                                            <td style="border : 1px solid black">
+                                                <span/>
                                             </td>
                                         </tr>
                                     </t>
