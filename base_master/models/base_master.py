@@ -100,8 +100,8 @@ class MakloonDesign(models.Model):
     name = fields.Char(string='Name')
     date = fields.Date(string='Date')
     makloon_design_line = fields.One2many('makloon.design.line', 'design_id', 'Line')
-    drawing_internal = fields.Binary(string='Drawing Internal', store=False,)
-    drawing_external = fields.Binary(string='Drawing External', store=False,)
+    drawing_internal = fields.Binary(string='Drawing Internal', store=True,)
+    drawing_external = fields.Binary(string='Drawing External', store=True,)
     employee_id = fields.Many2one('hr.employee', string='Design By')
     note = fields.Char(string='Note')
     state = fields.Selection([('unlock', 'Unlock'),('lock', 'Lock')], string='State', default='unlock')
@@ -174,15 +174,23 @@ class MerkProduct(models.Model):
 class MakloonDesignLine(models.Model):
     _name = 'makloon.design.line'
 
-    drawing_internal = fields.Binary(string='Drawing Internal', store=False,)
-    drawing_external = fields.Binary(string='Drawing External', store=False,)
+    drawing_internal = fields.Binary(string='Drawing Internal', store=True,)
+    drawing_external = fields.Binary(string='Drawing External', store=True,)
     design_id = fields.Many2one('makloon.design', 'Design')
     state = fields.Selection([("draft","Draft"),("approved","Approved"),("reject", "reject")], string='State', default='draft')
 
     def action_approve(self):
         for rec in self:
-            rec.state = 'approve'
+            rec.state = 'approved'
+            rec.design_id.write({
+                'drawing_internal': rec.drawing_internal,
+                'drawing_external': rec.drawing_external,
+            })
 
     def action_reject(self):
         for rec in self:
             rec.state = 'reject'
+            rec.design_id.write({
+                'drawing_internal': False,
+                'drawing_external': False,
+            })
