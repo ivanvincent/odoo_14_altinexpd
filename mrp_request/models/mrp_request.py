@@ -221,7 +221,7 @@ class ManufacturingRequest(models.Model):
                 'product_uom'     : raw.product_id.uom_id.id,
                 'location_id'     : location_id,
                 'location_dest_id': location_dest_id,
-            }) for raw in production_id]
+            }) for raw in production_id.move_raw_ids]
         })
         self.picking_ids = [(4, picking_obj.id)]
 
