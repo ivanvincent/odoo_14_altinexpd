@@ -138,9 +138,7 @@
                                     <!-- <span t-field="o.susut"/> -->
                                     <span></span>
                                     <br/>
-                                    <span>:</span>
-                                    <!-- <span t-field="o.qty_request_greige"/> -->
-                                    <br/>
+                                    
                                 </td>
                                 <td wdith="5%"/>
                                 <td>
