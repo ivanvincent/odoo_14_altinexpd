@@ -84,7 +84,7 @@
                             <field name="date_order" attrs="{'readonly': [('state','!=','draft')]}"/>
                         </group>
                         <group string="Info">
-                                <field name="no_bon"invisible="1"/>
+                                <field name="no_bon" invisible="1"/>
                                 <field name="process"/>
                                 <field name="design_code"/>
                                 <!-- <field name="lebar_finish"/>
