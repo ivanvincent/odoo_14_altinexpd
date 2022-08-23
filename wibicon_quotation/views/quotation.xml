@@ -25,7 +25,7 @@
                             <field name="image_binary" widget='image' class='oe_avatar'/>
                         </group>
                         <notebook>
-                            <page name="Details" string="string">
+                            <page name="Details" string="Details">
                                 <field name="line_ids">
                                     <tree editable="bottom">
                                         <field name="product_id"/>

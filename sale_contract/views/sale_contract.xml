@@ -73,6 +73,7 @@
                         <!-- <group col="4" name="order_fields">-->
                         <group string="Order">
                             <field name="category_id" attrs="{'readonly': [('state','!=','draft')]}"/>
+                            <field name="quotation_id"/>
                                 <!-- domain="[('customer_rank','&gt;',0)]"  -->
                             <field 
                                 name="partner_id" 
