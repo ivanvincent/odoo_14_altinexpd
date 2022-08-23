@@ -1,3 +1,4 @@
+from math import prod
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 from ast import literal_eval
@@ -108,6 +109,7 @@ class ManufacturingRequest(models.Model):
                     production_id._onchange_move_raw()
                     production_id._onchange_workorder_ids()
                     # line.production_ids = [(4,production_id.id)]
+                    self._request_material(production_id)
                 self.state = 'done'
     
     
@@ -201,6 +203,28 @@ class ManufacturingRequest(models.Model):
             })
             bom_obj._get_operations()
             return bom_obj
+    
+    def _request_material(self, production_id):
+        type_id = production_id.type_id
+        location_id = type_id.picking_type_request_material_id.default_location_src_id.id
+        location_dest_id = production_id.type_id.picking_type_request_material_id.default_location_dest_id.id
+        picking_obj = self.env['stock.picking'].create({
+            'picking_type_id' : type_id.picking_type_request_material_id.id,
+            'location_id'     : location_id,
+            'location_dest_id': location_dest_id,
+            'mrp_request_id'  : production_id.request_id.id,
+            'production_id'   : production_id.id,
+            "origin"          : production_id.name,
+            'move_ids_without_package': [(0, 0, {
+                'name'            : raw.product_id.name,
+                'product_id'      : raw.product_id.id,
+                'product_uom_qty' : raw.product_uom_qty,
+                'product_uom'     : raw.product_id.uom_id.id,
+                'location_id'     : location_id,
+                'location_dest_id': location_dest_id,
+            }) for raw in production_id]
+        })
+        self.picking_ids = [(4, picking_obj.id)]
 
 
 class ManufacturingRequestLine(models.Model):

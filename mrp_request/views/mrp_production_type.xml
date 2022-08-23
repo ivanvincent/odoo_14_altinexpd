@@ -31,9 +31,12 @@
                                 <field name="component_category_ids" widget="many2many_tags"/>
                                 <field name="sequence_id"/>
                             </group>
-                            <group>
+                            <group string="Production">
                                 <field name="finished_category_ids" widget="many2many_tags"/>
                                 <field name="picking_type_id"/>
+                            </group>
+                            <group string="Request Material">
+                                <field name="picking_type_request_material_id"/>
                             </group>
                         </group>
                     </sheet>

@@ -10,3 +10,4 @@ from . import mrp_parameter
 from . import mrp_production_type
 from . import mrp_afkir
 from . import mrp_waste
+from . import stock_picking

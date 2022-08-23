@@ -25,6 +25,7 @@
     'views/mrp_waste.xml',
     'views/mrp_workorder_line.xml',
     'views/mrp_production_estimated.xml',
+    'views/stock_picking.xml',
     'views/mrp_operation_template_line_parameter.xml',
     # 'wizard/mrp_workoder_split_wizard.xml',
     'wizard/mrp_production_wizard.xml',

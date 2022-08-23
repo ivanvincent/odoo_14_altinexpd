@@ -9,3 +9,5 @@ class MrpProductionType(models.Model):
     finished_category_ids  = fields.Many2many(comodel_name='product.category', relation='finished_category_rel',string='Finished Category',required=True, )
     picking_type_id        = fields.Many2one('stock.picking.type', string='Picking Type',domain=[('code', '=', 'mrp_operation')])
     sequence_id            = fields.Many2one('ir.sequence', string='Sequence',required=True, )
+    # Request Bahan Baku
+    picking_type_request_material_id = fields.Many2one('stock.picking.type', string='Operation Type Request Material')
