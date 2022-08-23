@@ -91,18 +91,18 @@
                                 <td colspan="2" style="border : 1px solid black">
                                     <center>
                                         <b>
-                                            1 of 2
+                                            1
                                             <!-- <span t-field="o.greige_id.name"/> -->
                                         </b>
                                     </center>
                                 </td>
                                 <td width="5%"/>
                                 <td colspan="2" style="border : 1px solid black">
-                                    <!-- <center>
+                                    <center>
                                         <b>
-                                            <span>INSPECT &amp; PACKING</span>
+                                            <span>INSPECT &amp;</span>
                                         </b>
-                                    </center> -->
+                                    </center>
                                 </td>
                             </tr>
                             <tr>
