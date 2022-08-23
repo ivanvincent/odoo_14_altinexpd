@@ -327,7 +327,7 @@
                                                 <span t-field="flowproses_line.workcenter_id"/>
                                             </td>
                                             <td style="border : 1px solid black">
-                                                <span/>
+                                                <span t-field="flowproses_line.date_planned_start"/>
                                             </td>
                                             <td style="border : 1px solid black ; padding-left : 10px">
                                                 <span t-field="flowproses_line.machine_id"/>
@@ -336,7 +336,7 @@
                                                 <span/>
                                             </td>
                                             <td style="border : 1px solid black">
-                                                <!-- <table width="100%">
+                                                <table width="100%">
                                                     <t t-foreach="flowproses_line.parameter_ids" t-as="pl">
                                                         <tr>
                                                             <td width="50%" style="border-bottom : 1px solid black ; padding-left : 10px" class="text-left">
@@ -347,7 +347,7 @@
                                                             </td>
                                                         </tr>
                                                     </t>
-                                                </table> -->
+                                                </table>
                                             </td>
                                             <td style="border : 1px solid black">
                                                 <span/>
