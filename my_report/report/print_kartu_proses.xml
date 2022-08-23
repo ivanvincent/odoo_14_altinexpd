@@ -269,23 +269,24 @@
                                         <td rowspan="2" style="border : 1px solid black">
                                             <span>URUTAN PROSES</span>
                                         </td>
-                                        <td rowspan="2" style="border : 1px solid black">
-                                            <span>TGL</span>
-                                        </td>
+                                        
                                         <td colspan="2" style="border : 1px solid black">
                                             <span>MESIN</span>
                                         </td>
                                         <td colspan="2" style="border : 1px solid black">
                                             <span>KONDISI PROSES</span>
                                         </td>
-                                        <td colspan="2" style="border : 1px solid black">
+                                        <!-- <td colspan="2" style="border : 1px solid black">
                                             <span>STANDARD</span>
                                         </td>
                                         <td colspan="2" style="border : 1px solid black">
                                             <span>AKTUAL</span>
-                                        </td>
+                                        </td> -->
                                         <td rowspan="2" style="border : 1px solid black">
                                             <span>NAMA OPERATOR / SHIFT</span>
+                                        </td>
+                                        <td rowspan="2" style="border : 1px solid black">
+                                            <span>TGL</span>
                                         </td>
                                         <td rowspan="2" style="border : 1px solid black">
                                             <span>KETERANGAN</span>
@@ -304,7 +305,7 @@
                                         <td style="border : 1px solid black">
                                             <span>AKTUAL</span>
                                         </td>
-                                        <td style="border : 1px solid black">
+                                        <!-- <td style="border : 1px solid black">
                                             <span>LEBAR</span>
                                         </td>
                                         <td style="border : 1px solid black">
@@ -315,7 +316,7 @@
                                         </td>
                                         <td style="border : 1px solid black">
                                             <span>GSM</span>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -332,9 +333,7 @@
                                             <td style="border : 1px solid black ; padding-left : 10px">
                                                 <span t-field="flowproses_line.workcenter_id"/>
                                             </td>
-                                            <td style="border : 1px solid black">
-                                                <span t-field="flowproses_line.date_planned_start"/>
-                                            </td>
+                                            
                                             <td style="border : 1px solid black ; padding-left : 10px">
                                                 <span t-field="flowproses_line.machine_id.number"/>
                                             </td>
@@ -358,20 +357,23 @@
                                             <td style="border : 1px solid black">
                                                 <span/>
                                             </td>
-                                            <td style="border : 1px solid black ; padding-right : 10px" class="text-right">
-                                                <!-- <span t-field="flowproses_line.lebar_result"/> -->
+                                            <!-- <td style="border : 1px solid black ; padding-right : 10px" class="text-right">
+                                                <span t-field="flowproses_line.lebar_result"/>
                                             </td>
                                             <td style="border : 1px solid black ; padding-right : 10px" class="text-right">
-                                                <!-- <span t-field="flowproses_line.gramasi_result"/> -->
+                                                <span t-field="flowproses_line.gramasi_result"/>
                                             </td>
                                             <td style="border : 1px solid black">
                                                 <span/>
                                             </td>
                                             <td style="border : 1px solid black">
                                                 <span/>
-                                            </td>
+                                            </td> -->
                                             <td style="border : 1px solid black">
                                                 <span/>
+                                            </td>
+                                            <td style="border : 1px solid black">
+                                                <span t-field="flowproses_line.date_planned_start"/>
                                             </td>
                                             <td style="border : 1px solid black">
                                                 <img t-if="flowproses_line.id" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;' % ('Code128', flowproses_line.id, 600, 100)" style="width : 300px ; height : 55px"/>
