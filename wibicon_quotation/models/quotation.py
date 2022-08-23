@@ -33,6 +33,12 @@ class QuotationLine(models.Model):
     quantity = fields.Float(string='Quantity')
     price_unit = fields.Float(string='Price Unit')
     tax_ids = fields.Many2many(comodel_name='account.tax', string='Tax')
-    sub_total = fields.Float(string='Sub Total')
+    sub_total = fields.Float(string='Sub Total', compute='compute_sub_total')
     quotation_id = fields.Many2one('quotation', string='Quotation')
     treatment_id = fields.Many2one('treatment', string='Treatment')
+
+    @api.depends('quantity','price_unit')
+    def compute_sub_total(self):
+        for a in self:
+            exclude = a.quantity * a.price_unit
+            a.sub_total = exclude
