@@ -57,12 +57,9 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="action_confirm" string="Confirm" states="draft" type="object" class="oe_highlight" />
-                        <!-- <button name="action_confirm" string="Done" states="confirm" type="object" class="oe_highlight" /> -->
-                        <button name="action_estimated" string="do Estimate" states="confirm" class="oe_highlight" type="object"/>
-                        <!-- <button name="action_generate" attrs="{'invisible':['|',('state', '=', 'draft'),('line_ids', '!=', [])]}" string="Generate" class="oe_highlight" type="object"/> -->
-                        <button name="action_create_production" attrs="{'invisible':['|',('state', '!=', 'estimated'),('production_ids', '!=', [])]}" string="Make Order" class="oe_highlight" type="object"/>
-                        <button name="action_cancel_estimate" string="Cancel Estimate" states="estimated" type="object"/>
+                        <button name="action_confirm" string="Confirm" states="draft" type="object" class="oe_highlight"/>
+                        <button name="action_create_production" states="confirm" string="Make Order" class="oe_highlight" type="object"/>
+                        <!-- <button name="action_cancel_estimate" string="Cancel Estimate" states="estimated" type="object"/> -->
                         <button name="action_back_to_draft" string="Back to Draft" states="confirm" type="object"/>
                         <field name="state" widget="statusbar"/>
                     </header>
@@ -84,6 +81,7 @@
                             <group>
                                 <!-- <field name="type_id" options="{'no_open': True, 'no_create': True}"/> -->
                                 <field name="request_date"/>
+                                <field name="sale_id"/>
                             </group>
                             <group>
                                 <field name="user_id" options="{'no_open': True, 'no_create': True}"/>
@@ -112,41 +110,34 @@
                                             <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
                                         </control>
                                         <field name="display_type" invisible="1"/>
-                                        <field name="type_id"/>
-                                        <field name="line_product_id"/>
+                                        <field name="type_id" invisible="0"/>
+                                        <!-- <field name="line_product_id"/> -->
                                         <field name="product_id"/>
-                                        <field name="name" optional="hide"/>
-                                        <field name="default_code"/>
-                                        <field name="qty_onhand"/>
-                                        <field name="product_uom_qty" sum="Total"/>
+                                        <field name="qty_produce"/>
                                         <field name="product_uom_id"/>
-                                        <field name="konversi_butir"/>
-                                        <!-- <field name="capacity"/> -->
-                                        <field name="product_qty_conv"/>
-                                        <field name="product_qty_est" sum="Total"/>
-                                        <field name="satuan_id"/>
-                                        <field name="product_orig_id_domain" invisible="1"/>
-                                        <field name="product_qty_est_conv" sum="Total"/>
-                                        <field name="product_orig_id" domain="product_orig_id_domain" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="shape"/>
+                                        <field name="treatment_id"/>
+                                        <field name="team"/>
+                                        <field name="operation_template_id" required="1"/>
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Group By Line">
+                            <!-- <page string="Group By Line">
                                 <field name="order_lines_product">
                                     <tree>
                                         <field name="line_product_id" options="{'no_open': True, 'no_create': True}"/>
                                         <field name="product_ids" widget="many2many_tags"/>
                                         <field name="konversi_butir"/>
                                         <field name="qty_conv"/>
-                                        <!-- <field name="capacity"/> -->
+                                        <field name="capacity"/>
                                         <field name="qty_production"/>
                                         <field name="satuan_id"/>
                                         <field name="qty_production_conv"/>
                                         <field name="product_uom_id" options="{'no_open': True, 'no_create': True}"/>
                                     </tree>
                                 </field>
-                            </page>
-                            <page string="Estimated">
+                            </page> -->
+                            <!-- <page string="Estimated">
                                 <field name="estimated_ids" attrs="{'invisible':[('state', '=', 'draft')]}">
                                     <tree editable="bottom">
                                         <field name="estimate_date" readonly="1"/>
@@ -161,7 +152,7 @@
                                         <field name="production_ids" widget="many2many_tags" readonly="1"/>
                                     </tree>
                                 </field>
-                            </page>
+                            </page> -->
                             <page string="Production">
                                 <field name="production_ids" attrs="{'invisible':[('state', '=', 'draft')]}">
                                     <tree>

@@ -13,7 +13,7 @@
                     <sheet>
                         <group>
                             <field nolabel="1" name="mrp_operation_template_line_parameter_tool_ids">
-                                <tree>
+                                <tree editable="bottom">
                                     <field name="sequence"/>
                                     <field name="product_id"/>
                                     <field name="qty"/>
@@ -21,9 +21,10 @@
                             </field>
                         </group>
                     </sheet>
-                    <footer>
+                    <!-- <footer>
+                        <button name="create" type="object" string="Save" class="oe_highlight"/>
                         <button name="cancel" type="object" string="Cancel" special="cancel"/>
-                    </footer>
+                    </footer> -->
                 </form>
             </field>
         </record>

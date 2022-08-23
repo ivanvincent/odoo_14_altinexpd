@@ -22,15 +22,17 @@ class ManufacturingRequest(models.Model):
     picking_ids         = fields.Many2many(comodel_name='stock.picking', relation='mrp_request_stock_picking_rel',string='Transfer')
     picking_count       = fields.Integer(string='Transfer Count',compute="_compute_picking")
     production_count    = fields.Integer(string='Transfer Count',compute="_compute_picking")
-    state               = fields.Selection([('draft', 'Draft'),('confirm', 'Confirm'),('estimated','Estimated'),('done', 'Done'),('cancel', 'Cancelled'),], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
+    state               = fields.Selection([('draft', 'Draft'),('confirm', 'Confirm'),('done', 'Done'),('cancel', 'Cancelled'),], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
     production_ids      = fields.One2many('mrp.production', 'request_id', string='Production')
     estimated_ids       = fields.One2many('mrp.production.estimated', 'request_id', string='Estimated')
+    sale_id             = fields.Many2one('sale.order', string='Sale')
+    partner_id          = fields.Many2one('res.partner', string='Customer')
     
     
     def check_validation(self):
         precision_digits = self.env['decimal.precision'].precision_get('Product Unit of Measure')
         for line in self.line_ids:
-            if float_is_zero(line.product_qty_est,precision_digits=precision_digits):
+            if float_is_zero(line.qty_produce,precision_digits=precision_digits):
                 raise UserError('Mohon maaf pastikan %s \nquantity produksi tidak nol'%(line.product_id.name))
         
     def action_estimated(self):
@@ -79,69 +81,34 @@ class ManufacturingRequest(models.Model):
         production_ids = []
         self.check_validation()
         if not self.production_ids:
-            for line in self.estimated_ids:
+            for line in self.line_ids:
                 picking_type_id = None  if not line.type_id else line.type_id.picking_type_id.id if line.type_id.picking_type_id else None
-                location_id = None
-                product_categ_id = line.product_id.categ_id
-                if product_categ_id.id == 35 and not picking_type_id:
-                    picking_type_id =   248
-                elif product_categ_id.id == 40 and not picking_type_id:
-                    picking_type_id =   256
+                # product_categ_id = line.product_id.categ_id
                 
-                bom_id = self.env['mrp.bom'].search([('product_tmpl_id','=',line.product_id.product_tmpl_id.id)],limit=1)
+                # bom_id = self.env['mrp.bom'].search([('product_tmpl_id','=',line.product_id.product_tmpl_id.id)],limit=1)
+                bom_id = self._prepare_bom(line.product_id, line.product_id.product_tmpl_id, line.operation_template_id)
                 picking_type_id = self.env['stock.picking.type'].sudo().browse(picking_type_id)
                 production_id = self.env['mrp.production'].create({
                     'product_id':line.product_id.id,
                     'type_id':line.type_id.id,
                     'product_uom_id':line.product_id.uom_id.id,
-                    'mrp_qty_produksi':line.production_qty,
-                    'bom_id': bom_id.id if bom_id else False,
-                    'satuan_id':line.satuan_id.id,
+                    'product_qty': line.qty_produce,
+                    'mrp_qty_produksi':line.qty_produce,
+                    'bom_id': bom_id.id,
+                    # 'satuan_id':line.satuan_id.id,
                     'picking_type_id': picking_type_id.id,
                     'origin':self.name,
                     'location_src_id': picking_type_id.default_location_src_id.id,
                     'location_dest_id':picking_type_id.default_location_dest_id.id,
                     'date_planned_start':line.request_id.request_date,
                     'request_id':self.id,
-                    'product_qty':line.product_uom_qty
                 })
                 
                 if production_id:
                     production_id._onchange_move_raw()
                     production_id._onchange_workorder_ids()
-                    line.production_ids = [(4,production_id.id)]
-                
-                # elif not line.product_orig_id and line.product_id.id == src_from_other.product_orig_id.id:
-                #     bom_id = self.env['mrp.bom'].search([('product_tmpl_id','=',line.product_id.product_tmpl_id.id)],limit=1)
-                #     picking_type_id = self.env['stock.picking.type'].sudo().browse(picking_type_id)
-                #     production_id = self.env['mrp.production'].create({
-                #         'product_id':line.product_id.id,
-                #         'type_id':line.type_id.id,
-                #         'product_uom_id':line.product_id.uom_id.id,
-                #         'picking_type_id': picking_type_id.id,
-                #         'mrp_qty_produksi':line.product_qty_est,
-                #         'bom_id': bom_id.id if bom_id else False,
-                #         'satuan_id':line.satuan_id.id,
-                #         'origin':self.name,
-                #         'location_src_id': picking_type_id.default_location_src_id.id,
-                #         'location_dest_id':picking_type_id.default_location_dest_id.id,
-                #         'request_id':self.id,
-                #         'date_planned_start':line.request_id.request_date,
-                #         'product_qty':line.product_qty_est_conv - src_from_other.product_qty_est_conv,
-                #         'move_byproduct_ids':[(0,0,{'name':m.product_id.name,'product_id':m.product_id.id ,\
-                #             'location_id': picking_type_id.default_location_src_id.id,
-                #             'location_dest_id':picking_type_id.default_location_dest_id.id,
-                #             'product_uom_qty':m.product_qty_est_conv}) for m in src_from_other.filtered(lambda x:x.product_orig_id.id == line.product_id.id)]
-                        
-                #     })
-                    
-                #     if production_id:
-                #         production_id._onchange_move_raw()
-                #         production_id._onchange_workorder_ids()
-                #         line.production_id = production_id.id
-        
-            
-        
+                    # line.production_ids = [(4,production_id.id)]
+                self.state = 'done'
     
     
     def _compute_picking(self):
@@ -158,7 +125,8 @@ class ManufacturingRequest(models.Model):
                 seq = self.env['ir.sequence'].browse(int(mor_sequence_id)).next_by_id()
                 self.name = seq
         self.state = 'confirm'
-        self.action_generate()
+
+        # self.action_generate()
         
         
     def action_generate(self):
@@ -219,44 +187,69 @@ class ManufacturingRequest(models.Model):
         action['context'] = {}
         return action
     
-    
+    def _prepare_bom(self, product_id, product_tmpl_id, operation_tmpl_id):
+        bom_obj = self.env['mrp.bom'].search([('product_tmpl_id','=',product_tmpl_id.id),('operation_template_id', '=', operation_tmpl_id.id)],limit=1)
+        if bom_obj:
+            return bom_obj
+        else:
+            bom_obj = self.env['mrp.bom'].create({
+                'product_tmpl_id': product_tmpl_id.id,
+                'product_id': product_id.id,
+                'product_qty': 1,
+                'type': 'normal',
+                'operation_template_id': operation_tmpl_id.id
+            })
+            bom_obj._get_operations()
+            return bom_obj
 
 
 class ManufacturingRequestLine(models.Model):
     _name = 'mrp.request.line'
     
     name             = fields.Text(string='Description', )
-    type_id          = fields.Many2one('mrp.production.type', string='Production Type',compute="_get_production_type", )
+    type_id          = fields.Many2one('mrp.production.type', string='Production Type',
+        # compute="_get_production_type",
+    )
     request_id       = fields.Many2one('mrp.request', string='Request')
     request_date     = fields.Datetime(string='Date',related="request_id.request_date",store=True,)
     order_id         = fields.Many2one('stock.point.order', string='Stock Point Order')
     production_id    = fields.Many2one('mrp.production', string='Production')
     product_id       = fields.Many2one('product.product', string='Product',domain=lambda self:self._get_domain())
-    default_code     = fields.Char(related='product_id.default_code', string='Code')
+    # default_code     = fields.Char(related='product_id.default_code', string='Code')
     line_product_id  = fields.Many2one('line.product', related='product_id.line_product_id',string='Line',store=True,)
-    product_categ_id = fields.Many2one(related='product_id.categ_id',string='Category')
+    # product_categ_id = fields.Many2one(related='product_id.categ_id',string='Category')
     # capacity         = fields.Float(related='product_id.line_product_id.capacity',string='Capacity')
-    product_uom_id   = fields.Many2one(related='product_id.uom_id', string='Satuan',store=True,)
-    satuan_id        = fields.Many2one(related='product_id.satuan_id', string='Satuan Produksi',store=True,)
-    konversi_butir   = fields.Float(related='product_id.konversi_butir', string='Butir')
-    konversi_bungkus = fields.Float(related='product_id.konversi_bungkus', string='Bungkus')
-    product_qty_conv = fields.Float(string='Hasil Conv',compute="_get_spo_quantity",)
-    product_qty_est  = fields.Float(string='Request Produksi')
-    product_qty_est_conv  = fields.Float(string='Request Produksi Conv',compute="_get_spo_quantity",)
-    product_orig_id = fields.Many2one('product.product', string='Product',)
+    product_uom_id   = fields.Many2one(related='product_id.uom_id', string='UoM',store=True,)
+    # satuan_id        = fields.Many2one(related='product_id.satuan_id', string='Satuan Produksi',store=True,)
+    # konversi_butir   = fields.Float(related='product_id.konversi_butir', string='Butir')
+    # konversi_bungkus = fields.Float(related='product_id.konversi_bungkus', string='Bungkus')
+    # product_qty_conv = fields.Float(string='Hasil Conv',compute="_get_spo_quantity",)
+    # product_qty_est  = fields.Float(string='Request Produksi')
+    # product_qty_est_conv  = fields.Float(string='Request Produksi Conv',compute="_get_spo_quantity",)
+    # product_orig_id = fields.Many2one('product.product', string='Product',)
     # product_orig_id = fields.Many2one('product.product', string='Product',compute="_compute_product_orig_id",inverse="_set_product_orig_id")
-    product_uom_qty  = fields.Float(string='Quantity',compute="_get_spo_quantity")
+    product_uom_qty  = fields.Float(string='Quantity',
+    # compute="_get_spo_quantity"
+    )
     product_qty      = fields.Float(string='Production Quantity',related="production_id.product_qty")
-    qty_onhand       = fields.Float(string='On Hand',compute="_compute_qty_onhand")
+    # qty_onhand       = fields.Float(string='On Hand',compute="_compute_qty_onhand")
     display_type     = fields.Selection([
         ('line_section', "Section"),
         ('line_note', "Note")], default=False, help="Technical field for UX purpose.")
-    
-    product_orig_id_domain = fields.Char(
-    compute="_compute_product_id_domain",
-    readonly=True,
-    store=False,
-)
+    team = fields.Selection([("1","1"),("2","2"),("3","3")], string='Team')
+    sale_line_id = fields.Many2one('sale.order.line', string='Sale Order Line')
+    design_id = fields.Many2one('makloon.design', string='Design')
+    operation_template_id = fields.Many2one('mrp.operation.template', string='Operation Template')
+    treatment_id = fields.Many2one('treatment', string='Treatment', 
+    related='sale_line_id.treatment_id'
+    )
+    qty_produce = fields.Float(string='Qty Produce')
+    shape = fields.Selection([("caplet","Caplet"),("round","Round")], string='Shape', related='sale_line_id.shape')
+#     product_orig_id_domain = fields.Char(
+#     compute="_compute_product_id_domain",
+#     readonly=True,
+#     store=False,
+# )
     
     
     def _get_production_type(self):
@@ -264,12 +257,12 @@ class ManufacturingRequestLine(models.Model):
             production_type_id = self.env['mrp.production.type'].search([('finished_category_ids','in',line.product_categ_id.id)],limit=1)
             line.type_id = production_type_id.id
 
-    @api.depends('product_id')
-    def _compute_product_id_domain(self):
-        for line in self:
-            line.product_orig_id_domain = json.dumps(
-                [('id', '!=', line.product_id.id),('id', 'in', line.request_id.line_ids.filtered(lambda x:x.line_product_id.id == line.line_product_id.id).mapped('product_id').ids), ('line_product_id', '=', line.line_product_id.id)]
-            )
+    # @api.depends('product_id')
+    # def _compute_product_id_domain(self):
+    #     for line in self:
+    #         line.product_orig_id_domain = json.dumps(
+    #             [('id', '!=', line.product_id.id),('id', 'in', line.request_id.line_ids.filtered(lambda x:x.line_product_id.id == line.line_product_id.id).mapped('product_id').ids), ('line_product_id', '=', line.line_product_id.id)]
+    #         )
     
     @api.depends('product_id')
     def _compute_product_orig_id(self):
@@ -297,8 +290,6 @@ class ManufacturingRequestLine(models.Model):
     def create(self,values):
         if values.get('product_id'):
             values['name'] = self.env['product.product'].browse(values.get('product_id')).name
-        
-        
         return super(ManufacturingRequestLine,self).create(values)
     
     def _get_domain(self):

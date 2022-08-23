@@ -9,21 +9,21 @@
                 <tree create="false">
                     <field name="request_id"/>
                     <field name="request_date"/>
-                    <field name="product_categ_id"/>
+                    <!-- <field name="product_categ_id"/> -->
                     <field name="line_product_id"/>
                     <field name="product_id"/>
                     <field name="name" optional="hide"/>
-                    <field name="default_code"/>
-                    <field name="qty_onhand"/>
+                    <!-- <field name="default_code"/> -->
+                    <!-- <field name="qty_onhand"/> -->
                     <field name="product_uom_qty" sum="Total"/>
                     <field name="product_uom_id"/>
                     <!-- <field name="capacity"/> -->
-                    <field name="konversi_butir"/>
-                    <field name="satuan_id"/>
-                    <field name="product_qty_conv"/>
-                    <field name="product_qty_est" sum="Total"/>
-                    <field name="product_qty_est_conv" sum="Total"/>
-                    <field name="product_orig_id"/>
+                    <!-- <field name="konversi_butir"/> -->
+                    <!-- <field name="satuan_id"/> -->
+                    <!-- <field name="product_qty_conv"/> -->
+                    <!-- <field name="product_qty_est" sum="Total"/> -->
+                    <!-- <field name="product_qty_est_conv" sum="Total"/> -->
+                    <!-- <field name="product_orig_id"/> -->
                 </tree>
             </field>
         </record>
@@ -60,21 +60,21 @@
                             <group>
                                 <field name="request_id"/>
                                 <field name="request_date"/>
-                                <field name="line_product_id"/>
+                                <!-- <field name="line_product_id"/> -->
                                 <field name="product_id"/>
                                 <field name="name" optional="hide"/>
-                                <field name="default_code"/>
+                                <!-- <field name="default_code"/> -->
                                 <field name="product_uom_qty" sum="Total"/>
                             </group>
                             <group>
                                 <field name="product_uom_id"/>
-                                <field name="konversi_butir"/>
+                                <!-- <field name="konversi_butir"/> -->
                                 <!-- <field name="capacity"/> -->
-                                <field name="satuan_id"/>
+                                <!-- <field name="satuan_id"/>
                                 <field name="product_qty_conv"/>
                                 <field name="product_qty_est"/>
                                 <field name="product_qty_est_conv"/>
-                                <field name="product_orig_id"/>
+                                <field name="product_orig_id"/> -->
                             </group>
                         </group>
                     </sheet>
@@ -118,7 +118,6 @@
                     <field name="request_date" type="row"/>
                     <field name="order_id" type="row"/>
                     <field name="product_id" type="row"/>
-                    <field name="product_qty_est" type="measure"/>
                 </pivot>
             </field>
         </record>
@@ -141,7 +140,7 @@
             <field name="arch" type="xml">
                 <graph string="Manufacture Request Analysis" sample="1" disable_linking="1">
                     <field name="order_id" type="row"/>
-                    <field name="product_qty_est" type="measure"/>
+                    <!-- <field name="product_qty_est" type="measure"/> -->
                 </graph>
             </field>
         </record>
@@ -163,7 +162,7 @@
             <field name="arch" type="xml">
                 <calendar string="Calendar View" date_start="request_date" color="order_id">
                     <field name="order_id" filters="1"/>
-                    <field name="product_qty_est"/>
+                    <!-- <field name="product_qty_est"/> -->
                 </calendar>
             </field>
         </record>
