@@ -343,7 +343,7 @@
                                                                 <b><span t-field="pl.parameter_id"/></b>
                                                             </td>
                                                             <td width="50%" style="border-bottom : 1px solid black ; padding-right : 10px" class="text-right">
-                                                                <span t-field="pl.plan"/>
+                                                                <span/>
                                                             </td>
                                                         </tr>
                                                     </t>
