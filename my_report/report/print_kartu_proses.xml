@@ -264,6 +264,9 @@
                                             <span>NO</span>
                                         </td>
                                         <td rowspan="2" style="border : 1px solid black">
+                                            <span>KATEGORI</span>
+                                        </td>
+                                        <td rowspan="2" style="border : 1px solid black">
                                             <span>URUTAN PROSES</span>
                                         </td>
                                         <td rowspan="2" style="border : 1px solid black">
@@ -324,13 +327,16 @@
                                                 <span t-esc="no"/>
                                             </td>
                                             <td style="border : 1px solid black ; padding-left : 10px">
+                                                <span t-field="flowproses_line.workcenter_id.workcenter_categ_id"/>
+                                            </td>
+                                            <td style="border : 1px solid black ; padding-left : 10px">
                                                 <span t-field="flowproses_line.workcenter_id"/>
                                             </td>
                                             <td style="border : 1px solid black">
                                                 <span t-field="flowproses_line.date_planned_start"/>
                                             </td>
                                             <td style="border : 1px solid black ; padding-left : 10px">
-                                                <span t-field="flowproses_line.machine_id"/>
+                                                <span t-field="flowproses_line.machine_id.number"/>
                                             </td>
                                             <td style="border : 1px solid black">
                                                 <span/>
