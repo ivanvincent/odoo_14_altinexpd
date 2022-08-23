@@ -101,7 +101,8 @@ class SaleOrderContract(models.Model):
 
     contract_id = fields.Many2one('sale.contract', string='Sales Forecast', copy=False)
     # no_wo       = fields.Char('Work Order')
-    design_code = fields.Char(string='Design Code')
+    # design_code = fields.Char(string='Design Code')
+    design_id = fields.Many2one('makloon.design', string='design')
 
     def action_select_product(self):
         view_id = self.env.ref('sale_contract.sales_forcast_form_view_select_multi_product_wizard')
