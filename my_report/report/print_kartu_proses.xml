@@ -105,7 +105,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                                <td width="5%">
                                     <span>DELIVERY DATE</span>
                                     <br/>
                                     <span>KODE CUSTOMER</span>
@@ -135,7 +135,7 @@
                                     <br/>
                                     <span>:</span>
                                     <!-- <span t-field="o.susut"/> -->
-                                    <span>%</span>
+                                    <span></span>
                                     <br/>
                                     <span>:</span>
                                     <!-- <span t-field="o.qty_request_greige"/> -->
