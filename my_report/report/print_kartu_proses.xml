@@ -324,13 +324,13 @@
                                                 <span t-esc="no"/>
                                             </td>
                                             <td style="border : 1px solid black ; padding-left : 10px">
-                                                <!-- <span t-field="flowproses_line.workcenter_id"/> -->
+                                                <span t-field="flowproses_line.workcenter_id"/>
                                             </td>
                                             <td style="border : 1px solid black">
                                                 <span/>
                                             </td>
                                             <td style="border : 1px solid black ; padding-left : 10px">
-                                                <!-- <span t-field="flowproses_line.mesin_id"/> -->
+                                                <span t-field="flowproses_line.machine_id"/>
                                             </td>
                                             <td style="border : 1px solid black">
                                                 <span/>
@@ -368,7 +368,7 @@
                                                 <span/>
                                             </td>
                                             <td style="border : 1px solid black">
-                                                <span/>
+                                                <img t-if="flowproses_line.id" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;' % ('Code128', flowproses_line.id, 600, 100)" style="width : 300px ; height : 55px"/>
                                             </td>
                                         </tr>
                                     </t>
