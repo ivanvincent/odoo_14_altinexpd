@@ -2,6 +2,19 @@
 <odoo>
 
     <data>
+
+        <record model="report.paperformat" id="a4_kartu_proses_format">
+            <field name="name">A4 Kartu Proses</field>
+            <field name="default" eval="False" />
+            <field name="format">A4</field> <!-- Tips : Bisa pilih ukuran yg sudah ada -->
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">80</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">75</field> <!-- Tips : Hide unnecessary header -->
+        </record>
     
         <report
             id="action_report_mrp_production_kartu_proses"
@@ -12,6 +25,10 @@
             file="my_report.report_print_kartu_proses"
         />
 
+        <record id="action_report_mrp_production_kartu_proses" model="ir.actions.report">
+            <field name="paperformat_id" eval="a4_kartu_proses_format" />
+        </record>
+
         <template id="report_print_kartu_proses">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
@@ -19,20 +36,20 @@
                         <table width="100%">
                             <tr>
                                 <td colspan="2">
-                                    <span>DYEING</span>
-                                    <br/>
+                                    <!-- <span>DYEING</span>
+                                    <br/> -->
                                     <span>PRODUCTION CARD</span>
                                     <span/>
                                     <span t-field="o.date_planned_start" t-options='{"widget": "date"}'/>
                                 </td>
                                 <td colspan="7">
                                     <center>
-                                        <h1>
+                                        <h5>
                                             <b>
                                                 <span t-field="o.product_id.name"/>
                                                 <!-- <span t-field="o.proses"/> -->
                                             </b>
-                                        </h1>
+                                        </h5>
                                     </center>
                                 </td>
                                 <td colspan="2" style="border : 1px solid black">
@@ -54,7 +71,7 @@
                                 <td style="border-left : 0px solid white ; border-top : 1px solid black ; border-bottom : 1px solid black ; border-right : 1px solid black">
                                     <b>
                                         <span>:</span>
-                                        <span t-field="o.sale_id"/>
+                                        <!-- <span t-field="o.sale_id"/> -->
                                     </b>
                                 </td>
                                 <td width="5%"/>
@@ -73,17 +90,18 @@
                                 <td colspan="2" style="border : 1px solid black">
                                     <center>
                                         <b>
-                                            <span t-field="o.greige_id.name"/>
+                                            -
+                                            <!-- <span t-field="o.greige_id.name"/> -->
                                         </b>
                                     </center>
                                 </td>
                                 <td width="5%"/>
                                 <td colspan="2" style="border : 1px solid black">
-                                    <center>
+                                    <!-- <center>
                                         <b>
                                             <span>INSPECT &amp; PACKING</span>
                                         </b>
-                                    </center>
+                                    </center> -->
                                 </td>
                             </tr>
                             <tr>
@@ -98,8 +116,8 @@
                                     <br/>
                                     <span>SUSUT</span>
                                     <br/>
-                                    <span>QTY REQUEST GREIGE</span>
-                                    <br/>
+                                    <!-- <span>QTY REQUEST GREIGE</span>
+                                    <br/> -->
                                 </td>
                                 <td>
                                     <span>:</span>
@@ -109,14 +127,14 @@
                                     <!-- <span t-field="o.kode_customer"/> -->
                                     <br/>
                                     <span>:</span>
-                                    <span t-field="o.jumlah_order"/>
+                                    <!-- <span t-field="o.jumlah_order"/> -->
                                     <!-- <span t-field="o.sc_id.qty_sc_uom_id"/> -->
                                     <br/>
                                     <span>:</span>
-                                    <span t-field="o.sale_type"/>
+                                    <!-- <span t-field="o.sale_type"/> -->
                                     <br/>
                                     <span>:</span>
-                                    <span t-field="o.susut"/>
+                                    <!-- <span t-field="o.susut"/> -->
                                     <span>%</span>
                                     <br/>
                                     <span>:</span>
@@ -131,8 +149,8 @@
                                     <br/>
                                     <span>CW</span>
                                     <br/>
-                                    <span>DASAR KAIN</span>
-                                    <br/>
+                                    <!-- <span>DASAR KAIN</span>
+                                    <br/> -->
                                     <span>PROSES</span>
                                     <br/>
                                     <span>MESIN</span>
@@ -146,9 +164,9 @@
                                     <!-- <span t-field="o.batch_ref"/> -->
                                     <br/>
                                     <span>:</span>
-                                    <span t-field="o.warna"/>
-                                    <br/>
-                                    <span>:</span>
+                                    <!-- <span t-field="o.warna"/> -->
+                                    <!-- <br/>
+                                    <span>:</span> -->
                                     <!-- <span t-field="o.dasar_kain"/> -->
                                     <br/>
                                     <span>:</span>
@@ -166,12 +184,12 @@
                                     <br/> -->
                                     <!-- <span>FABRIC TYPE</span>
                                     <br/> -->
-                                    <span>LEBAR KAIN FINISH</span>
+                                    <!-- <span>LEBAR KAIN FINISH</span>
                                     <br/>
                                     <span>BERAT KAIN FINISH</span>
                                     <br/>
                                     <span>DENSITY FINISH</span>
-                                    <br/>
+                                    <br/> -->
                                 </td>
                                 <td>
                                     <!-- <span>:</span> -->
@@ -183,7 +201,7 @@
                                     <span>:</span>
                                     <b>K</b>
                                     <br/> -->
-                                    <span>:</span>
+                                    <!-- <span>:</span>
                                     <span t-field="o.lebar_kain_finish"/>
                                     <br/>
                                     <span>:</span>
@@ -191,7 +209,7 @@
                                     <br/>
                                     <span>:</span>
                                     <span t-field="o.density_kain_finish"/>
-                                    <br/>
+                                    <br/> -->
                                 </td>
                                 <td wdith="5%"/>
                                 <td>
@@ -215,10 +233,10 @@
                                     <!-- <span t-field="o.kategori"/> -->
                                     <br/>
                                     <span>:</span>
-                                    <span t-field="o.grading"/>
+                                    <!-- <span t-field="o.grading"/> -->
                                     <br/>
                                     <span>:</span>
-                                    <span t-field="o.piece_length"/>
+                                    <!-- <span t-field="o.piece_length"/> -->
                                     <!-- <span t-field="o.sc_id.piece_length_uom"/> -->
                                     <br/>
                                     <span>:</span>
@@ -306,7 +324,7 @@
                                                 <span t-esc="no"/>
                                             </td>
                                             <td style="border : 1px solid black ; padding-left : 10px">
-                                                <span t-field="flowproses_line.workcenter_id"/>
+                                                <!-- <span t-field="flowproses_line.workcenter_id"/> -->
                                             </td>
                                             <td style="border : 1px solid black">
                                                 <span/>
@@ -318,7 +336,7 @@
                                                 <span/>
                                             </td>
                                             <td style="border : 1px solid black">
-                                                <table width="100%">
+                                                <!-- <table width="100%">
                                                     <t t-foreach="flowproses_line.parameter_ids" t-as="pl">
                                                         <tr>
                                                             <td width="50%" style="border-bottom : 1px solid black ; padding-left : 10px" class="text-left">
@@ -329,7 +347,7 @@
                                                             </td>
                                                         </tr>
                                                     </t>
-                                                </table>
+                                                </table> -->
                                             </td>
                                             <td style="border : 1px solid black">
                                                 <span/>
@@ -357,7 +375,7 @@
                                 </tbody>
                             </table>
 
-                            <div class="footer">
+                            <!-- <div class="footer"> -->
                                 <table style="margin-top : 10px" width="100%">
                                     <tr class="text-center">
                                         <td width="20%" style="border : 1px solid black">
@@ -539,7 +557,7 @@
                                         </td>
                                     </tr>
                                 </table>
-                            </div>
+                            <!-- </div> -->
                         </div>
                     </t>
                 </t>

@@ -41,6 +41,7 @@
         # 'report/bukti_pengeluaran_greige.xml',
         # 'report/packing_list_pengiriman_kain.xml',
         # 'report/konstruksi_design.xml',
+        'report/print_kartu_proses.xml'
         
         
         # 'views/inherit_stock.xml',
