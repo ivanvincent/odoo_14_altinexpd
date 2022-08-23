@@ -28,6 +28,7 @@ Dev
         # 'views/master_opc.xml',
         # 'views/nama_dagang.xml',
         'views/makloon_design.xml',
+        'views/treatment.xml',
         'report/mrp_machine.xml',
     ],
     'installable': True,
