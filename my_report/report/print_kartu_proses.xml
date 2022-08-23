@@ -383,7 +383,7 @@
                                                 <span/>
                                             </td>
                                             <td style="border : 1px solid black">
-                                                <img t-if="flowproses_line.id" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;' % ('Code128', flowproses_line.id, 400, 100)" style="width : 200px ; height : 55px"/>
+                                                <img t-if="flowproses_line.id" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;' % ('Code128', flowproses_line.id, 400, 50)" style="width : 200px ; height : 55px"/>
                                             </td>
                                             
                                         </tr>
