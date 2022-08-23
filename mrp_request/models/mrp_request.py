@@ -1,4 +1,3 @@
-from math import prod
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 from ast import literal_eval
