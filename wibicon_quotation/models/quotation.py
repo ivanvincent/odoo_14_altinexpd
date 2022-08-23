@@ -7,7 +7,8 @@ class Quotation(models.Model):
     name = fields.Char(string='Name', default='New')
     partner_id = fields.Many2one('res.partner', string='Customer')
     date = fields.Date(string='Date')
-    design_code_id = fields.Char(string='Design Code') #sementara
+    # design_code_id = fields.Char(string='Design Code') #sementara
+    design_code_id = fields.Many2one('makloon.design', string='Design')
     image_binary = fields.Binary(string='Image', store=False,)
     line_ids = fields.One2many('quotation.line', 'quotation_id', 'Line')
     state = fields.Selection([("draft","Draft"),("confirm","Confirm")], string='State', default='draft')

@@ -135,6 +135,7 @@ class SaleContract(models.Model):
     image_binary = fields.Binary(string='Image', compute='_compute_img')
     format_file = fields.Char(string='Format File')
     design_code = fields.Char(string='Design Code')
+    quotation_id = fields.Many2one('quotation', string='Quotation')
 
 
 
@@ -267,6 +268,22 @@ class SaleContract(models.Model):
             file = "%s%s%s" % (path, rec.id, rec.format_file)
             os.remove(file)
         return super(SaleContract, self).unlink()
+
+    @api.onchange('quotation_id')
+    def _onchange_quotation(self):
+        quotation = self.quotation_id
+        self.lines = False
+        if self.quotation_id:
+            self.partner_id = quotation.partner_id.id
+            self.lines = [(0, 0, {
+                'product_id': q.product_id.id,
+                'embos'     : q.embos,
+                'tip'       : q.tip,
+                'size'      : q.size,
+                'qty'       : q.quantity,
+                'price_unit': q.price_unit,
+            }) for q in quotation   .line_ids]
+            
 
 
 class SaleContractLine(models.Model):
