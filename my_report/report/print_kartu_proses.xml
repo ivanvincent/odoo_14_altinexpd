@@ -63,7 +63,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td width="5%"/>
+                                <!-- <td width="5%"/> -->
                                 <td style="border-left : 1px solid black ; border-top : 1px solid black ; border-bottom : 1px solid black ; border-right : 0px solid white ; padding-left : 10px">
                                     <b>
                                         <span>NO. SO</span>
@@ -107,15 +107,15 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <span>DELIVERY DATE</span>
+                                    <span>DT</span>
                                     <br/>
-                                    <span>KODE CUSTOMER</span>
+                                    <span>CUST</span>
                                     <br/>
-                                    <span>JUMLAH ORDER</span>
+                                    <span>ORDER</span>
                                     <br/>
                                     <span>TYPE</span>
                                     <br/>
-                                    <span>MODEL MESIN</span>
+                                    <span>MESIN</span>
                                     <br/>
                                     <!-- <span>QTY REQUEST GREIGE</span>
                                     <br/> -->
@@ -241,12 +241,6 @@
                                     <br/>
                                     <span>:</span>
                                     <!-- <span t-field="o.packing"/> -->
-                                    <br/>
-                                    <span>:</span>
-                                    <!-- <span t-field="o.acessories"/> -->
-                                    <br/>
-                                    <span>:</span>
-                                    <!-- <span t-field="o.hang_tag"/>     -->
                                     <br/>
                                 </td>
                             </tr>
