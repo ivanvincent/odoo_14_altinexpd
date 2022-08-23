@@ -11,3 +11,5 @@ from . import mrp_production_type
 from . import mrp_afkir
 from . import mrp_waste
 from . import stock_picking
+from . import mrp_workcenter_category
+from . import mrp_workcenter

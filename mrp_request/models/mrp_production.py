@@ -79,3 +79,9 @@ class MrpProduction(models.Model):
             for workorder in production.workorder_ids:
                 workorder.duration_expected = workorder._get_duration_expected()
     
+    # def button_mark_done(self):
+    #     print('button_mark_done',self.product_qty)
+    #     a = self.product_qty
+    #     res = super(MrpProduction, self).button_mark_done()
+    #     self.product_qty = a
+    #     return res

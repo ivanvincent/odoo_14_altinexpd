@@ -65,6 +65,8 @@
                                     <tree editable="bottom">
                                         <field name="sequence"/>
                                         <field name="workcenter_id" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="workcenter_categ_id"/>
+                                        <field name="machine_id"/>
                                         <button name="action_open_parameters" type="object" icon="fa-list"/>
                                     </tree>
                                     <form>

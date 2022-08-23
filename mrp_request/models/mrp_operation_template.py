@@ -19,6 +19,7 @@ class MrpOperationTemplateLine(models.Model):
     template_id   = fields.Many2one('mrp.operation.template', 'Template')
     workcenter_id = fields.Many2one('mrp.workcenter', string='Workcenter')
     machine_id    = fields.Many2one('mrp.machine', string='Machine')
+    workcenter_categ_id = fields.Many2one('mrp.workcenter.category', string='Category', related='workcenter_id.workcenter_categ_id')
     parameter_ids = fields.One2many('mrp.operation.template.line.parameter', 'line_id', 'Parameters')
     
     def _get_sequence(self):
