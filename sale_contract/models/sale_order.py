@@ -138,7 +138,7 @@ class SaleOrderContract(models.Model):
                 rec.pricelist_id = rec.contract_id.pricelist_id.id
                 rec.client_order_ref = rec.contract_id.no_bon
                 rec.payment_term_id = rec.contract_id.term_of_payment.id
-                rec.design_code = rec.contract_id.design_code
+                rec.design_id = rec.contract_id.design_code_id.id
                 
                 # rec.write({
                 #     'partner_id' : rec.contract_id.partner_id.id,

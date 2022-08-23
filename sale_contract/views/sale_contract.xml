@@ -87,7 +87,7 @@
                         <group string="Info">
                                 <field name="no_bon" invisible="1"/>
                                 <field name="process"/>
-                                <field name="design_code"/>
+                                <field name="design_code_id"/>
                                 <!-- <field name="lebar_finish"/>
                                 <field name="gramasi_finish"/>
                                 <field name="potongan_pinggir"/> -->

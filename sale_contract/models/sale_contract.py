@@ -134,7 +134,8 @@ class SaleContract(models.Model):
     process                     = fields.Many2one('sale.contract.process',string='Process')
     image_binary = fields.Binary(string='Image', compute='_compute_img')
     format_file = fields.Char(string='Format File')
-    design_code = fields.Char(string='Design Code')
+    design_code = fields.Char(string='Design Code') #sementara
+    design_code_id = fields.Many2one('makloon.design', string='Design')
     quotation_id = fields.Many2one('quotation', string='Quotation')
 
 
@@ -275,6 +276,7 @@ class SaleContract(models.Model):
         self.lines = False
         if self.quotation_id:
             self.partner_id = quotation.partner_id.id
+            self.design_code_id = quotation.design_code_id.id
             self.lines = [(0, 0, {
                 'product_id': q.product_id.id,
                 'embos'     : q.embos,
@@ -282,7 +284,7 @@ class SaleContract(models.Model):
                 'size'      : q.size,
                 'qty'       : q.quantity,
                 'price_unit': q.price_unit,
-            }) for q in quotation   .line_ids]
+            }) for q in quotation.line_ids]
             
 
 
