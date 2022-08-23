@@ -1,7 +1,7 @@
 {
-    'name': "Altinec Sale",
+    'name': "Altinex Sale",
     'version': '1.0',
-    'depends': ['base','sale'],
+    'depends': ['base','sale','base_master'],
     'author': "Wibicon",
     'category': 'Category',
     'description': """
