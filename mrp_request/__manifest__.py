@@ -28,8 +28,10 @@
     'views/stock_picking.xml',
     'views/mrp_operation_template_line_parameter.xml',
     'views/mrp_workcenter.xml',
+    'views/workorder_daily.xml',
     # 'wizard/mrp_workoder_split_wizard.xml',
     'wizard/mrp_production_wizard.xml',
+    'wizard/workorder_daily_wizard.xml',
   ],
   'qweb': [
     # 'static/src/xml/nama_widget.xml',

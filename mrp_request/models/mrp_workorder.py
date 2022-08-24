@@ -58,6 +58,7 @@ class MrpWorkOrderLine(models.Model):
     date            = fields.Date(string='Date', default=fields.Date.today())
     waste_ids       = fields.One2many('mrp.waste', 'workorder_line_id', string='Waste')
     afkir_ids       = fields.One2many('mrp.afkir', 'workorder_line_id', string='Afkir')
+    wo_daily_id     = fields.Many2one('workorder.daily', 'Workorder Daily')
     
     def _read(self, fields):
         res = super()._read(fields)

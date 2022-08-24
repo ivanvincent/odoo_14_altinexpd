@@ -13,3 +13,4 @@ from . import mrp_waste
 from . import stock_picking
 from . import mrp_workcenter_category
 from . import mrp_workcenter
+from . import workorder_daily
