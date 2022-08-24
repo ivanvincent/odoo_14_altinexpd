@@ -77,7 +77,7 @@
         <record model="ir.actions.act_window" id="mrp_workorder_line_type_action">
             <field name="name">Workorder Details</field>
             <field name="res_model">mrp.workorder.line</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
             <field name="context">{'group_by':['production_id','name']}</field>
             <field name="search_view_id" ref="mrp_request.workorder_line_type_search"/>
         </record>
