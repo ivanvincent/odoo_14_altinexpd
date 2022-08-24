@@ -63,6 +63,7 @@
                                 </td>
                             </tr>
                             <tr>
+                                <!-- <td width="5%"/> -->
                                 <td style="border-left : 1px solid black ; border-top : 1px solid black ; border-bottom : 1px solid black ; border-right : 0px solid white ; padding-left : 10px">
                                     <b>
                                         <span>NO. SO</span>
@@ -71,50 +72,50 @@
                                 <td style="border-left : 0px solid white ; border-top : 1px solid black ; border-bottom : 1px solid black ; border-right : 1px solid black">
                                     <b>
                                         <span>:</span>
-                                        <!-- <span t-field="o.sale_id"/> -->
+                                        <span t-field="o.request_id.sale_id"/>
                                     </b>
                                 </td>
                                 <td width="5%"/>
                                 <td style="border-left : 1px solid black ; border-top : 1px solid black ; border-bottom : 1px solid black ; border-right : 0px solid white ; padding-left : 10px">
                                     <b>
-                                        <span>MOTIF</span>
+                                        <span>TREATMENT</span>
                                     </b>
                                 </td>
                                 <td style="border-left : 0px solid white ; border-top : 1px solid black ; border-bottom : 1px solid black ; border-right : 1px solid black">
                                     <b>
                                         <span>:</span>
-                                        <span>MOTIF</span>
+                                        <span>PLATTING</span>
                                     </b>
                                 </td>
                                 <td width="5%"/>
                                 <td colspan="2" style="border : 1px solid black">
                                     <center>
                                         <b>
-                                            -
+                                            1
                                             <!-- <span t-field="o.greige_id.name"/> -->
                                         </b>
                                     </center>
                                 </td>
                                 <td width="5%"/>
                                 <td colspan="2" style="border : 1px solid black">
-                                    <!-- <center>
+                                    <center>
                                         <b>
-                                            <span>INSPECT &amp; PACKING</span>
+                                            <span>INSPECT &amp;</span>
                                         </b>
-                                    </center> -->
+                                    </center>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <span>DELIVERY DATE</span>
+                                    <span>DT</span>
                                     <br/>
-                                    <span>KODE CUSTOMER</span>
+                                    <span>CUST</span>
                                     <br/>
-                                    <span>JUMLAH ORDER</span>
+                                    <span>ORDER</span>
                                     <br/>
                                     <span>TYPE</span>
                                     <br/>
-                                    <span>SUSUT</span>
+                                    <span>MESIN</span>
                                     <br/>
                                     <!-- <span>QTY REQUEST GREIGE</span>
                                     <br/> -->
@@ -135,25 +136,23 @@
                                     <br/>
                                     <span>:</span>
                                     <!-- <span t-field="o.susut"/> -->
-                                    <span>%</span>
+                                    <span></span>
                                     <br/>
-                                    <span>:</span>
-                                    <!-- <span t-field="o.qty_request_greige"/> -->
-                                    <br/>
+                                    
                                 </td>
                                 <td wdith="5%"/>
                                 <td>
-                                    <span>NO BATCH</span>
+                                    <span>UKURAN TIP/LBG</span>
                                     <br/>
-                                    <span>NO BATCH REF</span>
+                                    <span>BENTUK TIP</span>
                                     <br/>
-                                    <span>CW</span>
+                                    <span>PENANDAAN TIP</span>
                                     <br/>
                                     <!-- <span>DASAR KAIN</span>
                                     <br/> -->
-                                    <span>PROSES</span>
+                                    <span>BAHAN/UKURAN</span>
                                     <br/>
-                                    <span>MESIN</span>
+                                    <span>KODE BAHAN</span>
                                     <br/>
                                 </td>
                                 <td>
@@ -213,17 +212,13 @@
                                 </td>
                                 <td wdith="5%"/>
                                 <td>
-                                    <span>KATEGORI</span>
+                                    <span>TIM</span>
                                     <br/>
-                                    <span>GRADING</span>
-                                    <br/>
-                                    <span>PIECE LENGTH</span>
-                                    <br/>
-                                    <span>MAX JOIN PCS</span>
+                                    <span>TREATMENT</span>
                                     <br/>
                                     <span>PACKING</span>
                                     <br/>
-                                    <span>AKSESORIES</span>
+                                    <span>HRC</span>                                                                        
                                     <br/>
                                     <span>HANGTAG</span>
                                     <br/>
@@ -245,12 +240,6 @@
                                     <span>:</span>
                                     <!-- <span t-field="o.packing"/> -->
                                     <br/>
-                                    <span>:</span>
-                                    <!-- <span t-field="o.acessories"/> -->
-                                    <br/>
-                                    <span>:</span>
-                                    <!-- <span t-field="o.hang_tag"/>     -->
-                                    <br/>
                                 </td>
                             </tr>
                         </table>
@@ -264,28 +253,36 @@
                                             <span>NO</span>
                                         </td>
                                         <td rowspan="2" style="border : 1px solid black">
-                                            <span>URUTAN PROSES</span>
+                                            <span>KATEGORI</span>
                                         </td>
                                         <td rowspan="2" style="border : 1px solid black">
-                                            <span>TGL</span>
+                                            <span>URUTAN PROSES</span>
                                         </td>
+                                        
                                         <td colspan="2" style="border : 1px solid black">
                                             <span>MESIN</span>
                                         </td>
                                         <td colspan="2" style="border : 1px solid black">
                                             <span>KONDISI PROSES</span>
                                         </td>
-                                        <td colspan="2" style="border : 1px solid black">
+                                        <!-- <td colspan="2" style="border : 1px solid black">
                                             <span>STANDARD</span>
                                         </td>
                                         <td colspan="2" style="border : 1px solid black">
                                             <span>AKTUAL</span>
-                                        </td>
+                                        </td> -->
                                         <td rowspan="2" style="border : 1px solid black">
                                             <span>NAMA OPERATOR / SHIFT</span>
                                         </td>
                                         <td rowspan="2" style="border : 1px solid black">
+                                            <span>TANGGAL</span>
+                                        </td>
+                                        
+                                        <td rowspan="2" style="border : 1px solid black">
                                             <span>KETERANGAN</span>
+                                        </td>
+                                        <td rowspan="2" style="border : 1px solid black">
+                                            <span>BARCODE WO</span>
                                         </td>
                                     </tr>
                                     <tr class="text-center">
@@ -301,7 +298,7 @@
                                         <td style="border : 1px solid black">
                                             <span>AKTUAL</span>
                                         </td>
-                                        <td style="border : 1px solid black">
+                                        <!-- <td style="border : 1px solid black">
                                             <span>LEBAR</span>
                                         </td>
                                         <td style="border : 1px solid black">
@@ -312,7 +309,7 @@
                                         </td>
                                         <td style="border : 1px solid black">
                                             <span>GSM</span>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -324,13 +321,14 @@
                                                 <span t-esc="no"/>
                                             </td>
                                             <td style="border : 1px solid black ; padding-left : 10px">
-                                                <span t-field="flowproses_line.workcenter_id"/>
-                                            </td>
-                                            <td style="border : 1px solid black">
-                                                <span t-field="flowproses_line.date_planned_start"/>
+                                                <span t-field="flowproses_line.workcenter_id.workcenter_categ_id"/>
                                             </td>
                                             <td style="border : 1px solid black ; padding-left : 10px">
-                                                <span t-field="flowproses_line.machine_id"/>
+                                                <span t-field="flowproses_line.workcenter_id"/>
+                                            </td>
+                                            
+                                            <td style="border : 1px solid black ; padding-left : 10px">
+                                                <span t-field="flowproses_line.machine_id.number"/>
                                             </td>
                                             <td style="border : 1px solid black">
                                                 <span/>
@@ -343,7 +341,7 @@
                                                                 <b><span t-field="pl.parameter_id"/></b>
                                                             </td>
                                                             <td width="50%" style="border-bottom : 1px solid black ; padding-right : 10px" class="text-right">
-                                                                <span t-field="pl.plan"/>
+                                                                <span t-field="pl.factor"/>
                                                             </td>
                                                         </tr>
                                                     </t>
@@ -352,24 +350,31 @@
                                             <td style="border : 1px solid black">
                                                 <span/>
                                             </td>
-                                            <td style="border : 1px solid black ; padding-right : 10px" class="text-right">
-                                                <!-- <span t-field="flowproses_line.lebar_result"/> -->
+                                            <!-- <td style="border : 1px solid black ; padding-right : 10px" class="text-right">
+                                                <span t-field="flowproses_line.lebar_result"/>
                                             </td>
                                             <td style="border : 1px solid black ; padding-right : 10px" class="text-right">
-                                                <!-- <span t-field="flowproses_line.gramasi_result"/> -->
+                                                <span t-field="flowproses_line.gramasi_result"/>
                                             </td>
                                             <td style="border : 1px solid black">
                                                 <span/>
                                             </td>
                                             <td style="border : 1px solid black">
                                                 <span/>
+                                            </td> -->
+                                            <td style="border : 1px solid black">
+                                                <span/>
+                                            </td>
+                                            <td style="border : 1px solid black">
+                                                <span t-field="flowproses_line.date_planned_start"/>
                                             </td>
                                             <td style="border : 1px solid black">
                                                 <span/>
                                             </td>
                                             <td style="border : 1px solid black">
-                                                <img t-if="flowproses_line.id" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;' % ('Code128', flowproses_line.id, 600, 100)" style="width : 300px ; height : 55px"/>
+                                                <img t-if="flowproses_line.id" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;' % ('Code128', flowproses_line.id, 400, 50)" style="width : 200px ; height : 55px"/>
                                             </td>
+                                            
                                         </tr>
                                     </t>
                                 </tbody>

@@ -2,8 +2,8 @@
 <odoo>
     <data>
         <!-- List View -->
-        <record model="ir.ui.view" id="mrp_workorder_line_tree">
-            <field name="name">mrp.workorder.line.tree</field>
+        <record model="ir.ui.view" id="mrp_workorder_line_wc_tree">
+            <field name="name">mrp.workorder.line.wc.tree</field>
             <field name="model">mrp.workorder.line</field>
             <field name="arch" type="xml">
                 <tree>
@@ -23,8 +23,8 @@
 
 
         <!-- Search View -->
-        <record model="ir.ui.view" id="workorder_line_search">
-            <field name="name">mrp.workorder.line.search</field>
+        <record model="ir.ui.view" id="workorder_line_wc_search">
+            <field name="name">mrp.workorder.line.wc.search</field>
             <field name="model">mrp.workorder.line</field>
             <field name="arch" type="xml">
                 <search>
@@ -39,7 +39,7 @@
         </record>
 
         <!-- Form View -->
-        <record model="ir.ui.view" id="mrp_workorder_line_form">
+        <record model="ir.ui.view" id="mrp_workorder_line_wc_form">
             <field name="name">mrp.workorder.line.form</field>
             <field name="model">mrp.workorder.line</field>
             <field name="arch" type="xml">
@@ -74,16 +74,16 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="mrp_workorder_line_action">
+        <record model="ir.actions.act_window" id="mrp_workorder_line_wc_action">
             <field name="name">Workorder Details</field>
             <field name="res_model">mrp.workorder.line</field>
             <field name="view_mode">tree,form,pivot,graph</field>
             <field name="context">{'group_by':['production_id','name']}</field>
-            <field name="search_view_id" ref="mrp_request.workorder_line_search"/>
+            <field name="search_view_id" ref="mrp_request.workorder_line_wc_search"/>
         </record>
 
 
-        <menuitem id="menu_mrp_workorder_line" name="Workorder Details" parent="mrp.menu_mrp_reporting" sequence="11" action="mrp_workorder_line_action" />
+        <menuitem id="menu_mrp_workorder_line_wc" name="Produktifitas Per Proses" parent="mrp.menu_mrp_reporting" sequence="21" action="mrp_workorder_line_wc_action" />
 
 
 
