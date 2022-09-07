@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="fusion_connector_wizard_form" model="ir.ui.view">
+            <field name="name">fusion_connector_wizard.form</field>
+            <field name="model">fusion.connector.wizard</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" bg_color="bg-success" title="Connected" attrs="{'invisible': [('is_connected', '=', False)]}"/>
+                        <group>
+                            <field name="is_connected" invisible="1"/>
+                            <field name="client_id"/>
+                            <field name="client_secret"/>
+                            <field name="scope"/>
+                            <field name="result" attrs="{'invisible':[('result', '=', False)]}"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="connect_to_fusion" type="object" string="Connect" class="oe_highlight"/>
+                        <button name="action_get_project" type="object" string="Get Project" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="fusion_connector_wizard_action" model="ir.actions.act_window">
+            <field name="name">Fusion Connector</field>
+            <field name="res_model">fusion.connector.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <menuitem
+            id="fusion_01_menu"
+            name="Fusion"
+            action="fusion_connector_wizard_action"
+            parent="fusion_root_menu"
+            sequence="20"/>
+    
+    </data>
+    
+
+</odoo>
