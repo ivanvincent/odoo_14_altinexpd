@@ -14,6 +14,7 @@ class MrpWorkorder(models.Model):
     satuan_id        = fields.Many2one('satuan.produksi', string='Satuan Produksi',related="production_id.satuan_id")
     production_qty   = fields.Float(string='Production Qty',related="production_id.mrp_qty_produksi")
     product_code     = fields.Char(related='product_id.default_code', string='Code')
+    is_highrisk      = fields.Boolean(string='Highrish ?', related='production_id.is_highrisk', store=True,)
     
     @api.depends('workorder_ids')
     def _get_actual_qty(self):

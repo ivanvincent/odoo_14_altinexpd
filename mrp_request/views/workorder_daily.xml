@@ -19,6 +19,7 @@
                         <group name="name">
                             <field name="date"/>
                             <field name="employee_id"/>
+                            <field name="scanner" widget="qrscanner"/>
                         </group>
                         <notebook>
                             <page string="Workorder Line">

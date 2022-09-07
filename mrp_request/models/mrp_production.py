@@ -1,3 +1,4 @@
+from email.policy import default
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
@@ -21,6 +22,7 @@ class MrpProduction(models.Model):
     bahan            = fields.Char(string='Bahan')
     ukuran           = fields.Char(string='Ukuran')
     kode_bahan       = fields.Char(string='Kode Bahan')
+    is_highrisk      = fields.Boolean(string='Is Highrisk?', default=False)
     
     
     def action_split_workorder(self):
@@ -88,6 +90,16 @@ class MrpProduction(models.Model):
             production.workorder_ids = [(5, 0)] + [(0, 0, value) for value in workorders_values]
             for workorder in production.workorder_ids:
                 workorder.duration_expected = workorder._get_duration_expected()
+
+    def action_set_highrisk(self):
+        ctx = self.env.context
+        for mrp in self.env['mrp.production'].browse(ctx.get('active_ids', [])):
+            mrp.write({'is_highrisk': True})
+
+    def action_set_unhighrisk(self):
+        ctx = self.env.context
+        for mrp in self.env['mrp.production'].browse(ctx.get('active_ids', [])):
+            mrp.write({'is_highrisk': False})
     
     # def button_mark_done(self):
     #     print('button_mark_done',self.product_qty)
