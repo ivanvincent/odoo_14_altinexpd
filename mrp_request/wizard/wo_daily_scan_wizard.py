@@ -1,12 +1,9 @@
-from odoo import models, fields, api
+from odoo import fields, models, api, _
+from odoo.exceptions import UserError
 
-class WorkorderDaily(models.Model):
-    _name = 'workorder.daily'
+class WoDailyScanWizard(models.TransientModel):
+    _name = 'wo.daily.scan.wizard'
 
-    name        = fields.Char(string='Name')
-    employee_id = fields.Many2one('hr.employee', string='Operator',)
-    date        = fields.Date(string='Date', default=fields.Date.today())
-    mrp_workorder_line_ids = fields.One2many('mrp.workorder.line', 'wo_daily_id', 'Line')
     scanner     = fields.Char('Scanner')
 
     # @api.model
@@ -16,7 +13,7 @@ class WorkorderDaily(models.Model):
     
     @api.onchange('scanner')
     def _onchange_qr_code(self):
-       if self.scanner:
+        if self.scanner:
             return {
                 'warning' : {
                     'title' : 'Success',

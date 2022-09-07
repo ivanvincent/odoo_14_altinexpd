@@ -33,6 +33,7 @@
     'views/mrp_operation_template_line_parameter.xml',
     'views/mrp_workcenter.xml',
     'views/workorder_daily.xml',
+    'views/res_users.xml',
     # 'wizard/mrp_workoder_split_wizard.xml',
     'wizard/mrp_production_wizard.xml',
     'wizard/workorder_daily_wizard.xml',

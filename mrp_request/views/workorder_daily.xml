@@ -9,6 +9,7 @@
             <field name="arch" type="xml">
                 <form string="">
                     <header>
+                        <button name="barcode_scan" type="object" string="Scan" class="oe_highlight"/>
                     </header>
                     <sheet>
                         <div class="oe_title">
@@ -19,7 +20,9 @@
                         <group name="name">
                             <field name="date"/>
                             <field name="employee_id"/>
-                            <field name="scanner" widget="qrscanner"/>
+                            <center>
+                                <field name="scanner" widget="qrscanner" invisible="1"/>
+                            </center>
                         </group>
                         <notebook>
                             <page string="Workorder Line">
