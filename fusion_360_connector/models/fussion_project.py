@@ -4,6 +4,7 @@ class FusionProject(models.Model):
     _name = 'fusion.project'
 
     name = fields.Char(string='Name')
+    id_fp = fields.Char(string='Id Fp')
 
 
 class FusionProjectLine(models.Model):

@@ -40,6 +40,11 @@ class FusionConnectorWizard(models.TransientModel):
         action = self.env.ref('fusion_360_connector.fusion_connector_wizard_action').read()[0]
         action['res_id'] = self.id
         return action
+            # return {
+            #     "type": "ir.actions.act_url",
+            #     "url": "https://auth.autodesk.com/as/QXHzQ/resume/as/authorization.ping?opentoken=%s*&lang=en" % (res.get('access_token', False)),
+            #     "target": "blank",
+            # }
 
     @api.model
     def default_get(self, fields):
@@ -61,14 +66,22 @@ class FusionConnectorWizard(models.TransientModel):
         access_token =  get_param('fusion_access_token', False)
 
         url = "https://developer.api.autodesk.com/fusiondata/2022-04/graphql"
-
-        payload="{\"query\":\"query {\\n  hubs {\\n    results {\\n      name\\n    }\\n  }\\n}\",\"variables\":{}}"
+        payload="{\"query\":\"query GetProjects ($hubId : String!) {\\n  projects (hubId: $hubId) {\\n    results {\\n        id\\n        name      \\n    }\\n  }\\n}\\n\",\"variables\":{\"hubId\":\"a.YnVzaW5lc3M6Z21haWwyNzExMDM0\"}}"
         headers = {
         'Accept': 'application/json',
         'Authorization': '%s %s' % (token_type, access_token),
         'Content-Type': 'application/json',
         }
-
         response = requests.request("GET", url, headers=headers, data=payload)
+        res = json.loads(response.text)
 
-        print(response.text)
+        vals = []
+        for data in res["data"]["projects"]["results"]:
+            print(data["name"])
+            v = "('%s', '%s')" % (data['name'], data['id'])
+            vals.append(v)
+        query = """
+                DELETE FROM fusion_project;
+                INSERT INTO fusion_project (name, id_fp) VALUES %s;
+        """ % (str(', '.join(vals)))
+        self._cr.execute(query)

@@ -271,6 +271,7 @@ class ManufacturingRequestLine(models.Model):
     )
     qty_produce = fields.Float(string='Qty Produce')
     shape = fields.Selection([("caplet","Caplet"),("round","Round")], string='Shape', related='sale_line_id.shape')
+    fusion_project_id = fields.Many2one('fusion.project', string='Fussion Project')
 #     product_orig_id_domain = fields.Char(
 #     compute="_compute_product_id_domain",
 #     readonly=True,

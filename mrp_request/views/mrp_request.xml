@@ -119,6 +119,7 @@
                                         <field name="treatment_id"/>
                                         <field name="team"/>
                                         <field name="operation_template_id" required="1"/>
+                                        <field name="fusion_project_id"/>
                                     </tree>
                                 </field>
                             </page>
