@@ -86,7 +86,7 @@ class ManufacturingRequest(models.Model):
                 # product_categ_id = line.product_id.categ_id
                 
                 # bom_id = self.env['mrp.bom'].search([('product_tmpl_id','=',line.product_id.product_tmpl_id.id)],limit=1)
-                bom_id = self._prepare_bom(line.product_id, line.product_id.product_tmpl_id, line.operation_template_id)
+                bom_id = self._prepare_bom(line.product_id, line.product_id.product_tmpl_id, line.operation_template_id, line.fusion_project_id)
                 picking_type_id = self.env['stock.picking.type'].sudo().browse(picking_type_id)
                 production_id = self.env['mrp.production'].create({
                     'product_id':line.product_id.id,
@@ -190,10 +190,15 @@ class ManufacturingRequest(models.Model):
         action['context'] = {}
         return action
     
-    def _prepare_bom(self, product_id, product_tmpl_id, operation_tmpl_id):
+    def _prepare_bom(self, product_id, product_tmpl_id, operation_tmpl_id, fusion_project_id):
         bom_obj = self.env['mrp.bom'].search([('product_tmpl_id','=',product_tmpl_id.id),('operation_template_id', '=', operation_tmpl_id.id)],limit=1)
         if bom_obj:
             bom_obj._get_operations()
+            for b in fusion_project_id.detail_line_ids:
+                bom_fusion.append((0, 0, {'product_id':b.product_id.id,'product_qty':1}))
+                bom_obj.write({
+                    'bom_line_ids': bom_fusion,
+                })
             return bom_obj
         else:
             bom_obj = self.env['mrp.bom'].create({
@@ -204,6 +209,12 @@ class ManufacturingRequest(models.Model):
                 'operation_template_id': operation_tmpl_id.id
             })
             bom_obj._get_operations()
+            bom_fusion = []
+            for b in fusion_project_id.detail_line_ids:
+                bom_fusion.append((0, 0, {'product_id':b.product_id.id,'product_qty':1}))
+            bom_obj.write({
+                'bom_line_ids': bom_fusion,
+            })
             return bom_obj
     
     def _request_material(self, production_id):
