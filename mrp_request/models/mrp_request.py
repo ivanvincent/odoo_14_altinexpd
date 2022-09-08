@@ -192,6 +192,7 @@ class ManufacturingRequest(models.Model):
     
     def _prepare_bom(self, product_id, product_tmpl_id, operation_tmpl_id, fusion_project_id):
         bom_obj = self.env['mrp.bom'].search([('product_tmpl_id','=',product_tmpl_id.id),('operation_template_id', '=', operation_tmpl_id.id)],limit=1)
+        bom_fusion = []
         if bom_obj:
             bom_obj._get_operations()
             for b in fusion_project_id.detail_line_ids:
@@ -209,7 +210,6 @@ class ManufacturingRequest(models.Model):
                 'operation_template_id': operation_tmpl_id.id
             })
             bom_obj._get_operations()
-            bom_fusion = []
             for b in fusion_project_id.detail_line_ids:
                 bom_fusion.append((0, 0, {'product_id':b.product_id.id,'product_qty':1}))
             bom_obj.write({
