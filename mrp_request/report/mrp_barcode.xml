@@ -1,0 +1,83 @@
+<odoo>
+    <data>
+        <record model="report.paperformat" id="papertformat_barcode_two">
+            <field name="name">Barcode 2</field>
+            <field name="default" eval="False" />
+            <!--  <field name="format">a5</field>  -->
+            <!--  Tips : Bisa pilih ukuran yg sudah ada  -->
+            <field name="format">custom</field>
+            <field name="page_width">100</field>
+            <field name="page_height">50</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">18</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <!--  Tips : Hide unnecessary header  -->
+        </record>
+
+        <record id="action_report_action_name" model="ir.actions.report">
+            <field name="name">Barcode</field>
+            <field name="model">mrp.production</field>
+            <field name="report_name">mrp_request.barcode_template</field>
+            <field name="report_file">mrp_request.barcode_template</field>
+            <field name="print_report_name">'%s' % object.name</field>
+            <field name="binding_model_id" ref="model_mrp_production" />
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" eval="papertformat_barcode_two" />
+        </record>
+
+        <template id="barcode_template">
+            <t t-foreach="range(3)" t-as="l">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="page">
+                            <div class="row no-gutters">
+                                <div class="col-6 text-left position-relative" style="font-size: 20px;">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                            </tr>
+                                            <tr style="border: 1px solid black;">
+                                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;' % ('Code128', o.name, 300, 150)"
+                                                    style="width:300;height:150;margin-left:-50px;" />
+                                            </tr>
+                                            <tr class="text-center" style="font-size: 20px;">
+                                                <center>
+                                                        <span t-field="o.name"/> - <span t-field="o.request_id.sale_id.partner_id"/>
+                                                </center>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="col-6" style="font-size: 20px">
+                                    <table class="table">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <center>
+                                                    <!--  <t t-esc="no" /></strong> - ( <t t-esc="l.get_lot_name(pop2).production_id.name" />)  -->
+                                                </center>
+                                            </tr>
+                                            <tr>
+                                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;' % ('Code128', o.name, 300, 150)"
+                                                    style="width:300;height:150;margin-left:-40px;" />
+                                            </tr>
+                                            <tr class="text-center" style="font-size: 20px;">
+                                                <center>
+                                                        <span t-field="o.name"/> - <span t-field="o.request_id.sale_id.partner_id"/>
+                                                </center>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <!--  </t>  -->
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
