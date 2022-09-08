@@ -16,6 +16,16 @@
                                 <field name="name"/>
                             </h1>
                         </div>
+                        <notebook>
+                            <page name="detail" string="Details">
+                                <field name="detail_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="product_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
