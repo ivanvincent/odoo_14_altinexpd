@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_makloon_operation_tree" model="ir.ui.view">
+            <field name="name">makloon.operation.tree</field>
+            <field name="model">makloon.operation</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Makloon Operation">
+                    <field name="name"/>
+                    <field name="sequence" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- search -->
+		<record id="makloon_operation_search" model="ir.ui.view">
+			<field name="name">makloon_operation_search</field>
+			<field name="model">makloon.operation</field>
+			<field name="arch" type="xml">
+				<search string="Search Makloon Operations">
+	                <field name="name"/>
+
+	            </search>
+			</field>
+		</record>
+
+    </data>
+</openerp>

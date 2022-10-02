@@ -1,0 +1,98 @@
+<odoo>
+	<data>
+
+
+		<record id="open_view_makloon_project_all" model="ir.actions.act_window">
+            <field name="name">Makloon Stage</field>
+            <field name="res_model">makloon.planning.stage</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="domain">[]</field>
+            <field name="view_mode">kanban</field>
+            <!--<field name="search_view_id" ref="view_makloon_stage_filter"/>-->
+            <field name="target">main</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new project.<br/>
+
+                </p>
+            </field>
+        </record>
+
+
+
+
+		<record id="action_makloonoperation_list" model="ir.actions.act_window">
+			<field name="name">Makloon Operation</field>
+			<field name="res_model">makloon.operation</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a Course
+              </p>
+				<p>klik tombol create untuk bikin Course baru</p>
+			</field>
+		</record>
+
+		<record id="action_makloonplanning_list" model="ir.actions.act_window">
+			<field name="name">Makloon Planning</field>
+			<field name="res_model">makloon.planning</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a Makloon Planning
+              </p>
+				<p>Click to add a Makloon Planning</p>
+			</field>
+		</record>
+
+		<record id="action_makloonorder_list" model="ir.actions.act_window">
+			<field name="name">Makloon Order</field>
+			<field name="res_model">makloon.order</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a New Makloon Order
+              </p>
+				<p>Click to add a New Makloon Order</p>
+			</field>
+		</record>
+
+
+
+
+		<menuitem id="makloon_0"
+				  name="Makloon Project"
+				  sequence="20"
+				  web_icon="makloon_project,static/src/img/icon.jpg"
+				  />
+
+		<!-- <menuitem action="open_view_makloon_project_all" id="menu_makloon_projects" name="Dashboard" parent="makloon_0" sequence="1"/> -->
+
+		<menuitem id="makloon_1"
+				  name="Makloon Project"
+				  parent="makloon_0"
+				  sequence="20"/>
+
+		<menuitem id="menu_makloon_operation"
+				  name="Makloon Operation"
+				  parent="makloon_1"
+				  action="action_makloonoperation_list"
+				  sequence="20"/>
+
+		<menuitem id="menu_makloon_planning"
+				  name="Makloon Planning"
+				  parent="makloon_1"
+				  action="action_makloonplanning_list"
+				  sequence="30"/>
+
+
+
+		<menuitem id="menu_makloon_order"
+				  name="Makloon Order"
+				  parent="makloon_1"
+				  action="action_makloonorder_list"
+				  sequence="40"/>
+
+
+	</data>
+</odoo>

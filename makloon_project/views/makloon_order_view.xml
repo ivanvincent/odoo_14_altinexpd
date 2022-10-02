@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_makloon_order_tree" model="ir.ui.view">
+            <field name="name">makloon.order.tree</field>
+            <field name="model">makloon.order</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Makloon Order">
+                    <field name="name"/>
+                    <field name="date_order"/>
+                    <field name="partner_id"/>
+                    <field name="origin"/>
+                    <field name="stage_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- <record id="makloon_order_search" model="ir.ui.view">
+
+			<field name="name">makloon.order.search</field>
+			<field name="model">makloon.order</field>
+			<field name="arch" type="xml">
+				<search string="Search Session">
+
+
+					<field name="name"/>
+
+					<group string="Group By..">
+						<filter string="Planning" domain="[]"
+							context="{'group_by':'origin'}"/>
+
+					</group>
+
+				</search>
+			</field>
+		</record> -->
+
+        <record id="view_makloon_order_form" model="ir.ui.view">
+            <field name="name">makloon.order.form</field>
+            <field name="model">makloon.order</field>
+            <field name="type">form</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Makloon Order Form">
+                    <header>
+						<!--button string="Confirm" type="object" name="action_confirm"
+						 	 states="draft" />
+						<button string="Mark as Done" type="object" name="action_done"
+						 	 states="confirmed" />
+						<button string="Reset to Draft" type="object" name="action_draft"
+						 	 states="confirmed,done" /-->
+
+                        <button string="Set To Draft" type="object"
+                             name="action_draft"
+                             states="cancel" />     
+
+						<button string="Confirm" type="object"
+			                 name="button_approve"
+							 states="draft" />
+
+                        <button string="Process" type="object"
+			                 name="button_process"
+							 states="confirm" />
+
+                        <button string="Finish Order" type="object"
+			                 name="button_done" confirm="Are You sure finish this order?"
+							 states="process" />
+
+                        <button string="Cancel" type="object"
+			                 name="action_cancel" confirm="Are You sure cancel this order?"
+							 states="process" />
+
+
+						 <field name="state" widget="statusbar" statusbar_visible="draft,process,done" />
+					</header>
+
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object"
+                                name="action_view_picking_out"
+                                class="oe_stat_button"
+                                icon="fa-truck" attrs="{'invisible':[('state', '=', 'draft'),('picking_ids','=',[])]}">
+                                <field name="picking_out_count" widget="statinfo" string="Material Move" />
+                                <field name="picking_ids" invisible="1"/>
+                            </button>
+                            <button type="object"  name="action_view_picking_in"
+                                class="oe_stat_button"
+                                icon="fa-truck" attrs="{'invisible':[('state', '=', 'draft'),('picking_ids','=',[])]}">
+                                <field name="picking_in_count" widget="statinfo" string="Result and Return"/>
+                                <field name='picking_ids' invisible="1"/>
+                            </button>
+                            <button type="object"  name="action_view_po"
+                                class="oe_stat_button"
+                                icon="fa-pencil-square-o" attrs="{'invisible':[('state', '=', 'draft'),('picking_ids','=',[])]}">
+                                <field name="po_count" widget="statinfo" string="Purchase Order"/>
+                                <field name='po_ids' invisible="1"/>
+                            </button>
+                            <button type="object"  name="action_view_journal_item"
+                                    string="Journal Item"
+                                class="oe_stat_button"
+                                icon="fa-arrows-v" attrs="{'invisible':[('state', '=', 'draft'),('picking_ids','=',[])]}">
+                            </button>
+
+
+
+                        </div>
+
+
+
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" string="Mak Order Number"/>
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date_order" />
+                                <field name="partner_id"/>
+                                <field name="origin" />
+                                <field name="type"  />
+                            </group>
+                            <group>
+                                <field name="warehouse_id" />
+                                <field name="production_loc" />
+                                <field name="stage_id" />
+                            </group>
+                        </group>
+
+                        <group>
+                            <field name="notes" required="1"/>
+                        </group>
+
+                        <notebook>
+
+                            <page string="Material">
+                                <field name="material_ids" nolabel="1">
+                                    <tree string="Material" editable="bottom">
+                                        <field name="name" invisible="1"/>
+                                        <field name="product_id" />
+                                        <field name="product_uom_qty" sum="product_uom_qty"/>
+                                        <field name="product_uom" />
+                                        <field name="price_unit" invisible="1"/>                                        
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Result" >
+                                <field name="result_ids" nolabel="1">
+                                    <tree string="Result" editable="bottom">
+                                       <field name="name" invisible="1"/>
+                                        <field name="product_id" />
+                                        <field name="product_uom_qty" sum="product_uom_qty"/>
+                                        <field name="product_uom" />
+                                        <field name="service_product_id" />
+                                        <field name="waste_valasi" />
+                                    </tree>
+                                </field>
+                            </page>
+
+
+                            <page string="Material Ready To Send" attrs="{'invisible': [('state', 'in', ['draft','confirm'])]}">
+                                <field name="stock_production_progress_pack_ids" nolabel="1">
+                                    <tree string="Progress" editable="bottom">
+                                        <!-- <field name="package_id"  invisible="1"/> -->
+                                        <!-- <field name="product_id" /> -->
+                                        <!-- <field name="product_uom_id" />
+                                        <field name="lots_visible" invisible="1"/>
+                                        <field name="location_id" />
+                                        <field name="location_dest_id" />
+                                        <field name="state" invisible="1"/>
+                                        <field name="product_qty" sum="total"/>
+                                        <field name="picking_id"/> -->
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Result in Progress" attrs="{'invisible': [('state', 'in', ['draft','confirm'])]}">
+                                <field name="stock_result_progress_pack_ids" nolabel="1">
+                                    <tree string="Progress" editable="bottom">
+                                        <!-- <field name="package_id"  invisible="1"/> -->
+                                        <!--<field name="date" />-->
+                                        <!-- <field name="product_id" />
+                                        <field name="product_uom_id" />
+                                        <field name="lots_visible" invisible="1"/>
+                                        <field name="location_id" />
+                                        <field name="location_dest_id" />
+                                        <field name="state" invisible="1"/>
+                                        <field name="product_qty" sum="total"/>
+                                        <field name="picking_id"/> -->
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Material Sent" attrs="{'invisible': [('state', 'in', ['draft','confirm'])]}">
+                                <field name="stock_production_done_pack_ids" nolabel="1">
+                                    <tree string="Done" editable="bottom">
+                                        <!-- <field name="package_id"  invisible="1"/> -->
+                                        <!-- <field name="date" />
+                                        <field name="product_id" />
+                                        <field name="product_uom_id" />
+                                        <field name="lots_visible" invisible="1"/>
+                                        <field name="location_id" />
+                                        <field name="location_dest_id" />
+                                        <field name="state" invisible="1"/>
+                                        <field name="qty_done" sum="total"/>
+                                        <field name="picking_id"/> -->
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Result Done" attrs="{'invisible': [('state', 'in', ['draft','confirm'])]}">
+                                <field name="stock_result_done_pack_ids" nolabel="1">
+                                    <tree string="Done" editable="bottom">
+                                        <!-- <field name="package_id"  invisible="1"/> -->
+                                        <!-- <field name="date" />
+                                        <field name="product_id" />
+                                        <field name="product_uom_id" />
+                                        <field name="lots_visible" invisible="1"/>
+                                        <field name="location_id" />
+                                        <field name="location_dest_id" />
+                                        <field name="state" invisible="1"/>
+                                        <field name="qty_done" sum="total"/>
+                                        <field name="picking_id"/> -->
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Material Return" attrs="{'invisible': [('state', 'in', ['draft','confirm'])]}">
+                                <field name="stock_material_return_pack_ids" nolabel="1">
+                                    <tree string="Return" >
+                                        <!-- <field name="package_id"  invisible="1"/> -->
+                                        <!-- <field name="date" />
+                                        <field name="product_id" />
+                                        <field name="product_uom_id" />
+                                        <field name="lots_visible" invisible="1"/>
+                                        <field name="location_id" />
+                                        <field name="location_dest_id" />
+                                        <field name="state" invisible="1"/>
+                                        <field name="qty_done" sum="total"/>
+                                        <field name="picking_id"/> -->
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Result Return" attrs="{'invisible': [('state', 'in', ['draft','confirm'])]}">
+                                <field name="stock_result_return_pack_ids" nolabel="1">
+                                    <tree string="Return" >
+                                        <!-- <field name="package_id"  invisible="1"/> -->
+                                        <!-- <field name="date" />
+                                        <field name="product_id" />
+                                        <field name="product_uom_id" />
+                                        <field name="lots_visible" invisible="1"/>
+                                        <field name="location_id" />
+                                        <field name="location_dest_id" />
+                                        <field name="state" invisible="1"/>
+                                        <field name="qty_done" sum="total"/>
+                                        <field name="picking_id"/> -->
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Scrap/Loss" attrs="{'invisible': [('state', 'in', ['draft','confirm'])]}">
+                                <field name="stock_material_scrap_ids" nolabel="1">
+                                    <tree string="Return" >
+                                        <field name="date" />
+                                        <field name="product_id" />
+                                        <field name="location_id" />
+                                        <field name="location_dest_id" />
+                                        <field name="state" invisible="1"/>
+                                        <field name="product_uom_qty" sum="total"/>
+                                        <field name="picking_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                        </notebook>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

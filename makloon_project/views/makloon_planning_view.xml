@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_makloon_planning_tree" model="ir.ui.view">
+            <field name="name">makloon.planning.tree</field>
+            <field name="model">makloon.planning</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Makloon Planning">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="company_id"/>
+                    <field name="warehouse_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_makloon_planning_stage_kanban">
+            <field name="name">makloon.planning.stage.kanban</field>
+            <field name="model">makloon.planning.stage</field>
+            <field name="arch" type="xml">
+
+                <kanban class="oe_background_grey o_kanban_dashboard o_workcenter_kanban" default_group_by="planning_id" create="0">
+                    <field name="name"/>
+                    <!--<field name="color"/>-->
+                    <!-- <field name="progress"/> -->
+                    <field name="partner_id"/>
+                    <field name="production_loc"/>
+                    <field name="state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{kanban_color(record.progress.raw_value)}" style="min-width: 200px;">
+                                <div class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary"><field name="name"/></div>
+                                    </div>
+                                   <div class="o_kanban_card_header_title">
+                                        <div class="o_primary"><field name="partner_id"/></div>
+                                    </div>
+                                </div>
+                                <div class="container o_kanban_card_content o_visible">
+                                    <div class="row">
+                                        <div name="view_makloon" class="col-xs-6 o_kanban_primary_left">
+                                            <div class="btn-group" name="o_wo">
+                                            <t t-if="record.progress.raw_value &gt; 0">
+                                                <button class="btn btn-primary" name="action_view_makloon_order" type="object" context="{'search_default_ready': 1, 'search_default_progress': 1, 'search_default_pending': 1}">
+                                                    <span>Makloon Orders</span>
+                                                </button>
+                                            </t>
+
+                                            </div>
+                                        </div>
+
+                                        <div name="progress_value" class="col-xs-6 o_kanban_primary_right">
+                                            <div class="o_primary"><field name="progress"/>%</div>
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6 o_kanban_primary_left">
+                                            <div class="btn-group" name="o_wo">
+                                            <t t-if="record.progress.raw_value &gt; 0">
+                                                <button class="btn btn-primary" name="mark_as_done" type="object" states="process" context="{'search_default_ready': 1, 'search_default_progress': 1, 'search_default_pending': 1}">
+                                                    <span>Mark As Done</span>
+                                                </button>
+                                            </t>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-6 o_kanban_primary_right">
+                                            <div class="o_primary"><field name="state"/></div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+
+            </field>
+        </record>
+
+
+
+
+
+
+
+
+
+        <record id="view_makloon_planning_form" model="ir.ui.view">
+            <field name="name">makloon.planning.form</field>
+            <field name="model">makloon.planning</field>
+            <field name="type">form</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Course Form">
+
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" string="MP Number"/>
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <field name="date" />
+                            <field name="due_date"/>
+                            <field name="warehouse_id"  />
+                            <field name="mako_count"  invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="desc" required="1"/>
+                        </group>
+
+
+                        <notebook>
+
+                            <page string="Makloon Stage">
+                                <field name="stage_ids">
+                                    <tree string="Stages" editable="bottom">
+                                        <field name="name" invisible="1"/>
+                                        <field name="operation_id" required="1"/>
+                                        <field name="partner_id" />
+                                        <field name="production_loc" />
+                                        <field name="state" />
+                                        <!-- <field name="progress" widget="progressbar"/> -->
+                                        <button name="create_makloon_order" type="object" icon="fa-list" states="draft"/>
+                                        <button name="action_view_makloon_order" type="object" icon="fa-pencil-square-o" states="process"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Makloon Order" attrs="{'invisible': [('mako_count', '=', 0)]}">
+                                <field name="mako_ids">
+                                    <tree string="Order" readonly="1">
+                                        <field name="name"/>
+                                        <field name="date_order"/>
+                                        <field name="partner_id"/>
+                                        <field name="origin"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>
