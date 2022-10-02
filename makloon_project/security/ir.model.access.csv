@@ -1,2 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_makloon_order_result,makloon.order.result,model_makloon_order_result,base.group_system,1,1,1,1
+access_makloon_order,makloon.order.result,model_makloon_order,base.group_system,1,1,1,1
+access_makloon_operation,makloon_order_operation,model_makloon_operation,base.group_system,1,1,1,1
+access_makloon_planning,makloon_order_planning,model_makloon_planning,base.group_system,1,1,1,1
+access_makloon_order_material,makloon_order_material,model_makloon_order_material,base.group_system,1,1,1,1
