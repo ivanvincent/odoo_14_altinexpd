@@ -16,6 +16,11 @@ class Picking(models.Model):
 
     makloon_order_id = fields.Many2one("makloon.order", "Makloon Order")
 
+class StockLocation(models.Model):
+    _inherit = 'stock.location'
+
+    partner_id = fields.Many2one('res.partner', string='Partner')
+
 
 # class StockQuant(models.Model):
 #     _inherit = "stock.quant"

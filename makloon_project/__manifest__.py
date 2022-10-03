@@ -24,7 +24,7 @@ Sometimes you need to produce your product via 3rd Party Vendor instead of you p
         'views/makloon_order_view.xml',
         'views/makloon_planning_view.xml',
         'views/purchase_view.xml',
-        # 'views/stock_view.xml',
+        'views/stock_view.xml',
         'report/makloon_order_printout.xml'
 
     ],

@@ -1,7 +1,7 @@
 <odoo>
     <data>
 
-
+<!-- 
             <record id="view_pickingmakloon_form" model="ir.ui.view">
                     <field name="name">stock.picking.form</field>
                     <field name="model">stock.picking</field>
@@ -11,6 +11,17 @@
                             <field name="makloon_order_id"  readonly="1"/>
                         </xpath>
                     </field>
+            </record> -->
+
+            <record model="ir.ui.view" id="nama_model_form">
+                <field name="name">stock.location.form</field>
+                <field name="model">stock.location</field>
+                <field name="inherit_id" ref="stock.view_location_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='usage']" position="after">
+                        <field name="partner_id"/>
+                    </xpath>
+                </field>
             </record>
 
 
