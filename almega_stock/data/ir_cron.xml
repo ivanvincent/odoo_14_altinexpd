@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+        <record model="ir.cron" id="update_product_age">
+            <field name='name'>Update Product Age</field>
+            <field name='interval_number'>1</field>
+            <field name='interval_type'>days</field>
+            <field name='nextcall'>09/03/2019 01:00:00</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+            <field name="model">stock.production.lot</field>
+            <field name="function">ProductAgeLot</field>
+            <field name="args">()</field>
+        </record>
+    </data>
+</openerp>

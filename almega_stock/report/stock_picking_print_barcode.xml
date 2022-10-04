@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    
+    <report
+            id="action_report_print_sp_barcode_menu"
+            model="stock.picking"
+            string="Print Barcode"
+            menu="True"
+            report_type="qweb-pdf"
+            name="almega_stock.report_print_barcode_sp_menu"
+            file="almega_stock.report_print_barcode_sp_menu"
+        />
+    
+    <record id="action_report_print_sp_barcode_menu" model="ir.actions.report">
+        <field name="paperformat_id" ref="almega_stock.barcode_pf"/>
+    </record>
+
+    <template id="report_print_barcode_sp_menu">
+        <t t-call="web.basic_layout">
+        <t t-foreach="docs.move_ids_without_package.move_line_ids" t-as="l">
+            <t t-if="l and 'company_id' in l">
+                <t t-set="company" t-value="l.company_id"/>
+            </t>
+            <t t-if="not l or not 'company_id' in l">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+                <div class="page">
+                    <div>
+                        <table style="border-spacing:0;margin-bottom:0;" class="table">
+                            <thead>
+                                <!--<font face="Tahoma" size="19">-->
+                                <tr style="padding:0">
+                                    <td style="no border;">
+                                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height: 50px; position: relative;"/>
+                                        <center style="margin-top: -50px;">
+                                            <img t-if="l.lot_id.name" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;' % ('Code128', l.lot_id.name, 500, 100)" style="width:400px;height:60px;text-align: left;"/>
+                                            <span style=" font:20px lucida-console,tahoma !important;"><strong t-field="l.lot_id.name"/></span>
+                                        </center>
+                                        <!--<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height: 50px; position: relative; margin-top: -130px;"/>-->
+                                    </td>
+                                </tr>
+                                <!--</font>-->
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td height="50px" style="no border; text-align: left;">
+                                        <span style=" font:17px lucida-console,sans-serif !important; "><b>Kode Design    &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;: </b><span align="left"/>&amp;nbsp;<strong t-field="l.product_id"/></span><br/>
+                                        <span style=" font:17px lucida-console,sans-serif !important; "><b>No. Gulungan &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;: </b><strong t-field="l.lot_id.gulungan_ke"/></span><strong> / <strong t-field="l.lot_id.total_gulungan" style=" font:17px lucida-console,sans-serif !important;"/></strong><br/>
+                                        <span style=" font:17px lucida-console,sans-serif !important; "><b>QTY Meter (Netto)  : </b><span align="left"/><strong t-field="l.lot_id.product_qty"/></span><br/>
+                                        <span style=" font:17px lucida-console,sans-serif !important; "><b>Tanggal Terima &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;: </b><span align="left"/><strong t-field="l.lot_id.create_date"/>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</span><br/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

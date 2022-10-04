@@ -1,0 +1,149 @@
+<openerp>
+<data>
+            <record id="makloon_order_tree_inherit1" model="ir.ui.view">
+                 <field name="name">makloon.order.tree.inherit1</field>
+                 <field name="model">makloon.order</field>
+                 <field name="inherit_id" ref="makloon_project.view_makloon_order_tree"/>
+                 <field name="arch" type="xml">
+                     <field name="stage_id" position="after">
+                         <field name="notes"/>
+                         <field name="source_po"/>
+                         <field name="material_progress" widget="progressbar" />
+                         <field name="result_progress" widget="progressbar" />
+                         <field name="state"/>
+                     </field>
+                 </field>
+            </record>
+
+
+            <!-- <record id="makloon_order_search_inherit1" model="ir.ui.view">
+
+                <field name="name">makloon.order.search.inherit1</field>
+                <field name="model">makloon.order</field>
+                <field name="inherit_id" ref="makloon_project.makloon_order_search"/>
+                <field name="arch" type="xml">
+                    <search string="Search Session">
+
+                        <field name="stage_id"/>
+                        <field name="origin"/>
+                        <field name="source_po"/>                        
+                        <field name="partner_id"/>
+                        <field name="production_loc"/>
+                        <field name="stage_id"/>
+                        <field name="material_progress"/>
+                        <field name="result_progress"/>
+
+
+                        <group string="Group By..">
+                            <filter string="Planning" domain="[]"
+                                context="{'group_by':'origin'}"/>
+
+                        </group>
+
+                    </search>
+                </field>
+            </record> -->
+
+
+            <record id="makloon_order_inherit1" model="ir.ui.view">
+                 <field name="name">makloon.order.inherit1</field>
+                 <field name="model">makloon.order</field>
+                 <field name="inherit_id" ref="makloon_project.view_makloon_order_form"/>
+                 <field name="arch" type="xml">
+                         <field name="stage_id" position="after">
+                             <field name="source_po"/>
+                             <field name="material_progress" widget="progressbar" />
+                             <field name="result_progress" widget="progressbar" />
+                             <!--<field name="order_rib_persen" string="Rib %" />
+                             <field name="order_rib_kg" string="Rib KG" />
+                             <field name="order_manset_persen" string="Manset %" />
+                             <field name="order_manset_kg" string="Manset KG" />-->
+                         </field>
+                         <!--<field name="type" position="after">
+                             <field name="order_body_persen" string="Body %" />
+                             <field name="order_body_kg" string="Body KG" />
+                             <field name="order_kerah_persen" string="Kerah %" />
+                             <field name="order_kerah_kg" string="Kerah KG" />
+                         </field>-->
+
+                     <xpath expr="//notebook/page/field[@name='result_ids']/tree/field[@name='product_id']" position="replace">
+                         <field name="operation_name" invisible="1"/>
+                         <field name="product_id" />
+                         <!--domain="[('categ_id.id', 'in', operation_line.ids)]"-->
+                         <!--<field name="product_merk_id" invisible="1"/>-->
+                         <field name="product_setting_id" />
+                         <field name="product_gramasi_id" />
+                         <field name="product_corak_id" />
+                         <field name="product_resep_warna_id" />
+                         <field name="product_warna_id" />
+                         <field name="product_category_warna_id" />
+                    </xpath>
+                    <!--<xpath expr="//notebook/page/field[@name='result_ids']/tree/field[@name='product_uom_qty']" position="replace">-->
+                        <!--<field name="product_body" />-->
+                        <!--<field name="product_kerah" />-->
+                        <!--<field name="product_rib" />-->
+                    <!--</xpath>-->
+                    <xpath expr="//notebook/page/field[@name='result_ids']/tree/field[@name='product_id']" position="after">
+                        <field name="product_group_category"/>
+                    </xpath>
+                     <xpath expr="//notebook/page/field[@name='result_ids']/tree/field[@name='product_uom']" position="after">
+                        <field name="product_roll" />
+                        <field name="roll_kg_id" />
+                        <!-- <field name="name" string="@ Kg"/> -->
+                        <field name="price_unit" />
+                        <field name="price_subtotal" />
+                    </xpath>
+                     <xpath expr="//notebook/page/field[@name='material_ids']/tree/field[@name='product_id']" position="replace">
+                        <field name="product_id"/>
+                        <field name="no_po"/>
+                        <field name="no_sj"/>
+                        <!--<field name="product_body"/>-->
+                        <!--<field name="product_kerah"/>-->
+                        <!--<field name="product_rib"/>-->
+                        <!--<field name="product_manset"/>-->
+                     </xpath>
+                    <xpath expr="//notebook/page/field[@name='material_ids']/tree/field[@name='product_uom']" position="after">
+                        <field name="product_kg"/>
+                    </xpath>
+                 </field>
+            </record>
+
+
+
+        <!--<record id="purchase_makloon_inherit1" model="ir.ui.view">-->
+             <!--<field name="name">purchase.makloon.inherit1</field>-->
+             <!--<field name="model">purchase.order</field>-->
+             <!--<field name="inherit_id" ref="purchase.purchase_order_form"/>-->
+             <!--<field name="arch" type="xml">-->
+                 <!--<xpath expr="//field[@name='date_order']" position="after">-->
+                    <!--<field name="product_category_id"/>-->
+                <!--</xpath>-->
+                 <!--<xpath expr="//field[@name='order_line']/tree//field[@name='product_id']" position="after">-->
+                     <!--<field name="product_color" />-->
+                <!--</xpath>-->
+                <!--<xpath expr="//field[@name='order_line']/tree//field[@name='product_qty']" position="before">-->
+                     <!--<field name="product_uk_grm" />-->
+                <!--</xpath>-->
+                <!--<xpath expr="//field[@name='order_line']/tree//field[@name='product_uom']" position="after">-->
+                     <!--<field name="product_kg" />-->
+                <!--</xpath>-->
+             <!--</field>-->
+        <!--</record>-->
+
+	<!--<record id="view_move_tree_inherit" model="ir.ui.view">-->
+        <!--<field name="name"> view.move.tree.inherit</field>-->
+        <!--<field name="model">stock.move</field>-->
+        <!--<field name="inherit_id" ref="stock.view_move_picking_tree"/>-->
+        <!--<field name="arch" type="xml">-->
+            <!--<xpath expr="//field[@name='product_id']" position="after">-->
+                 <!--<field name="description"/>-->
+                 <!--<field name="product_pcs" sum="Total Pcs" widget="monetary"/>-->
+                 <!--<field name="product_ball" sum="Total Ball" widget="monetary"/>-->
+            <!--</xpath>-->
+                <!--<xpath expr="//field[@name='product_uom_qty']" position="replace">-->
+                    <!--<field name="product_uom_qty" sum="Total Qty" widget="monetary"/>-->
+                <!--</xpath>-->
+        <!--</field>-->
+    <!--</record>-->
+</data>
+</openerp>

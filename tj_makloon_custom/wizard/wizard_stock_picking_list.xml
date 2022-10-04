@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_wizard_tj_makloon_custom_picking_list" model="ir.ui.view">
+        <field name="name">tj_makloon_picking_list_wizard</field>
+        <field name="model">makloon.picking.list</field>
+        <field name="arch" type="xml">
+        <form string="Packing List">
+            <group>
+                <field name="picking_id" readonly="1"/>
+                <field name="product_id" readonly="1"/>
+                <field name="name" readonly="1"/>
+                <field name="state" invisible="1"/>
+            </group>
+            <!--widget="many2many"-->
+			<field name="picking_list" nolabel="1" >
+                    <tree string="Packing List" editable="bottom">
+                        <field name="name" invisible="1"/>
+                        <field name="barcode" required="1"/>
+                        <field name="no_urut"/>
+                        <field name="warna_id" options="{'no_open':True, 'no_create':True}"/>
+                        <field name="qty_kg" />
+                        <field name="qty_bale" />
+                        <field name="qty_roll" />
+                        <field name="packing" />
+                        <field name="lot" />
+                    </tree>
+                    <form string="Packing List Details">
+                        <sheet>
+                            <group>
+                                <field name="name" invisible="1"/>
+                                <field name="no_urut" />
+                                <field name="qty_kg" />
+                                <field name="qty_bale" />
+                                <field name="qty_roll" />
+                                <field name="packing" />
+                                <field name="lot" />
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+
+                <footer>
+                        <button name="action_crud_picking"
+                                string="Save"
+                                type="object"
+                                class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+        </form>
+        </field>
+        </record>
+
+        <record id="action_wizard_tj_makloon_picking_list" model="ir.actions.act_window">
+        <field name="name">Picking List</field>
+        <field name="res_model">makloon.picking.list</field>
+        <!-- <field name="view_type">form</field> -->
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_wizard_tj_makloon_custom_picking_list"/>
+        <field name="target">new</field>
+        </record>
+
+        <menuitem
+                id="menu_action_wizard_tj_makloon_picking_list"
+                action="action_wizard_tj_makloon_picking_list"
+                parent="purchase.menu_purchase_root"
+                sequence="200" />
+    </data>
+</odoo>

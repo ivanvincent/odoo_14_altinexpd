@@ -1,0 +1,21 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_angkring_lot_wizard">
+            <field name="name">view.angkring.duplicate.lot</field>
+            <field name="model">angkring.duplicate.lot</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="new_qty" required="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_generate" string="Split" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

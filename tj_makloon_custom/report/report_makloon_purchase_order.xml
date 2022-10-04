@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            id="report_makloon_purchase_order_report"
+            string="Makloon Purchase Order Textile"
+            model="makloon.order"
+            report_type="qweb-pdf"
+            file="tj_makloon_custom.report_makloon_purchase_order"
+            name="tj_makloon_custom.makloon_purchase_order_report"/>
+
+          <template id="makloon_purchase_order_report">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="tj_makloon_custom.makloon_purchase_order_report_document"/>
+                </t>
+            </t>
+        </template>
+
+        <template id="makloon_purchase_order_report_document">
+
+            <tr t-call="report.external_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <h3>
+                        <center>
+                            <span t-if="o.stage_id.name == 'RAJUT'">Purchase Order Rajut</span>
+                            <span t-if="o.stage_id.name == 'CELUP'">Purchase Order Celup</span>
+                            <span t-if="o.stage_id.name == 'PRINTING'">Purchase Order Printing</span> 
+                            <br/>
+                            <b><span t-field="o.po_ids.name"/></b>
+                        </center>
+                    </h3>
+                    <div class="oe_structure"/>
+                        <div class="col-xs-4 pull-right">
+                            <div>
+                                <span><strong>Makloon Ke,</strong></span>
+                            </div>
+                            <div name="partner_header">
+                                <div t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>
+                            </div>
+                            <div>
+                                <span><strong>Contact Person,</strong></span>
+                            </div>
+                            <div name="partner_header2">
+                                <div t-field="o.po_ids.partner_contact"/>
+                            </div>
+                            
+                        </div>
+
+                    <table>
+                        <!--tr><td>No PO </td> <td>:<b><span t-field="o.po_ids.name"/></b></td></tr-->
+                        <tr><td>Date Order </td> <td>: <span t-field="o.date_order" t-field-options='{"format": "dd MMMM y"}'/></td></tr>
+                        <tr><td>Delivery </td> <td>: <span t-field="o.po_ids.date_planned" t-field-options='{"format": "dd MMMM y"}'/></td></tr>
+                        <tr><td>Referensi </td> <td>: <span t-field="o.origin"/></td></tr>
+                        <tr><td></td><td>: <span t-field="o.po_ids.makloon_id"/></td></tr>
+                        <tr><td></td><td>: <span t-field="o.po_ids.partner_ref"/></td></tr>
+                    </table>
+                    <br/>
+                    <br/>
+
+                    <h3 t-if="o.stage_id.name == 'RAJUT'">Bahan Makloon Rajut</h3>
+                    <h3 t-if="o.stage_id.name == 'CELUP'">Bahan Makloon Celup</h3>
+                    <h3 t-if="o.stage_id.name == 'PRINTING'">Bahan Makloon Printing</h3>
+
+                    <table class="table table-condensed">
+                        <thead height="30">
+                            <tr>
+                                <th>Nama Bahan</th>
+                                <th>No Purchase</th>
+                                <th>No Surat Jalan</th>
+                                <th>Jumlah</th>
+                                <th>Satuan</th>
+                                <!--th>Kg</th-->
+                            </tr>
+                       </thead>
+
+                       <tbody>
+                            <tr t-foreach="o.material_ids" t-as="l">
+                                <td>
+                                   <span t-field="l.product_id"/>
+                                </td>
+                                <td>
+                                   <span t-field="l.no_po.name"/>
+                                </td>
+                                <td>
+                                   <span t-field="l.no_sj"/>
+                                </td>
+                                <td>
+                                    <span t-field="l.product_uom_qty"/>
+                                </td>
+                                <td>
+                                    <span t-field="l.product_uom"/>
+                                </td>
+                                <!--td>
+                                    <span t-field="l.product_kg"/>
+                                </td-->
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3 t-if="o.stage_id.name == 'RAJUT'">Hasil Makloon Rajut</h3>
+                    <h3 t-if="o.stage_id.name == 'CELUP'">Hasil Makloon Celup</h3>
+                    <h3 t-if="o.stage_id.name == 'PRINTING'">Hasil Makloon Printing</h3>
+
+                    <table class="table table-condensed">
+                        <thead height="30">
+                            <tr>
+                                <th t-if="o.stage_id.name == ''"><strong>Product</strong></th>
+                                <th t-if="o.stage_id.name == 'PRINTING'"><strong>Product / Jasa</strong></th>
+                                <th t-if="o.stage_id.name == 'RAJUT'"><strong>Product / Jasa</strong></th>
+                                <th t-if="o.stage_id.name == 'CELUP'"><strong>Product / Jasa</strong></th>
+                                <th t-if="o.stage_id.name != 'BENANG'"><strong>Description</strong></th>
+                                <th>Jenis</th>
+                                <th>Setting Jadi</th>
+                                <th>Gramasi Matang</th>
+                                <th t-if="o.stage_id.name == 'CELUP'">Corak</th>
+                                <th t-if="o.stage_id.name == 'CELUP'">Resep Warna</th>
+                                <th>Warna</th>
+                                <th t-if="o.stage_id.name == 'CELUP'">Category Warna</th>
+                                <!--th>Jumlah(Kg)</th>
+                                <th>Satuan</th-->
+                                <th>Roll</th>
+                                <!-- <th class="text-center" t-if="o.stage_id.name == 'RAJUT'">@Kg</th> -->
+                                <th class="text-center">@Kg</th>
+                                <th>Qty</th>
+                                <th>Harga@</th>
+                                <th>Subtotal</th>
+                            </tr>
+                       </thead>
+
+                       <tbody>
+                           <t t-set="sum_amount" t-value="0"/>
+                            <tr t-foreach="o.result_ids" t-as="l">
+                                <!--td><span t-field="l.product_id"/></td-->
+                                <td>
+                                    <span t-field="l.service_product_id"/>
+                                </td>
+                                <td t-if="o.stage_id.name != 'BENANG'"><span t-field="l.product_id"/>
+                                </td>
+                                <td>
+                                   <span t-field="l.product_group_category"/>
+                                </td>
+                                <td>
+                                   <span t-field="l.product_setting_id"/>
+                                </td>
+                                <td>
+                                   <span t-field="l.product_gramasi_id"/>
+                                </td>
+                                <td t-if="o.stage_id.name == 'CELUP'">
+                                   <span t-field="l.product_corak_id"/>
+                                </td>
+                                <td t-if="o.stage_id.name == 'CELUP'">
+                                   <span t-field="l.product_resep_warna_id"/>
+                                </td>
+                                <td>
+                                   <span t-field="l.product_warna_id"/>
+                                </td>
+                                <td t-if="o.stage_id.name == 'CELUP'">
+                                   <span t-field="l.product_category_warna_id"/>
+                                </td>
+                                
+                                <td class="text-right">
+                                    <span t-field="l.product_roll"/>
+                                </td>
+                                <!-- <td class="text-right" t-if="o.stage_id.name == 'RAJUT'"> -->
+                                <td class="text-right">
+                                    <span t-field="l.roll_kg_id"/>
+                                </td>    
+                                <td>
+                                    <span t-field="l.product_uom_qty"/>
+                                </td>                                
+                                <td class="text-right">
+                                    <span t-field="l.price_unit"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="l.price_subtotal"/>
+                                    <t t-set="sum_amount" t-value="sum_amount+l.price_subtotal"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            <div class="row">
+                <div class="col-xs-4 pull-right">
+                    <table class="table table-condensed">
+                        <!--<tr class="border-black">-->
+                            <!--<td><strong>Total Without Taxes</strong></td>-->
+                            <!--<td class="text-right">-->
+                                <!--<span t-field="o.amount_untaxed"-->
+                                    <!--t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>Taxes</td>-->
+                            <!--<td class="text-right">-->
+                                <!--<span t-field="o.amount_tax"-->
+                                    <!--t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <tr class="border-black">
+                            <td><strong>Total</strong></td>
+                            <td class="text-right">
+                                <!--<span t-field="o.amount_total"-->
+                                    <!--t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>-->
+                                <t t-esc="sum_amount" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <p>
+                Catatan
+            </p>
+            <p t-field="o.notes"/>
+
+                    <table class="table">
+                        <tr>
+                            <td t-if="o.state=='process'">Disetujui,</td>
+
+                            <td>Mengetahui,</td>
+
+                            <td>Dibuat,</td>
+                        </tr>
+                        <tr style="padding-top:200px">
+                            
+                            <td t-if="o.state=='process'"><img width="120" src="/tj_makloon_custom/static/src/img/eric.png"/><br/>
+                                (ERIC SUTANTO)</td>
+
+                            <td><br/><br/><br/>(_________)</td>
+
+                            <td><br/><br/><br/>( <span t-field="o.create_uid"/> )</td>
+                        </tr>
+                    </table>
+                    <div class="oe_structure"/>
+                </div>
+            </tr>        
+        </template>
+    </data>
+</odoo>    

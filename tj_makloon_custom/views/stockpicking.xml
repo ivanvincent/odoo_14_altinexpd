@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+            <record id="stock_picking_inherit1" model="ir.ui.view">
+                 <field name="name">stock.picking.inherit1</field>
+                 <field name="model">stock.picking</field>
+                 <field name="inherit_id" ref="stock.view_picking_form"/>
+                 <field name="arch" type="xml">
+                     <field name="origin" position="after">
+                        <!-- <field name="warehouse_id" /> -->
+                        <field name="no_po" />
+                        <field name="no_sj_result" />
+                        <field name="no_sj" />
+                        <!-- <field name="makloon_order_id" /> -->
+                     </field>
+                     
+                     <field name="backorder_id" position="after">
+                        <field name="warehouse_id" />
+                        <!-- <field name="no_po" />
+                        <field name="no_sj_result" />
+                        <field name="no_sj" /> -->
+                        <field name="makloon_order_id" />
+                    </field>
+                    <xpath expr="//field[@name='quantity_done']" position="after">
+                        <field name="roll"/>
+                    </xpath>
+
+                                          
+                    <!--<xpath expr="//field[@name='pack_operation_product_ids']/tree//field[@name='product_id']" position="before">-->
+                         <!--&lt;!&ndash;<field name="picking_list" />&ndash;&gt;-->
+                         <!--&lt;!&ndash;<field name="no_sj" />&ndash;&gt;-->
+                         <!--<field name="no_po" />-->
+                    <!--</xpath>-->
+                    <!--<xpath expr="//field[@name='pack_operation_product_ids']/tree//field[@name='state']" position="after">-->
+                        <!--<button name="action_picking_list" type="object" icon="fa-list"/>-->
+                    <!--</xpath>-->
+                 </field>
+            </record>
+
+            <record id="stock_picking_tree_new" model="ir.ui.view">
+                <field name="name">stock.picking.new.form</field>
+                <field name="model">stock.picking</field>
+                <field name="inherit_id" ref="stock.vpicktree"/>
+                <field name="arch" type="xml">
+
+                    <field name="origin" position="after">
+                        <field name="no_sj_result"/>
+                        <field name="no_po"/>
+                        <field name="no_sj"/>
+                    </field>
+
+                </field>
+            </record>
+
+
+            <!-- <record id="stock_picking_inherit3" model="ir.ui.view">
+                <field name="name"> stock.move.generate.inherit</field>
+                <field name="model">stock.move</field>
+                <field name="inherit_id" ref="stock.view_move_picking_tree"/>
+                <field name="arch" type="xml"> -->
+                    <!--<xpath expr="//field[@name='product_id']" position="before">-->
+                         <!--&lt;!&ndash;<field name="picking_list" />&ndash;&gt;-->
+                         <!--&lt;!&ndash;<field name="no_sj" />&ndash;&gt;-->
+                         <!--<field name="no_po" />-->
+                    <!--</xpath>-->
+                    <!-- <xpath expr="//field[@name='state']" position="after">
+                        <button name="action_picking_list" type="object" icon="fa-list" context="{'product_id': product_id}" string="Packing List"/>
+                    </xpath>
+                </field>
+            </record> -->
+
+            <record id="almega_stock_production_lot_tree_view" model="ir.ui.view">
+                <field name="name">almega.stock.production.lot.tree</field>
+                <field name="model">stock.production.lot</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="stock.view_production_lot_tree"/>
+                <field name="arch" type="xml">
+
+                    <field name="product_id" position="after">
+                         <field name="product_category_warna_id"/>
+                    </field>
+
+                </field>
+                </record>
+
+            <record id="almega_stock_production_lot_form_view" model="ir.ui.view">
+                <field name="name">almega.stock.production.lot.form</field>
+                <field name="model">stock.production.lot</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="stock.view_production_lot_form"/>
+                <field name="arch" type="xml">
+
+                        <field name="ref" position="after">
+                            <field name="product_category_warna_id"/>
+                        </field>
+
+                 </field>
+            </record>
+
+    </data>
+</odoo>

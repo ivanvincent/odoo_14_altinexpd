@@ -25,17 +25,21 @@
                                 <field name="employee_id"/>
                                 <field name="note"/>
                             </group>
+                        </group>
+                        <group col="2">
                             <group string="Design Approved">
-                                <field name="drawing_internal" widget="image" class="oe_avatar"/>
-                                <field name="drawing_external" widget="image" class="oe_avatar"/>
+                                <field name="drawing_internal" widget="pdf_viewer"/>
+                            </group>
+                            <group string="Design Approved">
+                                <field name="drawing_external" widget="pdf_viewer"/>
                             </group>
                         </group>
                         <notebook>
                             <page name="History Design" string="string">
                                 <field name="makloon_design_line">
                                     <tree editable="bottom">
-                                        <field name="drawing_internal" widget="image" class="oe_avatar"/>
-                                        <field name="drawing_external" widget="image" class="oe_avatar"/>
+                                        <field name="drawing_internal" widget="pdf_viewer"/>
+                                        <field name="drawing_external" widget="pdf_viewer"/>
                                         <field name="state" widget="badge" decoration-success="state == 'approved'" decoration-danger="state == 'reject'"/>
                                         <button name="action_approve" type="object" string="Approve" states="draft"/>
                                         <button name="action_reject" type="object" string="Reject" states="draft"/>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_wizard_tj_makloon_hpp" model="ir.ui.view">
+        <field name="name">tj_makloon_hpp_wizard</field>
+        <field name="model">wiz.makloon.hpp</field>
+        <field name="arch" type="xml">
+        <form string="hpp Select">
+                <p class="oe_gray">
+                        hpp.
+                </p>
+			<!--<field name="from_loc_id"/>-->
+            <!--<field name="hpp_ids" />-->
+			<field name="hpp_ids" nolabel="1" widget="many2many" >
+                        				<tree string="HPP" editable="bottom">
+                                            <field name="jenis_bahan" readonly="1"/>
+                                            <field name="nama_bahan" readonly="1"/>
+                                            <field name="jenis_benang" readonly="1"/>
+                                            <field name="satuan" readonly="1"/>
+                                            <field name="konvers_kg" readonly="1"/>
+                                            <field name="konvers_hpp" readonly="1"/>
+                                            <field name="persentase" readonly="1"/>
+                                            <field name="setting" readonly="1"/>
+                                            <field name="gramasi" readonly="1"/>
+                                            <field name="corak" readonly="1"/>
+                                            <field name="daftar_harga" readonly="1"/>
+                                            <field name="warna" readonly="1"/>
+                                            <field name="resep_warna" readonly="1"/>
+                                            <field name="category_warna" readonly="1"/>
+                                            <field name="makloon_celup" readonly="1"/>
+                                            <field name="makloon_rajut" readonly="1"/>
+                        				</tree>
+                        				<form string="HPP Details">
+                        					<sheet>
+                        						<group>
+                                                    <field name="jenis_bahan"/>
+                                                    <field name="nama_bahan"/>
+                                                    <field name="jenis_benang"/>
+                                                    <field name="satuan"/>
+                                                    <field name="konvers_kg"/>
+                                                    <field name="konvers_hpp"/>
+                                                    <field name="persentase"/>
+                                                    <field name="setting"/>
+                                                    <field name="gramasi"/>
+                                                    <field name="corak"/>
+                                                    <field name="daftar_harga"/>
+                                                    <field name="warna"/>
+                                                    <field name="resep_warna"/>
+                                                    <field name="category_warna"/>
+                                                    <field name="makloon_celup"/>
+                                                    <field name="makloon_rajut"/>
+                                                </group>
+                        					</sheet>
+                        				</form>
+                        			</field>
+
+                <footer>
+                        <button name="action_hpp"
+                                string="Print"
+                                type="object"
+                                class="btn-primary"/>
+                        <button string="Close" class="btn-default" special="cancel" />
+                </footer>
+        </form>
+        </field>
+        </record>
+
+        <record id="action_wizard_tj_makloon_hpp" model="ir.actions.act_window">
+        <field name="name">Print Hpp</field>
+        <field name="res_model">wiz.makloon.hpp</field>
+        <!-- <field name="view_type">form</field> -->
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_wizard_tj_makloon_hpp"/>
+        <field name="target">new</field>
+        </record>
+
+        <menuitem
+                id="menu_action_wizard_tj_makloon_hpp"
+                action="action_wizard_tj_makloon_hpp"
+                parent="stock.menu_stock_inventory_control"
+                sequence="2" />
+    </data>
+</odoo>

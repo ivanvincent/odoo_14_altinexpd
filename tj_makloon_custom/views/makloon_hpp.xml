@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="tj_makloon_custom_makloon_hpp_tree" model="ir.ui.view">
+            <field name="name">makloon.hpp.tree</field>
+            <field name="model">makloon.hpp</field>
+            <field name="arch" type="xml">
+                <tree string="HPP">
+                	<field name="jenis_bahan"/>
+                    <field name="nama_bahan"/>
+                    <field name="jenis_benang"/>
+                    <field name="satuan"/>
+                    <field name="konvers_kg"/>
+                    <field name="konvers_hpp"/>
+                    <field name="persentase"/>
+                    <field name="setting"/>
+                    <field name="gramasi"/>
+                    <field name="corak"/>
+                    <field name="daftar_harga"/>
+                    <field name="warna"/>
+                    <field name="resep_warna"/>
+                    <field name="category_warna"/>
+                    <field name="makloon_celup"/>
+                    <field name="makloon_rajut"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="tj_makloon_custom_makloon_hpp_search" model="ir.ui.view">
+            <field name="name">makloon.hpp.search</field>
+            <field name="model">makloon.hpp</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="jenis_bahan"/>
+                	<field name="nama_bahan"/>
+                	<field name="jenis_benang"/>
+                    <field name="makloon_celup"/>
+                    <field name="makloon_rajut"/>
+                </search>
+            </field>
+        </record>
+        
+        <record id="tj_makloon_custom_makloon_hpp_form" model="ir.ui.view">
+            <field name="name">makloon.hpp.form</field>
+            <field name="model">makloon.hpp</field>
+            <field name="arch" type="xml">
+                <form string="HPP">
+                	<header>
+						<!--<button name="action_move" states="done" type="object" string="Create Move" class="oe_highlight" icon="fa-cube"/>-->
+                		<!--<button name="action_request" states="draft" type="object" string="Approve" icon="fa-check" />-->
+						<!--<button name="action_cancel" states="done" type="object" string="Cancel" icon="fa-close"/>-->
+						<!--<button name="action_reset_to_draft" states="cancel" type="object" string="Reset To Draft" icon="fa-undo"/>-->
+                		<!--<field name="state" widget="statusbar" />-->
+						<!--statusbar_visible="draft,done"-->
+                	</header>
+                	<sheet>
+                		<div class="oe_title">
+                           <!--<h1>-->
+                               <!--<field name="source_document" readonly="1"/><br/>-->
+                           <!--</h1>-->
+                           <!--<h4>-->
+                           	    <!--<field name="name" readonly="1"/>-->
+                           <!--</h4>-->
+                        </div>
+                        <group>
+                            <group>
+                                <field name="jenis_bahan"/>
+                                <field name="nama_bahan"/>
+                                <field name="jenis_benang" domain="[('categ_id.name', '=', 'BENANG')]"/>
+                                <field name="satuan"/>
+                                <field name="konvers_kg"/>
+                                <field name="konvers_hpp"/>
+                            </group>
+                            <group>
+                                <field name="persentase"/>
+                                <field name="setting"/>
+                                <field name="gramasi"/>
+                                <field name="corak"/>
+                                <field name="daftar_harga"/>
+                            </group>
+                            <group>
+                                <field name="warna"/>
+                                <field name="resep_warna"/>
+                                <field name="category_warna"/>
+                                <field name="makloon_celup" domain="[('category_id.name', '=', 'CELUP')]"/>
+                                <field name="makloon_rajut" domain="[('category_id.name', '=', 'RAJUT')]"/>
+                            </group>
+                        </group>
+						<!--<notebook>-->
+							<!--<page string="Asset Request">-->
+								<!--<field name="order_line"-->
+									   <!--attrs="{'readonly': [('state', 'in', ('done','move'))]}"-->
+									   <!--domain="[('current_loc_id', '=', from_loc_id)]">-->
+										<!--<tree string="Asset Lines" editable="bottom">-->
+											<!--<field name="from_loc_id" />-->
+											<!--<field name="asset_id" attrs="{'readonly': [('state', 'in', ('done','move'))]}"-->
+											<!--domain="[('current_loc_id', '=', from_loc_id)]"/>-->
+											<!--<field name="name" />-->
+											<!--<field name="state" invisible="1" />-->
+										<!--</tree>-->
+								<!--</field>-->
+							<!--</page>-->
+	                    <!--</notebook>-->
+                	</sheet>
+					 <!--<div class="oe_chatter">-->
+                	 	<!--&lt;!&ndash; <field name="message_follower_ids" widget="mail_followers"/> &ndash;&gt;-->
+                        <!--<field name="message_ids" widget="mail_thread"/>-->
+                    <!--</div>-->
+                </form>
+            </field>
+        </record>
+        <record id="action_tj_makloon_custom_hpp" model="ir.actions.act_window">
+	            <field name="name">Product HPP</field>
+	            <field name="type">ir.actions.act_window</field>
+	            <field name="res_model">makloon.hpp</field>
+	            <!-- <field name="view_type">form</field> -->
+	            <field name="view_mode">tree,form</field>
+	            <field name="search_view_id" ref="tj_makloon_custom_makloon_hpp_search"/>
+	            <field name="help" type="html">
+	                <p class="oe_view_nocontent_create">
+	                    Create Product HPP
+	                </p>
+	            </field>
+	        </record>
+
+	   <menuitem action="action_tj_makloon_custom_hpp" name="Product HPP"
+	            id="menu_action_tj_makloon_custom_hpp" parent="stock.menu_stock_inventory_control"
+	            sequence="1"/>
+     </data>
+</odoo>   

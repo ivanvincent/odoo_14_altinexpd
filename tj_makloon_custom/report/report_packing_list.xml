@@ -1,0 +1,146 @@
+<odoo>
+    <data>
+
+        <template id="report_packing_list_document">
+            <t t-call="report.external_layout">
+                
+                <t t-foreach="stock_picking" t-as="o">
+                 </t>                    
+                                 
+                <t t-set="o" t-value="o.with_context({})"/>
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <div class="row mt32 mb32 pull-right mt20" name="right_box">
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 500, 100)" style="width:400px;height:50px;"/>
+                    </div>
+                            <!--pull-right mt8-->
+                    <!--<div class="row mt32 mb32"/>-->
+                    <div style="height:20px"/>
+                    <h3 style="text-align:left">Packing List : <span t-field="o.name"/></h3>
+                        <td><h4 style="text-align:left">Dari  : <span t-field="o.location_id"/> -- 
+                        Tujuan  : <span t-field="o.location_dest_id"/></h4></td>
+                    <div class="oe_structure"/>
+                    <div style="height:20px"/>
+
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th style="border: 1px solid black"><strong>No</strong></th>
+                                <th style="border: 1px solid black"><strong>Nama Barang</strong></th>
+                                <th style="border: 1px solid black"><strong>Kode Roll</strong></th>
+                                <th style="border: 1px solid black"><strong>Warna</strong></th>
+                                <th style="border: 1px solid black"><strong>Kg</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="no" t-value="0"/>
+                            <t t-set="tot_qty" t-value="0"/>
+                            <t t-foreach="o.move_lines" t-as="line">
+                                <t t-set="no" t-value="no + 1"/>
+                                <t t-set="tot_qty" t-value="tot_qty + line.product_uom_qty"/>
+                                <tr style="border: 1px solid black">
+                                    <td style="border: 1px solid black">
+                                        <span t-esc="no"/>
+                                    </td>
+                                    <td style="border: 1px solid black">
+                                        <span t-field="line.product_id.name"/>
+                                    </td>
+                                     <td style="border: 1px solid black">
+                                        <span t-field="line.restrict_lot_id"/>
+                                    </td>
+                                    <td style="border: 1px solid black">
+                                        <span t-field="line.product_warna_id"/>
+                                    </td>
+                                    <td style="border: 1px solid black" class="text-right">
+                                        <span t-field="line.product_uom_qty"/>
+                                    </td>
+                                    
+                                </tr>
+                                
+                            <!--<t t-foreach="line.get_packing_list()" t-as="pack_list">
+                                <tr t-foreach="pack_list.picking_list" t-as="list_line">
+                                    <t t-set="no" t-value="no + 1"/>
+                                    <t t-set="tot_qty" t-value="tot_qty + list_line.qty_kg"/>
+                                    <td style="border: 1px solid black">
+                                        <span t-field="list_line.no_urut"/>
+                                    </td>
+                                    <td style="border: 1px solid black">
+                                        <span t-field="list_line.barcode"/>
+                                    </td>
+                                    <td style="border: 1px solid black">
+                                        <span t-field="list_line.warna_id"/>
+                                    </td>
+                                    <td style="border: 1px solid black">
+                                        <span t-field="list_line.qty_kg"/>
+                                    </td>
+                                    <td style="border: 1px solid black">
+                                        <span t-field="list_line.qty_roll"/>
+                                    </td>
+                                </tr>
+                            </t>-->
+                            </t>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <th style="border: 1px solid black">TOTAL</th>
+                                <th style="border: 1px solid black" class="text-right"><span t-esc="tot_qty"/></th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                    <div class="oe_structure"/>
+                    
+                    <!--<div class="row" name="ttd" style="padding-top:20px;">-->
+                        <!--<div class="col-xs-4" style="text-align:center">-->
+                            <!--<div style="padding-bottom:60px;"><span t-field="user.company_id.name"/> Staff</div>-->
+                            <!--<div>   ( <span t-field="user.name"/> )</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-xs-4" style="text-align:center">-->
+                            <!--<div style="padding-bottom:60px;">Supplier</div>-->
+                            <!--<div>( <span t-field="o.partner_id.name"/> )</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-xs-4" style="text-align:center">-->
+                            <!--<div style="padding-bottom:60px;">Pengirim</div>-->
+                            <!--<div>( __________________ )</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <table class="table" height="2px">
+                        <tr style="padding-top:50px" align="center">
+                            <td>Dikirim Oleh,</td>
+                            <td>Diterima Oleh,</td>
+                            <td>Sopir,</td>
+                            <td>Mengetahui,</td>
+                        </tr>
+                        <tr style="padding-top:50px" align="center">
+                            <td><span t-field="o.min_date" t-options="{'format':'dd/MM/YYYY'}"/><br/><br/><br/>........................</td>
+                            <td><br/><br/><br/>........................</td>
+                            <td><br/><br/><br/>........................</td>
+                            <td><br/><br/><br/>........................</td>
+                        </tr>
+                    </table>   
+                </div>
+            </t>
+        </template>
+
+        <template id="report_packing_list">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="tj_makloon_custom.report_packing_list_document"/>
+                </t>
+            </t>
+        </template>
+
+        <report 
+            string="Packing List"
+            id="action_report_packing_list" 
+            model="stock.picking" 
+            report_type="qweb-pdf"
+            name="tj_makloon_custom.report_packing_list" 
+            file="tj_makloon_custom.report_packing_list" 
+        />
+
+    </data>
+</odoo>

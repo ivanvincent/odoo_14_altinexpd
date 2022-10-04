@@ -1,0 +1,85 @@
+<openerp>
+<data>
+ <record id="tj_makloon_custom_makloon_resep_warna_tree" model="ir.ui.view">
+            <field name="name">makloon.resep.warna.tree</field>
+            <field name="model">makloon.resep.warna</field>
+            <field name="arch" type="xml">
+                <tree string="Resep Warna">
+                    <field name="name"/>
+                    <field name="warna_id" />
+                    <field name="category_warna_id" />
+                </tree>
+            </field>
+        </record>
+        
+        <record id="tj_makloon_custom_makloon_resep_warna_search" model="ir.ui.view">
+            <field name="name">makloon.resep.warna.search</field>
+            <field name="model">makloon.resep.warna</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+        
+        <record id="tj_makloon_custom_makloon_resep_warna_form" model="ir.ui.view">
+            <field name="name">makloon.resep.warna.form</field>
+            <field name="model">makloon.resep.warna</field>
+            <field name="arch" type="xml">
+                <form string="Resep Warna">
+                	<header>
+						<!--<button name="action_move" states="done" type="object" string="Create Move" class="oe_highlight" icon="fa-cube"/>-->
+                		<!--<button name="action_request" states="draft" type="object" string="Approve" icon="fa-check" />-->
+						<!--<button name="action_cancel" states="done" type="object" string="Cancel" icon="fa-close"/>-->
+						<!--<button name="action_reset_to_draft" states="cancel" type="object" string="Reset To Draft" icon="fa-undo"/>-->
+                		<!--<field name="state" widget="statusbar" />-->
+						<!--statusbar_visible="draft,done"-->
+                	</header>
+                	<sheet>
+                		<div class="oe_title">
+                        </div>
+                            <group>
+                           	    <field name="name"/>
+                                <field name="warna_id" />
+                                <field name="category_warna_id" />
+                            </group>
+                        <!--<notebook>-->
+							<!--<page string="Resep Warna Lines">-->
+								<!--<field name="order_line">-->
+										<!--<tree string="Asset Lines" editable="bottom">-->
+											<!--<field name="warna_id" />-->
+											<!--<field name="category_warna_id" />-->
+											<!--<field name="name" />-->
+										<!--</tree>-->
+								<!--</field>-->
+							<!--</page>-->
+	                    <!--</notebook>-->
+                	</sheet>
+					 <!--<div class="oe_chatter">-->
+                	 	<!--&lt;!&ndash; <field name="message_follower_ids" widget="mail_followers"/> &ndash;&gt;-->
+                        <!--<field name="message_ids" widget="mail_thread"/>-->
+                    <!--</div>-->
+                </form>
+            </field>
+        </record>
+    
+       <record id="action_makloon_resep_warna_list" model="ir.actions.act_window">
+			<field name="name">Resep Warna</field>
+			<field name="res_model">makloon.resep.warna</field>
+			<field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="tj_makloon_custom_makloon_resep_warna_search"/>
+            <field name="help" type="html">
+                  <p class="oe_view_nocontent_create">
+                    Click to add a New Makloon resep Warna
+                  </p>
+                    <p>Click to add a New Makloon resep Warna</p>
+                </field>
+       </record>
+
+       <!-- <menuitem id="menu_makloon_resep_warna_inherit"
+          name="Resep Warna"
+          parent="menu_makloon_master_inherit"
+          action="action_makloon_resep_warna_list"
+          sequence="107"/> -->
+</data>
+</openerp>

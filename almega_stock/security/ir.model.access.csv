@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_split_barcode_wizard,split_barcode_wizard,model_split_barcode_wizard,stock.group_stock_manager,1,1,1,1
+access_angkring_duplicate_lot,angkring_duplicate_lot,model_angkring_duplicate_lot,stock.group_stock_manager,1,1,1,1
