@@ -54,7 +54,7 @@
                                     <th class="text-right">No PO</th>
                                     <th class="text-right">Date</th>
                                     <th class="text-right">Supplier</th>
-                                    <th class="text-right">Benang</th>
+                                    <th class="text-right">Item</th>
                                     <th class="text-right">Qty Kg</th>
                                     <th class="text-right">Qty Bale</th>
                                     <th class="text-right">Date Planed</th>
@@ -103,7 +103,7 @@
                                                 <!--th>Reference</th-->
                                                 <th class="text-right">NoSJ</th>
                                                 <th class="text-right">Date</th>
-                                                <th class="text-right">Benang</th>
+                                                <th class="text-right">Item</th>
                                                 <th class="text-right">Qty Kg</th>
                                                 <th class="text-right">Status</th>
                                             </tr>

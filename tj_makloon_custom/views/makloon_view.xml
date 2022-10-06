@@ -1503,11 +1503,11 @@
           action="action_makloon_corak_list"
           sequence="105"/>
 
-        <menuitem id="menu_makloon_warna_inherit"
+        <!-- <menuitem id="menu_makloon_warna_inherit"
           name="Warna"
           parent="menu_makloon_master_inherit"
           action="action_makloon_warna_list"
-          sequence="106"/>
+          sequence="106"/> -->
 
         <!--<menuitem id="menu_makloon_resep_warna_inherit"-->
           <!--name="Resep Warna"-->
@@ -1515,42 +1515,42 @@
           <!--action="action_makloon_resep_warna_list"-->
           <!--sequence="107"/>-->
 
-        <menuitem id="menu_makloon_category_warna_inherit1"
+        <!-- <menuitem id="menu_makloon_category_warna_inherit1"
           name="Category Warna"
           parent="menu_makloon_master_inherit"
           action="action_makloon_category_warna_list"
-          sequence="108"/>
+          sequence="108"/> -->
 
 		 <menuitem id="menu_makloon_purchase_inherit"
           name="Purchase"
           parent="makloon_project.makloon_1"
           sequence="100"/>
 
-		<menuitem id="menu_makloon_purchase_benang_inherit1"
+		<!-- <menuitem id="menu_makloon_purchase_benang_inherit1"
           name="Purchase Benang"
           parent="menu_makloon_purchase_inherit"
           action="purchase_form_action_benang"
-          sequence="109"/>
+          sequence="109"/> -->
 
-		<menuitem id="menu_makloon_purchase_rajut_inherit1"
+		<!-- <menuitem id="menu_makloon_purchase_rajut_inherit1"
           name="Purchase Rajut"
           parent="menu_makloon_purchase_inherit"
           action="purchase_form_action_rajut"
-          sequence="110"/>
+          sequence="110"/> -->
 
-		<menuitem id="menu_makloon_purchase_celup_inherit1"
+		<!-- <menuitem id="menu_makloon_purchase_celup_inherit1"
           name="Purchase Celup"
           parent="menu_makloon_purchase_inherit"
           action="purchase_form_action_celup"
-          sequence="111"/>
+          sequence="111"/> -->
 
-		<menuitem id="menu_makloon_purchase_printing_inherit1"
+		<!-- <menuitem id="menu_makloon_purchase_printing_inherit1"
           name="Purchase Printing"
           parent="menu_makloon_purchase_inherit"
           action="purchase_form_action_printing"
-          sequence="112"/>
+          sequence="112"/> -->
 
-        <menuitem id="menu_makloon_purchase_beligreige_inherit1"
+        <!-- <menuitem id="menu_makloon_purchase_beligreige_inherit1"
           name="Purchase Greige"
           parent="menu_makloon_purchase_inherit"
           action="purchase_form_action_beligreige"
@@ -1566,43 +1566,43 @@
           name="Purchase Benang"
           parent="purchase.menu_procurement_management"
           action="purchase_form_action_benang"
-          sequence="6"/>
+          sequence="6"/> -->
 
-		<menuitem id="menu_makloon_purchase_rajut_inherit2"
+		<!-- <menuitem id="menu_makloon_purchase_rajut_inherit2"
           name="Purchase Rajut"
           parent="purchase.menu_procurement_management"
           action="purchase_form_action_rajut"
-          sequence="7"/>
+          sequence="7"/> -->
 
-		<menuitem id="menu_makloon_purchase_celup_inherit2"
+		<!-- <menuitem id="menu_makloon_purchase_celup_inherit2"
           name="Purchase Celup"
           parent="purchase.menu_procurement_management"
           action="purchase_form_action_celup"
-          sequence="8"/>
+          sequence="8"/> -->
 
-		<menuitem id="menu_makloon_purchase_printing_inherit2"
+		<!-- <menuitem id="menu_makloon_purchase_printing_inherit2"
           name="Purchase Printing"
           parent="purchase.menu_procurement_management"
           action="purchase_form_action_printing"
-          sequence="9"/>
+          sequence="9"/> -->
 
-        <menuitem id="menu_makloon_purchase_beligreige_inherit2"
+        <!-- <menuitem id="menu_makloon_purchase_beligreige_inherit2"
           name="Purchase Greige"
           parent="purchase.menu_procurement_management"
           action="purchase_form_action_beligreige"
-          sequence="10"/>  
+          sequence="10"/>   -->
 
-        <menuitem id="menu_makloon_purchase_belikain_inherit2"
+        <!-- <menuitem id="menu_makloon_purchase_belikain_inherit2"
           name="Purchase Kain"
           parent="purchase.menu_procurement_management"
           action="purchase_form_action_belikain"
-          sequence="11"/>    
+          sequence="11"/>     -->
 
-        <menuitem id="menu_makloon_resep_warna_inherit"
+        <!-- <menuitem id="menu_makloon_resep_warna_inherit"
           name="Resep Warna"
           parent="menu_makloon_master_inherit"
           action="action_makloon_resep_warna_list"
-          sequence="107"/>
+          sequence="107"/> -->
 
     </data>
 </openerp>
