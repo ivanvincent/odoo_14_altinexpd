@@ -160,28 +160,28 @@ class StockPicking(models.Model):
     
     @api.model
     def create(self, vals):
-        picking_type_id = self.env['stock.picking.type'].browse(vals['picking_type_id'])
-        wh_code = picking_type_id.warehouse_id.code or 'WHS'
-        if picking_type_id.code == 'incoming' :
-            ptype = 'IN'
-        elif picking_type_id.code == 'outgoing' :
-            ptype = 'OUT'
-        else :
-            ptype = 'INT'
-        pref = '%s/%s/NEW/'%(wh_code,ptype)
-        sequence_id = self.env['ir.sequence'].search([
-            ('code', '=', 'stock.picking'),
-            ('prefix', '=', pref)
-        ], limit=1)
-        if not sequence_id :
-            sequence_id = self.env['ir.sequence'].sudo().create({
-                'name': 'Picking New %s'%(ptype),
-                'code': 'stock.picking',
-                'implementation': 'no_gap',
-                'prefix': pref,
-                'padding': 5,
-            })
-        vals['name'] = sequence_id.next_by_id()
+        # picking_type_id = self.env['stock.picking.type'].browse(vals['picking_type_id'])
+        # wh_code = picking_type_id.warehouse_id.code or 'WHS'
+        # if picking_type_id.code == 'incoming' :
+        #     ptype = 'IN'
+        # elif picking_type_id.code == 'outgoing' :
+        #     ptype = 'OUT'
+        # else :
+        #     ptype = 'INT'
+        # pref = '%s/%s/NEW/'%(wh_code,ptype)
+        # sequence_id = self.env['ir.sequence'].search([
+        #     ('code', '=', 'stock.picking'),
+        #     ('prefix', '=', pref)
+        # ], limit=1)
+        # if not sequence_id :
+        #     sequence_id = self.env['ir.sequence'].sudo().create({
+        #         'name': 'Picking New %s'%(ptype),
+        #         'code': 'stock.picking',
+        #         'implementation': 'no_gap',
+        #         'prefix': pref,
+        #         'padding': 5,
+        #     })
+        # vals['name'] = sequence_id.next_by_id()
         return super(StockPicking, self).create(vals)
 
     def button_validate(self):
