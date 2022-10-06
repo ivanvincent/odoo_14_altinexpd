@@ -13,7 +13,7 @@
         # 'data/ir.config_parameter.xml',
         # 'data/ir.rule.xml',
         # 'data/ir.sequence.xml',
-        # 'views/stock_picking.xml',
+        'views/stock_picking.xml',
         # 'views/stock_move.xml',
         # 'views/stock_inventory.xml',
         # 'views/account_move.xml',

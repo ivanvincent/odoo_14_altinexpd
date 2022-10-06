@@ -6,7 +6,7 @@
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='origin']" position="after">
+                <!-- <xpath expr="//field[@name='origin']" position="after">
                     <field name="faktur_supplier" invisible="1"/>
                     <field name="surat_jalan_supplier" attrs="{'invisible':[('picking_type_code', '!=', 'incoming')],'required': [('picking_type_code','=','incoming')]}"/>
                     <field name="just_flag" invisible="1"/>
@@ -20,7 +20,7 @@
                     <field name="qty_onhand" attrs="{'column_invisible': [('parent.picking_type_code', '=', 'incoming')]}"/>
                     <field name="supplier_id" invisible="1"/>
                     <field name="just_flag" invisible="1"/>
-                </xpath>
+                </xpath> -->
 
                 <xpath expr="//button[@name='action_cancel']" position="after">
                     <button name="action_create_invoice" type="object" string="Create Invoice" class="oe_highlight" attrs="{'invisible':['|', '|', ('state', '!=', 'done'), ('is_invoiced', '=', True), ('picking_type_code', 'not in', ['outgoing'])]}" groups="account.group_account_manager"/>
@@ -35,7 +35,7 @@
                     </button>
                 </xpath>
 
-                <xpath expr="//notebook/page[@name='extra']" position="after">
+                <!-- <xpath expr="//notebook/page[@name='extra']" position="after">
                     <page string="Jurnal Entries" groups="account.group_account_manager">
                         <field name="account_move_ids"/>
                     </page>
@@ -54,7 +54,7 @@
                 </xpath>
                 <xpath expr="//field[@name='location_dest_id']" position="replace">
                     <field name="location_dest_id" options="{'no_open': True, 'no_create': True}" groups="stock.group_stock_multi_locations" attrs="{'invisible': [('picking_type_code', '=', 'outgoing')]}"/>
-                </xpath>
+                </xpath> -->
 
                 
             </field>
@@ -117,7 +117,7 @@
             </field>
         </record> -->
 
-        <record model="ir.ui.view" id="account_move_line_inherit_form">
+        <!-- <record model="ir.ui.view" id="account_move_line_inherit_form">
             <field name="name">stock.move.line.inherit.form</field>
             <field name="model">stock.move.line</field>
             <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
@@ -126,10 +126,10 @@
                     <field name="just_flag" invisible="1"/>
                 </xpath>
             </field>
-        </record>
+        </record> -->
 
 
-        <record model="ir.ui.view" id="stock_picking_inherit_tree">
+        <!-- <record model="ir.ui.view" id="stock_picking_inherit_tree">
             <field name="name">stock.picking.inherit.tree</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.vpicktree"/>
@@ -141,7 +141,7 @@
                     <field name="date_done" string="Effective Date"/>
                 </xpath>
             </field>
-        </record>
+        </record> -->
 
         <!-- <record id="stock_picking_inherit_search" model="ir.ui.view">
             <field name="name">stock.picking.inherit.search</field>
