@@ -221,7 +221,8 @@ class SaleContract(models.Model):
         for rec in self:
             url = self.env.ref('sale_contract.url_image_sc').read()[0]['value']
             path_url = "%s%s%s" % (url, rec.id, rec.format_file)
-            rec.image_binary = self.load_image_from_url(path_url)
+            rec.image_binary = False
+            # rec.image_binary = self.load_image_from_url(path_url)
     
     def load_image_from_url(self, url):
         localhost = self.env['ir.config_parameter'].search([('key', '=', 'web.base.url')]).value
