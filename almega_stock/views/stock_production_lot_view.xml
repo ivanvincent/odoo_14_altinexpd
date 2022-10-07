@@ -1,0 +1,76 @@
+<odoo>
+	<data>
+
+          <record id="almega_stock_production_lot_tree_view" model="ir.ui.view">
+              <field name="name">almega.stock.production.lot.tree</field>
+              <field name="model">stock.production.lot</field>
+              <field name="type">form</field>
+              <field name="inherit_id" ref="stock.view_production_lot_tree"/>
+              <field name="arch" type="xml">
+
+                    <field name="create_date" position="replace">
+                         <field name="picking_in_id"/>
+                         <field name="purchase_id"/>
+                         <field name="warehouse_id"/>
+                         <field name="product_date"/>
+                         <field name="product_age"/>
+                         <field name="product_qty"/>
+                         <!-- <field name="product_bruto" sum="Bruto" widget="monetary"/>
+                         <field name="product_netto" sum="Netto" widget="monetary"/>
+                         <field name="product_sold"/>
+                         <field name="product_residue"/>
+                         <field name="product_saldo" sum="product_saldo" widget="monetary"/> -->
+                         <field name="product_uom_id"/>
+                         <field name="gulungan_ke"/>
+                         <field name="total_gulungan" readonly="1"/>
+                         <!-- <field name="product_merk_id"/>
+                         <field name="product_setting_id"/>
+                         <field name="product_gramasi_id"/>
+                         <field name="product_corak_id"/>
+                         <field name="product_warna_id"/>
+                         <field name="product_resep_warna_id"/> -->
+                         <field name="state"/>
+                         <field name="available_for_pos"/>
+                         <field name="lot_parent_name"/>
+                         <button name="action_split" string="Split Barcode" type="object"/>
+                         <!-- <field name="no_urut"/>
+                         <field name="no_lot"/> -->
+
+                    </field>
+
+               </field>
+          </record>
+		
+		<record id="almega_stock_production_lot_form_view" model="ir.ui.view">
+		    <field name="name">almega.stock.production.lot.form</field>
+		    <field name="model">stock.production.lot</field>
+		    <field name="type">form</field>
+		    <field name="inherit_id" ref="stock.view_production_lot_form"/>
+		    <field name="arch" type="xml">
+
+                    <xpath expr="//form/sheet" position="before">
+                         <header>
+                              <!-- <button name='open_split_barcode_wizard_form' attrs="{'invisible':[('product_qty', '=', 0)]}" type='object' class="oe_highlight" string='Split' /> -->
+                              <button name='action_split' attrs="{'invisible':[('product_qty', '=', 0)]}" type='object' class="oe_highlight" string='Split Barcode' />
+                         </header>
+                    </xpath>
+     		    	<field name="ref" position="after">
+     		    		<field name="picking_in_id"/>
+     		    		<field name="purchase_id"/>
+     		    		<field name="warehouse_id"/>
+                         <field name="product_date"/>
+                         <field name="product_age"/>
+                         <field name="product_qty"/>
+                         <field name="product_uom_id"/>
+                         <field name="gulungan_ke"/>                         
+                         <field name="state"/>
+                         <field name="available_for_pos"/>
+                         <field name="lot_parent_name"/>
+                         
+     		    	</field>
+
+		     </field>
+		</record>
+        
+	</data>
+</odoo>

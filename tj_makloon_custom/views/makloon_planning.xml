@@ -1,0 +1,82 @@
+<openerp>
+<data>
+
+    <record id="makloon_planing_tree_inherit1" model="ir.ui.view">
+         <field name="name">makloon.planning.tree.inherit1</field>
+         <field name="model">makloon.planning</field>
+         <field name="inherit_id" ref="makloon_project.view_makloon_planning_tree"/>
+         <field name="arch" type="xml">
+             <field name='warehouse_id' position="after">
+                 <!-- <field name="progress" string="Planning %"/>
+                 <field name="progress" widget="progressbar"/> -->
+                 <field name="desc"/>
+                 <field name="material_progress" widget="progressbar" readonly="1"/>
+                 <field name="result_progress" widget="progressbar" readonly="1"/>
+            </field>
+         </field>
+    </record>
+
+    <record id="view_makloon_planning_stage_kanban_inherit" model="ir.ui.view">
+         <field name="name">makloon.planning.stage.kanban.inherit</field>
+         <field name="model">makloon.planning.stage</field>
+         <field name="inherit_id" ref="makloon_project.view_makloon_planning_stage_kanban"/>
+         <field name="arch" type="xml">
+
+            <div name="progress_value" position="replace">
+                <div name="progress_value" class="col-xs-6 o_kanban_primary_right">
+                    <div class="o_primary"><field name="progress" invisible="1"/></div>
+                    <div class="o_primary">M <field name="material_progress"/>%</div>
+                    <div class="o_primary">R <field name="result_progress"/>%</div>
+                </div>
+            </div>
+
+         </field>
+    </record>
+
+    <record id="makloon_planning_inherit1" model="ir.ui.view">
+         <field name="name">makloon.planning.inherit1</field>
+         <field name="model">makloon.planning</field>
+         <field name="inherit_id" ref="makloon_project.view_makloon_planning_form"/>
+         <field name="arch" type="xml">
+             <xpath expr="//notebook/page/field[@name='stage_ids']/tree/field[@name='partner_id']" position="replace">
+                 <field name="operation_name" invisible="1"/>
+                 <field name="partner_id" domain="[('category_id.name', '=like', operation_name)]" />
+             </xpath>
+             <xpath expr="//notebook/page/field[@name='stage_ids']/tree/field[@name='state']" position="after">
+                 <field name="material_progress" widget="progressbar" readonly="1"/>
+                 <field name="result_progress" widget="progressbar" readonly="1"/>
+             </xpath>
+
+            <!--<field name='warehouse_id' position="after">-->
+                 <!--<field name="partner_id"/>-->
+            <!--</field>-->
+             <field name='desc' position="after">
+                 <!-- <field name="progress" widget="progressbar" readonly="1"/> -->
+                 <field name="material_progress" widget="progressbar" readonly="1"/>
+                 <field name="result_progress" widget="progressbar" readonly="1"/>
+            </field>
+
+             <field name="date" position="before">
+                <field name="source_po"/>
+             </field>
+
+             <!--<xpath expr="//div[@name='button_box']" postition='inside'>-->
+                  <!--<button type="object"  name="action_view_po"-->
+                            <!--class="oe_stat_button"-->
+                            <!--icon="fa-pencil-square-o" attrs="{'invisible':[('state', '=', 'draft')]}">-->
+                            <!--<field name="po_count" widget="statinfo" string="PO Benang"/>-->
+                            <!--&lt;!&ndash;<field name='po_ids' invisible="1"/>&ndash;&gt;-->
+                  <!--</button>-->
+            <!--</xpath>-->
+
+             <!--<xpath expr="/form/*" position="before">-->
+                        <!--<header>-->
+                            <!--<button string="Confirm" type="object" name="button_confirm" attrs="{'invisible':[('state','=','confirm')]}" />-->
+                            <!--<field name="state" widget="statusbar"/>-->
+                        <!--</header>-->
+             <!--</xpath>-->
+
+         </field>
+    </record>
+</data>
+</openerp>

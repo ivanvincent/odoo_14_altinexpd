@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <report
+            id="action_report_makloon_purchase_menu"
+            model="wiz.makloon.purchase.order"
+            string="Makloon purchase"
+            menu="False"
+            report_type="qweb-pdf"
+            name="tj_makloon_custom.report_makloon_purchase_menu"
+            file="tj_makloon_custom.report_makloon_purchase_menu"
+        />
+
+   <template id="report_makloon_purchase_menu">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                 <h4>
+                    <center><strong>HPP PENJUALAN</strong></center>
+                </h4>
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>JENIS BAHAN</th>
+                        <th>NAMA BAHAN</th>
+                        <th>JENIS BENANG</th>
+                        <th>SATUAN BENANG</th>
+                        <th>KONVERS KG</th>
+                        <th>KONVERS HPP</th>
+                        <th>PROSENTASE</th>
+                        <th>SETTING</th>
+                        <th>GRAMASI</th>
+                        <th>CORAK</th>
+                        <th>DAFTAR HARGA</th>
+                        <th>WARNA</th>
+                        <th>RESEP WARNA</th>
+                        <th>CATEGORY WARNA</th>
+                        <th>MAKLOON CELUP</th>
+                        <th>MAKLOON RAJUT</th>
+                    </tr>
+                </thead>
+            <tbody>
+                <!--<t t-set="sum_1" t-value="0"/>-->
+                <tr t-foreach="o.purchase_ids" t-as="l">
+                    <td>
+                          <span t-field="l.name"/>
+                    </td>
+                    <td>
+                          <span t-field="l.product_id" />
+                    </td>
+                    <td>
+                          <span t-field="l.product_uom"/>
+                    </td>
+                    <td>
+                        <span t-if="l.product_uom.name == 'bale'">181.44</span>
+                        <span t-if="l.product_uom.name == 'kg'">1</span>
+                    </td>
+                </tr>
+             </tbody>
+            </table>
+            <table class="table">
+                    <tr>
+                        <td>Created By</td>
+                        <td>Approve By</td>
+                    </tr>
+                    <tr style="padding-top:200px">
+                        <td>.................</td>
+                        <td>.................</td>
+                    </tr>
+            </table>
+                    <div class="oe_structure"/>
+                </div>
+            </t>
+        </t>
+    </t>
+    </template>
+</odoo>

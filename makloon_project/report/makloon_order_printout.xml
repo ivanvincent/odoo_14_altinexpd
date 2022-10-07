@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- academic = folder name addons-->
+        <report
+            menu="False"
+            id="report_mako_form"
+            string="Makloon Order"
+            model="makloon.order"
+            report_type="qweb-pdf"
+            file="makloon_project.makloon_order_printout"
+            name="makloon_project.makorder_report"
+
+        />
+
+        <template id="makorder_report_document">
+
+            <t t-call="report.external_layout">
+                <!--<t t-set="doc" t-value="doc.with_context({'lang':doc.company_id.lang})" />-->
+                <div class="page">
+
+                    <div class="oe_structure"/>
+                    <h2>Makloon Order</h2>
+
+                    <h2>
+                        No Order: <span t-field="doc.name"/>
+                    </h2>
+
+                    <table class="table table-condensed">
+                        <tr>
+                            <td>Tanggal Order</td><td><span t-field="doc.date_order"/></td>
+                            <td>Makloon Ke</td><td><span t-field="doc.partner_id"/></td>
+                        </tr>
+                        <tr>
+                            <td>Referensi</td><td><span t-field="doc.origin"/></td>
+
+                        </tr>
+
+                    </table>
+
+                    <h3>Bahan Makloon</h3>
+
+                    <table class="table table-condensed">
+                        <thead  height="30">
+                            <tr>
+                                <th>Nama Bahan</th>
+                                <th>Jumlah</th>
+                                <th>Satuan</th>
+                            </tr>
+                       </thead>
+
+                       <tbody>
+                            <tr t-foreach="doc.material_ids" t-as="l">
+                                <td>
+                                   <span t-field="l.product_id"/>
+                                </td>
+
+                                <td>
+                                    <span t-field="l.product_uom_qty" />
+                                </td>
+                                <td>
+                                    <span t-field="l.product_uom" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Hasil Makloon</h3>
+
+                    <table class="table table-condensed">
+                        <thead  height="30">
+                            <tr>
+                                <th>Nama Bahan</th>
+                                <th>Jumlah</th>
+                                <th>Satuan</th>
+                            </tr>
+                       </thead>
+
+                       <tbody>
+                            <tr t-foreach="doc.result_ids" t-as="l">
+                                <td>
+                                   <span t-field="l.product_id"/>
+                                </td>
+
+                                <td>
+                                    <span t-field="l.product_uom_qty" />
+                                </td>
+                                <td>
+                                    <span t-field="l.product_uom" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+
+                    <div class="oe_structure"/>
+                </div>
+            </t>
+        </template>
+
+        <!-- academic = folder name addons-->
+        <template id="makorder_report">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="makloon_project.makorder_report_document"/>
+                    <!-- t-lang="doc.instructor_id.lang" -->
+                </t>
+            </t>
+        </template>
+
+
+
+    </data>
+</odoo>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <report
+            id="action_report_makloon_barcode_line_menu"
+            model="makloon.barcode.line"
+            string="Makloon Barcode line"
+            report_type="qweb-pdf"
+            name="tj_makloon_custom.report_makloon_barcode_line_menu"
+            file="tj_makloon_custom.report_makloon_barcode_line_menu"
+        />
+
+   <template id="report_makloon_barcode_line_menu">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="l">
+            <!--t t-call="report.external_layout"-->
+                <div class="page">
+                    <div class="oe_structure"/>
+                            <!--t t-foreach="o.barcode_ids.order_line" t-as="l"-->
+                                 <div class="col-xs-20" style="padding:0;">
+                                    <table style="border-spacing:0;margin-bottom:0;" class="table">
+                                        <thead>
+                                            <font face="Tahoma" size="19">
+                                            <tr>
+                                                <td style="no border; text-align: center;" class="col-xs-12">
+                                                    <img t-if="l.name" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;' % ('Code128', l.name, 500, 100)" style="width:400px;height:60px;text-align: left;"/>
+                                                    <span style="font:20px lucida-console,sans-serif !important;"><b>ALMEGATEX -</b></span> <span style=" font:20px lucida-console,tahoma !important;"><strong t-field="l.name"/></span>
+                                                </td>
+                                            </tr>
+                                            </font>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td height="50px" style="no border; text-align: left;" class="col-xs-12">
+                                                    <span style=" font:17px lucida-console,sans-serif !important; "><b>NO PO &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;: </b><span align="left"/><strong t-field="l.order_id"/></span><br/>
+                                                    <span style=" font:17px lucida-console,sans-serif !important; "><b>LOT NO &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;: </b><span align="left"/><strong t-field="l.product_lot"/></span><br/>
+                                                    <span style=" font:17px lucida-console,sans-serif !important; "><b>JENIS KAIN : </b><span align="left"/><strong t-field="l.product_id"/></span><br/>
+                                                    <span style=" font:17px lucida-console,sans-serif !important; "><b>GRAMASI &amp;nbsp;&amp;nbsp;&amp;nbsp;: </b><span align="left"/><strong t-field="l.product_gramasi_id"/>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<b>LEBAR/UK :</b> <span align="left"/><strong t-field="l.product_setting_id"/></span><br/>
+                                                    <span style=" font:17px lucida-console,sans-serif !important; "><b>WARNA&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;: </b><span align="left"/><strong t-field="l.product_warna_id"/></span><br/>
+                                                    <span style=" font:22px lucida-console,tahoma !important;"><em><strong t-field="l.name"/></em>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<b>BRUTO : </b><span style=" font:40px lucida-console,sans-serif !important; " align="right" t-field="l.product_bruto"/><span align="right"/><strong t-field="l.product_uom_id"/></span><br/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <!--/t-->
+                    <div class="oe_structure"/>
+                </div>
+        </t>
+    </t>
+    </template>
+</odoo>

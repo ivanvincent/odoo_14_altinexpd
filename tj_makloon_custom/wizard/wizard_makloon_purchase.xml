@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_wizard_tj_makloon_purchase" model="ir.ui.view">
+        <field name="name">tj_makloon_purchase_wizard</field>
+        <field name="model">wiz.makloon.purchase.order</field>
+        <field name="arch" type="xml">
+        <form string="purchase Select">
+                <p class="oe_gray">
+                        purchase.
+                </p>
+			<!--<field name="from_loc_id"/>-->
+            <!--<field name="purchase_ids" />-->
+			<field name="purchase_ids" nolabel="1" widget="many2many">
+                        				<tree string="purchase" editable="bottom">
+                        					<field name="order_id" readonly="1"/>
+											<field name="name" readonly="1"/>
+                                            <!--<field name="description" readonly="1"/>-->
+											<field name="partner_id" readonly="1"/>
+											<field name="product_id" readonly="1"/>
+											<field name="price_unit" readonly="1"/>
+											<field name="product_qty" readonly="1"/>
+                                            <field name="product_uom" readonly="1"/>
+											<field name="date_planned" readonly="1"/>
+
+                        				</tree>
+                        				<form string="Asset Details">
+                        					<sheet>
+                        						<group>
+                        					<field name="order_id" readonly="1"/>
+											<field name="name" readonly="1"/>
+                                            <!--<field name="description" readonly="1"/>-->
+											<field name="partner_id" readonly="1"/>
+											<field name="product_id" readonly="1"/>
+											<field name="price_unit" readonly="1"/>
+											<field name="product_qty" readonly="1"/>
+                                            <field name="product_uom" readonly="1"/>
+											<field name="date_planned" readonly="1"/>
+												</group>
+                        					</sheet>
+                        				</form>
+                        			</field>
+
+                <footer>
+                        <button name="action_purchase"
+                                string="Print"
+                                type="object"
+                                class="btn-primary"/>
+                        <button string="Close" class="btn-default" special="cancel" />
+                </footer>
+        </form>
+        </field>
+        </record>
+
+        <record id="action_wizard_tj_makloon_purchase" model="ir.actions.act_window">
+        <field name="name">Print Hpp</field>
+        <field name="res_model">wiz.makloon.purchase.order</field>
+        <!-- <field name="view_type">form</field> -->
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_wizard_tj_makloon_purchase"/>
+        <field name="target">new</field>
+        </record>
+
+        <menuitem
+                id="menu_action_wizard_tj_makloon_purchase"
+                action="action_wizard_tj_makloon_purchase"
+                parent="purchase.menu_purchase_root"
+                sequence="200" />
+    </data>
+</odoo>

@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+            
+            <!-- <record model="ir.ui.view" id="stock_move_line_inherit_tree">
+                <field name="name">stock.move.line.tree</field>
+                <field name="model">stock.move.line</field>
+                <field name="inherit_id" ref="stock.view_stock_move_line_operation_tree"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='location_dest_id']" position="after">
+                        <field name="product_merk_id" />
+                        <field name="product_setting_id" />
+                        <field name="product_gramasi_id" />
+                        <field name="product_corak_id" />
+                        <field name="product_warna_id" />
+                        <field name="product_resep_warna_id" />
+                        <field name="product_category_warna_id" />
+                    </xpath>
+                </field>
+            </record> -->
+
+            
+            <record model="ir.ui.view" id="stock_picking_inherit_operations_form">
+                <field name="name">stock.picking.inherit.operations.form</field>
+                <field name="model">stock.picking</field>
+                <field name="inherit_id" ref="stock.view_picking_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='description_picking']" position="after">
+                        <field name="product_merk_id" />
+                        <field name="product_setting_id" />
+                        <field name="product_gramasi_id" />
+                        <field name="product_corak_id" />
+                        <field name="product_warna_id" />
+                        <field name="product_resep_warna_id" />
+                        <field name="product_category_warna_id" />
+                    </xpath>
+                </field>
+            </record>
+
+            <record id="makloon_barcode_inherit2" model="ir.ui.view">
+                 <field name="name">makloon.barcode.generate.inherit</field>
+                 <field name="model">makloon.order</field>
+                 <field name="inherit_id" ref="makloon_project.view_makloon_order_form"/>
+                 <field name="arch" type="xml">
+                     <!--<xpath expr="//notebook/page/field[@name='result_ids']" position="after">-->
+                     <xpath expr="//page[2]" position="after">
+                     <page string="Barcode" >
+                                <field name="barcode_ids" nolabel="1"/>
+                                    <!--<tree string="Barcode" editable="bottom">-->
+                                       <!--<field name="name" invisible="1"/>-->
+                                        <!--<field name="product_id" />-->
+                                        <!--<field name="product_uom_qty" />-->
+                                        <!--<field name="product_uom" />-->
+                                        <!--<field name="service_product_id" />-->
+                                        <!--<field name="waste_valasi" />-->
+                                    <!--</tree>-->
+                                <!--</field>-->
+                            </page>
+                    </xpath>
+                 </field>
+            </record>
+
+            <!-- <record id="makloon_barcode_inherit3" model="ir.ui.view">
+                    <field name="name"> stock.move.generate.inherit</field>
+                    <field name="model">stock.move</field>
+                    <field name="inherit_id" ref="stock.view_move_picking_tree"/>
+                    <field name="arch" type="xml">
+                        <xpath expr="//field[@name='product_id']" position="after">
+                             <field name="product_merk_id" />
+                             <field name="restrict_lot_id" />
+                             <field name="product_setting_id" />
+                             <field name="product_gramasi_id" />
+                             <field name="product_corak_id" />
+                             <field name="product_warna_id" />
+                             <field name="product_resep_warna_id" />
+                             <field name="product_category_warna_id" />
+                        </xpath>
+                    </field>
+                </record> -->
+
+
+
+                <!-- <record id="sale_order_view_inherit_form1" model="ir.ui.view">
+                    <field name="name">sale.order.inherit.form1</field>
+                    <field name="model">sale.order</field>
+                    <field name="inherit_id" ref="sale.view_order_form"/>
+                    <field name="arch" type="xml">
+                        <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="after">
+                            <field name="product_merk_id" />
+                             <field name="product_setting_id" />
+                             <field name="product_gramasi_id" />
+                             <field name="product_corak_id" />
+                             <field name="product_warna_id" />
+                             <field name="product_resep_warna_id" />
+                             <field name="product_category_warna_id" />
+                        </xpath>                    
+                    </field>
+                </record> -->
+
+                
+
+        <!-- <record model="ir.cron" id="update_date_value">
+            <field name='name'>Update Date</field>
+            <field name='interval_number'>1</field>
+            <field name='interval_type'>days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+            <field name="model">makloon.barcode</field>
+            <field name="function">ProductAge</field>
+            <field name="args">()</field>
+        </record> -->
+
+        <record id="tj_makloon_custom_makloon_barcode_tree" model="ir.ui.view">
+            <field name="name">makloon.barcode.tree</field>
+            <field name="model">makloon.barcode</field>
+            <field name="arch" type="xml">
+                <tree string="Barcode">
+                    <field name="source_document"/>
+                    <field name="source_po"/>
+                    <field name="source_sj"/>
+                	<field name="name"/>
+                    <!--<field name="product_date"/>-->
+                    <!--<field name="product_id"/>-->
+                    <!--<field name="product_bruto"/>-->
+                    <!--<field name="product_netto"/>-->
+                    <!--<field name="product_sold"/>-->
+                    <!--<field name="product_residue"/>-->
+                    <!--<field name="product_uom_id"/>-->
+                    <!--<field name="product_age"/>-->
+                    <!--&lt;!&ndash;<field name="product_merk_id"/>&ndash;&gt;-->
+                    <!--<field name="product_setting_id"/>-->
+                    <!--<field name="product_gramasi_id"/>-->
+                    <!--<field name="product_corak_id"/>-->
+  		            <!--<field name="product_warna_id"/>-->
+                    <!--<field name="product_resep_warna_id"/>-->
+                    <!--<field name="product_category_warna_id"/>-->
+                    <!--<field name="product_lot_id"/>-->
+                    <!--<field name="state"/>-->
+                </tree>
+            </field>
+        </record>
+        <record id="tj_makloon_custom_makloon_barcode_line_tree" model="ir.ui.view">
+            <field name="name">makloon.barcode.line.tree</field>
+            <field name="model">makloon.barcode.line</field>
+            <field name="arch" type="xml">
+                <tree string="Barcode Detail" editable="top">
+                    <field name="order_id"/>
+                    <field name="warehouse_id"/>
+                    <field name="name"/>
+                    <field name="source_document"/>
+                    <field name="source_po"/>
+                    <field name="source_sj"/>
+                    <field name="product_lot"/>
+                    <field name="product_date"/>
+                    <field name="product_id"/>
+                    <field name="product_bruto"/>
+                    <field name="product_netto"/>
+                    <field name="product_sold"/>
+                    <field name="product_residue"/>
+                    <field name="product_saldo"/>
+                    <field name="product_uom_id"/>
+                    <field name="product_age"/>
+                    <!--<field name="product_merk_id"/>-->
+                    <field name="product_setting_id"/>
+                    <field name="product_gramasi_id"/>
+                    <field name="product_corak_id"/>
+  		            <field name="product_warna_id"/>
+                    <field name="product_resep_warna_id"/>
+                    <field name="product_category_warna_id"/>
+                    <field name="product_lot_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tj_makloon_custom_makloon_barcode_search" model="ir.ui.view">
+            <field name="name">makloon.barcode.search</field>
+            <field name="model">makloon.barcode</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                	<field name="source_document"/>
+                    <field name="name"/>
+                    <field name="source_po"/>
+                    <field name="source_sj"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="tj_makloon_custom_makloon_barcode_line_search" model="ir.ui.view">
+            <field name="name">makloon.barcode.line.search</field>
+            <field name="model">makloon.barcode.line</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                	<field name="name"/>
+                    <field name="order_id"/>
+                    <field name="product_id"/>
+                    <field name="product_lot"/>
+                    <field name="product_warna_id"/>
+                    <field name="state"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="tj_makloon_custom_makloon_barcode_form" model="ir.ui.view">
+            <field name="name">makloon.barcode.form</field>
+            <field name="model">makloon.barcode</field>
+            <field name="arch" type="xml">
+                <form string="Barcode">
+                	<header>
+						<!--<button name="action_move" states="done" type="object" string="Create Move" class="oe_highlight" icon="fa-cube"/>-->
+                		<!--<button name="action_request" states="draft" type="object" string="Approve" icon="fa-check" />-->
+						<!--<button name="action_cancel" states="done" type="object" string="Cancel" icon="fa-close"/>-->
+						<!--<button name="action_reset_to_draft" states="cancel" type="object" string="Reset To Draft" icon="fa-undo"/>-->
+                		<!--<field name="state" widget="statusbar" />-->
+						<!--statusbar_visible="draft,done"-->
+                	</header>
+                	<sheet>
+                		<div class="oe_title">
+                           <h1>
+                               <field name="source_document" readonly="1"/><br/>
+                           </h1>
+                           <group>
+                           	    <field name="source_sj"/>
+                           	    <field name="source_po"/>
+                           	    <field name="name"/>
+                           </group>
+                        </div>
+                                <field name="order_line">
+                                        <tree string="Barcode" editable="bottom">
+                                            <field name="warehouse_id"/>
+                                            <field name="name"/>
+                                            <field name="product_lot"/>
+                                            <field name="product_date"/>
+                                            <field name="product_age"/>
+                                            <field name="product_id"/>
+                                            <field name="product_bruto" sum="Bruto" widget="monetary"/>
+                                            <field name="product_netto" sum="Netto" widget="monetary"/>
+                                            <field name="product_sold"/>
+                                            <field name="product_residue"/>
+                                            <field name="product_saldo" sum="product_saldo" widget="monetary"/>
+                                            <field name="product_uom_id"/>
+                                            <field name="product_merk_id"/>
+                                            <field name="product_setting_id"/>
+                                            <field name="product_gramasi_id"/>
+                                            <field name="product_corak_id"/>
+                                            <field name="product_warna_id"/>
+                                            <field name="product_resep_warna_id"/>
+                                            <field name="product_category_warna_id"/>
+                                            <field name="state"/>
+                                            <field name="available_for_pos"/>
+                                        </tree>
+                                    </field>
+
+<!--<group>-->
+
+                            <!--<group>-->
+                                <!--<field name="product_date"/>-->
+                                <!--<field name="product_age"/>-->
+                                <!--<field name="product_id"/>-->
+                                <!--<field name="product_bruto"/>-->
+                                <!--<field name="product_netto"/>-->
+                                <!--<field name="product_sold"/>-->
+                                <!--<field name="product_residue"/>-->
+                                <!--<field name="product_uom_id"/>-->
+                                <!--<field name="product_merk_id"/>-->
+                            <!--</group>-->
+                            <!--<group>-->
+                                <!--<field name="product_setting_id"/>-->
+                                <!--<field name="product_gramasi_id"/>-->
+                                <!--<field name="product_corak_id"/>-->
+                                <!--<field name="product_warna_id"/>-->
+                                <!--<field name="product_resep_warna_id"/>-->
+                                <!--<field name="product_category_warna_id"/>-->
+                                <!--<field name="state"/>-->
+                                <!--<field name="available_for_pos"/>-->
+                            <!--</group>-->
+                        <!--</group>-->
+						<!--<notebook>-->
+							<!--<page string="Asset Request">-->
+								<!--<field name="order_line"-->
+									   <!--attrs="{'readonly': [('state', 'in', ('done','move'))]}"-->
+									   <!--domain="[('current_loc_id', '=', from_loc_id)]">-->
+										<!--<tree string="Asset Lines" editable="bottom">-->
+											<!--<field name="from_loc_id" />-->
+											<!--<field name="asset_id" attrs="{'readonly': [('state', 'in', ('done','move'))]}"-->
+											<!--domain="[('current_loc_id', '=', from_loc_id)]"/>-->
+											<!--<field name="name" />-->
+											<!--<field name="state" invisible="1" />-->
+										<!--</tree>-->
+								<!--</field>-->
+							<!--</page>-->
+	                    <!--</notebook>-->
+                	</sheet>
+					 <!--<div class="oe_chatter">-->
+                	 	<!--&lt;!&ndash; <field name="message_follower_ids" widget="mail_followers"/> &ndash;&gt;-->
+                        <!--<field name="message_ids" widget="mail_thread"/>-->
+                    <!--</div>-->
+                </form>
+            </field>
+        </record>
+        <record id="action_tj_makloon_custom_barcode" model="ir.actions.act_window">
+	            <field name="name">Stock Barcode</field>
+	            <field name="type">ir.actions.act_window</field>
+	            <field name="res_model">makloon.barcode</field>
+	            <!-- <field name="view_type">form</field> -->
+	            <field name="view_mode">tree,form</field>
+	            <field name="search_view_id" ref="tj_makloon_custom_makloon_barcode_search"/>
+	            <field name="help" type="html">
+	                <p class="oe_view_nocontent_create">
+	                    Create Stock Barcode
+	                </p>
+	            </field>
+	        </record>
+
+        <record id="action_tj_makloon_custom_barcode_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="tj_makloon_custom_makloon_barcode_tree"/>
+            <field name="act_window_id" ref="action_tj_makloon_custom_barcode"/>
+        </record>
+
+        <record id="action_tj_makloon_custom_barcode_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="tj_makloon_custom_makloon_barcode_form"/>
+            <field name="act_window_id" ref="action_tj_makloon_custom_barcode"/>
+        </record>
+
+        <record id="action_tj_makloon_custom_barcode_line" model="ir.actions.act_window">
+	            <field name="name">Stock Barcode Detail</field>
+	            <field name="type">ir.actions.act_window</field>
+	            <field name="res_model">makloon.barcode.line</field>
+	            <!-- <field name="view_type">form</field> -->
+	            <field name="view_mode">tree,form</field>
+	            <field name="search_view_id" ref="tj_makloon_custom_makloon_barcode_line_search"/>
+	            <field name="help" type="html">
+	                <p class="oe_view_nocontent_create">
+	                    Create Stock Barcode Detail
+	                </p>
+	            </field>
+	        </record>
+
+	   <menuitem name="Stock Barcode"
+	            id="menu_action_tj_makloon_custom_barcode_root" parent="stock.menu_stock_inventory_control"
+	            sequence="1"/>
+
+        <menuitem action="action_tj_makloon_custom_barcode" name="Stock Barcode"
+	            id="menu_action_tj_makloon_custom_barcode" parent="menu_action_tj_makloon_custom_barcode_root"
+	            sequence="1"/>
+
+       <menuitem action="action_tj_makloon_custom_barcode_line" name="Stock Barcode Detail"
+	            id="menu_action_tj_makloon_custom_barcode_line" parent="menu_action_tj_makloon_custom_barcode_root"
+	            sequence="1"/>
+    </data>
+</odoo>    

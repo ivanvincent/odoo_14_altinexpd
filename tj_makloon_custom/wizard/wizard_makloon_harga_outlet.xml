@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_wizard_tj_makloon_harga_outlet" model="ir.ui.view">
+        <field name="name">tj_makloon_harga_outlet_wizard</field>
+        <field name="model">wiz.makloon.harga.outlet</field>
+        <field name="arch" type="xml">
+        <form string="Harga Outlet Select">
+                <p class="oe_gray">
+                        Harga Outlet
+                </p>
+			<!--<field name="from_loc_id"/>-->
+            <!--<field name="harga_outlet_ids" />-->
+			<field name="harga_outlet_ids" nolabel="1" widget="many2many" >
+                        				<tree string="Harga Outlet" editable="bottom">
+                                            <field name="name" readonly="1"/>
+                                            <field name="date" readonly="1"/>
+                                            <field name="product_id" readonly="1"/>
+                                            <field name="product_category_id" readonly="1"/>
+                                            <field name="price_roll" readonly="1"/>
+                                            <field name="set_kg" readonly="1"/>
+                                            <field name="price_down" readonly="1"/>
+                                            <field name="price_up" readonly="1"/>
+                                            <field name="product_gramasi_id" readonly="1"/>
+                                            <field name="product_lot_id" readonly="1"/>
+                        				</tree>
+                        				<form string="harga_outlet Details">
+                        					<sheet>
+                        						<group>
+                                                    <field name="name"/>
+                                                    <field name="date"/>
+                                                    <field name="product_id"/>
+                                                    <field name="product_category_id"/>
+                                                    <field name="price_roll"/>
+                                                    <field name="set_kg"/>
+                                                    <field name="price_down"/>
+                                                    <field name="price_up"/>
+                                                    <field name="product_gramasi_id"/>
+                                                    <field name="product_lot_id"/>
+                                                </group>
+                        					</sheet>
+                        				</form>
+                        			</field>
+
+                <footer>
+                        <button name="action_harga_outlet"
+                                string="Print"
+                                type="object"
+                                class="btn-primary"/>
+                        <button string="Close" class="btn-default" special="cancel" />
+                </footer>
+        </form>
+        </field>
+        </record>
+
+        <record id="action_wizard_tj_makloon_harga_outlet" model="ir.actions.act_window">
+        <field name="name">Print harga outlet</field>
+        <field name="res_model">wiz.makloon.harga.outlet</field>
+        <!-- <field name="view_type">form</field> -->
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_wizard_tj_makloon_harga_outlet"/>
+        <field name="target">new</field>
+        </record>
+
+        <menuitem
+                id="menu_action_wizard_tj_makloon_harga_outlet"
+                action="action_wizard_tj_makloon_harga_outlet"
+                parent="stock.menu_stock_inventory_control"
+                sequence="2" />
+    </data>
+</odoo>

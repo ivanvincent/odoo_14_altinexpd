@@ -1,0 +1,68 @@
+<openerp>
+<data>
+    <record id="makloon_order_inherit2" model="ir.ui.view">
+                         <field name="name">purchase.order.inherit2</field>
+                         <field name="model">purchase.order</field>
+                         <field name="inherit_id" ref="purchase.purchase_order_form"/>
+                         <field name="arch" type="xml">
+                             <field name="partner_id" position="after">
+                                 <field name="partner_contact"/>
+                              </field>
+                             <field name="date_order" position="after">
+                                 <field name="date_planned"/>
+                                 <field name="type_id"/>
+                            </field>
+                            <field name="makloon_id" position="after">
+                                 <field name="makloon_plan_id" readonly="1"/>
+                            </field>
+                             <xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='product_id']" position="replace">
+                                 <field name="product_type_line" invisible="1"/>
+                                 <field name="product_id" />
+                            </xpath>
+                             <xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+                                 <field name="price_include" />
+                            </xpath>
+                             <!--<xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='name']" position="after">-->
+                                 <!--<field name="product_merk_id" attrs="{'invisible': [('product_type_line','=','benang')]}"/>-->
+                                 <!--<field name="product_merk_id" attrs="{'invisible':[('product_type_line','!=','benang')]}"/>-->
+                                 <!--<field name="product_warna_id" attrs="{'invisible':[('product_type_line','=','benang')]}"/>-->
+                                 <!--<field name="product_setting_id" attrs="{'invisible':[('product_type_line','=','benang')]}"/>-->
+                                 <!--<field name="product_gramasi_id" attrs="{'invisible':[('product_type_line','=','benang')]}"/>-->
+                             <!--</xpath>-->
+
+                            <!--<xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='product_uom']" position="replace">-->
+                                 <!--<field name="product_uom" string="UOM"/>-->
+                                 <!--<field name="product_roll"/>-->
+                                 <!--<field name="product_kg" attrs="{'invisible':[('product_type_line','!=','benang')]}" string="KG"/>-->
+                                 <!--&lt;!&ndash;<field name="product_body_kg"/>&ndash;&gt;-->
+                                 <!--&lt;!&ndash;<field name="product_rib_roll"/>&ndash;&gt;-->
+                                 <!--&lt;!&ndash;<field name="product_rib_kg"/>&ndash;&gt;-->
+                                 <!--&lt;!&ndash;<field name="product_kerah_roll"/>&ndash;&gt;-->
+                                 <!--&lt;!&ndash;<field name="product_kerah_kg"/>&ndash;&gt;-->
+                                 <!--&lt;!&ndash;<field name="product_manset_roll"/>&ndash;&gt;-->
+                                 <!--&lt;!&ndash;<field name="product_manset_kg"/>&ndash;&gt;-->
+                            <!--</xpath>-->
+                            <!--<xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='date_planned']" position="replace">-->
+                                 <!--<field name="date_planned" invisible="1" required="False"/>-->
+                            <!--</xpath>-->
+                            <!--&lt;!&ndash;<xpath expr="//page[2]/field[@name='date_planned']" position="replace">&ndash;&gt;-->
+                                 <!--&lt;!&ndash;<field name="date_planned" invisible="1" required="False"/>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</xpath>&ndash;&gt;-->
+                             <!--&lt;!&ndash;<xpath expr="//field[@name='order_line']" position="attributes">&ndash;&gt;-->
+                                  <!--&lt;!&ndash;<attribute name="attrs">{'invisible':[('product_type_line','=', False)]}</attribute>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</xpath>&ndash;&gt;-->
+
+                         </field>
+            </record>
+     <!--<record id="purchase_order_inherit2" model="ir.ui.view">-->
+             <!--<field name="name">purchase.order.inherit2</field>-->
+             <!--<field name="model">purchase.order</field>-->
+             <!--<field name="inherit_id" ref="purchase.purchase_order_form"/>-->
+             <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="//field[@name='partner_id']" position="after">-->
+                    <!--<field name="partner_contact"/>-->
+                <!--</xpath>-->
+             <!--</field>-->
+        <!--</record>-->
+</data>
+</openerp>

@@ -9,6 +9,7 @@ class WorkorderDailyWizard(models.TransientModel):
     workcenter_id = fields.Many2one('mrp.workcenter', string='Workcenter')
     quantity    = fields.Float(string='Quantity')
     scanner     = fields.Char('Scanner')
+    machine_id  = fields.Many2one('mrp.machine', string='Machine')
 
     def action_confirm(self):
         print('action_confirm')
@@ -22,14 +23,17 @@ class WorkorderDailyWizard(models.TransientModel):
                 'workcenter_id': me_workcenter,
                 'employee_id': self.employee_id.id,
                 'product_uom_qty': self.quantity,
-                'wo_daily_id': active_id
+                'wo_daily_id': active_id,
+                'machine_id': self.machine_id,
             })]
         })
 
     @api.model
-    def barcode_scan(self, active_id):
-        action = self.env.ref('mrp_request.workorder_daily_wizard_action').read()[0]
-        return action
+    def barcode_scan(self, barcode, active_id):
+        print('barcode', barcode)
+        print('active_id', active_id)
+        print('barcode_scan asdnfladnfasdf')
+        self.scanner = barcode
     
     @api.onchange('scanner')
     def _onchange_qr_code(self):

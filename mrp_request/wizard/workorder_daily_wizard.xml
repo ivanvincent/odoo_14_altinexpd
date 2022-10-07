@@ -13,10 +13,12 @@
                     <sheet>
                         <group>
                             <!-- <field name="workcenter_id"/> -->
-                            <field name="scanner" widget="qrscanner" nolabel="1"/>
+                            <!-- <field name="scanner" widget="qrscanner" nolabel="1"/> -->
+                            <field name="scanner" nolabel="1"/>
                             <field name="date" attrs="{'invisible':[('scanner', '=', False)]}"/>
                             <field name="employee_id" attrs="{'invisible':[('scanner', '=', False)]}"/>
                             <field name="quantity" attrs="{'invisible':[('scanner', '=', False)]}"/>
+                            <field name="machine_id" attrs="{'invisible':[('scanner', '=', False)]}"/>
                         </group>
                     </sheet>
                     <footer>

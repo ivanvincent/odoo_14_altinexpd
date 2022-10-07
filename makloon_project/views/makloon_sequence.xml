@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+
+
+        <record id="seq_makloon_planning" model="ir.sequence">
+            <field name="name">Makloon Planning</field>
+            <field name="code">makloon.planning</field>
+            <field name="prefix">MP/%(year)s/%(month)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_makloon_order" model="ir.sequence">
+            <field name="name">Makloon Order</field>
+            <field name="code">makloon.order</field>
+            <field name="prefix">MAKO/%(year)s/%(month)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</openerp>

@@ -59,7 +59,7 @@ odoo.define("wibicon_utility.BarcodeFormView", function (require) {
       } else if (this.initialState.model === 'opname.barcode') {
         self._rpc({
           model: "opname.barcode",
-          method: "barcode_scan",
+          method: "workorder.daily.wizard",
           args: [
             barcode,
             self.initialState.data.id,
@@ -72,7 +72,42 @@ odoo.define("wibicon_utility.BarcodeFormView", function (require) {
             });
           },
         );
-      }
+      } 
+      // else if (this.initialState.model === 'workorder.daily.wizard') {
+      //   self._rpc({
+      //     model: "workorder.daily.wizard",
+      //     method: "barcode_scan",
+      //     args: [
+      //       barcode,
+      //       self.initialState.data.id,
+      //     ],
+      //   }).then(
+      //     function (result) {
+      //       if (result.error) self.do_warn(result.message)
+      //       else self.update({}, {
+      //         reload: true
+      //       });
+      //     },
+      //   );
+      // } 
+      // else if (this.initialState.model === 'workorder.daily') {
+      //   console.log('workorder.daily')
+      //   self._rpc({
+      //     model: "workorder.daily",
+      //     method: "barcode_scan",
+      //     args: [
+      //       barcode,
+      //       self.initialState.data.id,
+      //     ],
+      //   }).then(
+      //     function (result) {
+      //       if (result.error) self.do_warn(result.message)
+      //       else self.update({}, {
+      //         reload: true
+      //       });
+      //     },
+      //   );
+      // }
     },
   });
 });

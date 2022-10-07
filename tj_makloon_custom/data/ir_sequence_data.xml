@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Sequences for customer -->
+        <record id="seq_purchase_benang" model="ir.sequence">
+            <field name="name">Ref Purchase Benang</field>
+            <field name="code">purchase.order</field>
+            <field name="prefix">POI-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+        <record id="seq_purchase_rajut" model="ir.sequence">
+            <field name="name">Ref Purchase Rajut</field>
+            <field name="code">purchase.order</field>
+            <field name="prefix">POII-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_purchase_celup" model="ir.sequence">
+            <field name="name">Ref Purchase Celup</field>
+            <field name="code">purchase.order</field>
+            <field name="prefix">POIII-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_purchase_printing" model="ir.sequence">
+            <field name="name">Ref Purchase Printing</field>
+            <field name="code">purchase.order</field>
+            <field name="prefix">POIV-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_purchase_umum" model="ir.sequence">
+            <field name="name">Ref Purchase Umum</field>
+            <field name="code">purchase.order</field>
+            <field name="prefix">POV-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_purchase_beligreige" model="ir.sequence">
+            <field name="name">Ref Purchase Beli Greige</field>
+            <field name="code">purchase.order</field>
+            <field name="prefix">POVI-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_purchase_belikain" model="ir.sequence">
+            <field name="name">Ref Purchase Beli Kain</field>
+            <field name="code">purchase.order</field>
+            <field name="prefix">POVII-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+        <!--print 'replace=>', sequence,',',vals.get('type_id')
+        if vals.get('type_id') == 'benang':
+            sequence = sequence.replace('PO', 'POI-')
+        elif vals.get('type_id') == 'rajut':
+            sequence = sequence.replace('PO', 'POII-')
+        elif vals.get('type_id') == 'celup':
+            sequence = sequence.replace('PO', 'POIII-')
+        elif vals.get('type_id') == 'printing':
+            sequence = sequence.replace('PO', 'POIV-')-->
+
+    </data>
+</odoo>

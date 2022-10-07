@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <report
+            id="action_report_makloon_harga_outlet_menu"
+            model="wiz.makloon.harga.outlet"
+            string="Makloon harga_outlet"
+            menu="False"
+            report_type="qweb-pdf"
+            name="tj_makloon_custom.report_makloon_harga_outlet_menu"
+            file="tj_makloon_custom.report_makloon_harga_outlet_menu"
+        />
+
+   <template id="report_makloon_harga_outlet_menu">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                 <h4>
+                    <center><strong>HARGA OUTLET</strong></center>
+                </h4>
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>NAMA</th>
+                        <th>TANGGAL</th>
+                        <th>PRODUCT</th>
+                        <th>CATEGORY WARNA</th>
+                        <th>HARGA ROLL</th>
+                        <th>SET KG</th>
+                        <th>HARGA DOWN</th>
+                        <th>HARGA UP</th>
+                        <th>GRAMASI</th>
+                        <th>LOT NO</th>
+                    </tr>
+                </thead>
+            <tbody>
+                <!--<t t-set="sum_1" t-value="0"/>-->
+                <tr t-foreach="o.harga_outlet_ids" t-as="l">
+                    <td>
+                          <span t-field="l.name"/>
+                    </td>
+                    <td>
+                          <span t-field="l.date" />
+                    </td>
+                    <td>
+                        <span t-field="l.product_id"/>
+                    </td>
+                    <td>
+                          <span t-field="l.product_category_id"/>
+                    </td>
+                    <td>
+                        <span t-field="l.price_roll"/>
+                    </td>
+                    <td>
+                        <span t-field="l.set_kg"/>
+                    </td>
+                    <td>
+                        <span t-field="l.price_down"/>
+                    </td>
+                    <td>
+                        <span t-field="l.price_up"/>
+                    </td>
+                    <td>
+                        <span t-field="l.product_gramasi_id"/>
+                    </td>
+                    <td>
+                        <span t-field="l.product_lot_id"/>
+                    </td>
+                </tr>
+             </tbody>
+            </table>
+            <table class="table">
+                    <tr>
+                        <td>Created By</td>
+                        <td>Approve By</td>
+                    </tr>
+                    <tr style="padding-top:200px">
+                        <td>.................</td>
+                        <td>.................</td>
+                    </tr>
+            </table>
+                    <div class="oe_structure"/>
+                </div>
+            </t>
+        </t>
+    </t>
+    </template>
+</odoo>
