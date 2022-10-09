@@ -18,7 +18,7 @@ Features
     'data': [
 
 'data/ir_sequence_data.xml',
-'report/report_purchase_order.xml',
+# 'report/report_purchase_order.xml',
 'report/report_purchase_order2.xml',
 'report/report_barcode.xml',
 'report/report_makloon_barcode.xml',
