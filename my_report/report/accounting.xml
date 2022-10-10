@@ -375,7 +375,7 @@
 
 
 
-<record model="report.paperformat" id="paperformat_amplop">
+<!-- <record model="report.paperformat" id="paperformat_amplop">
     <field name="name">Amplop</field>
     <field name="default" eval="True" />
     <field name="format">custom</field>
@@ -508,7 +508,7 @@
             </div>
         </t>
     </t>
-</template>
+</template> -->
 
 
 <report id="action_surat_jalan_faktur" model="account.move" string="Print Surat Jalan" report_type="qweb-pdf" name="my_report.surat_jalan_faktur" file="my_report.surat_jalan_faktur" />
