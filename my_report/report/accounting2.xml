@@ -2,7 +2,7 @@
 <odoo>
     <data>
 
-        <record model="report.paperformat" id="paperformat_faktur">
+        <!-- <record model="report.paperformat" id="paperformat_faktur">
             <field name="name">Faktur</field>
             <field name="default" eval="True" />
             <field name="format">custom</field>
@@ -64,9 +64,9 @@
                                 <span class="text-uppercase" t-field="doc.partner_id" />
                                 <br />
                                 <span class="text-uppercase" t-field="doc.partner_id.npwp" />
-                                <br />
+                                <br /> -->
                                 <!--<span t-field="doc.partner_id.street"/>-->
-                                <p>
+                                <!-- <p>
                                     <t t-esc="doc.partner_id.street[:80] if doc.partner_id.street else ''" />
                                 </p>
                             </div>
@@ -108,9 +108,9 @@
                                 <t t-set="line_size" t-value="len(doc.invoice_line_ids.ids)" />
                                 <t t-set="range_line_null" t-value="8 - line_size" />
 
-                                <tr t-foreach="doc.invoice_line_ids" t-as="line">
+                                <tr t-foreach="doc.invoice_line_ids" t-as="line"> -->
                                     <!-- <t t-set="price" t-value="line.price_unit / 1.1" /> -->
-                                    <t t-set="price" t-value="line.price_unit * 100 / (100 + sum(line.tax_ids.mapped('amount')))"/>
+                                    <!-- <t t-set="price" t-value="line.price_unit * 100 / (100 + sum(line.tax_ids.mapped('amount')))"/>
                                     <t t-set="dpp" t-value="line.quantity * price" />
                                     <t t-set="ppn" t-value="dpp * (sum(line.tax_ids.mapped('amount'))) / 100" />
                                     <t t-set="amount" t-value="amount + dpp + ppn" />
@@ -211,13 +211,13 @@
                     </div>
                 </t>
             </t>
-        </template>
+        </template> -->
 
 
 
 
 
-        <report id="action_faktur_2" model="account.move" string="Print Faktur 2" report_type="qweb-pdf"
+        <!-- <report id="action_faktur_2" model="account.move" string="Print Faktur 2" report_type="qweb-pdf"
             name="my_report.faktur_2" file="my_report.faktur_2" />
 
         <record id="action_faktur_2" model="ir.actions.report">
@@ -242,16 +242,16 @@
                                 <span class="text-uppercase" t-field="doc.partner_id" />
                                 <br />
                                 <span class="text-uppercase" t-field="doc.partner_id.npwp" />
-                                <br />
+                                <br /> -->
                                 <!--<span t-field="doc.partner_id.street"/>-->
-                                <p>
+                                <!-- <p>
                                     <t t-esc="doc.partner_id.street[:80] if doc.partner_id.street else ''" />
                                 </p>
                             </div>
-                        </div>
+                        </div> -->
 
 
-                        <div class="row font-weight-bold" style="font-size : 20px ;">
+                        <!-- <div class="row font-weight-bold" style="font-size : 20px ;">
                             <div class="col-6">
                                 <t t-if="doc.payment_reference">
                                     <span>No Faktur : </span>
@@ -280,10 +280,10 @@
                                     <th style="border : 1px solid black">NAMA BARANG</th>
                                     <th style="border : 1px solid black">WARNA</th>
                                     <th style="border : 1px solid black">QTY</th>
-                                    <th style="border : 1px solid black" width="10%">HARGA</th>
+                                    <th style="border : 1px solid black" width="10%">HARGA</th> -->
                                     <!--<th style="border : 1px solid black" width="14%">DPP</th>-->
                                     <!--<th style="border : 1px solid black" width="12%">PPN</th>-->
-                                    <th style="border : 1px solid black" width="14%">JUMLAH</th>
+                                    <!-- <th style="border : 1px solid black" width="14%">JUMLAH</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -319,14 +319,14 @@
                                     </td>
                                     <td style="border : 1px solid black" class="text-right pr-1">
                                         <span t-esc="'{0:,.2f}'.format(float(price))" />
-                                    </td>
+                                    </td> -->
                                     <!--<td style="border : 1px solid black" class="text-right pr-1">-->
                                     <!--    <span t-esc="'{0:,.2f}'.format(float(dpp))"/>-->
                                     <!--</td>-->
                                     <!--<td style="border : 1px solid black" class="text-right pr-1">-->
                                     <!--    <span t-esc="'{0:,.2f}'.format(float(ppn))"/>-->
                                     <!--</td>-->
-                                    <td style="border : 1px solid black" class="text-right pr-1">
+                                    <!-- <td style="border : 1px solid black" class="text-right pr-1">
                                         <span t-esc="'{0:,.2f}'.format(dpp + ppn)" />
                                     </td>
                                 </tr>
@@ -335,10 +335,10 @@
                                     <td style="border : 1px solid black ; height: 30px;" />
                                     <td style="border : 1px solid black ; height: 30px;" />
                                     <td style="border : 1px solid black ; height: 30px;" />
-                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <td style="border : 1px solid black ; height: 30px;" /> -->
                                     <!--<td style="border : 1px solid black ; height: 30px;"/>-->
                                     <!--<td style="border : 1px solid black ; height: 30px;"/>-->
-                                    <td style="border : 1px solid black ; height: 30px;" />
+                                    <!-- <td style="border : 1px solid black ; height: 30px;" />
                                 </tr>
                             </tbody>
                         </table>
@@ -377,7 +377,7 @@
                     </div>
                 </t>
             </t>
-        </template>
+        </template> -->
 
 
 
