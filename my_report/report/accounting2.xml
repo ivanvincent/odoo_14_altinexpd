@@ -525,7 +525,7 @@
         </template> -->
 
 
-        <report id="action_surat_jalan_faktur" model="account.move" string="Print Surat Jalan" report_type="qweb-pdf"
+        <!-- <report id="action_surat_jalan_faktur" model="account.move" string="Print Surat Jalan" report_type="qweb-pdf"
             name="my_report.surat_jalan_faktur" file="my_report.surat_jalan_faktur" />
 
         <record id="action_surat_jalan_faktur" model="ir.actions.report">
@@ -626,9 +626,9 @@
                                         <t t-if="om">
                                             <span t-esc="om[idx].om" />
 
-                                        </t>
+                                        </t> -->
                                         <!-- <span t-field="doc.surat_jalan_id.line_ids" /> -->
-                                    </td>
+                                    <!-- </td>
                                 </tr>
                                 <tr t-foreach="range(range_line_null)" t-as="ex">
                                     <td style="border : 1px solid black ; height: 30px;" />
@@ -858,7 +858,7 @@
                     </div>
                 </t>
             </t>
-        </template>
+        </template> -->
 
 
 
@@ -1411,7 +1411,7 @@
 
 
 
-        <report id="action_faktur_groupby_product" model="account.move" string="Print Faktur Group by Product"
+        <!-- <report id="action_faktur_groupby_product" model="account.move" string="Print Faktur Group by Product"
             report_type="qweb-pdf" name="my_report.faktur_groupby_product" file="my_report.faktur_groupby_product" />
 
         <record id="action_faktur_groupby_product" model="ir.actions.report">
@@ -1441,9 +1441,9 @@
                                 <span class="text-uppercase" t-field="doc.partner_id" />
                                 <br />
                                 <span class="text-uppercase" t-field="doc.partner_id.npwp" />
-                                <br />
+                                <br /> -->
                                 <!--<span t-field="doc.partner_id.street"/>-->
-                                <p>
+                                <!-- <p>
                                     <t t-esc="doc.partner_id.street[:80] if doc.partner_id.street else ''" />
                                 </p>
                             </div>
@@ -1493,9 +1493,9 @@
                                         <span t-esc="'{0:,.2f}'.format(float(line.get('qty')))" />
                                         <span t-esc="line.get('uom_name')" />
                                     </td>
-                                    <td style="border : 1px solid black" class="text-right pr-1">
+                                    <td style="border : 1px solid black" class="text-right pr-1"> -->
                                         <!-- <span t-esc="'{0:,.2f}'.format(float(line.get('price')))" /> -->
-                                        <span t-esc="'{0:,.2f}'.format(float(line.get('dpp')/line.get('qty')))" />
+                                        <!-- <span t-esc="'{0:,.2f}'.format(float(line.get('dpp')/line.get('qty')))" />
                                     </td>
                                     <td style="border : 1px solid black" class="text-right pr-1">
                                         <span t-esc="'{0:,.2f}'.format(float(line.get('dpp')))" />
@@ -1552,7 +1552,7 @@
                     </div>
                 </t>
             </t>
-        </template>
+        </template> -->
 
     </data>
 </odoo>
