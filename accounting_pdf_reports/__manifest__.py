@@ -37,7 +37,7 @@
         'reports/report_tax.xml',
         'reports/report_aged_partner.xml',
         'reports/report_journal_audit.xml',
-        'reports/report_journal_entries.xml',
+        # 'reports/report_journal_entries.xml',
     ],
     'installable': True,
     'application': False,
