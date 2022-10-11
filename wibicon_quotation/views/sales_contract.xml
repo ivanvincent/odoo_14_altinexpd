@@ -2,7 +2,7 @@
 <odoo>
 
     <data>
-        <record id="sales_contract" model="report.paperformat">
+        <record id="lap_sales_contract" model="report.paperformat">
             <field name="name">sales contract</field>
             <field name="default" eval="True" />
             <field name="format">A4</field>
@@ -24,7 +24,7 @@
             <field name="print_report_name">'%s' % object.name</field>
             <field name="binding_model_id" ref="wibicon_quotation.model_quotation"/>
             <field name="binding_type">report</field>
-            <field name="paperformat_id" ref="sales_contract"/>
+            <field name="paperformat_id" ref="lap_sales_contract"/>
         </record>
 
         <!-- <report id="action_lap_sales_contract" model="quotation" 
