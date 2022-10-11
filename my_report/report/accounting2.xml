@@ -1562,7 +1562,7 @@
             <field name="paperformat_id" eval="paperformat_faktur" />
         </record>
 
-        <template id="bill_invoices_document">
+        <!-- <template id="bill_invoices_document">
             <t t-if="o and 'company_id' in o">
                 <t t-set="company" t-value="o.company_id"></t>
             </t>
@@ -1600,7 +1600,7 @@
                             <span t-if="o.move_type == 'out_invoice' and (o.state == 'draft' or o.state == 'posted')">
                                 <font color="#fff">Invoice</font>
                             </span>
-                            <!-- <span t-if="o.move_type == 'out_invoice' and o.state == 'proforma2'">
+                            <span t-if="o.move_type == 'out_invoice' and o.state == 'proforma2'">
                                 <font color="#fff">PRO-FORMA</font>
                             </span>
                             <span t-if="o.move_type == 'out_invoice' and o.state == 'draft'">
@@ -1620,7 +1620,7 @@
                             </span>
                             <font color="#fff">
                                 <span t-field="o.name"/>
-                            </font> -->
+                            </font>
                         </h2>
 
                         <div class="row mt32 mb32">
@@ -1632,7 +1632,7 @@
                                 </font>
                             </div>
 
-                            <!-- <div class="col-3"
+                            <div class="col-3"
                                  t-if="o.invoice_date_due and o.move_type == 'out_invoice' and (o.state == 'draft' or o.state == 'posted')">
                                 <font color="#fff">
                                     <strong>Due Date:</strong>
@@ -1644,7 +1644,7 @@
                                     <strong>Payment Term:</strong>
                                     <p t-field="o.invoice_payment_term_id"/>
                                 </font>
-                            </div> -->
+                            </div>
 
                             <div class="col-3" t-if="o.user_id">
                                 <font color="#fff">
@@ -1655,7 +1655,7 @@
                         </div>
                     </div>
                     <div style="padding-top:20px;">
-                        <!-- <div class="col-3" style="font:15px lucida-console,sans-serif !important;">
+                        <div class="col-3" style="font:15px lucida-console,sans-serif !important;">
                             <strong>Customer Address</strong>
                             <br/>
                             <span style="color:#3498DB !important;" t-field="o.partner_id"/>
@@ -1670,10 +1670,10 @@
                             <br/>
                             <span style="color:gray !important;" t-field="o.partner_id.vat"/>
                             <br/>
-                        </div> -->
-                        <div style="padding-top:20px;"></div>
+                        </div>
+                        <div style="padding-top:20px;"></div> -->
                         <!-- Is there a discount on at least one line? -->
-                        <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
+                        <!-- <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
 
                         <table class="table table-sm">
                             <thead>
@@ -1758,7 +1758,7 @@
                             </table>
                         </div>
                     </div>
-                    <!-- <div style="padding-top:50px;">
+                    <div style="padding-top:50px;">
                     </div>
                     <p t-if="o.narration">
                         <strong>Comment:</strong>
@@ -1805,12 +1805,12 @@
                     <p t-if="o.fiscal_position_id.note">
                         <strong>Fiscal Position Remark:</strong>
                         <span t-field="o.fiscal_position_id.note"/>
-                    </p> -->
+                    </p>
                 </div>
             </t>
         </template>
 
-        <!-- <template id="account.bill_invoice_with_payment">
+        <template id="account.bill_invoice_with_payment">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
@@ -1832,9 +1832,9 @@
                     </t>
                 </t>
             </t>
-        </template> -->
+        </template>
 
-        <template id="account.bill_invoices">
+        <template id="account.bill_invoice">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
@@ -1857,7 +1857,7 @@
                     </t>
                 </t>
             </t>
-        </template>
+        </template> -->
 
 
 
