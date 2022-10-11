@@ -2,7 +2,7 @@
 <odoo>
 
     <data>
-        <!-- <record id="sales_contract" model="report.paperformat">
+        <record id="lapsales_contract" model="report.paperformat">
             <field name="name">sales contract</field>
             <field name="default" eval="True" />
             <field name="format">A4</field>
@@ -13,7 +13,7 @@
             <field name="margin_right">7</field>
             <field name="header_line" eval="False" />
             <field name="header_spacing">35</field>
-        </record> -->
+        </record>
         
         <record id="action_lap_sales_contract" model="ir.actions.report">
             <field name="name">sales contract</field>
