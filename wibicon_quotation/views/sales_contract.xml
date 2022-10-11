@@ -5,7 +5,7 @@
 
         <record model="report.paperformat" id="sales_contract" >
             <field name="name">Sales Contract</field>
-            <field name="default" eval="False" />
+            <field name="default" eval="True" />
             <field name="format">A4</field>
             <field name="orientation">Portrait</field>
             <field name="margin_top">10</field>
