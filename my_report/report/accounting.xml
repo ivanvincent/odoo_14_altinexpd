@@ -1658,7 +1658,7 @@
     <field name="paperformat_id" eval="paperformat_bill_invoices" />
 </record>
 
-        <!-- <template id="bill_invoices_document">
+        <template id="bill_invoices_document">
             <t t-if="o and 'company_id' in o">
                 <t t-set="company" t-value="o.company_id"></t>
             </t>
@@ -1767,9 +1767,9 @@
                             <span style="color:gray !important;" t-field="o.partner_id.vat"/>
                             <br/>
                         </div>
-                        <div style="padding-top:20px;"></div> -->
+                        <div style="padding-top:20px;"></div>
                         <!-- Is there a discount on at least one line? -->
-                        <!-- <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
+                        <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
 
                         <table class="table table-sm">
                             <thead>
@@ -1953,7 +1953,7 @@
                     </t>
                 </t>
             </t>
-        </template> -->
+        </template>
 
 </data>
 </odoo>
