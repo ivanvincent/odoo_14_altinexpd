@@ -1640,7 +1640,7 @@
     <field name="default" eval="True" />
     <field name="format">custom</field>
     <field name="page_width">210</field>
-    <field name="page_height">150</field>
+    <field name="page_height">300</field>
     <field name="orientation">Portrait</field>
     <field name="margin_top">5</field>
     <field name="margin_bottom">0</field>
@@ -1651,14 +1651,19 @@
     <field name="dpi">90</field>
 </record>
 
-<report id="action_bill_invoices" model="account.move" string="Bill Invoices"
+<report id="action_bill_invoice_with_payment" model="account.move" string="Bill Invoices"
     report_type="qweb-pdf" name="my_report.bill_invoice_with_payment" file="my_report.bill_invoice_with_payment" />
 
-    <report id="action_bill_invoices" model="account.move" string="Bill Invoices Without Payment"
+<record id="action_bill_invoice_with_payment" model="ir.actions.report">
+    <field name="paperformat_id" eval="paperformat_bill_invoices" />
+</record>
+
+
+<report id="action_bill_invoice" model="account.move" string="Bill Invoices Without Payment"
     report_type="qweb-pdf" name="my_report.bill_invoice" file="my_report.bill_invoice" />
 
 
-<record id="action_bill_invoices" model="ir.actions.report">
+<record id="action_bill_invoice" model="ir.actions.report">
     <field name="paperformat_id" eval="paperformat_bill_invoices" />
 </record>
 
