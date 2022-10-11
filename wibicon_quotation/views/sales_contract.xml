@@ -28,9 +28,165 @@
         </record>
 
         <template id="lap_sales_contract">
-                <t t-call="web.basic_layout">
-                    <h2>TEST</h2>
+               <t t-call="web.basic_layout">
+                  <t t-foreach="docs" t-as="doc">
+                    <t t-if="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id"/>
+                    </t>
+                    <t t-if="not o or not 'company_id' in o">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+                    <div class="header">
+                        <div class="row mt32">
+                            <div class="col-1,5">
+                                <img src="/web/binary/company_logo" style="width : 140px; height:140px; padding-top:0px; padding-bottom:40px;" align="left"/>
+                            </div>
+                            <div class="col-4 text-left" style="font:15px lucida-console,sans-serif !important;">
+                                <span t-field="company.partner_id"/>
+                                <br/>
+                                <span t-field="company.partner_id.street"/>
+                                <br/>
+                                <span t-field="company.partner_id.street2"/>
+                                <br/>
+                                <span t-field="company.partner_id.city"/>
+                                <br/>
+                                <span t-field="company.partner_id.country_id"/>
+                                <br/>
+                                <span t-field="company.partner_id.vat"/>
+                                <br/>
+                            </div>
+                        </div>
+                    </div>
+
+                      <style>
+                        .table-data {
+                            border: 1px solid black;
+                            text-align: center;
+                            margin-bottom: 1rem;
+                            border-collapse: collapse;
+                        }
+                
+                        .table-data th, .table-data td {
+                            border: 1px solid black;
+                            padding: 0;
+                            border-collapse: collapse;
+                        }
+                     </style>
+                      <center>
+                          <h3>SALES CONTRACT</h3>
+                      </center>
+                      <br/>
+                  
+                       <div class="row">
+                          <div class="col-6">
+                              <table class="table-condensed" width="100%">
+                                  <tr>
+                                      <td width="30%" style="font-size:20px">Customer</td>
+                                      <td>
+                                          <span>:</span>
+                                          <span t-field="doc.partner_id" style="font-size:20px"></span>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td width="30%" style="font-size:20px">Date</td>
+                                      <td>
+                                          <span>:</span>
+                                          <span t-field="doc.date" style="font-size:20px"></span>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td width="30%" style="font-size:20px">Design</td>
+                                      <td>
+                                          <span>:</span>
+                                          <span t-field="doc.design_code_id" style="font-size:20px"></span>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td width="30%" style="font-size:20px">Image</td>
+                                      <td>
+                                          <span>:</span>
+                                          <span t-field="doc.image_binary" style="font-size:20px"></span>
+                                      </td>
+                                  </tr>
+                              </table>
+                          </div>
+                      </div>
+                      <br/>
+                      <br/>
+                      <table width="100%" class="table-data">
+                        <thead>
+                            <tr class="text-center">
+                                <th style="vertical-align : middle" width="3%" >Product</th>
+                                <th style="vertical-align : middle" width="1%" >Embos</th>
+                                <th style="vertical-align : middle" width="1%" >Tip</th>
+                                <th style="vertical-align : middle" width="1%" >Size</th>
+                                <th style="vertical-align : middle" width="1%" >Quantity</th>
+                                <th style="vertical-align : middle" width="1%" >Price Unit</th>
+                                <th style="vertical-align : middle" width="1%" >Tax</th>
+                                <th style="vertical-align : middle" width="1%" >Sub Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <t t-foreach="doc.line_ids" t-as="line">
+                            <tr>
+                                <td style="vertical-align : middle">
+                                    <span t-field="line.product_id"></span>
+                                </td>
+                                <td style="vertical-align : middle">
+                                    <span t-field="line.embos"></span>
+                                </td>
+                                <td style="vertical-align : middle">
+                                    <span t-field="line.tip"></span>
+                                </td>
+                                <td style="vertical-align : middle">
+                                    <span t-field="line.size"></span>
+                                </td>
+                                <td style="vertical-align : middle">
+                                    <span t-field="line.quantity"></span>
+                                </td>
+                                <td style="vertical-align : middle">
+                                    <span t-field="line.price_unit"></span>
+                                </td>
+                                <td style="vertical-align : middle">
+                                    <span t-field="line.tax_ids"></span>
+                                </td>
+                                <td style="vertical-align : middle">
+                                    <span t-field="line.sub_total"></span>
+                                </td>
+                            </tr>
+                          </t>
+                        </tbody>
+                    </table>
+                    <div>
+                      <table width="100%">
+                          <tr style="text-align: center;">
+                              <td>
+                                  <div class="col-6">Menerima</div>
+                              </td>
+                              <td>
+                                  <div class="col-6">Menyerahkan</div>
+                              </td>
+                          </tr>
+                          <tr style="text-align: center;">
+                              <td>
+                                  <div class="col-6"></div>
+                              </td>
+                              <td>
+                                  <div class="col-6"></div>
+                              </td>
+                          </tr>
+                          <tr style="text-align: center;">
+                              <td>
+                                  <div class="col-6"><br/><br/><br/>(____________)</div>
+                              </td>
+                              <td>
+                                  <div class="col-6"><br/><br/><br/>(____________)</div>
+                              </td>
+                          </tr>
+                      </table>
+                    </div>
                 </t>
+            </t>
         </template>
         
     </data>
