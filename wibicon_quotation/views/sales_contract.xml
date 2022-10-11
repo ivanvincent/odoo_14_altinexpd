@@ -7,7 +7,7 @@
             <field name="name">Sales Contract</field>
             <field name="default" eval="False" />
             <field name="format">A4</field>
-            <field name="orientation">Potrait</field>
+            <field name="orientation">Portrait</field>
             <field name="margin_top">10</field>
             <field name="margin_bottom">10</field>
             <field name="margin_left">7</field>
@@ -16,7 +16,7 @@
             <field name="header_spacing">35</field>
         </record>
         
-        <!-- <record id="action_report_sales_contract" model="ir.actions.report">
+        <record id="action_report_sales_contract" model="ir.actions.report">
             <field name="name">Sales Contract</field>
             <field name="model">quotation</field>
             <field name="report_type">qweb-pdf</field>
@@ -26,17 +26,17 @@
             <field name="binding_model_id" ref="wibicon_quotation.model_quotation"/>
             <field name="binding_type">report</field>
             <field name="paperformat_id" ref="sales_contract"/>
-        </record> -->
-
+        </record>
+<!-- 
         <report id="action_lap_sales_contract" model="quotation" 
         string="Reporting Sales Contract" report_type="qweb-pdf" 
         name="wibicon_quotation.lap_sales_contract" file="wibicon_quotation.lap_sales_contract" />
 
         <record id="action_lap_sales_contract" model="ir.actions.report">
             <field name="paperformat_id" eval="paperformat_lap_sales_contract" />
-        </record>
+        </record> -->
 
-        <template id="lap_sales_contract">
+        <template id="report_sales_contract">
               <t t-call="web.basic_layout">
                   <t t-foreach="docs" t-as="doc">
                     <t t-if="o and 'company_id' in o">
