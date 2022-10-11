@@ -28,7 +28,7 @@
         </record>
 
         <template id="lap_sales_contract">
-               <t t-call="web.basic_layout">
+              <t t-call="web.basic_layout">
                   <t t-foreach="docs" t-as="doc">
                     <t t-if="o and 'company_id' in o">
                         <t t-set="company" t-value="o.company_id"/>
