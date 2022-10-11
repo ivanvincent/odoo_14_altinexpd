@@ -1651,21 +1651,6 @@
     <field name="dpi">90</field>
 </record>
 
-<report id="action_bill_invoice_with_payment" model="account.move" string="Bill Invoices"
-    report_type="qweb-pdf" name="my_report.bill_invoice_with_payment" file="my_report.bill_invoice_with_payment" />
-
-<record id="action_bill_invoice_with_payment" model="ir.actions.report">
-    <field name="paperformat_id" eval="paperformat_bill_invoices" />
-</record>
-
-
-<report id="action_bill_invoice" model="account.move" string="Bill Invoices Without Payment"
-    report_type="qweb-pdf" name="my_report.bill_invoice" file="my_report.bill_invoice" />
-
-
-<record id="action_bill_invoice" model="ir.actions.report">
-    <field name="paperformat_id" eval="paperformat_bill_invoices" />
-</record>
 
         <template id="bill_invoices_document">
             <t t-if="o and 'company_id' in o">
@@ -1915,6 +1900,13 @@
             </t>
         </template>
 
+        <report id="action_bill_invoice_with_payment" model="account.move" string="Bill Invoices"
+        report_type="qweb-pdf" name="my_report.bill_invoice_with_payment" file="my_report.bill_invoice_with_payment" />
+
+        <record id="action_bill_invoice_with_payment" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_bill_invoices" />
+        </record>
+
         <template id="bill_invoice_with_payment">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
@@ -1938,6 +1930,13 @@
                 </t>
             </t>
         </template>
+
+        <report id="action_bill_invoice" model="account.move" string="Bill Invoices Without Payment"
+        report_type="qweb-pdf" name="my_report.bill_invoice" file="my_report.bill_invoice" />
+    
+        <record id="action_bill_invoice" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_bill_invoices" />
+        </record>
 
         <template id="bill_invoice">
             <t t-call="web.html_container">
