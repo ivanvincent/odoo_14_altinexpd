@@ -1636,11 +1636,11 @@
 </template> -->
 
 <report id="action_bill_invoices" model="account.move" string="Bill Invoices"
-            report_type="qweb-pdf" name="my_report.bill_invoices" file="my_report.bill_invoices" />
+    report_type="qweb-pdf" name="my_report.bill_invoices" file="my_report.bill_invoices" />
 
 <record id="action_bill_invoices" model="ir.actions.report">
-            <field name="paperformat_id" eval="paperformat_faktur" />
-        </record>
+    <field name="paperformat_id" eval="paperformat_bill_invoices" />
+</record>
 
         <!-- <template id="bill_invoices_document">
             <t t-if="o and 'company_id' in o">
