@@ -1652,7 +1652,11 @@
 </record>
 
 <report id="action_bill_invoices" model="account.move" string="Bill Invoices"
-    report_type="qweb-pdf" name="my_report.bill_invoices" file="my_report.bill_invoices" />
+    report_type="qweb-pdf" name="my_report.bill_invoice_with_payment" file="my_report.bill_invoice_with_payment" />
+
+    <report id="action_bill_invoices" model="account.move" string="Bill Invoices Without Payment"
+    report_type="qweb-pdf" name="my_report.bill_invoice" file="my_report.bill_invoice" />
+
 
 <record id="action_bill_invoices" model="ir.actions.report">
     <field name="paperformat_id" eval="paperformat_bill_invoices" />
