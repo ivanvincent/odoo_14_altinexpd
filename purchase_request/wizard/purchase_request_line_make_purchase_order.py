@@ -21,7 +21,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         context={"res_partner_search_mode": "supplier", "default_is_company": True},
     )
     
-    supplier_id = fields.Many2one(
+    supplier_id2 = fields.Many2one(
         comodel_name="res.partner",
         string="Supplier 2",
         required=True,
