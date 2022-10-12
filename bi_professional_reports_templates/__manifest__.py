@@ -34,7 +34,7 @@
 
         "purchase_report/classic_report_purchaseorder.xml",
         "purchase_report/classic_report_purchasequotation.xml",
-        "purchase_report/fency_report_purchaseorder.xml",
+        # "purchase_report/fency_report_purchaseorder.xml",
         "purchase_report/fency_report_purchasequotation.xml",
         "purchase_report/modern_report_purchaseorder.xml",
         "purchase_report/modern_report_purchasequotation.xml",
