@@ -19,7 +19,7 @@
                 <group>
                     <field name="purchase_order_id" invisible="1" domain="[('partner_id', '=', supplier_id)]" />
                     <field name="supplier_id" />
-                    <field name="supplier_id" />
+                    <field name="supplier_id2" />
                     <field name="po_category_id" attrs="{'invisible':[('purchase_order_id', '!=', False)],'required': [('purchase_order_id', '=', False)]}"/>
                 </group>
                 <newline />
