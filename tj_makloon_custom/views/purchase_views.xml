@@ -26,11 +26,11 @@
             <field name="name">purchase.order.graph</field>
             <field name="model">purchase.order</field>
             <field name="arch" type="xml">
-                <!-- <graph string="Purchase Order"> -->
+                <graph string="Purchase Order">
                     <field name="partner_id"/>
                     <field name="amount_total" type="measure"/>
                 </graph>
-            <!-- </field> -->
+            </field>
         </record>
 
         <record id="purchase_open_picking" model="ir.actions.act_window">
