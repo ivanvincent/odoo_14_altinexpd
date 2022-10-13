@@ -17,7 +17,7 @@
             <field name="dpi">90</field>
         </record>
 
-        <report id="action_report_bill_invoice_without_payment" model="account.move" string="Bill Invoices"
+        <report id="action_report_bill_invoice_without_payment" model="account.move" string="Bill Invoices Without Payment"
                 report_type="qweb-pdf" name="my_report.report_bill_invoice_without_payment" file="my_report.report_bill_invoice_without_payment" />
         
         <record id="action_report_bill_invoice_without_payment" model="ir.actions.report">
