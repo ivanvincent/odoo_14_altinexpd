@@ -42,7 +42,7 @@
         # 'report/packing_list_pengiriman_kain.xml',
         # 'report/konstruksi_design.xml',
         'report/print_kartu_proses.xml',
-        'report/bill_invoice_with_payment.xml'
+        'report/bill_invoice_with_payment.xml',
         'report/bill_invoice_without_payment.xml',
         
         
