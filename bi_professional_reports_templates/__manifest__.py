@@ -32,13 +32,13 @@
         "delivery_report/report_deliveryslip_classic.xml",
 
 
-        "purchase_report/classic_report_purchaseorder.xml",
+        # "purchase_report/classic_report_purchaseorder.xml",
         "purchase_report/classic_report_purchasequotation.xml",
-        "purchase_report/fency_report_purchaseorder.xml",
+        # "purchase_report/fency_report_purchaseorder.xml",
         "purchase_report/fency_report_purchasequotation.xml",
-        "purchase_report/modern_report_purchaseorder.xml",
+        # "purchase_report/modern_report_purchaseorder.xml",
         "purchase_report/modern_report_purchasequotation.xml",
-        "purchase_report/odoo_standard_report_purchaseorder.xml",
+        # "purchase_report/odoo_standard_report_purchaseorder.xml",
         "purchase_report/odoo_standard_report_purchasequotation.xml",
 
         "sale_report/classic_report_saleorder.xml",
