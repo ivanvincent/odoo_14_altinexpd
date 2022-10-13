@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-         <record model="report.paperformat" id="paperformat_bill_invoice_without_payment">
-            <field name="name">Bill Invoice Without Payment</field>
+         <record model="report.paperformat" id="paperformat_bill_invoices_without_payment">
+            <field name="name">Bill Invoices Without Payment</field>
             <field name="default" eval="True" />
             <field name="format">custom</field>
             <field name="page_width">210</field>
@@ -17,14 +17,14 @@
             <field name="dpi">90</field>
         </record>
 
-        <report id="action_report_bill_invoice_without_payment" model="account.move" string="Bill Invoices Without Payment"
-                report_type="qweb-pdf" name="my_report.report_bill_invoice_without_payment" file="my_report.report_bill_invoice_without_payment" />
+        <report id="action_report_bill_invoices_without_payment" model="account.move" string="Bill Invoicess Without Payment"
+                report_type="qweb-pdf" name="my_report.report_bill_invoices_without_payment" file="my_report.report_bill_invoices_without_payment" />
         
-        <record id="action_report_bill_invoice_without_payment" model="ir.actions.report">
-            <field name="paperformat_id" eval="paperformat_bill_invoice_without_payment" />
+        <record id="action_report_bill_invoices_without_payment" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_bill_invoices_without_payment" />
         </record>
         
-        <template id="report_bill_invoice_without_payment">
+        <template id="report_bill_invoices_without_payment">
              <t t-call="web.basic_layout">
                 <h2>TEST</h2>
             </t>
