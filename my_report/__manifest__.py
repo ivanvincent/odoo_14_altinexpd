@@ -25,7 +25,7 @@
         # 'report/print_receipt.xml',
         # 'report/print_release.xml',
         # # 'report/print_release_benang.xml',
-        'report/purchase_order.xml',
+        # 'report/purchase_order.xml',
          'report/purchase_request.xml',
         # 'report/sale_contract.xml',
         # 'report/sale_order.xml',
