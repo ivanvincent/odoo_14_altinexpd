@@ -45,9 +45,9 @@
                                     <td style="border: 1px solid black">
                                         <span t-field="line.product_id.name"/>
                                     </td>
-                                     <td style="border: 1px solid black">
+                                     <!-- <td style="border: 1px solid black">
                                         <span t-field="line.restrict_lot_id"/>
-                                    </td>
+                                    </td> -->
                                     <td style="border: 1px solid black">
                                         <span t-field="line.product_warna_id"/>
                                     </td>
@@ -115,7 +115,7 @@
                             <td>Mengetahui,</td>
                         </tr>
                         <tr style="padding-top:50px" align="center">
-                            <td><span t-field="o.min_date" t-options="{'format':'dd/MM/YYYY'}"/><br/><br/><br/>........................</td>
+                            <!-- <td><span t-field="o.min_date" t-options="{'format':'dd/MM/YYYY'}"/><br/><br/><br/>........................</td> -->
                             <td><br/><br/><br/>........................</td>
                             <td><br/><br/><br/>........................</td>
                             <td><br/><br/><br/>........................</td>
