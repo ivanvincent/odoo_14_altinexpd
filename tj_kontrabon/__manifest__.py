@@ -31,10 +31,10 @@ Kontrabon order
          "data/res_groups.xml",
 
          "report/report_kb_bca.xml",
-         "report/report_kb_tunai.xml",
-         "report/report_kb_utang.xml",
-         "report/report_kb_va.xml",
-         "report/report_kontrabon.xml",
+        #  "report/report_kb_tunai.xml",
+        #  "report/report_kb_utang.xml",
+        #  "report/report_kb_va.xml",
+        #  "report/report_kontrabon.xml",
          "report/bukti_pengeluaran_bank.xml"
 ],
 "application": True,

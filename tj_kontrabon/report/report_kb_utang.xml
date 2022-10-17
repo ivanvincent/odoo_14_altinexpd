@@ -10,6 +10,7 @@
             report_type="qweb-pdf"
             name="tj_kontrabon.report_kb_utang"
             file="tj_kontrabon.report_kb_utang"
+            menu="False"
         />
 
         <record id="action_report_kb_utang" model="ir.actions.report">
