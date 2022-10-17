@@ -2,7 +2,7 @@
     <data>
 
         <template id="report_packing_list_document">
-            <t t-call="report.external_layout">
+            <t t-call="web.external_layout">
                 
                 <t t-foreach="stock_picking" t-as="o">
                  </t>                    
