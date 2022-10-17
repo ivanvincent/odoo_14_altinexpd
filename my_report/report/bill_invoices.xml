@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-         <!-- <record model="report.paperformat" id="paperformat_bill_invoices">
+         <record model="report.paperformat" id="paperformat_bill_invoices">
             <field name="name">Bill Invoice</field>
             <field name="default" eval="True" />
             <field name="format">custom</field>
@@ -128,9 +128,9 @@
                                     <span style="color:gray !important;" t-field="o.partner_id.vat"/>
                                     <br/>
                                 </div>
-                                <div style="padding-top:20px;"></div> -->
+                                <div style="padding-top:20px;"></div>
                                 <!-- Is there a discount on at least one line? -->
-                                <!-- <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
+                                <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
         
                                 <table class="table table-sm">
                                     <thead>
@@ -272,7 +272,7 @@
                 </template>
         
                 <report id="action_bill_invoice_with_payment" model="account.move" string="Bill Invoices"
-                report_type="qweb-pdf" name="my_report.bill_invoice_with_payment" file="my_report.bill_invoice_with_payment" />
+                report_type="qweb-pdf" name="my_report.bill_invoice_with_payment" file="my_report.bill_invoice_with_payment" menu="False"/>
         
                 <record id="action_bill_invoice_with_payment" model="ir.actions.report">
                     <field name="paperformat_id" eval="paperformat_bill_invoices" />
@@ -303,7 +303,7 @@
                 </template>
         
                 <report id="action_bill_invoice" model="account.move" string="Bill Invoices Without Payment"
-                report_type="qweb-pdf" name="my_report.bill_invoice" file="my_report.bill_invoice" />
+                report_type="qweb-pdf" name="my_report.bill_invoice" file="my_report.bill_invoice" menu="False"/>
             
                 <record id="action_bill_invoice" model="ir.actions.report">
                     <field name="paperformat_id" eval="paperformat_bill_invoices" />
@@ -332,7 +332,7 @@
                             </t>
                         </t>
                     </t>
-                </template> -->
+                </template>
         
 
     </data>
