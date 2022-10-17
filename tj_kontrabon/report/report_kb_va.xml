@@ -4,7 +4,7 @@
     <data>
 
         <report id="action_report_kb_va" model="kontrabon.order" string="Kontrabon VA" report_type="qweb-pdf"
-            name="tj_kontrabon.report_kb_va" file="tj_kontrabon.report_kb_va" />
+            name="tj_kontrabon.report_kb_va" file="tj_kontrabon.report_kb_va" menu="False"/>
 
         <record id="action_report_kb_va" model="ir.actions.report">
             <field name="paperformat_id" eval="kontrabon_a5_format" />

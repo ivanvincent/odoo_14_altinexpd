@@ -4,7 +4,7 @@
 
 
         <report id="action_kontrabon_1" model="kontrabon.order" string="Kontrabon A5 1" report_type="qweb-pdf"
-            name="tj_kontrabon.kontrabon_1" file="tj_kontrabon.kontrabon_1" />
+            name="tj_kontrabon.kontrabon_1" file="tj_kontrabon.kontrabon_1" menu="False"/>
 
         <record id="action_kontrabon_1" model="ir.actions.report">
             <field name="paperformat_id" eval="kontrabon_a5_format" />
@@ -246,7 +246,7 @@
 
 
         <report id="action_kontrabon_2" model="kontrabon.order" string="Kontrabon A5 2" report_type="qweb-pdf"
-            name="tj_kontrabon.kontrabon_2" file="tj_kontrabon.kontrabon_2" />
+            name="tj_kontrabon.kontrabon_2" file="tj_kontrabon.kontrabon_2" menu="False"/>
 
         <record id="action_kontrabon_2" model="ir.actions.report">
             <field name="paperformat_id" eval="kontrabon_a5_format" />
