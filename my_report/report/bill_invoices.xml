@@ -8,12 +8,12 @@
             <field name="page_width">210</field>
             <field name="page_height">300</field>
             <field name="orientation">Portrait</field>
-            <field name="margin_top">0</field>
-            <field name="margin_bottom">0</field>
-            <field name="margin_right">5</field>
-            <field name="margin_left">5</field>
+            <field name="margin_top">55</field>
+            <field name="margin_bottom">30</field>
+            <field name="margin_right">10</field>
+            <field name="margin_left">10</field>
             <field name="header_line" eval="False" />
-            <field name="header_spacing">35</field>
+            <field name="header_spacing">50</field>
             <field name="dpi">90</field>
         </record>
         
@@ -228,6 +228,10 @@
                                 <span style="color:gray !important;" t-field="o.paypal_id"/>
                             </p>
                             <p t-if="o.paypal_chk == False">
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
                                 <strong style="color:#3498DB !important;">Bank Account Details</strong>
                                 <br/>
                                 <span>Account Id :</span>
@@ -266,70 +270,69 @@
                         </div>
                     </t>
                 </template>
-
-        <!-- REPORT WITH PAYMENT -->
         
                 <report id="action_bill_invoice_with_payment" model="account.move" string="Bill Invoices"
-                report_type="qweb-pdf" name="my_report.bill_invoice_with_payment" file="my_report.bill_invoice_with_payment" />
+                report_type="qweb-pdf" name="my_report.bill_invoice_with_payment" file="my_report.bill_invoice_with_payment" menu="False"/>
         
                 <record id="action_bill_invoice_with_payment" model="ir.actions.report">
                     <field name="paperformat_id" eval="paperformat_bill_invoices" />
                 </record>
         
                 <template id="bill_invoice_with_payment">
-                    <t t-call="web.basic_layout">
+                    <t t-call="web.html_container">
                         <t t-foreach="docs" t-as="o">
                             <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
                             <t t-set="print_with_payments" t-value="True"/>
-                            <t t-if="o.company_id.account_template == 'fency' ">                   
-                            <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                            <t t-if="o.company_id.account_template == 'fency' ">                    
+                                <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
                             </t>
                             <t t-if="o.company_id.account_template == 'classic' ">
-                            <t t-call="bi_professional_reports_templates.classic_report_invoice_document" t-lang="o.partner_id.lang"/>
+                                <t t-call="bill_invoices.classic_report_invoice_document"
+                                       t-lang="o.partner_id.lang"/>
                             </t>
                             <t t-if="o.company_id.account_template == 'modern' ">
-                            <t t-call="bi_professional_reports_templates.modern_report_invoice_document" t-lang="o.partner_id.lang"/>
+                                <t t-call="bill_invoices.modern_report_invoice_document"
+                                       t-lang="o.partner_id.lang"/>
                             </t>
                             <t t-if="o.company_id.account_template == 'odoo_standard' ">
-                            <t t-call="bi_professional_reports_templates.odoo_std_report_invoice_document" t-lang="o.partner_id.lang"/>
+                                <t t-call="bill_invoices.odoo_std_report_invoice_document"
+                                       t-lang="o.partner_id.lang"/>
                             </t>
-                            
                         </t>
                     </t>
                 </template>
         
-
-
-        <!-- REPORT WITHOUT PAYMENT -->
                 <report id="action_bill_invoice" model="account.move" string="Bill Invoices Without Payment"
-                report_type="qweb-pdf" name="my_report.bill_invoice" file="my_report.bill_invoice" />
+                report_type="qweb-pdf" name="my_report.bill_invoice" file="my_report.bill_invoice" menu="False"/>
             
                 <record id="action_bill_invoice" model="ir.actions.report">
                     <field name="paperformat_id" eval="paperformat_bill_invoices" />
                 </record>
         
                 <template id="bill_invoice">
-                    <t t-call="web.basic_layout">
+                    <t t-call="web.html_container">
                         <t t-foreach="docs" t-as="o">
                             <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
                             <t t-set="print_with_payments" t-value="True"/>
                             <t t-if="o.company_id.account_template == 'fency' ">
-                               <t t-call="bi_professional_reports_templates.fency_report_invoice_document" t-lang="o.partner_id.lang"/>
+                                <t t-call="bill_invoices.fency_report_invoice_document"
+                                   t-lang="o.partner_id.lang"/>
                             </t>
                             <t t-if="o.company_id.account_template == 'classic' ">
-                               <t t-call="bi_professional_reports_templates.classic_report_invoice_document" t-lang="o.partner_id.lang"/>
+                                <t t-call="bill_invoices.classic_report_invoice_document"
+                                   t-lang="o.partner_id.lang"/>
                             </t>
                             <t t-if="o.company_id.account_template == 'modern' ">
-                               <t t-call="bi_professional_reports_templates.modern_report_invoice_document" t-lang="o.partner_id.lang"/>
+                                <t t-call="bill_invoices.modern_report_invoice_document"
+                                   t-lang="o.partner_id.lang"/>
                             </t>
                             <t t-if="o.company_id.account_template == 'odoo_standard' ">
-                               <t t-call="bi_professional_reports_templates.odoo_std_report_invoice_document" t-lang="o.partner_id.lang"/>
-                            </t>    
+                                <t t-call="bill_invoices.odoo_std_report_invoice_document"
+                                   t-lang="o.partner_id.lang"/>
+                            </t>
                         </t>
                     </t>
                 </template>
-
-                
         
 
     </data>
