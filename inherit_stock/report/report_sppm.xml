@@ -49,7 +49,7 @@
                                 <tr>
                                     <td style="border: 1px solid black;" class="text-center"><span t-esc="no"/></td>
                                     <td style="border: 1px solid black; padding-left:10px" class="text-left"><span t-esc="doc['name']"/></td>
-                                    <td style="border: 1px solid black; padding-right:10px" class="text-right"><span t-esc="doc['sat']"/></td>
+                                    <!-- <td style="border: 1px solid black; padding-right:10px" class="text-right"><span t-esc="doc['sat']"/></td> -->
                                     <td style="border: 1px solid black; padding-right:10px" class="text-right"><span t-esc="'{0:,.2f}'.format(float(doc['qty']))" class="text-right pr-1"/></td>
                                     <td style="border: 1px solid black;"/>
                                     <td style="border: 1px solid black;"/>
