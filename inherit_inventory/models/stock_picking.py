@@ -97,6 +97,9 @@ class StockPicking(models.Model):
                     # 'view_id': view.id,
                 }
         return action
+    
+    def action_show_image(self):
+        return
 
     @api.onchange('just_flag')
     def onchange_just_flag(self):
