@@ -14,9 +14,9 @@
                     <attribute name="decoration-danger">"state == 'reject'"</attribute>
                 </xpath>
 
-                <xpath expr="//button[@name='action_assign_serial']" position="after">
+                <!-- <xpath expr="//field[@name='price_subtotal']" position="after">
                     <button name="action_show_image" type="object" icon="fa-picture-o" width="0.1" role="img" title="Upload Image"/>
-                </xpath>
+                </xpath> -->
 
                 <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
                     <button type="object" name="action_view_release" class="oe_stat_button" icon="fa-dropbox" attrs="{'invisible':[('state', 'not in', ('purchase', 'done'))]}">
@@ -70,6 +70,7 @@
                 <xpath expr="//field[@name='order_line']//tree/field[@name='price_subtotal']" position="after">
                     <field name="f_discount" optional="hide"/>
                     <field name="remarks" optional="hide"/>
+                    <button name="action_show_image" type="object" icon="fa-picture-o" width="0.1" role="img" title="Upload Image"/>
                 </xpath>
 
 

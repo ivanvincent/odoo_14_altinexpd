@@ -19,6 +19,7 @@ class PurchaseOrder(models.Model):
     lot_id               = fields.Many2one('stock.production.lot', string='Lot / serial number', related='order_line.lot_id')
     image_ids           = fields.One2many('stock.move.image', 'move_id', string='Image')
     
+    
     def button_reject(self):
         for order in self:
                 order.write({'state': 'reject'})
