@@ -45,6 +45,7 @@
         'report/bill_invoice_with_payment.xml',
         'report/bill_invoice_without_payment.xml',
         'report/print_uudp_pengajuan.xml',
+        'report/print_pencairan.xml',
         
         
         # 'views/inherit_stock.xml',
