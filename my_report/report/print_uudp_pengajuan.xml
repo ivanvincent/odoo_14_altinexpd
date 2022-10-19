@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report string="Print Kasbon" 
+        id="action_print_uudp_pengajuan" 
+        model="uudp" 
+        report_type="qweb-pdf" 
+        name="report_print.print_uudp_pengajuan" 
+        file="report_print.print_uudp_pengajuan" />
+
+        <template id="print_uudp_pengajuan">
+            <t-call="web.basic_layout">
+                <h2>TEST</h2>
+            </t>
+        </template>
+
+
+
+    </data>
+
+
+</odoo>
