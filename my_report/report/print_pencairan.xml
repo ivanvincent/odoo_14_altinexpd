@@ -18,10 +18,10 @@
             <field name="name">Print Pencairan</field>
             <field name="model">uudp.pencairan</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">my_report.print_report_pencairan</field>
-            <field name="report_file">my_report.print_report_pencairan</field>
+            <field name="report_name">my_report.print_pencairan</field>
+            <field name="report_file">my_report.print_pencairan</field>
             <field name="print_report_name">'%s' % object.name</field>
-            <field name="binding_model_id" ref="vit_uudp.model_uudp.pencairan" />
+            <field name="binding_model_id" ref="vit_uudp.model_uudp_pencairan" />
             <field name="binding_type">report</field>
             <field name="paperformat_id" ref="report_pencairan" />
         </record>
