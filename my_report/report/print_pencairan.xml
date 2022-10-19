@@ -1,35 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record model="report.paperformat" id="report_pencairan">
-            <field name="name">Print Pencairan</field>
-            <field name="default" eval="False" />
-            <field name="format">A5</field>
-            <field name="orientation">Landscape</field>
-            <field name="margin_top">2</field>
-            <field name="margin_bottom">0</field>
-            <field name="margin_left">5</field>
-            <field name="margin_right">5</field>
-            <field name="header_line" eval="False" />
-            <field name="header_spacing">35</field>
-        </record>
+        <report 
+        id="action_print_uudp_pencairan" 
+        model="uudp.pencairan" 
+        string="Print Pencairan" 
+        report_type="qweb-pdf" 
+        name="my_report.report_uudp_pencairan" 
+        file="my_report.report_uudp_pencairan" />
 
-        <record id="action_print_report_pencairan_uudp" model="ir.actions.report">
-            <field name="name">Print Pencairan</field>
-            <field name="model">uudp.pencairan</field>
-            <field name="report_type">qweb-pdf</field>
-            <field name="report_name">my_report.print_report_pencairan</field>
-            <field name="report_file">my_report.print_report_pencairan</field>
-            <field name="print_report_name">'%s' % object.name</field>
-            <field name="binding_model_id" ref="vit_uudp.model_uudp_pencairan" />
-            <field name="binding_type">report</field>
-            <field name="paperformat_id" ref="report_pencairan" />
-        </record>
-
-        <template id="print_report_pencairan">
-          <t t-call="web.basic_layout">
-            <h1>TEST</h1>
-          </t>
+        <template id="report_uudp_pencairan">
+            <t t-call="web.basic_layout">
+                <h2>TEST</h2>
+            </t>
         </template>
+
+
+
     </data>
+
+
 </odoo>
