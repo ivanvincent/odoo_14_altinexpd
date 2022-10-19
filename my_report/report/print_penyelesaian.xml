@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report 
+        id="action_print_uudp_penyelesaian" 
+        model="uudp" 
+        string="Print Penyelesaian" 
+        report_type="qweb-pdf" 
+        name="my_report.report_uudp_penyelesaian" 
+        file="my_report.report_uudp_penyelesaian" />
+
+        <template id="report_uudp_penyelesaian">
+            <t t-call="web.basic_layout">
+            <h1>test</h1>
+            </t>
+
+        </template>
+
+
+
+    </data>
+
+
+</odoo>
