@@ -3,7 +3,7 @@
     <data>
         <record model="report.paperformat" id="report_pencairan">
             <field name="name">Print Pencairan</field>
-            <field name="default" eval="True" />
+            <field name="default" eval="False" />
             <field name="format">A5</field>
             <field name="orientation">Landscape</field>
             <field name="margin_top">2</field>
@@ -14,7 +14,7 @@
             <field name="header_spacing">35</field>
         </record>
 
-        <record id="action_print_report_pencairan" model="ir.actions.report">
+        <record id="action_print_report_pencairan_uudp" model="ir.actions.report">
             <field name="name">Print Pencairan</field>
             <field name="model">uudp.pencairan</field>
             <field name="report_type">qweb-pdf</field>
