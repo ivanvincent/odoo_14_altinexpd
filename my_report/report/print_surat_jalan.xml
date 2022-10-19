@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report 
+        id="action_print_surat_jalan" 
+        model="uudp" 
+        string="Print Kasbon" 
+        report_type="qweb-pdf" 
+        name="my_report.report_surat_jalan" 
+        file="my_report.report_surat_jalan" />
+
+        <template id="report_surat_jalan">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <h2>TEST</h2>
+                </t>
+            </t>
+        </template>
+    </data>
+ </odoo>
