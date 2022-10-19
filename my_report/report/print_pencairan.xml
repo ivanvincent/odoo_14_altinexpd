@@ -3,7 +3,7 @@
     <data>
         <record model="report.paperformat" id="report_pencairan">
             <field name="name">Print Pencairan</field>
-            <field name="default" eval="False" />
+            <field name="default" eval="True" />
             <field name="format">A5</field>
             <field name="orientation">Landscape</field>
             <field name="margin_top">2</field>
