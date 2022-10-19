@@ -3,8 +3,8 @@
     <data>
         <report 
         id="action_print_surat_jalan" 
-        model="uudp" 
-        string="Print Kasbon" 
+        model="stock.picking" 
+        string="Print Surat Jalan" 
         report_type="qweb-pdf" 
         name="my_report.report_surat_jalan" 
         file="my_report.report_surat_jalan" />
