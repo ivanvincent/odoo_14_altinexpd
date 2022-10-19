@@ -17,7 +17,8 @@ class PurchaseOrder(models.Model):
     street_delivery      = fields.Many2one('street.delivery', string='Street Delivery')
     date_datang_barang   = fields.Text(string='Dtg Barang', compute="_compute_date_datang_barang")
     lot_id               = fields.Many2one('stock.production.lot', string='Lot / serial number', related='order_line.lot_id')
-    image_ids           = fields.One2many('stock.move.image', 'move_id', string='Image')
+    image_ids           = fields.One2many('insert.image', 'purchase_id', string='Image')
+    
     
     def button_reject(self):
         for order in self:
@@ -117,8 +118,8 @@ class PurchaseOrder(models.Model):
                 rec.date_datang_barang = False
                 
                 
-    def action_show_image(self):
-        action = self.env.ref('inherit_purchase_order.purchase_order_action').read()[0]
-        action['res_id'] = self.id
-        action['name'] = "Images of %s" % (self.product_id.name)
-        return action
+    # def action_show_image(self):
+    #     action = self.env.ref('inherit_purchase_order.purchase_order_action').read()[0]
+    #     action['res_id'] = self.id
+    #     action['name'] = "Images of %s" % (self.product_id.name)
+    #     return action
