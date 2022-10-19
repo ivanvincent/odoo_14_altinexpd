@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <report string="Print Kasbon" 
+        <report 
         id="action_print_uudp_pengajuan" 
         model="uudp" 
+        string="Print Kasbon" 
         report_type="qweb-pdf" 
-        name="report_print.print_uudp_pengajuan" 
-        file="report_print.print_uudp_pengajuan" />
+        name="report_print.report_uudp_pengajuan" 
+        file="report_print.report_uudp_pengajuan" />
 
-        <template id="print_uudp_pengajuan">
+        <template id="report_uudp_pengajuan">
             <t-call="web.basic_layout">
                 <h2>TEST</h2>
             </t>
