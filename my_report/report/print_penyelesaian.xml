@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report 
+        id="action_print_uudp_penyelesaian" 
+        model="uudp" 
+        string="Print Penyelesaian" 
+        report_type="qweb-pdf" 
+        name="my_report.report_uudp_penyelesaian" 
+        file="my_report.report_uudp_penyelesaian" />
+
+        <template id="report_uudp_penyelesaian">
+           <t t-call="web.basic_layout">
+              <t t-foreach="docs" t-as="o">
+                <t t-if="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id"/>
+                    </t>
+                    <t t-if="not o or not 'company_id' in o">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+                    
+                      <div class="header">
+                        <div class="row mt32">
+                            
+                            <div class="col-0"/>
+                              <div class="col-xs-1" style="margin-left: -10px">
+                                <img src="/web/binary/company_logo" style="width : 100px; height:100px; padding-top:4px;" align="left"/>
+                              </div>
+                              <div class="col-xs-8 col-xs-offset-1 font-small"/>
+                                <span style="padding-left:10px; padding-bottom:5px; font-size:18px"><strong>PT. ALTINEX</strong></span><br/>
+                                <!--<div class="line" style="border-bottom: thin solid #222;"/>-->
+                                <span style="padding-left:10px; font-size:16px">Jl. Panghegar No.7, Kota Bandung, 40613</span><br/>
+                                <span style="padding-left:10px; font-size:16px">JAWA BARAT - INDONESIA</span>
+                        </div>
+                      </div>
+                <div class="page">
+                  <div class="text-center">
+                      <h3><b>BUKTI PENYELESAIAN</b></h3>
+                  </div>
+                  <div class="row">
+                        <div class="col-2">
+                            Tanggal Penyelesaian <br/>
+                            Nomor Penyelesaian <br/>
+                            Nomor Kasbon <br/>
+                            Realisasi <br/>
+                            <!-- Keterangan <br/> -->
+                        </div>
+                        <div class="col-6">
+                            : <span t-field="o.date"/> <br/>
+                            : <span t-field="o.name"/> <br/>
+                            : <span t-field="o.ajuan_id"/> <br/>
+                            : <span t-field="o.total_ajuan_penyelesaian"/> <br/>
+                        </div>
+                        <div class="col-8"></div>
+                    </div><br/>
+                    <table class="table-condensed" width="100%">
+                            <tr class="text-center">
+                                <th style="border : 1px solid black" width="15%">
+                                    <center>Keterangan</center>
+                                </th>
+                                <th style="border : 1px solid black" width="10%">
+                                    <center>COA</center>
+                                </th>
+                                <th style="border : 1px solid black" width="10%">
+                                    <center>Deskripsi COA</center>
+                                </th>
+                                <th style="border : 1px solid black" width="5%">
+                                    <center>Jumlah</center>
+                                </th>
+                            </tr>
+                            <tr t-foreach="o.uudp_ids" t-as="line" height="3px">
+                                <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                    <span t-field="line.description"/></td>
+                                <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                    <span t-field="line.coa_debit.code"/></td>
+                                <td style="border : 1px solid black ; padding-right : 10px" class="text-left">
+                                    <span t-field="line.coa_debit.name"/></td>
+                                <td style="border : 1px solid black ; padding-right : 10px" class="text-right">
+                                    <span t-field="line.unit_price"/></td>
+                            </tr>
+                    </table>
+                    <br/>
+                    <br/>
+                     <div class="row">
+                        <div class="col-4 text-center">
+                            Pembuat Data <br/>
+                            <br/><br/><br/>
+                            (_______________________)<!-- (<span t-field="o.employee_id"></span>) -->
+                        </div>
+                        <div class="col-4 text-center">
+                            Kasir <br/><br/><br/><br/>
+                            (_______________________)
+                        </div>
+                        <div class="col-4 text-center">
+                            Penyetor/Penerima <br/><br/><br/><br/>
+                            (_______________________)
+                        </div>
+                        <t t-call="web.html_container"/>       
+                       <t t-call="web.external_layout">
+                         <div style=" background-color: #3498DB; color:#fff !important; font:15px lucida-console,sans-serif !important; ">
+                         <!--<p t-if="o.notes">-->
+                         <!--<strong><span>Note:</span> </strong> <span t-field="o.notes"/>-->
+                         <!--</p>-->
+                         </div>
+                       </t>   
+                    </div>
+                </div>  
+            </t>
+        </t>
+
+        </template>
+
+
+
+    </data>
+
+
+</odoo>
