@@ -10,7 +10,13 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="report_type"/>
+                            <field name="image_ids">
+                                <tree editable="bottom">
+                                    <field name="id"/>
+                                    <field name="image_binary" widget="image" class="oe_avatar" readonly="0"/>
+                                    <field name="image_desc"/>
+                                </tree>
+                            </field>
                         </group>
                         <footer>
                             <button name="preview" string="Preview" type="object" class="oe_highlight" />

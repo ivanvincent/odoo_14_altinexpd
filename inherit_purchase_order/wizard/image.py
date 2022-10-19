@@ -14,7 +14,7 @@ class InsertImage(models.Model):
     compute="_compute_img"
     )
     image_desc = fields.Char(string='Description')
-    purchase_id = fields.Many2one('purchase.order', string='Move') 
+    purchase_id = fields.Many2one('', string='Move') 
     format_file = fields.Char(string='Format File')
 
     def _compute_img(self):
