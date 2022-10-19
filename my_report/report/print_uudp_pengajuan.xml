@@ -6,11 +6,11 @@
         model="uudp" 
         string="Print Kasbon" 
         report_type="qweb-pdf" 
-        name="report_print.report_uudp_pengajuan" 
-        file="report_print.report_uudp_pengajuan" />
+        name="my_report.report_uudp_pengajuan" 
+        file="my_report.report_uudp_pengajuan" />
 
         <template id="report_uudp_pengajuan">
-            <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
                 <h2>TEST</h2>
             </t>
         </template>
