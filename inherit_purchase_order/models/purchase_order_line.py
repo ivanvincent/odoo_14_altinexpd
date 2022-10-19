@@ -70,3 +70,9 @@ class PurchaseOrderLine(models.Model):
         for a in self:
             picking_obj = self.env['stock.picking'].search([('purchase_id_2', '=', a.order_id.id), ('state', '=', 'done')]).move_line_ids_without_package.filtered(lambda x:x.product_id.id == a.product_id.id).mapped('qty_done')
             a.qty_released = sum(picking_obj)
+
+    def action_show_image(self):
+        action = self.env.ref('inherit_purchase_order.purchase_order_action').read()[0]
+        action['res_id'] = self.id
+        action['name'] = "Images of %s" % (self.product_id.name)
+        return action

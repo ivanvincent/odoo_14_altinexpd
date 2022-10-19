@@ -118,8 +118,8 @@ class PurchaseOrder(models.Model):
                 rec.date_datang_barang = False
                 
                 
-    def action_show_image(self):
-        action = self.env.ref('inherit_purchase_order.purchase_order_action').read()[0]
-        action['res_id'] = self.id
-        action['name'] = "Images of %s" % (self.product_id.name)
-        return action
+    # def action_show_image(self):
+    #     action = self.env.ref('inherit_purchase_order.purchase_order_action').read()[0]
+    #     action['res_id'] = self.id
+    #     action['name'] = "Images of %s" % (self.product_id.name)
+    #     return action
