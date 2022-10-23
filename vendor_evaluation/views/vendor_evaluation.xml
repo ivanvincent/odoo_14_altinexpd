@@ -33,7 +33,7 @@
                         <button name="draft_request" string="Request Approval" class="btn-primary" type="object"
                                 attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
                         <button name="request_draft" string="Back To Draft" class="btn-secondary" type="object"
-                                attrs="{'invisible': [('state', 'not in', ['request'])]}"/>
+                                attrs="{'invisible': [('state', 'not in', ['request', 'cancelled'])]}"/>
                         <button name="request_approved" string="Approve" class="btn-primary" type="object"
                                 attrs="{'invisible': ['|',('state', 'not in', ['request']),('is_manager','!=',True)]}"/>
                         <button name="request_rejected" string="Reject" class="btn-primary" type="object"
