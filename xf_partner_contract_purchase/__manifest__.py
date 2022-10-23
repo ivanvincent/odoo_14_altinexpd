@@ -42,6 +42,7 @@ Manage, approve, renew purchase contracts
         'views/partner_contract.xml',
         'views/res_config_settings_views.xml',
         'views/purchase_order.xml',
+        'report/contract_management.xml',
     ],
     'depends': ['xf_partner_contract', 'purchase'],
     'qweb': [],
