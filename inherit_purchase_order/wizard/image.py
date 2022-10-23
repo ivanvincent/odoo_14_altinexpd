@@ -10,11 +10,12 @@ import urllib
 class InsertImage(models.Model):
     _name = 'insert.image'
 
-    image_binary = fields.Char(string='Image',
-    compute="_compute_img"
-    )
+    # image_binary = fields.Char(string='Image',
+    # compute="_compute_img"
+    # )
+    image_binary = fields.Binary(string='Image')
     image_desc = fields.Char(string='Description')
-    purchase_id = fields.Many2one('', string='Move') 
+    purchase_line_id = fields.Many2one('purchase.order.line', string='Move') 
     format_file = fields.Char(string='Format File')
 
     def _compute_img(self):
@@ -71,3 +72,9 @@ class InsertImage(models.Model):
     #         file = "%s%s%s" % (path, rec.id, rec.format_file)
     #         os.remove(file)
     #     return super(StockMoveImage, self).unlink()
+
+    # def action_show_image(self):
+    #     action = self.env.ref('inherit_purchase_order.purchase_order_action').read()[0]
+    #     action['res_id'] = self.id
+    #     action['name'] = "Images of %s" % (self.product_id.name)
+    #     return action

@@ -18,6 +18,7 @@
         'views/purchase_order_category.xml',
         'views/report_po_supplier.xml',
         'views/purchase_custom_report.xml',
+        'views/res_partner.xml',
         'report/purchase_order_periode.xml',
         'report/report_po_supplier_global.xml',
         'report/report_po_supplier_global_details.xml',
