@@ -28,6 +28,7 @@
         'security/ir.model.access.csv',
         'views/vendor_evaluation.xml',
         'views/vendor_addition.xml',
+        'views/res_partner.xml',
     ],
     'demo': [
         # 'data/demo.xml',
