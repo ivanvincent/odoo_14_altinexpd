@@ -167,7 +167,7 @@
                                         <div class="ttd-1 text-center">
                                             Bandung, <span t-field="o.date_order" t-options="{&quot;format&quot;: &quot;dd MMMM yyyy&quot;}"/><br/>
                                             <span>Disetujui:</span><br/><br/><br/><br/>
-                                            <span>Tinneke</span>
+                                            <span>Direksi</span>
                                         </div>
                                     </div>
                                 </div>
