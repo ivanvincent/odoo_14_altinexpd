@@ -16,6 +16,7 @@
 
                 <xpath expr="//field[@name='price_subtotal']" position="after">
                     <button name="action_show_image" type="object" icon="fa-picture-o" width="0.1" role="img" title="Upload Image"/>
+                    <button name="action_shot_list_price" type="object" string="List Price" class="oe_highlight"/>
                 </xpath>
 
                 <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
