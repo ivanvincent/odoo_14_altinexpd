@@ -19,7 +19,7 @@
             <field name="dpi">90</field>
         </record>
 
-        <report id="action_report_pr_pengajuan_benang" model="purchase.request" string="Print Pengajuan Benang" report_type="qweb-pdf" name="purchase_request.report_pr_pengajuan_benang" file="purchase_request.report_pr_pengajuan_benang" />
+        <report id="action_report_pr_pengajuan_benang" model="purchase.request" string="Print Pengajuan Barang" report_type="qweb-pdf" name="purchase_request.report_pr_pengajuan_benang" file="purchase_request.report_pr_pengajuan_benang" />
 
         <record id="action_report_pr_pengajuan_benang" model="ir.actions.report">
             <field name="paperformat_id" eval="paperformat_pengajuan_benang"/>
@@ -74,7 +74,7 @@
                     <div class="page">
 
                         <div class="title text-center">
-                            <span class="sub-title font-weight-bold">PENGAJUAN PEBELIAN BENANG</span>
+                            <span class="sub-title font-weight-bold">PENGAJUAN PEMBELIAN BARANG</span>
                             <br/>
                             <span class="sub-title-2 font-weight-bold">PERTANGGAL : <span t-field="doc.date_start" t-options="{&quot;format&quot;: &quot;dd MMMM yyyy&quot;}" /></span>
                         </div>
@@ -143,21 +143,21 @@
 
                         <div class="ttd">
                             <div class="row">
-                                <div class="col-4">
+                               <div class="col-6" align="center">
                                     <span>Dibuat Oleh:</span><br/><br/><br/>
                                     <span t-field="doc.env.user.name"/><br/>
                                     <span>Tgl</span>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-6" align="center">
                                     <span>Mengetahui,</span><br/><br/><br/>
-                                    <span>Gunawan</span><br/>
+                                    <span>_______________</span><br/>
                                     <span>Tgl</span>
                                 </div>
-                                <div class="col-4">
+                                <!-- <div class="col-4">
                                     <span>Dibuat Oleh:</span><br/><br/><br/>
                                     <span>Jimmy</span><br/>
                                     <span>Tgl</span>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
