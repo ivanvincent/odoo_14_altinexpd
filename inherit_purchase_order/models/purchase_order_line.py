@@ -20,7 +20,7 @@ class PurchaseOrderLine(models.Model):
     date_order              = fields.Datetime(string='Date', related='order_id.date_order')
     grade_id                = fields.Many2one('makloon.grade', string='Grade')
     # purchase_request_id     = fields.Many2one('purchase.request', string='Purchase Request', related='purchase_request_lines.request_id')
-    image_ids           = fields.One2many('insert.image', 'purchase_id', string='Image')
+    image_ids           = fields.One2many('insert.image', 'purchase_line_id', string='Image')
     is_receipt_done      = fields.Boolean(string='Is Receipt Done',compute='_compute_receipt')
 
     

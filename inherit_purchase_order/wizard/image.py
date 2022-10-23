@@ -10,11 +10,12 @@ import urllib
 class InsertImage(models.Model):
     _name = 'insert.image'
 
-    image_binary = fields.Char(string='Image',
-    compute="_compute_img"
-    )
+    # image_binary = fields.Char(string='Image',
+    # compute="_compute_img"
+    # )
+    image_binary = fields.Binary(string='Image')
     image_desc = fields.Char(string='Description')
-    purchase_id = fields.Many2one('purchase.order', string='Move') 
+    purchase_line_id = fields.Many2one('purchase.order.line', string='Move') 
     format_file = fields.Char(string='Format File')
 
     def _compute_img(self):

@@ -111,7 +111,7 @@
 
         <record id="purchase_order_image_form" model="ir.ui.view">
             <field name="name">purchase.order.images.form</field>
-            <field name="model">purchase.order</field>
+            <field name="model">purchase.order.line</field>
             <field name="arch" type="xml">
                 <form string="">
                     <header>

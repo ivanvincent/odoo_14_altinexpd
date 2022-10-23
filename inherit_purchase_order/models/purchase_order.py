@@ -17,7 +17,6 @@ class PurchaseOrder(models.Model):
     street_delivery      = fields.Many2one('street.delivery', string='Street Delivery')
     date_datang_barang   = fields.Text(string='Dtg Barang', compute="_compute_date_datang_barang")
     lot_id               = fields.Many2one('stock.production.lot', string='Lot / serial number', related='order_line.lot_id')
-    image_ids           = fields.One2many('insert.image', 'purchase_id', string='Image')
     
     
     def button_reject(self):
