@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="user_kas_pembelian_group" model="res.groups">
+        <field name="name">Kas Pembelian Group</field>
+    </record>
+
+     <record model="ir.rule" id="account_bank_statement_kas_kecil_rule">
+        <field name="name">Kas Pembeliaan Rule</field>
+        <field name="model_id" ref="account.model_account_journal"/>
+        <field name="domain_force">[('is_kas_pembelian', '=', True)]</field>
+        <field name="groups" eval="[(4, ref('tj_bankcash.user_kas_pembelian_group'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+</odoo>

@@ -6,26 +6,35 @@
             <field name="model">account.bank.statement</field>
             <field name="inherit_id" ref="account.view_bank_statement_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='line_ids']/tree/field[@name='partner_id']" position="before">
-                    <field name="no_po" string="No. PO"/>
+                <xpath expr="//field[@name='name']" position="replace">
+                    <field name="name" attrs="{'invisible':[('name', '=', False)]}"/>
+                </xpath>
+                <xpath expr="//button[@name='button_reopen']" position="after">
+                    <button string="Add Invoice" name="action_open_invoices" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'open')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='amount']" position="before">
+                    <!-- <field name="no_po" string="No. PO"/> -->
                     <field name="no_receive" invisible="1"/>
                     <field name="id" invisible="1"/>
-                    <field name="product_id"/>
-                    <field name="price"/>
-                    <field name="quantity"/>
-                    <field name="uom_id"/>
-                    <!-- <field name="an_giro"/> -->
-                    <!-- <field name="no_giro"/> -->
-                    <!-- <field name="tgl_jt"/> -->
+                    <field name="invoice_id" domain="[('state_kb', '=', 'approve')]"/>
                     <field name="employee_id"/>
+                    <field name="amount_total"/>
+                    <field name="debit" attrs="{'column_invisible':[('parent.operation_type', '=', 'payment')]}"/>
+                    <field name="credit" attrs="{'column_invisible':[('parent.operation_type', '=', 'receipt')]}"/>
                 </xpath>
+
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='payment_ref']" position="before">
+                    <field name="kategori_id" optional="hide"/>
+                </xpath>
+
+
 
                 <field name="journal_id" position="before">
                     <field name="number"/>
                 </field>
 
                 <field name="journal_id" position="after">
-                    <field name='operation_type'/>
+                    <field name='operation_type' readonly="1"/>
                 </field>
                 <group name="sale_total" position="replace">
                     <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
@@ -44,9 +53,33 @@
                     </group>
                 </group>
 
-                <xpath expr="//field[@name='amount']" position="after">
-                    <button name="action_show_image" type="object" icon="fa-picture-o" width="0.1" role="img" title="Upload Image"/>
+                <xpath expr="//page[@name='statement_line_ids']" position="after">
+                    <page string="Info">
+                        <group>
+                            <group>
+                                <field name="pengantar"/>
+                                <field name="penyerah"/>
+                                <field name="penerima"/>
+                            </group>
+                        </group>
+                    </page>
                 </xpath>
+
+                <!-- <xpath expr="//field[@name='line_ids']/tree/field[@name='partner_id']" position="before">
+                    <field name="temp_partner_ids" widget="many2many_tags"/>
+                </xpath> -->
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='partner_id']" position="attributes">
+                    <attribute name="domain">[('is_created_bills','=', False)]</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='amount']" position="before">
+                    <field name="outstanding" attrs="{'column_invisible':[('parent.operation_type', '=', 'receipt')]}"/>
+                </xpath>
+                
+<!-- 
+                <xpath expr="////field[@name='line_ids']/tree/field[@name='amount']" position="attributes">
+                    <attribute name="string">Sisa Hutang</attribute>
+                </xpath> -->
 
                 <!-- <field name="message_ids" widget="mail_thread"/> -->
             </field>
@@ -81,7 +114,7 @@
         </record>
 
         <!-- account.view_bank_statement_line_tree -->
-<!--         <record id="bankcashline_view_inherit_tree" model="ir.ui.view">
+        <!--         <record id="bankcashline_view_inherit_tree" model="ir.ui.view">
             <field name="name">bankcashline.form.inherit</field>
             <field name="model">account.bank.statement.line</field>
             <field name="inherit_id" ref="account.view_bank_statement_line_tree"/>
@@ -102,7 +135,7 @@
                 <xpath expr="//field[@name='code']" position="before">
                     <field name="bk_seq_id" />
                     <field name="bk_seq_out_id" />
-               </xpath>                                              
+                </xpath>
             </field>
         </record>
     </data>

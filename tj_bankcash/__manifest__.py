@@ -10,6 +10,9 @@
 		"stock",
 		"sale",
 		"hr",
+  		"accounting_pdf_reports",
+		"tj_kontrabon"
+	
 		# "analytic",
 		# "report",
 		# "web_planner",
@@ -31,8 +34,9 @@ Features
 	"data": [
 		'data/expenses_data.xml',
 		'data/ir_sequence_data.xml',
+		'data/res_groups.xml',
 		# 'report/quotation_surat_jalan.xml',
-        # 'report/quotation_surat_jalan2.xml',
+        # 'report/quotation_surat_jalan2.xml',e
 		"security/makloon_group.xml",
 		"security/ir.model.access.csv",
 		"report/report_account_bank_statement.xml",
@@ -44,7 +48,6 @@ Features
 		"report/report_expenses.xml",
 		# "report/expenses_report.xml",
 		# "report/expenses_report_views.xml",
-		"report/report_account_bank_statement2.xml",
 		"views/bankcash_view.xml",
 		"views/bankcash_tree.xml",
 		"views/account_move_tree.xml",
@@ -52,10 +55,11 @@ Features
 		"views/expenses_menu_views.xml",
 		"wizard/kasbank.xml",
 		"views/product.xml",
-		"wizard/trial_balance_wizard_view.xml",
+		"wizard/trial_balance_view_wizard.xml",
+		"wizard/bank_statement_wizard.xml",
 		"views/trial_new_balance_view.xml",
-		# "views/account_bank_statement_image.xml",
-		"data/ir_config_parameter.xml",
+		"views/kategori_kas.xml",
+		"views/account_journal.xml",
 		# "views/res_partner.xml",
 	],
 	"application": True,
