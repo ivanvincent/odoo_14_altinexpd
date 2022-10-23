@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="paperformat_contract_management" model="report.paperformat">
+            <field name="name">European A4</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">45</field>
+            <field name="margin_bottom">23</field>
+            <field name="margin_left">4</field>
+            <field name="margin_right">4</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report 
+            id="action_report_contract_management" 
+            model="xf.partner.contract" 
+            string="Print Contract" 
+            report_type="qweb-pdf" 
+            name="xf_partner_contract.report_pr_contract_management" 
+            file="xf_partner_contract.report_pr_contract_management"/>
+
+        <record 
+            id="action_report_pr_contract_management" 
+            model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_contract_management"/>
+        </record>
+
+        <template id="report_pr_contract_management">
+            <t t-call="web.basic_layout">
+            <h1>TEST</h1>
+            </t>
+        </template>
+</data>
+</odoo>
