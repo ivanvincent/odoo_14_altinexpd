@@ -32,7 +32,6 @@
 
         <template id="report_pr_contract_management">
             <t t-call="web.basic_layout">
-            <t t-call="web.basic_layout">
             <h1>TEST</h1>
             </t>
         </template>
