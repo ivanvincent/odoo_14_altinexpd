@@ -19,17 +19,14 @@
             <field name="dpi">90</field>
         </record>
 
-        <report 
-            id="action_report_contract_management" 
-            model="xf.partner.contract" 
-            string="Print Contract" 
-            report_type="qweb-pdf" 
-            name="xf_partner_contract.report_pr_contract_management" 
-            file="xf_partner_contract.report_pr_contract_management"/>
+        <report id="action_report_pr_contract_management" 
+        model="xf.partner.contract" 
+        string="Print Pengajuan Barang" 
+        report_type="qweb-pdf" 
+        name="xf_partner_contract.report_pr_contract_management" 
+        file="xf_partner_contract.report_pr_contract_management" />
 
-        <record 
-            id="action_report_pr_contract_management" 
-            model="ir.actions.report">
+        <record id="action_report_pr_contract_management" model="ir.actions.report">
             <field name="paperformat_id" eval="paperformat_contract_management"/>
         </record>
 

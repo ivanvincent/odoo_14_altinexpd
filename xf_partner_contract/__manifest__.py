@@ -46,6 +46,7 @@ Manage, approve, renew contracts
         'views/partner_contract_team.xml',
         'views/res_config_settings_views.xml',
         'views/account_move.xml',
+        'report/contract_management.xml',
     ],
     'depends': ['account'],
     'qweb': [],
