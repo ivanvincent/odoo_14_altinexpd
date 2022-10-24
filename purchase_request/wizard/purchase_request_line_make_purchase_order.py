@@ -21,13 +21,13 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         context={"res_partner_search_mode": "supplier", "default_is_company": True},
     )
     
-    supplier_id2 = fields.Many2one(
-        comodel_name="res.partner",
-        string="Supplier 2",
-        required=True,
-        domain=[("is_company", "=", True)],
-        context={"res_partner_search_mode": "supplier", "default_is_company": True},
-    )
+    # supplier_id2 = fields.Many2one(
+    #     comodel_name="res.partner",
+    #     string="Supplier 2",
+    #     required=True,
+    #     domain=[("is_company", "=", True)],
+    #     context={"res_partner_search_mode": "supplier", "default_is_company": True},
+    # )
     
 
     po_category_id = fields.Many2one('purchase.order.category', string='PO Category')
@@ -423,3 +423,10 @@ class PurchaseRequestLineMakePurchaseOrderItem(models.TransientModel):
             self.product_uom_id = self.product_id.uom_id.id
             if name:
                 self.name = name
+    
+    def action_shot_list_price(self):
+        print('action_shot_list_price')
+        action = self.env.ref('inherit_purchase_order.purchase_order_line_action').read()[0]
+        action['name'] = "Product from %s" % (self.name)
+        action['domain'] = [('partner_id', '=', self.order_id.partner_id.id), ('product_id', '=', self.product_id.id), ('order_id.state', '=', 'done')]
+        return action

@@ -80,6 +80,6 @@ class PurchaseOrderLine(models.Model):
     def action_shot_list_price(self):
         action = self.env.ref('inherit_purchase_order.purchase_order_line_action').read()[0]
         action['name'] = "Product from %s" % (self.name)
-        action['domain'] = [('partner_id', '=', self.order_id.partner_id.id), ('product_id', '=', self.product_id.id), ('order_id.state', '=', 'done')]
+        action['domain'] = [('partner_id', '=', self.order_id.partner_id.id), ('product_id', '=', self.product_id.id), ('order_id.state', 'in', ['done', 'purchase'])]
         action['target'] = 'new'
         return action
