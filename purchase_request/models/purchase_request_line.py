@@ -216,6 +216,7 @@ class PurchaseRequestLine(models.Model):
                                     #   domain = lambda self : self._filter_lot(),
                                       )
     picking_type_id = fields.Many2one(related='request_id.picking_type_id', string='Picking Type')
+    image_ids       = fields.One2many('insert.image', 'purchase_line_id', string='Image')
     
 
     def _get_onhand(self):
@@ -456,3 +457,9 @@ class PurchaseRequestLine(models.Model):
                     )
                 )
         return super(PurchaseRequestLine, self).unlink()
+
+    def action_show_image(self):
+        action = self.env.ref('purchase_request.purchase_request_line_action').read()[0]
+        action['res_id'] = self.id
+        action['name'] = "Images of %s" % (self.product_id.name)
+        return action
