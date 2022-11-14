@@ -51,6 +51,7 @@
                             <field name="group_id" readonly="1" />
                             <field name="no_komunikasi" readonly="1" />
                             <field name="description" attrs="{'readonly': [('is_editable','=', False)]}" />
+                            <field name="date_line"/>
                             <field name="company_id" groups="base.group_multi_company" widget="selection" attrs="{'readonly': [('is_editable','=', False)]}" />
                         </group>
                     </group>

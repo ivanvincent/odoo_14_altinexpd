@@ -170,6 +170,7 @@ class PurchaseRequest(models.Model):
     po_categ_id = fields.Many2one('purchase.order.category', string='PO Category',help="Tujuan Pembelian")
     
     location_id  = fields.Many2one('stock.location', string='Location',related='picking_type_id.default_location_dest_id')
+    date_line = fields.Date(string='Date Line')
 
     @api.depends("line_ids", "line_ids.estimated_cost")
     def _compute_estimated_cost(self):
@@ -253,8 +254,14 @@ class PurchaseRequest(models.Model):
 
     @api.model
     def create(self, vals):
+    
         # if vals.get("name", _("New")) == _("New"):
-        #     vals["name"] = self._get_default_name()
+        query = "select max(id) from purchase_request;"
+        self._cr.execute(query)
+        result = self._cr.fetchone()
+        vals["name"] = 'New - %s' % int(result[0] + 1)
+
+        # self.change_name()
         request = super(PurchaseRequest, self).create(vals)
         if vals.get("assigned_to"):
             partner_id = self._get_partner_id(request)
@@ -263,6 +270,9 @@ class PurchaseRequest(models.Model):
             request.button_to_approve()
             request.button_approved()
         return request
+    
+    def change_name(self):
+        self.name = 'New - %s ' % self._origin.id
 
     def write(self, vals):
         res = super(PurchaseRequest, self).write(vals)
