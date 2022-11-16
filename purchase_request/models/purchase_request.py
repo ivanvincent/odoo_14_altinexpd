@@ -171,6 +171,7 @@ class PurchaseRequest(models.Model):
     
     location_id  = fields.Many2one('stock.location', string='Location',related='picking_type_id.default_location_dest_id')
     date_line = fields.Date(string='Date Line')
+    tipe_permintaan = fields.Selection([('produksi', 'Produksi'), ('non_produksi', 'Non Produksi')], string="Tipe Permintaan")
 
     @api.depends("line_ids", "line_ids.estimated_cost")
     def _compute_estimated_cost(self):
