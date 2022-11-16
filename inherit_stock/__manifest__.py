@@ -24,7 +24,7 @@
         # 'views/stock_production_lot_yarn.xml',
         # 'views/stock_production_lot_greige.xml',
         # 'views/stock_production_lot_fg.xml',
-        'report/sppm.xml',
+        # 'report/sppm.xml',
         'report/report_sppm.xml',
         'wizard/laporan_penerimaan_wizard.xml',
         'wizard/laporan_pemakaian_wizard.xml',
