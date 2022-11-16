@@ -114,6 +114,7 @@
                 <field name="activity_ids" widget="list_activity" optional="show" />
                 <field name="origin" />
                 <field name="no_komunikasi" />
+                <field name="tipe_permintaan"/>
                 <field name="currency_id" invisible="1" />
                 <field name="estimated_cost" optional="hide" />
                 <field name="state" widget="badge" decoration-success="state in ('done', 'approved')" decoration-muted="state == 'draft'" decoration-warning="state == 'to_approve'" decoration-danger="state == 'rejected'" />
