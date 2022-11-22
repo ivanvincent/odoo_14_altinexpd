@@ -6,3 +6,4 @@ from . import purchase_order_category
 from . import street_delivery
 from . import report_po_per_supplier
 from . import purchase_report
+from . import purchase_order_offer
