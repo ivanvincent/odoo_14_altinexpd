@@ -10,9 +10,10 @@ import urllib
 class StockMoveImage(models.Model):
     _name = 'stock.move.image'
 
-    image_binary = fields.Char(string='Image',
-    compute="_compute_img"
-    )
+    # image_binary = fields.Char(string='Image',
+    # compute="_compute_img"
+    # )
+    image_binary = fields.Binary(string='Image')
     image_desc = fields.Char(string='Description')
     move_id = fields.Many2one('stock.move', string='Move') 
     format_file = fields.Char(string='Format File')
