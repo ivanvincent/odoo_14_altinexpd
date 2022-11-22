@@ -37,36 +37,36 @@ class StockMoveImage(models.Model):
         a=urllib.request.urlopen(url)
         return a.getcode() == 200
 
-    @api.model
-    def create(self, values):
-        path   = self.env.ref('inherit_inventory.path_image_receipt').read()[0]['value']
-        result = super(StockMoveImage, self).create(values)
-        file_name    = result.id
-        binary       = values['image_binary']
-        file_data    = BytesIO(base64.b64decode(binary))
-        content_type = 'image/png' if binary[0] == 'i' else 'image/jpeg'
-        file         = FileStorage(file_data, filename=file_name, content_type=content_type)
-        format_file  = '.png' if content_type == 'image/png' else '.jpeg'
-        file.save(os.path.join(path, str(file_name) + format_file))
-        self.browse(file_name).write({'format_file' : format_file})
-        return result
+    # @api.model
+    # def create(self, values):
+    #     path   = self.env.ref('inherit_inventory.path_image_receipt').read()[0]['value']
+    #     result = super(StockMoveImage, self).create(values)
+    #     file_name    = result.id
+    #     binary       = values['image_binary']
+    #     file_data    = BytesIO(base64.b64decode(binary))
+    #     content_type = 'image/png' if binary[0] == 'i' else 'image/jpeg'
+    #     file         = FileStorage(file_data, filename=file_name, content_type=content_type)
+    #     format_file  = '.png' if content_type == 'image/png' else '.jpeg'
+    #     file.save(os.path.join(path, str(file_name) + format_file))
+    #     self.browse(file_name).write({'format_file' : format_file})
+    #     return result
 
-    def write(self, values):
-        if values.get('image_binary', False):
-            path   = self.env.ref('inherit_inventory.path_image_receipt').read()[0]['value']
-            file_name    = self.id
-            binary       = values['image_binary']
-            file_data    = BytesIO(base64.b64decode(binary))
-            content_type = 'image/png' if binary[0] == 'i' else 'image/jpeg'
-            file         = FileStorage(file_data, filename=file_name, content_type=content_type)
-            format_file  = '.png' if content_type == 'image/png' else '.jpeg'
-            file.save(os.path.join(path, str(file_name) + format_file))
-        return super(StockMoveImage, self).write(values)
+    # def write(self, values):
+    #     if values.get('image_binary', False):
+    #         path   = self.env.ref('inherit_inventory.path_image_receipt').read()[0]['value']
+    #         file_name    = self.id
+    #         binary       = values['image_binary']
+    #         file_data    = BytesIO(base64.b64decode(binary))
+    #         content_type = 'image/png' if binary[0] == 'i' else 'image/jpeg'
+    #         file         = FileStorage(file_data, filename=file_name, content_type=content_type)
+    #         format_file  = '.png' if content_type == 'image/png' else '.jpeg'
+    #         file.save(os.path.join(path, str(file_name) + format_file))
+    #     return super(StockMoveImage, self).write(values)
     
 
-    def unlink(self):
-        path   = self.env.ref('inherit_inventory.path_image_receipt').read()[0]['value']
-        for rec in self:
-            file = "%s%s%s" % (path, rec.id, rec.format_file)
-            os.remove(file)
-        return super(StockMoveImage, self).unlink()
+    # def unlink(self):
+    #     path   = self.env.ref('inherit_inventory.path_image_receipt').read()[0]['value']
+    #     for rec in self:
+    #         file = "%s%s%s" % (path, rec.id, rec.format_file)
+    #         os.remove(file)
+    #     return super(StockMoveImage, self).unlink()
