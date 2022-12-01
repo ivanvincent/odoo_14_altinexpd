@@ -21,7 +21,7 @@ class HrEmployeeBase(models.AbstractModel):
             }
             return self.env['hr.attendance'].create(vals)
         attendance = self.env['hr.attendance'].search([('employee_id', '=', self.id), ('check_out', '=', False)], limit=1)
-        self.check_waiting_time(attendance)
+        # self.check_waiting_time(attendance)
         if attendance:
             attendance.check_out = action_date
         else:
