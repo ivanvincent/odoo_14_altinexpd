@@ -60,42 +60,34 @@
         <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//group[@name='salary_and_advantages']" position="after">
-                <group string="Monthly Advantages in Cash" name='allowances'>
-                    <label for="hra"/>
+                <group string="Tunjangan Tidak Tetap" name='allowances'>
+                    <label for="tunjangan_keahlian"/>
                     <div class="o_row">
-                        <field name="hra" nolabel="1"/>
-                        <span>/ month</span>
+                        <field name="tunjangan_keahlian" nolabel="1"/>
+                        <span>/ day</span>
                     </div>
-                    <label for="da"/>
+                    <label for="tunjangan_shift3"/>
                     <div class="o_row">
-                        <field name="da" nolabel="1"/>
-                        <span>/ month</span>
-                    </div>
-                    <label for="travel_allowance"/>
-                    <div class="o_row">
-
-                        <field name="travel_allowance" nolabel="1"/>
-                        <span>/ month</span>
-                    </div>
-                    <label for="meal_allowance"/>
-                    <div class="o_row">
-
-                        <field name="meal_allowance" nolabel="1"/>
-                        <span>/ month</span>
-                    </div>
-                    <label for="medical_allowance"/>
-                    <div class="o_row">
-
-                        <field name="medical_allowance" nolabel="1"/>
-                        <span>/ month</span>
-                    </div>
-                    <label for="other_allowance"/>
-                    <div class="o_row">
-
-                        <field name="other_allowance" nolabel="1"/>
-                        <span>/ month</span>
+                        <field name="tunjangan_shift3" nolabel="1"/>
+                        <span>/ day</span>
                     </div>
                 </group>
+            </xpath>
+            <xpath expr="//page[@name='information']" position="after">
+                <page name="timeoff_allocation" string="Time Off Allocation">
+                    <group string="Alokasi Izin dan Cuti" name='timeoff'>
+                        <label for="alokasi_izin"/>
+                        <div class="o_row">
+                            <field name="alokasi_izin" nolabel="1"/>
+                            <span> days / month</span>
+                        </div>
+                        <label for="alokasi_cuti"/>
+                        <div class="o_row">
+                            <field name="alokasi_cuti" nolabel="1"/>
+                            <span> days / year</span>
+                        </div>
+                    </group>
+                </page>
             </xpath>
         </field>
     </record>

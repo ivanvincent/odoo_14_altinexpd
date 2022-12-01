@@ -23,12 +23,16 @@ class HrContract(models.Model):
     ], string='Scheduled Pay', index=True, default='monthly',
         help="Defines the frequency of the wage payment.")
     resource_calendar_id = fields.Many2one(required=True, help="Employee's working schedule.")
-    hra = fields.Monetary(string='HRA', tracking=True, help="House rent allowance.")
-    travel_allowance = fields.Monetary(string="Travel Allowance", help="Travel allowance")
-    da = fields.Monetary(string="DA", help="Dearness allowance")
-    meal_allowance = fields.Monetary(string="Meal Allowance", help="Meal allowance")
-    medical_allowance = fields.Monetary(string="Medical Allowance", help="Medical allowance")
-    other_allowance = fields.Monetary(string="Other Allowance", help="Other allowances")
+    # hra = fields.Monetary(string='HRA', tracking=True, help="House rent allowance.")
+    # travel_allowance = fields.Monetary(string="Travel Allowance", help="Travel allowance")
+    # da = fields.Monetary(string="DA", help="Dearness allowance")
+    # meal_allowance = fields.Monetary(string="Meal Allowance", help="Meal allowance")
+    # medical_allowance = fields.Monetary(string="Medical Allowance", help="Medical allowance")
+    # other_allowance = fields.Monetary(string="Other Allowance", help="Other allowances")
+    tunjangan_keahlian = fields.Monetary(string="Tunjangan Keahlian")
+    tunjangan_shift3 = fields.Monetary(string="Tunjangan Shift 3")
+    alokasi_izin = fields.Char(string = "Alokasi Izin", default="3")
+    alokasi_cuti = fields.Char(string="Alokasi Cuti", default = "12")
 
     def get_all_structures(self):
 
