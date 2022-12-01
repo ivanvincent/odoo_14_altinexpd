@@ -17,11 +17,11 @@ class PurchaseOrderLine(models.Model):
     cones                   = fields.Integer(string='Cones')
     lot_id                  = fields.Many2one('stock.production.lot', string='Lot',)
     specifications          = fields.Text(string="Specifications", required=True, )
-    date_order              = fields.Datetime(string='Date', related='order_id.date_order')
+    date_order              = fields.Datetime(string='Date', related='order_id.date_order', store=True,)
     grade_id                = fields.Many2one('makloon.grade', string='Grade')
     # purchase_request_id     = fields.Many2one('purchase.request', string='Purchase Request', related='purchase_request_lines.request_id')
-    
-    is_receipt_done      = fields.Boolean(string='Is Receipt Done',compute='_compute_receipt')
+    image_ids           = fields.One2many('insert.image', 'purchase_line_id', string='Image')
+    is_receipt_done         = fields.Boolean(string='Is Receipt Done',compute='_compute_receipt')
 
     
     def _compute_receipt(self):
@@ -70,3 +70,16 @@ class PurchaseOrderLine(models.Model):
         for a in self:
             picking_obj = self.env['stock.picking'].search([('purchase_id_2', '=', a.order_id.id), ('state', '=', 'done')]).move_line_ids_without_package.filtered(lambda x:x.product_id.id == a.product_id.id).mapped('qty_done')
             a.qty_released = sum(picking_obj)
+
+    def action_show_image(self):
+        action = self.env.ref('inherit_purchase_order.purchase_order_action').read()[0]
+        action['res_id'] = self.id
+        action['name'] = "Images of %s" % (self.product_id.name)
+        return action
+    
+    def action_shot_list_price(self):
+        action = self.env.ref('inherit_purchase_order.purchase_order_line_action').read()[0]
+        action['name'] = "Product from %s" % (self.name)
+        action['domain'] = [('partner_id', '=', self.order_id.partner_id.id), ('product_id', '=', self.product_id.id), ('order_id.state', 'in', ['done', 'purchase'])]
+        action['target'] = 'new'
+        return action

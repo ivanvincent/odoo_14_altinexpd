@@ -1,29 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <!-- <record id="bukti_a5" model="report.paperformat">
-        <field name="name">European A5</field>
-        <field name="default" eval="True" />
-        <field name="format">custom</field>
-        <field name="page_height">148</field>
-        <field name="page_width">210</field>
-        <field name="orientation">Portrait</field>
-        <field name="margin_top">5</field>
-        <field name="margin_bottom">0</field>
-        <field name="margin_left">5</field>
-        <field name="margin_right">5</field>
-        <field name="header_line" eval="False" />
-        <field name="header_spacing">35</field>
-        <field name="dpi">90</field>
-    </record> -->
-
     <report id="action_report_account_bank_statement_menu2" model="account.bank.statement" string="Print Bukti"
         report_type="qweb-pdf" name="tj_bankcash.report_account_bank_statement_menu2"
         file="tj_bankcash.report_account_bank_statement_menu2" />
-
-    <!-- <record id="action_report_account_bank_statement_menu2" model="ir.actions.report">
-        <field name="paperformat_id" eval="bukti_a5" />
-    </record> -->
 
     <template id="report_account_bank_statement_menu2">
         <t t-call="web.basic_layout">
@@ -60,17 +39,7 @@
                 }
             </style>
             <t t-foreach="docs" t-as="o">
-                <t t-if="o and 'company_id' in o">
-                    <t t-set="company" t-value="o.company_id" />
-                </t>
-                <t t-if="not o or not 'company_id' in o">
-                    <t t-set="company" t-value="res_company" />
-                </t>
-                <div class="col-6">
-                    <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)"
-                        style="max-height: 50px;" />
-                </div>
-                <div style="margin-top : -20px" class="title text-center">
+                <div class="title text-center">
                     <h5 class="font-weight-bold">
                         <u>
                             <span>BUKTI</span>
@@ -93,89 +62,114 @@
                             <t t-if="o.journal_id.type == 'bank' ">BANK</t>
                             <t t-if="o.journal_id.type == 'cash' ">KAS</t>
                         </th>
-                        <th class="pl-2"><span t-field="o.name" /></th>
+                        <th class="pl-2"><span t-field="o.name"/></th>
                     </thead>
                     <tbody>
                         <tr>
                             <td class="pl-2">TANGGAL</td>
-                            <td class="pl-2"><span t-field="o.date" /></td>
+                            <td class="pl-2"><span t-field="o.date"/></td>
                         </tr>
                     </tbody>
                 </table>
 
-
                 <table class="table-body table-condensed" width="1000px">
                     <thead>
                         <th class="pl-2">No</th>
+                        <th class="pl-2">KATEGORI</th>
                         <th class="pl-2">PARTNER</th>
-                        <th class="pl-2">PRODUCT</th>
-                        <th class="pl-2">PRICE</th>
-                        <th class="pl-2">Qty</th>
                         <th class="pl-2">
                             <t t-if="o.operation_type == 'payment' ">PENGELUARAN</t>
                             <t t-else="">PENERIMAAN</t>
                         </th>
                         <th class="pl-2">JUMLAH</th>
-                        <th class="pl-2">IMAGE</th>
                     </thead>
                     <tbody>
-                        <t t-set="no" t-value="0" />
-                        <t t-set="total" t-value="0" />
+                        <t t-set="no" t-value="0"/>
+                        <t t-set="total" t-value="0"/>
                         <tr t-foreach="o.line_ids" t-as="line">
-                            <t t-set="no" t-value="no + 1" />
-                            <t t-set="tot" t-value="abs(line.amount)" />
-                            <t t-set="total" t-value="total + line.amount" />
-                            <t t-set="jumlah" t-value="'{0:,.2f}'.format(float(str(tot).replace('Rp','')))" />
-
-                            <td class="pl-2"><span t-esc="no" /> </td>
-                            <td class="pl-2"><span t-field="line.partner_id" /></td>
-                            <td class="pl-2"><span t-field="line.product_id" /></td>
-                            <td class="pl-2"><span t-field="line.price" /></td>
-                            <td class="pl-2"><span t-field="line.quantity" /></td>
-                            <td class="pl-2"><span t-field="line.payment_ref" /></td>
-                            <td class="pl-2">Rp<span class="float-right pr-2" t-esc="jumlah" />
+                            <t t-set="no" t-value="no + 1"/>
+                            <t t-set="tot" t-value="abs(line.amount)"/>
+                            <t t-set="total" t-value="total + line.amount"/>
+                            <t t-set="jumlah" t-value="'{0:,.2f}'.format(float(str(tot).replace('Rp','')))"/>
+                            
+                            <td class="pl-2"><span t-esc="no"/> </td>
+                            <td class="pl-2"><span t-field="line.kategori_id.name"/></td>
+                            <td class="pl-2"><span t-field="line.partner_id"/></td>
+                            <td class="pl-2"><span t-field="line.payment_ref"/></td>
+                            <td class="pl-2">Rp<span class="float-right pr-2" t-esc="jumlah"/>
                             </td>
-                            <td class="pl-2">
-                                <table class="table table-condensed" width="100%">
-                                    <tr t-foreach="line.image_ids" t-as="line2">
-                                        <td style="border : 0px;">
-                                            <span t-esc="line2.image_desc" style="font-size: 14px;" /><br />
-                                            <img t-attf-src="data:image/*;base64,{{line2.image_binary}}" width="150px"
-                                                height="150px" />
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="text-right pr-2 font-weight-bold">TOTAL</td>
+                            <td class="pl-2">Rp<span class="float-right pr-2" t-esc="'{0:,.2f}'.format(float(str(abs(total)).replace('Rp','')))"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="terbilang">Terbilang : <span t-field="o.terbilang"/></div>
+
+                <div class="footer">
+                <div class="row">
+                    <table class="table-condensed" width="100%">
+                        <tr>
+                            <td width="50%">
+                                <table class="table-fixed" width="100%">
+                                    <tr class="text-center">
+                                        <td style="border: 1px solid black;" class="pl-2 pr-2">Direksi</td>
+                                        <td style="border: 1px solid black;" class="pl-3 pr-3">GM</td>
+                                        <td style="border: 1px solid black;">Pemeriksa</td>
+                                        <td style="border: 1px solid black;">Keuangan</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid black; padding-top: 5rem;"/>
+                                        <td style="border: 1px solid black; padding-top: 5rem;"/>
+                                        <td style="border: 1px solid black; padding-top: 5rem;"/>
+                                        <td style="border: 1px solid black; padding-top: 5rem;"/>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="50%">
+                                <table class="table-condensed" width="100%">
+                                    <tr class="text-center">
+                                        <td width="5%"/>
+                                        <td>Yang Mengantar</td>
+                                        <td>Yang Menyerahkan</td>
+                                        <td>Yang Menerima</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td width="5%"/>
+                                        <td height="30px">
+                                            <br/><br/>
+                                            <span t-field="o.pengantar"/>
+                                        </td>
+                                        <td height="30px">
+                                            <br/><br/>
+                                            <span t-field="o.penyerah"/>
+                                        </td>
+                                        <td height="30px">
+                                            <br/><br/>
+                                            <span t-field="o.penerima"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td width="5%"/>
+                                        <td>
+                                            <span style="border-top: 1px solid black;">(Nama Jelas)</span>
+                                        </td>
+                                        <td>
+                                            <span style="border-top: 1px solid black;">(Nama Jelas)</span>
+                                        </td>
+                                        <td>
+                                            <span style="border-top: 1px solid black;">(Nama Jelas)</span>
                                         </td>
                                     </tr>
                                 </table>
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="4" class="text-right pr-2 font-weight-bold">TOTAL</td>
-                            <td class="pl-2">Rp<span class="float-right pr-2"
-                                    t-esc="'{0:,.2f}'.format(float(str(abs(total)).replace('Rp','')))" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-                <table class="table-condensed" width="100%" style="margin-top: 3rem;">
-                    <tr>
-                        <td width="50%">
-                            <table class="table-fixed" width="100%">
-                                <tr class="text-center">
-                                    <td style="border: 1px solid black;" class="pl-2 pr-2">Direksi</td>
-                                    <td style="border: 1px solid black;" class="pl-3 pr-3">GM</td>
-                                    <td style="border: 1px solid black;">Pemeriksa</td>
-                                    <td style="border: 1px solid black;">Keuangan</td>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid black; padding-top: 5rem;" />
-                                    <td style="border: 1px solid black; padding-top: 5rem;" />
-                                    <td style="border: 1px solid black; padding-top: 5rem;" />
-                                    <td style="border: 1px solid black; padding-top: 5rem;" />
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
+                    </table>
+                </div>
+                </div>
             </t>
         </t>
     </template>

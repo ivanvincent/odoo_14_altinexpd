@@ -13,6 +13,7 @@
             </xpath>
           <xpath expr="//field[@name='origin']" position="after">
               <field name="purchase_request_id"/>
+              <field name="payment_date" attrs="{'invisible':[('state', 'not in', ['done','purchase'])]}"/>
           </xpath>
         </field>
     </record>

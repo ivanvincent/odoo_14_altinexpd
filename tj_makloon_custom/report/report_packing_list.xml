@@ -2,7 +2,7 @@
     <data>
 
         <template id="report_packing_list_document">
-            <t t-call="report.external_layout">
+            <t t-call="web.external_layout">
                 
                 <t t-foreach="stock_picking" t-as="o">
                  </t>                    
@@ -45,9 +45,9 @@
                                     <td style="border: 1px solid black">
                                         <span t-field="line.product_id.name"/>
                                     </td>
-                                     <td style="border: 1px solid black">
+                                     <!-- <td style="border: 1px solid black">
                                         <span t-field="line.restrict_lot_id"/>
-                                    </td>
+                                    </td> -->
                                     <td style="border: 1px solid black">
                                         <span t-field="line.product_warna_id"/>
                                     </td>
@@ -57,7 +57,7 @@
                                     
                                 </tr>
                                 
-                            <!--<t t-foreach="line.get_packing_list()" t-as="pack_list">
+                            <t t-foreach="line.get_packing_list()" t-as="pack_list">
                                 <tr t-foreach="pack_list.picking_list" t-as="list_line">
                                     <t t-set="no" t-value="no + 1"/>
                                     <t t-set="tot_qty" t-value="tot_qty + list_line.qty_kg"/>
@@ -77,7 +77,7 @@
                                         <span t-field="list_line.qty_roll"/>
                                     </td>
                                 </tr>
-                            </t>-->
+                            </t>
                             </t>
                         </tbody>
                         <thead>
@@ -115,7 +115,8 @@
                             <td>Mengetahui,</td>
                         </tr>
                         <tr style="padding-top:50px" align="center">
-                            <td><span t-field="o.min_date" t-options="{'format':'dd/MM/YYYY'}"/><br/><br/><br/>........................</td>
+                            <!-- <td><span t-field="o.min_date" t-options="{'format':'dd/MM/YYYY'}"/><br/><br/><br/>........................</td> -->
+                            <td><br/><br/><br/>........................</td>
                             <td><br/><br/><br/>........................</td>
                             <td><br/><br/><br/>........................</td>
                             <td><br/><br/><br/>........................</td>
@@ -126,7 +127,7 @@
         </template>
 
         <template id="report_packing_list">
-            <t t-call="report.html_container">
+            <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <t t-call="tj_makloon_custom.report_packing_list_document"/>
                 </t>

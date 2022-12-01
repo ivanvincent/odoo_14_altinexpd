@@ -18,10 +18,11 @@
                         }
                     </style>
                     <div class="oe_structure"/>
-                    <h3 class="text-center">
+                    <h6 class="text-center">
                         <div>
-                            <span><strong><u>Report Mutasi </u></strong></span>
-                            <strong><u><span t-esc="journal_id"/></u></strong>
+                            <span><strong>Buku Bank</strong></span><br/>
+                            <strong><span t-esc="journal"/></strong>
+                            <div>Periode : <span t-esc="date_start"/> - <span t-esc="date_end"/></div>
                         </div>
                         <!-- <div t-if="o.journal_id.type == 'Cash'">
                             <span><strong>REPORT SUMMARY KAS</strong></span>
@@ -29,7 +30,7 @@
                         <!-- <div t-if="o.journal_id.type=='Cash'">
                             <span><strong>BUKTI PENGELUARAN KAS</strong></span>
                         </div> -->
-                    </h3>
+                    </h6>
                     <div style="padding-bottom:40px;"></div>
                     <!-- <t t-if="o.start_date">
                         <t t-set="start_date" t-value="o.start_date"/>
@@ -43,7 +44,6 @@
                     <!-- <t t-if="not o.end_date">
                         <t t-set="end_date" t-value="'-'"/>
                     </t> -->
-                    <div style="padding-bottom:5px;">Periode : <span t-esc="date_start"/> s/d <span t-esc="date_end"/></div>
                     <!-- <div style="padding-bottom:5px;" t-if="o.journal_id">Kas/Bank : <span t-esc="o.journal_id"/></div> -->
                     <!--<div style="padding-bottom:5px;" t-if="o.get_categ_names()">Kategori : <span t-esc="o.get_categ_names()"/></div>
                     <div style="padding-bottom:5px;" t-if="o.get_product_names()">Produk : <span t-esc="o.get_product_names()"/></div>
@@ -57,9 +57,9 @@
                         <thead>
                             <tr>
                                 <th><strong>No</strong></th>
-                                <th><strong>Code</strong></th>
+                                <th><strong>No. Transaksi</strong></th>
                                 <th><strong>Tanggal</strong></th>
-                                <th><strong>Uraian</strong></th>
+                                <th><strong>Keterangan Transaksi</strong></th>
                                 <th><strong>Saldo Awal</strong></th>
                                 <th><strong>Penerimaan</strong></th>
                                 <th><strong>Pengeluaran</strong></th>
@@ -147,7 +147,7 @@
                     </table>
 
                     <!-- <div class="row"> -->
-                    <div class="col-xs-12 pull-center">
+                    <!-- <div class="col-xs-12 pull-center">
                         <table class="table table-sm font-small" height="90px" width="100%">
                             <tr>
                                 <td width="100" style="border: 1px solid black;" class="text-center"><strong>ADMIN :</strong></td>
@@ -155,11 +155,11 @@
                                 <td width="100" style="border: 1px solid black;" class="text-center"><strong>ACCOUNTING :</strong></td>                                
                             </tr>
                         </table>
-                    </div>
+                    </div> -->
                     <!-- </div> -->
 
                     <div style="padding-bottom:40px;" class="oe_structure"/>
-                    <div>Diprint oleh : <span t-field="user.name"/></div>          
+                    <div>Di print oleh : <span t-field="user.name"/></div>          
                 </div>
             </t>
             </t>

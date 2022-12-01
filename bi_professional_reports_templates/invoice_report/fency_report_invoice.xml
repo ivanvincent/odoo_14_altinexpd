@@ -10,11 +10,11 @@
             </t>
             <div class="header">
                 <div class="row mt32 mb32">
-                    <div class="col-6">
+                    <div class="col-5">
                         <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)"
                              style="max-height: 50px;"/>
                     </div>
-                    <div class="col-6 text-right" style="font:12px lucida-console,sans-serif !important;">
+                    <div class="col-7 text-right" style="font:12px lucida-console,sans-serif !important;">
                         <span t-field="company.partner_id"/>
                         <br/>
                         <span t-field="company.partner_id.street"/>
@@ -30,6 +30,7 @@
                     </div>
                 </div>
             </div>
+
             <t t-call="web.external_layout">
                 <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})"/>
                 <div class="page">

@@ -216,6 +216,7 @@ class PurchaseRequestLine(models.Model):
                                     #   domain = lambda self : self._filter_lot(),
                                       )
     picking_type_id = fields.Many2one(related='request_id.picking_type_id', string='Picking Type')
+    image_ids       = fields.One2many('insert.image', 'purchase_line_id', string='Image')
     
 
     def _get_onhand(self):
@@ -359,7 +360,39 @@ class PurchaseRequestLine(models.Model):
         self.write({"cancelled": False})
 
     def write(self, vals):
+
+        # for record in self:
+        #     if record._context.get('old_values'):
+        #         old_vals = record._context['product_qty'].get(record.id, {})
+        #         if 'product_qty' in old_vals:
+        #             record.message_post(body="Cost changed from %s.2f to %s.2f." 
+        #                   % (old_vals['product_qty'],
+        #                      record.product_qty))
+
+        # request_obj = self.env["purchase.request"]
+        # for po in self:
+        #     requests_dict = {}
+        #     for line in po:
+        #         for request_line in line:
+        #             request_id = request_line.request_id.id
+        #             if request_id not in requests_dict:
+        #                 requests_dict[request_id] = {}
+        #             # date_planned = "%s" % line.date_planned
+        #             data = {
+        #                 "name": request_line.name,
+        #                 "product_qty": line.product_qty,
+        #                 # "product_uom": line.product_uom.name,
+        #                 # "date_planned": date_planned,
+        #             }
+        #             requests_dict[request_id][request_line.id] = data
+        #     for request_id in requests_dict:
+        #         request = request_obj.browse(request_id)
+        #         message = ('update')
+        #         request.message_post(
+        #             body=message, subtype_id=self.env.ref("mail.mt_comment").id
+        #         )
         res = super(PurchaseRequestLine, self).write(vals)
+
         if vals.get("cancelled"):
             requests = self.mapped("request_id")
             requests.check_auto_reject()
@@ -456,3 +489,9 @@ class PurchaseRequestLine(models.Model):
                     )
                 )
         return super(PurchaseRequestLine, self).unlink()
+
+    def action_show_image(self):
+        action = self.env.ref('purchase_request.purchase_request_line_action').read()[0]
+        action['res_id'] = self.id
+        action['name'] = "Images of %s" % (self.product_id.name)
+        return action

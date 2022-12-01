@@ -29,7 +29,6 @@
                         <field name="group_employee"/>
                     </group>
                     <field name="color" invisible="1"/>
-                    
                 </xpath>
                 <xpath expr="//field[@name='attendance_ids']" position="replace">
                     <field name="attendance_ids"/>

@@ -160,17 +160,11 @@ class Calendar(models.Model):
                 continue
             attendances |= attendance
         return attendances
-
     def _iter_day_attendance_intervals(self, day_date, start_time, end_time):
         """ Get an iterator of all interval of current day attendances. """
         for calendar_working_day in self._get_day_attendances(day_date, start_time, end_time):
             from_time = self.float_to_time(calendar_working_day.hour_from)
             to_time = self.float_to_time(calendar_working_day.hour_to)
-
             dt_f = datetime.datetime.combine(day_date, max(from_time, start_time))
             dt_t = datetime.datetime.combine(day_date, min(to_time, end_time))
-
             yield self._interval_new(dt_f, dt_t, {'attendances': calendar_working_day})
-
-
-

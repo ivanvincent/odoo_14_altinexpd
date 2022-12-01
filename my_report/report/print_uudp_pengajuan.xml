@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report 
+        id="action_print_uudp_pengajuan" 
+        model="uudp" 
+        string="Print Kasbon" 
+        report_type="qweb-pdf" 
+        name="my_report.report_uudp_pengajuan" 
+        file="my_report.report_uudp_pengajuan" />
+
+        <template id="report_uudp_pengajuan">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                  <t t-foreach="o.uudp_ids" t-as="line">
+                    
+                    <div class="header">
+                        <div class="row mt32">
+                            <div class="col-6">
+                              <div class="col-xs-1" style="margin-left: -10px">
+                                <img src="/web/binary/company_logo" style="width : 100px; height:100px; padding-top:2px;" align="left"/>
+                              </div>
+                              </div>
+                              <div class="col-6">
+                              <div class="col-xs-8 col-xs-offset-1 font-small" align="right">
+                                <span style="padding-left:10px; padding-bottom:5px; font-size:18px"><strong>PT. ALTINEX</strong></span><br/>
+                                <!--<div class="line" style="border-bottom: thin solid #222;"/>-->
+                                <span style="padding-left:10px; font-size:16px">Jl. Panghegar No.7, Kota Bandung, 40613</span><br/>
+                                <span style="padding-left:10px; font-size:16px">JAWA BARAT - INDONESIA</span>
+                              </div>
+                            </div>
+                            <!--<div class="col-5" align="right">-->
+                            <!--        <span style="padding-right:10px; padding-bottom:5px; font-size:23px; font-weight: bold; background-color:  #3498DB;">-->
+                            <!--          <strong>REQUEST FOR QUOTATION</strong></span><br/>-->
+                            <!--        <span t-field="o.name" style="padding-right:10px; padding-bottom:5px; font-size:22px; background-color:  #3498DB;"/>-->
+                            <!--</div>-->
+                        </div>
+                        <br/>
+                    </div>
+                    
+                <div class="page">
+                    <div class="text-center">
+                        <h3><b>KASBON</b></h3>
+                        <h3><b>Nomor : <span t-field="o.name"/> <br/></b></h3>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-2">
+                            Tanggal <br/>
+                            Nominal Kasbon <br/>
+                            <!-- Tujuan <br/>
+                            Keterangan <br/> -->
+                        </div>
+                        <div class="col-6">
+                            : <span t-field="o.date"/> <br/>
+                            : <span t-field="line.sub_total"/> <br/>
+                            <!-- : PEMBELIAN <span t-field="o.po_categ_id"/> <br/>
+                            : <span t-field="o.description"/> <br/> -->
+                        </div>
+                        <div class="col-8"></div>
+                    </div><br/>
+
+                    <table class="table-condensed" width="100%">
+                            <tr class="text-center">
+                                <th style="border : 1px solid black; font-size:15px" width="15%">
+                                    <center>Nama</center>
+                                </th>
+                                <th style="border : 1px solid black; font-size:15px" width="15%">
+                                    <center>Departemen</center>
+                                </th>
+                                <th style="border : 1px solid black; font-size:15px" width="10%">
+                                    <center>COA</center>
+                                </th>
+                                <th style="border : 1px solid black; font-size:15px" width="10%">
+                                    <center>Deskripsi COA</center>
+                                </th>
+                                <th style="border : 1px solid black; font-size:15px" width="25%">
+                                    <center>Keterangan</center>
+                                </th>
+                                <!-- <th style="border : 1px solid black" width="5%">
+                                    <center>Quantity</center>
+                                </th>
+                                <th style="border : 1px solid black" width="5%">
+                                    <center>Satuan</center>
+                                </th>
+                                <th style="border : 1px solid black" width="5%">
+                                    <center>Stock</center>
+                                </th> -->
+                                <!-- <th style="border : 1px solid black" width="10%">
+                                    <center>Sisa PO</center>
+                                </th> -->
+                                <!-- <th style="border : 1px solid black" width="10%">
+                                    <center>Request Date</center>
+                                </th> -->
+                                <!-- <th style="border : 1px solid black" width="15%">
+                                    <center>Keterangan</center>
+                                </th> -->
+                            </tr>
+
+                            <tr t-foreach="o.uudp_ids" t-as="line" height="3px">
+                                <!-- <td style="border : 1px solid black;" class="text-center">
+                                    <span t-esc="line_index + 1"/></td> -->
+                                <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                    <span t-field="o.employee_id"/></td>
+                                <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                    <span t-field="o.department_id"/></td>
+                                <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                    <span t-field="line.coa_debit.code"/>
+                                    </td>
+                                <!-- <td style="border : 1px solid black ; padding-right : 10px" class="text-right">
+                                    <span t-field="line.product_id.usage_daily"/></td> -->
+                                <td style="border : 1px solid black ; padding-right : 10px" class="text-right">
+                                    <span t-field="line.coa_debit.name"/>
+                                    </td>
+                                <td style="border : 1px solid black" class="text-center">
+                                    <span t-field="line.description"/>
+                                    </td>
+                                <!-- <td style="border : 1px solid black ; padding-right : 10px" class="text-right">
+                                    <span t-field="line.qty_on_hand"/></td> -->
+                                <!-- <td style="border : 1px solid black ; padding-right : 10px" class="text-right">
+                                    <span/></td> -->
+                                <!-- <td style="border : 1px solid black" class="text-center">
+                                    <span t-field="line.date_required"/></td> -->
+                                <!-- <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                    <span t-field="line.note"/></td> -->
+                            </tr>
+                    </table>
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-2 text-center">
+                            Direksi <br/><br/><br/><br/>
+                            (_______________________)
+                        </div>
+                        <div class="col-2 text-center">
+                            Keuangan <br/><br/><br/><br/>
+                            (_______________________)
+                        </div>
+                        <div class="col-3 text-center">
+                            Pembuat Data <br/>
+                            <br/><br/><br/>
+                            (<span t-field="o.user_id.name"></span>)
+                        </div>
+                        <div class="col-2 text-center">
+                            Kasir <br/><br/><br/><br/>
+                            (_______________________)
+                        </div>
+                        <div class="col-3 text-center">
+                            Penyetor/Penerima <br/><br/><br/><br/>
+                            (_______________________)
+                        </div>
+                        
+                    </div>
+
+                </div>
+                </t>
+              </t>
+            </t>
+            
+            <!--<t t-call="web.html_container">-->
+            <!--  <t t-call="web.external_layout">-->
+            <!--      <div style=" background-color: #3498DB; color:#fff !important; font:15px lucida-console,sans-serif !important; ">-->
+                  <!--<p t-if="o.notes">-->
+                  <!--<strong><span>Note:</span> </strong> <span t-field="o.notes"/>-->
+                  <!--</p>-->
+            <!--      </div>-->
+            <!--  </t> -->
+            <!--</t> -->
+
+        </template>
+
+
+
+    </data>
+
+
+</odoo>

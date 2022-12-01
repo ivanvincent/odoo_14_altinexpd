@@ -25,7 +25,7 @@
         # 'report/print_receipt.xml',
         # 'report/print_release.xml',
         # # 'report/print_release_benang.xml',
-        'report/purchase_order.xml',
+        # 'report/purchase_order.xml',
          'report/purchase_request.xml',
         # 'report/sale_contract.xml',
         # 'report/sale_order.xml',
@@ -41,8 +41,13 @@
         # 'report/bukti_pengeluaran_greige.xml',
         # 'report/packing_list_pengiriman_kain.xml',
         # 'report/konstruksi_design.xml',
-        'report/print_kartu_proses.xml'
-        
+        'report/print_kartu_proses.xml',
+        'report/bill_invoice_with_payment.xml',
+        'report/bill_invoice_without_payment.xml',
+        'report/print_uudp_pengajuan.xml',
+        'report/print_pencairan.xml',
+        'report/print_penyelesaian.xml',
+        'report/print_surat_jalan.xml',
         
         # 'views/inherit_stock.xml',
         # 'wizard/print_stock_wizard.xml',

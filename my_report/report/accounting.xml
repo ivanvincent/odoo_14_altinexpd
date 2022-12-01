@@ -2,7 +2,7 @@
 <odoo>
     <data>
 
-        <record model="report.paperformat" id="paperformat_faktur">
+        <!-- <record model="report.paperformat" id="paperformat_faktur">
             <field name="name">Faktur</field>
             <field name="default" eval="True" />
             <field name="format">custom</field>
@@ -62,9 +62,9 @@
                             <span class="text-uppercase" t-field="doc.partner_id" />
                             <br />
                             <span class="text-uppercase" t-field="doc.partner_id.npwp" />
-                            <br />
+                            <br /> -->
                             <!--<span t-field="doc.partner_id.street"/>-->
-                            <p>
+                            <!-- <p>
                                 <t t-esc="doc.partner_id.street[:80] if doc.partner_id.street else ''" />
                             </p>
                         </div>
@@ -106,9 +106,9 @@
                             <t t-set="line_size" t-value="len(doc.invoice_line_ids.ids)" />
                             <t t-set="range_line_null" t-value="8 - line_size" />
 
-                            <tr t-foreach="doc.invoice_line_ids" t-as="line">
+                            <tr t-foreach="doc.invoice_line_ids" t-as="line"> -->
                                 <!-- <t t-set="price" t-value="line.price_unit / 1.1" /> -->
-                                <t t-set="price" t-value="line.price_unit * 100 / (100 + sum(line.tax_ids.mapped('amount')))"/>
+                                <!-- <t t-set="price" t-value="line.price_unit * 100 / (100 + sum(line.tax_ids.mapped('amount')))"/>
                                 <t t-set="dpp" t-value="line.quantity * price" />
                                 <t t-set="ppn" t-value="dpp * (sum(line.tax_ids.mapped('amount'))) / 100" />
                                 <t t-set="amount" t-value="amount + dpp + ppn" />
@@ -201,13 +201,13 @@
                 </div>
             </t>
         </t>
-    </template>
+    </template> -->
 
 
 
 
 
-    <report id="action_faktur_2" model="account.move" string="Print Faktur 2" report_type="qweb-pdf" name="my_report.faktur_2" file="my_report.faktur_2" />
+    <!-- <report id="action_faktur_2" model="account.move" string="Print Faktur 2" report_type="qweb-pdf" name="my_report.faktur_2" file="my_report.faktur_2" />
 
     <record id="action_faktur_2" model="ir.actions.report">
         <field name="paperformat_id" eval="paperformat_faktur" />
@@ -230,9 +230,9 @@
                         <span class="text-uppercase" t-field="doc.partner_id" />
                         <br />
                         <span class="text-uppercase" t-field="doc.partner_id.npwp" />
-                        <br />
+                        <br /> -->
                         <!--<span t-field="doc.partner_id.street"/>-->
-                        <p>
+                        <!-- <p>
                             <t t-esc="doc.partner_id.street[:80] if doc.partner_id.street else ''" />
                         </p>
                     </div>
@@ -268,10 +268,10 @@
                             <th style="border : 1px solid black">NAMA BARANG</th>
                             <th style="border : 1px solid black">WARNA</th>
                             <th style="border : 1px solid black">QTY</th>
-                            <th style="border : 1px solid black" width="10%">HARGA</th>
+                            <th style="border : 1px solid black" width="10%">HARGA</th> -->
                             <!--<th style="border : 1px solid black" width="14%">DPP</th>-->
                             <!--<th style="border : 1px solid black" width="12%">PPN</th>-->
-                            <th style="border : 1px solid black" width="14%">JUMLAH</th>
+                            <!-- <th style="border : 1px solid black" width="14%">JUMLAH</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -307,14 +307,14 @@
                             </td>
                             <td style="border : 1px solid black" class="text-right pr-1">
                                 <span t-esc="'{0:,.2f}'.format(float(price))" />
-                            </td>
+                            </td> -->
                             <!--<td style="border : 1px solid black" class="text-right pr-1">-->
                             <!--    <span t-esc="'{0:,.2f}'.format(float(dpp))"/>-->
                             <!--</td>-->
                             <!--<td style="border : 1px solid black" class="text-right pr-1">-->
                             <!--    <span t-esc="'{0:,.2f}'.format(float(ppn))"/>-->
                             <!--</td>-->
-                            <td style="border : 1px solid black" class="text-right pr-1">
+                            <!-- <td style="border : 1px solid black" class="text-right pr-1">
                                 <span t-esc="'{0:,.2f}'.format(dpp + ppn)" />
                             </td>
                         </tr>
@@ -323,10 +323,10 @@
                             <td style="border : 1px solid black ; height: 30px;" />
                             <td style="border : 1px solid black ; height: 30px;" />
                             <td style="border : 1px solid black ; height: 30px;" />
-                            <td style="border : 1px solid black ; height: 30px;" />
+                            <td style="border : 1px solid black ; height: 30px;" /> -->
                             <!--<td style="border : 1px solid black ; height: 30px;"/>-->
                             <!--<td style="border : 1px solid black ; height: 30px;"/>-->
-                            <td style="border : 1px solid black ; height: 30px;" />
+                            <!-- <td style="border : 1px solid black ; height: 30px;" />
                         </tr>
                     </tbody>
                 </table>
@@ -365,7 +365,7 @@
             </div>
         </t>
     </t>
-</template>
+</template> -->
 
 
 
@@ -375,7 +375,7 @@
 
 
 
-<record model="report.paperformat" id="paperformat_amplop">
+<!-- <record model="report.paperformat" id="paperformat_amplop">
     <field name="name">Amplop</field>
     <field name="default" eval="True" />
     <field name="format">custom</field>
@@ -508,16 +508,16 @@
             </div>
         </t>
     </t>
-</template>
+</template> -->
 
 
-<report id="action_surat_jalan_faktur" model="account.move" string="Print Surat Jalan" report_type="qweb-pdf" name="my_report.surat_jalan_faktur" file="my_report.surat_jalan_faktur" />
+<!-- <report id="action_surat_jalan_faktur" model="account.move" string="Print Surat Jalan" report_type="qweb-pdf" name="my_report.surat_jalan_faktur" file="my_report.surat_jalan_faktur" />
 
 <record id="action_surat_jalan_faktur" model="ir.actions.report">
     <field name="paperformat_id" eval="paperformat_surat_jalan_faktur" />
-</record>
+</record> -->
 
-<template id="surat_jalan_faktur">
+<!-- <template id="surat_jalan_faktur">
     <t t-call="web.html_container">
         <t t-foreach="docs" t-as="doc">
             <div class="article">
@@ -533,8 +533,8 @@
                     </div>
                     <div class="col-6" style="font-size : 16px">
                                 Majalaya, <span t-field="doc.invoice_date" t-options="{&quot;format&quot;: &quot;dd MMM yyyy&quot;}" />
-                    <br />
-                    <span class="font-weight-bold">Kepada Yth</span>
+                    <br /> -->
+                    <!-- <span class="font-weight-bold">Kepada Yth</span>
                     <br />
                     <span class="text-uppercase" t-field="doc.partner_id" />
                     <br />
@@ -560,9 +560,9 @@
                         <span t-field="doc.name" />
                     </t>
                 </div>
-            </div>
+            </div> -->
 
-            <table class="table-condensed" style="font-size : 18px ;" width="100%">
+            <!-- <table class="table-condensed" style="font-size : 18px ;" width="100%">
                 <thead class="text-center">
                     <tr>
                         <th style="border : 1px solid black" class="pl-1 pr-1" width="5%">NO</th>
@@ -608,13 +608,13 @@
                         </td>
                         <td style="border : 1px solid black ; font-size : 15px ;" class="text-right pr-1">
                             <t t-if="om">
-                                <span t-esc="om[idx].om" />
+                                <span t-esc="om[idx].om" /> -->
 
-                            </t>
-                            <!-- <span t-field="doc.surat_jalan_id.line_ids" /> -->
+                            <!-- </t>
+                            <span t-field="doc.surat_jalan_id.line_ids" />
                         </td>
-                    </tr>
-                    <tr t-foreach="range(range_line_null)" t-as="ex">
+                    </tr> -->
+                    <!-- <tr t-foreach="range(range_line_null)" t-as="ex">
                         <td style="border : 1px solid black ; height: 30px;" />
                         <td style="border : 1px solid black ; height: 30px;" />
                         <td style="border : 1px solid black ; height: 30px;" />
@@ -638,8 +638,8 @@
                         <td style="border : 1px solid black ; height: 30px;">
                             <span />
                         </td>
-                    </tr>
-                </tbody>
+                    </tr> -->
+                <!-- </tbody>
             </table>
             <div style="margin-top : 10px" class="row">
                 <div class="col-3 text-center">
@@ -679,12 +679,12 @@
         </div>
     </t>
 </t>
-</template>
+</template> -->
 
 
 
 
-<report id="action_surat_jalan_faktur_2" model="account.move" string="Print Surat Jalan 2" report_type="qweb-pdf" name="my_report.surat_jalan_faktur_2" file="my_report.surat_jalan_faktur_2" />
+<!-- <report id="action_surat_jalan_faktur_2" model="account.move" string="Print Surat Jalan 2" report_type="qweb-pdf" name="my_report.surat_jalan_faktur_2" file="my_report.surat_jalan_faktur_2" />
 
 <record id="action_surat_jalan_faktur_2" model="ir.actions.report">
 <field name="paperformat_id" eval="paperformat_surat_jalan_faktur" />
@@ -838,7 +838,7 @@
     </div>
 </t>
 </t>
-</template>
+</template> -->
 
 
 
@@ -1494,7 +1494,7 @@
 
 
 
-<report id="action_faktur_groupby_product" model="account.move" string="Print Faktur Group by Product" report_type="qweb-pdf" name="my_report.faktur_groupby_product" file="my_report.faktur_groupby_product" />
+<!-- <report id="action_faktur_groupby_product" model="account.move" string="Print Faktur Group by Product" report_type="qweb-pdf" name="my_report.faktur_groupby_product" file="my_report.faktur_groupby_product" />
 
 <record id="action_faktur_groupby_product" model="ir.actions.report">
 <field name="paperformat_id" eval="paperformat_faktur" />
@@ -1522,9 +1522,9 @@
             <span class="text-uppercase" t-field="doc.partner_id" />
             <br />
             <span class="text-uppercase" t-field="doc.partner_id.npwp" />
-            <br />
+            <br /> -->
             <!--<span t-field="doc.partner_id.street"/>-->
-            <p>
+            <!-- <p>
                 <t t-esc="doc.partner_id.street[:80] if doc.partner_id.street else ''" />
             </p>
         </div>
@@ -1575,7 +1575,7 @@
                     <span t-esc="line.get('uom_name')" />
                 </td>
                 <td style="border : 1px solid black" class="text-right pr-1">
-                    <!-- <span t-esc="'{0:,.2f}'.format(float(line.get('price')))" /> -->
+                    <span t-esc="'{0:,.2f}'.format(float(line.get('price')))" />
                     <span t-esc="'{0:,.2f}'.format(float(line.get('dpp')/line.get('qty')))" />
                 </td>
                 <td style="border : 1px solid black" class="text-right pr-1">
@@ -1633,7 +1633,8 @@
 </div>
 </t>
 </t>
-</template>
+</template> -->
+
 
 </data>
 </odoo>

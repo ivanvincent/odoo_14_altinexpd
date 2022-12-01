@@ -11,7 +11,8 @@
     'data': [
         'data/ir_sequence.xml',
         'views/quotation.xml',
-        'security/ir.model.access.csv'
+        'security/ir.model.access.csv',
+        'views/sales_contract.xml',
     ],
     # data files containing optionally loaded demonstration data
 }
