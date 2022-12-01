@@ -55,6 +55,27 @@ class HrEmployeeShift(models.Model):
                                                            ])
             if len(record) > 1:
                 raise ValidationError("One record with same sequence is already active."
-                                      "You can't activate more than one record  at a time")
+                "You can't activate more than one record  at a time")
+    
+    @api.model
+    def create(self, values):
+        group_employee = values.get('group_employee', False)
+        result = super(HrEmployeeShift, self).create(values)
+        if group_employee:
+            query = f"""
+                UPDATE hr_employee SET resource_calendar_ids = {result.id} WHERE employee_team = '{group_employee}';
+            """
+            self._cr.execute(query)
+        return result
 
+    def write(self, values):
+        group_employee = values.get('group_employee', False)
+        result = super(HrEmployeeShift, self).write(values)
+        if group_employee:
+            query = f"""
+                UPDATE hr_employee SET resource_calendar_ids = {self.id} WHERE employee_team = '{group_employee}';
+            """
+            self._cr.execute(query)
+            # print(query)
+        return result
 
