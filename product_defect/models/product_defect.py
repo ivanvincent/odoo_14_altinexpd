@@ -14,15 +14,15 @@ class ProductDefect(models.Model):
     ]
     
     
-    def name_get(self):
-        result = []
-        for defect in self:
-            result.append((defect.id, str(defect.code) + ' - ' + str(defect.name)))
-        return result
+    # def name_get(self):
+    #     result = []
+    #     for defect in self:
+    #         result.append((defect.id, str(defect.code) + ' - ' + str(defect.name)))
+    #     return result
     
-    @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
-        res_search = False
-        res = self.search([ '|',('name',operator,name),('code',operator,name)] + args, limit=limit)
-        res_search = res.name_get()
-        return res_search
+    # @api.model
+    # def name_search(self, name, args=None, operator='ilike', limit=100):
+    #     res_search = False
+    #     res = self.search([ '|',('name',operator,name),('code',operator,name)] + args, limit=limit)
+    #     res_search = res.name_get()
+    #     return res_search
