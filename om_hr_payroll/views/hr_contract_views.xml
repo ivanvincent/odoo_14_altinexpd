@@ -33,7 +33,7 @@
                 <page name="other" position="move"/>
             </xpath>
 
-            <xpath expr="//group[@name='salary_and_advantages']" position="after">
+            <!-- <xpath expr="//group[@name='salary_and_advantages']" position="after">
                 <group string="Monthly Advantages in Cash" name='allowances'>
                     <label for="hra"/>
                     <div class="o_row">
@@ -70,7 +70,7 @@
                         <span>/ month</span>
                     </div>
                 </group>
-            </xpath>
+            </xpath> -->
         </field>
     </record>
 
