@@ -11,3 +11,4 @@ class MrpProductionType(models.Model):
     sequence_id            = fields.Many2one('ir.sequence', string='Sequence',required=True, )
     # Request Bahan Baku
     picking_type_request_material_id = fields.Many2one('stock.picking.type', string='Operation Type Request Material')
+    picking_type_finished_id = fields.Many2one('stock.picking.type', string='Picking Type Finished')

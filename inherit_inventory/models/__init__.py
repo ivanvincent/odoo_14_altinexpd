@@ -7,3 +7,4 @@ from . import stock_warehouse
 from . import product_attribute
 from . import product_category
 from . import stock_inventory
+from . import stock_move_sat

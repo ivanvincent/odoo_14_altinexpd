@@ -35,6 +35,21 @@
                     <field name="is_highrisk" invisible="1"/>
                     <widget name="web_ribbon" bg_color="bg-danger" title="Highrisk" attrs="{'invisible': [('is_highrisk', '=', False)]}"/>
                 </xpath>
+                <xpath expr="//button[@name='539']" position="after">
+                    <button name="action_view_request_picking" type="object" class="oe_stat_button" icon="fa-truck">
+                        <field name="picking_request_count" widget="statinfo" string="Picking Request" help="Components Request"/>
+                        <field name="picking_request_ids" invisible="1"/>
+                    </button>
+                    <button name="action_view_inspect" type="object" string="Inspection" class="oe_stat_button" icon="fa-exchange" attrs="{'invisible': [('state', 'in', ('draft', 'confirmed'))]}"/>
+                    <button class="oe_stat_button" icon="fa-truck" attrs="{'invisible': [('picking_finished_id', '=', False)]}">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_returned_finished">
+                                <field name="picking_finished_id"/>
+                            </span>
+                            <span class="o_stat_text">Finished Product</span>
+                        </div>
+                    </button>
+                </xpath>
             </field>
         </record>
 

@@ -8,6 +8,7 @@ class StockMove(models.Model):
     supplier_id = fields.Many2one('res.partner', string='Supplier', compute="_compute_supplier_id")
     just_flag = fields.Boolean(string='Flag ?', store=False,) #Flag For Change Domain Product
     qty_onhand = fields.Float(string='On Hand', compute="_compute_qty_onhand")
+    sat_line_ids = fields.One2many('stock.move.sat', 'stock_move_id', 'Line')
 
     def action_show_image(self):
         action = self.env.ref('inherit_inventory.stock_move_action').read()[0]
@@ -54,3 +55,8 @@ class StockMove(models.Model):
             values['product_uom'] = self.env['product.product'].browse(product_id).uom_id.id
         result = super(StockMove, self).create(values)
         return result
+
+    def stock_move_fat_action(self):
+        action = self.env.ref('inherit_inventory.stock_move_fat_action').read()[0]
+        action['res_id'] = self.id
+        return action
