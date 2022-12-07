@@ -260,7 +260,8 @@ class PurchaseRequest(models.Model):
         query = "select max(id) from purchase_request;"
         self._cr.execute(query)
         result = self._cr.fetchone()
-        vals["name"] = 'New - %s' % int(result[0] + 1)
+
+        vals["name"] = 'New - %s' % int( result[0] if result[0] else 0 + 1)
 
         # self.change_name()
         request = super(PurchaseRequest, self).create(vals)
