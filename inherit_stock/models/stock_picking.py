@@ -113,10 +113,10 @@ class StockPicking(models.Model):
     
     
     
-    def button_validate(self):
-        for line in self.move_ids_without_package:
-            if not line.image_ids:
-                raise ValidationError('Mohon maaf image untuk produk %s kosong. Harap untuk diisi terlebih dahulu !' % line.name)
+    # def button_validate(self):
+    #     for line in self.move_ids_without_package:
+    #         if not line.image_ids and line.picking_id:
+    #             raise ValidationError('Mohon maaf image untuk produk %s kosong. Harap untuk diisi terlebih dahulu !' % line.name)
 
         res = super(StockPicking, self).button_validate()
         #todo fixme
