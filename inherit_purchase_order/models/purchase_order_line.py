@@ -22,6 +22,7 @@ class PurchaseOrderLine(models.Model):
     # purchase_request_id     = fields.Many2one('purchase.request', string='Purchase Request', related='purchase_request_lines.request_id')
     image_ids           = fields.One2many('insert.image', 'purchase_line_id', string='Image')
     is_receipt_done         = fields.Boolean(string='Is Receipt Done',compute='_compute_receipt')
+    qty_received_kg_actual = fields.Float(string='Received (Kg)', compute='compute_qty_received_kg_actual')
 
     
     def _compute_receipt(self):
@@ -83,3 +84,10 @@ class PurchaseOrderLine(models.Model):
         action['domain'] = [('partner_id', '=', self.order_id.partner_id.id), ('product_id', '=', self.product_id.id), ('order_id.state', 'in', ['done', 'purchase'])]
         action['target'] = 'new'
         return action
+
+    def compute_qty_received_kg_actual(self):
+        for line in self:
+            # picking_obj = self.env['stock.picking'].search([('name', '=', line.order_id.name), ('state', '=', 'done')])
+            # for sm in picking_obj.move_ids_without_package:
+            move_obj = self.env['stock.move'].search([('picking_id.origin', '=', line.order_id.name), ('picking_id.state', '=', 'done')])
+            line.qty_received_kg_actual = sum(move_obj.mapped('qty_kg_actual'))

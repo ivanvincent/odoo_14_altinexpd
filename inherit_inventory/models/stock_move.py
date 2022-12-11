@@ -9,6 +9,7 @@ class StockMove(models.Model):
     just_flag = fields.Boolean(string='Flag ?', store=False,) #Flag For Change Domain Product
     qty_onhand = fields.Float(string='On Hand', compute="_compute_qty_onhand")
     sat_line_ids = fields.One2many('stock.move.sat', 'stock_move_id', 'Line')
+    qty_kg_actual = fields.Float(string='Kg (Actual)')
 
     def action_show_image(self):
         action = self.env.ref('inherit_inventory.stock_move_action').read()[0]
