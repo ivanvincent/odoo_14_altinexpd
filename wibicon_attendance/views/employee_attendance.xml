@@ -81,7 +81,7 @@
             <p>klik tombol create untuk menambah absensi karyawan baru</p>
             </field>
         </record> 
-
+<!-- 
         <record model="ir.ui.view" id="hr_atetendance_absence_form">
             <field name="name">hr.attendace.absence.form</field>
             <field name="model">hr.employee</field>
@@ -99,7 +99,7 @@
                     </page>
                 </xpath>
             </field>
-        </record>
+        </record> -->
 
         <menuitem id="employee_attendances" 
                   name="Finger Print" 
