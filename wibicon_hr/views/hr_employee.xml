@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_employee_additional_form" model="ir.ui.view">
+            <field name="name">hr.employee.additional.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="get_picture" nolabel="1"/>
+                    <label for="get_picture">Get Picture</label>
+                </field>
+                <field name="country_id" position="before">
+                    <field name="contract_id" invisible="1"/>
+                    <field name="identification_id"/>
+                    <field name="barcode_date"/>
+                    <field name="code"/>
+                    <field name="nik"/>
+                    <field name="npwp"/>
+                    <field name="ptkp_id"/>
+                    <field name="bpjs_kesehatan"/>
+                    <field name="bpjs_ketenagakerjaan"/>
+                    <field name="jurnal_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                </field>
+                <field name="bank_account_id" position="before">
+                    <field name="religion"/>
+                </field>                
+                <field name="job_id" position="after">
+                    <field name="job_level_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                </field>
+                <field name="address_home_id" position="before">
+                    <field name="tinggi_badan"/>
+                    <field name="berat_badan"/>
+                    <field name="kendaraan"/>
+                    <field name="jenis_sim"/>
+                </field>                
+                <field name="work_phone" position="after">
+                    <field name="is_phl"/>
+                </field>
+                <xpath expr="//notebook/page[2]/group/group[4]" position="after">
+                    <group string="Employee's Detail Information" colspan="2">
+                    <notebook>
+                        <page string="Family Information">
+                            <group>
+                                <div>
+                                    Anak ke  
+                                    <field name="anak_ke" nolabel="1" class="oe_inline"/>  dari  
+                                    <field name="jumlah_saudara" nolabel="1" class="oe_inline"/>  bersaudara
+                                </div>
+                            </group>
+                            <field name="family_ids" mode="tree">
+                                <tree string="employee Family" editable="bottom">
+                                        <field name="family"/>
+                                        <field name="name"/>
+                                        <field name="place_of_birth"/>
+                                        <field name="birthday"/>
+                                        <field name="age"/>
+                                        <field name="work"/>
+                                </tree>
+                            </field>
+                        </page>                        
+                        <page string="Education Information">
+                            <field name="education_ids" mode="tree">
+                                <tree string="employee Education" editable="bottom">
+                                    <field name="education"/>
+                                    <field name="name"/>
+                                    <field name="major"/>
+                                    <field name="city"/>
+                                    <field name="start_year"/>
+                                    <field name="end_year"/>
+                                    <field name="certificate"/>
+                                </tree>
+                            </field>
+                        </page>                        
+                        <page string="Organization Experience">
+                            <field name="organization_ids" mode="tree">
+                                <tree string="employee Organization" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="city"/>
+                                    <field name="major"/>
+                                    <field name="position"/>
+                                    <field name="start_year"/>
+                                    <field name="end_year"/>
+                                </tree>
+                            </field>
+                        </page>                        
+                        <page string="Work Experience">
+                            <field name="work_ids" mode="tree">
+                                <tree string="Work Experience" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="position"/>
+                                    <field name="start_year"/>
+                                    <field name="end_year"/>
+                                    <field name="reasons_leaving_the_job"/>
+                                    <field name="last_salary"/>
+                                </tree>
+                            </field>
+                        </page>                        
+                        <page string="Other Information">
+                            <label for="reference_ids" string="Sebutkan referensi orang yang dapat kami hubungi jika ingin mengetahui data lebih lengkap mengenai anda?"/>
+                            <field name="reference_ids" mode="tree">
+                                <tree string="Reference" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="position"/>
+                                    <field name="phone"/>
+                                </tree>
+                            </field>
+                            <label for="guardian_ids" string="Sebutkan nama dan nomor telepon yang dapat kami hubungi untuk memberitahukan jika Anda mengalami musibah?"/>                            
+                            <field name="guardian_ids" mode="tree">
+                                <tree string="Guardian" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="phone"/>
+                                    <field name="relation"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    </group>
+            </xpath>
+            </field>
+        </record>
+
+        <!-- <record id="view_hr_employee_grouping" model="ir.ui.view">
+            <field name="name">employee.additional.grouping</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="inside">
+                    <filter string="Cara Bayar" domain="[]"
+                                context="{'group_by':'jurnal_id'}"/>
+                </xpath>
+            </field>
+        </record> -->
+
+        <record id="view_hr_employee_additional_tree" model="ir.ui.view">
+            <field name="name">new.hr.employee.tree.view</field>
+            <field name="model">hr.employee</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="contract_id" invisible="1"/>
+                    <field name="nik"/>
+                    <field name="barcode_date"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
