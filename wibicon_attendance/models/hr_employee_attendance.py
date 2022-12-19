@@ -35,9 +35,17 @@ class HrPayslip(models.Model):
 
         res.append({
             'name':'Presenses',
-            'sequence':20,
+            'sequence':10,
             'code':'PRES',
             'number_of_days': presense,
+            'number_of_hours': 0.0,
+            'contract_id': self.contract_id.id})
+
+        res.append({
+            'name':'Shift 3',
+            'sequence':20,
+            'code':'PRES_SHIFT3',
+            'number_of_days': 0,
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
 
@@ -53,7 +61,7 @@ class HrPayslip(models.Model):
             'name':'Ijin Normatif',
             'sequence':40,
             'code':'ICN',
-            'number_of_days': 1,
+            'number_of_days': 0,
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
 
@@ -61,7 +69,7 @@ class HrPayslip(models.Model):
             'name':'Ijin Tidak Masuk',
             'sequence':50,
             'code':'ITM',
-            'number_of_days': 2,
+            'number_of_days': 0,
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
 
@@ -69,56 +77,64 @@ class HrPayslip(models.Model):
             'name':'Terlambat',
             'sequence':60,
             'code':'TLT',
-            'number_of_days': 3,
-            'number_of_hours': 0.40,
+            'number_of_days': 0,
+            'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
 
         res.append({
             'name':'Pulang Sebelum Waktu',
             'sequence':70,
             'code':'PSW',
-            'number_of_days': 4,
-            'number_of_hours': 0.30,
+            'number_of_days': 0,
+            'number_of_hours': 0.0,
+            'contract_id': self.contract_id.id})
+
+        return res
+
+    @api.model
+    def get_inputs(self,contracts,date_from,date_to):
+        res = super(HrPayslip, self).get_inputs(contracts,date_from,date_to)        
+        
+        res.append({
+            'name':'Uang Lembur',
+            'sequence':10,
+            'code':'LEMBUR',
+            'amount': 0.0,
+            'contract_id': self.contract_id.id})
+        
+        res.append({
+            'name':'Bonus Bulanan',
+            'sequence':20,
+            'code':'BONUS',
+            'amount': 0.0,
             'contract_id': self.contract_id.id})
 
         res.append({
-            'name':'Lembur Rutin 1',
-            'sequence':80,
-            'code':'LR1',
-            'number_of_days': 5,
-            'number_of_hours': 5.0,
+            'name':'Tunjangan Bensin / Transport',
+            'sequence':30,
+            'code':'BBM',
+            'amount': 0.0,
             'contract_id': self.contract_id.id})
 
         res.append({
-            'name':'Lembur Rutin 2',
-            'sequence':81,
-            'code':'LR2',
-            'number_of_days': 6,
-            'number_of_hours': 6.0,
+            'name':'Tunjangan Kesehatan Non-BPJS',
+            'sequence':40,
+            'code':'FASKES',
+            'amount': 0.0,
+            'contract_id': self.contract_id.id})
+        
+        res.append({
+            'name':'Bonus Tahunan',
+            'sequence':50,
+            'code':'BOTA',
+            'amount': 0.0,
             'contract_id': self.contract_id.id})
 
         res.append({
-            'name':'Lembur Terusan 1',
-            'sequence':82,
-            'code':'LT1',
-            'number_of_days': 7,
-            'number_of_hours': 7.0,
-            'contract_id': self.contract_id.id})
-
-        res.append({
-            'name':'Lembur Terusan 2',
-            'sequence':83,
-            'code':'LT2',
-            'number_of_days': 8,
-            'number_of_hours': 8.0,
-            'contract_id': self.contract_id.id})
-
-        res.append({
-            'name':'Lembur Terusan 3',
-            'sequence':84,
-            'code':'LT3',
-            'number_of_days': 9,
-            'number_of_hours': 9.0,
+            'name':'Tunjangan Hari Raya',
+            'sequence':60,
+            'code':'THR',
+            'amount': 0.0,
             'contract_id': self.contract_id.id})
 
         return res

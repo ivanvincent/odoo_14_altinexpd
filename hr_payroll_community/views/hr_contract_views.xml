@@ -71,6 +71,11 @@
                         <field name="tunjangan_shift3" nolabel="1"/>
                         <span>/ day</span>
                     </div>
+                    <label for="iuran_pensiun"/>
+                    <div class="o_row">
+                        <field name="iuran_pensiun" nolabel="1"/>
+                        <span>/ month</span>
+                    </div>
                 </group>
             </xpath>
             <xpath expr="//page[@name='information']" position="after">
