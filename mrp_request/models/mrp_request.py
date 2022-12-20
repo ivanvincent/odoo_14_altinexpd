@@ -195,11 +195,11 @@ class ManufacturingRequest(models.Model):
         bom_fusion = []
         if bom_obj:
             bom_obj._get_operations()
-            for b in fusion_project_id.detail_line_ids:
-                bom_fusion.append((0, 0, {'product_id':b.product_id.id,'product_qty':1}))
-                bom_obj.write({
-                    'bom_line_ids': bom_fusion,
-                })
+            # for b in fusion_project_id.detail_line_ids:
+            #     bom_fusion.append((0, 0, {'product_id':b.product_id.id,'product_qty':1}))
+            #     bom_obj.write({
+            #         'bom_line_ids': bom_fusion,
+            #     })
             return bom_obj
         else:
             bom_obj = self.env['mrp.bom'].create({
@@ -212,9 +212,9 @@ class ManufacturingRequest(models.Model):
             bom_obj._get_operations()
             for b in fusion_project_id.detail_line_ids:
                 bom_fusion.append((0, 0, {'product_id':b.product_id.id,'product_qty':1}))
-            bom_obj.write({
-                'bom_line_ids': bom_fusion,
-            })
+            # bom_obj.write({
+            #     'bom_line_ids': bom_fusion,
+            # })
             return bom_obj
     
     def _request_material(self, production_id):
