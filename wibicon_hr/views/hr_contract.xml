@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_hr_contract_additional_form" model="ir.ui.view">
+            <field name="name">hr.contract.additional.form</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <field name="type_id" position="after">
+                    <field name="cost_sharing"/>
+                </field>                
+                <field name="working_hours" position="before">
+                    <field name="resign_date"/>
+                    <field name="real_end_duration" attrs="{'invisible': [('resign_date','=', False)]}"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

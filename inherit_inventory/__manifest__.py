@@ -1,7 +1,7 @@
 {
     'name': "Inherit Inventory",
     'version': '1.0',
-    'depends': ['stock'],
+    'depends': ['stock', 'product_defect'],
     'author': "Yugi, Wibicon",
     'category': 'Category',
     'description': """
@@ -19,6 +19,7 @@
         'views/account_move.xml',
         'views/stock_move_line.xml',
         'views/stock_warehouse.xml',
+        'views/stock_move_sat.xml',
         # 'views/product_category.xml',
         # 'report/report_product_persupplier.xml',
         # 'wizard/product_persupplier_wizard.xml',

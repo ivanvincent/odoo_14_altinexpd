@@ -60,6 +60,8 @@ class MrpWorkOrderLine(models.Model):
     waste_ids       = fields.One2many('mrp.waste', 'workorder_line_id', string='Waste')
     afkir_ids       = fields.One2many('mrp.afkir', 'workorder_line_id', string='Afkir')
     wo_daily_id     = fields.Many2one('workorder.daily', 'Workorder Daily')
+    workorder_fat_ids = fields.One2many('workorder.fat', 'workorder_line_id', 'Line')
+    
     
     def _read(self, fields):
         res = super()._read(fields)
@@ -69,3 +71,7 @@ class MrpWorkOrderLine(models.Model):
                 self.env.cache.set(record, name_field,' '+ record.workcenter_id.name + ' ' + record.production_id.name )
         return res
     
+    def action_open_detail_fat(self):
+        action = self.env.ref('mrp_request.mrp_workorder_line_fat_action').read()[0]
+        action['res_id'] = self.id
+        return action

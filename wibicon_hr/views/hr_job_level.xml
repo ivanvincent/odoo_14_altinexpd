@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_job_level_tree" model="ir.ui.view">
+            <field name="name">hr.job.level.tree</field>
+            <field name="model">hr.job.level</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Job Level List">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_job_level_form" model="ir.ui.view">
+            <field name="name">hr.job.level.form</field>
+            <field name="model">hr.job.level</field>
+            <field name="type">form</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+            <form string="Job Level Form">
+                <group>
+                    <field name="name"/>
+                </group>
+            </form>
+            </field>
+        </record>
+
+        <record id="action_job_level_list" model="ir.actions.act_window">
+            <field name="name">Job Level List</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.job.level</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a job level
+                </p>
+            <p>klik tombol create untuk menambah job level</p>
+            </field>
+        </record>
+
+        <menuitem id="job_levels"
+                name="Job Levels"
+                parent="hr_recruitment.menu_hr_recruitment_configuration"
+                action="action_job_level_list"
+                sequence="6"/>
+
+    </data>
+</openerp>

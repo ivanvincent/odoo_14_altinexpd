@@ -1,6 +1,7 @@
 from email.policy import default
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
+from datetime import datetime
 
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
@@ -23,6 +24,9 @@ class MrpProduction(models.Model):
     ukuran           = fields.Char(string='Ukuran')
     kode_bahan       = fields.Char(string='Kode Bahan')
     is_highrisk      = fields.Boolean(string='Is Highrisk?', default=False)
+    picking_finished_id = fields.Many2one('stock.picking', string='Picking Finished')
+    picking_request_ids      = fields.Many2many('stock.picking', string='Picking Request',compute="_compute_picking_request")
+    picking_request_count    = fields.Integer( string='Picking Request Amount',compute="_compute_picking_request")
     
     
     def action_split_workorder(self):
@@ -100,6 +104,49 @@ class MrpProduction(models.Model):
         ctx = self.env.context
         for mrp in self.env['mrp.production'].browse(ctx.get('active_ids', [])):
             mrp.write({'is_highrisk': False})
+
+
+    def create_picking_finished(self):
+        picking_finished_id = self.env['stock.picking'].sudo().create({
+            'picking_type_id': self.type_id.picking_type_finished_id.id,
+            'date': fields.Date.today(),
+            'scheduled_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            'production_id':self.id,
+            'origin':self.name,
+            "location_id":self.picking_type_id.default_location_dest_id.id,
+            "location_dest_id":self.type_id.picking_type_finished_id.default_location_dest_id.id,
+            'immediate_transfer': False,
+            'move_line_nosuggest_ids': [(0,0,{
+                    'product_id': self.product_id.id,
+                    # 'lot_id': self.lot_producing_id.id,
+                    # 'lot_name': self.lot_producing_id.name,
+                    'product_uom_id': self.product_id.uom_id.id,
+                    "location_id":self.picking_type_id.default_location_dest_id.id,
+                    "location_dest_id":self.type_id.picking_type_finished_id.default_location_dest_id.id,
+                    
+                    # 'qty_done': self.qty_producing,
+                    'qty_done': self.product_qty,
+                    'company_id':self.env.company.id,
+                })],
+            'move_lines': [(0,0,{
+                'name': self.product_id.name,
+                'picking_type_id': self.type_id.picking_type_finished_id.id,
+                'date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                'product_id': self.product_id.id,
+                "location_id":self.picking_type_id.default_location_src_id.id,
+                "location_dest_id":self.type_id.picking_type_finished_id.default_location_dest_id.id,
+                'product_uom': self.product_id.uom_id.id,
+                'product_uom_qty': self.product_qty,
+                # 'product_uom_qty': self.qty_producing,
+                'company_id': self.env.company.id,
+                })],
+            
+        })
+        
+        # picking_finished_id.action_confirm()
+        # picking_finished_id.button_validate()
+        
+        return picking_finished_id
     
     # def button_mark_done(self):
     #     print('button_mark_done',self.product_qty)
@@ -107,3 +154,58 @@ class MrpProduction(models.Model):
     #     res = super(MrpProduction, self).button_mark_done()
     #     self.product_qty = a
     #     return res
+
+    def button_mark_done(self):
+    #     if self.type_id.name == 'DYEING':
+    #         ## UPDATE BOM
+    #         self.bom_id.bom_line_ids = False
+    #         self.bom_id.write({
+    #             'bom_line_ids': [(0, 0, {
+    #                 'product_id' : b.product_id.id,
+    #                 'product_qty' : b.product_uom_qty,
+    #                 'product_uom_id' : b.product_id.uom_id.id,
+    #             }) for b in self.move_raw_ids]
+    #         })
+        res = super(MrpProduction, self).button_mark_done()
+        
+        
+        if res is True and self.type_id:
+            self.picking_finished_id = self.create_picking_finished()
+            # self.picking_finished_id.action_confirm()
+            # self.picking_finished_id.button_validate()
+        return res
+    
+    def action_view_inspect(self):
+        # _logger.warning('='*40)
+        return {
+            'res_model': 'produksi.inspect',
+            'type': 'ir.actions.act_window',
+            'name': _("Inspect Finish Goods"),
+            'domain': [('production_id', '=', self.id)],
+            'view_mode': 'tree,form',
+        }
+
+    def action_view_request_picking(self):
+        result = self.env["ir.actions.actions"]._for_xml_id('stock.action_picking_tree_all')
+        pick_ids = self.mapped('picking_request_ids')
+        if not pick_ids or len(pick_ids) > 1:
+            result['domain'] = "[('id','in',%s)]" % (pick_ids.ids)
+        elif len(pick_ids) == 1:
+            res = self.env.ref('stock.view_picking_form', False)
+            form_view = [(res and res.id or False, 'form')]
+            if 'views' in result:
+                result['views'] = form_view + [(state,view) for state,view in result['views'] if view != 'form']
+            else:
+                result['views'] = form_view
+            result['res_id'] = pick_ids.id
+        return result
+    
+    # @api.depends('mrp_request_id')
+    def _compute_picking_request(self):
+        for production in self:
+            picking_ids = self.env['stock.picking'].search([('production_id','=',production.id)])
+            # inspect_ids = self.env['produksi.inspect'].search([('production_id','=',production.id)])
+            production.picking_request_count = len(picking_ids)
+            production.picking_request_ids = [(4,picking.id) for picking in picking_ids] if picking_ids else False
+            # production.inspect_ids         = [(4,inspect.id) for inspect in inspect_ids] if inspect_ids else False
+            # production.inspected_qty         = sum(inspect_ids.mapped('panjang_jadi')) if inspect_ids else False

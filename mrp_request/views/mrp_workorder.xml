@@ -53,6 +53,7 @@
                                 <field name="employee_id" options="{'no_open': True, 'no_create': True}"/>
                                 <field name="shift"/>
                                 <field name="product_uom_qty"/>
+                                <button name="action_open_detail_fat" type="object" string="FAT" class="oe_highlight"/>
                             </tree>
                         </field>
                     </page>

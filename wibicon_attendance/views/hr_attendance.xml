@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <record id="wibicon_view_attendace_absen" model="ir.ui.view">
+            <field name="name">additional.form.hr.attendance</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                        <header>
+                            <button name="action_generate_absensi" string="Generate Absen" type="object"/>
+                        </header>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

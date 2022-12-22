@@ -1,0 +1,6 @@
+"id","name","sequence"
+"stage_1","Seleksi Administrasi","0"
+"stage_2","Test Psikologi","10"
+"stage_3","Test Interview","20"
+"stage_4","Reject","30"
+"stage_5","Diterima","40"

@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-
+from datetime import datetime
 class WorkorderDaily(models.Model):
     _name = 'workorder.daily'
 
@@ -23,3 +23,41 @@ class WorkorderDaily(models.Model):
                     'message' : 'Hasil Scanner %s' % (self.scanner)
                 }
             }
+
+    @api.model
+    def scan_is_start(self, mo_name):
+        print('====== scan_is_start ====')
+        mo_obj = self.env['mrp.production'].search([('name', '=', mo_name)])
+        user_id = self.env.user
+        wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)])
+        if not wo_obj.date_planned_start:
+            wo_obj.button_start()
+            return True
+        else:
+            return False
+
+    @api.model
+    def input_wo_daily(self, mo_name, machine_name, shift, qty, wo_daily_id):
+        try:
+            user_id = self.env.user
+            mo_obj = self.env['mrp.production'].search([('name', '=', mo_name)])
+            machine_obj = self.env['mrp.machine'].search([('name', '=', machine_name)])
+            if mo_name and user_id:
+                wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)])
+                wo_obj.write({
+                    'workorder_ids': [(0, 0, {
+                        'date': fields.Date.today(),
+                        'workcenter_id': user_id.workcenter_id.id,
+                        'employee_id': user_id.employee_id.id,
+                        'product_uom_qty': qty,
+                        'wo_daily_id': wo_daily_id,
+                        'machine_id': machine_obj.id,
+                    })]
+                })
+                if wo_obj.production_qty == wo_obj.actual_qty:
+                    wo_obj.button_done()
+                return "Data berhasil diinput"
+        except Exception as e:            
+            return e
+            print(e)
+

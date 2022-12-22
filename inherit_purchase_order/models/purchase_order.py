@@ -17,8 +17,12 @@ class PurchaseOrder(models.Model):
     street_delivery      = fields.Many2one('street.delivery', string='Street Delivery')
     date_datang_barang   = fields.Text(string='Dtg Barang', compute="_compute_date_datang_barang")
     lot_id               = fields.Many2one('stock.production.lot', string='Lot / serial number', related='order_line.lot_id')
-    
-    
+    purchase_order_offer_line_ids = fields.One2many('purchase.order.offer', 'purchase_id', 'Line')
+    state                 = fields.Selection(selection_add=[('approve', 'Approve')])
+
+    def action_approve(self):
+        self.state = 'approve'
+
     def button_reject(self):
         for order in self:
                 order.write({'state': 'reject'})
@@ -65,6 +69,22 @@ class PurchaseOrder(models.Model):
         picking_obj = self.env['stock.picking'].search([('purchase_id_2', '=', self.id)])
         for order in self:
             order.total_release = len(picking_obj)
+
+    # Start Override from base odoo
+    def button_confirm(self):
+        for order in self:
+            if order.state not in ['draft', 'sent', 'approve']:
+                continue
+            order._add_supplier_to_product()
+            # Deal with double validation process
+            if order._approval_allowed():
+                order.button_approve()
+            else:
+                order.write({'state': 'to approve'})
+            if order.partner_id not in order.message_partner_ids:
+                order.message_subscribe([order.partner_id.id])
+        return True
+    # End Override from base odoo
 
     @api.model
     def create(self, vals):

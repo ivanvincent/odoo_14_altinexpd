@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="mrp_workorder_line_fat_form" model="ir.ui.view">
+            <field name="name">mrp.workorder.line.form</field>
+            <field name="model">mrp.workorder.line</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <field name="workorder_fat_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="defect_id"/>
+                                <field name="quantity"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="mrp_workorder_line_fat_action" model="ir.actions.act_window">
+            <field name="name">Fat</field>
+            <field name="res_model">mrp.workorder.line</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="mrp_workorder_line_fat_form"/>
+        </record>
+    
+    </data>
+    
+
+</odoo>

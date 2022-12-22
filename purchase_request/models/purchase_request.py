@@ -260,7 +260,10 @@ class PurchaseRequest(models.Model):
         query = "select max(id) from purchase_request;"
         self._cr.execute(query)
         result = self._cr.fetchone()
-        vals["name"] = 'New - %s' % int(result[0] + 1)
+        next_id = 0
+        if result[0]:
+            next_id = result[0]
+        vals["name"] = 'New - %s' % int(next_id + 1)
 
         # self.change_name()
         request = super(PurchaseRequest, self).create(vals)
@@ -301,7 +304,7 @@ class PurchaseRequest(models.Model):
 
     def button_to_approve(self):
         self.to_approve_allowed_check()
-        if self.name.lower() == 'new' :
+        if self.name.split('-')[0] == 'New ':
             # name = self.env['ir.sequence'].warehuse_sequencing(self.picking_type_id.warehouse_id.code, self.picking_type_id.warehouse_id.name)
             seq = self.location_id.pr_sequence_id
             if not seq:

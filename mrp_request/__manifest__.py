@@ -4,7 +4,7 @@
   'company': 'Wibicon',
   'version': '1.0',
   'depends': [
-    'base','mrp','inherit_product','base_master','sale','wibicon_altinex_sale'
+    'base','mrp','inherit_product','base_master','sale','wibicon_altinex_sale', 'product_defect'
   ],
   'data': [
     'security/security.xml',
@@ -23,6 +23,7 @@
     'views/mrp_waste_category.xml',
     'views/mrp_afkir.xml',
     'views/mrp_waste.xml',
+    'views/workorder_fat.xml',
     'views/mrp_workorder_line.xml',
     'views/mrp_workorder_line_operator.xml',
     'views/mrp_workorder_line_type.xml',
@@ -34,6 +35,7 @@
     'views/mrp_workcenter.xml',
     'views/workorder_daily.xml',
     'views/res_users.xml',
+    
     # 'wizard/mrp_workoder_split_wizard.xml',
     'wizard/mrp_production_wizard.xml',
     'wizard/workorder_daily_wizard.xml',
