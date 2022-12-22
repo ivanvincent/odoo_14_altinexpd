@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="report.paperformat" id="paperformat_report_staff">
+            <field name="name">Report Staff</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_width">70</field>
+            <field name="page_height">100</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_right">5</field>
+            <field name="margin_left">5</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+        </record>
+
+        <report id="action_report_staff" model="hr.employee" string="Print ID Card Staff" report_type="qweb-pdf" name="my_report.report_staff" file="my_report.report_staff" />
+
+        <record id="action_report_staff" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_report_staff" />
+        </record>
+
+        <template id="report_staff">
+            <t t-call="web.basic_layout">
+            <td>test</td>
+                <style>
+                    .bg-card {
+                        background-image: url(/my_report/static/src/template_staff.png);
+                        background-repeat: no-repeat;
+                        background-size: 100%;
+                        background-size: cover;
+                        width: 5px;
+                        height: 5px;
+                    }
+                    .qr {
+                        width: 5px;
+                        height: 5px;
+                        <!-- background-color: purple; -->
+                        float: right;
+                        margin-right: 10px;
+                        margin-top: 0px;
+                    }
+                </style>
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <div class="bg-card">
+                            <div class="qr"></div>
+                            <img class="qr"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+
+
+</odoo>
