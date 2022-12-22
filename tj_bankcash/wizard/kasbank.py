@@ -40,14 +40,14 @@ class tj_kasbank_wizard(models.TransientModel):
             (select name from account_journal aj where aj.id=data.journal_id) as journal,
             data.* from (
 
-            select '"""+ date.strftime('%Y-%m-%d') +"""' as date,b.journal_id,0 as account_id,0 as partner_id,'' as ref,'' as note,'' as name,'' as number,sum(b.amount) as sawal,0 as penerimaan,0 as pengeluaan,0 as sakir,1 as id, '' as code from account_bank_statement a left join account_bank_statement_line b on a.id=b.statement_id  where """ + where_journal + """ and  """+ where_end_date_awal +""" group by b.journal_id
+            select '"""+ date.strftime('%Y-%m-%d') +"""' as date,a.journal_id,0 as account_id,0 as partner_id,'' as ref,'' as note,'' as name,'' as number,sum(b.amount) as sawal,0 as penerimaan,0 as pengeluaan,0 as sakir,1 as id, '' as code from account_bank_statement a left join account_bank_statement_line b on a.id=b.statement_id  where """ + where_journal + """ and  """+ where_end_date_awal +""" group by a.journal_id
                   
             UNION
-            select b.date_2,b.journal_id, 0 as account_id,b.partner_id,b.ref_2,b.narration_2,b.payment_ref,a.number,0 as sawal,b.amount as penerimaan,0 as pengeluaran,0 sakir,b.id, a.name as code from account_bank_statement a left join account_bank_statement_line b on a.id=b.statement_id  where """ + where_journal + """ and b.amount > 0
+            select b.date_2,a.journal_id, 0 as account_id,b.partner_id,b.ref_2,b.narration_2,b.payment_ref,a.number,0 as sawal,b.amount as penerimaan,0 as pengeluaran,0 sakir,b.id, a.name as code from account_bank_statement a left join account_bank_statement_line b on a.id=b.statement_id  where """ + where_journal + """ and b.amount > 0
                   and """+ where_start_date +""" and """+ where_end_date +"""
 
             UNION
-            select b.date_2,b.journal_id,0 as account_id,b.partner_id,b.ref_2,b.narration_2,b.payment_ref,a.number,0 as sawal,0 as penerimaan,-b.amount as pengeluaran,0 as sakir,b.id, a.name as code from account_bank_statement a left join account_bank_statement_line b on a.id=b.statement_id  where """ + where_journal + """ and b.amount < 0
+            select b.date_2,a.journal_id,0 as account_id,b.partner_id,b.ref_2,b.narration_2,b.payment_ref,a.number,0 as sawal,0 as penerimaan,-b.amount as pengeluaran,0 as sakir,b.id, a.name as code from account_bank_statement a left join account_bank_statement_line b on a.id=b.statement_id  where """ + where_journal + """ and b.amount < 0
                 and """+ where_start_date +""" and """+ where_end_date +"""                  
                 
                 ) data
