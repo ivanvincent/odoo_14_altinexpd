@@ -30,6 +30,7 @@ class res_company(models.Model):
             ('modern', 'Modern'),
             ('odoo_standard', 'Odoo Standard'),
         ], 'Account')
+    background_badge = fields.Binary(string='Background Badge')
 
 
 class account_invoice(models.Model):

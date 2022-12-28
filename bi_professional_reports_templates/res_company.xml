@@ -16,6 +16,9 @@
                         <field name="stock_template"/>
                     </group>
                 </field>
+                <field name="favicon" position="after">
+                    <field name="background_badge" widget="image" class="float-left oe_avatar" groups="base.group_no_one"/>
+                </field>
             </field>
         </record>
            <record id="account_invoice_inherit_form_view" model="ir.ui.view">
