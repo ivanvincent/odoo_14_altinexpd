@@ -15,13 +15,13 @@
                             <td><strong>Designation</strong></td>
                             <td><span t-field="o.employee_id.job_id"/></td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td><strong>Address</strong></td>
                             <td colspan="3">
                                 <div t-field="o.employee_id.address_home_id"
                                     t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
                             </td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td><strong>Email</strong></td>
                             <td><span t-field="o.employee_id.work_email"/></td>
@@ -42,23 +42,37 @@
                         </tr>
                     </table>
 
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Number of Days</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.worked_days_line_ids" t-as="line">
+                                <td><span t-field="line.name"/></td>
+                                <td><span t-field="line.number_of_days"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th>Code</th>
+                                <!-- <th>Code</th> -->
                                 <th>Name</th>
-                                <th>Quantity/rate</th>
-                                <th>Amount</th>
+                                <!-- <th>Quantity/rate</th> -->
+                                <!-- <th>Amount</th> -->
                                 <th>Total</th>
                             </tr>
                         </thead>
                         <tbody>
                                 <tr t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="line">
-                                <td><span t-field="line.code"/></td>
+                                <!-- <td><span t-field="line.code"/></td> -->
                                 <td><span t-field="line.name"/></td>
-                                <td><span t-field="line.quantity"/></td>
-                                <td><span t-esc="line.amount"
-                                          t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
+                                <!-- <td><span t-field="line.quantity"/></td> -->
+                                <!-- <td><span t-esc="line.amount" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td> -->
                                 <td><span t-esc="line.total"
                                           t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
 
@@ -66,7 +80,7 @@
                         </tbody>
                     </table>
 
-                    <p class="text-right"><strong>Authorized signature</strong></p>
+                    <!-- <p class="text-right"><strong>Hormat</strong></p> -->
                 </div>
             </t>
         </t>

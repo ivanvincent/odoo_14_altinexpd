@@ -34,7 +34,7 @@ class HrPayslip(models.Model):
         absenses = self.get_absenses(res,presense)
 
         res.append({
-            'name':'Presenses',
+            'name':'Kehadiran',
             'sequence':10,
             'code':'PRES',
             'number_of_days': presense,
@@ -49,45 +49,45 @@ class HrPayslip(models.Model):
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
 
-        res.append({
-            'name':'Absences',
-            'sequence':30,
-            'code':'ABS',
-            'number_of_days': absenses,
-            'number_of_hours': 0.0,
-            'contract_id': self.contract_id.id})
+        # res.append({
+        #     'name':'Absences',
+        #     'sequence':30,
+        #     'code':'ABS',
+        #     'number_of_days': absenses,
+        #     'number_of_hours': 0.0,
+        #     'contract_id': self.contract_id.id})
 
-        res.append({
-            'name':'Ijin Normatif',
-            'sequence':40,
-            'code':'ICN',
-            'number_of_days': 0,
-            'number_of_hours': 0.0,
-            'contract_id': self.contract_id.id})
+        # res.append({
+        #     'name':'Ijin Normatif',
+        #     'sequence':40,
+        #     'code':'ICN',
+        #     'number_of_days': 0,
+        #     'number_of_hours': 0.0,
+        #     'contract_id': self.contract_id.id})
 
-        res.append({
-            'name':'Ijin Tidak Masuk',
-            'sequence':50,
-            'code':'ITM',
-            'number_of_days': 0,
-            'number_of_hours': 0.0,
-            'contract_id': self.contract_id.id})
+        # res.append({
+        #     'name':'Ijin Tidak Masuk',
+        #     'sequence':50,
+        #     'code':'ITM',
+        #     'number_of_days': 0,
+        #     'number_of_hours': 0.0,
+        #     'contract_id': self.contract_id.id})
 
-        res.append({
-            'name':'Terlambat',
-            'sequence':60,
-            'code':'TLT',
-            'number_of_days': 0,
-            'number_of_hours': 0.0,
-            'contract_id': self.contract_id.id})
+        # res.append({
+        #     'name':'Terlambat',
+        #     'sequence':60,
+        #     'code':'TLT',
+        #     'number_of_days': 0,
+        #     'number_of_hours': 0.0,
+        #     'contract_id': self.contract_id.id})
 
-        res.append({
-            'name':'Pulang Sebelum Waktu',
-            'sequence':70,
-            'code':'PSW',
-            'number_of_days': 0,
-            'number_of_hours': 0.0,
-            'contract_id': self.contract_id.id})
+        # res.append({
+        #     'name':'Pulang Sebelum Waktu',
+        #     'sequence':70,
+        #     'code':'PSW',
+        #     'number_of_days': 0,
+        #     'number_of_hours': 0.0,
+        #     'contract_id': self.contract_id.id})
 
         return res
 

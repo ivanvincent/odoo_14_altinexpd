@@ -17,7 +17,7 @@
                 <field name="struct_id" required="1"/>
             </xpath>
             <xpath expr="//field[@name='type_id']" position="before">
-                <!--                <field name="company_id" groups="base.group_multi_company"/>-->
+                <field name="company_id" groups="base.group_multi_company"/>
                 <field name="currency_id" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='resource_calendar_id']" position="after">
@@ -64,11 +64,6 @@
                     <label for="tunjangan_keahlian"/>
                     <div class="o_row">
                         <field name="tunjangan_keahlian" nolabel="1"/>
-                        <span>/ day</span>
-                    </div>
-                    <label for="tunjangan_shift3"/>
-                    <div class="o_row">
-                        <field name="tunjangan_shift3" nolabel="1"/>
                         <span>/ day</span>
                     </div>
                     <label for="iuran_pensiun"/>
