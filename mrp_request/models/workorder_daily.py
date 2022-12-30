@@ -32,9 +32,17 @@ class WorkorderDaily(models.Model):
         wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)])
         if not wo_obj.date_planned_start:
             wo_obj.button_start()
-            return True
+            data = {
+                'is_start': True,
+                'workcenter_name': user_id.workcenter_id.name
+            }
+            return data
         else:
-            return False
+            data = {
+                'is_start': False,
+                'workcenter_name': user_id.workcenter_id.name
+            }
+            return DATA
 
     @api.model
     def input_wo_daily(self, mo_name, machine_name, shift, qty, wo_daily_id):
