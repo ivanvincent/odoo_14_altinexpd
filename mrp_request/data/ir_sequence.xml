@@ -7,5 +7,13 @@
             <field name="prefix">MR/%(year)s/%(month)s/</field>
             <field name="padding">5</field>
         </record>
+
+        <record model="ir.sequence" id="work_order_daily_sequence">
+            <field name="name">Work Order Daily</field>
+            <field name="code">workorder.daily.code</field>
+            <field name="prefix">WOD/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+        </record>
+
     </data>
 </odoo>

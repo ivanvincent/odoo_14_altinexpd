@@ -7,6 +7,7 @@
     'base','mrp','inherit_product','base_master','sale','wibicon_altinex_sale', 'product_defect'
   ],
   'data': [
+    'data/ir_sequence.xml',
     'security/security.xml',
     'security/ir.model.access.csv',
     'views/mrp_request.xml',

@@ -61,3 +61,27 @@ class WorkorderDaily(models.Model):
             return e
             print(e)
 
+    @api.model
+    def create(self, values):
+        seq = self.env['ir.sequence'].next_by_code('workorder.daily.code')
+        values['name'] = seq
+        result = super(WorkorderDaily, self).create(values)
+        return result
+
+    @api.model
+    def create_wo_daily(self, badge):
+        print('=========create_wo_daily=========')
+        employee_id = self.env['hr.employee'].search([('barcode', '=', badge)])
+        wod_obj = self.search([('employee_id', '=', employee_id.id), ('date', '<=', fields.Date.today()), ('date', '>=', fields.Date.today())])
+        data = {
+                'wo_id': wod_obj.id,
+                'name': wod_obj.name,
+                'date': wod_obj.date,
+                'employee_id': employee_id.id
+            }
+        if not wod_obj:
+            wod_obj.create({
+                'date': fields.Date.today(),
+                'employee_id': employee_id.id
+            })
+        return data
