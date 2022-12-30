@@ -40,7 +40,10 @@ class WorkorderDaily(models.Model):
         else:
             data = {
                 'is_start': False,
-                'workcenter_name': user_id.workcenter_id.name
+                'workcenter_name': user_id.workcenter_id.name,
+                'production_qty': wo_obj.production_qty,
+                'actual_qty': wo_obj.actual_qty,
+                'remaining_qty': wo_obj.production_qty - wo_obj.actual_qty
             }
             return data
 
