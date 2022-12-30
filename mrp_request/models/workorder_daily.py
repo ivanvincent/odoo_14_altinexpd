@@ -68,6 +68,7 @@ class WorkorderDaily(models.Model):
         result = super(WorkorderDaily, self).create(values)
         return result
 
+    @api.model
     def create_wo_daily(self, badge):
         print('=========create_wo_daily=========')
         employee_id = self.env['hr.employee'].search([('barcode', '=', badge)])
