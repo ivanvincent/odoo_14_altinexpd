@@ -42,7 +42,7 @@ class WorkorderDaily(models.Model):
                 'is_start': False,
                 'workcenter_name': user_id.workcenter_id.name
             }
-            return DATA
+            return data
 
     @api.model
     def input_wo_daily(self, mo_name, machine_name, shift, qty, wo_daily_id):
