@@ -78,10 +78,18 @@ class WorkorderDaily(models.Model):
                 'date': fields.Date.today(),
                 'employee_id': employee_id.id
             })
-        data = {
-                'wo_id': wod_obj.id,
-                'name': wod_obj.name,
-                'date': wod_obj.date,
-                'employee_id': employee_id.id
-            }
-        return data
+            data = {
+                    'wo_id': wod_obj.id,
+                    'name': wod_obj.name,
+                    'date': wod_obj.date,
+                    'employee_id': employee_id.id
+                }
+            return data
+        else:
+            data = {
+                    'wo_id': wod_obj.id,
+                    'name': wod_obj.name,
+                    'date': wod_obj.date,
+                    'employee_id': employee_id.id
+                }
+            return data
