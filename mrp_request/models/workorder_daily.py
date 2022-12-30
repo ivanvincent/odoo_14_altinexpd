@@ -31,7 +31,7 @@ class WorkorderDaily(models.Model):
         user_id = self.env.user
         wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)])
         if not wo_obj.date_planned_start:
-            wo_obj.button_start()
+            wo_obj.sudo().button_start()
             data = {
                 'is_start': True,
                 'workcenter_name': user_id.workcenter_id.name
