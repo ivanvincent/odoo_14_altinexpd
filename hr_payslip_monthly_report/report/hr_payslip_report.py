@@ -47,7 +47,6 @@ class PayrollReportView(models.Model):
     rule_amount = fields.Float(string="Amount")
     struct_id = fields.Many2one('hr.payroll.structure', string="Salary Structure")
     rule_id = fields.Many2one('hr.salary.rule', string="Salary Rule")
-    thp = fields.Float(string="Take Home Pay")
 
     def _select(self):
         select_str = """
