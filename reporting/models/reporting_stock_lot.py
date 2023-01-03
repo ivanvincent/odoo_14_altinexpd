@@ -48,13 +48,13 @@ class ReportingStockLot(models.Model):
 
 
     def action_calculate(self):
-        if self.warehouse_id.group_reporting == 'greige':
-            self.action_delete_reporting()
-            self.action_calculate_greige()
-            self.action_insert_list_lot()
-        elif self.warehouse_id.group_reporting == 'benang':
-            self.action_delete_reporting()
-            self.action_calculate_benang()
+        # if self.warehouse_id.group_reporting == 'greige':
+        #     self.action_delete_reporting()
+        #     self.action_calculate_greige()
+        #     self.action_insert_list_lot()
+        # elif self.warehouse_id.group_reporting == 'benang':
+        self.action_delete_reporting()
+        self.action_calculate_benang()
 
     def action_delete_reporting(self):
         query = """
@@ -94,167 +94,6 @@ class ReportingStockLot(models.Model):
 
 
 
-    # @api.multi
-    def action_calculate_greige(self):
-        date_opname = self.inventory_date
-        date_start = " '%s 00:00:00' "%self.start_date
-        date_end = " '%s 23:59:59' "%self.end_date
-        where_product_category_id = " 1=1 "
-        if self.product_category_id:
-            where_product_category_id = " ppt.categ_id = %s "%self.product_category_id.id
-
-        query = """
-        -- BEGIN DETAIL
-            insert into reporting_stock_lot_line (reporting_id, product_id, grade_id, kelompok, qty_start, qty_in, qty_out, return_in, return_out, adjustment_in, adjustment_out, qty_balance) (
-                select %s as reporting_id, product_id, grade_id, kelompok, sum(qty_start) as qty_start, sum(qty_in) as qty_in, sum(qty_out) as qty_out, sum(return_in) as return_in, sum(return_out) as return_out, sum(adjustment_in) as adjustment_in, sum(adjustment_out) as adjustment_out, sum(qty_start) + sum(qty_in) + sum(return_in) - sum(qty_out) - sum(return_out) + sum(adjustment_in) - sum(adjustment_out) as qty_balance
-                from (
-                    -- BEGIN SALDO AWAL
-                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, sml.qty_done as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
-                    from stock_move_line sml, stock_move sm, product_product pp, product_template ppt where sml.move_id = sm.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.inventory_id = %s and %s
-                    union
-                    select row_number() OVER () as id, product_id, grade_id, kelompok, sum(qty_start) + sum(qty_in) + sum(return_in) - sum(qty_out) - sum(return_out) + sum(adjustment_in) - sum(adjustment_out) as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance
-                    from (
-                        select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, 0 as qty_start, sml.qty_done as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
-                        from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done > '%s' and sp.date_done < %s and sml.location_dest_id = %s and spt.return_type is null and sm.state = 'done' and %s
-                        union
-                        select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, 0 as qty_start, 0 as qty_in, sml.qty_done as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
-                        from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done > '%s' and sp.date_done < %s and sml.location_id = %s and spt.return_type is null and sm.state = 'done' and %s
-                        union
-                        select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, 0 as qty_start, 0 as qty_in, 0 as qty_out, sml.qty_done as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
-                        from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done > '%s' and sp.date_done < %s and sml.location_dest_id = %s and spt.return_type in ('return_out','return_in') and sm.state = 'done' and %s
-                        union
-                        select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, sml.qty_done as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
-                        from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done > '%s' and sp.date_done < %s and sml.location_id = %s and spt.return_type in ('return_out','return_in') and sm.state = 'done' and %s
-                        union
-                        select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, sml.qty_done as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
-                        from stock_move_line sml, stock_move sm, product_product pp, product_template ppt where sml.move_id = sm.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.inventory_id is not null and sm.inventory_id <> %s and sml.date > '%s' and sml.date < %s and sml.location_dest_id = %s and sm.state = 'done' and %s
-                        union
-                        select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, sml.qty_done as adjustment_out, 0 as qty_balance 
-                        from stock_move_line sml, stock_move sm, product_product pp, product_template ppt where sml.move_id = sm.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.inventory_id is not null and sm.inventory_id <> %s and sml.date > '%s' and sml.date < %s and sml.location_id = %s and sm.state = 'done' and %s
-                    ) as a group by product_id, grade_id, kelompok
-                    -- END SALDO AWAL
-
-                    -- Receipt
-                    union
-                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, 0 as qty_start, sml.qty_done as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
-                    from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done >= %s and sp.date_done <= %s and sml.location_dest_id = %s and spt.return_type is null and sm.state = 'done' and %s
-
-                    -- Release
-                    union
-                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, 0 as qty_start, 0 as qty_in, sml.qty_done as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
-                    from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done >= %s and sp.date_done <= %s and sml.location_id = %s and spt.return_type is null and sm.state = 'done' and %s
-
-                    -- Retur In
-                    union
-                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, 0 as qty_start, 0 as qty_in, 0 as qty_out, sml.qty_done as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
-                    from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done >= %s and sp.date_done <= %s and sml.location_dest_id = %s and spt.return_type in ('return_out','return_in') and sm.state = 'done' and %s
-
-                    -- Retur Out
-                    union
-                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, sml.qty_done as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
-                    from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done >= %s and sp.date_done <= %s and sml.location_id = %s and spt.return_type in ('return_out','return_in') and sm.state = 'done' and %s
-
-                    -- Adjustment In
-                    union
-                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, sml.qty_done as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
-                    from stock_move_line sml, stock_move sm, product_product pp, product_template ppt where sml.move_id = sm.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.inventory_id is not null and sm.inventory_id <> %s and sml.date >= %s and sml.date <= %s and sml.location_dest_id = %s and sm.state = 'done' and %s
-
-                    -- Adjustment Out
-                    union
-                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, sml.qty_done as adjustment_out, 0 as qty_balance 
-                    from stock_move_line sml, stock_move sm, product_product pp, product_template ppt where sml.move_id = sm.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.inventory_id is not null and sm.inventory_id <> %s and sml.date >= %s and sml.date <= %s and sml.location_id = %s and sm.state = 'done' and %s
-                ) as a group by product_id, grade_id, kelompok order by product_id, grade_id, kelompok
-            );
-        -- END DETAIL
-
-        -- BEGIN HISTORY IN
-            insert into reporting_stock_lot_line_history (reporting_id, move_line_id, move_id, picking_id, product_code, product_id, lot_id, grade_id, rack_id, qty, stock_type) (
-                select %s as reporting_id, sml.id, sm.id, sm.picking_id, pp.default_code, pp.id, sml.lot_id, sml.grade_id, sml.rack_id, sml.qty_done, 'receipt' as stock_type 
-                from stock_move_line sml
-                left join stock_move sm on sml.move_id = sm.id
-                left join stock_picking sp on sm.picking_id = sp.id
-                left join stock_picking_type spt on sp.picking_type_id = spt.id
-                left join product_product pp on sml.product_id = pp.id
-                where sp.date_done >= %s and sp.date_done <= %s and sml.location_dest_id = %s and spt.return_type is null and sm.state = 'done' and %s);
-
-        -- BEGIN HISTORY OUT
-            insert into reporting_stock_lot_line_history (reporting_id, move_line_id, move_id, picking_id, product_code, product_id, lot_id, grade_id, rack_id, qty, stock_type) (
-                select %s as reporting_id, sml.id, sm.id, sm.picking_id, pp.default_code, pp.id, sml.lot_id, sml.grade_id, sml.rack_id, sml.qty_done, 'release' as stock_type 
-                from stock_move_line sml
-                left join stock_move sm on sml.move_id = sm.id
-                left join stock_picking sp on sm.picking_id = sp.id
-                left join stock_picking_type spt on sp.picking_type_id = spt.id
-                left join product_product pp on sml.product_id = pp.id
-                where sp.date_done >= %s and sp.date_done <= %s and sml.location_id = %s and spt.return_type is null and sm.state = 'done' and %s);
-
-        -- BEGIN RETURN IN
-            insert into reporting_stock_lot_line_history (reporting_id, move_line_id, move_id, picking_id, product_code, product_id, lot_id, grade_id, rack_id, qty, stock_type) (
-                select %s as reporting_id, sml.id, sm.id, sm.picking_id, pp.default_code, pp.id, sml.lot_id, sml.grade_id, sml.rack_id, sml.qty_done, 'return_in' as stock_type 
-                from stock_move_line sml
-                left join stock_move sm on sml.move_id = sm.id
-                left join stock_picking sp on sm.picking_id = sp.id
-                left join stock_picking_type spt on sp.picking_type_id = spt.id
-                left join product_product pp on sml.product_id = pp.id
-                where sp.date_done >= %s and sp.date_done <= %s and sml.location_dest_id = %s and spt.return_type in ('return_out','return_in') and sm.state = 'done' and %s);
-
-        -- BEGIN RETURN OUT
-            insert into reporting_stock_lot_line_history (reporting_id, move_line_id, move_id, picking_id, product_code, product_id, lot_id, grade_id, rack_id, qty, stock_type) (
-                select %s as reporting_id, sml.id, sm.id, sm.picking_id, pp.default_code, pp.id, sml.lot_id, sml.grade_id, sml.rack_id, sml.qty_done, 'return_out' as stock_type 
-                from stock_move_line sml
-                left join stock_move sm on sml.move_id = sm.id
-                left join stock_picking sp on sm.picking_id = sp.id
-                left join stock_picking_type spt on sp.picking_type_id = spt.id
-                left join product_product pp on sml.product_id = pp.id
-                where sp.date_done >= %s and sp.date_done <= %s and sml.location_id = %s and spt.return_type in ('return_out','return_in') and sm.state = 'done' and %s);
-
-        -- BEGIN ADJUSTMENT IN
-            insert into reporting_stock_lot_line_history (reporting_id, picking_id, move_line_id, product_code, product_id, lot_id, grade_id, stock_type) (
-                select %s as reporting_id, sm.picking_id as picking_id, sml.id as move_line_id, pp.default_code as product_code, sml.product_id as product_id, sml.lot_id as lot_id, sml.grade_id as grade_id, 'adjustment_in' as stock_type 
-                from stock_move_line sml, stock_move sm, product_product pp
-                where sml.move_id = sm.id and sml.product_id = pp.id and sm.inventory_id is not null and sm.inventory_id <> %s and sml.date >= %s and sml.date <= %s and sml.location_dest_id = %s and sm.state = 'done' and %s);
-
-        -- BEGIN ADJUSTMENT OUT
-            insert into reporting_stock_lot_line_history (reporting_id, picking_id, move_line_id, product_code, product_id, lot_id, grade_id, stock_type) (
-                select %s as reporting_id, sm.picking_id as picking_id, sml.id as move_line_id, pp.default_code as product_code, sml.product_id as product_id, sml.lot_id as lot_id, sml.grade_id as grade_id, 'adjustment_out' as stock_type 
-                from stock_move_line sml, stock_move sm, product_product pp
-                where sml.move_id = sm.id and sml.product_id = pp.id and sm.inventory_id is not null and sm.inventory_id <> %s and sml.date >= %s and sml.date <= %s and sml.location_id = %s and sm.state = 'done' and %s);
-
-        DELETE FROM reporting_stock_lot_line where reporting_id = %s and qty_start = 0 and qty_in = 0 and qty_out = 0 and return_in = 0 and return_out = 0 and adjustment_in = 0 and adjustment_out = 0 and qty_balance = 0;
-        """%(
-            #head
-            self.id, self.inventory_id.id, where_product_category_id,
-            #saldo awal
-            date_opname, date_start, self.location_id.id, where_product_category_id,
-            date_opname, date_start, self.location_id.id, where_product_category_id,
-            date_opname, date_start, self.location_id.id, where_product_category_id,
-            date_opname, date_start, self.location_id.id, where_product_category_id,
-            self.inventory_id.id, date_opname, date_start, self.location_id.id, where_product_category_id,
-            self.inventory_id.id, date_opname, date_start, self.location_id.id, where_product_category_id,
-            
-            #detail
-            date_start, date_end, self.location_id.id, where_product_category_id,
-            date_start, date_end, self.location_id.id, where_product_category_id,
-            date_start, date_end, self.location_id.id, where_product_category_id,
-            date_start, date_end, self.location_id.id, where_product_category_id,
-            self.inventory_id.id, date_start, date_end, self.location_id.id, where_product_category_id,
-            self.inventory_id.id, date_start, date_end, self.location_id.id, where_product_category_id,
-            
-            #HISTORY IN
-            self.id, date_start, date_end, self.location_id.id, where_product_category_id,
-            self.id, date_start, date_end, self.location_id.id, where_product_category_id,
-            self.id, date_start, date_end, self.location_id.id, where_product_category_id,
-            self.id, date_start, date_end, self.location_id.id, where_product_category_id,
-            self.id, self.inventory_id.id, date_start, date_end, self.location_id.id, where_product_category_id,
-            self.id, self.inventory_id.id, date_start, date_end, self.location_id.id, where_product_category_id,
-
-            self.id
-            )
-        self._cr.execute(query)
-        for line in self.line_ids:
-            line.update_reporting_line()
-
-
-
     def action_calculate_benang(self):
         date_opname = self.inventory_date
         date_start = " '%s 00:00:00' "%self.start_date
@@ -265,67 +104,67 @@ class ReportingStockLot(models.Model):
 
         query = """
         -- BEGIN DETAIL
-            insert into reporting_stock_lot_line (reporting_id, product_id, grade_id, kelompok, lot_id, qty_start, qty_in, qty_out, return_in, return_out, adjustment_in, adjustment_out, qty_balance) (
-                select %s as reporting_id, product_id, grade_id, kelompok, lot_id, sum(qty_start) as qty_start, sum(qty_in) as qty_in, sum(qty_out) as qty_out, sum(return_in) as return_in, sum(return_out) as return_out, sum(adjustment_in) as adjustment_in, sum(adjustment_out) as adjustment_out, sum(qty_start) + sum(qty_in) + sum(return_in) - sum(qty_out) - sum(return_out) + sum(adjustment_in) - sum(adjustment_out) as qty_balance
+            insert into reporting_stock_lot_line (reporting_id, product_id, grade_id, lot_id, qty_start, qty_in, qty_out, return_in, return_out, adjustment_in, adjustment_out, qty_balance) (
+                select %s as reporting_id, product_id, grade_id, lot_id, sum(qty_start) as qty_start, sum(qty_in) as qty_in, sum(qty_out) as qty_out, sum(return_in) as return_in, sum(return_out) as return_out, sum(adjustment_in) as adjustment_in, sum(adjustment_out) as adjustment_out, sum(qty_start) + sum(qty_in) + sum(return_in) - sum(qty_out) - sum(return_out) + sum(adjustment_in) - sum(adjustment_out) as qty_balance
                 from (
                     -- BEGIN SALDO AWAL
-                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, sml.lot_id as lot_id, sml.qty_done as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
+                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, sml.lot_id as lot_id, sml.qty_done as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
                     from stock_move_line sml, stock_move sm, product_product pp, product_template ppt where sml.move_id = sm.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.inventory_id = %s and %s
                     union
-                    select row_number() OVER () as id, product_id, grade_id, kelompok, lot_id, sum(qty_start) + sum(qty_in) + sum(return_in) - sum(qty_out) - sum(return_out) + sum(adjustment_in) - sum(adjustment_out) as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance
+                    select row_number() OVER () as id, product_id, grade_id, lot_id, sum(qty_start) + sum(qty_in) + sum(return_in) - sum(qty_out) - sum(return_out) + sum(adjustment_in) - sum(adjustment_out) as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance
                     from (
-                        select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, sml.lot_id as lot_id, 0 as qty_start, sml.qty_done as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
+                        select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, sml.lot_id as lot_id, 0 as qty_start, sml.qty_done as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
                         from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done > '%s' and sp.date_done < %s and sml.location_dest_id = %s and spt.return_type is null and sm.state = 'done' and %s
                         union
-                        select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, sml.qty_done as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
+                        select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, sml.qty_done as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
                         from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done > '%s' and sp.date_done < %s and sml.location_id = %s and spt.return_type is null and sm.state = 'done' and %s
                         union
-                        select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, sml.qty_done as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
+                        select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, sml.qty_done as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
                         from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done > '%s' and sp.date_done < %s and sml.location_dest_id = %s and spt.return_type in ('return_out','return_in') and sm.state = 'done' and %s
                         union
-                        select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, sml.qty_done as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
+                        select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, sml.qty_done as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
                         from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done > '%s' and sp.date_done < %s and sml.location_id = %s and spt.return_type in ('return_out','return_in') and sm.state = 'done' and %s
                         union
-                        select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, sml.qty_done as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
+                        select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, sml.qty_done as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
                         from stock_move_line sml, stock_move sm, product_product pp, product_template ppt where sml.move_id = sm.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.inventory_id is not null and sm.inventory_id <> %s and sml.date > '%s' and sml.date < %s and sml.location_dest_id = %s and sm.state = 'done' and %s
                         union
-                        select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, sml.qty_done as adjustment_out, 0 as qty_balance 
+                        select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, sml.qty_done as adjustment_out, 0 as qty_balance 
                         from stock_move_line sml, stock_move sm, product_product pp, product_template ppt where sml.move_id = sm.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.inventory_id is not null and sm.inventory_id <> %s and sml.date > '%s' and sml.date < %s and sml.location_id = %s and sm.state = 'done' and %s
-                    ) as a group by product_id, grade_id, kelompok, lot_id
+                    ) as a group by product_id, grade_id, lot_id
                     -- END SALDO AWAL
 
                     -- Receipt
                     union
-                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, sml.lot_id as lot_id, 0 as qty_start, sml.qty_done as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
+                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, sml.lot_id as lot_id, 0 as qty_start, sml.qty_done as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
                     from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done >= %s and sp.date_done <= %s and sml.location_dest_id = %s and spt.return_type is null and sm.state = 'done' and %s
 
                     -- Release
                     union
-                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, sml.qty_done as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
+                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, sml.qty_done as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
                     from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done >= %s and sp.date_done <= %s and sml.location_id = %s and spt.return_type is null and sm.state = 'done' and %s
 
                     -- Retur In
                     union
-                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, sml.qty_done as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
+                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, sml.qty_done as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
                     from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done >= %s and sp.date_done <= %s and sml.location_dest_id = %s and spt.return_type in ('return_out','return_in') and sm.state = 'done' and %s
 
                     -- Retur Out
                     union
-                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, sml.qty_done as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
+                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, sml.qty_done as return_out, 0 as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
                     from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done >= %s and sp.date_done <= %s and sml.location_id = %s and spt.return_type in ('return_out','return_in') and sm.state = 'done' and %s
 
                     -- Adjustment In
                     union
-                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, sml.qty_done as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
+                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, sml.qty_done as adjustment_in, 0 as adjustment_out, 0 as qty_balance 
                     from stock_move_line sml, stock_move sm, product_product pp, product_template ppt where sml.move_id = sm.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.inventory_id is not null and sm.inventory_id <> %s and sml.date >= %s and sml.date <= %s and sml.location_dest_id = %s and sm.state = 'done' and %s
 
                     -- Adjustment Out
                     union
-                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, pp.kelompok as kelompok, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, sml.qty_done as adjustment_out, 0 as qty_balance 
+                    select row_number() OVER (), sml.product_id as product_id, sml.grade_id as grade_id, sml.lot_id as lot_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, sml.qty_done as adjustment_out, 0 as qty_balance 
                     from stock_move_line sml, stock_move sm, product_product pp, product_template ppt where sml.move_id = sm.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.inventory_id is not null and sm.inventory_id <> %s and sml.date >= %s and sml.date <= %s and sml.location_id = %s and sm.state = 'done' and %s
                 ) as a 
-                group by product_id, grade_id, kelompok, lot_id 
-                order by product_id, grade_id, kelompok, lot_id
+                group by product_id, grade_id, lot_id 
+                order by product_id, grade_id, lot_id
             );
         -- END DETAIL
 
