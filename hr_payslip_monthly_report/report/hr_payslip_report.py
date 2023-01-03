@@ -47,6 +47,7 @@ class PayrollReportView(models.Model):
     rule_amount = fields.Float(string="Amount")
     struct_id = fields.Many2one('hr.payroll.structure', string="Salary Structure")
     rule_id = fields.Many2one('hr.salary.rule', string="Salary Rule")
+    thp = fields.Float(string="Take Home Pay")
 
     def _select(self):
         select_str = """
@@ -66,6 +67,10 @@ class PayrollReportView(models.Model):
                 join res_company cmp on cmp.id=ps.company_id
              """
         return from_str
+    
+    def _where(self):
+        where_str = """psl.sequence = '80' """
+        return where_str
 
     def _group_by(self):
         group_by_str = """group by ps.number,ps.id,emp.id,dp.id,jb.id,cmp.id,ps.date_from,ps.date_to,ps.state,
@@ -77,7 +82,8 @@ class PayrollReportView(models.Model):
         self.env.cr.execute("""CREATE or REPLACE VIEW %s as ( SELECT
                    %s
                    FROM %s
+                   WHERE %s
                    %s
-                   )""" % (self._table, self._select(), self._from(), self._group_by()))
+                   )""" % (self._table, self._select(), self._from(), self._where(), self._group_by()))
 
 
