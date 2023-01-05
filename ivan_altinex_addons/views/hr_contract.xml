@@ -6,10 +6,104 @@
             <field name="model">hr.contract</field>
             <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='notes']" position="after">
-                    <field name="test"/>
+                <xpath expr="//field[@name='type_id']" position="after">
+                    <field name="wage_id"/>
+                    <field name="skill_id"/>
                 </xpath>
             </field>
         </record>
+
+        <record id="hr_contract_form_additional_allowance" model="ir.ui.view">
+            <field name="name">hr.contract.view.additional.allowance</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='salary_and_advantages']" position="after">
+                    <group string="Tunjangan Tidak Tetap" name='allowances'>
+                        <label for="tunjangan_keahlian"/>
+                        <div class="o_row">
+                            <field name="tunjangan_keahlian" nolabel="1"/>
+                            <span>/ day</span>
+                        </div>
+                        <label for="iuran_pensiun"/>
+                        <div class="o_row">
+                            <field name="iuran_pensiun" nolabel="1"/>
+                            <span>/ month</span>
+                        </div>
+                    </group>
+                </xpath>
+                <xpath expr="//page[@name='information']" position="after">
+                    <page name="timeoff_allocation" string="Time Off Allocation">
+                        <group string="Alokasi Izin dan Cuti" name='timeoff'>
+                            <label for="alokasi_izin"/>
+                            <div class="o_row">
+                                <field name="alokasi_izin" nolabel="1"/>
+                                <span> days / month</span>
+                            </div>
+                            <label for="alokasi_cuti"/>
+                            <div class="o_row">
+                                <field name="alokasi_cuti" nolabel="1"/>
+                                <span> days / year</span>
+                            </div>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="wage_grade_tree">
+            <field name="name">hr.wage_grade.tree</field>
+            <field name="model">hr.wage_grade</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="wage_grade"/>
+                    <field name="gapok"/>
+                    <field name="notes"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="skill_grade_tree">
+            <field name="name">hr.skill_grade.tree</field>
+            <field name="model">hr.skill_grade</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="skill_grade"/>
+                    <field name="tunj_ahli"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="wage_grade_action" model="ir.actions.act_window">
+            <field name="name">Wage Grade Master</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.wage_grade</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record id="skill_grade_action" model="ir.actions.act_window">
+            <field name="name">Skill Grade Master</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.skill_grade</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem
+            id="menu_grade_master"
+            name="Grade Master"
+            parent="hr.menu_hr_root"
+            sequence="9"/>
+            <menuitem
+                id="menu_wage_grade_master"
+                name="Wage Grade Master"
+                action="wage_grade_action"
+                parent="menu_grade_master"
+                sequence="1"/>
+            <menuitem
+                id="menu_skill_grade_master"
+                name="Skill Grade Master"
+                action="skill_grade_action"
+                parent="menu_grade_master"
+                sequence="2"/>
     </data>
 </odoo>

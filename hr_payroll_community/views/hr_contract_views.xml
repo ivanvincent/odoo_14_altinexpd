@@ -54,45 +54,6 @@
         </field>
     </record>
 
-    <record id="hr_contract_form_additional_allowance" model="ir.ui.view">
-        <field name="name">hr.contract.view.additional.allowance</field>
-        <field name="model">hr.contract</field>
-        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//group[@name='salary_and_advantages']" position="after">
-                <group string="Tunjangan Tidak Tetap" name='allowances'>
-                    <label for="tunjangan_keahlian"/>
-                    <div class="o_row">
-                        <field name="tunjangan_keahlian" nolabel="1"/>
-                        <span>/ day</span>
-                    </div>
-                    <label for="iuran_pensiun"/>
-                    <div class="o_row">
-                        <field name="iuran_pensiun" nolabel="1"/>
-                        <span>/ month</span>
-                    </div>
-                </group>
-            </xpath>
-            <xpath expr="//page[@name='information']" position="after">
-                <page name="timeoff_allocation" string="Time Off Allocation">
-                    <group string="Alokasi Izin dan Cuti" name='timeoff'>
-                        <label for="alokasi_izin"/>
-                        <div class="o_row">
-                            <field name="alokasi_izin" nolabel="1"/>
-                            <span> days / month</span>
-                        </div>
-                        <label for="alokasi_cuti"/>
-                        <div class="o_row">
-                            <field name="alokasi_cuti" nolabel="1"/>
-                            <span> days / year</span>
-                        </div>
-                    </group>
-                </page>
-            </xpath>
-        </field>
-    </record>
-
-
     <record id="hr_contract_advantage_template_view_tree" model="ir.ui.view">
         <field name="name">hr.contract.advantage.template.tree</field>
         <field name="model">hr.contract.advantage.template</field>
