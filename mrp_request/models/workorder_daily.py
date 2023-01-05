@@ -1,5 +1,8 @@
 from odoo import models, fields, api
 from datetime import datetime
+
+import logging
+_logger = logging.getLogger(__name__)
 class WorkorderDaily(models.Model):
     _name = 'workorder.daily'
 
@@ -96,5 +99,6 @@ class WorkorderDaily(models.Model):
     @api.model
     def get_machine(self):
         print('==========get_action========')
+        _logger.warn('==========get_action========')
         user = self.env.user
         return user.workcenter_id.machine_ids.ids
