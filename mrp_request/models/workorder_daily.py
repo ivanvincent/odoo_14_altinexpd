@@ -49,28 +49,24 @@ class WorkorderDaily(models.Model):
 
     @api.model
     def input_wo_daily(self, mo_name, machine_name, shift, qty, wo_daily_id):
-        try:
-            user_id = self.env.user
-            mo_obj = self.env['mrp.production'].search([('name', '=', mo_name)])
-            machine_obj = self.env['mrp.machine'].search([('name', '=', machine_name)])
-            if mo_name and user_id:
-                wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)])
-                wo_obj.write({
-                    'workorder_ids': [(0, 0, {
-                        'date': fields.Date.today(),
-                        'workcenter_id': user_id.workcenter_id.id,
-                        'employee_id': user_id.employee_id.id,
-                        'product_uom_qty': qty,
-                        'wo_daily_id': wo_daily_id,
-                        'machine_id': machine_obj.id,
-                    })]
-                })
-                if wo_obj.production_qty == wo_obj.actual_qty:
-                    wo_obj.button_done()
-                return "Data berhasil diinput"
-        except Exception as e:            
-            return e
-            print(e)
+        print('input_wo_daily')
+        user_id = self.env.user
+        mo_obj = self.env['mrp.production'].search([('name', '=', mo_name)])
+        machine_obj = self.env['mrp.machine'].search([('name', '=', machine_name)])
+        if mo_name and user_id:
+            wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)])
+            wo_obj.write({
+                'workorder_ids': [(0, 0, {
+                    'date': fields.Date.today(),
+                    'workcenter_id': user_id.workcenter_id.id,
+                    'employee_id': user_id.employee_id.id,
+                    'product_uom_qty': qty,
+                    'wo_daily_id': wo_daily_id,
+                    'machine_id': machine_obj.id,
+                })]
+            })
+            if wo_obj.production_qty == wo_obj.actual_qty:
+                wo_obj.button_done()
 
     @api.model
     def create(self, values):
@@ -96,3 +92,9 @@ class WorkorderDaily(models.Model):
                 'employee_id': employee_id.id
             }
         return data
+
+    @api.model
+    def get_machine(self):
+        print('==========get_action========')
+        user = self.env.user
+        return user.workcenter_id.machine_ids.ids
