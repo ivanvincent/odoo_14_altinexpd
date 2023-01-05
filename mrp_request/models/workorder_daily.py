@@ -99,6 +99,7 @@ class WorkorderDaily(models.Model):
     @api.model
     def get_machine(self):
         print('==========get_action========')
-        _logger.warn('==========get_action========')
+        _logger.warning('==========get_action========')
         user = self.env.user
+        _logger.warning(user.workcenter_id.machine_ids.ids)
         return user.workcenter_id.machine_ids.ids
