@@ -210,8 +210,8 @@ class ManufacturingRequest(models.Model):
                 'operation_template_id': operation_tmpl_id.id
             })
             bom_obj._get_operations()
-            for b in fusion_project_id.detail_line_ids:
-                bom_fusion.append((0, 0, {'product_id':b.product_id.id,'product_qty':1}))
+            # for b in fusion_project_id.detail_line_ids:
+            #     bom_fusion.append((0, 0, {'product_id':b.product_id.id,'product_qty':1}))
             # bom_obj.write({
             #     'bom_line_ids': bom_fusion,
             # })

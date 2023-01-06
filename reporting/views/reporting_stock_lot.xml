@@ -70,7 +70,7 @@
                                 <field name="line_ids" readonly="1">
                                     <tree string="Detail" editable="bottom" create="false">
                                         <field name="location_id" invisible="1"/>
-                                        <field name="kelompok" />
+                                        <!-- <field name="kelompok" /> -->
                                         <field name="categ_id" />
                                         <field name="product_code" />
                                         <field name="product_id" options="{'no_create':True}" />

@@ -29,11 +29,7 @@ class HrContract(models.Model):
     # meal_allowance = fields.Monetary(string="Meal Allowance", help="Meal allowance")
     # medical_allowance = fields.Monetary(string="Medical Allowance", help="Medical allowance")
     # other_allowance = fields.Monetary(string="Other Allowance", help="Other allowances")
-    tunjangan_keahlian = fields.Monetary(string="Tunjangan Keahlian")
-    tunjangan_shift3 = fields.Monetary(string="Tunjangan Shift 3")
-    iuran_pensiun = fields.Monetary(string="Iuran Pensiun")
-    alokasi_izin = fields.Char(string = "Alokasi Izin", default="3")
-    alokasi_cuti = fields.Char(string="Alokasi Cuti", default = "12")
+    
 
     def get_all_structures(self):
 
