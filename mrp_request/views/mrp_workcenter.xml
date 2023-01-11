@@ -6,6 +6,12 @@
             <field name="model">mrp.workcenter</field>
             <field name="inherit_id" ref="mrp.mrp_workcenter_view"/>
             <field name="arch" type="xml">
+                <xpath expr="//label[@for='time_start']" position="before">
+                    <label for="time_std"/>
+                    <div>
+                        <field name="time_std" widget="float_time" class="oe_inline"/> minutes
+                    </div>
+                </xpath>
                 <xpath expr="//field[@name='code']" position="after">
                     <field name="workcenter_categ_id"/>
                     <field name="machine_ids" widget="many2many_tags" string="Machine"/>

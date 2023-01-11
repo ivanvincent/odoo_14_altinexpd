@@ -18,6 +18,8 @@ class MrpWorkorder(models.Model):
     production_qty   = fields.Float(string='Production Qty',related="production_id.mrp_qty_produksi")
     product_code     = fields.Char(related='product_id.default_code', string='Code')
     is_highrisk      = fields.Boolean(string='Highrish ?', related='production_id.is_highrisk', store=True,)
+    rework_qty       = fields.Float(string='Rework Qty', compute='_compute_total_rework')
+    setting_machine_ids = fields.One2many('setting.machine', 'workorder_id', 'Line')
     
     @api.depends('workorder_ids')
     def _get_actual_qty(self):
@@ -98,6 +100,10 @@ class MrpWorkorder(models.Model):
 
     workorder.button_start = button_start
 
+    def _compute_total_rework(self):
+        for rec in self:
+            rec.rework_qty = sum(rec.workorder_ids.mapped('qty_rework'))
+
 
 
 class MrpWorkOrderLine(models.Model):
@@ -108,7 +114,7 @@ class MrpWorkOrderLine(models.Model):
 
     name            = fields.Char(string='Number')
     workorder_id    = fields.Many2one('mrp.workorder', string='Workorder')
-    production_id   = fields.Many2one( related='workorder_id.production_id', string='Production',store=True,)
+    production_id   = fields.Many2one(related='workorder_id.production_id', string='Production',store=True,)
     workcenter_id   = fields.Many2one('mrp.workcenter', string='Workcenter')
     machine_id      = fields.Many2one('mrp.machine', string='Machine')
     no_machine      = fields.Integer(string='No Machine')
@@ -122,7 +128,10 @@ class MrpWorkOrderLine(models.Model):
     afkir_ids       = fields.One2many('mrp.afkir', 'workorder_line_id', string='Afkir')
     wo_daily_id     = fields.Many2one('workorder.daily', 'Workorder Daily')
     workorder_fat_ids = fields.One2many('workorder.fat', 'workorder_line_id', 'Line')
-    
+    is_rework       = fields.Boolean(string='Rework ?')
+    qty_rework      = fields.Float(string='Qty Rework')
+    resource_calendar_ids = fields.Many2one('resource.calendar', string='Working Hours')
+    time_standard   = fields.Float(string='Time Standard', related='workcenter_id.time_std', store=True,)
     
     def _read(self, fields):
         res = super()._read(fields)

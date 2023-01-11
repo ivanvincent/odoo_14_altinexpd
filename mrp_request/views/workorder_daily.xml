@@ -29,12 +29,14 @@
                                 <field name="mrp_workorder_line_ids">
                                     <tree>
                                         <field name="date"/>
+                                        <field name="production_id"/>
                                         <field name="workcenter_id" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="time_standard"/>
                                         <field name="machine_id" options="{'no_open': True, 'no_create': True}"/>
                                         <field name="no_machine"/>
-                                        <field name="location_id" options="{'no_open': True, 'no_create': True}"/>
-                                        <field name="employee_id" options="{'no_open': True, 'no_create': True}"/>
-                                        <field name="shift"/>
+                                        <!-- <field name="location_id" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="employee_id" options="{'no_open': True, 'no_create': True}"/> -->
+                                        <!-- <field name="shift"/> -->
                                         <field name="product_uom_qty"/>
                                     </tree>
                                 </field>

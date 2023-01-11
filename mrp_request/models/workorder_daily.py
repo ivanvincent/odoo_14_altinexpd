@@ -51,8 +51,8 @@ class WorkorderDaily(models.Model):
             return data
 
     @api.model
-    def input_wo_daily(self, mo_name, machine_name, shift, qty, wo_daily_id):
-        print('input_wo_daily')
+    def input_wo_daily(self, mo_name, machine_name, qty, qty_rework, wo_daily_id):
+        print('================input_wo_daily==========')
         user_id = self.env.user
         mo_obj = self.env['mrp.production'].search([('name', '=', mo_name)])
         machine_obj = self.env['mrp.machine'].search([('name', '=', machine_name)])
@@ -64,8 +64,11 @@ class WorkorderDaily(models.Model):
                     'workcenter_id': user_id.workcenter_id.id,
                     'employee_id': user_id.employee_id.id,
                     'product_uom_qty': qty,
+                    'qty_rework': qty_rework,
                     'wo_daily_id': wo_daily_id,
                     'machine_id': machine_obj.id,
+                    'resource_calendar_ids': user_id.employee_id.resource_calendar_ids.id,
+                    'is_rework': True if int(qty_rework) > 0 else False,
                 })]
             })
             if wo_obj.production_qty == wo_obj.actual_qty:
@@ -103,3 +106,32 @@ class WorkorderDaily(models.Model):
         user = self.env.user
         _logger.warning(user.workcenter_id.machine_ids.ids)
         return user.workcenter_id.machine_ids.ids
+
+    @api.model
+    def scan_setter_machine(self, badge, no_mo, machine, time):
+        print(badge)
+        print(no_mo)
+        print(machine)
+        print(time)
+        user_id = self.env.user
+        mo_obj = self.env['mrp.production'].search([('name', '=', no_mo)])
+        wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)])
+        employee_id = self.env['hr.employee'].search([('barcode', '=', badge)])
+        machine_obj = self.env['mrp.machine'].search([('name', '=', machine)])
+        sm_obj = self.env['setting.machine']
+        sm = sm_obj.search([('employee_id', '=', employee_id.id), ('workorder_id', '=', wo_obj.id)])
+        if sm:
+            sm.write({
+                'machine_id': machine_obj.id,
+                'time_setting': time,
+                'employee_id': employee_id.id,
+                'workorder_id': wo_obj.id
+            })
+        else:
+            sm_obj.create({
+                'machine_id': machine_obj.id,
+                'time_setting': time,
+                'employee_id': employee_id.id,
+                'workorder_id': wo_obj.id
+            })
+

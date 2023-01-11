@@ -16,3 +16,4 @@ from . import mrp_workcenter
 from . import workorder_daily
 from . import res_users
 from . import workorder_fat
+from . import setting_machine

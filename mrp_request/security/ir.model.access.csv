@@ -22,3 +22,4 @@ access_mrp_workcenter_category,access_mrp_workcenter_category,model_mrp_workcent
 access_workorder_daily,access_workorder_daily,model_workorder_daily,mrp.group_mrp_user,1,1,1,1
 access_workorder_daily_wizard,access_workorder_daily_wizard,model_workorder_daily_wizard,mrp.group_mrp_user,1,1,1,1
 access_workorder_fat,access_workorder_fat,model_workorder_fat,mrp.group_mrp_user,1,1,1,1
+access_setting_machine,access_setting_machine,model_setting_machine,mrp.group_mrp_user,1,1,1,1
