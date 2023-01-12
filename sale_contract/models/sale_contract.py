@@ -278,6 +278,7 @@ class SaleContract(models.Model):
         if self.quotation_id:
             self.partner_id = quotation.partner_id.id
             self.design_code_id = quotation.design_code_id.id
+            self.term_of_payment = quotation.payment_term_id.id
             self.lines = [(0, 0, {
                 'product_id': q.product_id.id,
                 'embos'     : q.embos,
