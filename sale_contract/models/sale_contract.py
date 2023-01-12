@@ -76,7 +76,7 @@ class SaleContract(models.Model):
                 'amount_untaxed': total_untax,
                 'amount_tax': total_tax,
                 'discount': discount,
-                'amount_total': amount - discount,
+                'amount_total': amount - total_tax,
                 'qty_total': qty_total,
                 # 'qty_do': qty_do,
                 'residue_total':qty_total - qty_do,
