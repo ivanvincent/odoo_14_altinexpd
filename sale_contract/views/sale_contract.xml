@@ -131,6 +131,7 @@
                                 <!-- <field name="image_binary" widget="image" class="oe_avatar"/> -->
                                 <field name="price_unit" widget="monetary"/>
                                 <field name="qty" sum='qty'/>
+                                <field name="tax_ids" widget="many2many_tags"/>
                                 <field name="price_subtotal" widget="monetary"/>
                                 <field name="qty_so" sum='qty_so' readonly="1"/>
                                 <button name="action_view_so" type="object" icon="fa-list" string="Sale Order Line"/>
@@ -158,20 +159,27 @@
                                     <field name="price_subtotal" invisible="1" widget="monetary"/>
                                     <field name="price_subtotal_incl" widget="monetary"/>
                                     <!-- <field name="tax_ids_after_fiscal_position" widget="many2many_tags"/> -->
-                                    <field name="tax_ids"/>
+                                    <field name="tax_ids" widget="many2many_tags"/>
                                     <field name="notice"/>
                                 </group>
                                 <field name="so_line_ids" readonly="1"/>
                             </form>                            
                         </field>
-                        <group class="oe_subtotal_footer oe_right" colspan="2" name="order_total">
-                            <!-- <field name="amount_tax" widget="monetary"/>
-                            <field name="discount" widget="monetary" readonly="1"/> -->
+                        <!-- <group class="oe_subtotal_footer oe_right" colspan="2" name="order_total">
                             <div class="oe_subtotal_footer_separator oe_inline">
                                 <label for="amount_total" />
-                                <!-- <button name="button_dummy" string="(update)" class="oe_edit_only oe_link"/> -->
                             </div>
                             <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+                        </group>
+                        <div class="oe_clear"/> -->
+                        <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                <label for="amount_total"/>
+                            </div>
+                            <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                         </group>
                         <div class="oe_clear"/>
                     </page>

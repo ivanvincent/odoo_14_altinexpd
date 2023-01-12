@@ -60,16 +60,21 @@ class SaleContract(models.Model):
         for order in self:
             amount = amount_inc = discount = 0.0
             qty_total = qty_do =0.0
+            total_tax = 0
+            total_untax = 0
             # currency = order.pricelist_id.currency_id
             for line in order.lines:
                 amount += line.price_subtotal
+                total_untax += line.price_subtotal
                 amount_inc += line.price_subtotal_incl
                 discount += line.discount
                 qty_total += line.qty
-                qty_do += line.qty_do
+                qty_do += line.qty_do                
+                for t in line.tax_ids:
+                    total_tax += line.price_subtotal * (t.amount / 100)
             order.update({
-                # 'amount_untaxed': amount_untaxed,
-                'amount_tax': amount,
+                'amount_untaxed': total_untax,
+                'amount_tax': total_tax,
                 'discount': discount,
                 'amount_total': amount - discount,
                 'qty_total': qty_total,
@@ -84,10 +89,12 @@ class SaleContract(models.Model):
             # order.residue_total = currency.round(sum(line.qty for line in order.lines)) - currency.round(sum(line.qty_do for line in order.lines))
 
     company_id = fields.Many2one('res.company', string='Company', required=True, readonly=True,
-                                 default=lambda self: self.env.user.company_id)
+                                default=lambda self: self.env.user.company_id)
+    currency_id = fields.Many2one('res.currency', related='company_id.currency_id', store=True,)
     date_order = fields.Date(string='Order Date', index=True, default=fields.Datetime.now)
     name = fields.Char(string='Sales Forcast', copy=False, default='New')
-    amount_tax = fields.Float(compute='_compute_amount_all', string='Taxes', digits=0)
+    amount_tax = fields.Monetary(string='Taxes', currency_field='currency_id', compute='_compute_amount_all')
+    amount_untaxed = fields.Monetary(string='Amount Untaxed', currency_field='currency_id', compute='_compute_amount_all')
     amount_total = fields.Float(compute='_compute_amount_all', string='Total', digits=0)
     qty_total = fields.Float(compute='_compute_amount_all', string='Qty Total', digits=0)
     residue_total = fields.Float(compute='_compute_amount_all', string='Qty Residue', digits=0)
@@ -113,22 +120,6 @@ class SaleContract(models.Model):
     term_of_payment             = fields.Many2one('account.payment.term', string='Payment Terms',)
     # term_of_payment             = fields.Char(string='Term of Payment')
     term_of_payment_information = fields.Char(string='Term of Payment Information')
-    # min_qty_color               = fields.Char(string='Min Qty/Color')
-    # min_qty_art_name            = fields.Char(string='Min Qty/Art. Name')
-    # harga_allover               = fields.Float('Harga All Over', defaults=0.0)
-    # harga_border                = fields.Float('Harga Border', defaults=0.0)
-    # harga_panel                 = fields.Float('Harga Panel', defaults=0.0)
-    # harga_sarung                = fields.Float('Harga Sarung', defaults=0.0)
-    # harga_pola                  = fields.Float('Harga Pola', defaults=0.0)
-    # harga_spesial               = fields.Float('Harga Spesial', defaults=0.0)
-    # harga_bw                    = fields.Float('Harga BW', defaults=0.0)
-    # harga_light                 = fields.Float('Harga Light', defaults=0.0)
-    # harga_medium                = fields.Float('Harga Medium', defaults=0.0)
-    # harga_dark                  = fields.Float('Harga Dark', defaults=0.0)
-    # ppn                         = fields.Boolean('Ppn')
-    # lebar_finish                = fields.Char(string='Lebar Finish')
-    # gramasi_finish              = fields.Char(string='Gramasi Finish')
-    # potongan_pinggir            = fields.Selection(selection=[('yes', 'Yes'),('no', 'No'),],string='Potongan Pinggir')
     partner_id = fields.Many2one('res.partner', string='Customer',)
     set_duplicate_product =  fields.Boolean(string="Allow Duplicate Product", default=False)
     process                     = fields.Many2one('sale.contract.process',string='Process')
@@ -286,6 +277,7 @@ class SaleContract(models.Model):
                 'size'      : q.size,
                 'qty'       : q.quantity,
                 'price_unit': q.price_unit,
+                'tax_ids'   : [(6, 0, q.tax_ids.ids)]
             }) for q in quotation.line_ids]
             
 
@@ -337,7 +329,7 @@ class SaleContractLine(models.Model):
     order_id = fields.Many2one('sale.contract', string='Order Ref', ondelete='cascade')
     create_date = fields.Datetime(string='Creation Date', readonly=True)
     # tax_ids = fields.Many2many('account.tax', string='Taxes',)
-    tax_ids = fields.Many2many('account.tax', string='Taxes', domain=['|', ('active', '=', False), ('active', '=', True)])
+    tax_ids = fields.Many2many('account.tax', string='Taxes',)
     # tax_ids_after_fiscal_position = fields.Many2many('account.tax',string='Taxes')
     so_line_ids = fields.One2many('sale.order.line', 'contract_line_id', string='Sale Order Line')
     embos = fields.Char(string='Embos')
