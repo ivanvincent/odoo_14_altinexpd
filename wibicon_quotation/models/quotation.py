@@ -12,6 +12,30 @@ class Quotation(models.Model):
     image_binary = fields.Binary(string='Image', store=False,)
     line_ids = fields.One2many('quotation.line', 'quotation_id', 'Line')
     state = fields.Selection([("draft","Draft"),("confirm","Confirm")], string='State', default='draft')
+    amount_tax = fields.Monetary(string='Amount', currency_field='currency_id', compute='_compute_amount')
+    amount_untaxed = fields.Monetary(string='Amount Untaxed', currency_field='currency_id', compute='_compute_amount')
+    amount_total = fields.Monetary(string='Amount Total', currency_field='currency_id', compute='_compute_amount')
+    company_id = fields.Many2one(
+        'res.company', default=lambda self: self.env.company)
+    currency_id = fields.Many2one(
+        'res.currency', related='company_id.currency_id', store=True,)
+    company_currency_id = fields.Many2one(related='company_id.currency_id', string='Company Currency',
+                                        readonly=True, store=True, help='Utility field to express amount currency')
+
+    @api.depends('line_ids.sub_total', 'line_ids.tax_ids')
+    def _compute_amount(self):
+        for rec in self:
+            total_tax = 0
+            total_untax = 0
+            for l in rec.line_ids:
+                for t in l.tax_ids:
+                    total_tax = l.sub_total * (t.amount / 100)
+                total_untax += l.sub_total
+            rec.amount_tax = total_tax
+            rec.amount_untaxed = total_untax
+            rec.amount_total = total_tax + total_untax
+
+
 
     @api.model
     def create(self, vals):
