@@ -30,7 +30,7 @@ class Quotation(models.Model):
             total_untax = 0
             for l in rec.line_ids:
                 for t in l.tax_ids:
-                    total_tax = l.sub_total * (t.amount / 100)
+                    total_tax += l.sub_total * (t.amount / 100)
                 total_untax += l.sub_total
             rec.amount_tax = total_tax
             rec.amount_untaxed = total_untax
