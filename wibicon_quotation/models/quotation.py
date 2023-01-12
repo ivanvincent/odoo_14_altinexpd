@@ -21,6 +21,7 @@ class Quotation(models.Model):
         'res.currency', related='company_id.currency_id', store=True,)
     company_currency_id = fields.Many2one(related='company_id.currency_id', string='Company Currency',
                                         readonly=True, store=True, help='Utility field to express amount currency')
+    payment_term_id = fields.Many2one('account.payment.term', string='Payment Term')
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids')
     def _compute_amount(self):
