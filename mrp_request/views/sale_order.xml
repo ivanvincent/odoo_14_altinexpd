@@ -9,6 +9,16 @@
                 <!-- <xpath expr="//field[@name='payment_term_id']" position="after">
                     <field name="mrp_request_ids" widget="many2many_tags"/>
                 </xpath> -->
+                <xpath expr="//page[@name='customer_signature']" position="after">
+                    <page string="Mrp Request">
+                        <field name="mrp_requests_ids">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
                 <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_qty']" position="after">
                     <field name="quantity_remaining"/>
                 </xpath>

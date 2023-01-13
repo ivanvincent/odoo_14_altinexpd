@@ -82,6 +82,7 @@
                                 <!-- <field name="type_id" options="{'no_open': True, 'no_create': True}"/> -->
                                 <field name="request_date"/>
                                 <field name="sale_id"/>
+                                <field name="partner_id"/>
                             </group>
                             <group>
                                 <field name="user_id" options="{'no_open': True, 'no_create': True}"/>
@@ -113,10 +114,13 @@
                                         <field name="type_id" invisible="0"/>
                                         <!-- <field name="line_product_id"/> -->
                                         <field name="product_id"/>
+                                        <field name="qty_so"/>
+                                        <field name="quantity_remaining"/>
                                         <field name="qty_produce"/>
                                         <field name="product_uom_id"/>
                                         <field name="shape"/>
                                         <field name="treatment_id"/>
+                                        <field name="sale_line_id" invisible="1"/>
                                         <field name="team"/>
                                         <field name="operation_template_id" required="1"/>
                                         <field name="fusion_project_id"/>

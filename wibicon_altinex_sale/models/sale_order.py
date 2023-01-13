@@ -18,7 +18,7 @@ class SaleOrder(models.Model):
         for l in self.order_line:
             line.append((0, 0, {
                 'product_id': l.product_id.id,
-                'qty_produce': l.product_uom_qty,
+                'qty_produce': l.quantity_remaining,
                 'sale_line_id': l.id,
             }))
         mrp_request = self.env['mrp.request'].create({
@@ -26,5 +26,5 @@ class SaleOrder(models.Model):
             'sale_id': self.id,
             'line_ids': line
         })
-        self.mrp_request_id = mrp_request.id
-        print("action_create_mor")
+        # self.mrp_request_id = mrp_request.id
+        # print("action_create_mor")

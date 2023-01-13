@@ -23,5 +23,3 @@ access_workorder_daily,access_workorder_daily,model_workorder_daily,mrp.group_mr
 access_workorder_daily_wizard,access_workorder_daily_wizard,model_workorder_daily_wizard,mrp.group_mrp_user,1,1,1,1
 access_workorder_fat,access_workorder_fat,model_workorder_fat,mrp.group_mrp_user,1,1,1,1
 access_setting_machine,access_setting_machine,model_setting_machine,mrp.group_mrp_user,1,1,1,1
-access_make_order_wizard,access_make_order_wizard,model_make_order_wizard,mrp.group_mrp_user,1,1,1,1
-access_make_order_detail_wizard,access_make_order_detail_wizard,model_make_order_detail_wizard,mrp.group_mrp_user,1,1,1,1

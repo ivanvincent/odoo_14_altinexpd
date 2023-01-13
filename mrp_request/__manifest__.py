@@ -41,7 +41,7 @@
     # 'wizard/mrp_workoder_split_wizard.xml',
     'wizard/mrp_production_wizard.xml',
     'wizard/workorder_daily_wizard.xml',
-    'wizard/make_order_wizard.xml',
+    # 'wizard/make_order_wizard.xml',
     'report/mrp_barcode.xml',
   ],
   'qweb': [

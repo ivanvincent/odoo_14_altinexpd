@@ -26,7 +26,7 @@ class ManufacturingRequest(models.Model):
     production_ids      = fields.One2many('mrp.production', 'request_id', string='Production')
     estimated_ids       = fields.One2many('mrp.production.estimated', 'request_id', string='Estimated')
     sale_id             = fields.Many2one('sale.order', string='Sale')
-    partner_id          = fields.Many2one('res.partner', string='Customer')
+    partner_id          = fields.Many2one('res.partner', string='Customer', related='sale_id.partner_id')
     
     
     def check_validation(self):
@@ -34,6 +34,8 @@ class ManufacturingRequest(models.Model):
         for line in self.line_ids:
             if float_is_zero(line.qty_produce,precision_digits=precision_digits):
                 raise UserError('Mohon maaf pastikan %s \nquantity produksi tidak nol'%(line.product_id.name))
+            if float_is_zero(line.quantity_remaining,precision_digits=precision_digits):
+                raise UserError('Mohon maaf sisa order untuk %s sudah habis'%(line.product_id.name))
         
     def action_estimated(self):
         self.ensure_one()
@@ -78,42 +80,42 @@ class ManufacturingRequest(models.Model):
     
     def action_create_production(self):
         self.ensure_one()
-        # production_ids = []
-        # self.check_validation()
-        # if not self.production_ids:
-        #     for line in self.line_ids:
-        #         picking_type_id = None  if not line.type_id else line.type_id.picking_type_id.id if line.type_id.picking_type_id else None
-        #         # product_categ_id = line.product_id.categ_id
+        production_ids = []
+        self.check_validation()
+        if not self.production_ids:
+            for line in self.line_ids:
+                picking_type_id = None  if not line.type_id else line.type_id.picking_type_id.id if line.type_id.picking_type_id else None
+                # product_categ_id = line.product_id.categ_id
                 
-        #         # bom_id = self.env['mrp.bom'].search([('product_tmpl_id','=',line.product_id.product_tmpl_id.id)],limit=1)
-        #         bom_id = self._prepare_bom(line.product_id, line.product_id.product_tmpl_id, line.operation_template_id, line.fusion_project_id)
-        #         picking_type_id = self.env['stock.picking.type'].sudo().browse(picking_type_id)
-        #         production_id = self.env['mrp.production'].create({
-        #             'product_id':line.product_id.id,
-        #             'type_id':line.type_id.id,
-        #             'product_uom_id':line.product_id.uom_id.id,
-        #             'product_qty': line.qty_produce,
-        #             'mrp_qty_produksi':line.qty_produce,
-        #             'bom_id': bom_id.id,
-        #             # 'satuan_id':line.satuan_id.id,
-        #             'picking_type_id': picking_type_id.id,
-        #             'origin':self.name,
-        #             'location_src_id': picking_type_id.default_location_src_id.id,
-        #             'location_dest_id':picking_type_id.default_location_dest_id.id,
-        #             'date_planned_start':line.request_id.request_date,
-        #             'request_id':self.id,
-        #         })
+                # bom_id = self.env['mrp.bom'].search([('product_tmpl_id','=',line.product_id.product_tmpl_id.id)],limit=1)
+                bom_id = self._prepare_bom(line.product_id, line.product_id.product_tmpl_id, line.operation_template_id, line.fusion_project_id)
+                picking_type_id = self.env['stock.picking.type'].sudo().browse(picking_type_id)
+                production_id = self.env['mrp.production'].create({
+                    'product_id':line.product_id.id,
+                    'type_id':line.type_id.id,
+                    'product_uom_id':line.product_id.uom_id.id,
+                    'product_qty': line.qty_produce,
+                    'mrp_qty_produksi':line.qty_produce,
+                    'bom_id': bom_id.id,
+                    # 'satuan_id':line.satuan_id.id,
+                    'picking_type_id': picking_type_id.id,
+                    'origin':self.name,
+                    'location_src_id': picking_type_id.default_location_src_id.id,
+                    'location_dest_id':picking_type_id.default_location_dest_id.id,
+                    'date_planned_start':line.request_id.request_date,
+                    'request_id':self.id,
+                })
                 
-        #         if production_id:
-        #             production_id._onchange_bom_id()
-        #             production_id._onchange_move_raw()
-        #             production_id._onchange_move_finished()
-        #             production_id._onchange_workorder_ids()
-        #             # line.production_ids = [(4,production_id.id)]
-        #             self._request_material(production_id)
-        #         self.state = 'done'
-        action = self.env.ref('mrp_request.make_order_wizard_action').read()[0]
-        return action
+                if production_id:
+                    production_id._onchange_bom_id()
+                    production_id._onchange_move_raw()
+                    production_id._onchange_move_finished()
+                    production_id._onchange_workorder_ids()
+                    # line.production_ids = [(4,production_id.id)]
+                    self._request_material(production_id)
+                self.state = 'done'
+        # action = self.env.ref('mrp_request.make_order_wizard_action').read()[0]
+        # return action
     
     
     def _compute_picking(self):
@@ -240,6 +242,22 @@ class ManufacturingRequest(models.Model):
             }) for raw in production_id.move_raw_ids]
         })
         self.picking_ids = [(4, picking_obj.id)]
+    
+    @api.onchange('sale_id')
+    def _onchange_sale(self):
+        self.ensure_one()
+        if self.sale_id:
+            line = []
+            for l in self.sale_id.order_line:
+                line.append((0, 0, {
+                    'product_id': l.product_id.id,
+                    'qty_produce': l.quantity_remaining,
+                    'sale_line_id': l.id,
+                }))
+            self.write({
+                'request_date': fields.Date.today(),
+                'line_ids': line
+            })
 
 
 class ManufacturingRequestLine(models.Model):
@@ -285,6 +303,8 @@ class ManufacturingRequestLine(models.Model):
     qty_produce = fields.Float(string='Qty Produce')
     shape = fields.Selection([("caplet","Caplet"),("round","Round")], string='Shape', related='sale_line_id.shape')
     fusion_project_id = fields.Many2one('fusion.project', string='Fussion Project')
+    qty_so = fields.Float(string='Qty Order', related='sale_line_id.product_uom_qty', store=True,)
+    quantity_remaining = fields.Float(string='Quantity Remaining', related='sale_line_id.quantity_remaining')
 #     product_orig_id_domain = fields.Char(
 #     compute="_compute_product_id_domain",
 #     readonly=True,

@@ -12,7 +12,7 @@
                 </xpath>
                 <xpath expr="//field[@name='payment_term_id']" position="after">
                     <field name="po_cust" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                    <field name="mrp_request_id" attrs="{'invisible':[('mrp_request_id', '=', False)]}"/>
+                    <!-- <field name="mrp_request_id" attrs="{'invisible':[('mrp_request_id', '=', False)]}"/> -->
                 </xpath>
             </field>
         </record>
