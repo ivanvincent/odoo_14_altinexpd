@@ -8,6 +8,9 @@ _logger = logging.getLogger(__name__)
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
+    diameter = fields.Float(string='Diameter')
+    
+
     # @api.model
     # def name_get(self):
     #     context = self.env.context

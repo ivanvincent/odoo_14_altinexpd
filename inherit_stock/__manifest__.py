@@ -31,6 +31,7 @@
         'wizard/split_barcode_wizard.xml',
         # 'wizard/mrp_raw_revision_wizard.xml',
         'wizard/laporan_permintaan_barang.xml',
+        'views/product_category.xml',
         # 'wizard/laporan_lpsm_benang.xml',
         # 'wizard/stock_picking_return.xml',
         'data/res_groups.xml',

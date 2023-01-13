@@ -130,7 +130,7 @@ class MrpWorkOrderLine(models.Model):
     workorder_fat_ids = fields.One2many('workorder.fat', 'workorder_line_id', 'Line')
     is_rework       = fields.Boolean(string='Rework ?')
     qty_rework      = fields.Float(string='Qty Rework')
-    resource_calendar_ids = fields.Many2one('resource.calendar', string='Working Hours')
+    resource_calendar_ids = fields.Many2one('resource.calendar', string='Working Hours',)
     time_standard   = fields.Float(string='Time Standard', related='workcenter_id.time_std', store=True,)
     
     def _read(self, fields):

@@ -94,3 +94,13 @@ tj_bankcash/wizard/__pycache__/trial_balance_wizard.cpython-38.pyc
 om_account_budget/__pycache__/__init__.cpython-38.pyc
 tj_bankcash/report/__pycache__/__init__.cpython-38.pyc
 tj_bankcash/__pycache__/__init__.cpython-38.pyc
+reporting/models/__pycache__/reporting_stock_lot.cpython-38.pyc
+product_defect/models/__pycache__/product_defect.cpython-38.pyc
+*.log
+*.pot
+*.pyc
+*/*/*/*/*/__pycache__/
+*/*/*/*/__pycache__/
+*/*/*/__pycache__/
+*/*/__pycache__/
+*/__pycache__/

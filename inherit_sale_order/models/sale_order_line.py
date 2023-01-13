@@ -59,6 +59,7 @@ class SaleOrderLine(models.Model):
     greige_id = fields.Many2one(string='Greige', related='order_id.greige_id', store=True,)
     on_hand_greige = fields.Float(string='On Hand Greige', compute='compute_onhand_greige')
     is_created_mo = fields.Boolean(string='Created  Mo?', compute='_compute_is_created_mo', store=True, compute_sudo=True)
+    
 
 
     @api.model

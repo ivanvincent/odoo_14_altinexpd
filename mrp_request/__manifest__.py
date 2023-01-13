@@ -36,10 +36,12 @@
     'views/mrp_workcenter.xml',
     'views/workorder_daily.xml',
     'views/res_users.xml',
+    'views/sale_order.xml',
     
     # 'wizard/mrp_workoder_split_wizard.xml',
     'wizard/mrp_production_wizard.xml',
     'wizard/workorder_daily_wizard.xml',
+    'wizard/make_order_wizard.xml',
     'report/mrp_barcode.xml',
   ],
   'qweb': [

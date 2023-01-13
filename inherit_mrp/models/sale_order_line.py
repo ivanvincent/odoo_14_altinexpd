@@ -6,6 +6,3 @@ class SaleOrderLine(models.Model):
     
     
     mrp_ids  = fields.One2many('mrp.production', 'sale_line_id', string='Manufacture')
-    
-
-    

@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='code']" position="after">
                     <field name="sequence_code_po"/>
-                    <field name="group_reporting"/>
+                    <!-- <field name="group_reporting"/> -->
                 </xpath>
             </field>
         </record>
