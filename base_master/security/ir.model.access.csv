@@ -46,3 +46,4 @@ access_marketing_category,marketing_category,model_marketing_category,base.group
 access_mrp_production_final_set,mrp_production_final_set,model_mrp_production_final_set,base.group_system,1,1,1,1
 access_makloon_design_line,makloon_design_line,model_makloon_design_line,base.group_system,1,1,1,1
 access_treatment,treatment,model_treatment,base.group_system,1,1,1,1
+access_makloon_design_line,makloon_design_line,model_makloon_design_line,base.group_system,1,1,1,1

@@ -17,4 +17,12 @@
             <field name="company_id" eval="False"/>
         </record>
 
+        <record id="seq_design_code" model="ir.sequence">
+            <field name="name">Design Code</field>
+            <field name="code">design.code</field>
+            <field name="prefix">DSG/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
 </odoo>
