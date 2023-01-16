@@ -144,9 +144,9 @@ class SaleOrder(models.Model):
     qty_unit = fields.Float(string='Qty / Product')
     is_force_price = fields.Boolean(string='is Force Price ?', default=False)
 
-    @api.onchange('sc_id')
-    def get_partner_from_sc(self):
-        self.partner_id = self.sc_id.partner_id
+    # @api.onchange('sc_id')
+    # def get_partner_from_sc(self):
+    #     self.partner_id = self.sc_id.partner_id
         
     
     def action_confirm(self):
@@ -256,6 +256,7 @@ class SaleOrder(models.Model):
     @api.onchange('contract_id')
     def onchange_contract_id_change_warehouse(self):
         self.warehouse_id = 3 # Change warehouse To GD Jadi
+        self.payment_term_id = self.contract_id.term_of_payment.id
 
     @api.model
     def name_get(self):
