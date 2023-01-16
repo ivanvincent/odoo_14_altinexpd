@@ -4,7 +4,7 @@
     <data>
 
         <record model="report.paperformat" id="sales_contract" >
-            <field name="name">Sales Contract</field>
+            <field name="name">Sales Quotation</field>
             <field name="default" eval="False" />
             <field name="format">A4</field>
             <field name="orientation">Portrait</field>
@@ -17,7 +17,7 @@
         </record>
         
         <record id="action_report_sales_contract" model="ir.actions.report">
-            <field name="name">Sales Contract</field>
+            <field name="name">Sales Quotation</field>
             <field name="model">quotation</field>
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">wibicon_quotation.report_sales_contract</field>
