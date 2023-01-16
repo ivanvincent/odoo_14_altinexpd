@@ -22,6 +22,8 @@ class Quotation(models.Model):
     company_currency_id = fields.Many2one(related='company_id.currency_id', string='Company Currency',
                                         readonly=True, store=True, help='Utility field to express amount currency')
     payment_term_id = fields.Many2one('account.payment.term', string='Payment Term')
+    drawing_internal = fields.Binary(string='Drawing Internal', related='design_code_id.drawing_internal')
+    drawing_external = fields.Binary(string='Drawing External', related='design_code_id.drawing_external')
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids')
     def _compute_amount(self):

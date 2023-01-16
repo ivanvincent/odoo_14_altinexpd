@@ -40,6 +40,16 @@
                                     </tree>
                                 </field>
                             </page>
+                            <page name="drawing" string="Drawing">
+                                <group col="2">
+                                    <group string="Design Approved">
+                                        <field name="drawing_internal" widget="pdf_viewer"/>
+                                    </group>
+                                    <group string="Design Approved">
+                                        <field name="drawing_external" widget="pdf_viewer"/>
+                                    </group>
+                                </group>
+                            </page>
                         </notebook>
                         <!-- <div class="oe_subtotal_footer oe_right">
                             <field name="amount_untaxed"/>
