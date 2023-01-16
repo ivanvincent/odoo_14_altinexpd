@@ -132,7 +132,7 @@ class SaleOrderContract(models.Model):
     @api.onchange('contract_id')
     def _contract_change(self):
         if self.contract_id :
-            print('_contract_change')
+            self.order_line = False
             for rec in self:
                 rec.partner_id = rec.contract_id.partner_id.id
                 rec.pricelist_id = rec.contract_id.pricelist_id.id
