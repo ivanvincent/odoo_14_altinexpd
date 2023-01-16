@@ -112,6 +112,13 @@ class MakloonDesign(models.Model):
     def action_unlock(self):
         self.state = 'unlock'
 
+    @api.model
+    def create(self, values):
+        sequence = self.env['ir.sequence'].next_by_code('design.code')
+        values['name'] = sequence
+        result = super(MakloonDesign, self).create(values)
+        return result
+
 
 class FabricBase(models.Model):
     _name = 'fabric.base'
