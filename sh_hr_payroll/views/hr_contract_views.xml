@@ -78,4 +78,5 @@
         action="hr_contract_advantage_template_action"
         parent="menu_hr_payroll_configuration"
         sequence="50"/>
+    
 </odoo>
