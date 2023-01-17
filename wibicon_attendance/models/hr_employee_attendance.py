@@ -1,5 +1,6 @@
 from odoo import api, fields, models, _
 from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 import dateutil.parser
 import pandas_access as mdb
 import jaydebeapi
@@ -25,6 +26,15 @@ import pandas as pd
 class HrPayslip(models.Model):
     _name = 'hr.payslip'
     _inherit = 'hr.payslip'
+
+    prev_period = fields.Date('Previous Period', compute="_compute_prev_period")
+
+    @api.depends('date_to')
+    def _compute_prev_period(self):
+        
+        mod_dateTo = self.date_to + relativedelta(months=-1)
+        self.prev_period = mod_dateTo
+   
 
     @api.model
     def get_worked_day_lines(self,contracts,date_from,date_to):

@@ -19,6 +19,17 @@
             </field>
         </record>
 
+        <!-- <record model="ir.ui.view" id="hr_payslip_form_inherit">
+            <field name="name">hr.payslip.form.inherit</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll_community.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='number']" position="before">
+                    <field name="prev_period"/>
+                </xpath>
+            </field>
+        </record> -->
+
         <!-- <record id="view_hr_employee_attendance_grouping" model="ir.ui.view">
             <field name="name">employee.attendance.search</field>
             <field name="model">hr.employee.attendance</field>

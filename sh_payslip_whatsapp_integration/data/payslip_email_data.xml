@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="0">
+	<!-- 	 Employee Payslip Template -->
+	<record id="email_template_edi_payslip_custom" model="mail.template">
+		<field name="name">Payslip: Send by email</field>
+		<field name="model_id" ref="sh_hr_payroll.model_hr_payslip" />
+		<field name="email_from">${object.employee_id.user_id.email_formatted |safe}</field>
+		<field name="partner_to">${object.employee_id.id}</field>
+		<field name="subject">${object.company_id.name} Payslip Of ${object.name or 'n/a'}</field>
+		<field name="body_html">
+<![CDATA[
+<div style="margin: 0px; padding: 0px;">
+<p style="margin: 0px; padding: 0px; font-size: 13px;">
+<ul style="list-style-type: none;">
+% if object.company_id.payroll_information_in_message and object.employee_id and object.company_id :
+Hello *${object.employee_id.name},* %0A%0A
+Your payslip for period *${object.date_from} to ${object.date_to}* is generated. %0A%0A
+% endif 
+% if object.company_id.payroll_send_pdf_in_message :
+		
+<li style="list-style-type: none;">
+*Click here to download Report* : ${object.payslip_url} %0A%0A%0A
+</li>	
+% endif
+Thank you.%0A%0A
+
+% if object.company_id.payroll_signature and object.env.user.sign :
+            	
+<li style="list-style-type: none;">%20 ${object.env.user.sign} %0A%0A</li>
+% endif
+</ul>
+</p>
+</div>
+]]>
+		</field>
+		<field name="lang">${object.employee_id.address_home_id.lang}</field>
+		<field name="auto_delete" eval="True" />
+	</record>
+</odoo>
