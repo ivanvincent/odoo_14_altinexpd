@@ -17,6 +17,7 @@ class HrContract(models.Model):
     alokasi_cuti = fields.Float(string='Cuti Tahunan', compute="_compute_jatah_cuti")
     wage_id = fields.Many2one('hr.wage_grade', string='Wage Grade')
     skill_id = fields.Many2one('hr.skill_grade', string='Skill Grade')
+    alokasi_izin = fields.Char(string='Alokasi izin') #sementara
     
     @api.depends('first_contract_date')
     def _compute_year_of_service(self):
