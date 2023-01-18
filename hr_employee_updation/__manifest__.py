@@ -35,7 +35,7 @@
         'data/data.xml',
         'views/contract_days_view.xml',
         'views/updation_config.xml',
-        'views/hr_employee_view.xml',
+        # 'views/hr_employee_view.xml',
         'views/hr_notification.xml',
     ],
     'images': ['static/description/banner.png'],
