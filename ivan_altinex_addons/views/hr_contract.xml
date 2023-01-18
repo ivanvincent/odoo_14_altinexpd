@@ -78,11 +78,11 @@
                                 <field name="alokasi_izin_paternity" nolabel="1"/>
                                 <span> hari / tahun</span>
                             </div>
-                            <!-- <label for="alokasi_cuti"/>
+                            <label for="alokasi_cuti"/>
                             <div class="o_row">
                                 <field name="alokasi_cuti" nolabel="1"/>
                                 <span> hari / tahun</span>
-                            </div> -->
+                            </div>
                         </group>
                     </page>
                 </xpath>
