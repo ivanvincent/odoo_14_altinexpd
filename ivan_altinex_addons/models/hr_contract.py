@@ -17,13 +17,17 @@ class HrContract(models.Model):
     alokasi_cuti = fields.Float(string='Cuti Tahunan', compute="_compute_jatah_cuti")
     wage_id = fields.Many2one('hr.wage_grade', string='Wage Grade')
     skill_id = fields.Many2one('hr.skill_grade', string='Skill Grade')
+    allocations_ids = fields.One2many('hr.leave.allocation', 'contract_id', 'Allocations Line')
     
     @api.depends('first_contract_date')
     def _compute_year_of_service(self):
-        selisih = fields.Date.today() - self.first_contract_date
-        lama_kerja_sec = selisih.total_seconds()
-        lama_kerja_year = lama_kerja_sec / 31536000
-        self.years_of_service = lama_kerja_year
+        if self.first_contract_date:
+            selisih = fields.Date.today() - self.first_contract_date
+            lama_kerja_sec = selisih.total_seconds()
+            lama_kerja_year = lama_kerja_sec / 31536000
+            self.years_of_service = lama_kerja_year
+        else:
+            self.years_of_service = False
 
     @api.depends('employee_id')
     def _compute_maternity_paternity_leaves(self):
@@ -84,6 +88,20 @@ class HrContract(models.Model):
     @api.depends('skill_id')
     def _compute_skill_grade(self):
         self.tunjangan_keahlian = self.skill_id.tunj_ahli
+
+    @api.model
+    def create(self, values):
+        employee_id = values.get('employee_id')
+        dict_izin_sakit = {
+                            'name': 'Izin sakit',
+                            'holiday_status_id': 5,
+                            'holiday_type': 'employee',
+                            'employee_id': employee_id
+                        }
+        values['allocations_ids'] = [(0, 0, dict_izin_sakit)]
+        result = super(HrContract).create(values)
+
+        return result
     
 class WageGrade(models.Model):
     _name = 'hr.wage_grade'
