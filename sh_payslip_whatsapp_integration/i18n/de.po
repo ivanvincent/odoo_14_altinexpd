@@ -1,0 +1,271 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sh_payslip_whatsapp_integration
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-08 12:25+0000\n"
+"PO-Revision-Date: 2021-12-08 12:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sh_payslip_whatsapp_integration
+#: model:mail.template,body_html:sh_payslip_whatsapp_integration.email_template_edi_payslip_custom
+msgid ""
+"\n"
+"<div style=\"font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;margin: 0px; padding: 0px;\">\n"
+"<p style=\"font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"</p><ul style=\"margin:0px 0 1rem 0;list-style-type: none;\">\n"
+"% if object.company_id.payroll_information_in_message and object.employee_id and object.company_id :\n"
+"Hello *${object.employee_id.name},* %0A%0A\n"
+"Your payslip for period *${object.date_from} to ${object.date_to}* is generated. %0A%0A\n"
+"% endif \n"
+"% if object.company_id.payroll_send_pdf_in_message :\n"
+"\t\t\n"
+"<li style=\"list-style-type: none;\">\n"
+"*Click here to download Report* : ${object.payslip_url} %0A%0A%0A\n"
+"</li>\t\n"
+"% endif\n"
+"Thank you.%0A%0A\n"
+"\n"
+"% if object.company_id.payroll_signature and object.env.user.sign :\n"
+"            \t\n"
+"<li style=\"list-style-type: none;\">%20 ${object.env.user.sign} %0A%0A</li>\n"
+"% endif\n"
+"</ul>\n"
+"<p style=\"margin:0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\"></p>\n"
+"</div>\n"
+"\n"
+"\t\t"
+msgstr ""
+"\n"
+"<div style=\"font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;margin: 0px; padding: 0px;\">\n"
+"<p style=\"font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"</p><ul style=\"margin:0px 0 1rem 0;list-style-type: none;\">\n"
+"% if object.company_id.payroll_information_in_message and object.employee_id and object.company_id :\n"
+"Hallo *${object.employee_id.name},* %0A%0A\n"
+"Ihr Payslip für Zeitraum *${object.date_from} zu ${object.date_to}* wird erzeugt. %0A%0A\n"
+"% endif \n"
+"% if object.company_id.payroll_send_pdf_in_message :\n"
+"\t\t\n"
+"<li style=\"list-style-type: none;\">\n"
+"*Klicken Sie hier, um den Bericht herunterzuladen* : ${object.payslip_url} %0A%0A%0A\n"
+"</li>\t\n"
+"% endif\n"
+"Danke schön.%0A%0A\n"
+"\n"
+"% if object.company_id.payroll_signature and object.env.user.sign :\n"
+"            \t\n"
+"<li style=\"list-style-type: none;\">%20 ${object.env.user.sign} %0A%0A</li>\n"
+"% endif\n"
+"</ul>\n"
+"<p style=\"margin:0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\"></p>\n"
+"</div>\n"
+"\n"
+"\t\t"
+
+#. module: sh_payslip_whatsapp_integration
+#: model:mail.template,subject:sh_payslip_whatsapp_integration.email_template_edi_payslip_custom
+msgid "${object.company_id.name} Payslip Of ${object.name or 'n/a'}"
+msgstr "${object.company_id.name} Payslip von ${object.name or 'n/a'}"
+
+#. module: sh_payslip_whatsapp_integration
+#: code:addons/sh_payslip_whatsapp_integration/controllers/main.py:0
+#, python-format
+msgid "%s is not the reference of a report"
+msgstr "%s ist nicht die Referenz eines Berichts"
+
+#. module: sh_payslip_whatsapp_integration
+#: model_terms:ir.ui.view,arch_db:sh_payslip_whatsapp_integration.sh_payslip_whatsapp_integration_send_whatsapp_message_form
+msgid ""
+"<strong>Note:</strong><br/>\n"
+"\t                        \t1) Use  *text*  to make text bold.<br/>\n"
+"\t\t\t\t\t\t\t\t2) Use  _text_  to make text italic.<br/>\n"
+"\t\t\t\t\t\t\t\t3) Use %0A after/before Text if you want to add blank line.<br/>\n"
+"\t\t\t\t\t\t\t\t4) use %20 after/before any Text if you want to give space.<br/>\n"
+"\t\t\t\t\t\t\t\t5) go to users =&gt; preferences to add signature."
+msgstr ""
+"<strong>Notiz:</strong><br/>\n"
+"\t                        \t1) Verwenden Sie * Text *, um Text fett zu machen.<br/>\n"
+"\t\t\t\t\t\t\t\t2) Verwenden Sie _Text_, um Text italic zu erstellen.<br/>\n"
+"\t\t\t\t\t\t\t\t3) Verwenden Sie% 0A nach / vor dem Text, wenn Sie eine leere Zeile hinzufügen möchten.<br/>\n"
+"\t\t\t\t\t\t\t\t4) Verwenden Sie% 20 nach dem / vor jedem Text, wenn Sie Platz geben möchten.<br/>\n"
+"\t\t\t\t\t\t\t\t5) Gehen Sie zu den Benutzern = & gt; Vorlieben, um Unterschrift hinzuzufügen."
+
+#. module: sh_payslip_whatsapp_integration
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_hr_payslip__report_token
+msgid "Access Token"
+msgstr "Zugangstoken"
+
+#. module: sh_payslip_whatsapp_integration
+#: model_terms:ir.ui.view,arch_db:sh_payslip_whatsapp_integration.sh_payslip_whatsapp_integration_send_whatsapp_message_form
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#. module: sh_payslip_whatsapp_integration
+#: model:ir.model,name:sh_payslip_whatsapp_integration.model_res_company
+msgid "Companies"
+msgstr "Unternehmen"
+
+#. module: sh_payslip_whatsapp_integration
+#: model:ir.model,name:sh_payslip_whatsapp_integration.model_res_config_settings
+msgid "Config Settings"
+msgstr "Konfigurationseinstellungen"
+
+#. module: sh_payslip_whatsapp_integration
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_hr_employee__display_name
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_hr_payslip__display_name
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_res_company__display_name
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_sh_base_send_whatsapp_message_wizard__display_name
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#. module: sh_payslip_whatsapp_integration
+#: model:ir.model,name:sh_payslip_whatsapp_integration.model_hr_employee
+msgid "Employee"
+msgstr "Mitarbeiter"
+
+#. module: sh_payslip_whatsapp_integration
+#: code:addons/sh_payslip_whatsapp_integration/models/payroll_inherit.py:0
+#, python-format
+msgid "Employee's Mobile Number Not Exist !"
+msgstr "Die Handynummer des Mitarbeiters ist nicht vorhanden!"
+
+#. module: sh_payslip_whatsapp_integration
+#: model:res.groups,name:sh_payslip_whatsapp_integration.group_hr_payroll_whatsapp_feature
+msgid "Hr Payroll Whatsapp Feature"
+msgstr "HR-Abrechnung WhatsApp-Funktion"
+
+#. module: sh_payslip_whatsapp_integration
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_hr_employee__id
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_hr_payslip__id
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_res_company__id
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_res_config_settings__id
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_sh_base_send_whatsapp_message_wizard__id
+msgid "ID"
+msgstr "ICH WÜRDE"
+
+#. module: sh_payslip_whatsapp_integration
+#: code:addons/sh_payslip_whatsapp_integration/controllers/main.py:0
+#, python-format
+msgid "Invalid report type: %s"
+msgstr "Ungültiger Berichtsart:% s"
+
+#. module: sh_payslip_whatsapp_integration
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_hr_employee____last_update
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_hr_payslip____last_update
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_res_company____last_update
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_sh_base_send_whatsapp_message_wizard____last_update
+msgid "Last Modified on"
+msgstr "Zuletzt geändert"
+
+#. module: sh_payslip_whatsapp_integration
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_hr_payslip__text_message
+msgid "Message"
+msgstr "Nachricht"
+
+#. module: sh_payslip_whatsapp_integration
+#: model:ir.model,name:sh_payslip_whatsapp_integration.model_hr_payslip
+msgid "Pay Slip"
+msgstr "Lohnzettel"
+
+#. module: sh_payslip_whatsapp_integration
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_res_company__payroll_information_in_message
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_res_config_settings__payroll_information_in_message
+msgid "Payroll Information in message?"
+msgstr "Payroll-Informationen in der Nachricht?"
+
+#. module: sh_payslip_whatsapp_integration
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_hr_employee__mobile
+#: model_terms:ir.ui.view,arch_db:sh_payslip_whatsapp_integration.view_inherit_hr_employee_form_inherit
+msgid "Personal Mobile"
+msgstr "Persönliches Mobiltelefon"
+
+#. module: sh_payslip_whatsapp_integration
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_sh_base_send_whatsapp_message_wizard__employee_ids
+msgid "Recipients "
+msgstr "Empfänger"
+
+#. module: sh_payslip_whatsapp_integration
+#: model_terms:ir.ui.view,arch_db:sh_payslip_whatsapp_integration.sh_payslip_whatsapp_integration_send_whatsapp_message_form
+msgid "Send"
+msgstr "Senden"
+
+#. module: sh_payslip_whatsapp_integration
+#: model_terms:ir.ui.view,arch_db:sh_payslip_whatsapp_integration.view_inherit_hr_employee_form_inherit
+#: model_terms:ir.ui.view,arch_db:sh_payslip_whatsapp_integration.view_inherit_hr_payslip_form
+msgid "Send By Whatsapp"
+msgstr "Senden von WhatsApp."
+
+#. module: sh_payslip_whatsapp_integration
+#: model_terms:ir.ui.view,arch_db:sh_payslip_whatsapp_integration.view_inherit_hr_payslip_form
+msgid "Send By Whatsapp Direct"
+msgstr "Senden Sie von WhatsApp Direct"
+
+#. module: sh_payslip_whatsapp_integration
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_res_company__payroll_send_pdf_in_message
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_res_config_settings__payroll_send_pdf_in_message
+msgid "Send Report URL in message?"
+msgstr "Berichts-URL in der Nachricht senden?"
+
+#. module: sh_payslip_whatsapp_integration
+#: model_terms:ir.ui.view,arch_db:sh_payslip_whatsapp_integration.sh_show_whatsapp_send_hr_payroll_res_config_settings
+msgid "Send Report Url in Message"
+msgstr "Senden Sie Berichts-URL in der Nachricht"
+
+#. module: sh_payslip_whatsapp_integration
+#: model:ir.actions.act_window,name:sh_payslip_whatsapp_integration.sh_payslip_whatsapp_integration_send_whatsapp_message_action
+#: model_terms:ir.ui.view,arch_db:sh_payslip_whatsapp_integration.sh_payslip_whatsapp_integration_send_whatsapp_message_form
+#: model_terms:ir.ui.view,arch_db:sh_payslip_whatsapp_integration.view_inherit_hr_employee_form_inherit
+msgid "Send Whatsapp Message"
+msgstr "Senden Sie WhatsApp-Nachricht."
+
+#. module: sh_payslip_whatsapp_integration
+#: model:ir.model,name:sh_payslip_whatsapp_integration.model_sh_base_send_whatsapp_message_wizard
+msgid "Send whatsapp message wizard"
+msgstr "Senden Sie WhatsApp-Nachricht-Assistent"
+
+#. module: sh_payslip_whatsapp_integration
+#: model_terms:ir.ui.view,arch_db:sh_payslip_whatsapp_integration.sh_show_whatsapp_send_hr_payroll_res_config_settings
+msgid "Show Payroll Information in messsage"
+msgstr "Payroll-Informationen in Messing anzeigen"
+
+#. module: sh_payslip_whatsapp_integration
+#: model_terms:ir.ui.view,arch_db:sh_payslip_whatsapp_integration.sh_show_whatsapp_send_hr_payroll_res_config_settings
+msgid "Show Signature"
+msgstr "Signatur anzeigen"
+
+#. module: sh_payslip_whatsapp_integration
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_res_company__payroll_signature
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_res_config_settings__payroll_signature
+msgid "Signature?"
+msgstr "Unterschrift?"
+
+#. module: sh_payslip_whatsapp_integration
+#: code:addons/sh_payslip_whatsapp_integration/controllers/main.py:0
+#, python-format
+msgid "This document does not exist."
+msgstr "Dieses Dokument existiert nicht."
+
+#. module: sh_payslip_whatsapp_integration
+#: model:ir.model.fields,field_description:sh_payslip_whatsapp_integration.field_hr_payslip__payslip_url
+msgid "Url"
+msgstr "URL."
+
+#. module: sh_payslip_whatsapp_integration
+#: model_terms:ir.ui.view,arch_db:sh_payslip_whatsapp_integration.sh_show_whatsapp_send_hr_payroll_res_config_settings
+msgid "Whatsapp send"
+msgstr "WhatsApp Send."
+
+#. module: sh_payslip_whatsapp_integration
+#: model_terms:ir.ui.view,arch_db:sh_payslip_whatsapp_integration.view_inherit_hr_employee_form_inherit
+msgid "Work Mobile"
+msgstr "Arbeit mobil"

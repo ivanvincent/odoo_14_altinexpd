@@ -10,6 +10,29 @@
                     <field name="wage_id"/>
                     <field name="skill_id"/>
                 </xpath>
+                <xpath expr="//field[@name='first_contract_date']" position="after">
+                    <field name="years_of_service"/>
+                </xpath>
+                <field name="structure_type_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="hr_responsible_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="hr_contract_notice_period_inherit" model="ir.ui.view">
+            <field name="name">hr.contract.notice.period</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//label[@for='notice_days']" position="replace">
+                    <field name="notice_days" invisible="1"/>
+                </xpath>
+                <xpath expr="//div[hasclass('o_row')]" position="replace">
+                    <field name="notice_days" invisible="1"/>
+                </xpath>
             </field>
         </record>
 
@@ -35,15 +58,30 @@
                 <xpath expr="//page[@name='information']" position="after">
                     <page name="timeoff_allocation" string="Time Off Allocation">
                         <group string="Alokasi Izin dan Cuti" name='timeoff'>
-                            <label for="alokasi_izin"/>
+                            <label for="alokasi_izin_sakit"/>
                             <div class="o_row">
-                                <field name="alokasi_izin" nolabel="1"/>
-                                <span> days / month</span>
+                                <field name="alokasi_izin_sakit" nolabel="1"/>
+                                <span> hari / tahun</span>
+                            </div>
+                            <label for="alokasi_izin_normatif"/>
+                            <div class="o_row">
+                                <field name="alokasi_izin_normatif" nolabel="1"/>
+                                <span> hari / tahun</span>
+                            </div>
+                            <label for="alokasi_izin_maternity"/>
+                            <div class="o_row">
+                                <field name="alokasi_izin_maternity" nolabel="1"/>
+                                <span> hari / tahun</span>
+                            </div>
+                            <label for="alokasi_izin_paternity"/>
+                            <div class="o_row">
+                                <field name="alokasi_izin_paternity" nolabel="1"/>
+                                <span> hari / tahun</span>
                             </div>
                             <label for="alokasi_cuti"/>
                             <div class="o_row">
                                 <field name="alokasi_cuti" nolabel="1"/>
-                                <span> days / year</span>
+                                <span> hari / tahun</span>
                             </div>
                         </group>
                     </page>
