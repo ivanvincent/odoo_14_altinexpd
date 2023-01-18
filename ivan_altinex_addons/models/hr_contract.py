@@ -99,7 +99,7 @@ class HrContract(models.Model):
                             'employee_id': employee_id
                         }
         values['allocations_ids'] = [(0, 0, dict_izin_sakit)]
-        result = super(HrContract).create(values)
+        result = super(HrContract, self).create(values)
 
         return result
     
