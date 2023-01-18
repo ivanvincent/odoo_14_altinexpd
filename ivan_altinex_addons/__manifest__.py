@@ -1,7 +1,7 @@
 {
     'name': "Altinex_Digital",
     'version': '1.0',
-    'depends': ['hr_contract'],
+    'depends': ['hr_contract','hr_holidays'],
     'author': "Ivan Vincent",
     'category': 'Category',
     'description': """
