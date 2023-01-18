@@ -31,7 +31,8 @@
     'company': 'Cybrosys Techno Solutions',
     'maintainer': 'Cybrosys Techno Solutions',
     'website': "https://www.openhrms.com",
-    'depends': ['hr', 'hr_payroll_community', 'resource'],
+    # 'depends': ['hr', 'hr_payroll_community', 'resource'],
+    'depends': ['hr', 'sh_hr_payroll', 'resource'],
     'data': [
         'security/ir.model.access.csv',
         'security/hr_employee_shift_security.xml',
