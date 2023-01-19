@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-
+<data>
      <record model="report.paperformat" id="paperformat_laporan_sales_contract" >
-            <field name="name">Print Sales Contract</field>
+            <field name="name">Sales Contract</field>
             <field name="default" eval="False" />
             <field name="format">A4</field>
             <field name="orientation">Portrait</field>
@@ -16,7 +16,7 @@
         </record>
         
         <record id="action_laporan_sales_contract" model="ir.actions.report">
-            <field name="name">Print Sales Contract</field>
+            <field name="name">Sales Contract</field>
             <field name="model">sale.contract</field>
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">my_report.laporan_sales_contract</field>
@@ -27,8 +27,8 @@
             <field name="paperformat_id" ref="sales_contract"/>
         </record>
 
-    <!-- <data>
-        <record model="report.paperformat" id="paperformat_laporan_sales_contract">
+    
+        <!-- <record model="report.paperformat" id="paperformat_laporan_sales_contract">
             <field name="name">Report Sales Contract</field>
             <field name="default" eval="True" />
             <field name="format">A4</field>
@@ -47,7 +47,7 @@
 
         <record id="action_laporan_sales_contract" model="ir.actions.report">
             <field name="paperformat_id" eval="paperformat_laporan_sales_contract" />
-        </record> -->
+        </record>  -->
         
 
         <template id="laporan_sales_contract">
