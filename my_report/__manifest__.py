@@ -49,6 +49,8 @@
         'report/print_penyelesaian.xml',
         'report/print_surat_jalan.xml',
         'report/report_staff.xml',
+        'report/laporan_sales_contract.xml',
+
         
         # 'views/inherit_stock.xml',
         # 'wizard/print_stock_wizard.xml',
