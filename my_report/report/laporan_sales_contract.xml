@@ -28,16 +28,10 @@
             <field name="paperformat_id" ref="laporan_sales_contract"/>
         </record>
 
-        <!-- <report id="action_laporan_sales_contract" model="sale.contract" string="Print Sales Contract" report_type="qweb-pdf" name="my_report.laporan_sales_contract" file="my_report.laporan_sales_contract" /> -->
-
-        <!-- <record id="action_laporan_sales_contract" model="ir.actions.report">
-            <field name="paperformat_id" eval="paperformat_laporan_sales_contract" />
-        </record> -->
-
         <template id="laporan_sales_contract">
-            <t t-call="web.basic_layout">
+      
                 <td>TEST</td>
-            </t>
+     
         </template>
 
     </data>
