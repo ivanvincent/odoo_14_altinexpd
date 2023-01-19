@@ -99,8 +99,3 @@ product_defect/models/__pycache__/product_defect.cpython-38.pyc
 *.log
 *.pot
 *.pyc
-*/*/*/*/*/__pycache__/
-*/*/*/*/__pycache__/
-*/*/*/__pycache__/
-*/*/__pycache__/
-*/__pycache__/

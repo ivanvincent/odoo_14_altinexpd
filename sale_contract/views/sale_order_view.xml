@@ -115,7 +115,8 @@
                     <field name="contract_line_id" invisible="1"/>
                 </xpath>
                 
-             </field>
+                
+            </field>
         </record>
 
         <record id="angkring_sale_order_tree_view" model="ir.ui.view">

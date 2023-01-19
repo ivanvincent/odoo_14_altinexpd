@@ -1,0 +1,41 @@
+<odoo>
+    <data>
+
+        <record id="additional_form_hr_payslip_run" model="ir.ui.view">
+            <field name="name">additional.form.view.hr.payslip.run</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/field[@name='slip_ids']" position="before">
+                    <button name="action_compute_all"
+                            string="Compute All"
+                            type="object" 
+                            states="draft"
+                            class="oe_stat_button oe_right oe_button_box" icon="fa-refresh"/>   
+                </xpath>
+                <field name="credit_note" position="after">
+                    <field name="jurnal_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                </field>
+             </field>
+        </record>
+
+        <record id="view_hr_paysleep_run_group" model="ir.ui.view">
+            <field name="name">new.hr.payslip.run.grouping.view</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="inherit_id" ref="hr_payroll.hr_payslip_run_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <filter string="Employee Name" domain="[]"
+                                context="{'group_by':'name'}"/>                    
+                    <filter string="Date Start" domain="[]"
+                                context="{'group_by':'date_start'}"/>                    
+                    <filter string="Date End" domain="[]"
+                                context="{'group_by':'date_end'}"/>                    
+                    <filter string="Cara Bayar" domain="[]"
+                                context="{'group_by':'jurnal_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

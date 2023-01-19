@@ -84,6 +84,7 @@
                                 <span> hari / tahun</span>
                             </div>
                         </group>
+                        <field name="allocations_ids" nolabel="1" readonly="1"/>
                     </page>
                 </xpath>
             </field>

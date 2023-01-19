@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_invoice_temp,invoice_temp_manager,model_invoice_temp,group_pull_mysql_manager,1,1,1,1
-access_invoice_temp_line,invoice_temp_line_manager,model_invoice_temp_line,group_pull_mysql_manager,1,1,1,1
-access_pull_mysql_wizard,pull_mysql_wizard_manager,model_pull_mysql_wizard,group_pull_mysql_manager,1,1,1,1
