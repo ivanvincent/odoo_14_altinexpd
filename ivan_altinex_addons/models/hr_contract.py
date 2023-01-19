@@ -18,6 +18,7 @@ class HrContract(models.Model):
     wage_id = fields.Many2one('hr.wage_grade', string='Wage Grade')
     skill_id = fields.Many2one('hr.skill_grade', string='Skill Grade')
     allocations_ids = fields.One2many('hr.leave.allocation', 'contract_id', 'Allocations Line')
+    alokasi_izin = fields.Float(string='alokasi_izin') #sementara
     
     @api.depends('first_contract_date')
     def _compute_year_of_service(self):
