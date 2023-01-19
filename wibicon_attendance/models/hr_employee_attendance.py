@@ -27,6 +27,7 @@ class HrPayslip(models.Model):
     _name = 'hr.payslip'
     _inherit = 'hr.payslip'
 
+    # field to show previous month of the selected date_to
     prev_period = fields.Date('Previous Period', compute="_compute_prev_period")
 
     @api.depends('date_to')
