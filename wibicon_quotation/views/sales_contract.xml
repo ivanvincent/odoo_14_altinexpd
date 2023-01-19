@@ -17,7 +17,7 @@
         </record>
         
         <record id="action_report_sales_contract" model="ir.actions.report">
-            <field name="name">Sales Quotation</field>
+            <field name="name">Sales Quotationn</field>
             <field name="model">quotation</field>
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">wibicon_quotation.report_sales_contract</field>
