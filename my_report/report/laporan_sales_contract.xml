@@ -3,7 +3,7 @@
 
     <data>
 
-        <record model="report.paperformat" id="sales_contract" >
+        <record model="report.paperformat" id="sales_contract_2" >
             <field name="name">Sales Contract</field>
             <field name="default" eval="False" />
             <field name="format">A4</field>
@@ -16,7 +16,7 @@
             <field name="header_spacing">35</field>
         </record>
         
-        <record id="action_report_sales_contract" model="ir.actions.report">
+        <record id="action_report_sales_contract_2" model="ir.actions.report">
             <field name="name">Sales Contract</field>
             <field name="model">sale.contract</field>
             <field name="report_type">qweb-pdf</field>
