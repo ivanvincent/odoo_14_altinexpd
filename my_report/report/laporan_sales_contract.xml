@@ -3,7 +3,7 @@
 
     <data>
 
-        <record model="report.paperformat" id="laporan_sales_contract" >
+        <record model="report.paperformat" id="sales_contract_2" >
             <field name="name">Sales Contract</field>
             <field name="default" eval="False" />
             <field name="format">A4</field>
@@ -16,12 +16,12 @@
             <field name="header_spacing">35</field>
         </record>
         
-        <record id="action_laporan_modul_sales_contract" model="ir.actions.report">
+        <record id="action_laporan_sales_contract" model="ir.actions.report">
             <field name="name">Sales Contract</field>
             <field name="model">sale.contract</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">my_report.laporan_modul_sales_contract</field>
-            <field name="report_file">my_report.laporan_modul_sales_contract</field>
+            <field name="report_name">my_report.laporan_sales_contract</field>
+            <field name="report_file">my_report.laporan_sales_contract</field>
             <field name="print_report_name">'%s' % object.name</field>
             <field name="binding_model_id" ref="my_report.model_sale_contract"/>
             <field name="binding_type">report</field>
@@ -36,7 +36,7 @@
             <field name="paperformat_id" eval="paperformat_lap_sales_contract" />
         </record> -->
 
-        <template id="laporan_modul_sales_contract">
+        <template id="laporan_sales_contract">
        <t t-call="web.basic_layout">
                  
             </t>
