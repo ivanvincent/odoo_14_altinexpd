@@ -163,6 +163,7 @@ class HrPayslip(models.Model):
 
     @api.model
     def get_worked_day_lines(self, contracts, date_from, date_to):
+        print('get_worked_day_lines============yugiiii')
         """
         @param contract: Browse record of contracts
         @return: returns a list of dict containing the input that should be applied for the given contract between date_from and date_to
@@ -445,7 +446,7 @@ class HrPayslip(models.Model):
 
     @api.onchange('employee_id', 'date_from', 'date_to')
     def onchange_employee(self):
-
+        print('onchange_employee===')
         if (not self.employee_id) or (not self.date_from) or (not self.date_to):
             return
 
@@ -456,9 +457,11 @@ class HrPayslip(models.Model):
 
         ttyme = datetime.combine(fields.Date.from_string(date_from), time.min)
         locale = self.env.context.get('lang') or 'en_US'
-        self.name = _('Salary Slip of %s for %s') % (employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale)))
+        self.name = _('Salary Slip of %s for %s') % (
+        employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale)))
         self.company_id = employee.company_id
 
+        print('sebelum contract')
         if not self.env.context.get('contract') or not self.contract_id:
             contract_ids = self.get_contract(employee, date_from, date_to)
             if not contract_ids:
@@ -466,12 +469,15 @@ class HrPayslip(models.Model):
             self.contract_id = self.env['hr.contract'].browse(contract_ids[0])
 
         if not self.contract_id.struct_id:
+            print('di return')
             return
         self.struct_id = self.contract_id.struct_id
-
-        #computation of the salary input
+        if self.contract_id:
+            contract_ids = self.contract_id.ids
+        # computation of the salary input
         contracts = self.env['hr.contract'].browse(contract_ids)
         worked_days_line_ids = self.get_worked_day_lines(contracts, date_from, date_to)
+        print('worked_days_line_ids', worked_days_line_ids)
         worked_days_lines = self.worked_days_line_ids.browse([])
         for r in worked_days_line_ids:
             worked_days_lines += worked_days_lines.new(r)
