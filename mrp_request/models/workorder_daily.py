@@ -52,27 +52,30 @@ class WorkorderDaily(models.Model):
 
     @api.model
     def input_wo_daily(self, mo_name, machine_id, qty, qty_rework, wo_daily_id):
-        print('================input_wo_daily==========')
-        user_id = self.env.user
-        mo_obj = self.env['mrp.production'].search([('name', '=', mo_name)])
-        machine_obj = self.env['mrp.machine'].browse(machine_id)
-        if mo_name and user_id:
-            wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)])
-            wo_obj.write({
-                'workorder_ids': [(0, 0, {
-                    'date': fields.Date.today(),
-                    'workcenter_id': user_id.workcenter_id.id,
-                    'employee_id': user_id.employee_id.id,
-                    'product_uom_qty': qty,
-                    'qty_rework': qty_rework,
-                    'wo_daily_id': wo_daily_id,
-                    'machine_id': machine_obj.id,
-                    'resource_calendar_ids': user_id.employee_id.resource_calendar_ids.id,
-                    'is_rework': True if int(qty_rework) > 0 else False,
-                })]
-            })
-            if wo_obj.production_qty == wo_obj.actual_qty:
-                wo_obj.button_done()
+        try:
+            user_id = self.env.user
+            mo_obj = self.env['mrp.production'].search([('name', '=', mo_name)])
+            machine_obj = self.env['mrp.machine'].browse(machine_id)
+            if mo_name and user_id:
+                wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)])
+                wo_obj.write({
+                    'workorder_ids': [(0, 0, {
+                        'date': fields.Date.today(),
+                        'workcenter_id': user_id.workcenter_id.id,
+                        'employee_id': user_id.employee_id.id,
+                        'product_uom_qty': qty,
+                        'qty_rework': qty_rework,
+                        'wo_daily_id': wo_daily_id,
+                        'machine_id': machine_obj.id,
+                        'resource_calendar_ids': user_id.employee_id.resource_calendar_ids.id,
+                        'is_rework': True if int(qty_rework) > 0 else False,
+                    })]
+                })
+                if wo_obj.production_qty == wo_obj.actual_qty:
+                    wo_obj.button_done()
+            return True
+        except Exception as e:
+            return False
 
     @api.model
     def create(self, values):
