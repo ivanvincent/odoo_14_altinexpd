@@ -50,6 +50,7 @@
         'report/print_surat_jalan.xml',
         'report/report_staff.xml',
         'report/laporan_sales_contract.xml',
+        'report/print_manufacturing_request.xml',
 
         
         # 'views/inherit_stock.xml',
