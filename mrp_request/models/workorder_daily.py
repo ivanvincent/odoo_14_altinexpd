@@ -51,11 +51,11 @@ class WorkorderDaily(models.Model):
             return data
 
     @api.model
-    def input_wo_daily(self, mo_name, machine_name, qty, qty_rework, wo_daily_id):
+    def input_wo_daily(self, mo_name, machine_id, qty, qty_rework, wo_daily_id):
         print('================input_wo_daily==========')
         user_id = self.env.user
         mo_obj = self.env['mrp.production'].search([('name', '=', mo_name)])
-        machine_obj = self.env['mrp.machine'].search([('name', '=', machine_name)])
+        machine_obj = self.env['mrp.machine'].browse(machine_id)
         if mo_name and user_id:
             wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)])
             wo_obj.write({
