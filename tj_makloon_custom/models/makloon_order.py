@@ -55,8 +55,8 @@ class MakloonOrder(models.Model):
     order_kerah_persen = fields.Float(string='Kerah Persen %', )
     order_rib_persen = fields.Float(string='Rib Persen %', )
     order_manset_persen = fields.Float(string='Manset Persen %', )
-
     source_po = fields.Char(string='Source PO', )
+    purchase_category_id = fields.Many2one('purchase.order.category', string='Category')
 
     # @api.model
     # def create(self, vals):
@@ -201,13 +201,14 @@ class MakloonOrder(models.Model):
         po_obj = self.env['purchase.order']
         po_line_obj = self.env['purchase.order.line']
         for me in self:
-            type_id = me.stage_id.operation_id.name.lower()
+            # type_id = me.stage_id.operation_id.name.lower()
             if me.result_ids:
                 po_data = {
                     'origin': me.name,
                     'partner_id': me.partner_id.id,
                     'makloon_id': me.id,
-                    'type_id': type_id
+                    'purchase_category_id': me.purchase_category_id.id,
+                    # 'type_id': type_id
                     # 'order_line': []
                 }
                 po_id = po_obj.create(po_data)

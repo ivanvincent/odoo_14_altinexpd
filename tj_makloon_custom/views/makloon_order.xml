@@ -51,13 +51,14 @@
                  <field name="inherit_id" ref="makloon_project.view_makloon_order_form"/>
                  <field name="arch" type="xml">
                          <field name="stage_id" position="after">
-                             <field name="source_po"/>
-                             <field name="material_progress" widget="progressbar" />
-                             <field name="result_progress" widget="progressbar" />
-                             <!--<field name="order_rib_persen" string="Rib %" />
-                             <field name="order_rib_kg" string="Rib KG" />
-                             <field name="order_manset_persen" string="Manset %" />
-                             <field name="order_manset_kg" string="Manset KG" />-->
+                            <field name="purchase_category_id"/>
+                            <field name="source_po"/>
+                            <field name="material_progress" widget="progressbar" />
+                            <field name="result_progress" widget="progressbar" />
+                            <!--<field name="order_rib_persen" string="Rib %" />
+                            <field name="order_rib_kg" string="Rib KG" />
+                            <field name="order_manset_persen" string="Manset %" />
+                            <field name="order_manset_kg" string="Manset KG" />-->
                          </field>
                          <!--<field name="type" position="after">
                              <field name="order_body_persen" string="Body %" />
