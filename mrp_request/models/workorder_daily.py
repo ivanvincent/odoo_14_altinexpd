@@ -111,28 +111,28 @@ class WorkorderDaily(models.Model):
         return user.workcenter_id.machine_ids.ids
 
     @api.model
-    def scan_setter_machine(self, badge, no_mo, machine, time):
+    def scan_setter_machine(self, badge, no_mo, machine_id, time):
         print(badge)
         print(no_mo)
-        print(machine)
+        # print(machine)
         print(time)
         user_id = self.env.user
         mo_obj = self.env['mrp.production'].search([('name', '=', no_mo)])
         wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)])
         employee_id = self.env['hr.employee'].search([('barcode', '=', badge)])
-        machine_obj = self.env['mrp.machine'].search([('name', '=', machine)])
+        # machine_obj = self.env['mrp.machine'].search([('name', '=', machine)])
         sm_obj = self.env['setting.machine']
         sm = sm_obj.search([('employee_id', '=', employee_id.id), ('workorder_id', '=', wo_obj.id)])
         if sm:
             sm.write({
-                'machine_id': machine_obj.id,
+                'machine_id': machine_id,
                 'time_setting': time,
                 'employee_id': employee_id.id,
                 'workorder_id': wo_obj.id
             })
         else:
             sm_obj.create({
-                'machine_id': machine_obj.id,
+                'machine_id': machine_id,
                 'time_setting': time,
                 'employee_id': employee_id.id,
                 'workorder_id': wo_obj.id
