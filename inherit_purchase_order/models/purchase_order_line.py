@@ -16,7 +16,7 @@ class PurchaseOrderLine(models.Model):
     box                     = fields.Integer(string='Box')
     cones                   = fields.Integer(string='Cones')
     lot_id                  = fields.Many2one('stock.production.lot', string='Lot',)
-    specifications          = fields.Text(string="Specifications", required=True, )
+    specifications          = fields.Text(string="Specifications", required=False, )
     date_order              = fields.Datetime(string='Date', related='order_id.date_order', store=True,)
     grade_id                = fields.Many2one('makloon.grade', string='Grade')
     # purchase_request_id     = fields.Many2one('purchase.request', string='Purchase Request', related='purchase_request_lines.request_id')

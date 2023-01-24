@@ -60,7 +60,7 @@
                 </xpath>
 
                 <xpath expr="//field[@name='order_line']//tree/field[@name='name']" position="after">
-                    <field name="specifications"/>
+                    <field name="specifications" readonly="1"/>
                     <field name="no_komunikasi"/>
                     <field name="lot_id" options="{'no_open': True, 'no_create': True}"/>
                     <field name="grade_id"/>
