@@ -25,6 +25,7 @@
             <field name="inherit_id" ref="sh_hr_payroll.view_hr_payslip_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='number']" position="before">
+                    <field name="month_selection"/>
                     <field name="prev_period"/>
                 </xpath>
             </field>

@@ -1,5 +1,5 @@
 from odoo import api, fields, models, _
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from dateutil.relativedelta import relativedelta
 import dateutil.parser
 import pandas_access as mdb
@@ -27,9 +27,43 @@ class HrPayslip(models.Model):
     _name = 'hr.payslip'
     _inherit = 'hr.payslip'
 
+    current_year = datetime.now().year
+    date_from = fields.Date(string='Date From', compute="_compute_date_selector", required=True,
+        default=lambda self: fields.Date.to_string(date.today().replace(day=1)), states={'draft': [('readonly', False)]})
+    date_to = fields.Date(string='Date To', compute="_compute_date_selector", required=True,
+        default=lambda self: fields.Date.to_string((datetime.now() + relativedelta(months=+1, day=1, days=-1)).date()),
+        states={'draft': [('readonly', False)]})
     # field to show previous month of the selected date_to
     prev_period = fields.Date('Previous Period', compute="_compute_prev_period")
+    # field to show selections of months
+    month_selection = fields.Selection([
+                        ("01","Januari %s" % current_year),   
+                        ("02","Februari %s" % current_year),
+                        ("03","Maret %s" % current_year),
+                        ("04","April %s" % current_year),
+                        ("05","Mei %s" % current_year),
+                        ("06","Juni %s" % current_year),
+                        ("07","Juli %s" % current_year),
+                        ("08","Agustus %s" % current_year),
+                        ("09","September %s" % current_year),
+                        ("10","Oktober %s" % current_year),
+                        ("11","November %s" % current_year),
+                        ("12","Desember %s" % current_year),
+                        ],string='Month Selection')
 
+    @api.depends('month_selection')
+    def _compute_date_selector(self):
+        month = self.month_selection
+        year = datetime.now().year
+
+        date_from_str = "%s-%s-21" % (year, month)
+        date_end_str = "%s-%s-20" % (year, month)
+
+        date_from = datetime.strptime(date_from_str, "%Y-%m-%d") - relativedelta(months=+1)
+        date_end = datetime.strptime(date_end_str, "%Y-%m-%d")
+
+        self.date_from = date_from
+        self.date_to = date_end
     @api.depends('date_to')
     def _compute_prev_period(self):
         
@@ -145,6 +179,13 @@ class HrPayslip(models.Model):
             'name':'Tunjangan Hari Raya',
             'sequence':60,
             'code':'THR',
+            'amount': 0.0,
+            'contract_id': self.contract_id.id})
+
+        res.append({
+            'name':'Potongan Resmi',
+            'sequence':70,
+            'code':'POTONG',
             'amount': 0.0,
             'contract_id': self.contract_id.id})
 
