@@ -71,10 +71,11 @@ class HrPayslip(models.Model):
                 rec.date_to = False
     @api.depends('date_to')
     def _compute_prev_period(self):
-        
-        mod_dateTo = self.date_to + relativedelta(months=-1)
-        self.prev_period = mod_dateTo
-   
+        if self.date_to:
+            mod_dateTo = self.date_to + relativedelta(months=-1)
+            self.prev_period = mod_dateTo
+        else:
+            self.prev_period = False
 
     @api.model
     def get_worked_day_lines(self,contracts,date_from,date_to):
