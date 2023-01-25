@@ -66,7 +66,9 @@ class HrPayslip(models.Model):
 
                 rec.date_from = date_from
                 rec.date_to = date_end
-
+            else:
+                rec.date_from = False
+                rec.date_to = False
     @api.depends('date_to')
     def _compute_prev_period(self):
         
