@@ -53,17 +53,19 @@ class HrPayslip(models.Model):
 
     @api.depends('month_selection')
     def _compute_date_selector(self):
-        month = self.month_selection
-        year = datetime.now().year
+        for rec in self:
+            month = rec.month_selection
+            year = datetime.now().year
 
-        date_from_str = "%s-%s-21" % (year, month)
-        date_end_str = "%s-%s-20" % (year, month)
+            date_from_str = "%s-%s-21" % (year, month)
+            date_end_str = "%s-%s-20" % (year, month)
 
-        date_from = datetime.strptime(date_from_str, "%Y-%m-%d") - relativedelta(months=+1)
-        date_end = datetime.strptime(date_end_str, "%Y-%m-%d")
+            date_from = datetime.strptime(date_from_str, "%Y-%m-%d") - relativedelta(months=+1)
+            date_end = datetime.strptime(date_end_str, "%Y-%m-%d")
 
-        self.date_from = date_from
-        self.date_to = date_end
+            rec.date_from = date_from
+            rec.date_to = date_end
+
     @api.depends('date_to')
     def _compute_prev_period(self):
         
