@@ -11,8 +11,8 @@ class HrAttendance(models.Model):
     @api.depends('check_in', 'check_out')
     def compute_time_waiting(self):
         for rec in self:
-            rec.time_waiting = rec.check_in + timedelta(minutes=1)
+            rec.time_waiting = rec.check_in + timedelta(minutes=30)
             if rec.check_out:
-                rec.time_waiting_co = rec.check_out + timedelta(minutes=1)
+                rec.time_waiting_co = rec.check_out + timedelta(minutes=30)
             else:
                 rec.time_waiting_co = False
