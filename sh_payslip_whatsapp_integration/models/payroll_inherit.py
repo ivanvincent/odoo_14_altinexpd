@@ -115,28 +115,31 @@ class HrPayslip(models.Model):
         if self:
             for rec in self:
                 # rec.txt_message = False
-                txt_message = ""
-                if rec.company_id.payroll_information_in_message and rec.employee_id and rec.company_id:
-                    txt_message += "Hello " + '*' + str(
-                        rec.employee_id.name
-                    ) + '*' + "," + "%0A%0A" + "Your payslip for period " + '*' + str(
-                        rec.date_from.strftime(
-                            "%d-%m-%Y")) + '*' + " to " + '*' + str(
-                                rec.date_to.strftime("%d-%m-%Y")
-                    ) + '*' + " is generated. " + "%0A"
+                if rec.date_from and rec.date_to:
+                    txt_message = ""
+                    if rec.company_id.payroll_information_in_message and rec.employee_id and rec.company_id:
+                        txt_message += "Hello " + '*' + str(
+                            rec.employee_id.name
+                        ) + '*' + "," + "%0A%0A" + "Your payslip for period " + '*' + str(
+                            rec.date_from.strftime(
+                                "%d-%m-%Y")) + '*' + " to " + '*' + str(
+                                    rec.date_to.strftime("%d-%m-%Y")
+                        ) + '*' + " is generated. " + "%0A"
 
-                if rec.company_id.payroll_send_pdf_in_message:
-                    base_url = self.env['ir.config_parameter'].sudo(
-                    ).get_param('web.base.url')
-                    quot_url = "%0A%0A Payslip Report Download Link : %0A" + base_url + rec.get_download_report_url(
-                    )
-                    self.write({'payslip_url': base_url
-                               + rec.get_download_report_url()})
-                    txt_message += quot_url + "%0A%0A" + " Thank you. "
+                    if rec.company_id.payroll_send_pdf_in_message:
+                        base_url = self.env['ir.config_parameter'].sudo(
+                        ).get_param('web.base.url')
+                        quot_url = "%0A%0A Payslip Report Download Link : %0A" + base_url + rec.get_download_report_url(
+                        )
+                        self.write({'payslip_url': base_url
+                                + rec.get_download_report_url()})
+                        txt_message += quot_url + "%0A%0A" + " Thank you. "
 
-                if rec.company_id.payroll_signature and rec.env.user.sign:
-                    txt_message += "%0A%0A%0A" + str(rec.env.user.sign)
-            rec.text_message = txt_message.replace('&', '%26')
+                    if rec.company_id.payroll_signature and rec.env.user.sign:
+                        txt_message += "%0A%0A%0A" + str(rec.env.user.sign)
+                    rec.text_message = txt_message.replace('&', '%26')
+                else:
+                    rec.text_message = False
 
     def send_by_whatsapp_direct(self):
         if self.employee_id.mobile:

@@ -13,6 +13,8 @@ class HrEmployeeBase(models.AbstractModel):
         """
         self.ensure_one()
         action_date = fields.Datetime.now()
+        attendance_checked_out = self.env['hr.attendance'].search([('employee_id', '=', self.id), ('check_out', '!=', False)], limit=1)
+        self.check_out_waiting_time(attendance_checked_out, action_date)
         if self.attendance_state != 'checked_in':
             vals = {
                 'employee_id': self.id,
@@ -32,3 +34,8 @@ class HrEmployeeBase(models.AbstractModel):
     def check_waiting_time(self, attendance, date_now):
         if date_now <= attendance.time_waiting:
             raise exceptions.UserError('Thank you, you have already checked in before')
+
+    def check_out_waiting_time(self, attendance, date_now):
+        if attendance.time_waiting_co:
+            if date_now <= attendance.time_waiting_co:
+                raise exceptions.UserError('Thank you, you have already checked out before')
