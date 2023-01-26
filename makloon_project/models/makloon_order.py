@@ -304,25 +304,26 @@ class MakloonOrder(models.Model):
                 po_data = {
                     'origin': me.name,
                     'partner_id': me.partner_id.id,
-                    'makloon_id': me.id,
+                    # 'makloon_id': me.id,
+                    'type_id': 4,
                     # 'order_line': []
                 }
-                po_id =po_obj.create(po_data)
-                for rs in me.result_ids:
-                    line = {
-                        'name': rs.service_product_id.name,
-                        'order_id': po_id.id,
-                        'product_id': rs.service_product_id.id,
-                        'price_unit': rs.service_product_id.standard_price,
-                        'product_uom': rs.service_product_id.uom_id.id,
-                        'product_qty': rs.product_uom_qty,
-                        'date_planned': me.date_order
-                    }
-                    po_line_obj.create(line)
+                po_obj.create(po_data)
+                # for rs in me.result_ids:
+                #     line = {
+                #         'name': rs.service_product_id.name,
+                #         'order_id': po_id.id,
+                #         'product_id': rs.service_product_id.id,
+                #         'price_unit': rs.service_product_id.standard_price,
+                #         'product_uom': rs.service_product_id.uom_id.id,
+                #         'product_qty': rs.product_uom_qty,
+                #         'date_planned': me.date_order
+                #     }
+                #     po_line_obj.create(line)
 
-                return True
+        #         return True
 
-        return False
+        # return False
 
     # @api.multi
     def create_so(self):
@@ -601,7 +602,7 @@ class MakloonOrderResult(models.Model):
     stage_id = fields.Many2one("makloon.planning.stage", "Stage")
 
     product_id = fields.Many2one("product.product", "Result Product", required=True,
-                                 domain=[('type', 'in', ['product', 'consu']), ('textile_product','=', True)])
+                                 domain=[('type', 'in', ['product', 'consu'])])
     product_uom_qty = fields.Float(
         'Quantity',
         digits=dp.get_precision('Product Unit of Measure'),
