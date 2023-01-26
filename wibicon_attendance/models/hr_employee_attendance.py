@@ -155,9 +155,9 @@ class HrPayslip(models.Model):
             'contract_id': self.contract_id.id})
 
         res.append({
-            'name':'Tunjangan Bensin / Transport',
+            'name':'Tunjangan PPh',
             'sequence':30,
-            'code':'BBM',
+            'code':'TPPH',
             'amount': 0.0,
             'contract_id': self.contract_id.id})
 
