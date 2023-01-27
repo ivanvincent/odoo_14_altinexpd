@@ -53,6 +53,7 @@ class MakloonPlanning(models.Model):
 
     mako_count = fields.Integer("Mako Count", compute="_get_mako_count")
     desc = fields.Text("Planning Description")
+    sale_id = fields.Many2one('sale.order', string='No SO')
 
 
 
@@ -138,7 +139,24 @@ class MakloonPlanningStage(models.Model):
             'stage_id':self.id,
             'type': 'out',
             'warehouse_id': self.planning_id.warehouse_id.id,
-            'production_loc': self.production_loc.id
+            'production_loc': self.production_loc.id,
+            'material_ids': [(0, 0, 
+                {
+                    'product_id': sale.product_id.id,
+                    'no_po': self.planning_id.source_po.name,
+                    'product_uom_qty': sale.product_uom_qty,
+                    'product_uom': sale.product_uom.id,
+                })
+            for sale in self.planning_id.sale_id.order_line],
+            'result_ids':  [(0, 0, 
+                {
+                    'product_id': sale.product_id.id,
+                    'product_uom_qty': sale.product_uom_qty,
+                    'product_uom': sale.product_uom.id,
+                    'service_product_id': self.env['product.product'].search([('name', '=', 'Biaya Makloon')]).id,
+                    'price_unit': sale.product_id.standard_price,
+                })
+            for sale in self.planning_id.sale_id.order_line],
 
         }
         mak_order.create(data)

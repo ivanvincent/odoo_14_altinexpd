@@ -10,7 +10,6 @@ from odoo.exceptions import UserError
 import odoo.addons.decimal_precision as dp
 
 class MakloonOrder(models.Model):
-
     _name = 'makloon.order'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description="Makloon Order"

@@ -19,6 +19,7 @@ class PurchaseOrder(models.Model):
     lot_id               = fields.Many2one('stock.production.lot', string='Lot / serial number', related='order_line.lot_id')
     purchase_order_offer_line_ids = fields.One2many('purchase.order.offer', 'purchase_id', 'Line')
     state                 = fields.Selection(selection_add=[('approve', 'Approve')])
+    picking_count_makloon = fields.Integer(string='Picking Count Makloon', compute='compute_picking_count_makloon')
 
     def action_approve(self):
         self.state = 'approve'
@@ -83,6 +84,33 @@ class PurchaseOrder(models.Model):
                 order.write({'state': 'to approve'})
             if order.partner_id not in order.message_partner_ids:
                 order.message_subscribe([order.partner_id.id])
+            if self.makloon_id:
+                self.env['stock.picking'].create({
+                    'picking_type_id': self.picking_type_id.id,
+                    'partner_id': self.partner_id.id,
+                    'user_id': False,
+                    'date': self.date_order,
+                    'origin': self.name,
+                    'location_dest_id': self._get_destination_location(),
+                    'location_id': self.picking_type_id.default_location_src_id.id,
+                    'company_id': self.company_id.id,
+                    'move_ids_without_package': [(0, 0, {
+                        'name': material.product_id.name,
+                        'product_id': material.product_id.id,
+                        'product_uom': material.product_uom.id,
+                        'date': self.date_order,
+                        'location_id': self.picking_type_id.default_location_src_id.id, #sself.warehouse_id.wh_output_stock_loc_id.id,
+                        'location_dest_id': self._get_destination_location(),
+                        'partner_id': self.partner_id.id,
+                        'state': 'draft',
+                        'company_id': self.company_id.id,
+                        'price_unit': material.product_id.standard_price,
+                        # 'picking_type_id': self.warehouse_id.out_type_id.id,
+                        'group_id': False,
+                        'origin': self.name,
+                        'warehouse_id': self.picking_type_id.warehouse_id.id,
+                    }) for material in self.makloon_id.result_ids]
+                })
         return True
     # End Override from base odoo
 
@@ -142,3 +170,13 @@ class PurchaseOrder(models.Model):
     #     action['res_id'] = self.id
     #     action['name'] = "Images of %s" % (self.product_id.name)
     #     return action
+
+    def action_view_picking_makloon(self):
+        action = self.env.ref('stock.action_picking_tree_all').read()[0]
+        action['domain'] = [('origin', '=', self.name), ('makloon_order_id', '=', self.makloon_id.id)]
+        return action
+
+    def compute_picking_count_makloon(self):
+        picking = self.env['stock.picking'].search([('origin', '=', self.name), ('makloon_order_id', '=', self.makloon_id.id)])
+        for rec in self:
+            rec.picking_count_makloon = len(picking.ids)

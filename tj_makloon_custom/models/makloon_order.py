@@ -208,6 +208,7 @@ class MakloonOrder(models.Model):
                     'partner_id': me.partner_id.id,
                     'makloon_id': me.id,
                     'purchase_category_id': me.purchase_category_id.id,
+                    'picking_type_id': me.purchase_category_id.picking_type_id.id
                     # 'type_id': type_id
                     # 'order_line': []
                 }
@@ -231,7 +232,7 @@ class MakloonOrder(models.Model):
                         'roll_kg_id': rs.roll_kg_id.id,                        
                     }
                     po_line_obj.create(line)
-
+        
                 return True
 
         return False
@@ -284,17 +285,16 @@ class MakloonOrderResult(models.Model):
     product_gramasi_id = fields.Many2one('makloon.gramasi', 'Gramasi Matang')
     product_corak_id = fields.Many2one('makloon.corak', 'Corak')
     product_resep_warna_id = fields.Many2one('makloon.resep.warna', 'Resep Warna')
-    product_warna_id = fields.Many2one('makloon.warna', 'Warna' , required=True)
+    product_warna_id = fields.Many2one('makloon.warna', 'Warna' , required=False)
     product_category_warna_id = fields.Many2one('makloon.category.warna', 'Category Warna')
     product_roll = fields.Integer(string='Roll', )
-    roll_kg_id = fields.Many2one('makloon.roll', '@ Kg', required=True)
+    roll_kg_id = fields.Many2one('makloon.roll', '@ Kg', required=False)
     # product_body = fields.Integer(string='Body Roll', )
     # product_kerah = fields.Integer(string='Kerah Roll', )
     # product_rib = fields.Integer(string='Rib Roll', )
     # product_manset = fields.Integer(string='Manset Roll', )
-    price_unit = fields.Float(string='Harga Rp', required=True, digits=dp.get_precision('Product Price'))
-    price_subtotal = fields.Float(string='Subtotal', store=True,
-                                  digits=dp.get_precision('Product Subtotal'))
+    price_unit = fields.Float(string='Harga Rp', required=False, digits=dp.get_precision('Product Price'))
+    price_subtotal = fields.Float(string='Subtotal', store=False, digits=dp.get_precision('Product Subtotal'), compute='_compute_price_subtotal')
     # progress = fields.Float('Order Progress', compute="_get_makloon_progress")
 
     operation_name = fields.Char(
@@ -321,11 +321,17 @@ class MakloonOrderResult(models.Model):
     #             rec.progress = total
                         # rec.progress = (total / len(rec.stage_ids)) * 100
 
+    # @api.onchange('price_unit','product_uom_qty')
+    # def onchange_pricesubtotal(self):
+    #     for rec in self:
+    #         rec.price_subtotal = rec.product_uom_qty * rec.price_unit
+            # print rec.product_uom_qty , rec.price_unit
+
     @api.onchange('price_unit','product_uom_qty')
-    def onchange_pricesubtotal(self):
+    def _compute_price_subtotal(self):
         for rec in self:
             rec.price_subtotal = rec.product_uom_qty * rec.price_unit
-            # print rec.product_uom_qty , rec.price_unit
+
 
     @api.onchange('product_resep_warna_id')
     def _onchange_resepwarna(self):
