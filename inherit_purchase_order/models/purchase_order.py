@@ -178,6 +178,7 @@ class PurchaseOrder(models.Model):
         return action
 
     def compute_picking_count_makloon(self):
-        picking = self.env['stock.picking'].search([('origin', '=', self.name), ('makloon_order_id', '=', self.makloon_id.id)])
+        # picking = self.env['stock.picking'].search([('origin', '=', self.name), ('makloon_order_id', '=', self.makloon_id.id)])
+        picking = self.env['stock.picking'].search([('origin', '=', self.name)])
         for rec in self:
             rec.picking_count_makloon = len(picking.ids)
