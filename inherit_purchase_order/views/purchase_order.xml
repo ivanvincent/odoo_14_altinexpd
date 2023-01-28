@@ -28,7 +28,7 @@
                 </xpath>
 
                 <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
-                    <button type="object" name="action_view_picking_makloon" class="oe_stat_button" icon="fa-truck" attrs="{'invisible':[('picking_count_makloon','&gt;', 0)]}">
+                    <button type="object" name="action_view_picking_makloon" class="oe_stat_button" icon="fa-truck" >
                         <field name="picking_count_makloon" widget="statinfo" string="Receipt" help="Incoming Shipments"/>
                     </button>
                     <button type="object" name="action_view_release" class="oe_stat_button" icon="fa-dropbox" attrs="{'invisible':[('state', 'not in', ('purchase', 'done'))]}">
