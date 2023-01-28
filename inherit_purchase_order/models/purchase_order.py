@@ -173,7 +173,8 @@ class PurchaseOrder(models.Model):
 
     def action_view_picking_makloon(self):
         action = self.env.ref('stock.action_picking_tree_all').read()[0]
-        action['domain'] = [('origin', '=', self.name), ('makloon_order_id', '=', self.makloon_id.id)]
+        action['domain'] = [('origin', '=', self.name)]
+        # action['domain'] = [('origin', '=', self.name), ('makloon_order_id', '=', self.makloon_id.id)]
         return action
 
     def compute_picking_count_makloon(self):
