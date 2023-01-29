@@ -28,9 +28,9 @@ class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
 
     current_year = datetime.now().year
-    date_from = fields.Date(string='Date From', compute="_compute_date_selector", required=True,
+    date_from = fields.Date(string='Date From', readonly=True, required=True,
         default=lambda self: fields.Date.to_string(date.today().replace(day=1)), states={'draft': [('readonly', False)]})
-    date_to = fields.Date(string='Date To', compute="_compute_date_selector", required=True,
+    date_to = fields.Date(string='Date To', readonly=True, required=True,
         default=lambda self: fields.Date.to_string((datetime.now() + relativedelta(months=+1, day=1, days=-1)).date()),
         states={'draft': [('readonly', False)]})
     # field to show previous month of the selected date_to
@@ -198,7 +198,9 @@ class HrPayslip(models.Model):
         return res
 
     def get_presense(self, contracts, date_from, date_to):
-
+        print("date from: %s" % date_from)
+        print("date to: %s" % date_to)
+        
         sql = """
             select count(*)
             from hr_attendance
@@ -220,6 +222,7 @@ class HrPayslip(models.Model):
 
         return number_of_days-presense
 
+    
 
         # """ cari jumlah ke tidak hadiran selt.employee-id"""
         # """jumlah hari kerja dikurangi jumlah kehadiran adalah absense"""
@@ -342,6 +345,11 @@ class HRAttendance(models.Model):
     _inherit = 'hr.attendance'
 
     tanggal = fields.Date(string='Tanggal')
+    check_in = fields.Datetime(string="Check In", default=fields.Datetime.now, required=True)
+    check_out = fields.Datetime(string="Check Out")
+    print("check_in: %s " % check_in)
+    print("check_out: %s " % check_out)
+    
 
     @api.model
     def create(self, vals):
