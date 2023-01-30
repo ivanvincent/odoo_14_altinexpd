@@ -51,8 +51,8 @@ class HrPayslip(models.Model):
                         ("12","Desember %s" % current_year),
                         ],string='Month Selection')
 
-    @api.depends('month_selection')
-    def _compute_date_selector(self):
+    @api.onchange('month_selection')
+    def onchange_date_selector(self):
         for rec in self:
             if rec.month_selection:
                 month = rec.month_selection

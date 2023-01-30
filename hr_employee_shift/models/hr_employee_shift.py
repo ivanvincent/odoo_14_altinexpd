@@ -40,7 +40,9 @@ class HrEmployeeShift(models.Model):
     group_employee = fields.Selection([
         ('1', 'Tim 1'),
         ('2', 'Tim 2'),
-        ('3', 'Tim 3')
+        ('3', 'Tim Netral'),
+        ('4', 'Staff Non-Produksi'),
+        ('5', 'Staff Produksi Tidak Langsung')
     ], string='Tim')
     attendance_ids = fields.One2many(
         'resource.calendar.attendance', 'calendar_id', 'Workingssss Time',
