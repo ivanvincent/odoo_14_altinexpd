@@ -8,7 +8,7 @@
     'hr_attendance'
   ],
   'data': [
-    # 'views/nama_file.xml',
+    'views/hr_attendance.xml',
   ],    
   'qweb': [
     'static/src/xml/attendance.xml',
