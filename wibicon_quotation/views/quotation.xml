@@ -10,6 +10,7 @@
                 <form string="">
                     <header>
                         <field name="state" widget="statusbar"/>
+                        <button name="action_generate" type="object" string="Generate" class="oe_highlight"/>
                         <button name="action_confirm" type="object" string="Confirm" states="draft"/>
                     </header>
                     <sheet>
@@ -24,6 +25,9 @@
                             <field name="design_code_id"/>
                             <field name="payment_term_id"/>
                             <field name="image_binary" widget='image' class='oe_avatar'/>
+                            <field name="machine_id" required="1"/>
+                            <field name="size" required="1"/>
+                            <field name="product_tmpl_ids" widget="many2many_tags"/>
                         </group>
                         <notebook>
                             <page name="Details" string="Details">

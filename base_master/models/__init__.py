@@ -10,3 +10,5 @@ from . import master_opc
 from . import master_handling
 from . import nama_dagang
 from . import treatment
+from . import size
+from . import machine

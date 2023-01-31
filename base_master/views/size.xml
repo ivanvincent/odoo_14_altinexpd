@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="size_action" model="ir.actions.act_window">
+            <field name="name">Size</field>
+            <field name="res_model">size</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            id="size_menu"
+            name="Size"
+            action="size_action"
+            parent="menu_master"
+            sequence="251"/>
+    
+    </data>
+    
+
+</odoo>

@@ -29,6 +29,8 @@ Dev
         # 'views/nama_dagang.xml',
         'views/makloon_design.xml',
         'views/treatment.xml',
+        'views/size.xml',
+        'views/machine.xml',
         'report/mrp_machine.xml',
     ],
     'installable': True,
