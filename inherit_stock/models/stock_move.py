@@ -68,8 +68,8 @@ class StockMoveLine(models.Model):
             quant = self.env['stock.quant'].search(domain)
             rec.qty_onhand = sum(quant.mapped('quantity'))
     
-    @api.onchange('lot_id')
-    def onchange_lot_id(self):
-        for rec in self:
-            if rec.lot_id:
-                rec.nozle = rec.picking_id.nozle
+    # @api.onchange('lot_id')
+    # def onchange_lot_id(self):
+    #     for rec in self:
+    #         if rec.lot_id:
+    #             rec.nozle = rec.picking_id.nozle
