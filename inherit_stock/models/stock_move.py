@@ -38,6 +38,8 @@ class StockMoveLine(models.Model):
     keterangan   = fields.Char(string='Ket')
     nozle        = fields.Selection([("nozle_1","Nozle 1"),("nozle_2","Nozle 2"),("nozle_3","Nozle 3"),("nozle_4","Nozle 4")], string='Nozle')
     qty_roll     = fields.Integer(string='Roll')
+    pcs          = fields.Float(string='Pcs')
+    keterangan_wo = fields.Char(string='Ket Wo')
     
     
             

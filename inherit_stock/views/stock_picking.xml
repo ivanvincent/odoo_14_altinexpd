@@ -60,6 +60,12 @@
                     <field name="picking_code" invisible="1"/>
                     <field name="qty_onhand" attrs="{'column_invisible': [('parent.picking_type_code', '=', 'incoming')]}"/>
                 </xpath>
+                <xpath expr="//field[@name='lot_id']" position="after">
+                    <field name="pcs"/>
+                </xpath>
+                <xpath expr="//field[@name='product_uom_id']" position="after">
+                    <field name="keterangan_wo"/>
+                </xpath>
             </field>
         </record>
 
