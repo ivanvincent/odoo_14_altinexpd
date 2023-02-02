@@ -69,6 +69,7 @@ class HrPayslip(models.Model):
             else:
                 rec.date_from = False
                 rec.date_to = False
+
     @api.depends('date_to')
     def _compute_prev_period(self):
         if self.date_to:
@@ -124,13 +125,13 @@ class HrPayslip(models.Model):
         #     'number_of_hours': 0.0,
         #     'contract_id': self.contract_id.id})
 
-        # res.append({
-        #     'name':'Terlambat',
-        #     'sequence':60,
-        #     'code':'TLT',
-        #     'number_of_days': 0,
-        #     'number_of_hours': 0.0,
-        #     'contract_id': self.contract_id.id})
+        res.append({
+            'name':'Terlambat',
+            'sequence':60,
+            'code':'TLT',
+            'number_of_days': 0,
+            'number_of_hours': 0.0,
+            'contract_id': self.contract_id.id})
 
         # res.append({
         #     'name':'Pulang Sebelum Waktu',
@@ -195,11 +196,16 @@ class HrPayslip(models.Model):
             'amount': 0.0,
             'contract_id': self.contract_id.id})
 
+        res.append({
+            'name':'Potongan PPH21',
+            'sequence':80,
+            'code':'POTPPH',
+            'amount': 0.0,
+            'contract_id': self.contract_id.id})
+
         return res
 
     def get_presense(self, contracts, date_from, date_to):
-        print("date from: %s" % date_from)
-        print("date to: %s" % date_to)
         
         sql = """
             select count(*)

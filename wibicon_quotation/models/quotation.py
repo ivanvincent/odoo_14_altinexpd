@@ -24,6 +24,12 @@ class Quotation(models.Model):
     payment_term_id = fields.Many2one('account.payment.term', string='Payment Term')
     drawing_internal = fields.Binary(string='Drawing Internal', related='design_code_id.drawing_internal')
     drawing_external = fields.Binary(string='Drawing External', related='design_code_id.drawing_external')
+    shape = fields.Selection([("caplet","Caplet"),("round","Round")], string='Shape')
+    size = fields.Many2one('size', string='Size')
+    machine_id = fields.Many2one('machine', string='Machine')
+    product_tmpl_ids = fields.Many2many('product.template',
+        string='Product Template'
+        )
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids')
     def _compute_amount(self):
@@ -49,6 +55,75 @@ class Quotation(models.Model):
 
     def action_confirm(self):
         self.state = 'confirm'
+    
+    def action_generate(self):
+        print("action_generate hihi")
+        for product_tmpl in self.product_tmpl_ids:
+            machine_attr = self.env['product.template.attribute.line'].sudo().search([('product_tmpl_id','=',product_tmpl.id),('attribute_id.name','=', 'MACHINE')],limit=1)
+            size_attr = self.env['product.template.attribute.line'].sudo().search([('product_tmpl_id','=',product_tmpl.id),('attribute_id.name','=', 'SIZE')],limit=1)
+            attribute_obj = self.env['product.attribute']
+            value_obj = self.env['product.attribute.value']
+            attr_machine = attribute_obj.search([('name', '=', 'MACHINE')], limit=1).id
+            attr_size = attribute_obj.search([('name', '=', 'SIZE')], limit=1).id
+
+            print("attr_machine", attr_machine)
+            print("attr_size", attr_size)
+            machine_vals = value_obj.sudo().search([('name','=',self.machine_id.name), ('attribute_id', '=', attr_machine)],limit=1)
+            if not machine_vals:
+                machine_vals = self.env['product.attribute.value'].create({
+                    "attribute_id": attr_machine,
+                    "name": self.machine_id.name,
+                })
+            if machine_attr:
+                machine_attr.sudo().write({
+                    "attribute_id": attr_machine,
+                    "value_ids":[(4, machine_vals.id)],
+                })
+            else:
+                a = machine_attr.sudo().create({
+                    'product_tmpl_id': product_tmpl.id,
+                    'attribute_id': attr_machine,
+                    'value_ids': [(6, 0, machine_vals.ids)]
+                })
+                print("aaaaaaaaa", a)
+
+            size_vals = value_obj.sudo().search([('name','=',self.size.name), ('attribute_id', '=', attr_size)],limit=1)
+            if not size_vals:
+                size_vals = self.env['product.attribute.value'].create({
+                    "attribute_id": attr_size,
+                    "name": self.size.name,
+                })
+            
+            if size_attr:
+                size_attr.sudo().write({
+                    "attribute_id": attr_size,
+                    "value_ids":[(4,size_vals.id)],
+                })
+            else:
+                b = size_attr.sudo().create({
+                    'product_tmpl_id': product_tmpl.id,
+                    'attribute_id': attr_size, #attribute design 
+                    'value_ids': [(6, 0, [size_vals.id])]
+                })
+                print("bbbbbbbbbb", b)
+
+        # for color in self.color_ids:
+            combination = self.env['product.template.attribute.value'].search([('product_tmpl_id','=',product_tmpl.id),('product_attribute_value_id','in',[machine_vals.id, size_vals.id])])
+            # if not combination:
+            variant = product_tmpl._get_variant_for_combination(combination)
+            if not variant:
+                variant = product_tmpl._create_product_variant(combination, True)
+            # variant = self.product_id._get_variant_id_for_combination(combination)
+            # if self.product_id._is_combination_possible(combination):
+            #     print('s')
+            
+            # [color.sudo().write({"variant_id":variant.id}) for color in self.design_id.line_ids.filtered(lambda x:x.color_id.id == color.id)]
+            # variant.sudo().write({
+            #         "design_id":self.design_id.id
+            #     })
+            # history = self.env['sale.product.history'].search([('product_id','=',variant.id),('partner_id','=',self.partner_id.id)],limit=1)
+            if variant not in self.line_ids.mapped('product_id'):
+                self.line_ids = [(0,0,{"product_id":variant.id,"quantity": 1, "price_unit": 1, })]
 
 
 class QuotationLine(models.Model):
