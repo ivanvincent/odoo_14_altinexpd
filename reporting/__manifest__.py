@@ -38,6 +38,13 @@
         'report/reporting_stock.xml',
         'report/reporting_stock_lot.xml',
         'report/print_stock_opname.xml',
+        'report/laporan_mutasi_barang.xml',
+        'report/laporan_pengeluaran_kain.xml',
+        'report/laporan_pengeluaran_kain.xml',
+        'report/laporan_kain_lama.xml',
+        'report/laporan_akurasi_data_stock_opname.xml',
+        'report/laporan_group_by_palet.xml',
+        'report/laporan_barcode_perpalet.xml',
     ],
     
     # 'demo': [

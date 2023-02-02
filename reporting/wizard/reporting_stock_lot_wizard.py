@@ -5,12 +5,12 @@ class PrintReportingStockLotWizard(models.TransientModel):
     _name = 'print.reporting_stock_lot.wizard'
 
     reporting_id    = fields.Many2one('reporting.stock.lot', string='Reporting', required=True,)
-    type_print      = fields.Selection([("greige","Greige")], string='Type')
+    type_print      = fields.Selection([("greige","Lot")], string='Type')
     template_greige = fields.Selection([
         ("laporan_mutasi_barang","Laporan Mutasi Barang"),
         # ("laporan_penerimaan_kain_greige","Laporan Penerimaan Kain Greige"),
-        ("laporan_pengeluaran_kain","Laporan Pengeluaran Kain"),
-        ("laporan_kain_lama","Laporan Kain Lama"),
+        ("laporan_pengeluaran_kain","Laporan Pengeluaran"),
+        # ("laporan_kain_lama","Laporan Kain Lama"),
         ("laporan_akurasi_data_stock_opname","Laporan Akurasi Data Stock Opname"),
         ("laporan_group_by_palet","Laporan Group By Palet"),
         ("laporan_barcode_perpalet","Laporan Barcode Perpalet"),
