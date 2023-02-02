@@ -13,7 +13,7 @@
         />
 
         <template id="report_sale_order">
-            <t t-call="web.html_container">
+         <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <div class="header">
                             <div class="row mt32">
@@ -23,8 +23,9 @@
                                     </div>
                                     <div class="col-xs-7 col-xs-offset-1 font-small">
                                         <span style="padding-left:10px; font-size:30px;"><u><strong>PT. ALTINEX</strong></u></span><br/>
-                                        <span style="padding-left:10px; font-size:30px;">Bandung</span><br/>
-                                        <span style="padding-left:10px; font-size:30px;">JAWA BARAT - INDONESIA</span>
+                                        <span style="padding-left:10px; font-size:25px;">Jl. Panghegar no.7, Mekarmulya, Gedebage, Bandung 40614</span><br/>
+                                        <span style="padding-left:10px; font-size:25px;">JAWA BARAT - INDONESIA</span> <br/>
+                                        <span style="padding-left:10px; font-size:25px;">(022) 87880241</span>
                                     </div>
                                 </div>
                                 <hr style="width:100%;text-align:left;margin-left:0"/>
@@ -136,6 +137,7 @@
                         </div>
                         
                         <br/>
+                        <div class="line" style="border-bottom: thin solid #222;"></div>
                         <br/>
                         
                         <div class="page">
@@ -149,7 +151,6 @@
                         <div class="row" style="margin-bottom: 20px;">
                                 <div class="col-3">
                                     <table border="1" style="font-size:16px" width="75%">
-                                        <tr><td></td></tr>
                                         <tr style="padding-bottom:0;">
                                             <td style="padding-bottom:0; font-size:16px;">Note</td>
                                             <td style="padding-bottom:0; font-size:16px;"> : </td>
@@ -160,11 +161,12 @@
                                         </tr>
                                         <tr>
                                             <td style="padding-bottom:0; font-size:16px;"><b>Toleransi</b></td>
-                                            <td style="padding-bottom:0; font-size:16px;"> : </td>
-                                        </tr>
+                                            <td style="padding-bottom:0; font-size:16px;"> : </td> <br/>
+                                        </tr> 
+                                        <tr><td style="color: white">test</td></tr>
                                         <tr>
                                             <td style="padding-bottom:0; font-size:16px;">Pembayaran</td>
-                                            <td style="padding-bottom:0; font-size:16px;"> : </td>
+                                            <td style="padding-bottom:0; font-size:16px;"> : </td> 
                                         </tr>
                                         <tr>
                                             <td style="padding-bottom:0; font-size:16px;">Penawaran berlaku</td>
@@ -172,16 +174,19 @@
                                         </tr>
                                     </table>
                                 </div>
-                                <div class="col-9" style="font-size:16px">
+                                <div class="col-10" style="font-size:16px">
                                     <table border="1" style="font-size:16px" width="75%">
                                         <tr style="padding-bottom:0;">
-                                            <td style="padding-bottom:0; font-size:16px;">Harga Belum Termasuk PPN</td>
+                                            <td style="padding-bottom:0; font-size:16px; color: white">test</td>
                                         </tr>
                                         <tr style="padding-bottom:0;">
-                                            <td style="padding-bottom:0; font-size:16px;"></td>
+                                            <td style="padding-bottom:0; font-size:16px; color: white">test</td>
                                         </tr>
                                         <tr style="padding-bottom:0;">
-                                            <td style="padding-bottom:0; font-size:16px;"></td>
+                                            <td style="padding-bottom:0; font-size:16px; color: white">test</td>
+                                        </tr>
+                                        <tr style="padding-bottom:0;">
+                                            <td style="padding-bottom:0; font-size:16px;"/>
                                         </tr>
                                         <tr style="padding-bottom:0;">
                                             <td style="padding-bottom:0; font-size:16px;">
@@ -198,10 +203,34 @@
                                     </table>
                                 </div>
                             </div>
+                            <div class="row" style="margin-bottom: 20px;">
+                              <div class="col-12">
+                                  <tr><td><span><b>Demikian hal yang ingin kami sampaikan, atas perhatiannya kami ucapkan terima kasih</b></span></td></tr>
+                              </div>
+                              </div>
+                            
                         </div>
+                        <br/>
+                        <div class="row">
+                        <div class="col-6 text-center">
+                            <!--Pembuat Data <br/>-->
+                            <!--<span t-field="o.date_start"></span><br/><br/><br/>-->
+                            <!--(<span t-field="o.requested_by"></span>)-->
+                        </div>
+                        <!-- <div class="col-3 text-center">
+                            Penerima <br/><br/><br/><br/>
+                            (_______________________)
+                        </div> -->
+                        <div class="col-6 text-center">
+                            Menyetujui <br/><br/><br/><br/>
+                            (_______________________)
+                        </div>
+                        
+                    </div>
                     </t>
                 </t>
-            </t>
+            </t>    
+        </t>
         </template>
 
     </data>
