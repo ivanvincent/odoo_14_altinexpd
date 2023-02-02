@@ -31,16 +31,21 @@ class HrAttendance(models.Model):
         }
         for rec in self:
             # get tolerance_in from shift module
-            # employee_id = rec.employee_id.id
-            # employee = self.env['hr.employee'].search([('id','=',employee_id)])
-            # employee_shift = self.env['resource.calendar'].search([('id','=',employee.resource_calendar_ids.id)])
             if rec.employee_id.resource_calendar_ids:
                 day_checkin = rec.check_in.today().strftime('%A')
                 tolerance_in_hours = rec.employee_id.resource_calendar_ids.attendance_ids.filtered(lambda x: x.dayofweek == days_dict.get(day_checkin)).tolerance_in
                 datetime_tolerance_in = datetime.strptime(rec.check_in.strftime('%Y-%m-%d'), "%Y-%m-%d") + timedelta(hours=tolerance_in_hours)
+                hour_from = rec.employee_id.resource_calendar_ids.attendance_ids.filtered(lambda x: x.dayofweek == days_dict.get(day_checkin)).hour_from
+                hour_to = rec.employee_id.resource_calendar_ids.attendance_ids.filtered(lambda x: x.dayofweek == days_dict.get(day_checkin)).hour_to
+                half_day_calculation = (hour_from-hour_to)/2 + 1
+
                 if rec.check_in > datetime_tolerance_in:
-                    rec.late_counter = 1
+                    rec.late_counter = 0.5
                 else:
-                    rec.late_counter = 0
+                    if (rec.check_in <= datetime_tolerance_in) and (rec.worked_hours >= half_day_calculation):
+                        rec.late_counter = 0
+                    else : 
+                        rec.late_counter = 0.5
+
             else:
                 rec.late_counter = 0
