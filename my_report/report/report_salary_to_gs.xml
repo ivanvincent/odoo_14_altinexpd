@@ -21,8 +21,8 @@
             model="hr.payslip"
             string="Print Salary to GS" 
             report_type="qweb-pdf" 
-            name="my_report_report_salary_gs" 
-            file="my_report_report_salary_gs" />
+            name="my_report.report_salary_gs" 
+            file="my_report.report_salary_gs" />
 
         <record id="action_report_salary_gs" model="ir.actions.report">
             <field name="paperformat_id" eval="paperformat_report_salary_gs" />
