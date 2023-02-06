@@ -313,9 +313,15 @@
         </record>
 
         <menuitem id="menu_department_tree"
-                  action="action_view_hr_payslip_form"
-                  parent="menu_hr_payroll_root"
-                  groups="om_hr_payroll.group_hr_payroll_user"/>
+                action="action_view_hr_payslip_form"
+                parent="menu_hr_payroll_root"
+                groups="om_hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem id="hr_payslip_view_kanban"
+                action="action_view_hr_payslip_form"
+                string="Reporting"
+                parent="om_hr_payroll.menu_hr_payroll_root"
+                groups="om_hr_payroll.group_hr_payroll_user"/>
 
         <record id="act_hr_employee_payslip_list" model="ir.actions.act_window">
             <field name="res_model">hr.payslip</field>
