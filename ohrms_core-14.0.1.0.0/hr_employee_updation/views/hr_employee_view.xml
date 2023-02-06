@@ -18,7 +18,7 @@
                                 <field name="member_name" required="1"/>
                                 <field name="relation_id" required="1"/>
                                 <!-- <field name="member_contact"/> -->
-                                <field name="birth_date"/>
+                                <!-- <field name="birth_date"/> -->
                             </tree>
                         </field>
                     </group>
