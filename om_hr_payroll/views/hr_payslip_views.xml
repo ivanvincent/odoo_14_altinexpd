@@ -317,7 +317,7 @@
                 parent="menu_hr_payroll_root"
                 groups="om_hr_payroll.group_hr_payroll_user"/>
 
-        <menuitem id="hr_payslip_view_kanban"
+        <menuitem id="menu_department_tree"
                 action="action_view_hr_payslip_form"
                 string="Reporting"
                 parent="om_hr_payroll.menu_hr_payroll_root"
