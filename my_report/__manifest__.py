@@ -51,6 +51,7 @@
         'report/report_staff.xml',
         'report/laporan_sales_contract.xml',
         'report/print_manufacturing_request.xml',
+        'report/report_salary_to_gs.xml',
 
         
         # 'views/inherit_stock.xml',
