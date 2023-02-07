@@ -23,7 +23,7 @@
             <field name="report_name">sh_hr_payroll.report_salary_bpjs</field>
             <field name="report_file">sh_hr_payroll.report_salary_bpjs</field>
             <field name="print_report_name">Laporan BPJS</field>
-            <field name="binding_model_id" ref="model_report_salary_bpjs" />
+            <field name="binding_model_id" ref="model_hr_payslip" />
             <field name="binding_type">report</field>
             <field name="paperformat_id" eval="paperformat_report_salary_bpjs" />
         </record>
