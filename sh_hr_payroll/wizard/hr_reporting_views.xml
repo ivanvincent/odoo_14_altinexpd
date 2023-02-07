@@ -7,7 +7,7 @@
             <field name="arch" type="xml">
                 <form>
                     <field name="name"/>
-               </form>
+                </form>
             </field>
         </record>
 
@@ -19,17 +19,24 @@
             <field name="target">new</field>
         </record>
 
-       <menuitem
-        id="reporting_menu"
-        name="Reporting"
-        parent="sh_hr_payroll.menu_hr_payroll_root"
-       />
+        <menuitem
+            id="reporting_menu"
+            name="Reporting"
+            parent="sh_hr_payroll.menu_hr_payroll_root"
+        />
 
-      <menuitem
-        id="repoting_child_menu"
-        name="Reporting"
-        parent="reporting_menu"
-        action="action_reporting_wizard"
-      />
+        <menuitem
+            id="repoting_child_menu"
+            name="Report to BPJS"
+            parent="reporting_menu"
+            action="action_reporting_wizard"
+        />
+
+        <menuitem
+            id="repoting_child_menu"
+            name="Report to GS"
+            parent="reporting_menu"
+            action="action_reporting_wizard"
+        />
 
 </odoo>

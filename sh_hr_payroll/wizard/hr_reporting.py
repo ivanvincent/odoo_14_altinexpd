@@ -9,6 +9,9 @@ class HrReporting(models.TransientModel):
     _name = 'hr.reporting.wizard'
     _description = 'Generate payslips for all selected employees'
 
-    name = fields.Char(string="Test")
+    name = fields.Char(required=True, translate=True)
+    date_start = fields.Date(string="Start date", required=True)
+    date_end = fields.Date(string="End date", required=True)
+
 
    
