@@ -43,12 +43,15 @@
                     <button name="action_view_inspect" type="object" string="Inspection" class="oe_stat_button" icon="fa-exchange" attrs="{'invisible': [('state', 'in', ('draft', 'confirmed'))]}"/>
                     <button class="oe_stat_button" icon="fa-truck" attrs="{'invisible': [('picking_finished_id', '=', False)]}">
                         <div class="o_field_widget o_stat_info">
-                            <span class="o_returned_finished">
-                                <field name="picking_finished_id"/>
-                            </span>
-                            <span class="o_stat_text">Finished Product</span>
+                        <span class="o_returned_finished">
+                            <field name="picking_finished_id"/>
+                        </span>
+                        <span class="o_stat_text">Finished Product</span>
                         </div>
                     </button>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="wo_altinex"/>
                 </xpath>
             </field>
         </record>

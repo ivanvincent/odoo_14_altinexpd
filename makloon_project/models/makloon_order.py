@@ -519,6 +519,7 @@ class MakloonOrderMaterial(models.Model):
 
     product_uom = fields.Many2one(
         'uom.uom', 'Unit of Measure', required=True)
+    size_id = fields.Many2one('size', string='Size')
 
 
     @api.onchange('product_id')

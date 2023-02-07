@@ -27,6 +27,7 @@ class MrpProduction(models.Model):
     picking_finished_id = fields.Many2one('stock.picking', string='Picking Finished')
     picking_request_ids      = fields.Many2many('stock.picking', string='Picking Request',compute="_compute_picking_request")
     picking_request_count    = fields.Integer( string='Picking Request Amount',compute="_compute_picking_request")
+    wo_altinex = fields.Char(string='Wo Altinex')
     
     
     def action_split_workorder(self):

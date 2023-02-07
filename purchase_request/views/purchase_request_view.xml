@@ -64,12 +64,12 @@
                                     <field name="name" />
                                     <field name="lot_id" domain="[('product_id', '=', product_id)]"/>
                                     <field name="specifications" />
-                                    <field name="qty_on_hand" />
                                     <field name="grade_id" />
                                     <field name="product_qty" sum="Total"/>
                                     <field name="product_uom_id" string="Satuan"  groups="uom.group_uom" options="{'no_open': True, 'no_create': True}"/>
                                     <field name="date_required" />
                                     <field name="no_komunikasi" />
+                                    <field name="qty_on_hand" />
                                     <button name="action_show_image" type="object" icon="fa-picture-o" width="0.1" role="img" title="Upload Image" />
                                     <field name="last_price" sum="last_price" invisible="1"/>
                                     <field name="estimated_cost" invisible="1" widget="monetary" groups="purchase_request.group_purchase_request_manager" />
