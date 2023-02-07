@@ -427,7 +427,7 @@
     <!-- Reporting -->
     <record id="hr_payslip_run_filter" model="ir.ui.view">
         <field name="name">hr.payslip.run.search</field>
-        <field name="model">hr.payslip</field>
+        <field name="model">hr.payslip.run</field>
         <field name="arch" type="xml">
             <search string="Reporting">
                 <field name="name" string="Payslip Batches"/>
@@ -441,7 +441,7 @@
 
     <record id="hr_payslip_run_tree" model="ir.ui.view">
         <field name="name">hr.payslip.run.tree</field>
-        <field name="model">hr.payslip</field>
+        <field name="model">hr.payslip.run</field>
         <field name="arch" type="xml">
             <tree string="Reporting">
                 <field name="name"/>
@@ -455,7 +455,7 @@
 
     <record id="hr_payslip_run_view_kanban" model="ir.ui.view">
         <field name="name">hr.payslip.run.kanban</field>
-        <field name="model">hr.payslip</field>
+        <field name="model">hr.paysli.run</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile">
                 <templates>
