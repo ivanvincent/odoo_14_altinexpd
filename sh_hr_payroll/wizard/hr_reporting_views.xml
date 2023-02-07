@@ -7,11 +7,21 @@
             <field name="arch" type="xml">
                 <form>
                     <field name="name"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
                 </form>
             </field>
         </record>
 
-        <record id="action_reporting_wizard" model="ir.actions.act_window">
+        <record id="action_reporting_to_bpjs_wizard" model="ir.actions.act_window">
+            <field name="name">Generate Payslips</field>
+            <field name="res_model">hr.reporting.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="context">{}</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="action_reporting_to_gs_wizard" model="ir.actions.act_window">
             <field name="name">Generate Payslips</field>
             <field name="res_model">hr.reporting.wizard</field>
             <field name="view_mode">form</field>
@@ -29,14 +39,14 @@
             id="repoting_child_menu"
             name="Report to BPJS"
             parent="reporting_menu"
-            action="action_reporting_wizard"
+            action="action_reporting_to_bpjs_wizard"
         />
 
         <menuitem
             id="repoting_child_menu"
             name="Report to GS"
             parent="reporting_menu"
-            action="action_reporting_wizard"
+            action="action_reporting_to_gs_wizard"
         />
 
 </odoo>
