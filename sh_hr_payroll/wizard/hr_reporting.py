@@ -6,7 +6,7 @@ from odoo.exceptions import UserError
 
 
 class HrReporting(models.TransientModel):
-    _name = 'hr.reporting'
+    _name = 'hr.reporting.wizard'
     _description = 'Generate payslips for all selected employees'
 
     employee_ids = fields.Many2many('hr.employee', 'hr_employee_group_rel', 'payslip_id', 'employee_id', 'Employees')
