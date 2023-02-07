@@ -288,7 +288,7 @@
             <field name="arch" type="xml">
                 <search string="Search Payslips">
                     <field name="name" string="Payslips"
-                           filter_domain="['|',('name','ilike',self),('number','ilike',self)]"/>
+                        filter_domain="['|',('name','ilike',self),('number','ilike',self)]"/>
                     <field name="date_from"/>
                     <filter string="Draft" name="draft" domain="[('state','=','draft')]" help="Draft Slip"/>
                     <filter string="Done" name="done" domain="[('state','=','done')]" help="Done Slip"/>
@@ -317,10 +317,10 @@
                 parent="menu_hr_payroll_root"
                 groups="om_hr_payroll.group_hr_payroll_user"/>
 
-        <menuitem id="menu_department_tree"
+        <!-- <menuitem id="menu_department_tree"
                 action="action_view_hr_payslip_form"
                 string="Reporting"
-                parent="om_hr_payroll.menu_hr_payroll_root"/>
+                parent="om_hr_payroll.menu_hr_payroll_root"/> -->
                 <!-- groups="om_hr_payroll.group_hr_payroll_user"/> -->
 
         <record id="act_hr_employee_payslip_list" model="ir.actions.act_window">
@@ -441,8 +441,8 @@
         </record>
 
         <menuitem id="menu_hr_payslip_run"
-                  action="action_hr_payslip_run_tree"
-                  parent="menu_hr_payroll_root"/>
+                    action="action_hr_payslip_run_tree"
+                    parent="menu_hr_payroll_root"/>
 
         <!--  Shortcuts -->
 
@@ -452,6 +452,18 @@
             <field name="domain">[('register_id', '=', active_id)]</field>
             <field name="context">{'default_register_id': active_id, 'search_default_register_id': 1}</field>
         </record>
+
+        <!-- Reporting -->
+        <record id="action_reproting_run_tree" model="ir.actions.act_window">
+            <field name="name">Reporting</field>
+            <field name="res_model">hr.payslip.run</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="search_view_id" ref="hr_payslip_run_filter"/>
+        </record>
+
+        <menuitem id="menu_hr_payslip_run"
+                  action="action_hr_payslip_run_tree"
+                  parent="menu_hr_payroll_root"/>
 
     </data>
 
