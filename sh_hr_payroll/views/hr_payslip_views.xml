@@ -424,12 +424,12 @@
         id="act_contribution_reg_payslip_lines"/>
  -->
 
-    <!-- Produksi -->
+    <!-- Reporting -->
     <record id="hr_payslip_run_filter" model="ir.ui.view">
         <field name="name">hr.payslip.run.search</field>
-        <field name="model">hr.payslip.run</field>
+        <field name="model">hr.payslip</field>
         <field name="arch" type="xml">
-            <search string="Search Payslip Batches">
+            <search string="Reporting">
                 <field name="name" string="Payslip Batches"/>
                 <field name="date_start"/>
                 <field name="date_end"/>
@@ -441,9 +441,9 @@
 
     <record id="hr_payslip_run_tree" model="ir.ui.view">
         <field name="name">hr.payslip.run.tree</field>
-        <field name="model">hr.payslip.run</field>
+        <field name="model">hr.payslip</field>
         <field name="arch" type="xml">
-            <tree string="Payslips Batches">
+            <tree string="Reporting">
                 <field name="name"/>
                 <field name="date_start"/>
                 <field name="date_end"/>
@@ -455,7 +455,7 @@
 
     <record id="hr_payslip_run_view_kanban" model="ir.ui.view">
         <field name="name">hr.payslip.run.kanban</field>
-        <field name="model">hr.payslip.run</field>
+        <field name="model">hr.payslip</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile">
                 <templates>
@@ -504,9 +504,9 @@
                 </h1>
                 <group col="4">
                     <label for="date_start" string="Period"/>
-                     <div>
-                           <field name="date_start" class="oe_inline"/> - <field name="date_end" class="oe_inline"/>
-                     </div>
+                    <div>
+                        <field name="date_start" class="oe_inline"/> - <field name="date_end" class="oe_inline"/>
+                    </div>
                     <field name="credit_note"/>
                 </group>
                 <separator string="Payslips"/>
