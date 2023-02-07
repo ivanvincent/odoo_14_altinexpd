@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="paperformat_report_salary_bpjs" model="report.paperformat">
+            <field name="name">Report Salary To BPJS A4</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">2</field>
+            <field name="margin_right">2</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">9</field>
+            <field name="dpi">110</field>
+        </record>
+
+        <record id="action_report_salary_bpjs" model="ir.actions.report">
+            <field name="name">Report Salary To BPJS</field>
+            <field name="model">hr.payslip</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">sh_hr_payroll.report_salary_bpjs</field>
+            <field name="report_file">sh_hr_payroll.report_salary_bpjs</field>
+            <field name="print_report_name">Report Salary To BPJS</field>
+            <field name="binding_model_id" ref="model_report_salary_bpjs" />
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" eval="paperformat_report_salary_bpjs" />
+        </record>
+
+        <template id="report_salary_bpjs">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <h2>test</h2>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
