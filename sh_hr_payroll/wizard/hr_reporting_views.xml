@@ -21,12 +21,25 @@
             </field>
         </record>
 
-        <record id="action_hr_payslip_by_employees" model="ir.actions.act_window">
+        <record id="action_reporting_wizard" model="ir.actions.act_window">
             <field name="name">Generate Payslips</field>
-            <field name="res_model">hr.payslip.employees</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="view_hr_payslip_by_employees"/>
+            <field name="res_model">hr.reporting</field>
+            <field name="view_mode">form</field>
+            <field name="context">{}</field>
             <field name="target">new</field>
         </record>
+
+       <menuitem
+        id="reporting_menu"
+        name="Reporting"
+        parent="sh_hr_payroll.menu_hr_payroll_root"
+       />
+
+      <menuitem
+        id="repoting_child_menu"
+        name="Reporting"
+        parent="reporting_menu"
+        action="action_reporting_wizard"
+      />
 
 </odoo>

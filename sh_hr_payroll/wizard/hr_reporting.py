@@ -5,8 +5,8 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
 
-class HrPayslipEmployees(models.TransientModel):
-    _name = 'hr.payslip.employees'
+class HrReporting(models.TransientModel):
+    _name = 'hr.reporting'
     _description = 'Generate payslips for all selected employees'
 
     employee_ids = fields.Many2many('hr.employee', 'hr_employee_group_rel', 'payslip_id', 'employee_id', 'Employees')
