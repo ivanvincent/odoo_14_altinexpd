@@ -453,18 +453,6 @@
             <field name="context">{'default_register_id': active_id, 'search_default_register_id': 1}</field>
         </record>
 
-        <!-- Reporting -->
-        <record id="action_payslip_run_tree" model="ir.actions.act_window">
-            <field name="name">Reporting</field>
-            <field name="res_model">hr.payslip.run</field>
-            <field name="view_mode">tree,kanban,form</field>
-            <field name="search_view_id" ref="hr_payslip_run_filter"/>
-        </record>
-
-        <menuitem id="menu_hr_payslip_run"
-                  action="action_hr_payslip_run_tree"
-                  parent="menu_hr_payroll_root"/>
-
     </data>
 
 </odoo>
