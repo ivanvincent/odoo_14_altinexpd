@@ -9,7 +9,7 @@ class Quotation(models.Model):
     date = fields.Date(string='Date')
     # design_code_id = fields.Char(string='Design Code') #sementara
     design_code_id = fields.Many2one('makloon.design', string='Design')
-    image_binary = fields.Binary(string='Image', store=False,)
+    image_binary = fields.Binary(string='Drawing', store=False,)
     line_ids = fields.One2many('quotation.line', 'quotation_id', 'Line')
     state = fields.Selection([("draft","Draft"),("confirm","Confirm")], string='State', default='draft')
     amount_tax = fields.Monetary(string='Taxes', currency_field='currency_id', compute='_compute_amount')

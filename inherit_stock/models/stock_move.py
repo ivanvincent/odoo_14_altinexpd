@@ -40,6 +40,7 @@ class StockMoveLine(models.Model):
     qty_roll     = fields.Integer(string='Roll')
     pcs          = fields.Float(string='Pcs')
     keterangan_wo = fields.Char(string='Ket Wo')
+    waste       = fields.Float(string='Waste')
     
     
             
