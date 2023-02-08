@@ -24,7 +24,7 @@ class HrReporting(models.TransientModel):
             data = {
                 'me': self,
                 'ids': self.ids,
-                'model': self._name,
+                # 'model': self._name,
                 'form': {
                     'date_start': self.date_start,
                     'date_end': self.date_end,
@@ -37,7 +37,7 @@ class HrReporting(models.TransientModel):
             data = {
                 'me': self,
                 'ids': self.ids,
-                'model': self._name,
+                # 'model': self._name,
                 'form': {
                     'date_start': self.date_start,
                     'date_end': self.date_end,
