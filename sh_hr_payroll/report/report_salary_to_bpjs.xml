@@ -30,13 +30,13 @@
 
         <template id="report_salary_bpjs">
             <t t-call="web.basic_layout">
-                <div class="header">
-                    <div class="text-center">
-                        <h4><b>LAPORAN GAJI UNTUK BPJS</b></h4>
-                    </div>
-                    <br/>
-                </div>
-                <table class="table-condensed" style="font-size : 20px" width="100%">
+                <div class="page">
+                    <center>
+                    <h3><b>LAPORAN GAJI UNTUK BPJS</b></h3>
+                    </center>
+                    
+                        <br/>
+                    <table class="table-condensed" style="font-size : 20px" width="100%">
                     <thead>
                         <tr class="text-center">
                         <th style="border : 1px solid black; color : white;" rowspan="2">kolom kosong</th>
@@ -55,7 +55,8 @@
                         <th style="border : 1px solid black">BPJS JP (Karyawan)</th>
                         </tr>
                     </thead>
-                </table>
+                    </table>
+                </div>
             </t>  
         </template>
     </data>
