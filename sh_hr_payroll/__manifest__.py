@@ -31,6 +31,7 @@
         'views/report_payslipdetails_templates.xml',
         'wizard/hr_reporting_views.xml',
         'report/report_salary_to_bpjs.xml',
+        'report/report_salary_to_gs.xml',
     ],
     'demo': ['data/hr_payroll_demo.xml'],
     "application": True,
