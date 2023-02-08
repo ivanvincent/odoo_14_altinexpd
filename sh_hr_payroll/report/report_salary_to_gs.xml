@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="paperformat_report_salary_gs" model="report.paperformat">
+            <field name="name">Report Salary To GS A4</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">2</field>
+            <field name="margin_right">2</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">9</field>
+            <field name="dpi">110</field>
+        </record>
+
+
+        <record id="action_report_salary_gs" model="ir.actions.report">
+            <field name="name">Laporan GS</field>
+            <field name="model">hr.payslip</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">sh_hr_payroll.report_salary_gs</field>
+            <field name="report_file">sh_hr_payroll.report_salary_gs</field>
+            <field name="print_report_name">Laporan gs</field>
+            <field name="binding_model_id" ref="model_hr_payslip" />
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" eval="paperformat_report_salary_gs" />
+        </record>
+
+        <template id="report_salary_gs">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <center>
+                    <h3><b>LAPORAN GAJI UNTUK BPJS</b></h3>
+                    </center>
+                    
+                        <br/>
+                    <table class="table-condensed" style="font-size : 20px" width="100%">
+                    <thead>
+                        <tr class="text-center">
+                        <th style="border : 1px solid black; color : white;" rowspan="2">kolom kosong</th>
+                        <th style="border : 1px solid black" rowspan="2"> Gaji Pokok</th>
+                        <th style="border : 1px solid black" colspan="5">Total Iuran BPJS (Perusahaan)</th>
+                        <th style="border : 1px solid black" colspan="3">Total Iuran BPJS (Karyawan)</th>
+                        </tr>
+                        <tr class="text-center">
+                        <th style="border : 1px solid black">BPJS Kesehatan (Perusahaan)</th>
+                        <th style="border : 1px solid black">BPJS JHT (Perusahaan)</th>
+                        <th style="border : 1px solid black">BPJS JKK (Perusahaan)</th>
+                        <th style="border : 1px solid black">BPJS JP (Perusahaan)</th>
+                        <th style="border : 1px solid black">BPJS JKM (perusahaan)</th>
+                        <th style="border : 1px solid black">BPJS Kesehatan (Karyawan)</th>
+                        <th style="border : 1px solid black">BPJS JHT (Karyawan)</th>
+                        <th style="border : 1px solid black">BPJS JP (Karyawan)</th>
+                        </tr>
+                    </thead>
+                    </table>
+                </div>
+            </t>  
+        </template>
+    </data>
+</odoo>
