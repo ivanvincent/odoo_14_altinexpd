@@ -71,6 +71,11 @@
                                             <td style="padding-bottom:0; font-size:16px;"> : </td>
                                             <!--<td style="padding-bottom:0; padding-left:5px; font-size:16px;"><span t-field="o.description"/></td>-->
                                         </tr>
+                                        <tr>
+                                            <td style="padding-bottom:0; font-size:16px;"><strong>Contact person Customer</strong></td>
+                                            <td style="padding-bottom:0; font-size:16px;"> : </td>
+                                            <!--<td style="padding-bottom:0; padding-left:5px; font-size:16px;"><span t-field="o.description"/></td>-->
+                                        </tr>
                                     </table>
                                 </div>
                             </div>
