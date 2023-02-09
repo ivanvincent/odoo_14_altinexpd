@@ -34,7 +34,7 @@
             <t t-call="web.basic_layout">
                 <div class="page">
                     <center>
-                    <h3><b>LAPORAN GAJI UNTUK GS</b></h3>
+                    <h3><b>LAPORAN GAJI KE GITA SARANA</b></h3>
                     </center>
                     
                         <br/>
