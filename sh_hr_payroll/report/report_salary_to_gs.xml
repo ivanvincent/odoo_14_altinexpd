@@ -45,7 +45,7 @@
                         <th style="border : 1px solid black" rowspan="2">Gaji Pokok</th>
                         <th style="border : 1px solid black" colspan="6">Total Tunjangan</th>
                         <th style="border : 1px solid black" colspan="3">Total Iuran BPJS (Perusahaan)</th>
-                        <th style="border : 1px solid black" colspan="2">Komponen Tidak Teratur (KTT)</th>
+                        <th style="border : 1px solid black" colspan="2">Komponen Tidak Teratur</th>
                         <th style="border : 1px solid black" rowspan="2">Gaji Bruto</th>
                         <th style="border : 1px solid black" colspan="4">Total Pengurang</th>
                         <th style="border : 1px solid black" rowspan="2">Gaji Bersih Bulanan</th>
