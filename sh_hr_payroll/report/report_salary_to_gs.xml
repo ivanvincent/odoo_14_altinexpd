@@ -2,9 +2,11 @@
 <odoo>
     <data>
         <record id="paperformat_report_salary_gs" model="report.paperformat">
-            <field name="name">Report Salary To GS A4</field>
+            <field name="name">Report Salary To GS</field>
             <field name="default" eval="True"/>
-            <field name="format">A4</field>
+            <field name="format">Custom</field>
+            <field name="page_width">297</field>
+            <field name="page_height">210</field>
             <field name="orientation">Landscape</field>
             <field name="margin_top">20</field>
             <field name="margin_bottom">5</field>
@@ -32,7 +34,7 @@
             <t t-call="web.basic_layout">
                 <div class="page">
                     <center>
-                    <h3><b>LAPORAN GAJI UNTUK BPJS</b></h3>
+                    <h3><b>LAPORAN GAJI UNTUK GS</b></h3>
                     </center>
                     
                         <br/>
@@ -40,24 +42,42 @@
                     <thead>
                         <tr class="text-center">
                         <th style="border : 1px solid black; color : white;" rowspan="2">kolom kosong</th>
-                        <th style="border : 1px solid black" rowspan="2"> Gaji Pokok</th>
-                        <th style="border : 1px solid black" colspan="5">Total Iuran BPJS (Perusahaan)</th>
-                        <th style="border : 1px solid black" colspan="3">Total Iuran BPJS (Karyawan)</th>
+                        <th style="border : 1px solid black" rowspan="2">Gaji Pokok</th>
+                        <th style="border : 1px solid black" colspan="6">Total Tunjangan</th>
+                        <th style="border : 1px solid black" colspan="3">Total Iuran BPJS (Perusahaan)</th>
+                        <th style="border : 1px solid black" colspan="2">Komponen Tidak Teratur (KTT)</th>
+                        <th style="border : 1px solid black" rowspan="2">Gaji Bruto</th>
+                        <th style="border : 1px solid black" colspan="4">Total Pengurang</th>
+                        <th style="border : 1px solid black" rowspan="2">Gaji Bersih Bulanan</th>
+                        <th style="border : 1px solid black" rowspan="2">Gaji Bersih Akumulasi</th>
+                        <th style="border : 1px solid black" rowspan="2">PPh 21 Cicilan Sebulan</th>
+                        <th style="border : 1px solid black" rowspan="2">PPh 21 Cicilan setelah melampaui PTKP</th>
+                        <th style="border : 1px solid black" rowspan="2">PPh 21 SPT</th>
+                        <th style="border : 1px solid black" rowspan="2">PPh 21 Kurang Bayar</th>
+                        <th style="border : 1px solid black" rowspan="2">Take Home Pay</th>
                         </tr>
                         <tr class="text-center">
+                        <th style="border : 1px solid black">Tunjangan Keahlian</th>
+                        <th style="border : 1px solid black">Tunjangan Shift 3</th>
+                        <th style="border : 1px solid black">Bonus Proyek</th>
+                        <th style="border : 1px solid black">Bonus Bulanan</th>
+                        <th style="border : 1px solid black">Tunjangan Kesehatan Non BPJS</th>
+                        <th style="border : 1px solid black">Tunjangan Bensin</th>
                         <th style="border : 1px solid black">BPJS Kesehatan (Perusahaan)</th>
-                        <th style="border : 1px solid black">BPJS JHT (Perusahaan)</th>
                         <th style="border : 1px solid black">BPJS JKK (Perusahaan)</th>
-                        <th style="border : 1px solid black">BPJS JP (Perusahaan)</th>
-                        <th style="border : 1px solid black">BPJS JKM (perusahaan)</th>
-                        <th style="border : 1px solid black">BPJS Kesehatan (Karyawan)</th>
+                        <th style="border : 1px solid black">BPJS JKM (Perusahaan)</th>
+                        <th style="border : 1px solid black">THR</th>
+                        <th style="border : 1px solid black">Bonus Tahunan</th>
                         <th style="border : 1px solid black">BPJS JHT (Karyawan)</th>
                         <th style="border : 1px solid black">BPJS JP (Karyawan)</th>
+                        <th style="border : 1px solid black">Biaya Jabatan</th>
+                        <th style="border : 1px solid black">Potongan Resmi</th>
+                        
                         </tr>
                     </thead>
                     </table>
                 </div>
-            </t>  
+            </t>
         </template>
     </data>
 </odoo>
