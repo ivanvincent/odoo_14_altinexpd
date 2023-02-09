@@ -4,7 +4,7 @@
         <record id="paperformat_report_salary_gs" model="report.paperformat">
             <field name="name">Report Salary To GS</field>
             <field name="default" eval="True"/>
-            <field name="format">Custom</field>
+            <field name="format">custom</field>
             <field name="page_width">297</field>
             <field name="page_height">210</field>
             <field name="orientation">Landscape</field>
