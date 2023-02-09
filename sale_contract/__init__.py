@@ -21,4 +21,3 @@
 #
 ##############################################################################
 from . import models
-from . import laporan_omset_per_costumer

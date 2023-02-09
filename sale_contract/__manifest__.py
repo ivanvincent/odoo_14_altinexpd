@@ -40,7 +40,6 @@
         'security/ir.model.access.csv',
         'views/sale_contract.xml',
         'views/sale_order_view.xml',
-        'wizard/laporan_omset_per_costumer.xml',
     ],
     'license': 'AGPL-3',
     'installable': True,
