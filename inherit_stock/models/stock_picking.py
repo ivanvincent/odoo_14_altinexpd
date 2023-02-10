@@ -213,6 +213,34 @@ class StockPicking(models.Model):
         }
         return self.env.ref('inherit_stock.action_sppm_print').report_action(None, data=data)
 
+    def button_validate(self):
+        res = super(StockPicking, self).button_validate()
+        print('resssss', res)
+        if res == True:
+            if sum(self.move_line_ids_without_package.mapped('waste')) > 0:
+                self._create_picking_scrap()
+        return res
+
+    def _create_picking_scrap(self):
+        picking_obj = self.env['stock.picking'].create({
+            'picking_type_id' : self.picking_type_id.id,
+            'location_id'     : self.location_id.id,
+            'location_dest_id': 16, #Virtual Locations / Scraps
+            "origin"          : "Scrap - %s" % (self.name),
+            "move_line_ids_without_package":[(0,0, {
+                "lot_id"            : move.lot_id.id,
+                "product_id"        : move.product_id.id,
+                # "product_uom_qty"   : move.waste,
+                "qty_done"          : move.waste,
+                "product_uom_id"    : move.product_id.uom_id.id,
+                "location_id"       : self.location_id.id,
+                "location_dest_id"  : 16, #Virtual Locations / Scraps
+            }) for move in self.move_line_ids_without_package.filtered(lambda x: x.waste > 0)]
+        })
+        picking_obj.action_confirm()
+        picking_obj.action_assign()
+        picking_obj.button_validate()
+
 class ReportSPPM(models.AbstractModel):
     _name = 'report.inherit_stock.sppm_template'
 
