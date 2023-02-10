@@ -12,4 +12,3 @@ access_accessories,accessories,model_accessories,base.group_system,1,1,1,1
 access_hang_tag,hang.tag,model_hang_tag,base.group_system,1,1,1,1
 access_sales_all_multi_product,sales_all_multi_product,model_sales_all_multi_product,base.group_system,1,1,1,1
 access_sale_contract_process,sale_contract_process,model_sale_contract_process,base.group_system,1,1,1,1
-access_laporan_omset_per_costumer,laporan_omset_per_costumer,model_laporan_omset_per_costumer,base.group_system,1,1,1,1
