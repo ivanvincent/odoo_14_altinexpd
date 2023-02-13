@@ -46,8 +46,8 @@ class Product(models.Model):
     
     
   
-    def name_get(self):
-        return [(rec.id, rec.name) for rec in self]
+    # def name_get(self):
+    #     return [(rec.id, rec.name) for rec in self]
     
     
 class ProductTemplate(models.Model):
