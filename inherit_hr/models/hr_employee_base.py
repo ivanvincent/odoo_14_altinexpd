@@ -14,7 +14,7 @@ class HrEmployeeBase(models.AbstractModel):
         self.ensure_one()
         action_date = fields.Datetime.now()
         attendance_checked_out = self.env['hr.attendance'].search([('employee_id', '=', self.id), ('check_out', '!=', False)], limit=1)
-        self.check_out_waiting_time(attendance_checked_out, action_date)
+        # self.check_out_waiting_time(attendance_checked_out, action_date)
         if self.attendance_state != 'checked_in':
             vals = {
                 'employee_id': self.id,
@@ -22,7 +22,7 @@ class HrEmployeeBase(models.AbstractModel):
             }
             return self.env['hr.attendance'].create(vals)
         attendance = self.env['hr.attendance'].search([('employee_id', '=', self.id), ('check_out', '=', False)], limit=1)
-        self.check_waiting_time(attendance, action_date)
+        # self.check_waiting_time(attendance, action_date)
         # self.count_employee_late(attendance, action_date)
         if attendance:
             attendance.check_out = action_date
