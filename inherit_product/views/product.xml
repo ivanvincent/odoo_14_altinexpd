@@ -15,6 +15,7 @@
                         <field name="lead_days" class="oe_inline" groups="base.group_system"/>
                         <span class="text-bf">Days</span>
                     </div>
+                    <field name="alias"/>
                     <field name="min_stock"/>
                     <field name="usage_daily"/>
                     <field name="order_time"/>
@@ -30,6 +31,7 @@
             <field name="inherit_id" ref="stock.view_template_property_form" />
             <field name="arch" type="xml">
                 <field name="categ_id" position="after">
+                    <field name="alias"/>
                     <field name="min_stock" attrs="{'invisible': [('type', '!=', 'product')]}" />
                 </field>
             </field>

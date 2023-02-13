@@ -55,6 +55,7 @@ class ProductTemplate(models.Model):
     
     
     min_stock = fields.Float(string='Mininum Stock')
+    alias = fields.Char(string='Alias')
     
 
 class ProductSupplierInfo(models.Model):
