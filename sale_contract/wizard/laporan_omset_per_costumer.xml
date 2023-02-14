@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="laporan_omset_per_costumer_view_form" model="ir.ui.view">
+            <field name="name">laporan.omset.per.costumer.view.form</field>
+            <field name="model">laporan.omset.per.costumer</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="date_start" required="1"/>
+                            <field name="date_end" required="1"/>
+                        </group>
+                        <footer>
+                            <button name="action_preview" type="object" string="Print" class="oe_highlight"/>
+                            <button name="cancel" type="special" string="Cancel" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="laporan_omset_per_costumer_view_action" model="ir.actions.act_window">
+            <field name="name">Laporan Omset per Costumer</field>
+            <field name="res_model">laporan.omset.per.costumer</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+            id="penyelesaian_omset_per_costumer_view_menu"
+            name="Laporan Omset"
+            parent="sale_contract.main_menu_contract_sale"
+            sequence="2"
+            action="laporan_omset_per_costumer_view_action"/>
+    
+    </data>
+</odoo>

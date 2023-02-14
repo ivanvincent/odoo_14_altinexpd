@@ -85,6 +85,8 @@ class HrPayslip(models.Model):
         presense = self.get_presense(contracts, date_from, date_to)
         absenses = self.get_absenses(res,presense)
 
+        res = [] # set to empty
+
         res.append({
             'name':'Kehadiran',
             'sequence':10,
