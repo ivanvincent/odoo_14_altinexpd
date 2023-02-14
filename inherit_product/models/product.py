@@ -46,8 +46,8 @@ class Product(models.Model):
     
     
   
-    def name_get(self):
-        return [(rec.id, rec.name) for rec in self]
+    # def name_get(self):
+    #     return [(rec.id, rec.name) for rec in self]
     
     
 class ProductTemplate(models.Model):
@@ -55,6 +55,7 @@ class ProductTemplate(models.Model):
     
     
     min_stock = fields.Float(string='Mininum Stock')
+    alias = fields.Char(string='Alias')
     
 
 class ProductSupplierInfo(models.Model):
