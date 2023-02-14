@@ -93,13 +93,47 @@ class HrContract(models.Model):
     @api.model
     def create(self, values):
         employee_id = values.get('employee_id')
+        hari_izin_sakit = values.get('alokasi_izin_sakit')
+        hari_izin_normatif = values.get('alokasi_izin_normatif')
+        hari_izin_maternity = values.get('alokasi_izin_maternity')
+        hari_izin_paternity = values.get('alokasi_izin_paternity')
+        hari_cuti = values.get('alokasi_cuti')
         dict_izin_sakit = {
-                            'name': 'Izin sakit',
+                            'name': 'Izin Sakit',
                             'holiday_status_id': 5,
                             'holiday_type': 'employee',
-                            'employee_id': employee_id
+                            'employee_id': employee_id,
+                            'number_of_days_display' : hari_izin_sakit
                         }
-        values['allocations_ids'] = [(0, 0, dict_izin_sakit)]
+        dict_izin_normatif = {
+                            'name': 'Izin Normatif',
+                            'holiday_status_id': 6,
+                            'holiday_type': 'employee',
+                            'employee_id': employee_id,
+                            'number_of_days_display' : hari_izin_normatif
+                        }
+        dict_izin_maternity = {
+                            'name': 'Izin Maternitas',
+                            'holiday_status_id': 7,
+                            'holiday_type': 'employee',
+                            'employee_id': employee_id,
+                            'number_of_days_display' : hari_izin_maternity
+                        }
+        dict_izin_paternity = {
+                            'name': 'Izin Paternitas',
+                            'holiday_status_id': 11,
+                            'holiday_type': 'employee',
+                            'employee_id': employee_id,
+                            'number_of_days_display' : hari_izin_paternity
+                        }
+        dict_cuti = {
+                            'name': 'Cuti Tahunan',
+                            'holiday_status_id': 10,
+                            'holiday_type': 'employee',
+                            'employee_id': employee_id,
+                            'number_of_days_display' : hari_cuti
+                        }
+        values['allocations_ids'] = [(0, 0, dict_izin_sakit),(0, 0, dict_izin_normatif),(0, 0, dict_izin_maternity),(0, 0, dict_izin_paternity),(0, 0, dict_cuti)]
         result = super(HrContract, self).create(values)
 
         return result
