@@ -20,14 +20,36 @@ class HrReporting(models.TransientModel):
     def action_generate_pdf(self):
 
         if self.report_type == 'bpjs': 
+            query = """
+            SELECT he.name, sum(payslip.total_gapok) as total_gapok, sum(payslip.KES) as total_kes
+            FROM (
+                    SELECT hpl.code, hpl.total as total_gapok, 0 as KES, hp.employee_id
+                    FROM
+                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+                    WHERE hpl.code = 'GAPOK'
+                    AND hp.date_from >= %s AND hp.date_to <= %s 
+
+                    UNION
+                    SELECT hpl.code, 0 as total_gapok, hpl.total as KES, hp.employee_id as karyawan
+                    FROM 
+                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+                    WHERE hpl. code = 'KES'
+                    AND hp.date_from >= %s AND hp.date_to <= %s
+                ) AS payslip 
+            left join hr_employee he on he.id = payslip.employee_id
+            GROUP BY he.name
+            """ % (self.date_start, self.date_end)
+            self._cr.execute(query)
+            result = self._cr.dictfetchall()
+            
             data = {
                 'me': self,
                 'ids': self.ids,
-                # 'model': self._name,
+                'model': self._name,
                 'form': {
                     'date_start': self.date_start,
                     'date_end': self.date_end,
-                    # 'data' : result,
+                    'data' : result,
                 },
             }
             return self.env.ref('sh_hr_payroll.action_report_salary_bpjs').report_action(None, data=data)
@@ -50,12 +72,15 @@ class HrReportingBpjs(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data=None):
-        # print('_get_report_values')
+        print('_get_report_values')
         date_start = data['form']['date_start']
         date_end = data['form']['date_end']
+        docs = data['form']['data']
         return {
             'date_start': date_start,
             'date_end': date_end,
+            'doc_ids': data['ids'],
+            'docs': docs,
         }
 
 class HrReportingGS(models.AbstractModel):
