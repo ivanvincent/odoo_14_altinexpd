@@ -38,7 +38,7 @@ class HrReporting(models.TransientModel):
                 ) AS payslip 
             left join hr_employee he on he.id = payslip.employee_id
             GROUP BY he.name
-            """ % (self.date_start, self.date_end)
+            """ % (self.date_start, self.date_end, self.date_start, self.date_end)
             self._cr.execute(query)
             record = self._cr.dictfetchall()
             
