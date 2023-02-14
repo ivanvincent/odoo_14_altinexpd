@@ -407,7 +407,7 @@ class HrPayslip(models.Model):
         employee = self.env['hr.employee'].browse(employee_id)
         locale = self.env.context.get('lang') or 'en_US'
         res['value'].update({
-            'name': _('Pay Slip %s untuk %s') % (employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale))),
+            'name': _('Slip Gaji %s untuk %s') % (employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale))),
             'company_id': employee.company_id.id,
         })
 
@@ -457,7 +457,7 @@ class HrPayslip(models.Model):
 
         ttyme = datetime.combine(fields.Date.from_string(date_to), time.min)
         locale = self.env.context.get('lang') or 'en_US'
-        self.name = _('Pay Slip %s untuk %s') % (
+        self.name = _('Slip Gaji %s untuk %s') % (
         employee.name, tools.ustr(babel.dates.format_date(date=ttyme, format='MMMM-y', locale=locale)))
         self.company_id = employee.company_id
 

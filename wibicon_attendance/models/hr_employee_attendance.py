@@ -83,7 +83,7 @@ class HrPayslip(models.Model):
         res = super(HrPayslip, self).get_worked_day_lines(contracts,date_from,date_to)        
         
         presense = self.get_presense(contracts, date_from, date_to)
-        absenses = self.get_absenses(res,presense)
+        late = self.get_late(date_from,date_to)
 
         res = [] # set to empty
 
@@ -103,45 +103,61 @@ class HrPayslip(models.Model):
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
 
-        # res.append({
-        #     'name':'Absences',
-        #     'sequence':30,
-        #     'code':'ABS',
-        #     'number_of_days': absenses,
-        #     'number_of_hours': 0.0,
-        #     'contract_id': self.contract_id.id})
-
-        # res.append({
-        #     'name':'Ijin Normatif',
-        #     'sequence':40,
-        #     'code':'ICN',
-        #     'number_of_days': 0,
-        #     'number_of_hours': 0.0,
-        #     'contract_id': self.contract_id.id})
-
-        # res.append({
-        #     'name':'Ijin Tidak Masuk',
-        #     'sequence':50,
-        #     'code':'ITM',
-        #     'number_of_days': 0,
-        #     'number_of_hours': 0.0,
-        #     'contract_id': self.contract_id.id})
-
         res.append({
             'name':'Terlambat',
-            'sequence':60,
+            'sequence':30,
             'code':'TLT',
+            'number_of_days': late,
+            'number_of_hours': 0.0,
+            'contract_id': self.contract_id.id})
+
+        res.append({
+            'name':'Izin Sakit',
+            'sequence':40,
+            'code':'SKT',
             'number_of_days': 0,
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
 
-        # res.append({
-        #     'name':'Pulang Sebelum Waktu',
-        #     'sequence':70,
-        #     'code':'PSW',
-        #     'number_of_days': 0,
-        #     'number_of_hours': 0.0,
-        #     'contract_id': self.contract_id.id})
+        res.append({
+            'name':'Izin Normatif',
+            'sequence':50,
+            'code':'NOR',
+            'number_of_days': 0,
+            'number_of_hours': 0.0,
+            'contract_id': self.contract_id.id})
+
+        res.append({
+            'name':'Izin Maternity',
+            'sequence':60,
+            'code':'MAT',
+            'number_of_days': 0,
+            'number_of_hours': 0.0,
+            'contract_id': self.contract_id.id})
+
+        res.append({
+            'name':'Izin Paternity',
+            'sequence':70,
+            'code':'PAT',
+            'number_of_days': 0,
+            'number_of_hours': 0.0,
+            'contract_id': self.contract_id.id})
+
+        res.append({
+            'name':'Izin Dinas Luar',
+            'sequence':80,
+            'code':'IDL',
+            'number_of_days': 0,
+            'number_of_hours': 0.0,
+            'contract_id': self.contract_id.id})
+        
+        res.append({
+            'name':'Cuti Tahunan',
+            'sequence':90,
+            'code':'CTH',
+            'number_of_days': 0,
+            'number_of_hours': 0.0,
+            'contract_id': self.contract_id.id})
 
         return res
 
@@ -223,14 +239,10 @@ class HrPayslip(models.Model):
 
         return res[0]
 
-    def get_absenses(self, res, presense):
+    def get_late(self, date_from, date_to):
 
-
-        number_of_days = res[0]['number_of_days']
-
-        return number_of_days-presense
-
-    
+        late_count = self.env['hr.attendance'].search([('employee_id','=',self.employee_id.id),('check_in','>=',date_from),('check_out','<',date_to)]).mapped("late_counter")
+        return sum(late_count)    
 
         # """ cari jumlah ke tidak hadiran selt.employee-id"""
         # """jumlah hari kerja dikurangi jumlah kehadiran adalah absense"""
