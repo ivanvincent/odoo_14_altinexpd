@@ -20,26 +20,25 @@ class HrReporting(models.TransientModel):
     def action_generate_pdf(self):
 
         if self.report_type == 'bpjs': 
-            query =f"""
+            query ="""
             SELECT he.name, sum(payslip.total_gapok) as total_gapok, sum(payslip.KES) as total_kes
             FROM (
                     SELECT hpl.code, hpl.total as total_gapok, 0 as KES, hp.employee_id
                     FROM
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
                     WHERE hpl.code = 'GAPOK'
-                    AND hp.date_from >= '{self.date_start}' AND hp.date_to <= '{self.date_start}' 
+                    AND hp.date_from >= %s AND hp.date_to <= %s 
 
                     UNION
                     SELECT hpl.code, 0 as total_gapok, hpl.total as KES, hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
                     WHERE hpl. code = 'KES'
-                    AND hp.date_from >= '{self.date_start}' AND hp.date_to <= '{self.date_start}'
+                    AND hp.date_from >= %s AND hp.date_to <= %s
                 ) AS payslip 
             left join hr_employee he on he.id = payslip.employee_id
             GROUP BY he.name
-            """ 
-            print("action_print")
+            """ % (self.date_start, self.date_end)
             self._cr.execute(query)
             record = self._cr.dictfetchall()
             
