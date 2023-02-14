@@ -93,49 +93,80 @@ class HrContract(models.Model):
     @api.model
     def create(self, values):
         employee_id = values.get('employee_id')
-        hari_izin_sakit = values.get('alokasi_izin_sakit')
-        hari_izin_normatif = values.get('alokasi_izin_normatif')
-        hari_izin_maternity = values.get('alokasi_izin_maternity')
-        hari_izin_paternity = values.get('alokasi_izin_paternity')
-        hari_cuti = values.get('alokasi_cuti')
+        hari_izin_sakit = 14
+        hari_izin_normatif = 3
+        data_karyawan = self.env['hr.employee'].search([('id','=',employee_id)])
+        gender = data_karyawan.gender
+        marital = data_karyawan.marital
+
+        if (gender == "male") and (marital == "married"):
+            alokasi_izin_maternity = 0.0
+            alokasi_izin_paternity = 3.0
+        elif (gender == "female") and (marital == "married"):
+            alokasi_izin_maternity = 90.0
+            alokasi_izin_paternity = 0.0
+        else:
+            alokasi_izin_maternity = 0.0
+            alokasi_izin_paternity = 0.0
+
+
+        cuti = 0.0
+        employee_type = values.get('type_id')
+        if employee_type == 5:
+            cuti = 12.0
+        elif employee_type == 4:
+            if self.years_of_service <= 1:
+               cuti = 12.0
+            elif self.years_of_service >= 1 and self.years_of_service < 2:
+                cuti = 12.0
+            elif self.years_of_service >= 2 and self.years_of_service < 3:
+                cuti = 13.0
+            elif self.years_of_service >= 3 and self.years_of_service < 5:
+                cuti = 14.0
+            elif self.years_of_service >= 5 and self.years_of_service < 8:
+                cuti = 16.0
+            elif self.years_of_service >= 8:
+                cuti = 18.0    
+        else:
+            cuti = 0.0
+
         dict_izin_sakit = {
                             'name': 'Izin Sakit',
                             'holiday_status_id': 5,
                             'holiday_type': 'employee',
                             'employee_id': employee_id,
-                            'number_of_days_display' : hari_izin_sakit
+                            'number_of_days' : hari_izin_sakit
                         }
         dict_izin_normatif = {
                             'name': 'Izin Normatif',
                             'holiday_status_id': 6,
                             'holiday_type': 'employee',
                             'employee_id': employee_id,
-                            'number_of_days_display' : hari_izin_normatif
+                            'number_of_days' : hari_izin_normatif
                         }
         dict_izin_maternity = {
                             'name': 'Izin Maternitas',
                             'holiday_status_id': 7,
                             'holiday_type': 'employee',
                             'employee_id': employee_id,
-                            'number_of_days_display' : hari_izin_maternity
+                            'number_of_days' : alokasi_izin_maternity
                         }
         dict_izin_paternity = {
                             'name': 'Izin Paternitas',
                             'holiday_status_id': 11,
                             'holiday_type': 'employee',
                             'employee_id': employee_id,
-                            'number_of_days_display' : hari_izin_paternity
+                            'number_of_days' : alokasi_izin_paternity
                         }
         dict_cuti = {
                             'name': 'Cuti Tahunan',
                             'holiday_status_id': 10,
                             'holiday_type': 'employee',
                             'employee_id': employee_id,
-                            'number_of_days_display' : hari_cuti
+                            'number_of_days' : cuti
                         }
         values['allocations_ids'] = [(0, 0, dict_izin_sakit),(0, 0, dict_izin_normatif),(0, 0, dict_izin_maternity),(0, 0, dict_izin_paternity),(0, 0, dict_cuti)]
         result = super(HrContract, self).create(values)
-
         return result
     
 class WageGrade(models.Model):
