@@ -27,14 +27,14 @@ class HrReporting(models.TransientModel):
                     FROM
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
                     WHERE hpl.code = 'GAPOK'
-                    AND hp.date_from >= %s AND hp.date_to <= %s 
+                    AND hp.date_from >= '%s' AND hp.date_to <= '%s' 
 
                     UNION
                     SELECT hpl.code, 0 as total_gapok, hpl.total as KES, hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
                     WHERE hpl. code = 'KES'
-                    AND hp.date_from >= %s AND hp.date_to <= %s
+                    AND hp.date_from >= '%s' AND hp.date_to <= '%s'
                 ) AS payslip 
             left join hr_employee he on he.id = payslip.employee_id
             GROUP BY he.name
