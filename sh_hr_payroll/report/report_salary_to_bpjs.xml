@@ -55,6 +55,19 @@
                         <th style="border : 1px solid black">BPJS JP (Karyawan)</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        <t t-foreach="docs" t-as="line">
+                            <td style="border : 1px solid black" class="text-center">
+                                <span t-esc="line.get('name')"/>
+                            </td>
+                            <td style="border : 1px solid black" class="text-center">
+                                <span t-esc="line.get('total_gapok')"/>
+                            </td>
+                            <td style="border : 1px solid black" class="text-center">
+                                <span t-esc="line.get('total_kes')"/>
+                            </td>
+                        </t>
+                    </tbody>
                     </table>
                 </div>
             </t>  
