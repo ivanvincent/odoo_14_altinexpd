@@ -254,8 +254,6 @@ class HrPayslip(models.Model):
                                              ('request_date_from', '<=', self.date_to),
                                              ('holiday_status_id', '=', leave_type.id),
                                              ('state', '=', 'validate')])
-        print("get_duration_time_off ", type)
-        print(sum(leave.mapped('number_of_days')))
         return sum(leave.mapped('number_of_days'))
 
 
