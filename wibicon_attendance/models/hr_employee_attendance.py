@@ -115,7 +115,7 @@ class HrPayslip(models.Model):
             'name':'Izin Sakit',
             'sequence':40,
             'code':'SKT',
-            'number_of_days': 0,
+            'number_of_days': self.get_duration_time_off('Izin Sakit'),
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
 
@@ -123,7 +123,7 @@ class HrPayslip(models.Model):
             'name':'Izin Normatif',
             'sequence':50,
             'code':'NOR',
-            'number_of_days': 0,
+            'number_of_days': self.get_duration_time_off('Izin Normatif'),
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
 
@@ -131,7 +131,7 @@ class HrPayslip(models.Model):
             'name':'Izin Maternity',
             'sequence':60,
             'code':'MAT',
-            'number_of_days': 0,
+            'number_of_days': self.get_duration_time_off('Izin Maternitas'),
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
 
@@ -139,7 +139,7 @@ class HrPayslip(models.Model):
             'name':'Izin Paternity',
             'sequence':70,
             'code':'PAT',
-            'number_of_days': 0,
+            'number_of_days': self.get_duration_time_off('Izin Paternitas'),
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
 
@@ -147,7 +147,7 @@ class HrPayslip(models.Model):
             'name':'Izin Dinas Luar',
             'sequence':80,
             'code':'IDL',
-            'number_of_days': 0,
+            'number_of_days': self.get_duration_time_off('Izin Dinas Luar'),
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
         
@@ -155,7 +155,7 @@ class HrPayslip(models.Model):
             'name':'Cuti Tahunan',
             'sequence':90,
             'code':'CTH',
-            'number_of_days': 0,
+            'number_of_days': self.get_duration_time_off('Cuti Tahunan (2023)'),
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
 
@@ -246,6 +246,17 @@ class HrPayslip(models.Model):
 
         # """ cari jumlah ke tidak hadiran selt.employee-id"""
         # """jumlah hari kerja dikurangi jumlah kehadiran adalah absense"""
+
+    def get_duration_time_off(self, type):
+        leave_type = self.env['hr.leave.type'].search([('name', '=', type)])
+        leave = self.env['hr.leave'].search([('employee_id', '=', self.employee_id.id),
+                                             ('request_date_from', '>=', self.date_from),
+                                             ('request_date_from', '<=', self.date_to),
+                                             ('holiday_status_id', '=', leave_type.id),
+                                             ('state', '=', 'validate')])
+        print("get_duration_time_off ", type)
+        print(sum(leave.mapped('number_of_days')))
+        return sum(leave.mapped('number_of_days'))
 
 
 
