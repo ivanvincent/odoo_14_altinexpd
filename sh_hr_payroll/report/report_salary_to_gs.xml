@@ -40,7 +40,7 @@
                         <br/>
                     <table class="table-condensed" style="font-size : 20px" width="100%">
                     <thead>
-                        <tr class="text-center">
+                        <tr class="text-center" style="font-size : 12px">
                         <th style="border : 1px solid black; color : white;" rowspan="2">kolom kosong</th>
                         <th style="border : 1px solid black" rowspan="2">Gaji Pokok</th>
                         <th style="border : 1px solid black" colspan="6">Total Tunjangan</th>
@@ -56,7 +56,7 @@
                         <th style="border : 1px solid black" rowspan="2">PPh 21 Kurang Bayar</th>
                         <th style="border : 1px solid black" rowspan="2">Take Home Pay</th>
                         </tr>
-                        <tr class="text-center">
+                        <tr class="text-center" style="font-size : 12px">
                         <th style="border : 1px solid black">Tunjangan Keahlian</th>
                         <th style="border : 1px solid black">Tunjangan Shift 3</th>
                         <th style="border : 1px solid black">Bonus Proyek</th>
@@ -77,14 +77,14 @@
                     </thead>
                         <tbody>
                             <t t-foreach="docs" t-as="line">
-                                <tr height="3px">
-                                    <td style="border : 1px solid black; padding-left : 10px" class="text-left">
+                                <tr height="3px" style="font-size : 14px">
+                                    <td style="border : 1px solid black; padding-left : 2px" class="text-left">
                                         <span t-esc="line.get('name')"/>
                                     </td>
-                                    <td style="border : 1px solid black; padding-right : 10px" class="text-right">Rp. 
+                                    <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
                                         <span t-esc="'{0:,.0f}'.format(line.get('total_gapok'))"/>
                                     </td>
-                                    <td style="border : 1px solid black; padding-right : 10px" class="text-right">Rp. 
+                                    <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
                                         <span t-esc="'{0:,.0f}'.format(line.get('total_ahli'))"/>
                                     </td>
                                 </tr>
