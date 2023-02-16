@@ -9,11 +9,11 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="date_start"/>
+                                <field name="month_selection"/>
                                 <field name="report_type"/>
                             </group>
                             <group>
-                                <field name="date_end"/>
+                                <!-- <field name="date_end"/> -->
                             </group>
                         </group>
                     </sheet>

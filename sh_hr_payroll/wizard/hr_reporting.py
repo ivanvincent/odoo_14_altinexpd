@@ -13,9 +13,24 @@ class HrReporting(models.TransientModel):
     _name = 'hr.reporting.wizard'
     _description = 'Generate payslips for all selected employees'
 
-    date_start = fields.Date(string="Start date", required=True)
-    date_end = fields.Date(string="End date", required=True)
+    current_year = datetime.now().year
+    date_start = fields.Date(string="Start date", required=False)
+    date_end = fields.Date(string="End date", required=False)
     report_type     = fields.Selection(selection=_STATE, string='Report Type',default="bpjs")
+    month_selection = fields.Selection([
+                        ("01","Januari %s" % current_year),   
+                        ("02","Februari %s" % current_year),
+                        ("03","Maret %s" % current_year),
+                        ("04","April %s" % current_year),
+                        ("05","Mei %s" % current_year),
+                        ("06","Juni %s" % current_year),
+                        ("07","Juli %s" % current_year),
+                        ("08","Agustus %s" % current_year),
+                        ("09","September %s" % current_year),
+                        ("10","Oktober %s" % current_year),
+                        ("11","November %s" % current_year),
+                        ("12","Desember %s" % current_year),
+                        ],string='Month Selection')
 
     def action_generate_pdf(self):
 
@@ -27,14 +42,14 @@ class HrReporting(models.TransientModel):
                     FROM
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
                     WHERE hpl.code = 'GAPOK'
-                    AND hp.date_from >= '%s' AND hp.date_to <= '%s' 
+                    AND hp.month_selection= '%s'
 
                     UNION
                     SELECT hpl.code, 0 as total_gapok, hpl.total as KES, hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
                     WHERE hpl. code = 'KES'
-                    AND hp.date_from >= '%s' AND hp.date_to <= '%s'
+                    AND hp.month_selection '%s'
                 ) AS payslip 
             left join hr_employee he on he.id = payslip.employee_id
             GROUP BY he.name
@@ -62,14 +77,14 @@ class HrReporting(models.TransientModel):
                     FROM
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
                     WHERE hpl.code = 'GAPOK'
-                    AND hp.date_from >= '%s' AND hp.date_to <= '%s'
+                    AND hp.month_selection = '%s'
 
                     UNION
                     SELECT hpl.code, 0 as total_gapok, hpl.total as AHLI, hp.employee_id
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
                     WHERE hpl. code = 'AHLI'
-                    AND hp.date_from >= '%s' AND hp.date_to <= '%s'
+                    AND hp.month_selection = '%s'
                 ) AS payslip 
             left join hr_employee he on he.id = payslip.employee_id
             GROUP BY he.name
