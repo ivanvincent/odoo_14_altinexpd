@@ -53,7 +53,7 @@ class HrReporting(models.TransientModel):
                 ) AS payslip 
             left join hr_employee he on he.id = payslip.employee_id
             GROUP BY he.name
-            """ % (self.date_start, self.date_end, self.date_start, self.date_end)
+            """ % (self.month_selection, self.month_selection)
             self._cr.execute(query)
             record = self._cr.dictfetchall()
             
@@ -64,6 +64,7 @@ class HrReporting(models.TransientModel):
                 'form': {
                     'date_start': self.date_start,
                     'date_end': self.date_end,
+                    'month_selection': self.month_selection,
                     'record' : record,
                 },
             }
@@ -88,7 +89,7 @@ class HrReporting(models.TransientModel):
                 ) AS payslip 
             left join hr_employee he on he.id = payslip.employee_id
             GROUP BY he.name
-            """ % (self.date_start, self.date_end, self.date_start, self.date_end)
+            """ % (self.month_selection, self.month_selection)
             self._cr.execute(query)
             record = self._cr.dictfetchall()
 
@@ -99,6 +100,7 @@ class HrReporting(models.TransientModel):
                 'form': {
                     'date_start': self.date_start,
                     'date_end': self.date_end,
+                    'month_selection': self.month_selection,
                     'record' : record,
                 },
             }
