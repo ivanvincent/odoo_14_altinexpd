@@ -117,6 +117,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
     def default_get(self, fields):
         res = super().default_get(fields)
         active_model = self.env.context.get("active_model", False)
+        active_id = self.env.context.get("active_id", False)
         request_line_ids = []
         if active_model == "purchase.request.line":
             request_line_ids += self.env.context.get("active_ids", [])
@@ -127,6 +128,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
             )
         if not request_line_ids:
             return res
+        res['po_category_id'] = self.env["purchase.request"].browse(active_id).po_categ_id if active_model == "purchase.request" else False
         res["item_ids"] = self.get_items(request_line_ids)
         request_lines = self.env["purchase.request.line"].browse(request_line_ids)
         supplier_ids = request_lines.mapped("supplier_id").ids
