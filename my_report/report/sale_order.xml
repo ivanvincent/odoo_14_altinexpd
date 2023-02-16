@@ -4,8 +4,8 @@
     <data>
     
         <record id="paperformat_report_sale_order" model="report.paperformat">
-            <field name="name">Report Sale Order</field>
-            <field name="default" eval="True"/>
+            <field name="name">Sale Order</field>
+            <field name="default" eval="False"/>
             <field name="format">A5</field>
             <field name="orientation">Landscape</field>
             <field name="margin_top">20</field>
@@ -14,18 +14,12 @@
             <field name="margin_right">2</field>
             <field name="header_line" eval="False"/>
             <field name="header_spacing">9</field>
-            <field name="dpi">110</field>
+            <!-- <field name="dpi">110</field> -->
         </record>
 
+        <report id="action_report_sale_order" model="sale.order" string="Print Sale Order" report_type="qweb-pdf" name="my_report.report_sale_order" file="my_report.report_sale_order" />
+
         <record id="action_report_sale_order" model="ir.actions.report">
-            <field name="name">Laporan Sale Order</field>
-            <field name="model">sale.order</field>
-            <field name="report_type">qweb-pdf</field>
-            <field name="report_name">my_report.report_sale_order</field>
-            <field name="report_file">my_report.report_sale_order</field>
-            <field name="print_report_name">Laporan SO</field>
-            <field name="binding_model_id" ref="sale_order.model_sale_order" />
-            <field name="binding_type">report</field>
             <field name="paperformat_id" eval="paperformat_report_sale_order" />
         </record>
 
