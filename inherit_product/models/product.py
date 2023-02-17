@@ -41,15 +41,7 @@ class Product(models.Model):
             else:
                 line.order_time = 0
                 lead_time       = 0
-                line.lead_time  = 0
-
-    
-    
-  
-    # def name_get(self):
-    #     return [(rec.id, rec.name) for rec in self]
-    
-    
+                line.lead_time  = 0    
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
     
