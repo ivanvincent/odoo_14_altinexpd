@@ -169,6 +169,21 @@ class HrContract(models.Model):
         result = super(HrContract, self).create(values)
         return result
     
+    def update_allocation(self):
+        for l in self.allocations_ids.filtered(lambda x: x.state != 'validate'):
+            contract_id = l.contract_id
+            if l.holiday_status_id.id == 5:
+                l.write({'number_of_days': contract_id.alokasi_izin_sakit})
+            elif l.holiday_status_id.id == 6:
+                l.write({'number_of_days': contract_id.alokasi_izin_normatif})
+            elif l.holiday_status_id.id == 7:
+                l.write({'number_of_days': contract_id.alokasi_izin_maternity})
+            elif l.holiday_status_id.id == 11:
+                l.write({'number_of_days': contract_id.alokasi_izin_paternity})
+            elif l.holiday_status_id.id == 10:
+                l.write({'number_of_days': contract_id.alokasi_cuti})
+            
+    
 class WageGrade(models.Model):
     _name = 'hr.wage_grade'
     _rec_name ='wage_grade'

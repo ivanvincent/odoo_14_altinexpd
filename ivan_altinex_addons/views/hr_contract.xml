@@ -52,6 +52,7 @@
                 </xpath>
                 <xpath expr="//page[@name='information']" position="after">
                     <page name="timeoff_allocation" string="Time Off Allocation">
+                        <button name="update_allocation" type="object" string="Update Allocation" class="oe_highlight"/>
                         <group string="Alokasi Izin dan Cuti" name='timeoff'>
                             <label for="alokasi_izin_sakit"/>
                             <div class="o_row">
