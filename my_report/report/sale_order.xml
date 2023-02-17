@@ -4,8 +4,8 @@
     <data>
     
         <record id="paperformat_report_sale_order" model="report.paperformat">
-            <field name="name">Report Sale Order</field>
-            <field name="default" eval="True"/>
+            <field name="name">Sale Order</field>
+            <field name="default" eval="False"/>
             <field name="format">A5</field>
             <field name="orientation">Landscape</field>
             <field name="margin_top">20</field>
@@ -14,24 +14,17 @@
             <field name="margin_right">2</field>
             <field name="header_line" eval="False"/>
             <field name="header_spacing">9</field>
-            <field name="dpi">110</field>
+            <!-- <field name="dpi">110</field> -->
         </record>
 
+        <report id="action_report_sale_order" model="sale.order" string="Print Sale Order" report_type="qweb-pdf" name="my_report.report_sale_order" file="my_report.report_sale_order" />
 
         <record id="action_report_sale_order" model="ir.actions.report">
-            <field name="name">Laporan Sale Order</field>
-            <field name="model">sale.order</field>
-            <field name="report_type">qweb-pdf</field>
-            <field name="report_name">my_report.report_sale_order</field>
-            <field name="report_file">my_report.report_sale_order</field>
-            <field name="print_report_name">Laporan SO</field>
-            <field name="binding_model_id" ref="model_sale_order" />
-            <field name="binding_type">report</field>
             <field name="paperformat_id" eval="paperformat_report_sale_order" />
         </record>
 
         <template id="report_sale_order">
-         <t t-call="web.html_container">
+            <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <div class="header">
                             <div class="row mt32">
@@ -59,24 +52,34 @@
                             <div class="row" style="margin-bottom: 20px;">
                                 <div class="col-6">
                                     <table border="1" style="font-size:16px" width="75%">
+                                        <tr>
+                                            <td style="padding-bottom:0; font-size:16px;">CUSTOMER</td>
+                                            <td style="padding-bottom:0; font-size:16px;"> : </td>
+                                            <td style="padding-bottom:0; font-size:16px;"><span t-field="o.partner_id.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom:0; font-size:16px;">NO PO</td>
+                                            <td style="padding-bottom:0; font-size:16px;"> : </td>
+                                            <td style="padding-bottom:0; font-size:16px;"><span t-field="o.partner_id.name"/></td>
+                                        </tr>
                                         <tr style="padding-bottom:0;">
                                             <td style="padding-bottom:0; font-size:16px;">ORDER DATE</td>
                                             <td style="padding-bottom:0; font-size:16px;"> : </td>
                                             <td style="padding-bottom:0; font-size:16px; padding-right:5px;"> <span t-field="o.date_order" t-field-options="{&quot;format&quot;: &quot;dd-MMM-yyyy&quot;}"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding-bottom:0; font-size:16px;">Kepada</td>
-                                            <td style="padding-bottom:0; font-size:16px;"> : </td>
-                                            <td style="padding-bottom:0; font-size:16px;"><span t-field="o.partner_id.name"/></td>
                                         </tr>
                                     </table>
                                 </div>
                                 <div class="col-6" style="font-size:16px">
                                     <table border="1" style="font-size:16px" width="75%">
                                         <tr style="padding-bottom:0;">
-                                            <td style="padding-bottom:0; font-size:16px;">Attention</td>
+                                            <td style="padding-bottom:0; font-size:16px;">ATTENTION</td>
                                             <td style="padding-bottom:0; font-size:16px;"> : </td>
                                             <!--<td style="padding-bottom:0; font-size:16px; padding-right:5px;"> <span t-field="o.date_order" t-field-options="{&quot;format&quot;: &quot;dd-MMM-yyyy&quot;}"/></td>-->
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom:0; font-size:16px;">NO PENAWARAN</td>
+                                            <td style="padding-bottom:0; font-size:16px;"> : </td>
+                                            <td style="padding-bottom:0; font-size:16px;"><span t-field="o.partner_id.name"/></td>
                                         </tr>
                                         <tr>
                                             <td style="padding-bottom:0; font-size:16px;">PAYMENT TERM</td>
@@ -91,153 +94,127 @@
                         <table class="table table-condesed" style="margin-top: 20px;">
                             <thead>
                                 <th>NO</th>
+                                <th>KD BRG</th>
                                 <th>PRODUCT</th>
                                 <th>QUANTITY</th>
-                                <th>UOM</th>
                                 <th>UNIT PRICE</th>
-                                <th>TAXES</th>
                                 <th>SUB TOTAL</th>
                             </thead>
                             <tbody>
                                 <t t-set="no" t-value="1"/>
                                 <tr t-foreach="o.order_line" t-as="line">
-                                    <td><span t-esc="no"/> <t t-set="no" t-value="no + 1"/></td>
-                                    <td><span t-field="line.product_id.name"/></td>
-                                    <td><span t-field="line.product_uom_qty"/></td>
-                                    <td><span t-field="line.product_uom.name"/></td>
+                                    <t t-set="no" t-value="no + 1"/>
+                                    <td><span t-esc="no"/></td>
+                                    <td><span>kosong</span></td>
+                                    <td>produk</td>
+                                    <!--<td><span t-field="line.product_id.name"/></td>-->
+                                    <td><span t-field="line.product_uom_qty"/> <span t-field="line.product_uom.name"/></td>
                                     <td><span t-field="line.price_unit"/></td>
-                                    <td><span t-field="line.tax_id.name"/></td>
                                     <td><span t-field="line.price_subtotal"/></td>
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="clearfix" name="so_total_summary">
-                            <div id="total" class="row" name="total">
-                                <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
-                                    <table class="table table-sm">
-                                        <tr class="border-black o_subtotal" style="">
-                                            <td name="td_amount_untaxed_label"><strong>Subtotal</strong></td>
-                                            <td name="td_amount_untaxed" class="text-right">
-                                                <span t-field="o.amount_untaxed"/>
-                                            </td>
-                                        </tr>
-                                        <t t-foreach="o.amount_by_group" t-as="amount_by_group">
-                                            <tr style="">
-                                                <t t-if="amount_by_group[5] == 1 and o.amount_untaxed == amount_by_group[2]">
-                                                    <td name="td_amount_by_group_label_3">
-                                                        <span t-esc="amount_by_group[0]"/>
-                                                        <span>&amp;nbsp;<span>on</span>&amp;nbsp;<t t-esc="amount_by_group[2]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.pricelist_id.currency_id}"/></span>
-                                                    </td>
-                                                    <td name="td_amount_by_group_3" class="text-right o_price_total">
-                                                        <span t-esc="amount_by_group[1]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.pricelist_id.currency_id}"/>
-                                                    </td>
-                                                </t>
-                                                <t t-else="">
-                                                    <td name="td_amount_by_group_label">
-                                                        <span t-esc="amount_by_group[0]"/>
-                                                    </td>
-                                                    <td name="td_amount_by_group" class="text-right o_price_total">
-                                                        <span t-esc="amount_by_group[1]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.pricelist_id.currency_id}"/>
-                                                    </td>
-                                                </t>
-                                            </tr>
-                                        </t>
-                                        <tr class="border-black o_total">
-                                            <td name="td_amount_total_label"><strong>Total</strong></td>
-                                            <td name="td_amount_total" class="text-right">
-                                                <span t-field="o.amount_total"/>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                        <!--<div class="clearfix" name="so_total_summary">-->
+                        <!--    <div id="total" class="row" name="total">-->
+                        <!--        <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">-->
+                        <!--            <table class="table table-sm">-->
+                        <!--                <tr class="border-black o_subtotal" style="">-->
+                        <!--                    <td name="td_amount_untaxed_label"><strong>Subtotal</strong></td>-->
+                        <!--                    <td name="td_amount_untaxed" class="text-right">-->
+                        <!--                        <span t-field="o.amount_untaxed"/>-->
+                        <!--                    </td>-->
+                        <!--                </tr>-->
+                        <!--                <t t-foreach="o.amount_by_group" t-as="amount_by_group">-->
+                        <!--                    <tr style="">-->
+                        <!--                        <t t-if="amount_by_group[5] == 1 and o.amount_untaxed == amount_by_group[2]">-->
+                        <!--                            <td name="td_amount_by_group_label_3">-->
+                        <!--                                <span t-esc="amount_by_group[0]"/>-->
+                        <!--                                <span>&amp;nbsp;<span>on</span>&amp;nbsp;<t t-esc="amount_by_group[2]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.pricelist_id.currency_id}"/></span>-->
+                        <!--                            </td>-->
+                        <!--                            <td name="td_amount_by_group_3" class="text-right o_price_total">-->
+                        <!--                                <span t-esc="amount_by_group[1]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.pricelist_id.currency_id}"/>-->
+                        <!--                            </td>-->
+                        <!--                        </t>-->
+                        <!--                        <t t-else="">-->
+                        <!--                            <td name="td_amount_by_group_label">-->
+                        <!--                                <span t-esc="amount_by_group[0]"/>-->
+                        <!--                            </td>-->
+                        <!--                            <td name="td_amount_by_group" class="text-right o_price_total">-->
+                        <!--                                <span t-esc="amount_by_group[1]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.pricelist_id.currency_id}"/>-->
+                        <!--                            </td>-->
+                        <!--                        </t>-->
+                        <!--                    </tr>-->
+                        <!--                </t>-->
+                        <!--                <tr class="border-black o_total">-->
+                        <!--                    <td name="td_amount_total_label"><strong>Total</strong></td>-->
+                        <!--                    <td name="td_amount_total" class="text-right">-->
+                        <!--                        <span t-field="o.amount_total"/>-->
+                        <!--                    </td>-->
+                        <!--                </tr>-->
+                        <!--            </table>-->
+                        <!--        </div>-->
+                        <!--    </div>-->
+                        <!--</div>-->
                         
-                        <br/>
-                        <div class="line" style="border-bottom: thin solid #222;"></div>
-                        <br/>
-                        
-                        <div class="page">
-
-                        <div class="row" style="margin-bottom: 20px;">
-                        <div class="col-12">
-                            <tr><td><span><b>Harga Belum Termasuk PPn</b></span></td></tr>
-                        </div>
-                        </div>
-                            
                         <div class="row" style="margin-bottom: 20px;">
                                 <div class="col-3">
                                     <table border="1" style="font-size:16px" width="75%">
                                         <tr style="padding-bottom:0;">
-                                            <td style="padding-bottom:0; font-size:16px;">Note</td>
+                                            <td style="padding-bottom:0; font-size:16px;">Delivery</td>
                                             <td style="padding-bottom:0; font-size:16px;"> : </td>
                                         </tr>
                                         <tr>
-                                            <td style="padding-bottom:0; font-size:16px;">Penyerahan</td>
-                                            <td style="padding-bottom:0; font-size:16px;"> : </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding-bottom:0; font-size:16px;"><b>Toleransi</b></td>
-                                            <td style="padding-bottom:0; font-size:16px;"> : </td> <br/>
-                                        </tr> 
-                                        <tr><td style="color: white">test</td></tr>
-                                        <tr>
-                                            <td style="padding-bottom:0; font-size:16px;">Pembayaran</td>
-                                            <td style="padding-bottom:0; font-size:16px;"> : </td> 
-                                        </tr>
-                                        <tr>
-                                            <td style="padding-bottom:0; font-size:16px;">Penawaran berlaku</td>
-                                            <td style="padding-bottom:0; font-size:16px;"> : </td>
+                                            <td style="padding-bottom:0; font-size:16px;">(tgl penyerahan)</td>
                                         </tr>
                                     </table>
                                 </div>
-                                <div class="col-10" style="font-size:16px">
+                                <div class="col-3" style="font-size:16px">
                                     <table border="1" style="font-size:16px" width="75%">
                                         <tr style="padding-bottom:0;">
-                                            <td style="padding-bottom:0; font-size:16px; color: white">test</td>
+                                            <td style="padding-bottom:0; font-size:16px;">Kirim ke</td>
+                                            <td style="padding-bottom:0; font-size:16px;"> : </td>
                                         </tr>
                                         <tr style="padding-bottom:0;">
-                                            <td style="padding-bottom:0; font-size:16px; color: white">test</td>
-                                        </tr>
-                                        <tr style="padding-bottom:0;">
-                                            <td style="padding-bottom:0; font-size:16px; color: white">test</td>
-                                        </tr>
-                                        <tr style="padding-bottom:0;">
-                                            <td style="padding-bottom:0; font-size:16px;"/>
-                                        </tr>
-                                        <tr style="padding-bottom:0;">
-                                            <td style="padding-bottom:0; font-size:16px;">
-                                                <b>Setiap pesanan harus dilebihkan min 1 pcs (khusus punch) untuk cadangan</b> <br/>
-                                                <b>Toleransi kirim minimal sejumlah station maesin (dikurangi cadangan)</b>
-                                            </td>
-                                        </tr>
-                                        <tr style="padding-bottom:0;">
-                                            <td style="padding-bottom:0; font-size:16px;">50% DP, 50% Barang siap kirim</td>
-                                        </tr>
-                                        <tr style="padding-bottom:0;">
-                                            <td style="padding-bottom:0; font-size:16px;">30 hari setelah tanggal surat penawaran ini</td>
+                                            <td style="padding-bottom:0; font-size:16px;">aalamat tujuan</td>
                                         </tr>
                                     </table>
                                 </div>
+                                <div class="col-3">
+                                    Menyetujui <br/><br/><br/><br/>
+                                    (_______________________)
+                                </div>
+                                <div class="col-3">
+                                    <table border="1" style="font-size:16px" width="75%">
+                                    <tr class="border-black o_subtotal" style="">
+                                        <td name="td_amount_untaxed_label"><strong>Subtotal</strong></td>
+                                        <td name="td_amount_untaxed" class="text-right">
+                                            <span t-field="o.amount_untaxed"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black o_total">
+                                        <td name="td_amount_total_label"><strong>Total</strong></td>
+                                        <td name="td_amount_total" class="text-right">
+                                            <span t-field="o.amount_total"/>
+                                        </td>
+                                    </tr>
+                                    </table>
+                                </div>
                         </div>
-                        <div class="row" style="margin-bottom: 20px;">
-                            <div class="col-12">
-                                <tr><td><span><b>Demikian hal yang ingin kami sampaikan, atas perhatiannya kami ucapkan terima kasih</b></span></td></tr>
-                            </div>
-                        </div>
+                        <div class="row">
+                            <tr style="padding-bottom:0;"><span>1 (satu) bulan setelah penerimaan barang. Penawaran 67 Hari Kerja. Up. Ibu Yulia</span></tr>
                         </div>
 
-                        <br/>
+                    <!--    <br/>-->
                         
-                        <div class="row">
-                        <div class="col-6 text-center">
-                        </div>
-                        <div class="col-6 text-center">
-                            Menyetujui <br/><br/><br/><br/>
-                            (_______________________)
-                        </div>
+                    <!--    <div class="row">-->
+                    <!--    <div class="col-6 text-center">-->
+                    <!--    </div>-->
+                    <!--    <div class="col-6 text-center">-->
+                    <!--        Menyetujui <br/><br/><br/><br/>-->
+                    <!--        (_______________________)-->
+                    <!--    </div>-->
                         
-                    </div>
+                    <!--</div>-->
                 </t>
             </t>    
         </t>
