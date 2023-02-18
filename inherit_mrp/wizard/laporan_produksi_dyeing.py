@@ -2,21 +2,27 @@ from odoo import fields, models, api, _
 from odoo.exceptions import UserError
 from datetime import datetime, timedelta
 
+
 class LaporanProduksiDyeing(models.TransientModel):
     _name = 'laporan.produksi.dyeing'
 
-    date_start = fields.Date(string='Data Start', required=True,default=fields.Date.today())
-    date_end = fields.Date(string='Data End', required=True,default=fields.Date.today())
+    date_start = fields.Date(
+        string='Data Start', required=True, default=fields.Date.today())
+    date_end = fields.Date(string='Data End', required=True,
+                           default=fields.Date.today())
     mrp_type_id = fields.Many2one('mrp.type', string='Type MRP')
-    type = fields.Selection([("perhari","Perhari"),("permesin","PerMesin"),("pershift","PerShift"),("peroperator","PerOperator"),("perhari_workcenter","Perhari Workcenter"),("reproses","ReProses"),("reproduksi","ReProduksi"),("overtime","OverTime Schedule")], string='Type')
+    type = fields.Selection([("perhari", "Perhari"), ("permesin", "PerMesin"), ("pershift", "PerShift"), ("peroperator", "PerOperator"), (
+        "perhari_workcenter", "Perhari Workcenter"), ("reproses", "ReProses"), ("reproduksi", "ReProduksi"), ("overtime", "OverTime Schedule")], string='Type')
 
     def action_generate(self):
-        date_start_tmp  = datetime.strptime(self.date_start.strftime('%Y-%m-%d') + ' 00:00:00', '%Y-%m-%d %H:%M:%S')
-        date_start      = date_start_tmp - timedelta(hours=7)
-        
-        date_end_tmp    = datetime.strptime(self.date_end.strftime('%Y-%m-%d') + ' 23:59:59', '%Y-%m-%d %H:%M:%S')
-        date_end        = date_end_tmp - timedelta(hours=7)
-        
+        date_start_tmp = datetime.strptime(self.date_start.strftime(
+            '%Y-%m-%d') + ' 00:00:00', '%Y-%m-%d %H:%M:%S')
+        date_start = date_start_tmp - timedelta(hours=7)
+
+        date_end_tmp = datetime.strptime(self.date_end.strftime(
+            '%Y-%m-%d') + ' 23:59:59', '%Y-%m-%d %H:%M:%S')
+        date_end = date_end_tmp - timedelta(hours=7)
+
         if self.type == 'perhari':
             query = """
                 SELECT 
@@ -47,7 +53,7 @@ class LaporanProduksiDyeing(models.TransientModel):
                 'form': {
                     'date_start': self.date_start,
                     'date_end': self.date_end,
-                    'data' : result,
+                    'data': result,
                 },
             }
             return self.env.ref('inherit_mrp.action_report_produksi_dyeing').report_action(None, data=data)
@@ -104,7 +110,7 @@ class LaporanProduksiDyeing(models.TransientModel):
                 'form': {
                     'date_start': self.date_start,
                     'date_end': self.date_end,
-                    'data' : result,
+                    'data': result,
                 },
             }
             return self.env.ref('inherit_mrp.action_report_produksi_dyeing_permesin').report_action(None, data=data)
@@ -144,10 +150,11 @@ class LaporanProduksiDyeing(models.TransientModel):
                 'form': {
                     'date_start': self.date_start,
                     'date_end': self.date_end,
-                    'data' : result,
+                    'data': result,
                 },
             }
             return self.env.ref('inherit_mrp.action_report_produksi_dyeing_workcenter').report_action(None, data=data)
+
 
 class ReportProduksiDyeingPermesin(models.AbstractModel):
     _name = 'report.inherit_mrp.report_produksi_dyeing_permesin'
@@ -163,16 +170,16 @@ class ReportProduksiDyeingPermesin(models.AbstractModel):
             'date_start': date_start,
             'date_end': date_end,
             'docs': docs,
-            'doc_ids' : docids,
+            'doc_ids': docids,
             'me': self,
             'list_mesin': self.list_mesin(docs)
         }
-    
+
     @api.model
     def product_name(self, product_id):
         product_obj = self.env['product.product'].browse(product_id)
         return product_obj.display_name
-    
+
     @api.model
     def get_prg(self, mo_id):
         mo_obj = self.env['mrp.production'].browse(mo_id)
@@ -194,6 +201,8 @@ class ReportProduksiDyeingPermesin(models.AbstractModel):
         for a in data:
             date.append(a.get('date'))
         return list(set(date))
+
+
 class ReportProduksiDyeing(models.AbstractModel):
     _name = 'report.inherit_mrp.report_laporan_produksi_dyeing'
 
@@ -208,16 +217,16 @@ class ReportProduksiDyeing(models.AbstractModel):
             'date_start': date_start,
             'date_end': date_end,
             'docs': docs,
-            'doc_ids' : docids,
+            'doc_ids': docids,
             'me': self,
             'list_date': self.list_date(docs)
         }
-    
+
     @api.model
     def product_name(self, product_id):
         product_obj = self.env['product.product'].browse(product_id)
         return product_obj.display_name
-    
+
     @api.model
     def get_qty_mtr(self, mo_id):
         mo_obj = self.env['mrp.production'].browse(mo_id)
@@ -233,6 +242,8 @@ class ReportProduksiDyeing(models.AbstractModel):
         for a in data:
             date.append(a.get('date'))
         return list(set(date))
+
+
 class ReportProduksiDyeingWorkcenter(models.AbstractModel):
     _name = 'report.inherit_mrp.report_laporan_produksi_dyeing_workcenter'
 
@@ -247,12 +258,12 @@ class ReportProduksiDyeingWorkcenter(models.AbstractModel):
             'date_start': date_start,
             'date_end': date_end,
             'docs': docs,
-            'doc_ids' : docids,
+            'doc_ids': docids,
             'me': self,
             'list_date': self.list_date(docs),
             'list_workcenter': self.list_workcenter(docs)
         }
-    
+
     @api.model
     def product_name(self, product_id):
         product_obj = self.env['product.product'].browse(product_id)
@@ -273,7 +284,7 @@ class ReportProduksiDyeingWorkcenter(models.AbstractModel):
         for a in data:
             date.append(a.get('date'))
         return list(set(date))
-    
+
     def list_workcenter(self, data):
         workcenter = []
         for a in data:

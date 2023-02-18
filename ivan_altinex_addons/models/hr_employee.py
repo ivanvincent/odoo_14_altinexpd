@@ -1,7 +1,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
-class NamaModel(models.Model):
+class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
     employee_team = fields.Selection([
@@ -10,6 +10,7 @@ class NamaModel(models.Model):
         ('3', 'Tim Netral'),
         ('4', 'Staff Non-Produksi'),
         ('5', 'Staff Produksi Tidak Langsung'),
+        ('6', 'Tim Netral Non-Shift')
     ], string='Employee Team')
     
     
