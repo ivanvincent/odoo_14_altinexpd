@@ -37,6 +37,8 @@
                                         <field name="embos"/>
                                         <field name="tip"/>
                                         <field name="size"/>
+                                        <field name="shape"/>
+                                        <field name="product_ingredient_id"/>
                                         <field name="quantity"/>
                                         <field name="price_unit"/>
                                         <field name="tax_ids" widget="many2many_tags"/>
