@@ -463,7 +463,9 @@ class MakloonOrder(models.Model):
         pickings = self.mapped('result_pick_ids')
         if len(pickings) > 1:
             action['domain'] = [('id', 'in', pickings.ids)]
+            a
         elif pickings:
+            b
             action['views'] = [(self.env.ref('stock.view_picking_form').id, 'form')]
             action['res_id'] = pickings.id
         
