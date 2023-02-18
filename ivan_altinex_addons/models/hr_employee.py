@@ -10,7 +10,9 @@ class NamaModel(models.Model):
         ('3', 'Tim Netral'),
         ('4', 'Staff Non-Produksi'),
         ('5', 'Staff Produksi Tidak Langsung'),
+        ('6', 'Tim Netral Non-Shift'),
     ], string='Employee Team')
+    
     
     
 

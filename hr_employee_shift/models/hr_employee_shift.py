@@ -42,7 +42,9 @@ class HrEmployeeShift(models.Model):
         ('2', 'Tim 2'),
         ('3', 'Tim Netral'),
         ('4', 'Staff Non-Produksi'),
-        ('5', 'Staff Produksi Tidak Langsung')
+        ('5', 'Staff Produksi Tidak Langsung'),
+        ('6', 'Tim Netral Non-Shift'),
+
     ], string='Tim')
     attendance_ids = fields.One2many(
         'resource.calendar.attendance', 'calendar_id', 'Workingssss Time',
