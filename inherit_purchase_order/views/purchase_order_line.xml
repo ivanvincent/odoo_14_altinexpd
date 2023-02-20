@@ -18,7 +18,7 @@
             <field name="name">Request For Quotation</field>
             <field name="res_model">purchase.order</field>
             <field name="view_mode">owl_tree</field>
-            <field name="domain">[('state', '=', 'draft')]</field>
+            <field name="domain">[('state', '=', 'approve')]</field>
             <!-- <field name="context">{'group_by': 'order_id'}</field> -->
             <!-- <field name="view_ids" eval="[(5, 0, 0),(0, 0, {'view_mode': 'tree', 'view_id': ref('inherit_purchase_order.purchase_order_line_group_by_tree')})]"/> -->
         </record>
