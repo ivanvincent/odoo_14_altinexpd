@@ -36,28 +36,28 @@
                     </center>
                     
                         <br/>
-                    <table class="table-condensed" style="font-size : 20px" width="100%">
+                    <table class="table-condensed" style="font-size : 16px" width="100%">
                     <thead>
                         <tr class="text-center">
-                        <th style="border : 1px solid black; color : white;" rowspan="2">kolom kosong</th>
-                        <th style="border : 1px solid black" rowspan="2"> Gaji Pokok</th>
+                        <th style="border : 1px solid black; color : white;" rowspan="2" width="14%">kolom kosong</th>
+                        <th style="border : 1px solid black" rowspan="2" width="10%"> Gaji Pokok</th>
                         <th style="border : 1px solid black" colspan="5">Total Iuran BPJS (Perusahaan)</th>
                         <th style="border : 1px solid black" colspan="3">Total Iuran BPJS (Karyawan)</th>
                         </tr>
                         <tr class="text-center">
-                        <th style="border : 1px solid black">BPJS Kesehatan (Perusahaan)</th>
-                        <th style="border : 1px solid black">BPJS JHT (Perusahaan)</th>
-                        <th style="border : 1px solid black">BPJS JKK (Perusahaan)</th>
-                        <th style="border : 1px solid black">BPJS JP (Perusahaan)</th>
-                        <th style="border : 1px solid black">BPJS JKM (perusahaan)</th>
-                        <th style="border : 1px solid black">BPJS Kesehatan (Karyawan)</th>
-                        <th style="border : 1px solid black">BPJS JHT (Karyawan)</th>
-                        <th style="border : 1px solid black">BPJS JP (Karyawan)</th>
+                        <th style="border : 1px solid black" width="8%">BPJS Kesehatan (Perusahaan)</th>
+                        <th style="border : 1px solid black" width="8%">BPJS JHT (Perusahaan)</th>
+                        <th style="border : 1px solid black" width="8%">BPJS JKK (Perusahaan)</th>
+                        <th style="border : 1px solid black" width="8%">BPJS JP (Perusahaan)</th>
+                        <th style="border : 1px solid black" width="8%">BPJS JKM (perusahaan)</th>
+                        <th style="border : 1px solid black" width="8%">BPJS Kesehatan (Karyawan)</th>
+                        <th style="border : 1px solid black" width="8%">BPJS JHT (Karyawan)</th>
+                        <th style="border : 1px solid black" width="8%">BPJS JP (Karyawan)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <t t-foreach="docs" t-as="line">
-                            <tr height="3px">
+                            <tr height="4px">
                                 <td style="border : 1px solid black; padding-left : 8x" class="text-left">
                                     <span t-esc="line.get('name')"/>
                                 </td>

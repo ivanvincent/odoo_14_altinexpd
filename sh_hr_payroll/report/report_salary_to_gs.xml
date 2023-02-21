@@ -5,8 +5,8 @@
             <field name="name">Report Salary To GS</field>
             <field name="default" eval="True"/>
             <field name="format">custom</field>
-            <field name="page_width">190</field>
-            <field name="page_height">320</field>
+            <field name="page_width">210</field>
+            <field name="page_height">330</field>
             <field name="orientation">Landscape</field>
             <field name="margin_top">20</field>
             <field name="margin_bottom">5</field>
@@ -34,55 +34,118 @@
             <t t-call="web.basic_layout">
                 <div class="page">
                     <center>
-                    <h3><b>LAPORAN GAJI KE GITA SARANA</b></h3>
+                        <h3><b>LAPORAN GAJI KE GITA SARANA</b></h3>
                     </center>
-                    
+                    <!-- <center>
+                        <h3><b>Periode : </b></h3>
+                        <span t-esc="month_selection"/>
+                    </center> -->
                         <br/>
                     <table class="table-condensed" style="font-size : 20px" width="100%">
                     <thead>
                         <tr class="text-center" style="font-size : 8px">
-                        <th style="border : 1px solid black">No</th>
-                        <!-- <th style="border : 1px solid black">NIK</th> -->
-                        <th style="border : 1px solid black">Nama</th>
-                        <th style="border : 1px solid black">Gaji Pokok</th>
-                        <th style="border : 1px solid black">Gaji Pokok untuk BPJS</th>
-                        <th style="border : 1px solid black">Tunjangan Keahlian</th>
-                        <th style="border : 1px solid black">Tunjangan Shift 3</th>
-                        <th style="border : 1px solid black">Tunjangan Kesehatan Non BPJS</th>
-                        <th style="border : 1px solid black">Bonus Proyek</th>
-                        <th style="border : 1px solid black">Bonus Bulanan</th>
-                        <th style="border : 1px solid black">Total Tunjangan selain Tunjangan PPh</th>
-                        <th style="border : 1px solid black">Tunjangan PPh 21</th>
-                        <th style="border : 1px solid black">BPJS Kes (Perusahaan)</th>
-                        <th style="border : 1px solid black">BPJS JKK (Perusahaan)</th>
-                        <th style="border : 1px solid black">BPJS JKM (Perusahaan)</th>
-                        <th style="border : 1px solid black">Total BPJS untuk PPh 21</th>
-                        <th style="border : 1px solid black">Bonus Tahunan</th>
-                        <th style="border : 1px solid black">THR</th>
-                        <th style="border : 1px solid black">Total Komponen Tidak Tetap</th>
-                        <th style="border : 1px solid black">Penghasilan Bruto</th>
-                        <th style="border : 1px solid black">BPJS JHT (Karyawan)</th>
-                        <th style="border : 1px solid black">BPJS JP (Karyawan)</th>
-                        <th style="border : 1px solid black">Total potongan BPJS untuk PPh21</th>
-                        <th style="border : 1px solid black">Biaya Jabatan</th>
-                        <th style="border : 1px solid black">Potongan Resmi lainnya</th>
-                        <th style="border : 1px solid black">Penghasilan Netto</th>
-                        <th style="border : 1px solid black">Penghasilan Netto disetahunkan</th>
-                        <th style="border : 1px solid black">Total BPJS untuk PPh 21</th>
-                        <th style="border : 1px solid black">PTKP</th>
-                        <th style="border : 1px solid black">PKP Pembulatan</th>
-                        <th style="border : 1px solid black">PPh 21 Terutang</th>
-                        <th style="border : 1px solid black">PPh 21 Dicicil</th>
-                        <th style="border : 1px solid black">THP</th>
+                            <th style="border : 1px solid black" width="1%">No</th>
+                            <!-- <th style="border : 1px solid black">NIK</th> -->
+                            <th style="border : 1px solid black" width="5%">Nama</th>
+                            <th style="border : 1px solid black" width="3%">Gaji Pokok</th>
+                            <th style="border : 1px solid black" width="3%">Gaji Pokok untuk BPJS</th>
+                            <th style="border : 1px solid black" width="3%">Tunjangan Keahlian</th>
+                            <th style="border : 1px solid black" width="3%">Tunjangan Shift 3</th>
+                            <th style="border : 1px solid black" width="3%">Tunjangan Kes Non BPJS</th>
+                            <th style="border : 1px solid black" width="3%">Bonus Proyek</th>
+                            <th style="border : 1px solid black" width="3%">Bonus Bulanan</th>
+                            <th style="border : 1px solid black" width="3%">Total Tjg selain Tjg PPh</th>
+                            <th style="border : 1px solid black" width="3%">Tunjangan PPh 21</th>
+                            <th style="border : 1px solid black" width="3%">BPJS Kes (Perusahaan)</th>
+                            <th style="border : 1px solid black" width="3%">BPJS JKK (Perusahaan)</th>
+                            <th style="border : 1px solid black" width="3%">BPJS JKM (Perusahaan)</th>
+                            <th style="border : 1px solid black" width="3%">Total BPJS u/ PPh 21</th>
+                            <th style="border : 1px solid black" width="3%">Bonus Tahunan</th>
+                            <th style="border : 1px solid black" width="3%">THR</th>
+                            <th style="border : 1px solid black" width="3%">Total Komponen Tidak Tetap</th>
+                            <th style="border : 1px solid black" width="3%">Penghasilan Bruto</th>
+                            <th style="border : 1px solid black" width="3%">BPJS JHT (Karyawan)</th>
+                            <th style="border : 1px solid black" width="3%">BPJS JP (Karyawan)</th>
+                            <th style="border : 1px solid black" width="3%">Total pot BPJS u/ PPh21</th>
+                            <th style="border : 1px solid black" width="3%">Biaya Jabatan</th>
+                            <th style="border : 1px solid black" width="3%">Potongan Resmi lainnya</th>
+                            <th style="border : 1px solid black" width="3%">Penghasilan Netto</th>
+                            <th style="border : 1px solid black" width="3%">Penghasilan Netto disetahunkan</th>
+                            <th style="border : 1px solid black" width="3%">Total BPJS u/ PPh 21</th>
+                            <th style="border : 1px solid black" width="3%">PTKP</th>
+                            <th style="border : 1px solid black" width="3%">PKP Pembulatan</th>
+                            <th style="border : 1px solid black" width="3%">PPh 21 Terutang</th>
+                            <th style="border : 1px solid black" width="3%">PPh 21 Dicicil</th>
+                            <th style="border : 1px solid black" width="3%">THP</th>
                         </tr>
                     </thead>
                         <tbody>
                             <t t-set="no" t-value="0"/> 
                             <t t-set="tot_bpjs_21" t-value="0"/> 
-                            <t t-set="tot_pot_bpjs_21" t-value="0"/>              
-                            <t t-foreach="docs" t-as="line">
-                                <t t-set="no" t-value="no + 1"/>
-                                <tr height="3px" style="font-size : 8px">
+                            <t t-set="tot_pot_bpjs_21" t-value="0"/>
+                            <t t-set="sum_gapok" t-value="0"/> 
+                            <t t-set="sum_gapok_bpjs" t-value="0"/> 
+                            <t t-set="sum_ahli" t-value="0"/>
+                            <t t-set="sum_shift3" t-value="0"/> 
+                            <t t-set="sum_faskes" t-value="0"/> 
+                            <t t-set="sum_lembur" t-value="0"/>
+                            <t t-set="sum_bonus" t-value="0"/> 
+                            <t t-set="sum_tunjangan" t-value="0"/> 
+                            <t t-set="sum_tpph" t-value="0"/>
+                            <t t-set="sum_kes" t-value="0"/> 
+                            <t t-set="sum_jkk" t-value="0"/> 
+                            <t t-set="sum_jkm" t-value="0"/>
+                            <t t-set="sum_tot_bpjs_21" t-value="0"/> 
+                            <t t-set="sum_bota" t-value="0"/> 
+                            <t t-set="sum_thr" t-value="0"/>
+                            <t t-set="sum_ktt" t-value="0"/> 
+                            <t t-set="sum_bruto" t-value="0"/> 
+                            <t t-set="sum_jht2" t-value="0"/>
+                            <t t-set="sum_jp2" t-value="0"/> 
+                            <t t-set="sum_tot_pot_bpjs_21" t-value="0"/> 
+                            <t t-set="sum_jabat" t-value="0"/>
+                            <t t-set="sum_potong" t-value="0"/> 
+                            <t t-set="sum_net" t-value="0"/> 
+                            <t t-set="sum_net_annual" t-value="0"/>
+                            <t t-set="sum_ptkp" t-value="0"/> 
+                            <t t-set="sum_pkp_1" t-value="0"/> 
+                            <t t-set="sum_pkp_2" t-value="0"/>
+                            <t t-set="sum_pph21_1" t-value="0"/> 
+                            <t t-set="sum_pph21_2" t-value="0"/> 
+                            <t t-set="sum_thp" t-value="0"/>
+                                <t t-foreach="docs" t-as="line">
+                                    <t t-set="no" t-value="no + 1"/>
+                                    <t t-set="sum_gapok" t-value="sum_gapok + line.get('total_gapok')"/>
+                                    <t t-set="sum_gapok_bpjs" t-value="sum_gapok_bpjs + line.get('total_gapok_bpjs')"/>
+                                    <t t-set="sum_ahli" t-value="sum_ahli + line.get('total_ahli')"/>
+                                    <t t-set="sum_shift3" t-value="sum_shift3 + line.get('total_shift3')"/>
+                                    <t t-set="sum_faskes" t-value="sum_faskes + line.get('total_faskes')"/>
+                                    <t t-set="sum_lembur" t-value="sum_lembur + line.get('total_lembur')"/>
+                                    <t t-set="sum_bonus" t-value="sum_bonus + line.get('total_bonus')"/>
+                                    <t t-set="sum_tunjangan" t-value="sum_tunjangan + line.get('total_tunjangan')"/>
+                                    <t t-set="sum_tpph" t-value="sum_tpph + line.get('total_tpph')"/>
+                                    <t t-set="sum_kes" t-value="sum_kes + line.get('total_kes')"/>
+                                    <t t-set="sum_jkk" t-value="sum_jkk + line.get('total_jkk')"/>
+                                    <t t-set="sum_jkm" t-value="sum_jkm + line.get('total_jkm')"/>
+                                    <t t-set="sum_tot_bpjs_21" t-value="sum_tot_bpjs_21 + tot_bpjs_21"/>
+                                    <t t-set="sum_bota" t-value="sum_bota + line.get('total_bota')"/>
+                                    <t t-set="sum_thr" t-value="sum_thr + line.get('total_thr')"/>
+                                    <t t-set="sum_bruto" t-value="sum_bruto + line.get('total_bruto')"/>
+                                    <t t-set="sum_jht2" t-value="sum_jht2 + line.get('total_jht2')"/>
+                                    <t t-set="sum_jp2" t-value="sum_jp2 + line.get('total_jp2')"/>
+                                    <t t-set="sum_tot_pot_bpjs_21" t-value="sum_tot_pot_bpjs_21 + tot_pot_bpjs_21"/>
+                                    <t t-set="sum_jabat" t-value="sum_jabat + line.get('total_jabat')"/>
+                                    <t t-set="sum_potong" t-value="sum_potong + line.get('total_potong')"/>
+                                    <t t-set="sum_net" t-value="sum_net + line.get('total_net')"/>
+                                    <t t-set="sum_net_annual" t-value="sum_net_annual + line.get('total_net_annual')"/>
+                                    <t t-set="sum_ptkp" t-value="sum_ptkp + line.get('total_ptkp')"/>
+                                    <t t-set="sum_pkp_1" t-value="sum_pkp_1 + line.get('total_pkp_1')"/>
+                                    <t t-set="sum_pkp_2" t-value="sum_pkp_2 + line.get('total_pkp_2')"/>
+                                    <t t-set="sum_pph21_1" t-value="sum_pph21_1 + line.get('total_pph21_1')"/>
+                                    <t t-set="sum_pph21_2" t-value="sum_pph21_2 + line.get('total_pph21_2')"/>
+                                    <t t-set="sum_thp" t-value="sum_thp + line.get('total_thp')"/>
+
+                                <tr height="4px" style="font-size : 8px">
                                     <td style="border : 1px solid black; padding-left : 2px" class="text-left">
                                         <span t-esc="no"/>
                                     </td>
@@ -186,7 +249,102 @@
                                     </td>
                                 </tr>
                             </t>
-                        </tbody>
+                            </tbody>
+                            <tr height="3px" style="font-size : 8px">
+                                <td style="border : 1px solid black; padding-left : 2px" class="text-left" colspan="2">
+                                    <span>TOTAL</span>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_gapok)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_gapok_bpjs)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_ahli)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_shift3)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_faskes)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_lembur)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_bonus)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_tunjangan)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_tpph)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_kes)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_jkk)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_jkm)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_tot_bpjs_21)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_bota)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_thr)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_ktt)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_bruto)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_jht2)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_jp2)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_tot_pot_bpjs_21)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_jabat)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_potong)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_net)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_net_annual)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_ptkp)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_pkp_1)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_pkp_2)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_pph21_1)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_pph21_2)"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(sum_thp)"/>
+                                </td>
+                            </tr>
                     </table>
                 </div>
             </t>
