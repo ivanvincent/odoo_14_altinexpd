@@ -58,14 +58,35 @@
                     <tbody>
                         <t t-foreach="docs" t-as="line">
                             <tr height="3px">
-                                <td style="border : 1px solid black; padding-left : 10px" class="text-left">
+                                <td style="border : 1px solid black; padding-left : 8x" class="text-left">
                                     <span t-esc="line.get('name')"/>
                                 </td>
-                                <td style="border : 1px solid black; padding-right : 10px" class="text-right">Rp. 
+                                <td style="border : 1px solid black; padding-right : 8px" class="text-right">Rp. 
                                     <span t-esc="'{0:,.0f}'.format(line.get('total_gapok'))"/>
                                 </td>
-                                <td style="border : 1px solid black; padding-right : 10px" class="text-right">Rp. 
+                                <td style="border : 1px solid black; padding-right : 8px" class="text-right">Rp. 
                                     <span t-esc="'{0:,.0f}'.format(line.get('total_kes'))"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 8px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(line.get('total_jht'))"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 8px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(line.get('total_jkk'))"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 8px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(line.get('total_jp'))"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 8px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(line.get('total_jkm'))"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 8px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(line.get('total_kes2'))"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 8px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(line.get('total_jht2'))"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 8px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(line.get('total_jp2'))"/>
                                 </td>
                             </tr>
                         </t>
