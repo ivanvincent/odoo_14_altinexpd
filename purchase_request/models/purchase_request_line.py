@@ -217,6 +217,7 @@ class PurchaseRequestLine(models.Model):
                                       )
     picking_type_id = fields.Many2one(related='request_id.picking_type_id', string='Picking Type')
     image_ids       = fields.One2many('insert.image', 'purchase_line_id', string='Image')
+    date_dtg_brg = fields.Date(string='Date Dtg Barang')
     
 
     def _get_onhand(self):
