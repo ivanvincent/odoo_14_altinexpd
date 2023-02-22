@@ -66,7 +66,7 @@ class StockPicking(models.Model):
                 'picking_id': picking.id,
                 'partner_id': picking.partner_id.id,
                 'move_type': move_type,
-                'sj_supplier': self.surat_jalan_supplier if type_journal == 'purchase' else False,
+                'sj_supplier': self.no_sj if type_journal == 'purchase' else False,
                 'payment_reference': picking.name,
                 'invoice_date': fields.Date.today(),
                 'journal_id': journal_id,
