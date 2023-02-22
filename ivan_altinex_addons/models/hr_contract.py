@@ -7,6 +7,8 @@ class HrContract(models.Model):
     _inherit = 'hr.contract'
 
     wage = fields.Monetary('Gaji', required=True, tracking=True, readonly=True, compute="_compute_wage_grade", help="Employee's monthly gross wage.")
+    gapok_bpjs_kes = fields.Monetary('Gapok BPJS Kes',tracking=True, help="Gaji Pokok untuk kepentingan BPJS Kesehatan.")
+    gapok_bpjs_tk = fields.Monetary('Gapok BPJS TK',tracking=True, help="Gaji Pokok untuk kepentingan BPJS TK.")
     tunjangan_keahlian = fields.Monetary(string="Tunjangan Keahlian", readonly=True, compute="_compute_skill_grade")
     iuran_pensiun = fields.Monetary(string="Iuran Pensiun")
     years_of_service = fields.Float('Years Of Service', compute="_compute_year_of_service")

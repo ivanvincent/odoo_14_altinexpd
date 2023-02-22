@@ -41,6 +41,18 @@
             <field name="model">hr.contract</field>
             <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//group[@name='salary_and_advantages']" position="inside">
+                    <label for="gapok_bpjs_kes"/>
+                    <div class="o_row">
+                        <field name="gapok_bpjs_kes" nolabel="1"/>
+                        <span>/ month</span>
+                    </div>
+                    <label for="gapok_bpjs_tk"/>
+                    <div class="o_row">
+                        <field name="gapok_bpjs_tk" nolabel="1"/>
+                        <span>/ month</span>
+                    </div>
+                </xpath>
                 <xpath expr="//group[@name='salary_and_advantages']" position="after">
                     <group string="Tunjangan Tidak Tetap" name='allowances'>
                         <label for="tunjangan_keahlian"/>
