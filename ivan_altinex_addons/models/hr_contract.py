@@ -169,6 +169,58 @@ class HrContract(models.Model):
         result = super(HrContract, self).create(values)
         return result
     
+    def update_allocation(self):
+        if self.allocations_ids:
+            for l in self.allocations_ids.filtered(lambda x: x.state != 'validate'):
+                contract_id = l.contract_id
+                if l.holiday_status_id.id == 5:
+                    l.write({'number_of_days': contract_id.alokasi_izin_sakit})
+                elif l.holiday_status_id.id == 6:
+                    l.write({'number_of_days': contract_id.alokasi_izin_normatif})
+                elif l.holiday_status_id.id == 7:
+                    l.write({'number_of_days': contract_id.alokasi_izin_maternity})
+                elif l.holiday_status_id.id == 11:
+                    l.write({'number_of_days': contract_id.alokasi_izin_paternity})
+                elif l.holiday_status_id.id == 10:
+                    l.write({'number_of_days': contract_id.alokasi_cuti})
+        else:
+            dict_izin_sakit = {
+                            'name': 'Izin Sakit',
+                            'holiday_status_id': 5,
+                            'holiday_type': 'employee',
+                            'employee_id': self.employee_id.id,
+                            'number_of_days' : self.alokasi_izin_sakit
+                        }
+            dict_izin_normatif = {
+                                'name': 'Izin Normatif',
+                                'holiday_status_id': 6,
+                                'holiday_type': 'employee',
+                                'employee_id': self.employee_id.id,
+                                'number_of_days' : self.alokasi_izin_normatif
+                            }
+            dict_izin_maternity = {
+                                'name': 'Izin Maternitas',
+                                'holiday_status_id': 7,
+                                'holiday_type': 'employee',
+                                'employee_id': self.employee_id.id,
+                                'number_of_days' : self.alokasi_izin_maternity
+                            }
+            dict_izin_paternity = {
+                                'name': 'Izin Paternitas',
+                                'holiday_status_id': 11,
+                                'holiday_type': 'employee',
+                                'employee_id': self.employee_id.id,
+                                'number_of_days' : self.alokasi_izin_paternity
+                            }
+            dict_cuti = {
+                                'name': 'Cuti Tahunan',
+                                'holiday_status_id': 10,
+                                'holiday_type': 'employee',
+                                'employee_id': self.employee_id.id,
+                                'number_of_days' : self.alokasi_cuti
+                            }
+            self.allocations_ids = [(0, 0, dict_izin_sakit),(0, 0, dict_izin_normatif),(0, 0, dict_izin_maternity),(0, 0, dict_izin_paternity),(0, 0, dict_cuti)]
+        
 class WageGrade(models.Model):
     _name = 'hr.wage_grade'
     _rec_name ='wage_grade'

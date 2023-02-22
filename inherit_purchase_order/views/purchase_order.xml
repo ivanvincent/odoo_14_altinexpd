@@ -41,7 +41,7 @@
                 </xpath>
 
                 <xpath expr="//button[@name='button_unlock']" position="after">
-                    <button name="action_approve" string="Approve" states="draft" type="object" groups="inherit_purchase_order.group_purchase_approver" />
+                    <button name="action_approve" string="Approve PBL" states="draft" type="object" groups="inherit_purchase_order.group_purchase_approver" />
                     <button name="button_reject" string="Reject" style="background-color:red;" states="draft" type="object" class="btn-danger" groups="inherit_purchase_order.group_purchase_approver" />
                 </xpath>
 

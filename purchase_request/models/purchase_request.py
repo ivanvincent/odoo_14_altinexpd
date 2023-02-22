@@ -170,7 +170,7 @@ class PurchaseRequest(models.Model):
     po_categ_id = fields.Many2one('purchase.order.category', string='PO Category',help="Tujuan Pembelian")
     
     location_id  = fields.Many2one('stock.location', string='Location',related='picking_type_id.default_location_dest_id')
-    date_line = fields.Date(string='Tanggal kedatangan barang')
+    date_line = fields.Date(string='Date Request')
     tipe_permintaan = fields.Selection([('produksi', 'Produksi'), ('non_produksi', 'Non Produksi')], string="Tipe Permintaan")
 
     @api.depends("line_ids", "line_ids.estimated_cost")

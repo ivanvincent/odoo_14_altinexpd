@@ -30,6 +30,7 @@ class Quotation(models.Model):
     product_tmpl_ids = fields.Many2many('product.template',
         string='Product Template'
         )
+    
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids')
     def _compute_amount(self):
@@ -139,6 +140,8 @@ class QuotationLine(models.Model):
     sub_total = fields.Float(string='Sub Total', compute='compute_sub_total')
     quotation_id = fields.Many2one('quotation', string='Quotation')
     treatment_id = fields.Many2one('treatment', string='Treatment')
+    product_ingredient_id = fields.Many2one('product.product', string='Ingredient')
+    shape = fields.Char(string='Shape')
 
     @api.depends('quantity','price_unit')
     def compute_sub_total(self):

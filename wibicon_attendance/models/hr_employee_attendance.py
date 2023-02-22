@@ -99,7 +99,7 @@ class HrPayslip(models.Model):
             'name':'Shift 3',
             'sequence':20,
             'code':'PRES_SHIFT3',
-            'number_of_days': 0,
+            'number_of_days': self.get_shift_3(date_from,date_to),
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
 
@@ -246,6 +246,10 @@ class HrPayslip(models.Model):
 
         # """ cari jumlah ke tidak hadiran selt.employee-id"""
         # """jumlah hari kerja dikurangi jumlah kehadiran adalah absense"""
+
+    def get_shift_3(self, date_from, date_to):
+        shift_3_count = self.env['hr.attendance'].search([('employee_id','=',self.employee_id.id),('check_in','>=',date_from),('check_out','<',date_to)]).mapped("shift_3_counter")
+        return sum(shift_3_count)    
 
     def get_duration_time_off(self, type):
         leave_type = self.env['hr.leave.type'].search([('name', '=', type)])

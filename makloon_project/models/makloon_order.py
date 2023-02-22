@@ -460,15 +460,17 @@ class MakloonOrder(models.Model):
     def action_view_picking_in(self):
         action = self.env.ref('stock.action_picking_tree_all').read()[0]
 
-        # pickings = self.mapped('result_pick_ids')
-        # if len(pickings) > 1:
-        #     action['domain'] = [('id', 'in', pickings.ids)]
-        # elif pickings:
-        #     action['views'] = [(self.env.ref('stock.view_picking_form').id, 'form')]
-        #     action['res_id'] = pickings.id
+        pickings = self.mapped('result_pick_ids')
+        if len(pickings) > 1:
+            action['domain'] = [('id', 'in', pickings.ids)]
+            a
+        elif pickings:
+            b
+            action['views'] = [(self.env.ref('stock.view_picking_form').id, 'form')]
+            action['res_id'] = pickings.id
         
-        action['domain'] = [('makloon_order_id', '=', self.id)]
-        action['views'] = [(self.env.ref('stock.view_picking_form').id, 'form')]
+        # action['domain'] = [('makloon_order_id', '=', self.id)]
+        # action['views'] = [(self.env.ref('stock.view_picking_form').id, 'form')]
         # action['res_id'] = pickings.id
         return action
 
