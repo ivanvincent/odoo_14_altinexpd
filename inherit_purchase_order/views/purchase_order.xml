@@ -105,6 +105,13 @@
                             </tree>
                         </field>
                     </page>
+                    <page name="purchase_order_offer" string="TTD (Tanda Terima Dokumen)">
+                        <group>    
+                            <field name="is_surat_jalan"/>
+                            <field name="is_bill"/>
+                            <field name="is_fp"/>
+                        </group>
+                    </page>
                 </xpath>
 
             </field>

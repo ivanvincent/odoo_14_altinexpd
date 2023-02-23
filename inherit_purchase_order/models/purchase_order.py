@@ -20,6 +20,9 @@ class PurchaseOrder(models.Model):
     purchase_order_offer_line_ids = fields.One2many('purchase.order.offer', 'purchase_id', 'Line')
     state                 = fields.Selection(selection_add=[('approve', 'Approve')])
     picking_count_makloon = fields.Integer(string='Picking Count Makloon', compute='compute_picking_count_makloon')
+    is_surat_jalan        = fields.Boolean(string='Surat Jalan ?')
+    is_bill               = fields.Boolean(string='Bill ?')
+    is_fp                 = fields.Boolean(string='Faktur Pajak ?')
 
     def action_approve(self):
         self.state = 'approve'
