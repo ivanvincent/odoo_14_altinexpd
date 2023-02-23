@@ -9,7 +9,7 @@ class HrAttendance(models.Model):
     time_waiting = fields.Datetime(string='Waiting Check In', compute='compute_time_waiting')
     time_waiting_co = fields.Datetime(string='Waiting Check Out', compute='compute_time_waiting')
     late_counter = fields.Float(string='Employee Late Counter', compute='compute_late')
-    shift_3_counter = fields.Float(string='Shift 3 Counter', compute='compute_shift_3_counter')
+    shift_3_counter = fields.Float(string='Shift 3 Counter', compute='compute_shift_3_counter', store=True,)
 
     @api.depends('check_in', 'check_out')
     def compute_time_waiting(self):
@@ -57,21 +57,7 @@ class HrAttendance(models.Model):
             checkin = datetime.strptime(rec.check_in.strftime('%Y-%m-%d %H:%M:%S'), "%Y-%m-%d %H:%M:%S") + timedelta(hours=7)
             datetime_start = datetime.strptime(rec.check_in.strftime('%Y-%m-%d 23:00:00'), "%Y-%m-%d %H:%M:%S")
             datetime_end = datetime_start + timedelta(hours=2) 
-            # print("datetime_start", datetime_start)
-            # print("datetime_end", datetime_end)
-            print("==============================")
-
-            print("id             ",rec.id)
-            print("name:          ",rec.employee_id.name)
-            print("check in       ",checkin) 
-            print("datetime_start ", datetime_start)
-            print("datetime_end   ", datetime_end)
-            print(checkin >= datetime_start and checkin <= datetime_end)
-            if checkin >= datetime_start and checkin <= datetime_end :
+            if checkin >= datetime_start and checkin <= datetime_end:
                 rec.shift_3_counter = 1
             else:
                 rec.shift_3_counter = 0
-                # if rec.check_in >= datetime_start and rec.check_in <= datetime_end:11
-                # else:
-                # if checkin >= datetime_start:
-                #     rec.shift_3_counter = 0

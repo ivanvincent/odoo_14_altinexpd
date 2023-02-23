@@ -8,7 +8,9 @@
     'hr_attendance'
   ],
   'data': [
+    'security/ir.model.access.csv',
     'views/hr_attendance.xml',
+    'wizard/laporan_shift_3.xml',
   ],    
   'qweb': [
     'static/src/xml/attendance.xml',
