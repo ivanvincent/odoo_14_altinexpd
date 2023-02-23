@@ -154,7 +154,7 @@ class PurchaseRequest(models.Model):
         string="Stock Move count", compute="_compute_move_count", readonly=True
     )
     purchase_count = fields.Integer(
-        string="Purchases count", compute="_compute_purchase_count", readonly=True
+        string="Purchases count", compute="_compute_purchase_count", readonly=True, store=True,
     )
     currency_id = fields.Many2one(related="company_id.currency_id", readonly=True)
     
