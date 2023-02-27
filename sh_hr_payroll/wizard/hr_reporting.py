@@ -35,6 +35,8 @@ class HrReporting(models.TransientModel):
 
     def action_generate_pdf(self):
         job_ids = str(tuple(self.job_ids.ids)).replace(',)',')')
+        if not self.job_ids:
+            raise UserError('Mohon maaf anda tidak memiliki akses ..')
         query =f"""
             SELECT 
                 he.name, 
