@@ -181,11 +181,15 @@ class PurchaseRequest(models.Model):
     @api.depends("line_ids")
     def _compute_purchase_count(self):
         for rec in self:
-            rec.purchase_count = len(rec.mapped("line_ids.purchase_lines.order_id"))
+            # rec.purchase_count = len(rec.mapped("line_ids.purchase_lines.order_id"))
+            po = self.env['purchase.order'].search([('purchase_request_id', '=', rec.id)])
+            rec.purchase_count = len(po)
 
     def action_view_purchase_order(self):
         action = self.env.ref("purchase.purchase_rfq").sudo().read()[0]
-        lines = self.mapped("line_ids.purchase_lines.order_id")
+        # lines = self.mapped("line_ids.purchase_lines.order_id")
+        lines = self.env['purchase.order'].search([('purchase_request_id', '=', self.id)])
+
         if len(lines) > 1:
             action["domain"] = [("id", "in", lines.ids)]
         elif lines:
