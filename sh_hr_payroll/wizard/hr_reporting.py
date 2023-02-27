@@ -1443,6 +1443,9 @@ class HrReporting(models.TransientModel):
             rule = payroll_staff.rule_groups.filtered(lambda x: x.model_id.name == 'Pay Slip')
         elif uid in payroll_spv.users.ids:
             rule = payroll_spv.rule_groups.filtered(lambda x: x.model_id.name == 'Pay Slip')
+        else:
+            self.job_ids = [(6, 0, [])]
+            return
         job_ids = rule.domain_force.split(",'in',")[1].replace(")])", "")
         for rec in self:
             rec.job_ids = [(6, 0, list(map(int, job_ids[1:-1].split(','))) if job_ids else [])]

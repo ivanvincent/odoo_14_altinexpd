@@ -11,6 +11,7 @@
                             <group>
                                 <field name="month_selection"/>
                                 <field name="report_type"/>
+                                <field name="job_ids" widget="many2many_tags"/>
                             </group>
                             <group>
                                 <!-- <field name="date_end"/> -->
