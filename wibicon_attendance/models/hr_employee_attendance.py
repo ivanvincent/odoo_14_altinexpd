@@ -144,10 +144,10 @@ class HrPayslip(models.Model):
             'contract_id': self.contract_id.id})
 
         res.append({
-            'name':'Izin Dinas Luar',
+            'name':'Izin Dinas',
             'sequence':80,
             'code':'IDL',
-            'number_of_days': self.get_duration_time_off('Izin Dinas Luar'),
+            'number_of_days': self.get_duration_time_off('Izin Dinas'),
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
         
