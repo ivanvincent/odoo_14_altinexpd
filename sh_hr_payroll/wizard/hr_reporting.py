@@ -31,9 +31,11 @@ class HrReporting(models.TransientModel):
                         ("11","November %s" % current_year),
                         ("12","Desember %s" % current_year),
                         ],string='Month Selection')
+    job_ids = fields.Many2many('hr.job', string='Access Job', compute='compute_job_ids', compute_sudo=True)
 
     def action_generate_pdf(self):
-        query ="""
+        job_ids = str(tuple(self.job_ids.ids)).replace(',)',')')
+        query =f"""
             SELECT 
                 he.name, 
                 sum(payslip.total_gapok) as total_gapok,
@@ -104,8 +106,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id
                     FROM
                 hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+				left join hr_employee he on he.id = hp.employee_id
+				left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'GAPOK'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 
                     UNION
                     SELECT 
@@ -144,8 +149,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'GAPOK_BPJS'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 					UNION
                     SELECT 
@@ -184,8 +192,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'AHLI'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 					UNION
                     SELECT 
@@ -224,8 +235,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'SHIFT3'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 					
 					UNION
                     SELECT 
@@ -264,8 +278,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'FASKES'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 					UNION
                     SELECT 
@@ -304,8 +321,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'LEMBUR'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 					UNION
                     SELECT 
@@ -344,8 +364,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'BONUS'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 					UNION
                     SELECT 
@@ -384,8 +407,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'TOTAL_TUNJANGAN'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 					UNION
                     SELECT 
@@ -424,8 +450,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'TPPH'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 					
 					UNION
                     SELECT 
@@ -464,8 +493,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'KES'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 					UNION
                     SELECT 
@@ -504,8 +536,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'JKK'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 					UNION
                     SELECT 
@@ -544,8 +579,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'JKM'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 					UNION
                     SELECT 
@@ -584,8 +622,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'BOTA'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 					UNION
                     SELECT 
@@ -624,8 +665,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'THR'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 					
 					UNION
                     SELECT 
@@ -664,8 +708,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'TOTAL_KTT'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 				UNION
                     SELECT 
@@ -704,8 +751,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'BRUTO'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 				UNION
                     SELECT 
@@ -744,8 +794,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'JHT2'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 				UNION
                     SELECT 
@@ -784,8 +837,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'JP2'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 				UNION
                     SELECT 
@@ -824,8 +880,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'JABAT'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 				UNION
                     SELECT 
@@ -864,8 +923,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'POTONG'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 				UNION
                     SELECT 
@@ -904,8 +966,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'NET'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 				UNION
                     SELECT 
@@ -944,8 +1009,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'NET_ANNUAL'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 				UNION
                     SELECT 
@@ -984,8 +1052,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'PTKP'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 				UNION
                     SELECT 
@@ -1024,8 +1095,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'PKP_1'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 				UNION
                     SELECT 
@@ -1064,8 +1138,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'PKP_2'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 				UNION
                     SELECT 
@@ -1104,8 +1181,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'PPH21_2_SUM'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 				UNION
                     SELECT 
@@ -1144,8 +1224,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'PPH21_2_SEBULAN'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 				UNION
                     SELECT 
@@ -1184,8 +1267,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'THP_1'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 					UNION
                     SELECT 
@@ -1224,8 +1310,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'JHT'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 				UNION
                     SELECT 
@@ -1264,8 +1353,11 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'JP'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
 				
 					UNION
                     SELECT 
@@ -1304,17 +1396,22 @@ class HrReporting(models.TransientModel):
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
                     WHERE hpl.code = 'KES2'
-                    AND hp.month_selection = '%s'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
                 ) AS payslip 
             left join hr_employee he on he.id = payslip.employee_id
+			left join hr_job hj on hj.id = he.job_id
             GROUP BY he.name
-            """ % (self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection,
-                   self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection,
-                   self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection,
-                   self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection,
-                   self.month_selection, self.month_selection, self.month_selection
-            )
+            """ 
+			# % (self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection,
+            #        self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection,
+            #        self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection,
+            #        self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection,
+            #        self.month_selection, self.month_selection, self.month_selection
+            # )
         self._cr.execute(query)
         record = self._cr.dictfetchall()
             
@@ -1333,6 +1430,22 @@ class HrReporting(models.TransientModel):
             return self.env.ref('sh_hr_payroll.action_report_salary_bpjs').report_action(None, data=data)
         else :
             return self.env.ref('sh_hr_payroll.action_report_salary_gs').report_action(None, data=data)
+
+    @api.depends('report_type')
+    def compute_job_ids(self):
+        manajer_payroll = self.env['res.groups'].sudo().browse(240)
+        payroll_staff = self.env['res.groups'].sudo().browse(241)
+        payroll_spv = self.env['res.groups'].sudo().browse(244)
+        uid = self.env.user.id
+        if uid in manajer_payroll.users.ids:
+            rule = manajer_payroll.rule_groups.filtered(lambda x: x.model_id.name == 'Pay Slip')
+        elif uid in payroll_staff.users.ids:
+            rule = payroll_staff.rule_groups.filtered(lambda x: x.model_id.name == 'Pay Slip')
+        elif uid in payroll_spv.users.ids:
+            rule = payroll_spv.rule_groups.filtered(lambda x: x.model_id.name == 'Pay Slip')
+        job_ids = rule.domain_force.split(",'in',")[1].replace(")])", "")
+        for rec in self:
+            rec.job_ids = [(6, 0, list(map(int, job_ids[1:-1].split(','))) if job_ids else [])]
     
 class HrReportingBpjs(models.AbstractModel):
     _name = 'report.sh_hr_payroll.report_salary_bpjs'
