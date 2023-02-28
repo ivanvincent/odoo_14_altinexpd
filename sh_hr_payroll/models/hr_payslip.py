@@ -65,6 +65,7 @@ class HrPayslip(models.Model):
     payslip_run_id = fields.Many2one('hr.payslip.run', string='Payslip Batches', readonly=True,
         copy=False, states={'draft': [('readonly', False)]})
     payslip_count = fields.Integer(compute='_compute_payslip_count', string="Payslip Computation Details")
+    is_refunded = fields.Boolean(string='Is Refunded ?', default=False)
 
     def _compute_details_by_salary_rule_category(self):
         for payslip in self:
@@ -103,7 +104,7 @@ class HrPayslip(models.Model):
 
     def refund_sheet(self):
         for payslip in self:
-            copied_payslip = payslip.copy({'credit_note': True, 'name': _('Refund: ') + payslip.name})
+            copied_payslip = payslip.copy({'credit_note': True, 'name': _('Refund: ') + payslip.name, 'is_refunded': True})
             number = copied_payslip.number or self.env['ir.sequence'].next_by_code('salary.slip')
             copied_payslip.write({'number': number})
             copied_payslip.with_context(without_compute_sheet=True).action_payslip_done()
