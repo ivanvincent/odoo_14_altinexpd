@@ -68,7 +68,7 @@ class PayrollReportView(models.Model):
         return from_str
     
     def _where(self):
-        where_str = """psl.sequence IN ('80','81') """
+        where_str = """psl.sequence IN ('80','81') and ps.credit_note <> true and ps.is_refunded <> true """
         return where_str
 
     def _group_by(self):
