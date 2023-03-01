@@ -215,7 +215,7 @@ class StockPicking(models.Model):
 
     def button_validate(self):
         res = super(StockPicking, self).button_validate()
-        print('resssss', res)
+        self.date_done = self.scheduled_date #date done diset sesuai dengan schedule date
         if res == True:
             if sum(self.move_line_ids_without_package.mapped('waste')) > 0:
                 self._create_picking_scrap()
