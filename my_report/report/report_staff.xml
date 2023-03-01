@@ -5,13 +5,13 @@
             <field name="name">Report Staff</field>
             <field name="default" eval="True" />
             <field name="format">custom</field>
-            <field name="page_width">70</field>
-            <field name="page_height">100</field>
+            <field name="page_width">54</field>
+            <field name="page_height">85</field>
             <field name="orientation">Portrait</field>
-            <field name="margin_top">5</field>
-            <field name="margin_bottom">5</field>
-            <field name="margin_right">5</field>
-            <field name="margin_left">5</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_right">0</field>
+            <field name="margin_left">0</field>
             <field name="header_line" eval="False" />
             <field name="header_spacing">35</field>
         </record>
@@ -26,27 +26,27 @@
             <t t-call="web.basic_layout">
                 <t t-foreach="docs" t-as="o">
                     <t t-if="o and 'company_id' in o">
-                    <t t-set="company" t-value="o.company_id"></t>
+                    <t t-set="company" t-value="o.company_id"/>
                     </t>
                     <t t-if="not o or not 'company_id' in o">
-                    <t t-set="company" t-value="res_company"></t>
+                    <t t-set="company" t-value="res_company"/>
                     </t>
-                <img t-if="company.background_badge" t-att-src="'data:image/png;base64,%s' % to_text(company.background_badge)" style="max-height: 435px;">
+                <img t-if="company.background_badge" t-att-src="'data:image/png;base64,%s' % to_text(company.background_badge)" style="height: 600px; width: 620px; margin-left:-20px; ">
                     <div class="front" style="margin-top: -442px">
-                    <div class="pic2" style="margin-top: -20px;">
+                    <div class="pic2" style="margin-top: -560px;">
                         <center>
-                            <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height: 180px; max-width: 350px;"/>
+                            <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height: 180px; max-width: 350px; "/>
                         </center>
                     </div>
-                    <div  style="margin-top: 5px;">
+                    <div style="margin-top: 5px;">
                         <center>
-                            <img t-attf-src="data:image/*;base64,{{o.image_1920}}" width="150px" height="200px"/>
-                            <img alt="Barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', quote_plus(o.barcode or ''), 650, 10)" style="width:78%;height:4rem; padding-top: 1rem;"/>
+                            <img t-attf-src="data:image/*;base64,{{o.image_1920}}" width="175px" height="260px"  style="padding-top: 2rem; aspect-ratio: 3 / 4;"/>
+                            <img alt="Barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', quote_plus(o.barcode or ''), 680, 90)" style="width:85%;height:6rem; padding-top: 2rem;"/>
                         </center>
                     </div>
                     <div>
-                        <center>
-                        <span t-esc="str(o.name).upper()" style="font-size: 1.7rem;"/><br/>
+                        <center style="padding-top: 1.5rem;">
+                        <span t-esc="str(o.nama_alias).upper()" style="font-size: 1.7rem;"/><br/>
                         <span t-field="o.barcode" style="font-size: 1rem;"/><br/>
                         <span t-field="o.job_id" style="font-size: 1rem;"/><br/>
                         <span style="font-size: 1.1rem; font-weight:bold;">Punch &amp; Dies Division</span>
