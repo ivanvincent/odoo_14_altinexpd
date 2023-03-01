@@ -1,6 +1,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
+
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
@@ -12,3 +13,4 @@ class HrEmployee(models.Model):
         ('5', 'Staff Produksi Tidak Langsung'),
         ('6', 'Tim Netral Non-Shift'),
     ], string='Employee Team')
+    nama_alias = fields.Char(string='Alias')
