@@ -9,6 +9,9 @@
                 <xpath expr="//field[@name='tz']" position="after">
                     <field name="employee_team"/>
                 </xpath>
+                <xpath expr="//field[@name='mobile_phone']" position="after">
+                    <field name="nama_alias"/>
+                </xpath>
             </field>
         </record>
     </data>
