@@ -83,6 +83,7 @@ class HrPayslip(models.Model):
         res = super(HrPayslip, self).get_worked_day_lines(contracts,date_from,date_to)        
         
         presense = self.get_presense(contracts, date_from, date_to)
+        presense_under_5_hour = self.get_presense_late(contracts, date_from, date_to)
         late = self.get_late(date_from,date_to)
 
         res = [] # set to empty
@@ -91,7 +92,7 @@ class HrPayslip(models.Model):
             'name':'Kehadiran',
             'sequence':10,
             'code':'PRES',
-            'number_of_days': presense,
+            'number_of_days': presense + presense_under_5_hour,
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
 
@@ -229,15 +230,27 @@ class HrPayslip(models.Model):
             select count(*)
             from hr_attendance
             where employee_id = %s
-            and check_in between %s and %s
+            and check_in between %s and %s and worked_hours >= 5
         """
-
         cr = self.env.cr
         cr.execute(sql, (contracts.employee_id.id, date_from, date_to))
         res = cr.fetchone()
-
-
         return res[0]
+
+    def get_presense_late(self, contracts, date_from, date_to):
+        
+        sql = """
+            select count(id)::float / 2 as late
+            from hr_attendance
+            where employee_id = %s
+            and check_in between %s and %s and worked_hours < 5
+        """
+        cr = self.env.cr
+        cr.execute(sql, (contracts.employee_id.id, date_from, date_to))
+        res = cr.fetchone()
+        return res[0]
+
+    
 
     def get_late(self, date_from, date_to):
 
