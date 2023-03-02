@@ -84,6 +84,7 @@ class HrPayslip(models.Model):
         
         presense = self.get_presense(contracts, date_from, date_to)
         presense_under_5_hour = self.get_presense_late(contracts, date_from, date_to)
+
         late = self.get_late(date_from,date_to)
 
         res = [] # set to empty
@@ -254,14 +255,14 @@ class HrPayslip(models.Model):
 
     def get_late(self, date_from, date_to):
 
-        late_count = self.env['hr.attendance'].search([('employee_id','=',self.employee_id.id),('check_in','>=',date_from),('check_out','<',date_to)]).mapped("late_counter")
+        late_count = self.env['hr.attendance'].search([('employee_id','=',self.employee_id.id),('check_in','>=',date_from),('check_in','<=',date_to)]).mapped("late_counter")
         return sum(late_count)    
 
         # """ cari jumlah ke tidak hadiran selt.employee-id"""
         # """jumlah hari kerja dikurangi jumlah kehadiran adalah absense"""
 
     def get_shift_3(self, date_from, date_to):
-        shift_3_count = self.env['hr.attendance'].search([('employee_id','=',self.employee_id.id),('check_in','>=',date_from),('check_out','<',date_to)]).mapped("shift_3_counter")
+        shift_3_count = self.env['hr.attendance'].search([('employee_id','=',self.employee_id.id),('shift_3_counter', '>', 0),('check_in','>=',date_from),('check_in','<=',date_to)]).mapped("shift_3_counter")
         return sum(shift_3_count)    
 
     def get_duration_time_off(self, type):
