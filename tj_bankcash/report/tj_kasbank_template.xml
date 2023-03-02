@@ -73,7 +73,7 @@
                             <t t-set="tot_keluar" t-value="0"/>
                             <t t-set="tot_akhir" t-value="0"/>
                             <tr t-foreach="docs" t-as="line">                                
-                                <!-- <t t-set="akhir" t-value="line[1]+line[2]-line[3]"/>
+                                <!--<t t-set="akhir" t-value="line[1]+line[2]-line[3]"/>
                                 <t t-set="harga" t-value="o.get_harga(line[4])"/>
                                 <t t-set="jumlah" t-value="akhir*harga"/>
 
@@ -86,8 +86,8 @@
                                 <t t-set="tot_awal" t-value="tot_awal+line['sawal']"/>
                                 <t t-set="tot_masuk" t-value="tot_masuk+line['penerimaan']"/>
                                 <t t-set="tot_keluar" t-value="tot_keluar+line['pengeluaan']"/>
-                                <!-- <t t-set="tot_akhir" t-value="tot_akhir+line['sawal']+line['penerimaan']-line['pengeluaan']"/> -->
-                                <t t-set="tot_akhir" t-value="tot_akhir+line['sakir']"/>
+                                <t t-set="tot_akhir" t-value="tot_akhir+line['sawal']+line['penerimaan']-line['pengeluaan']"/>
+                                <!-- <t t-set="tot_akhir" t-value="tot_akhir+line['sakir']"/> -->
                                 
 
                                 <td>
@@ -112,7 +112,7 @@
                                     <span t-esc="'{0:,.2f}'.format(line['pengeluaan']).replace(',',',')"/>
                                 </td>
                                 <td class="text-right">
-                                    <span t-esc="'{0:,.2f}'.format(line['sakir']).replace(',',',')"/>
+                                    <span t-esc="'{0:,.2f}'.format(tot_akhir).replace(',',',')"/>
                                 </td>                                
                             </tr>
                         </tbody>
