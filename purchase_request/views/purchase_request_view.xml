@@ -65,6 +65,7 @@
                                     <field name="lot_id" domain="[('product_id', '=', product_id)]"/>
                                     <field name="specifications" />
                                     <field name="grade_id" />
+                                    <field name="outstanding_po"/>
                                     <field name="product_qty" sum="Total"/>
                                     <field name="product_uom_id" string="Satuan"  groups="uom.group_uom" options="{'no_open': True, 'no_create': True}"/>
                                     <!-- <field name="date_required" /> -->
@@ -144,6 +145,8 @@
                 <filter string="Unread Messages" name="message_needaction" domain="[('message_needaction','=',True)]" />
                 <filter name="assigned_to_me" domain="[('assigned_to','=', uid)]" help="Assigned to me" />
                 <filter name="my_requests" domain="[('requested_by','=', uid)]" help="My requests" />
+                <filter name="my_purchase_count" string="Puchase Count &gt; 1" domain="[('purchase_count','&gt;=', 0)]" help="Unassigned Request" />
+                <!-- <field name="purchase_count" string="Purchase Count" /> -->
                 <field name="requested_by" />
                 <field name="assigned_to" />
                 <field name="picking_type_id" />
