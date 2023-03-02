@@ -218,7 +218,7 @@ class PurchaseRequestLine(models.Model):
     picking_type_id = fields.Many2one(related='request_id.picking_type_id', string='Picking Type')
     image_ids       = fields.One2many('insert.image', 'purchase_line_id', string='Image')
     date_dtg_brg = fields.Date(string='Date Dtg Barang')
-    
+    outstanding_po = fields.Float(string='Outstanding Po', compute='_compute_outstanding_po')
 
     def _get_onhand(self):
         for line in  self:
@@ -496,3 +496,8 @@ class PurchaseRequestLine(models.Model):
         action['res_id'] = self.id
         action['name'] = "Images of %s" % (self.product_id.name)
         return action
+
+    @api.depends('purchase_lines', 'product_qty')
+    def _compute_outstanding_po(self):
+        for rec in self:
+            rec.outstanding_po = rec.product_qty - sum(self.purchase_lines.mapped('product_qty'))
