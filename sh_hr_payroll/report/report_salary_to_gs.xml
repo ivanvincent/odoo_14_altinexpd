@@ -146,7 +146,9 @@
                                     <t t-set="sum_net" t-value="sum_net + line.get('total_net')"/>
                                     <t t-set="sum_net_annual" t-value="sum_net_annual + line.get('total_net_annual')"/>
                                     <t t-set="sum_ptkp" t-value="sum_ptkp + line.get('total_ptkp')"/>
-                                    <t t-set="sum_pkp_1" t-value="sum_pkp_1 + line.get('total_pkp_1')"/>
+                                    <t t-if="line.get('total_pkp_1', 0) &gt; 0">
+                                        <t t-set="sum_pkp_1" t-value="sum_pkp_1 + line.get('total_pkp_1')"/>
+                                    </t>
                                     <t t-set="sum_pkp_2" t-value="sum_pkp_2 + line.get('pkp_pembulatan')"/>
                                     <t t-set="sum_pph21_1" t-value="sum_pph21_1 + line.get('total_pph21_1')"/>
                                     <t t-set="sum_pph21_2" t-value="sum_pph21_2 + line.get('total_pph21_2')"/>
@@ -360,6 +362,7 @@
                                 </td>
                                 <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
                                     <span t-esc="'{0:,.0f}'.format(sum_pkp_1)"/>
+
                                 </td>
                                 <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
                                     <span t-esc="'{0:,.0f}'.format(sum_pkp_2)"/>
