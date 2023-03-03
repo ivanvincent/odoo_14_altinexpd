@@ -154,7 +154,7 @@
                                     </t>                                    
                                     <t t-set="sum_pph21_1" t-value="sum_pph21_1 + line.get('total_pph21_1')"/>
                                     <t t-set="sum_pph21_2" t-value="sum_pph21_2 + line.get('total_pph21_2')"/>
-                                    <t t-set="sum_thp" t-value="sum_thp + line.get('total_thp')"/>
+                                    <t t-set="sum_thp" t-if="line.get('pkp_pembulatan', 0) &gt; 0" t-value="sum_thp + line.get('total_thp')"/>
                                     
 
                                 <tr height="4px" style="font-size : 8px">
