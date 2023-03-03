@@ -23,7 +23,7 @@ class Hr_employee(models.Model):
 
     department_id           = fields.Many2one('hr.department', string='Department', required=False)
     job_id                  = fields.Many2one('hr.job', string='Job Title', required=False)
-    identification_id       = fields.Char(string='Identification No', required=False)
+    identification_id       = fields.Char(string='Identification No', required=False, store=True)
     job_level_id            = fields.Many2one('hr.job.level', string='Job Level')
 
     tinggi_badan = fields.Integer(string="Tinggi Badan")

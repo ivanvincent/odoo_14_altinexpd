@@ -48,7 +48,8 @@
                             <!-- <th style="border : 1px solid black">NIK</th> -->
                             <th style="border : 1px solid black" width="5%">Nama</th>
                             <th style="border : 1px solid black" width="3%">Gaji Pokok</th>
-                            <th style="border : 1px solid black" width="3%">Gaji Pokok untuk BPJS</th>
+                            <th style="border : 1px solid black" width="3%">Gaji Pokok BPJS Kes</th>
+                            <th style="border : 1px solid black" width="3%">Gaji Pokok BPJS TK</th>
                             <th style="border : 1px solid black" width="3%">Tunjangan Keahlian</th>
                             <th style="border : 1px solid black" width="3%">Tunjangan Shift 3</th>
                             <th style="border : 1px solid black" width="3%">Tunjangan Kes Non BPJS</th>
@@ -71,8 +72,9 @@
                             <th style="border : 1px solid black" width="3%">Potongan Resmi lainnya</th>
                             <th style="border : 1px solid black" width="3%">Penghasilan Netto</th>
                             <th style="border : 1px solid black" width="3%">Penghasilan Netto disetahunkan</th>
-                            <th style="border : 1px solid black" width="3%">Total BPJS u/ PPh 21</th>
+                            <!-- <th style="border : 1px solid black" width="3%">Total BPJS u/ PPh 21</th> -->
                             <th style="border : 1px solid black" width="3%">PTKP</th>
+                            <th style="border : 1px solid black" width="3%">PKP</th>
                             <th style="border : 1px solid black" width="3%">PKP Pembulatan</th>
                             <th style="border : 1px solid black" width="3%">PPh 21 Terutang</th>
                             <th style="border : 1px solid black" width="3%">PPh 21 Dicicil</th>
@@ -83,8 +85,10 @@
                             <t t-set="no" t-value="0"/> 
                             <t t-set="tot_bpjs_21" t-value="0"/> 
                             <t t-set="tot_pot_bpjs_21" t-value="0"/>
+                            <t t-set="total_thp" t-value="0"/>
                             <t t-set="sum_gapok" t-value="0"/> 
-                            <t t-set="sum_gapok_bpjs" t-value="0"/> 
+                            <t t-set="sum_total_bpjs_kes" t-value="0"/> 
+                            <t t-set="sum_total_bpjs_tk" t-value="0"/> 
                             <t t-set="sum_ahli" t-value="0"/>
                             <t t-set="sum_shift3" t-value="0"/> 
                             <t t-set="sum_faskes" t-value="0"/> 
@@ -95,14 +99,14 @@
                             <t t-set="sum_kes" t-value="0"/> 
                             <t t-set="sum_jkk" t-value="0"/> 
                             <t t-set="sum_jkm" t-value="0"/>
-                            <t t-set="sum_tot_bpjs_21" t-value="0"/> 
+                            <t t-set="sum_bpjs_perusahaan" t-value="0"/> 
                             <t t-set="sum_bota" t-value="0"/> 
                             <t t-set="sum_thr" t-value="0"/>
                             <t t-set="sum_ktt" t-value="0"/> 
                             <t t-set="sum_bruto" t-value="0"/> 
                             <t t-set="sum_jht2" t-value="0"/>
                             <t t-set="sum_jp2" t-value="0"/> 
-                            <t t-set="sum_tot_pot_bpjs_21" t-value="0"/> 
+                            <t t-set="sum_bpjs_karyawan" t-value="0"/> 
                             <t t-set="sum_jabat" t-value="0"/>
                             <t t-set="sum_potong" t-value="0"/> 
                             <t t-set="sum_net" t-value="0"/> 
@@ -115,8 +119,10 @@
                             <t t-set="sum_thp" t-value="0"/>
                                 <t t-foreach="docs" t-as="line">
                                     <t t-set="no" t-value="no + 1"/>
+                                    <t t-set="total_thp" t-value="line.get('total_gapok') + line.get('total_tpph') + line.get('total_ktt') - line.get('total_bpjs_karyawan') - line.get('total_potong') - line.get('total_pph21_1')"/>
                                     <t t-set="sum_gapok" t-value="sum_gapok + line.get('total_gapok')"/>
-                                    <t t-set="sum_gapok_bpjs" t-value="sum_gapok_bpjs + line.get('total_gapok_bpjs')"/>
+                                    <t t-set="sum_total_bpjs_kes" t-if="line.get('bpjs_kesehatan')" t-value="sum_total_bpjs_kes + float(line.get('bpjs_kesehatan'))"/>
+                                    <t t-set="sum_total_bpjs_tk" t-if="line.get('bpjs_tk')" t-value="sum_total_bpjs_tk + float(line.get('bpjs_tk'))"/>
                                     <t t-set="sum_ahli" t-value="sum_ahli + line.get('total_ahli')"/>
                                     <t t-set="sum_shift3" t-value="sum_shift3 + line.get('total_shift3')"/>
                                     <t t-set="sum_faskes" t-value="sum_faskes + line.get('total_faskes')"/>
@@ -127,39 +133,47 @@
                                     <t t-set="sum_kes" t-value="sum_kes + line.get('total_kes')"/>
                                     <t t-set="sum_jkk" t-value="sum_jkk + line.get('total_jkk')"/>
                                     <t t-set="sum_jkm" t-value="sum_jkm + line.get('total_jkm')"/>
-                                    <t t-set="sum_tot_bpjs_21" t-value="sum_tot_bpjs_21 + tot_bpjs_21"/>
+                                    <t t-set="sum_bpjs_perusahaan" t-value="sum_bpjs_perusahaan + line.get('total_bpjs_perusahaan')"/>
                                     <t t-set="sum_bota" t-value="sum_bota + line.get('total_bota')"/>
                                     <t t-set="sum_thr" t-value="sum_thr + line.get('total_thr')"/>
+                                    <t t-set="sum_ktt" t-value="sum_ktt + line.get('total_ktt')"/>
                                     <t t-set="sum_bruto" t-value="sum_bruto + line.get('total_bruto')"/>
                                     <t t-set="sum_jht2" t-value="sum_jht2 + line.get('total_jht2')"/>
                                     <t t-set="sum_jp2" t-value="sum_jp2 + line.get('total_jp2')"/>
-                                    <t t-set="sum_tot_pot_bpjs_21" t-value="sum_tot_pot_bpjs_21 + tot_pot_bpjs_21"/>
+                                    <t t-set="sum_bpjs_karyawan" t-value="sum_bpjs_karyawan + line.get('total_bpjs_karyawan')"/>
                                     <t t-set="sum_jabat" t-value="sum_jabat + line.get('total_jabat')"/>
                                     <t t-set="sum_potong" t-value="sum_potong + line.get('total_potong')"/>
                                     <t t-set="sum_net" t-value="sum_net + line.get('total_net')"/>
                                     <t t-set="sum_net_annual" t-value="sum_net_annual + line.get('total_net_annual')"/>
                                     <t t-set="sum_ptkp" t-value="sum_ptkp + line.get('total_ptkp')"/>
                                     <t t-set="sum_pkp_1" t-value="sum_pkp_1 + line.get('total_pkp_1')"/>
-                                    <t t-set="sum_pkp_2" t-value="sum_pkp_2 + line.get('total_pkp_2')"/>
+                                    <t t-set="sum_pkp_2" t-value="sum_pkp_2 + line.get('total_pkp_1')"/>
                                     <t t-set="sum_pph21_1" t-value="sum_pph21_1 + line.get('total_pph21_1')"/>
                                     <t t-set="sum_pph21_2" t-value="sum_pph21_2 + line.get('total_pph21_2')"/>
                                     <t t-set="sum_thp" t-value="sum_thp + line.get('total_thp')"/>
+                                    
 
                                 <tr height="4px" style="font-size : 8px">
                                     <td style="border : 1px solid black; padding-left : 2px" class="text-left">
                                         <span t-esc="no"/>
                                     </td>
-                                    <!-- <td style="border : 1px solid black; padding-left : 2px; color : white" class="text-left">
-                                        <span>NIK</span>
-                                    </td> -->
+                                    <!-- <td style="border : 1px solid black; padding-left : 2px; color : white" class="text-left"> -->
+                                        <!-- <span t-if="line.get('nik')" t-esc="char(line.get('nik'))"/> -->
+                                        <!-- <span t-esc="line.get('nik')"/> -->
+                                        <!-- <span></span> -->
+                                    <!-- </td> -->
                                     <td style="border : 1px solid black; padding-left : 2px" class="text-left">
                                         <span t-esc="line.get('name')"/>
                                     </td>
-                                    <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <td style="border : 1px solid black; padding-right : 2px" class="text-right">
+                                        <span class="text-left">Rp.</span>
                                         <span t-esc="'{0:,.0f}'.format(line.get('total_gapok'))"/>
                                     </td>
                                     <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
-                                        <span t-esc="'{0:,.0f}'.format(line.get('total_gapok_bpjs'))"/>
+                                        <span t-if="line.get('bpjs_kesehatan')" t-esc="'{0:,.0f}'.format(float(line.get('bpjs_kesehatan')))"/>
+                                    </td>
+                                    <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                        <span t-if="line.get('bpjs_tk')" t-esc="'{0:,.0f}'.format(float(line.get('bpjs_tk')))"/>
                                     </td>
                                     <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
                                         <span t-esc="'{0:,.0f}'.format(line.get('total_ahli'))"/>
@@ -192,8 +206,9 @@
                                         <span t-esc="'{0:,.0f}'.format(line.get('total_jkm'))"/>
                                     </td>
                                     <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
-                                        <span t-esc="'{0:,.0f}'.format(tot_bpjs_21)"/>
-                                        <t t-set="tot_bpjs_21" t-value="(line.get('total_kes') + line.get('total_jkk') + line.get('total_jkm'))"/>
+                                        <!-- <span t-esc="'{0:,.0f}'.format(tot_bpjs_21)"/>
+                                        <t t-set="tot_bpjs_21" t-value="(line.get('total_kes') + line.get('total_jkk') + line.get('total_jkm'))"/> -->
+                                        <span t-esc="'{0:,.0f}'.format(line.get('total_bpjs_perusahaan'))"/>
                                     </td>
                                     <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
                                         <span t-esc="'{0:,.0f}'.format(line.get('total_bota'))"/>
@@ -214,8 +229,9 @@
                                         <span t-esc="'{0:,.0f}'.format(line.get('total_jp2'))"/>
                                     </td>
                                     <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
-                                        <span t-esc="'{0:,.0f}'.format(tot_pot_bpjs_21)"/>
-                                        <t t-set="tot_pot_bpjs_21" t-value="line.get('total_jht2') + line.get('total_jp2')"/>
+                                        <!-- <span t-esc="'{0:,.0f}'.format(tot_pot_bpjs_21)"/>
+                                        <t t-set="tot_pot_bpjs_21" t-value="line.get('total_jht2') + line.get('total_jp2')"/> -->
+                                        <span t-esc="'{0:,.0f}'.format(line.get('total_bpjs_karyawan'))"/>
                                     </td>
                                     <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
                                         <span t-esc="'{0:,.0f}'.format(line.get('total_jabat'))"/>
@@ -232,11 +248,21 @@
                                     <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
                                         <span t-esc="'{0:,.0f}'.format(line.get('total_ptkp'))"/>
                                     </td>
-                                    <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
-                                        <span t-esc="'{0:,.0f}'.format(line.get('total_pkp_1'))"/>
+                                    <td style="border : 1px solid black; padding-right : 2px" class="text-right">
+                                        <t t-if="line.get('total_pkp_1') &lt; 0">
+                                            <span>Rp. 0</span>
+                                        </t>
+                                        <t t-else=""> Rp. 
+                                            <span t-esc="'{0:,.0f}'.format(line.get('total_pkp_1'))"/>
+                                        </t>
                                     </td>
-                                    <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
-                                        <span t-esc="'{0:,.0f}'.format(line.get('total_pkp_2'))"/>
+                                    <td style="border : 1px solid black; padding-right : 2px" class="text-right">
+                                        <t t-if="line.get('total_pkp_1') &lt; 0">
+                                            <span>Rp. 0</span>
+                                        </t>
+                                        <t t-else=""> Rp.
+                                            <span t-esc="'{0:,.0f}'.format(float(line.get('pkp_pembulatan')))"/>
+                                        </t>
                                     </td>
                                     <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
                                         <span t-esc="'{0:,.0f}'.format(line.get('total_pph21_1'))"/>
@@ -245,11 +271,12 @@
                                         <span t-esc="'{0:,.0f}'.format(line.get('total_pph21_2'))"/>
                                     </td>
                                     <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
-                                        <span t-esc="'{0:,.0f}'.format(line.get('total_thp'))"/>
+                                        <span t-esc="'{0:,.0f}'.format(total_thp)"/>
                                     </td>
                                 </tr>
                             </t>
                             </tbody>
+                            <!-- SUM  -->
                             <tr height="3px" style="font-size : 8px">
                                 <td style="border : 1px solid black; padding-left : 2px" class="text-left" colspan="2">
                                     <span>TOTAL</span>
@@ -258,7 +285,10 @@
                                     <span t-esc="'{0:,.0f}'.format(sum_gapok)"/>
                                 </td>
                                 <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
-                                    <span t-esc="'{0:,.0f}'.format(sum_gapok_bpjs)"/>
+                                    <span t-esc="'{0:,.0f}'.format(float(sum_total_bpjs_kes))"/>
+                                </td>
+                                <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
+                                    <span t-esc="'{0:,.0f}'.format(float(sum_total_bpjs_tk))"/>
                                 </td>
                                 <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
                                     <span t-esc="'{0:,.0f}'.format(sum_ahli)"/>
@@ -291,7 +321,7 @@
                                     <span t-esc="'{0:,.0f}'.format(sum_jkm)"/>
                                 </td>
                                 <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
-                                    <span t-esc="'{0:,.0f}'.format(sum_tot_bpjs_21)"/>
+                                    <span t-esc="'{0:,.0f}'.format(sum_bpjs_perusahaan)"/>
                                 </td>
                                 <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
                                     <span t-esc="'{0:,.0f}'.format(sum_bota)"/>
@@ -312,7 +342,7 @@
                                     <span t-esc="'{0:,.0f}'.format(sum_jp2)"/>
                                 </td>
                                 <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
-                                    <span t-esc="'{0:,.0f}'.format(sum_tot_pot_bpjs_21)"/>
+                                    <span t-esc="'{0:,.0f}'.format(sum_bpjs_karyawan)"/>
                                 </td>
                                 <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
                                     <span t-esc="'{0:,.0f}'.format(sum_jabat)"/>

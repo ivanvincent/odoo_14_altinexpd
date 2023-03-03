@@ -40,8 +40,11 @@ class HrReporting(models.TransientModel):
         query =f"""
             SELECT 
                 he.name, 
+				he.identification_id as nik,
+				hc.gapok_bpjs_kes as bpjs_kesehatan,
+				hc.gapok_bpjs_tk as bpjs_tk,
                 sum(payslip.total_gapok) as total_gapok,
-                sum(payslip.total_gapok_bpjs) as total_gapok_bpjs,
+                sum(payslip.total_gapok_bpjs) as total_bpjs_perusahaan,
                 sum(payslip.total_ahli) as total_ahli,
                 sum(payslip.total_shift3) as total_shift3,
                 sum(payslip.total_faskes) as total_faskes,
@@ -64,13 +67,18 @@ class HrReporting(models.TransientModel):
                 sum(payslip.total_net_annual) as total_net_annual,
                 sum(payslip.total_ptkp) as total_ptkp,
                 sum(payslip.total_pkp_1) as total_pkp_1,
-                sum(payslip.total_pkp_2) as total_pkp_2,
+				round (sum(payslip.total_pkp_1),-3) as pkp_pembulatan,
+                sum(payslip.total_pkp_2) as total_bpjs_karyawan,
                 sum(payslip.total_pph21_1) as total_pph21_1,
                 sum(payslip.total_pph21_2) as total_pph21_2,
                 sum(payslip.total_thp_1) as total_thp,
                 sum(payslip.jht) as total_jht,
                 sum(payslip.jp) as total_jp,
-                sum(payslip.kes2) as total_kes2
+                sum(payslip.kes2) as total_kes2,
+				sum(payslip.gaji_bpjs_kes) as total_bpjs_kes,
+                sum(payslip.gaji_bpjs_tk) as total_bpjs_tk,
+				sum(payslip.thp_2) as thp_2,
+				sum(payslip.thp_3) as thp_3
             FROM (
                     SELECT 
 						hpl.code, 
@@ -105,11 +113,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id
                     FROM
                 hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 				left join hr_employee he on he.id = hp.employee_id
 				left join hr_job hj on hj.id = he.job_id
+				left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'GAPOK'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -148,12 +161,17 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
-                    WHERE hpl.code = 'GAPOK_BPJS'
+					left join hr_contract hc on hc.id = he.contract_id
+                    WHERE hpl.code = 'TOTAL_BPJS_PERUSAHAAN'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
 				
@@ -191,11 +209,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'AHLI'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -234,11 +257,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'SHIFT3'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -277,11 +305,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'FASKES'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -320,11 +353,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'LEMBUR'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -363,15 +401,20 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'BONUS'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
-				
+
 					UNION
                     SELECT 
 						hpl.code,
@@ -406,11 +449,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'TOTAL_TUNJANGAN'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -449,11 +497,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'TPPH'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -492,11 +545,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'KES'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -535,11 +593,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'JKK'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -578,11 +641,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'JKM'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -621,11 +689,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'BOTA'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -664,11 +737,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'THR'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -707,11 +785,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'TOTAL_KTT'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -750,11 +833,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'BRUTO'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -793,15 +881,20 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'JHT2'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
-				
+
 				UNION
                     SELECT 
 						hpl.code,
@@ -836,11 +929,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'JP2'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -879,11 +977,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'JABAT'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -922,11 +1025,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'POTONG'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -965,11 +1073,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'NET'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -1008,11 +1121,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'NET_ANNUAL'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -1051,11 +1169,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'PTKP'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -1094,11 +1217,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'PKP_1'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -1137,12 +1265,17 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
-                    WHERE hpl.code = 'PKP_2'
+					left join hr_contract hc on hc.id = he.contract_id
+                    WHERE hpl.code = 'TOTAL_BPJS_KARYAWAN'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
 				
@@ -1180,15 +1313,20 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
-                    WHERE hpl.code = 'PPH21_2_SUM'
+					left join hr_contract hc on hc.id = he.contract_id
+                    WHERE hpl.code = 'PPH21_1_SETAHUN'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
-				
+
 				UNION
                     SELECT 
 						hpl.code,
@@ -1223,12 +1361,17 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
-                    WHERE hpl.code = 'PPH21_2_SEBULAN'
+					left join hr_contract hc on hc.id = he.contract_id
+                    WHERE hpl.code = 'PPH21_1_SEBULAN'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
 				
@@ -1266,11 +1409,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'THP_1'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -1309,11 +1457,16 @@ class HrReporting(models.TransientModel):
 						hpl.total as jht,
 						0 as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'JHT'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -1352,11 +1505,16 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						hpl.total as jp,
 						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'JP'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
@@ -1395,25 +1553,215 @@ class HrReporting(models.TransientModel):
 						0 as jht,
 						0 as jp,
 						hpl.total as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'KES2'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
+				
+					UNION
+                    SELECT 
+						hpl.code,
+						0 as total_gapok, 
+						0 as total_gapok_bpjs,
+						0 as total_ahli,
+						0 as total_shift3,
+						0 as total_faskes,
+						0 as total_lembur,
+						0 as total_bonus,
+						0 as total_total_tunjangan,
+						0 as total_tpph, 
+						0 as total_kes,
+						0 as total_jkk,
+						0 as total_jkm,
+						0 as total_bota,
+						0 as total_thr,
+						0 as total_total_ktt,
+						0 as total_bruto,
+						0 as total_jht2, 
+						0 as total_jp2,
+						0 as total_jabat,
+						0 as total_potong,
+						0 as total_net,
+						0 as total_net_annual,
+						0 as total_ptkp,
+						0 as total_pkp_1,
+						0 as total_pkp_2, 
+						0 as total_pph21_1,
+						0 as total_pph21_2,
+						0 as total_thp_1,
+						0 as jht,
+						0 as jp,
+						0 as kes2,
+						hc.gapok_bpjs_kes as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
+						hp.employee_id as karyawan
+                    FROM 
+                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
+                    WHERE hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
+				
+					UNION
+                    SELECT 
+						hpl.code,
+						0 as total_gapok, 
+						0 as total_gapok_bpjs,
+						0 as total_ahli,
+						0 as total_shift3,
+						0 as total_faskes,
+						0 as total_lembur,
+						0 as total_bonus,
+						0 as total_total_tunjangan,
+						0 as total_tpph, 
+						0 as total_kes,
+						0 as total_jkk,
+						0 as total_jkm,
+						0 as total_bota,
+						0 as total_thr,
+						0 as total_total_ktt,
+						0 as total_bruto,
+						0 as total_jht2, 
+						0 as total_jp2,
+						0 as total_jabat,
+						0 as total_potong,
+						0 as total_net,
+						0 as total_net_annual,
+						0 as total_ptkp,
+						0 as total_pkp_1,
+						0 as total_pkp_2, 
+						0 as total_pph21_1,
+						0 as total_pph21_2,
+						0 as total_thp_1,
+						0 as jht,
+						0 as jp,
+						0 as kes2,
+						0 as gaji_bpjs_kes,
+						hc.gapok_bpjs_tk as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
+						hp.employee_id as karyawan
+                    FROM 
+                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on  hc.id = he.contract_id
+                    WHERE hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
+					
+				UNION
+                    SELECT 
+						hpl.code,
+						0 as total_gapok, 
+						0 as total_gapok_bpjs,
+						0 as total_ahli,
+						0 as total_shift3,
+						0 as total_faskes,
+						0 as total_lembur,
+						0 as total_bonus,
+						0 as total_total_tunjangan,
+						0 as total_tpph, 
+						0 as total_kes,
+						0 as total_jkk,
+						0 as total_jkm,
+						0 as total_bota,
+						0 as total_thr,
+						0 as total_total_ktt,
+						0 as total_bruto,
+						0 as total_jht2, 
+						0 as total_jp2,
+						0 as total_jabat,
+						0 as total_potong,
+						0 as total_net,
+						0 as total_net_annual,
+						0 as total_ptkp,
+						0 as total_pkp_1,
+						0 as total_pkp_2, 
+						0 as total_pph21_1,
+						0 as total_pph21_2,
+						0 as total_thp_1,
+						0 as jht,
+						0 as jp,
+						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						hpl.total as thp_2,
+						0 as thp_3,
+						hp.employee_id as karyawan
+                    FROM 
+                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
+                    WHERE hpl.code = 'THP_2'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
+				
+					UNION
+                    SELECT 
+						hpl.code,
+						0 as total_gapok, 
+						0 as total_gapok_bpjs,
+						0 as total_ahli,
+						0 as total_shift3,
+						0 as total_faskes,
+						0 as total_lembur,
+						0 as total_bonus,
+						0 as total_total_tunjangan,
+						0 as total_tpph, 
+						0 as total_kes,
+						0 as total_jkk,
+						0 as total_jkm,
+						0 as total_bota,
+						0 as total_thr,
+						0 as total_total_ktt,
+						0 as total_bruto,
+						0 as total_jht2, 
+						0 as total_jp2,
+						0 as total_jabat,
+						0 as total_potong,
+						0 as total_net,
+						0 as total_net_annual,
+						0 as total_ptkp,
+						0 as total_pkp_1,
+						0 as total_pkp_2, 
+						0 as total_pph21_1,
+						0 as total_pph21_2,
+						0 as total_thp_1,
+						0 as jht,
+						0 as jp,
+						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						hpl.total as thp_3,
+						hp.employee_id as karyawan
+                    FROM 
+                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
+                    WHERE hpl.code = 'THP_3'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
                 ) AS payslip 
             left join hr_employee he on he.id = payslip.employee_id
 			left join hr_job hj on hj.id = he.job_id
-            GROUP BY he.name
+			left join hr_contract hc on  hc.id = he.contract_id
+            GROUP BY he.name, he.identification_id, hc.gapok_bpjs_kes, hc.gapok_bpjs_tk
             """ 
-			# % (self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection,
-            #        self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection,
-            #        self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection,
-            #        self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection, self.month_selection,
-            #        self.month_selection, self.month_selection, self.month_selection
-            # )
         self._cr.execute(query)
         record = self._cr.dictfetchall()
             
