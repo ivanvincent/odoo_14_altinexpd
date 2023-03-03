@@ -45,8 +45,8 @@
                     <thead>
                         <tr class="text-center" style="font-size : 8px">
                             <th style="border : 1px solid black" width="1%">No</th>
-                            <!-- <th style="border : 1px solid black">NIK</th> -->
-                            <th style="border : 1px solid black" width="5%">Nama</th>
+                            <th style="border : 1px solid black" width="3%">NIK</th>
+                            <th style="border : 1px solid black" width="4%">Nama</th>
                             <th style="border : 1px solid black" width="3%">Gaji Pokok</th>
                             <th style="border : 1px solid black" width="3%">Gaji Pokok BPJS Kes</th>
                             <th style="border : 1px solid black" width="3%">Gaji Pokok BPJS TK</th>
@@ -157,11 +157,10 @@
                                     <td style="border : 1px solid black; padding-left : 2px" class="text-left">
                                         <span t-esc="no"/>
                                     </td>
-                                    <!-- <td style="border : 1px solid black; padding-left : 2px; color : white" class="text-left"> -->
-                                        <!-- <span t-if="line.get('nik')" t-esc="char(line.get('nik'))"/> -->
-                                        <!-- <span t-esc="line.get('nik')"/> -->
-                                        <!-- <span></span> -->
-                                    <!-- </td> -->
+                                    <td style="border : 1px solid black; padding-left : 2px;" class="text-left">
+                                        <span t-esc="line.get('nik')"/>
+                                    </td>
+
                                     <td style="border : 1px solid black; padding-left : 2px" class="text-left">
                                         <span t-esc="line.get('name')"/>
                                     </td>
@@ -278,7 +277,7 @@
                             </tbody>
                             <!-- SUM  -->
                             <tr height="3px" style="font-size : 8px">
-                                <td style="border : 1px solid black; padding-left : 2px" class="text-left" colspan="2">
+                                <td style="border : 1px solid black; padding-left : 2px" class="text-left" colspan="3">
                                     <span>TOTAL</span>
                                 </td>
                                 <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
