@@ -4,6 +4,9 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from datetime import date, datetime, timedelta
+import logging
+logger = logging.getLogger(__name__)
+
 
 _STATE =[("bpjs", "Laporan Gaji pada BPJS"),
          ("gs", "Laporan Gaji pada GS"),
@@ -67,7 +70,7 @@ class HrReporting(models.TransientModel):
                 sum(payslip.total_net_annual) as total_net_annual,
                 sum(payslip.total_ptkp) as total_ptkp,
                 sum(payslip.total_pkp_1) as total_pkp_1,
-				round (sum(payslip.total_pkp_1),-3) as pkp_pembulatan,
+				floor (sum(payslip.total_pkp_1) / 1000) * 1000 as pkp_pembulatan,
                 sum(payslip.total_pkp_2) as total_bpjs_karyawan,
                 sum(payslip.total_pph21_1) as total_pph21_1,
                 sum(payslip.total_pph21_2) as total_pph21_2,
@@ -1764,7 +1767,6 @@ class HrReporting(models.TransientModel):
             """ 
         self._cr.execute(query)
         record = self._cr.dictfetchall()
-            
         data = {
             'me': self,
             'ids': self.ids,

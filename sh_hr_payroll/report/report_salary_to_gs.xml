@@ -266,7 +266,8 @@
                                             <span>Rp. 0</span>
                                         </t>
                                         <t t-else=""> Rp.
-                                            <span t-esc="'{0:,.0f}'.format(float(line.get('pkp_pembulatan')))"/>
+                                            <span t-esc="'{0:,.0f}'.format(line.get('pkp_pembulatan'))"/>
+                                            <!-- <span t-esc="'{0:,.0f}'.format(float(line.get('pkp_pembulatan')))"/> -->
                                         </t>
                                     </td>
                                     <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
