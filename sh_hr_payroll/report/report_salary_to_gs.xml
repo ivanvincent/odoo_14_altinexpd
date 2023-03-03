@@ -149,7 +149,9 @@
                                     <t t-if="line.get('total_pkp_1', 0) &gt; 0">
                                         <t t-set="sum_pkp_1" t-value="sum_pkp_1 + line.get('total_pkp_1')"/>
                                     </t>
-                                    <t t-set="sum_pkp_2" t-value="sum_pkp_2 + line.get('pkp_pembulatan')"/>
+                                    <t t-if="line.get('pkp_pembulatan', 0) &gt; 0">
+                                        <t t-set="sum_pkp_2" t-value="sum_pkp_2 + line.get('pkp_pembulatan')"/>
+                                    </t>                                    
                                     <t t-set="sum_pph21_1" t-value="sum_pph21_1 + line.get('total_pph21_1')"/>
                                     <t t-set="sum_pph21_2" t-value="sum_pph21_2 + line.get('total_pph21_2')"/>
                                     <t t-set="sum_thp" t-value="sum_thp + line.get('total_thp')"/>
