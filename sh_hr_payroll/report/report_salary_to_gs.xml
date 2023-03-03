@@ -154,12 +154,13 @@
                                     </t>                                    
                                     <t t-set="sum_pph21_1" t-value="sum_pph21_1 + line.get('total_pph21_1')"/>
                                     <t t-set="sum_pph21_2" t-value="sum_pph21_2 + line.get('total_pph21_2')"/>
-                                    <t t-if="line.get('total_thp', 0) &gt; 0">
-                                        <t t-set="sum_thp" t-value="sum_thp + line.get('total_thp')"/>
+                                    <t t-if="total_thp &gt; 0">
+                                        <t t-set="sum_thp" t-value="sum_thp + total_thp"/>
+                                        <!--<t t-set="sum_thp" t-value="sum_thp + 1"/>-->
                                     </t>
                                     
 
-                                <tr height="4px" style="font-size : 8px">
+                               <tr height="4px" style="font-size : 8px">
                                     <td style="border : 1px solid black; padding-left : 2px" class="text-left">
                                         <span t-esc="no"/>
                                     </td>
@@ -266,8 +267,8 @@
                                             <span>Rp. 0</span>
                                         </t>
                                         <t t-else=""> Rp.
-                                            <span t-esc="'{0:,.0f}'.format(line.get('pkp_pembulatan'))"/>
                                             <!-- <span t-esc="'{0:,.0f}'.format(float(line.get('pkp_pembulatan')))"/> -->
+                                            <span t-esc="'{0:,.0f}'.format(line.get('pkp_pembulatan'))"/>
                                         </t>
                                     </td>
                                     <td style="border : 1px solid black; padding-right : 2px" class="text-right">Rp. 
