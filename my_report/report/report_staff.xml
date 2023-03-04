@@ -26,34 +26,34 @@
             <t t-call="web.basic_layout">
                 <t t-foreach="docs" t-as="o">
                     <t t-if="o and 'company_id' in o">
-                    <t t-set="company" t-value="o.company_id"/>
+                        <t t-set="company" t-value="o.company_id"/>
                     </t>
                     <t t-if="not o or not 'company_id' in o">
-                    <t t-set="company" t-value="res_company"/>
+                        <t t-set="company" t-value="res_company"/>
                     </t>
-                <img t-if="company.background_badge" t-att-src="'data:image/png;base64,%s' % to_text(company.background_badge)" style="height: 600px; width: 620px; margin-left:-20px; ">
-                    <div class="front" style="margin-top: -442px">
-                    <div class="pic2" style="margin-top: -560px;">
-                        <center>
-                            <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height: 180px; max-width: 350px; "/>
-                        </center>
-                    </div>
-                    <div style="margin-top: 5px;">
-                        <center>
-                            <img t-attf-src="data:image/*;base64,{{o.image_1920}}" width="175px" height="260px"  style="padding-top: 2rem; aspect-ratio: 3 / 4;"/>
-                            <img alt="Barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', quote_plus(o.barcode or ''), 680, 90)" style="width:85%;height:6rem; padding-top: 2rem;"/>
-                        </center>
-                    </div>
-                    <div>
-                        <center style="padding-top: 1.5rem;">
-                        <span t-esc="str(o.nama_alias).upper()" style="font-size: 1.7rem;"/><br/>
-                        <span t-field="o.barcode" style="font-size: 1rem;"/><br/>
-                        <span t-field="o.job_id" style="font-size: 1rem;"/><br/>
-                        <span style="font-size: 1.1rem; font-weight:bold;">Punch &amp; Dies Division</span>
-                        </center>
-                    </div>
-                    </div>
-                </img>
+                    <img t-if="company.background_badge" t-att-src="'data:image/png;base64,%s' % to_text(company.background_badge)" style="height: 641px; width: 620px; margin-left:-20px; ">
+                        <div class="front" style="margin-top: -442px">
+                        <div class="pic2" style="margin-top: -560px;">
+                            <center>
+                                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height: 200px; max-width: 500px; "/>
+                            </center>
+                        </div>
+                        <div style="margin-top: 5px;">
+                            <center>
+                                <img t-attf-src="data:image/*;base64,{{o.image_1920}}" width="175px" height="260px"  style="padding-top: 2rem; aspect-ratio: 4 / 6;"/>
+                                <img alt="Barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', quote_plus(o.barcode or ''), 680, 90)" style="width:85%;height:6rem; padding-top: 2rem;"/>
+                            </center>
+                        </div>
+                        <div>
+                            <center style="padding-top: 1.5rem;">
+                            <span t-esc="str(o.nama_alias).upper()" style="font-size: 1.7rem;"/><br/>
+                            <span t-field="o.nik_karyawan" style="font-size: 1rem;"/><br/>
+                            <span t-field="o.job_id" style="font-size: 1rem;"/><br/>
+                            <span style="font-size: 1.1rem; font-weight:bold;">Punch &amp; Dies Division</span>
+                            </center>
+                        </div>
+                        </div>
+                    </img>
                 </t>
             </t>
         </template>
