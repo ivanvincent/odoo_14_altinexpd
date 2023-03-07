@@ -168,7 +168,7 @@ class HrPayslip(models.Model):
         res = super(HrPayslip, self).get_inputs(contracts,date_from,date_to)        
         
         res.append({
-            'name':'Uang Lembur',
+            'name':'Bonus Proyek',
             'sequence':10,
             'code':'LEMBUR',
             'amount': 0.0,
@@ -217,7 +217,7 @@ class HrPayslip(models.Model):
             'contract_id': self.contract_id.id})
 
         res.append({
-            'name':'Potongan PPH21',
+            'name':'Cicilan PPH21',
             'sequence':80,
             'code':'POTPPH',
             'amount': 0.0,
