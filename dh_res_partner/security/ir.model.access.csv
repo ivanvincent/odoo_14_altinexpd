@@ -11,5 +11,3 @@ access_res_partner_region,access.res.partner.region,dh_res_partner.model_res_par
 access_res_partner_jalur,access.res.partner.jalur,dh_res_partner.model_res_partner_jalur,base.group_user,1,1,1,1
 access_res_partner_jalur_line,access.res.partner.jalur.line,dh_res_partner.model_res_partner_jalur_line,base.group_user,1,1,1,1
 access_res_partner_kelompok,access.res.partner.kelompok,dh_res_partner.model_res_partner_kelompok,base.group_user,1,1,1,1
-
-access_res_partner_account,access.res.partner.account,mdev_sharon.model_res_partner_account,base.group_user,1,1,1,1
