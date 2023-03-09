@@ -31,7 +31,7 @@
                     <t t-if="not o or not 'company_id' in o">
                         <t t-set="company" t-value="res_company"/>
                     </t>
-                    <img t-if="company.background_badge" t-att-src="'data:image/png;base64,%s' % to_text(company.background_badge)" style="height: 641px; width: 620px; margin-left:-20px; ">
+                    <img t-if="company.background_badge" t-att-src="'data:image/png;base64,%s' % to_text(company.background_badge)" style="height: 600px; width: 620px; margin-left:-20px; ">
                         <div class="front" style="margin-top: -442px">
                         <div class="pic2" style="margin-top: -560px;">
                             <center>
