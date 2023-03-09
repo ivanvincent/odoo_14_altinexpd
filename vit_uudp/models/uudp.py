@@ -1873,7 +1873,7 @@ class uudpDetail(models.Model):
     # template_line_ids   = fields.One2many('Detail',related="template_id.line_ids")
     # template_line_ids   = fields.One2many('Detail',)
     is_different        = fields.Boolean(string='Different ?',compute="_get_differential")
-    # exp_id              = fields.Many2one('rute.sale.expense', string='Expense')
+    exp_id              = fields.Many2one('rute.sale.expense', string='Expense')
 
 
     
