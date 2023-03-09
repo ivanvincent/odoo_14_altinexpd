@@ -29,10 +29,10 @@ class WorkorderDaily(models.Model):
 
     @api.model
     def scan_is_start(self, mo_name):
-        print('====== scan_is_start ====')
         mo_obj = self.env['mrp.production'].search([('name', '=', mo_name)])
         user_id = self.env.user
-        wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)])
+        # wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)], limit=1, order='name asc')
+        wo_obj = self.env['mrp.workorder'].search([('production_id', '=', mo_obj.id), ('state', 'not in', ('done', 'progress'))], limit=1, order='name asc')
         if not wo_obj.date_planned_start:
             wo_obj.sudo().button_start()
             data = {
@@ -57,7 +57,8 @@ class WorkorderDaily(models.Model):
             mo_obj = self.env['mrp.production'].search([('name', '=', mo_name)])
             machine_obj = self.env['mrp.machine'].browse(machine_id)
             if mo_name and user_id:
-                wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)])
+                # wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)], limit=1, order='name asc')
+                wo_obj = self.env['mrp.workorder'].search([('production_id', '=', mo_obj.id), ('state', 'not in', ('done', 'progress'))], limit=1, order='name asc')
                 wo_obj.write({
                     'workorder_ids': [(0, 0, {
                         'date': fields.Date.today(),
