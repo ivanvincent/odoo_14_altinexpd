@@ -323,6 +323,7 @@ odoo.define("account.ReconciliationModel", function (require) {
             var line = this.getLine(handle);
             var prop = _.filter(line.reconciliation_proposition, "__focus");
             prop = this._formatQuickCreate(line);
+            // if this
             line.reconciliation_proposition.push(prop);
             line.createForm = _.pick(prop, this.quickCreateFields);
             return this._computeLine(line);

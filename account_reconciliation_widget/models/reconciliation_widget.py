@@ -2,11 +2,13 @@ import copy
 
 from psycopg2 import sql
 
-from odoo import _, api, models
+from odoo import _, api, models,fields
 from odoo.exceptions import UserError
 from odoo.osv import expression
 from odoo.tools.misc import format_date, formatLang, parse_date
-import logging;
+from datetime import datetime
+import logging
+
 _logger = logging.getLogger(__name__)
                
 
@@ -33,6 +35,8 @@ class AccountReconciliation(models.AbstractModel):
         st_lines = self.env["account.bank.statement.line"].browse(st_line_ids)
         AccountMoveLine = self.env["account.move.line"]
         ctx = dict(self._context, force_price_include=False)
+        
+      
 
         processed_moves = self.env["account.move"]
         for st_line, datum in zip(st_lines, copy.deepcopy(data)):
@@ -54,6 +58,69 @@ class AccountReconciliation(models.AbstractModel):
                 datum.get("new_aml_dicts", []),
             )
             processed_moves = processed_moves | moves
+        
+        
+        if self._context.get('is_giro'):
+            aml = self.env['account.bank.statement.line'].browse(self._context.get('statement_line_ids'))
+            giro = self.env['vit.giro'].browse(self._context.get('giro_id'))
+            if aml:
+                for line in aml:
+                    line.statement_id.button_validate_or_action()
+            if giro:
+                giro.write({'cleared':True,'is_reconciled':True,'clearing_date':datetime.now(),'state':'close'})
+                if giro.giro_move_id:
+                    giro.giro_move_id.action_post()
+
+        if self._context.get('is_uudp') and not self._context.get('penyelesaian_id'):
+            aml = self.env['account.bank.statement.line'].browse(self._context.get('statement_line_ids'))
+            if aml:
+                for line in aml:
+                    # line.statement_id.button_validate_or_action()
+                    line.pencairan_id.sudo().write({'state':'done'})
+                    total = line.pencairan_id.ajuan_id.total_ajuan
+                    line.pencairan_id.sudo().write({"journal_entry_ids":[(4,line.move_id.id)],"is_reconciled":True})
+                    line.pencairan_id.ajuan_id.sudo().write({'total_pencairan':total,'tgl_pencairan':fields.Date.today()})
+                    line.pencairan_id.ajuan_id.sudo().write({'state':'done'})
+        
+        # elif self._context.get('is_uudp') and self._context.get('pencairan_id'):
+        #     aml = self.env['account.bank.statement.line'].browse(self._context.get('statement_line_ids'))
+        #     pencairan = self.env['uudp.pencairan'].browse(self._context.get('pencairan_id'))
+        #     if aml:
+        #         for line in aml:
+        #             line.statement_id.button_validate_or_action()
+        #         total = sum(pencairan.journal_entry_ids.mapped('amount_total'))
+        #         sisa = pencairan.ajuan_id.total_ajuan - total
+        #         pencairan.sudo().write({'sisa_pencairan_parsial':sisa})
+        #         pencairan.ajuan_id.sudo().write({'total_pencairan':total,'tgl_pencairan':fields.Date.today()})
+        #         if pencairan.ajuan_id.need_driver:
+        #             penyelesaian_id = self.env['uudp'].search([('ajuan_id','=',pencairan.ajuan_id.id)],limit=1)
+        #             if not penyelesaian_id:
+        #                 penyelesaian_id.sudo().create({"type":"penyelesaian",
+        #                                                "ajuan_id":pencairan.ajuan_id.id,
+        #                                                "employee_id":pencairan.ajuan_id.employee_id.id,
+        #                                                "department_id":pencairan.ajuan_id.employee_id.department_id.id,
+        #                                                "total_ajuan":pencairan.ajuan_id.total_ajuan,"uudp_ids":[]})
+        #         if total == pencairan.ajuan_id.total_ajuan:
+        #             pencairan.ajuan_id.sudo().write({'state':'done'})
+        #             pencairan.sudo().write({'state':'done'})
+        # elif self._context.get('default_type') == 'reimburse':
+        #     aml = self.env['account.bank.statement.line'].
+        elif self._context.get('is_uudp') and self._context.get('penyelesaian_id') and self._context.get('payment_type') == 'inbound':
+            aml = self.env['account.bank.statement.line'].browse(self._context.get('statement_line_ids'))
+            payment_receipt = 0
+            penyelesaian_id = self.env['uudp'].browse(self._context.get('penyelesaian_id'))
+            if aml:
+                for line in aml:
+                    line.statement_id.button_validate_or_action()
+                    payment_receipt += line.debit 
+                sisa_penyelesaian = penyelesaian_id.sisa_penyelesaian - payment_receipt
+                penyelesaian_id.sudo().write({"is_reconciled":True,"sisa_penyelesaian":sisa_penyelesaian})
+                penyelesaian_id.ajuan_id.sudo().write({"sisa_penyelesaian":sisa_penyelesaian})
+                if penyelesaian_id.sisa_penyelesaian == 0.00: 
+                    penyelesaian_id.sudo().write({"state":'done'})
+                    penyelesaian_id.ajuan_id.sudo().write({"selesai":True})
+        
+                    
         return {
             "moves": processed_moves.ids,
             "statement_line_ids": processed_moves.mapped(
@@ -264,20 +331,47 @@ class AccountReconciliation(models.AbstractModel):
                 
 
                 amls = aml_ids and self.env["account.move.line"].browse(aml_ids)
-           
+
+                
                 if line.invoice_id and line.statement_id.operation_type == 'payment' and not self._context.get('is_giro'):
                     amls    = line.invoice_id.line_ids.filtered(lambda l: l.credit > 0 and line.invoice_id == l.move_id and l.move_id.kontrabon_id.state and l.move_id.kontrabon_id.state in ['approve', 'approve_purchasing'])
                     aml_ids = line.invoice_id.line_ids.filtered(lambda l: l.credit > 0 and line.invoice_id == l.move_id and l.move_id.kontrabon_id.state and l.move_id.kontrabon_id.state in ['approve', 'approve_purchasing'])
-                elif line.invoice_id and line.statement_id.operation_type == 'receipt' and not self._context.get('is_giro'):
+                # elif line.invoice_id and line.statement_id.operation_type == 'receipt' and not self._context.get('is_giro'):
+                #     amls    = line.invoice_id.line_ids.filtered(lambda l: l.debit > 0 and line.invoice_id == l.move_id)
+                #     aml_ids = line.invoice_id.line_ids.filtered(lambda l: l.debit > 0 and line.invoice_id == l.move_id)
+                # elif self._context.get('is_giro') and line.statement_id.operation_type == 'payment':
+                    # amls    = [x  for payment in line.payment_ids  for x in payment.move_id.line_ids.filtered(lambda l:l.credit > 0)]
+                    # aml_ids    = [x  for payment in line.payment_ids  for x in payment.move_id.line_ids.filtered(lambda l:l.credit > 0)]
+                # elif self._context.get('is_uudp') and  self._context.get('is_batch')  and line.statement_id.operation_type == 'payment':
+                #     #todo tambah pencairan_id di line statement
+                #     amls    = [x  for m in line.pencairan_id.journal_entry_ids  for x in m.move_id.line_ids.filtered(lambda l:l.credit > 0)]
+                #     aml_ids    = [x  for m in line.pencairan_id.journal_entry_ids  for x in m.move_id.line_ids.filtered(lambda l:l.credit > 0)]
+                # elif self._context.get('is_uudp') and  self._context.get('pencairan_id') and line.statement_id.operation_type == 'payment':
+                #     pencairan_id = self.env['uudp.pencairan'].browse(self._context.get('pencairan_id'))
+                #     amls    = [x  for move in pencairan_id.journal_entry_ids  for x in move.line_ids.filtered(lambda l:l.credit > 0)]
+                #     aml_ids    = [x  for move in pencairan_id.journal_entry_ids  for x in move.line_ids.filtered(lambda l:l.credit > 0)]
+                # elif self._context.get('is_uudp') and  self._context.get('penyelesaian_id') and line.statement_id.operation_type == 'receipt':
+                #     penyelesaian_id = self.env['uudp'].browse(self._context.get('penyelesaian_id'))
+                #     amls    = [x   for x in penyelesaian_id.journal_entry_id.line_ids.filtered(lambda l:l.debit > 0)]
+                #     aml_ids    = [x   for x in penyelesaian_id.journal_entry_id.line_ids.filtered(lambda l:l.debit > 0)]
+                elif self._context.get('is_giro') and line.statement_id.operation_type == 'receipt':
+                    # amls    = [x  for payment in line.payment_ids  for x in payment.move_id.line_ids.filtered(lambda l:l.debit > 0)]
+                    # aml_ids    = [x  for payment in line.payment_ids  for x in payment.move_id.line_ids.filtered(lambda l:l.debit > 0)]
                     amls    = line.invoice_id.line_ids.filtered(lambda l: l.debit > 0 and line.invoice_id == l.move_id)
                     aml_ids = line.invoice_id.line_ids.filtered(lambda l: l.debit > 0 and line.invoice_id == l.move_id)
                 elif self._context.get('is_giro') and line.statement_id.operation_type == 'payment':
-                    amls    = [x  for payment in line.payment_ids  for x in payment.move_id.line_ids.filtered(lambda l:l.credit > 0)]
-                    aml_ids    = [x  for payment in line.payment_ids  for x in payment.move_id.line_ids.filtered(lambda l:l.credit > 0)]
+                    # amls    = [x  for payment in line.payment_ids  for x in payment.move_id.line_ids.filtered(lambda l:l.debit > 0)]
+                    # aml_ids    = [x  for payment in line.payment_ids  for x in payment.move_id.line_ids.filtered(lambda l:l.debit > 0)]
+                    amls    = line.invoice_id.line_ids.filtered(lambda l: l.credit > 0 and line.invoice_id == l.move_id)
+                    aml_ids = line.invoice_id.line_ids.filtered(lambda l: l.credit > 0 and line.invoice_id == l.move_id)
                 
-                elif self._context.get('is_giro') and line.statement_id.operation_type == 'receipt':
-                    amls    = [x  for payment in line.payment_ids  for x in payment.move_id.line_ids.filtered(lambda l:l.debit > 0)]
-                    aml_ids    = [x  for payment in line.payment_ids  for x in payment.move_id.line_ids.filtered(lambda l:l.debit > 0)]
+                
+                import logging;
+                _logger = logging.getLogger(__name__)
+                _logger.warning('='*40)
+                _logger.warning('MESSAGE')
+                _logger.warning(line.statement_id.operation_type)
+                _logger.warning('='*40)
                 
                 
                 line_vals = {
@@ -305,6 +399,12 @@ class AccountReconciliation(models.AbstractModel):
                             }
                         )
                 results["lines"].append(line_vals)
+        import logging;
+        _logger = logging.getLogger(__name__)
+        _logger.warning('='*40)
+        _logger.warning('MESSAGE RESULT LINES')
+        _logger.warning(results["lines"])
+        _logger.warning('='*40)
         return results
 
     @api.model
@@ -661,6 +761,12 @@ class AccountReconciliation(models.AbstractModel):
         """
 
         Partner = self.env["res.partner"]
+        
+        import logging;
+        _logger = logging.getLogger(__name__)
+        _logger.warning('='*40)
+        _logger.warning('on validate')
+        _logger.warning('='*40)
 
         for datum in data:
             if (
@@ -904,10 +1010,18 @@ class AccountReconciliation(models.AbstractModel):
         """
         ret = []
         
-        if not self._context.get('is_giro'):
-            move_lines = move_lines.filtered(lambda x: x.move_id.kontrabon_id.state and x.move_id.kontrabon_id.state in ['approve', 'approve_purchasing'])
-        
-        
+        #todo dicomment dulu filter yang sudah dikontrabon nya karena ada kebutuhan untuk receipt
+        # if not self._context.get('is_giro') and not self._context.get('is_uudp'):
+        #     move_lines = move_lines.filtered(lambda x: x.move_id.kontrabon_id.state and x.move_id.kontrabon_id.state in ['approve', 'approve_purchasing'])
+        #     import logging;
+        #     _logger = logging.getLogger(__name__)
+        #     _logger.warning('='*40)
+        #     _logger.warning('MESSAGE on prepare move_line')
+        #     _logger.warning([move for move in move_lines])
+        #     _logger.warning(self._context)
+        #     _logger.warning('='*40)
+        #     if not move_lines:
+        #         move_lines = move_lines.filtered(lambda x: x.move_id.move_type == 'out_invoice')
         
         for line in move_lines:
             company_currency = line.company_id.currency_id
