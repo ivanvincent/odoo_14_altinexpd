@@ -11,10 +11,7 @@ class ManufacturingRequest(models.Model):
     
 
     name                = fields.Char(string='Manufacture Request',default=_('New'))
-    # order_ids           = fields.Many2many(comodel_name='stock.point.order', relation='mrp_request_stock_point_order_rel',string='Stock Point Order',domain=[('state', '=', 'confirm')])
-    # order_lines         = fields.Many2many(comodel_name='stock.point.order.line', string='Details Request',)
     order_lines_product = fields.One2many('mrp.request.line.product','request_id', string='Group By Line',)
-    # order_detail_lines  = fields.Many2many(comodel_name='stock.point.order.line', compute="_get_stock_point_order",string='Details Product Request',)
     request_date        = fields.Datetime(string='Request Date',default=fields.Datetime.now())
     user_id             = fields.Many2one('res.users', string='User',default=lambda self: self.env.user.id)
     line_ids            = fields.One2many('mrp.request.line', 'request_id', string='Details')
@@ -269,7 +266,8 @@ class ManufacturingRequestLine(models.Model):
     )
     request_id       = fields.Many2one('mrp.request', string='Request')
     request_date     = fields.Datetime(string='Date',related="request_id.request_date",store=True,)
-    order_id         = fields.Many2one('stock.point.order', string='Stock Point Order')
+    # order_id         = fields.Many2one('stock.point.order', string='Stock Point Order')
+    order_id         = fields.Many2one(string='Stock Point Order')
     production_id    = fields.Many2one('mrp.production', string='Production')
     product_id       = fields.Many2one('product.product', string='Product',domain=lambda self:self._get_domain())
     # default_code     = fields.Char(related='product_id.default_code', string='Code')
