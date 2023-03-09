@@ -531,48 +531,48 @@ class uudp(models.Model):
     #     self.driver_id = self.rute_id.driver_id.id
     #     self.helper_id = self.rute_id.helper_id.id
                 
-    @api.onchange('jalur_id')
-    def onchange_jalur(self):
-        if self.uudp_ids and self.state == 'draft':
-            self.uudp_ids = False
-        elif not self.uudp_ids:
-            expense = []
-            if self.jalur_id.expense_template_ids:
-                for template in self.jalur_id.expense_template_ids:
-                    expense += [(0,0,{
-                        'product_id':template.product_id.id,
-                        'exp_id':template.expense_id.id,
-                        'coa_debit':template.account_id.id,
-                        'template_id':template.id,
-                        'description':template.description,
-                        'unit_price':template.nominal
-                    })]
-                self.uudp_ids = expense
+    # @api.onchange('jalur_id')
+    # def onchange_jalur(self):
+    #     if self.uudp_ids and self.state == 'draft':
+    #         self.uudp_ids = False
+    #     elif not self.uudp_ids:
+    #         expense = []
+    #         if self.jalur_id.expense_template_ids:
+    #             for template in self.jalur_id.expense_template_ids:
+    #                 expense += [(0,0,{
+    #                     'product_id':template.product_id.id,
+    #                     'exp_id':template.expense_id.id,
+    #                     'coa_debit':template.account_id.id,
+    #                     'template_id':template.id,
+    #                     'description':template.description,
+    #                     'unit_price':template.nominal
+    #                 })]
+    #             self.uudp_ids = expense
             
 
                 
     
-    @api.onchange('jalur_ids')
-    def onchange_jalur_ids(self):
-        expense = []
-        if self.state == 'draft' and self.type == 'pengajuan' and self.bop_type != 'drop' and self.is_rute_sale and not self.template_comb_id:
-            for jalur in self.jalur_ids:
-                for template in jalur.expense_template_ids.filtered(lambda x:x.id not in [template.id for template in self.uudp_ids.mapped('template_id')]):
-                    expense += [(0,0,{
-                        'product_id':template.product_id.id,
-                        'coa_debit':template.account_id.id,
-                        'template_id':template.id,
-                        'exp_id':template.expense_id.id,
-                        'description':template.description,
-                        'unit_price':template.nominal
-                    })]
-            for line in self.uudp_ids:
-                if line.template_id.jalur_id.id not in self.jalur_ids.mapped('id'):
-                    expense += [(3,line.id,0)]
-                    # line.unlink()
+    # @api.onchange('jalur_ids')
+    # def onchange_jalur_ids(self):
+    #     expense = []
+    #     if self.state == 'draft' and self.type == 'pengajuan' and self.bop_type != 'drop' and self.is_rute_sale and not self.template_comb_id:
+    #         for jalur in self.jalur_ids:
+    #             for template in jalur.expense_template_ids.filtered(lambda x:x.id not in [template.id for template in self.uudp_ids.mapped('template_id')]):
+    #                 expense += [(0,0,{
+    #                     'product_id':template.product_id.id,
+    #                     'coa_debit':template.account_id.id,
+    #                     'template_id':template.id,
+    #                     'exp_id':template.expense_id.id,
+    #                     'description':template.description,
+    #                     'unit_price':template.nominal
+    #                 })]
+    #         for line in self.uudp_ids:
+    #             if line.template_id.jalur_id.id not in self.jalur_ids.mapped('id'):
+    #                 expense += [(3,line.id,0)]
+    #                 # line.unlink()
                         
-            if len(expense) > 0:
-                self.uudp_ids = expense
+    #         if len(expense) > 0:
+    #             self.uudp_ids = expense
                 
     @api.onchange('warehouse_ids')
     def onchange_warehouse_ids(self):
@@ -584,13 +584,13 @@ class uudp(models.Model):
                         'product_id':template.product_id.id,
                         'coa_debit':template.account_id.id,
                         'exp_id':template.expense_id.id,
-                        'template_id':template.id,
+                        # 'template_id':template.id,
                         'description':template.description,
                         'unit_price':template.nominal if self.vehicle_type == 'double' else template.nominal_fuso
                     })]
-            for line in self.uudp_ids:
-                if line.template_id.warehouse_id.id not in self.warehouse_ids.mapped('id'):
-                    expense += [(3,line.id,0)]
+            # for line in self.uudp_ids:
+            #     if line.template_id.warehouse_id.id not in self.warehouse_ids.mapped('id'):
+            #         expense += [(3,line.id,0)]
                     # line.unlink()
                         
             if len(expense) > 0:
@@ -861,8 +861,7 @@ class uudp(models.Model):
                 for line in self.uudp_ids.filtered(lambda x:x.is_different):
                     
                     ajuan = sum(line.uudp_id.ajuan_id.uudp_ids.filtered(
-                        lambda x:x.template_id.id == line.template_id.id
-                        and x.product_id.id == line.product_id.id 
+                        lambda x:x.product_id.id == line.product_id.id 
                         and x.coa_debit == line.coa_debit).mapped('sub_total'))
                     ajuan_total = line.sub_total - ajuan
                     total_debit += ajuan_total 
@@ -1882,9 +1881,7 @@ class uudpDetail(models.Model):
             if line.uudp_id.type == 'penyelesaian':
                 ajuan = sum(line.uudp_id.ajuan_id.uudp_ids.filtered(
                     lambda x:line.uudp_id.ajuan_id.id == x.uudp_id.id and 
-                    x.template_id.id == line.template_id.id and 
                     x.sub_total == line.sub_total and 
-                    x.template_id.jalur_id.id == line.template_id.jalur_id.id and
                     x.product_id.id == line.product_id.id and
                     x.coa_debit == line.coa_debit)
                     .mapped('sub_total'))
