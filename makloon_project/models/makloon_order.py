@@ -460,7 +460,8 @@ class MakloonOrder(models.Model):
     def action_view_picking_in(self):
         self.ensure_one()
         action = self.env.ref('stock.action_picking_tree_all').read()[0]
-        action['domain'] = [('makloon_order_id', '=', self.id),('picking_type_id.code','=','internal')]
+        # action['domain'] = [('makloon_order_id', '=', self.id),('picking_type_id.code','=','internal')]
+        action['domain'] = [('makloon_order_id', '=', self.id)]
         # elif pickings:
         #     b
         #     action['views'] = [(self.env.ref('stock.view_picdgdking_form').id, 'form')]
