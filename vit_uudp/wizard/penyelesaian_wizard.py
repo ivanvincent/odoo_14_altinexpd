@@ -37,7 +37,7 @@ class PenyelesaianWizard(models.TransientModel):
             line_ids = []
             if ajuan_id.uudp_ids:
                 for line in ajuan_id.uudp_ids.filtered(lambda x:x.is_different):
-                    total_ajuan =  sum(line.uudp_id.ajuan_id.uudp_ids.filtered(lambda x:x.template_id.id == line.template_id.id and x.product_id.id == line.product_id.id  and x.coa_debit == line.coa_debit).mapped('sub_total'))
+                    total_ajuan =  sum(line.uudp_id.ajuan_id.uudp_ids.filtered(lambda x: x.product_id.id == line.product_id.id  and x.coa_debit == line.coa_debit).mapped('sub_total'))
                     line_ids += [(0,0,{
                         "account_id":line.coa_debit.id,
                         "uudp_line_id":line.id,
@@ -54,7 +54,7 @@ class PenyelesaianWizard(models.TransientModel):
             line_ids = []
             if ajuan_id.uudp_ids and not ajuan_id.journal_entry_id and not ajuan_id.bank_statement_id:
                 for line in ajuan_id.uudp_ids.filtered(lambda x:x.is_different):
-                    total_ajuan =  sum(line.uudp_id.ajuan_id.uudp_ids.filtered(lambda x:x.template_id.id == line.template_id.id and x.product_id.id == line.product_id.id  and x.coa_debit == line.coa_debit).mapped('sub_total'))
+                    total_ajuan =  sum(line.uudp_id.ajuan_id.uudp_ids.filtered(lambda x: x.product_id.id == line.product_id.id  and x.coa_debit == line.coa_debit).mapped('sub_total'))
                     
                     line_ids += [(0,0,{
                         "account_id":ajuan_id.ajuan_id.coa_debit.id,
@@ -94,7 +94,7 @@ class PenyelesaianWizard(models.TransientModel):
             line_ids = []
             self.line_ids = False
             for line in  self.penyelesaian_id.uudp_ids.filtered(lambda x:x.is_different):
-                total_ajuan =  sum(line.uudp_id.ajuan_id.uudp_ids.filtered(lambda x:x.template_id.id == line.template_id.id and x.product_id.id == line.product_id.id  and x.coa_debit == line.coa_debit).mapped('sub_total'))
+                total_ajuan =  sum(line.uudp_id.ajuan_id.uudp_ids.filtered(lambda x: x.product_id.id == line.product_id.id  and x.coa_debit == line.coa_debit).mapped('sub_total'))
                 line_ids += [(0,0,{
                     "account_id":line.coa_debit.id,
                     "uudp_line_id":line.id,
@@ -108,7 +108,7 @@ class PenyelesaianWizard(models.TransientModel):
             line_ids = []
             self.line_ids = False
             # for line in  self.penyelesaian_id.uudp_ids.filtered(lambda x:x.is_different):
-            #     total_ajuan =  sum(line.uudp_id.ajuan_id.uudp_ids.filtered(lambda x:x.template_id.id == line.template_id.id and x.product_id.id == line.product_id.id  and x.coa_debit == line.coa_debit).mapped('sub_total'))
+            #     total_ajuan =  sum(line.uudp_id.ajuan_id.uudp_ids.filtered(lambda x: x.product_id.id == line.product_id.id  and x.coa_debit == line.coa_debit).mapped('sub_total'))
             line_ids += [(0,0,{
                 "account_id":self.ajuan_id.coa_debit.id,
                 # "uudp_line_id":line.id,
