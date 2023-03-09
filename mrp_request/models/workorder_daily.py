@@ -58,7 +58,7 @@ class WorkorderDaily(models.Model):
             machine_obj = self.env['mrp.machine'].browse(machine_id)
             if mo_name and user_id:
                 # wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)], limit=1, order='name asc')
-                wo_obj = self.env['mrp.workorder'].search([('production_id', '=', mo_obj.id), ('state', 'not in', ('done', 'progress'))], limit=1, order='name asc')
+                wo_obj = self.env['mrp.workorder'].search([('production_id', '=', mo_obj.id), ('state', 'in', ('progress'))], limit=1, order='name asc')
                 wo_obj.write({
                     'workorder_ids': [(0, 0, {
                         'date': fields.Date.today(),
