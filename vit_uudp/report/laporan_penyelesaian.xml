@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- <record model="report.paperformat" id="laporan_penyelesaian_kasbon_format">
+            <field name="name">Paper Format Penyelesaian Kasbon</field>
+            <field name="default" eval="False" />
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+        </record> -->
+
+        <!-- <record id="laporan_penyelesaian_print" model="ir.actions.report">
+            <field name="paperformat_id" eval="laporan_penyelesaian_kasbon_format"/>
+        </record> -->
+
+        <report id="laporan_penyelesaian_print" model="penyelesaian.excel.wizard" string="Laporan Penyelesaian Kasbon" name="vit_uudp.laporan_penyelesaian_template" report_type="qweb-html"/>
+        <template id="laporan_penyelesaian_template">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <style>
+                                table {
+                                    border-collapse: collapse;
+                                    width: 100%;
+                                }
+                                table td, table th {
+                                    border: 1px solid #ddd;
+                                    padding: 8px;
+                                }
+                                table tr:nth-child(even){background-color: #f2f2f2;}
+                    </style>
+
+                </div>
+
+                <div class="title text-center mb-4">
+                    <h4 class="font-weight-bold">PT. MULTI STAR RUKUN ABADI</h4>
+                    <h3 class="font-weight-bold" style="color : #243742;">Laporan Penyelesaian Kasbon</h3>
+                    <div class="date_header">
+                        <span class="font-weight-bold">Dari 
+                            <span class="font-weight-bold" t-esc="date_start" />
+                                        ke  <span class="font-weight-bold" t-esc="date_end" />
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <table>
+                        <tr>
+                            <th>
+                                            Tanggal Keluar
+                            </th>
+                            <th>
+                                            Tanggal Kembali
+                            </th>
+                            <th>
+                                            No Bukti
+                            </th>
+                            <th>
+                                            Nama Sales
+                            </th>
+                            <th>
+                                            Nama Sopir
+                            </th>
+                            <th>
+                                            Nama Kenek
+                            </th>
+                            <th>
+                                            Stock Point
+                            </th>
+                            <th>
+                                            Jalur
+                            </th>
+                            <th>
+                                           No Mobil
+                            </th>
+                            <th>
+                                           Jenis Mobil
+                            </th>
+                            <th>
+                                           No BKB
+                            </th>
+                            <th>
+                                           KM Awal
+                            </th>
+                            <th>
+                                           KM Akhir
+                            </th>
+                            <th>
+                                           BBM Cash
+                            </th>
+                            <th>
+                                           Tol
+                            </th>
+                            <th>
+                                           Uang Makan
+                            </th>
+                            <th>
+                                           Parkir
+                            </th>
+                            <th>
+                                           TPR / OGah
+                            </th>
+                            <th>
+                                           Keamanan
+                            </th>
+                            <th>
+                                           Sisa Kasbon
+                            </th>
+                        </tr>
+                        <t t-foreach="data" t-as="line">
+                            <tr>
+                                <td>
+                                    <span t-esc="line.get('tgl_kasbon')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('tgl_kembali')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('no_bukti')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('kasbon')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('nama_sales')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('sopir')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('nama_kenek')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('stock_point')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('jalur')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('no_mobil')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('jenis_mobil')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('no_bkb')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('km_awal')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('km_akhir')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('bbm_cash')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('tol')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('uang_makan')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('parkir')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('trp_ogah')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('keamanan')"/>
+                                </td>
+                                <td>
+                                    <span t-esc="line.get('sisa_kasbon')"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </table>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

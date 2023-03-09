@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="penyelesaian_excel_wizard_view_form" model="ir.ui.view">
+            <field name="name">penyelesaian.excel.wizard.view.form</field>
+            <field name="model">penyelesaian.excel.wizard</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="date_start" required="1"/>
+                            <field name="date_end" required="1"/>
+                        </group>
+                        <footer>
+                            <!-- <button name="action_preview" type="object" string="Preview" class="oe_highlight"/> -->
+                            <button name="action_generate_excel" type="object" string="Generate Excel" class="oe_highlight"/>
+                            <button name="cancel" type="special" string="Cancel" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="penyelesaian_excel_wizard_view_action" model="ir.actions.act_window">
+            <field name="name">Laporan Penyelesaian Excel</field>
+            <field name="res_model">penyelesaian.excel.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+            id="laporan_penyelesaian_excel_wizard_view_menu"
+            name="Laporan Penyelesaian"
+            parent="uudp_report_main_menu"
+            sequence="99"
+            groups="base.group_system"
+            action="penyelesaian_excel_wizard_view_action"/>
+    
+    </data>
+</odoo>

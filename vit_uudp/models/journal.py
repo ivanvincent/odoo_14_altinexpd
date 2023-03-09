@@ -5,7 +5,8 @@ class accountMove(models.Model):
     # _name = 'account.move'
     _inherit = 'account.move'
 
-    uudp_pencairan_id = fields.Many2one("uudp.pencairan", string="UUDP Pencairan")
+    uudp_pencairan_id   = fields.Many2one("uudp.pencairan", string="UUDP Pencairan")
+    uudp_penyelesaian_id = fields.Many2one("uudp", string="UUDP Penyelesaian",domain=[('type', '=', 'penyelesaian')])
     terbilang         = fields.Char(string='Terbilang', translate=True, readonly=True, states={'draft': [('readonly', False)]})
 
 # accountMove()

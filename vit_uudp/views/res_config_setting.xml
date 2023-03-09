@@ -12,11 +12,55 @@
                         <div class="row mt16 o_settings_container" name="devices_setting_container">
                             <div class="col-12 col-lg-6 o_setting_box">
                                 <div class="o_setting_right_pane">
-                                    <label for="uudp_credit_account_id"/>
+                                    <label for="ajuan_sequence_id"/>
                                     <div class="content-group">
                                         <div class="mt16">
-                                            <field name="uudp_credit_account_id" required="1" class="o_light_label"/>
+                                            <field name="ajuan_sequence_id" required="1" class="o_light_label"/>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="penyelesaian_sequence_id"/>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="penyelesaian_sequence_id" required="1" class="o_light_label"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="reimburse_sequence_id"/>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="reimburse_sequence_id" required="1" class="o_light_label"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6  o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Filter Driver</span>
+                                    <div class="text-muted">
+                                        <field name="domain_driver_ids" widget="many2many_tags"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6  o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Filter Sales</span>
+                                    <div class="text-muted">
+                                        <field name="domain_sales_ids" widget="many2many_tags"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6  o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Filter Helper</span>
+                                    <div class="text-muted">
+                                        <field name="domain_helper_ids" widget="many2many_tags"/>
                                     </div>
                                 </div>
                             </div>
@@ -37,8 +81,59 @@
         </record>
 
 
-        <menuitem id="uudp_config_menu" name="Configuration" parent="uudp_home"  groups="base.group_system">
+        <record id="uudp_category_view_tree" model="ir.ui.view">
+            <field name="name">uudp_category_view.tree</field>
+            <field name="model">uudp.category</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="allowed_position_ids" widget="many2many_tags" options="{'no_open': True, 'no_create': True}"/>
+                    <field name="description"/>
+                    <field name="is_active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="uudp_category_view_form" model="ir.ui.view">
+            <field name="name">uudp.category.view.form</field>
+            <field name="model">uudp.category</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="is_limit" widget="boolean_toggle"/>
+                                <field name="is_rute_sale" widget="boolean_toggle"/>
+                                <field name="is_purchase" widget="boolean_toggle"/>
+                            </group>
+                            <group>
+                                <field name="description"/>
+                                <field name="is_active" widget="boolean_toggle"/>
+                                <field name="is_urgent" widget="boolean_toggle"/>
+                                <field name="filter_pengaju" widget="boolean_toggle"/>
+                                <field name="allowed_position_ids" widget="many2many_tags" options="{'no_open': True, 'no_create': True}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="uudp_category_action" model="ir.actions.act_window">
+            <field name="name">UUDP Category</field>
+            <field name="res_model">uudp.category</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem id="uudp_config_menu" name="Configuration" parent="uudp_home" sequence="99" groups="base.group_system">
             <menuitem id="uudp_setting_menu" name="Setting" action="uudp_config_settings_action"/>
+            <menuitem id="uudp_category_menu" name="Category" action="uudp_category_action"/>
         </menuitem>
 
 

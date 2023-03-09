@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="pengajuan_op_wizard" model="ir.ui.view">
+            <field name="name">pengajuan.op.wizard</field>
+            <field name="model">pengajuan.op.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div style="white-space: pre-line;">
+                            <p>
+                        Fitur ini bisa digunakan untuk keperluan sbb.. :
+                        1. Membuat Pengajuan Biaya Operasional By Jalur
+                            </p>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="category_id" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="date"/>
+                            </group>
+                            <group>
+                                <!-- <field name="end_date"/> -->
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Details">
+                                <field name="line_ids">
+                                    <tree editable="bottom">
+                                        <field name="warehouse_id" required="1" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="jalur_id" domain="[('warehouse_id', '=', warehouse_id)]" required="1" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="employee_id" attrs="{'required':[('jalur_id', '!=', False)]}"  options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="vehicle_id" attrs="{'required':[('jalur_id', '!=', False)]}"  options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="driver_id" attrs="{'required':[('jalur_id', '!=', False)]}"  options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="sales_id"  options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="helper_id"  options="{'no_open': True, 'no_create': True}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="create_pengajuan" string="Submit" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_open_pengajuan_op_wizard" model="ir.actions.act_window">
+            <field name="name">Buat Pengajuan Biaya Operasional</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="binding_model_id" ref="dh_res_partner.model_res_partner_jalur"/>
+            <field name="res_model">pengajuan.op.wizard</field>
+            <field name="target">new</field>
+            <field name="binding_view_types">list</field>
+            <field name="groups_id" eval="[(4, ref('vit_uudp.group_user_uudp_user'))]"/>
+            <field name="view_id" ref="pengajuan_op_wizard"/>
+        </record>
+
+
+
+    </data>
+</odoo>

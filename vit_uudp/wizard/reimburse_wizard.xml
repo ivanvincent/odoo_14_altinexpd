@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="reimburse_wizard_form" model="ir.ui.view">
+            <field name="name">reimburse.wizard</field>
+            <field name="model">reimburse.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="ajuan_id" options="{'no_open': True, 'no_create': True}" readonly="1"/>
+                            <field name="penyelesaian_id" options="{'no_open': True, 'no_create': True}" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="cara_bayar"/>
+                            <field name="journal_id" required="1" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="lebih_bayar" readonly="1"/>
+                        </group>
+
+                        <notebook>
+                            <page string="Details">
+                                <field name="line_ids">
+                                    <tree editable="bottom">
+                                        <field name="product_id" required="1" domain="[('can_be_expensed','=',True),('name','!=','UUDP')]"  options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="account_id" required="1" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="description" required="1" />
+                                        <field name="total" required="1" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                    <footer>
+                        <button name="action_create_reimburse" string="Create Reimburse" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

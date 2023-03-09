@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record model="ir.ui.view" id="report_uudp_view_tree">
+            <field name="name">report.kasbon.tree</field>
+            <field name="model">report.kasbon</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record model="ir.ui.view" id="report_uudp_view_form">
+            <field name="name">report.kasbon.form</field>
+            <field name="model">report.kasbon</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_calculate" string="Calculate" type="object" class="oe_highlight" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date_start"/>
+                                <field name="category_ids" widget="many2many_tags"/>
+                            </group>
+                            <group>
+                                <field name="date_end"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Details">
+                                <field name="line_ids">
+                                    <tree>
+                                        <field name="employee_id" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="nominal_kasbon" sum="Total"/>
+                                        <field name="nominal_pencairan" sum="Total"/>
+                                        <field name="nominal_penyelesaian" sum="Total"/>
+                                        <field name="nominal_reimburse" sum="Total"/>
+                                        <field name="nominal_dibebankan" sum="Total"/>
+                                    </tree>
+                                    <form>
+                                        <sheet>
+                                            <div class="oe_title">
+                                                <h1>
+                                                    <field name="employee_id" readonly="1"/>
+                                                </h1>
+                                            </div>
+                                            <group col="3">
+                                                <group>
+                                                    <field name="nominal_kasbon"/>
+                                                </group>
+                                                <group>
+                                                    <field name="nominal_pencairan"/>
+                                                </group>
+                                                <group>
+                                                    <field name="nominal_penyelesaian"/>
+                                                </group>
+                                                <group>
+                                                    <field name="nominal_reimburse"/>
+                                                </group>
+                                                <group>
+                                                    <field name="nominal_dibebankan"/>
+                                                </group>
+                                            </group>
+                                            <notebook>
+                                                <page string="History Pengajuan">
+                                                    <field name="history_ajuan_ids">
+                                                        <tree>
+                                                            <field name="ajuan_id"/>
+                                                            <field name="tanggal"/>
+                                                            <field name="tgl_penyelesaian"/>
+                                                            <field name="user_id"/>
+                                                            <field name="employee_id"/>
+                                                            <field name="kasir_id"/>
+                                                            <field name="total_ajuan" sum="Total"/>
+                                                            <field name="state" widget="badge" decoration-success="state == 'done'" decoration-danger="state == 'refuse'" decoration-warning="state == 'pending'" decoration-info="state in ('confirm','confirm_department','confirm_department1','confirm_hrd','confirm_finance','confirm_accounting')"/>
+                                                        </tree>
+                                                    </field>
+                                                </page>
+                                                <page string="History Pencairan">
+                                                    <field name="history_pencairan_ids">
+                                                        <tree>
+                                                            <field name="pencairan_id"/>
+                                                            <field name="tgl_pencairan"/>
+                                                            <field name="user_id"/>
+                                                            <field name="journal_id"/>
+                                                            <field name="bank_statement_id"/>
+                                                            <field name="total_pencairan" sum="Total"/>
+                                                            <field name="state" widget="badge" decoration-success="state == 'done'" decoration-danger="state == 'refuse'" decoration-info="state in ('confirm_once','confirm_parsial')"/>
+                                                        </tree>
+                                                    </field>
+                                                </page>
+                                                <page string="History Penyelesaian">
+                                                    <field name="history_penyelesaian_ids">
+                                                        <tree>
+                                                            <field name="ajuan_id"/>
+                                                            <field name="penyelesaian_id"/>
+                                                            <field name="reimburse_id"/>
+                                                            <field name="tanggal"/>
+                                                            <field name="user_id"/>
+                                                            <field name="employee_id"/>
+                                                            <field name="total_penyelesaian" string="Realisasi" sum="Total"/>
+                                                            <field name="state" widget="badge" decoration-success="state == 'done'" decoration-danger="state == 'refuse'" decoration-warning="state == 'pending'" decoration-info="state in ('confirm','confirm_department','confirm_department1','confirm_hrd','confirm_finance','confirm_accounting')"/>
+                                                        </tree>
+                                                    </field>
+                                                </page>
+                                                <page string="History Reimburse">
+                                                    <field name="history_reimburse_ids">
+                                                        <tree>
+                                                            <field name="reimburse_id"/>
+                                                            <field name="tanggal"/>
+                                                            <field name="user_id"/>
+                                                            <field name="employee_id"/>
+                                                            <field name="total_ajuan" sum="Total"/>
+                                                            <field name="state" widget="badge" decoration-success="state == 'done'" decoration-danger="state == 'refuse'" decoration-warning="state == 'pending'" decoration-info="state in ('confirm','confirm_department','confirm_department1','confirm_hrd','confirm_finance','confirm_accounting')"/>
+                                                        </tree>
+                                                    </field>
+                                                </page>
+                                            </notebook>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="report_uudp_view_action">
+            <field name="name">Laporan Kasbon</field>
+            <field name="res_model">report.kasbon</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="uudp_report_main_menu" sequence="98" name="Reporting" parent="uudp_home" groups="base.group_system">
+            <menuitem id="menu_report_uudp_view" name="Laporan Kasbon" action="report_uudp_view_action" />
+        </menuitem>
+
+
+    </data>
+</odoo>

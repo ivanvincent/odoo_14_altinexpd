@@ -26,3 +26,14 @@ from . import pencairan_batches
 from . import res_users
 from . import hr_department
 from . import res_config_setting
+from . import uudp_category
+from . import purchase_request
+from . import account_bank_statement
+from . import product
+# from . import rute_sale
+from . import do_head_office
+from . import purchase_order
+from . import expense_template_combine
+from . import report_uudp
+from . import res_partner
+

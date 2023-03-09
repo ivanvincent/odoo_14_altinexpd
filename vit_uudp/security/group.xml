@@ -1,13 +1,24 @@
 <openerp>
-	<data noupdate="1">
+	<data noupdate="0">
+
+
 
 		<record id="group_force_cancel_pencairan" model="res.groups">
 	        <field name="name">Allow Force Cancel Pencairan</field>
 	        <field name="category_id" ref="base.module_category_hidden"/>
 	    </record>
 
+		<record id="group_force_cancel_pengajuan" model="res.groups">
+	        <field name="name">Allow Force Cancel Pengajuan</field>
+	        <field name="category_id" ref="base.module_category_hidden"/>
+	    </record>
+
 		<record id="group_user_uudp_user" model="res.groups">
 			<field name="name">UUDP Pengajuan, Reimburse, Penyelesaian / User</field>
+		</record>
+
+		<record id="group_user_uudp_pengaju" model="res.groups">
+			<field name="name">UUDP Pengajuan / PIC</field>
 		</record>
 
 		<record id="group_user_uudp_manager" model="res.groups">
@@ -27,15 +38,33 @@
 			<field name="name">UUDP Pencairan / Manager</field>
 		</record>	
 
+
+		<record id="group_manager_uudp_approve_knd" model="res.groups">
+			<field name="name">UUDP Approve Penyelesaian / Knd</field>
+		</record>	
+
 		<record id="property_rule_uudp_user" model="ir.rule">
-			<field name="name">UUDP / User</field>
+			<field name="name">Restrict UUDP / User</field>
 			<field name="model_id" ref="model_uudp"/>
 			<field name="groups" eval="[(4, ref('group_user_uudp_user'))]"/>
+			<!-- <field name="groups" eval="[(4, ref('group_user_uudp_user')),(4, ref('group_user_uudp_pencairan'))]"/> -->
 			<field name="perm_read" eval="1"/>
 			<field name="perm_write" eval="1"/>
 			<field name="perm_create" eval="1"/>
 			<field name="perm_unlink" eval="1"/>
-			<field name="domain_force">['|',('user_id','=',user.id),('department_id.manager_id.user_id','=',user.id)]</field>
+			<field name="domain_force">[('user_id','=',user.id),('category_id','in',user.allowed_category.ids)]</field>
+			<!-- <field name="domain_force">['|',('user_id','=',user.id),('department_id.manager_id.user_id','=',user.id)]</field> -->
+		</record>
+
+		<record id="property_rule_uudp_pengaju" model="ir.rule">
+			<field name="name">Restrict UUDP / Pengaju (PIC)</field>
+			<field name="model_id" ref="model_uudp"/>
+			<field name="groups" eval="[(4, ref('group_user_uudp_pengaju'))]"/>
+			<field name="perm_read" eval="1"/>
+			<field name="perm_write" eval="1"/>
+			<field name="perm_create" eval="0"/>
+			<field name="perm_unlink" eval="0"/>
+			<field name="domain_force">[('employee_id','=',user.tag_employee_id.id)]</field>
 		</record>
 
 		<record id="property_rule_uudp_manager" model="ir.rule">
@@ -60,10 +89,32 @@
 			<field name="domain_force">[(1,'=',1)]</field>
 		</record>
 
-		<record id="property_rule_uudp_user_pencairan" model="ir.rule">
-			<field name="name">UUDP Pencairan / User</field>
+		<record id="property_rule_uudp_restrict_user_pencairan" model="ir.rule">
+			<field name="name">Restrict UUDP Pencairan / User</field>
 			<field name="model_id" ref="model_uudp"/>
 			<field name="groups" eval="[(4, ref('group_user_uudp_pencairan'))]"/>
+			<field name="perm_read" eval="1"/>
+			<field name="perm_write" eval="1"/>
+			<field name="perm_create" eval="1"/>
+			<field name="perm_unlink" eval="1"/>
+			<field name="domain_force">[('category_id','in',user.allowed_category.ids)]</field>
+		</record>
+
+		<record id="property_rule_uudp_pencairan_restrict_user_pencairan" model="ir.rule">
+			<field name="name">Restrict UUDP Pencairan / User</field>
+			<field name="model_id" ref="model_uudp_pencairan"/>
+			<field name="groups" eval="[(4, ref('group_user_uudp_pencairan'))]"/>
+			<field name="perm_read" eval="1"/>
+			<field name="perm_write" eval="1"/>
+			<field name="perm_create" eval="1"/>
+			<field name="perm_unlink" eval="1"/>
+			<field name="domain_force">[('user_id','=',user.id)]</field>
+		</record>
+
+		<record id="property_rule_uudp_user_pencairan" model="ir.rule">
+			<field name="name">UUDP Pencairan / Manager</field>
+			<field name="model_id" ref="model_uudp"/>
+			<field name="groups" eval="[(4, ref('group_manager_uudp_pencairan'))]"/>
 			<field name="perm_read" eval="1"/>
 			<field name="perm_write" eval="1"/>
 			<field name="perm_create" eval="1"/>
@@ -71,9 +122,9 @@
 			<field name="domain_force">[(1,'=',1)]</field>
 		</record>
 
-		<record id="property_rule_uudp_user_pencairan" model="ir.rule">
+		<record id="property_rule_uudp_pencairan_user_pencairan" model="ir.rule">
 			<field name="name">UUDP Pencairan / Manager</field>
-			<field name="model_id" ref="model_uudp"/>
+			<field name="model_id" ref="model_uudp_pencairan"/>
 			<field name="groups" eval="[(4, ref('group_manager_uudp_pencairan'))]"/>
 			<field name="perm_read" eval="1"/>
 			<field name="perm_write" eval="1"/>
@@ -95,3 +146,5 @@
 
 	</data>
 </openerp>
+
+

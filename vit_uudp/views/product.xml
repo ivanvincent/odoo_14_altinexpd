@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="uudp_approve_knd_form">
+            <field name="name">product.template.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <div name="options" position="inside">
+                    <div>
+                        <field name="need_approve_knd" attrs="{'invisible':[('can_be_expensed', '=', False)]}"/>
+                        <label for="need_approve_knd" attrs="{'invisible':[('can_be_expensed', '=', False)]}"/>
+                    </div>
+                    <group>
+                        <field name="staff_knd_id" attrs="{'invisible':[('need_approve_knd', '=', False)]}" options="{'no_open': True, 'no_create': True}"/>
+                        <field name="parent_coa_id" groups="base.group_system" domain="[('internal_type', '=', 'view')]" options="{'no_open': True, 'no_create': True}"/>
+                    </group>
+                </div>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="uudp_product_template_tree">
+            <field name="name">product.template.tree</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="parent_coa_id" group="base.group_system"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

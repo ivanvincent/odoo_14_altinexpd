@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record model="ir.ui.view" id="expense_template_combine_view_tree">
+            <field name="name">expense.template.combine.tree</field>
+            <field name="model">expense.template.combine</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="warehouse_ids" widget="many2many_tags"/>
+                    <field name="jalur_ids" widget="many2many_tags"/>
+                    <field name="user_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record model="ir.ui.view" id="expense_template_combine_view_form">
+            <field name="name">expense.template.combine.form</field>
+            <field name="model">expense.template.combine</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="warehouse_ids" widget="many2many_tags" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="jalur_ids" widget="many2many_tags" options="{'no_open': True, 'no_create': True}"/>
+                            </group>
+                            <group>
+                                <field name="user_id" options="{'no_open': True, 'no_create': True}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Details">
+                                <field name="line_ids">
+                                    <tree>
+                                        <field name="product_id" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="account_id" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="nominal" sum="Total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="expense_template_combine_view_action">
+            <field name="name">Expense Template Kombinasi</field>
+            <field name="res_model">expense.template.combine</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="submenu_expense_template_combine_view" name="Expense Template Combine" parent="vit_uudp.uudp_config_menu" action="expense_template_combine_view_action" />
+
+    </data>
+</odoo>

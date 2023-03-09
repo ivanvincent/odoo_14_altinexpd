@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="kasbon_rute_sale_form">
+            <field name="name">rute.sale.form</field>
+            <field name="model">rute.sale</field>
+            <field name="inherit_id" ref="tj_rutesale.view_rute_sale_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='datetime_in']" position="after">
+                    <field name="ajuan_id" string="Expense" options="{'no_open': True, 'no_create': True}"/>
+                </xpath>
+
+                <xpath expr="//page[@name='return']" position="after">
+                    <page string="Expense">
+                        <field name="uudp_ids">
+                            <tree create="false" edit="false">
+                                <field name="exp_id"/>
+                                <field name="description"/>
+                                <field name="total"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Realisasi">
+                        <field name="realisasi_ids">
+                            <tree create="false" edit="false">
+                                <field name="exp_id"/>
+                                <field name="description"/>
+                                <field name="total"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
