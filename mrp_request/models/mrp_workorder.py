@@ -20,6 +20,8 @@ class MrpWorkorder(models.Model):
     is_highrisk      = fields.Boolean(string='Highrish ?', related='production_id.is_highrisk', store=True,)
     rework_qty       = fields.Float(string='Rework Qty', compute='_compute_total_rework')
     setting_machine_ids = fields.One2many('setting.machine', 'workorder_id', 'Line')
+    inputed_wo_daily = fields.Boolean(string='Inputed Wo Daily ?', default=False)
+    no_urut          = fields.Integer(string='No Urut', compute='_compute_no_urut')
     
     @api.depends('workorder_ids')
     def _get_actual_qty(self):
@@ -94,7 +96,10 @@ class MrpWorkorder(models.Model):
                 vals['date_planned_finished'] = start_date
             return self.write(vals)
         
-        
+    @api.depends('name')
+    def _compute_no_urut(self):
+        for rec in self:
+            rec.no_urut = int(rec.name)
         
     
 

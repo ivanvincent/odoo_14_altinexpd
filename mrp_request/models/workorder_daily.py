@@ -29,26 +29,56 @@ class WorkorderDaily(models.Model):
 
     @api.model
     def scan_is_start(self, mo_name):
-        mo_obj = self.env['mrp.production'].search([('name', '=', mo_name)])
-        user_id = self.env.user
-        # wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)], limit=1, order='name asc')
-        wo_obj = self.env['mrp.workorder'].search([('production_id', '=', mo_obj.id), ('state', 'not in', ('done', 'progress'))], limit=1, order='name asc')
-        if not wo_obj.date_planned_start:
-            wo_obj.sudo().button_start()
-            data = {
-                'is_start': True,
-                'workcenter_name': user_id.workcenter_id.name
-            }
-            return data
-        else:
-            data = {
-                'is_start': False,
-                'workcenter_name': user_id.workcenter_id.name,
-                'production_qty': wo_obj.production_qty,
-                'actual_qty': wo_obj.actual_qty,
-                'remaining_qty': wo_obj.production_qty - wo_obj.actual_qty
-            }
-            return data
+        try:
+            mo_obj = self.env['mrp.production'].search([('name', '=', mo_name)])
+            user_id = self.env.user
+            # wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)], limit=1, order='name asc')
+            # wo_obj = self.env['mrp.workorder'].search([('production_id', '=', mo_obj.id), ('inputed_wo_daily', '=', False)], limit=1, order='no_urut asc')
+            # print("scan_is_start=========")
+            # print(wo_obj.name)
+            # if not wo_obj.date_planned_start:
+            #     wo_obj.sudo().button_start()
+            #     data = {
+            #         'is_start': True,
+            #         'workcenter_name': user_id.workcenter_id.name
+            #     }
+            #     return data
+            # else:
+            #     data = {
+            #         'is_start': False,
+            #         'workcenter_name': user_id.workcenter_id.name,
+            #         'production_qty': wo_obj.production_qty,
+            #         'actual_qty': wo_obj.actual_qty,
+            #         'remaining_qty': wo_obj.production_qty - wo_obj.actual_qty
+            #     }
+            #     return data
+            # wo_obj = self.env['mrp.workorder'].search([('production_id', '=', mo_obj.id), ('inputed_wo_daily', '=', False)], limit=1, order='no_urut asc')
+            query = f"""
+                select * from mrp_workorder where production_id = {mo_obj.id} and inputed_wo_daily = false order by name::INTEGER asc limit 1;
+            """
+            self._cr.execute(query)
+            wo_obj = self._cr.dictfetchall()
+            wo_id = self.env['mrp.workorder'].browse(wo_obj[0].get('id'))
+            if not wo_id.date_planned_start:
+                wo_id.sudo().button_start()
+                data = {
+                    'is_start': True,
+                    'workcenter_name': wo_id.workcenter_id.name
+                }
+                return data
+            else:
+                data = {
+                    'is_start': False,
+                    'workcenter_name': wo_id.workcenter_id.name,
+                    'production_qty': wo_id.production_qty,
+                    'actual_qty': wo_id.actual_qty,
+                    'remaining_qty': wo_id.production_qty - wo_id.actual_qty
+                }
+                return data
+        except Exception as e:
+            print("===========Error scan_is_start========")
+            print(e)
+            return False
 
     @api.model
     def input_wo_daily(self, mo_name, machine_id, qty, qty_rework, wo_daily_id):
@@ -56,26 +86,62 @@ class WorkorderDaily(models.Model):
             user_id = self.env.user
             mo_obj = self.env['mrp.production'].search([('name', '=', mo_name)])
             machine_obj = self.env['mrp.machine'].browse(machine_id)
-            if mo_name and user_id:
+            # if mo_name:
+            #     # wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)], limit=1, order='name asc')
+            #     wo_obj = self.env['mrp.workorder'].search([('production_id', '=', mo_obj.id), ('state', '=', 'progress')], limit=1, order='name asc')
+            #     print("input_wo_daily========")
+            #     print(wo_obj.name)
+            #     sdnflsdks
+            #     wo_obj.write({
+            #         'inputed_wo_daily': True,
+            #         'workorder_ids': [(0, 0, {
+            #             'date': fields.Date.today(),
+            #             'workcenter_id': user_id.workcenter_id.id,
+            #             'employee_id': user_id.employee_id.id,
+            #             'product_uom_qty': qty,
+            #             'qty_rework': qty_rework,
+            #             'wo_daily_id': wo_daily_id,
+            #             'machine_id': machine_obj.id,
+            #             'resource_calendar_ids': user_id.employee_id.resource_calendar_ids.id,
+            #             'is_rework': True if int(qty_rework) > 0 else False,
+            #         })]
+            #     })
+
+            #     if wo_obj.production_qty == wo_obj.actual_qty:
+            #         wo_obj.button_done()
+            # return True
+            if mo_name:
                 # wo_obj = self.env['mrp.workorder'].search([('workcenter_id', '=', user_id.workcenter_id.id), ('production_id', '=', mo_obj.id)], limit=1, order='name asc')
-                wo_obj = self.env['mrp.workorder'].search([('production_id', '=', mo_obj.id), ('state', 'in', ('progress'))], limit=1, order='name asc')
-                wo_obj.write({
+                # wo_obj = self.env['mrp.workorder'].search([('production_id', '=', mo_obj.id), ('state', '=', 'progress')], limit=1, order='name asc')
+                query = f"""
+                    select * from mrp_workorder where production_id = {mo_obj.id} and state = 'progress' order by name::INTEGER asc limit 1;
+                """
+                self._cr.execute(query)
+                wo_obj = self._cr.dictfetchall()
+                wo_id = self.env['mrp.workorder'].browse(wo_obj[0].get('id'))
+                # print("input_wo_daily========")
+                # print(wo_obj.name)
+                # sdnflsdks
+                wo_id.write({
+                    'inputed_wo_daily': True,
                     'workorder_ids': [(0, 0, {
                         'date': fields.Date.today(),
-                        'workcenter_id': user_id.workcenter_id.id,
-                        'employee_id': user_id.employee_id.id,
+                        'workcenter_id': wo_id.workcenter_id.id,
+                        # 'employee_id': user_id.employee_id.id,
                         'product_uom_qty': qty,
                         'qty_rework': qty_rework,
                         'wo_daily_id': wo_daily_id,
                         'machine_id': machine_obj.id,
-                        'resource_calendar_ids': user_id.employee_id.resource_calendar_ids.id,
+                        # 'resource_calendar_ids': user_id.employee_id.resource_calendar_ids.id,
                         'is_rework': True if int(qty_rework) > 0 else False,
                     })]
-                })
-                if wo_obj.production_qty == wo_obj.actual_qty:
-                    wo_obj.button_done()
+                })  
+                if wo_id.production_qty == wo_id.actual_qty:
+                    wo_id.button_done()
             return True
         except Exception as e:
+            print("===========Error input_wo_daily========")
+            print(e)
             return False
 
     @api.model
