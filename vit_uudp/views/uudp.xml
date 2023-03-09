@@ -265,7 +265,7 @@
                                         <field name="parent_coa_id" invisible="1"/>
                                         <field name="product_id" required="1" options='{"no_create": 1, "no_open": 1}' domain="[('can_be_expensed','=',True)]"/>
                                         <field name="description" />
-                                        <field name="exp_id" />
+                                        <!-- <field name="exp_id" /> -->
                                         <field name="qty" sum="Total Amount"/>
                                         <field name="uom" attrs="{'readonly': [('state','!=','draft')]}"/>
                                         <!-- <field name="company_id" invisible="1"/> -->
