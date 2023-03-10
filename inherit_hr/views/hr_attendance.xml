@@ -9,6 +9,7 @@
                 <xpath expr="//field[@name='worked_hours']" position="after">
                     <field name="late_counter" sum="1"/>
                     <field name="shift_3_counter"/>
+                    <field name="resource_caledar_ids" readonly="1"/>
                 </xpath>
             </field>
         </record>
