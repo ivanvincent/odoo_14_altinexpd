@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="mrp_type_form">
+            <field name="name">mrp.production.type.form</field>
+            <field name="model">mrp.production.type</field>
+            <field name="inherit_id" ref="mrp_request.mrp_production_type_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='finish']" position="after">
+                    <group name="foh" string="Foh">
+                        <field name="foh_cost" invisible="1"/>
+                        <field name="foh_journal_id"/>
+                        <field name="foh_account_id" invisible="1"/>
+                        <field name="location_mrp_id"/>
+                    </group>
+                    <group name="account" string="Account">
+                        <field name="bahan_baku_account_id"/>
+                        <field name="persediaan_account_id"/>
+                        <field name="wip_account_id"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
