@@ -38,7 +38,7 @@
                             <group string="Request Material">
                                 <field name="picking_type_request_material_id"/>
                             </group>
-                            <group string="Finish">
+                            <group string="Finish" name="finish">
                                 <field name="picking_type_finished_id"/>
                             </group>
                         </group>

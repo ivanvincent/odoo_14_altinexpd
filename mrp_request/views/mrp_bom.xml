@@ -8,6 +8,26 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='type']" position="after">
                     <field name="operation_template_id"/>
+                    <field name="tot_biaya"/>
+                    <field name="besar_waste"/>
+                    <field name="standard_price"/>
+                    <field name="raw_cost"/>
+                    <!-- <field name="total_price_var_cost"/>
+                    <field name="total_unit_cost"/> -->
+                </xpath>
+                <xpath expr="//page[@name='miscellaneous']" position="after">
+                    <page string="Variable Cost">
+                        <field name="cost_ids">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="amount"/>
+                                <field name="amount_tot"/>
+                                <field name="price_unit"/>
+                                <field name="amount_cost" sum="Total"/>
+                                <field name="keterangan"/>
+                            </tree>
+                        </field>
+                    </page>
                 </xpath>
             </field>
         </record>

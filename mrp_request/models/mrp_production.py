@@ -1,5 +1,5 @@
 from email.policy import default
-from odoo import models, fields, api, _
+from odoo import models, fields, api, _,SUPERUSER_ID
 from odoo.exceptions import UserError
 from datetime import datetime
 
@@ -47,7 +47,6 @@ class MrpProduction(models.Model):
             for workorder in line.workorder_ids:
                 workorder.unlink()
         
-       
     
     
     @api.onchange('type_id')
@@ -210,3 +209,13 @@ class MrpProduction(models.Model):
             production.picking_request_ids = [(4,picking.id) for picking in picking_ids] if picking_ids else False
             # production.inspect_ids         = [(4,inspect.id) for inspect in inspect_ids] if inspect_ids else False
             # production.inspected_qty         = sum(inspect_ids.mapped('panjang_jadi')) if inspect_ids else False
+
+    # def _read(self, fields):
+    #     # untuk kebutuhan view gantt planning production
+    #     res = super()._read(fields)
+    #     if self.env.context.get('display_product_and_color') and 'mesin_id' in self.env.context.get('group_by', []):
+    #         name_field = self._fields['name']
+    #         for record in self.with_user(SUPERUSER_ID):
+    #             # variant = record.product_id.product_template_attribute_value_ids._get_combination_name()
+    #             self.env.cache.set(record, name_field,record.name +' ' + record.product_id.name + ' ' + ' ' + record.sale_id.name + record.partner_id.name + ' ' + record.color_id.name)
+    #     return res
