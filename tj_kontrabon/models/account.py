@@ -70,3 +70,4 @@ class AccountInvoiceLine(models.Model):
 
     kb_id = fields.Many2one('kontrabon.order', 'Kontrabon', related='move_id.kontrabon_id')
     kb_account_debit_id = fields.Many2one('account.account', 'Kontrabon Account Debit', related='move_id.kontrabon_id.account_debit_id')
+    location_id = fields.Many2one('stock.location', string='Location')
