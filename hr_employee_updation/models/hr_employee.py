@@ -130,3 +130,4 @@ class HrEmployeePublic(models.Model):
     
     joining_date = fields.Date(string='Joining Date')
     id_expiry_date = fields.Integer(string='id_expiry_date')
+    passport_expiry_date = fields.Date(string='passport_expiry_date')
