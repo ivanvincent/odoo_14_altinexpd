@@ -129,3 +129,4 @@ class HrEmployeePublic(models.Model):
                   help="Personal mobile number of the employee")
     
     joining_date = fields.Date(string='Joining Date')
+    id_expiry_date = fields.Integer(string='id_expiry_date')
