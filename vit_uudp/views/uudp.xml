@@ -199,7 +199,8 @@
                                 <field name="employee_id" context="{'with_nik': True}" domain="employee_id_domain" attrs="{'readonly': [('state','!=','draft')]}" options='{"no_create": 1, "no_open": 1}' required="1"/>
                                 <field name="job_id" force_save="1" readonly="1" attrs="{'invisible': [('employee_id','=',False)], 'required': [('type','in',('reimberse','pengajuan'))]}" options='{"no_create": 1, "no_open": 1}'/>
                                 <field name="emp_barcode" force_save="1" readonly="1" attrs="{'invisible': [('employee_id','=',False)], 'required': [('type','in',('reimberse','pengajuan'))]}" options='{"no_create": 1, "no_open": 1}'/>
-                                <field name="department_id" force_save="1" readonly="1" attrs="{'invisible': [('employee_id','=',False)], 'required': [('type','in',('reimberse','pengajuan'))]}" options='{"no_create": 1, "no_open": 1}' />
+                                <field name="department_id" readonly="1" attrs="{'invisible': [('employee_id','=',False)]}" options='{"no_create": 1, "no_open": 1}' />
+                                <!-- <field name="department_id" readonly="1" attrs="{'invisible': [('employee_id','=',False)], 'required': [('type','in',('reimberse','pengajuan'))]}" options='{"no_create": 1, "no_open": 1}' /> -->
                                 <field name="credit_limit" attrs="{'invisible':[('employee_id', '=', False)]}"/>
                                 <field name="sisa_limit" attrs="{'invisible':[('employee_id', '=', False)]}"/>
                                 <field name="journal_entry_id" options='{"no_create": 1, "no_open": 1}' attrs="{'invisible': [('journal_entry_id','=',False)]}" groups="account.group_account_manager" readonly="1"/>
