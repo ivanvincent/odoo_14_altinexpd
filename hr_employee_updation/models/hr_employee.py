@@ -121,3 +121,9 @@ class EmployeeRelationInfo(models.Model):
     _name = 'hr.employee.relation'
 
     name = fields.Char(string="Relationship", help="Relationship with thw employee")
+
+class HrEmployeePublic(models.Model):
+    _inherit = 'hr.employee.public'
+
+    personal_mobile = fields.Char(string='Mobile',
+                  help="Personal mobile number of the employee")
