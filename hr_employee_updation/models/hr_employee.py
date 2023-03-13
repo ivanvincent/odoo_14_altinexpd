@@ -127,3 +127,5 @@ class HrEmployeePublic(models.Model):
 
     personal_mobile = fields.Char(string='Mobile',
                   help="Personal mobile number of the employee")
+    
+    joining_date = fields.Date(string='Joining Date')
