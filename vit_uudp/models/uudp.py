@@ -1799,12 +1799,12 @@ class uudp(models.Model):
 
                     
 
-    @api.onchange('employee_id')
-    def _get_department(self):
-        responsible = self.employee_id.id
-        if responsible:
-            # department = self.env['hr.employee'].search([('user_id', '=', responsible)], limit=1).department_id.id
-            self.department_id = self.employee_id.department_id.id
+    # @api.onchange('employee_id')
+    # def _get_department(self):
+    #     responsible = self.employee_id.id
+    #     if responsible:
+    #         # department = self.env['hr.employee'].search([('user_id', '=', responsible)], limit=1).department_id.id
+    #         self.department_id = self.employee_id.department_id.id
 
     def unlink(self):
         for data in self:
