@@ -37,12 +37,12 @@
                 </xpath>
 
                 <xpath expr="//button[@id='draft_confirm']" position="attributes">
-                    <attribute name="groups">inherit_purchase_order.group_purchase_approver</attribute>
+                    <attribute name="groups">inherit_purchase_order.group_purchase_approver,purchase.group_purchase_manager</attribute>
                 </xpath>
 
                 <xpath expr="//button[@name='button_unlock']" position="after">
-                    <button name="action_approve" string="Approve PBL" states="draft" type="object" groups="inherit_purchase_order.group_purchase_approver" />
-                    <button name="button_reject" string="Reject" style="background-color:red;" states="draft" type="object" class="btn-danger" groups="inherit_purchase_order.group_purchase_approver" />
+                    <button name="action_approve" string="Approve PBL" states="draft" type="object" groups="inherit_purchase_order.group_purchase_approver,purchase.group_purchase_manager" />
+                    <button name="button_reject" string="Reject" style="background-color:red;" states="draft" type="object" class="btn-danger" groups="inherit_purchase_order.group_purchase_approver,purchase.group_purchase_manager" />
                 </xpath>
 
                 <xpath expr="//button[@id='bid_confirm']" position="attributes">
