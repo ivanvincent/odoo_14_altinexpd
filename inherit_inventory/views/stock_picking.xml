@@ -21,7 +21,7 @@
                     <button name="stock_move_fat_action" type="object" string="SAT" width="0.1" role="img" title="Upload Image" class="oe_highlight" attrs="{'invisible':[('picking_type_id', '!=', 5)]}"/>
                 </xpath>
 
-                <xpath expr="//field[@name='move_ids_without_package']/tree//field[@name='product_id']" position="after">
+                <xpath expr="//field[@name='move_ids_without_package']/tree//field[@name='product_uom_qty']" position="before">
                     <field name="supplier_id"/>
                 </xpath>
 
