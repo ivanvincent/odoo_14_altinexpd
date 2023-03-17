@@ -10,7 +10,7 @@ class HrAttendance(models.Model):
     time_waiting_co = fields.Datetime(string='Waiting Check Out', compute='compute_time_waiting')
     late_counter = fields.Float(string='Employee Late Counter', compute='compute_late')
     shift_3_counter = fields.Float(string='Shift 3 Counter', compute='compute_shift_3_counter', store=True,)
-    resource_caledar_ids = fields.Many2one('resource.calendar', string='Working Hours')
+    resource_calendar_ids = fields.Many2one('resource.calendar', string='Working Hours')
 
     @api.depends('check_in', 'check_out')
     def compute_time_waiting(self):

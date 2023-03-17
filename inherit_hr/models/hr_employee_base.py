@@ -19,7 +19,7 @@ class HrEmployeeBase(models.AbstractModel):
             vals = {
                 'employee_id': self.id,
                 'check_in': action_date,
-                # 'resource_caledar_ids': self.resource_caledar_ids.id
+                'resource_calendar_ids': self.resource_calendar_ids.id
             }
             return self.env['hr.attendance'].create(vals)
         attendance = self.env['hr.attendance'].search([('employee_id', '=', self.id), ('check_out', '=', False)], limit=1)
