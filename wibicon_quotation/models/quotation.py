@@ -43,6 +43,9 @@ class Quotation(models.Model):
         'request.engineering', string='Engineering')
     shape = fields.Selection(
         [("oval", "Oval"), ("caplet", "Caplet")], string='Shape')
+    delivery_date = fields.Date(string='Delivery Time')
+    kd_bahan = fields.Char(string='Kode Bahan')
+
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids')
     def _compute_amount(self):

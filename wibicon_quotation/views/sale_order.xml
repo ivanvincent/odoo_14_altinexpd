@@ -8,6 +8,8 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='partner_id']" position="before">
                     <field name="quotation_id"/>
+                    <field name="delivery_date"/>
+                    <field name="kd_bahan"/>
                 </xpath>
             </field>
         </record>
