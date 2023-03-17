@@ -4,8 +4,9 @@ from odoo.exceptions import UserError
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    mrp_request_id = fields.Many2one('mrp.request', string='Mrp Request')
-    po_cust = fields.Char(string='Po Customer')
+    mrp_request_id  = fields.Many2one('mrp.request', string='Mrp Request')
+    po_cust         = fields.Char(string='Po Customer')
+    no_sample       = fields.Char(string='No Sample')
 
     def action_confirm(self):
         res = super(SaleOrder, self).action_confirm()
