@@ -17,8 +17,9 @@ class MakloonPlanning(models.Model):
     @api.model
     def _default_warehouse_id(self):
         company = self.env.user.company_id.id
-        warehouse_ids = self.env['stock.warehouse'].search([('company_id', '=', company)], limit=1)
-        return warehouse_ids
+        # warehouse_ids = self.env['stock.warehouse'].search([('company_id', '=', company)], limit=1)
+        warehouse_ids = self.env['stock.warehouse'].search([('name', '=', 'MAKLOON PO')], limit=1)
+        return warehouse_ids.id
 
 
 
