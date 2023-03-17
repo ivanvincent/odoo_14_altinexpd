@@ -35,6 +35,10 @@
                 <xpath expr="//notebook/page[@name='note']" position="inside">
                     <field name="operation_code" invisible="1"/>
                 </xpath>
+
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="display_product"/>
+                </xpath>
             </field>
         </record>
 

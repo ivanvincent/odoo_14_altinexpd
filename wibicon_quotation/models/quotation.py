@@ -1,6 +1,7 @@
 from email.policy import default
 from odoo import models, fields, api
 
+
 class Quotation(models.Model):
     _name = 'quotation'
 
@@ -11,26 +12,37 @@ class Quotation(models.Model):
     design_code_id = fields.Many2one('makloon.design', string='Design')
     image_binary = fields.Binary(string='Drawing', store=False,)
     line_ids = fields.One2many('quotation.line', 'quotation_id', 'Line')
-    state = fields.Selection([("draft","Draft"),("confirm","Confirm")], string='State', default='draft')
-    amount_tax = fields.Monetary(string='Taxes', currency_field='currency_id', compute='_compute_amount')
-    amount_untaxed = fields.Monetary(string='Amount Untaxed', currency_field='currency_id', compute='_compute_amount')
-    amount_total = fields.Monetary(string='Amount Total', currency_field='currency_id', compute='_compute_amount')
+    state = fields.Selection(
+        [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
+    amount_tax = fields.Monetary(
+        string='Taxes', currency_field='currency_id', compute='_compute_amount')
+    amount_untaxed = fields.Monetary(
+        string='Amount Untaxed', currency_field='currency_id', compute='_compute_amount')
+    amount_total = fields.Monetary(
+        string='Amount Total', currency_field='currency_id', compute='_compute_amount')
     company_id = fields.Many2one(
         'res.company', default=lambda self: self.env.company)
     currency_id = fields.Many2one(
         'res.currency', related='company_id.currency_id', store=True,)
     company_currency_id = fields.Many2one(related='company_id.currency_id', string='Company Currency',
-                                        readonly=True, store=True, help='Utility field to express amount currency')
-    payment_term_id = fields.Many2one('account.payment.term', string='Payment Term')
-    drawing_internal = fields.Binary(string='Drawing Internal', related='design_code_id.drawing_internal')
-    drawing_external = fields.Binary(string='Drawing External', related='design_code_id.drawing_external')
-    shape = fields.Selection([("caplet","Caplet"),("round","Round")], string='Shape')
+                                          readonly=True, store=True, help='Utility field to express amount currency')
+    payment_term_id = fields.Many2one(
+        'account.payment.term', string='Payment Term')
+    drawing_internal = fields.Binary(
+        string='Drawing Internal', related='design_code_id.drawing_internal')
+    drawing_external = fields.Binary(
+        string='Drawing External', related='design_code_id.drawing_external')
+    shape = fields.Selection(
+        [("caplet", "Caplet"), ("round", "Round")], string='Shape')
     size = fields.Many2one('size', string='Size')
     machine_id = fields.Many2one('machine', string='Machine')
     product_tmpl_ids = fields.Many2many('product.template',
-        string='Product Template'
-        )
-    
+                                        string='Product Template'
+                                        )
+    request_engineering_id = fields.Many2one(
+        'request.engineering', string='Engineering')
+    shape = fields.Selection(
+        [("oval", "Oval"), ("caplet", "Caplet")], string='Shape')
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids')
     def _compute_amount(self):
@@ -45,8 +57,6 @@ class Quotation(models.Model):
             rec.amount_untaxed = total_untax
             rec.amount_total = total_tax + total_untax
 
-
-
     @api.model
     def create(self, vals):
         sequence = self.env['ir.sequence'].next_by_code('quotation')
@@ -55,21 +65,34 @@ class Quotation(models.Model):
         return res
 
     def action_confirm(self):
+        seq = self.env['ir.sequence'].next_by_code('request.engineering')
+        # 'No Drawing', 'Ukuran Bahan'
+        material = ['Hob', 'Baut', 'Tonase', 'Sepi']
+        engineering = self.env['request.engineering'].create({
+            'name': seq,
+            # 'type': 'from_quotation',
+            'type_id': self.env['request.engineering.type'].search([('name', '=', 'Quotation')], limit=1).id,
+            'quotation_id': self.id,
+            'line_ids': [(0, 0, {'name': m}) for m in material]
+        })
+        self.request_engineering_id = engineering.id
         self.state = 'confirm'
-    
+
     def action_generate(self):
-        print("action_generate hihi")
         for product_tmpl in self.product_tmpl_ids:
-            machine_attr = self.env['product.template.attribute.line'].sudo().search([('product_tmpl_id','=',product_tmpl.id),('attribute_id.name','=', 'MACHINE')],limit=1)
-            size_attr = self.env['product.template.attribute.line'].sudo().search([('product_tmpl_id','=',product_tmpl.id),('attribute_id.name','=', 'SIZE')],limit=1)
+            machine_attr = self.env['product.template.attribute.line'].sudo().search(
+                [('product_tmpl_id', '=', product_tmpl.id), ('attribute_id.name', '=', 'MACHINE')], limit=1)
+            size_attr = self.env['product.template.attribute.line'].sudo().search(
+                [('product_tmpl_id', '=', product_tmpl.id), ('attribute_id.name', '=', 'SIZE')], limit=1)
             attribute_obj = self.env['product.attribute']
             value_obj = self.env['product.attribute.value']
-            attr_machine = attribute_obj.search([('name', '=', 'MACHINE')], limit=1).id
-            attr_size = attribute_obj.search([('name', '=', 'SIZE')], limit=1).id
+            attr_machine = attribute_obj.search(
+                [('name', '=', 'MACHINE')], limit=1).id
+            attr_size = attribute_obj.search(
+                [('name', '=', 'SIZE')], limit=1).id
 
-            print("attr_machine", attr_machine)
-            print("attr_size", attr_size)
-            machine_vals = value_obj.sudo().search([('name','=',self.machine_id.name), ('attribute_id', '=', attr_machine)],limit=1)
+            machine_vals = value_obj.sudo().search(
+                [('name', '=', self.machine_id.name), ('attribute_id', '=', attr_machine)], limit=1)
             if not machine_vals:
                 machine_vals = self.env['product.attribute.value'].create({
                     "attribute_id": attr_machine,
@@ -78,7 +101,7 @@ class Quotation(models.Model):
             if machine_attr:
                 machine_attr.sudo().write({
                     "attribute_id": attr_machine,
-                    "value_ids":[(4, machine_vals.id)],
+                    "value_ids": [(4, machine_vals.id)],
                 })
             else:
                 a = machine_attr.sudo().create({
@@ -86,45 +109,47 @@ class Quotation(models.Model):
                     'attribute_id': attr_machine,
                     'value_ids': [(6, 0, machine_vals.ids)]
                 })
-                print("aaaaaaaaa", a)
 
-            size_vals = value_obj.sudo().search([('name','=',self.size.name), ('attribute_id', '=', attr_size)],limit=1)
+            size_vals = value_obj.sudo().search(
+                [('name', '=', self.size.name), ('attribute_id', '=', attr_size)], limit=1)
             if not size_vals:
                 size_vals = self.env['product.attribute.value'].create({
                     "attribute_id": attr_size,
                     "name": self.size.name,
                 })
-            
+
             if size_attr:
                 size_attr.sudo().write({
                     "attribute_id": attr_size,
-                    "value_ids":[(4,size_vals.id)],
+                    "value_ids": [(4, size_vals.id)],
                 })
             else:
                 b = size_attr.sudo().create({
                     'product_tmpl_id': product_tmpl.id,
-                    'attribute_id': attr_size, #attribute design 
+                    'attribute_id': attr_size,  # attribute design
                     'value_ids': [(6, 0, [size_vals.id])]
                 })
-                print("bbbbbbbbbb", b)
 
         # for color in self.color_ids:
-            combination = self.env['product.template.attribute.value'].search([('product_tmpl_id','=',product_tmpl.id),('product_attribute_value_id','in',[machine_vals.id, size_vals.id])])
+            combination = self.env['product.template.attribute.value'].search(
+                [('product_tmpl_id', '=', product_tmpl.id), ('product_attribute_value_id', 'in', [machine_vals.id, size_vals.id])])
             # if not combination:
             variant = product_tmpl._get_variant_for_combination(combination)
             if not variant:
-                variant = product_tmpl._create_product_variant(combination, True)
+                variant = product_tmpl._create_product_variant(
+                    combination, True)
             # variant = self.product_id._get_variant_id_for_combination(combination)
             # if self.product_id._is_combination_possible(combination):
             #     print('s')
-            
+
             # [color.sudo().write({"variant_id":variant.id}) for color in self.design_id.line_ids.filtered(lambda x:x.color_id.id == color.id)]
             # variant.sudo().write({
             #         "design_id":self.design_id.id
             #     })
             # history = self.env['sale.product.history'].search([('product_id','=',variant.id),('partner_id','=',self.partner_id.id)],limit=1)
             if variant not in self.line_ids.mapped('product_id'):
-                self.line_ids = [(0,0,{"product_id":variant.id,"quantity": 1, "price_unit": 1, })]
+                self.line_ids = [
+                    (0, 0, {"product_id": variant.id, "quantity": 1, "price_unit": 1, })]
 
 
 class QuotationLine(models.Model):
@@ -140,11 +165,18 @@ class QuotationLine(models.Model):
     sub_total = fields.Float(string='Sub Total', compute='compute_sub_total')
     quotation_id = fields.Many2one('quotation', string='Quotation')
     treatment_id = fields.Many2one('treatment', string='Treatment')
-    product_ingredient_id = fields.Many2one('product.product', string='Ingredient')
+    product_ingredient_id = fields.Many2one(
+        'product.product', string='Ingredient')
     shape = fields.Char(string='Shape')
+    qty_available = fields.Float(
+        string='Qty Available', compute='_compute_qty_available')
 
-    @api.depends('quantity','price_unit')
+    @api.depends('quantity', 'price_unit')
     def compute_sub_total(self):
         for a in self:
             exclude = a.quantity * a.price_unit
             a.sub_total = exclude
+
+    def _compute_qty_available(self):
+        for rec in self:
+            rec.qty_available = 0

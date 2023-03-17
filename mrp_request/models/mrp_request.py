@@ -24,6 +24,8 @@ class ManufacturingRequest(models.Model):
     estimated_ids       = fields.One2many('mrp.production.estimated', 'request_id', string='Estimated')
     sale_id             = fields.Many2one('sale.order', string='Sale')
     partner_id          = fields.Many2one('res.partner', string='Customer', related='sale_id.partner_id')
+    request_engineering_id = fields.Many2one('request.engineering', string='Request Engineering')
+
     
     
     def check_validation(self):
@@ -129,8 +131,8 @@ class ManufacturingRequest(models.Model):
                 seq = self.env['ir.sequence'].browse(int(mor_sequence_id)).next_by_id()
                 self.name = seq
         self.state = 'confirm'
-
         # self.action_generate()
+        self.action_request_engineering()
         
         
     def action_generate(self):
@@ -194,8 +196,9 @@ class ManufacturingRequest(models.Model):
     def _prepare_bom(self, product_id, product_tmpl_id, operation_tmpl_id, fusion_project_id):
         bom_obj = self.env['mrp.bom'].search([('product_tmpl_id','=',product_tmpl_id.id),('operation_template_id', '=', operation_tmpl_id.id)],limit=1)
         bom_fusion = []
+        req_engineering_ids = [self.sale_id.quotation_id.request_engineering_id.picking_id.id, self.request_engineering_id.picking_id.id]
         if bom_obj:
-            bom_obj._get_operations()
+            bom_obj._get_operations(req_engineering_ids)
             # for b in fusion_project_id.detail_line_ids:
             #     bom_fusion.append((0, 0, {'product_id':b.product_id.id,'product_qty':1}))
             #     bom_obj.write({
@@ -210,7 +213,7 @@ class ManufacturingRequest(models.Model):
                 'type': 'normal',
                 'operation_template_id': operation_tmpl_id.id
             })
-            bom_obj._get_operations()
+            bom_obj._get_operations(req_engineering_ids)
             # for b in fusion_project_id.detail_line_ids:
             #     bom_fusion.append((0, 0, {'product_id':b.product_id.id,'product_qty':1}))
             # bom_obj.write({
@@ -255,6 +258,19 @@ class ManufacturingRequest(models.Model):
                 'request_date': fields.Date.today(),
                 'line_ids': line
             })
+    
+    def action_request_engineering(self):
+            seq = self.env['ir.sequence'].next_by_code('request.engineering')
+            material = ['Sekuel Punch', 'Sekuel Die', 'Mall Tip', 'Mall Siku', 'Mall Leher', 'Ring Die', 'Mall Honing', 'Mall Holder', 'Mall Cup Holder', 'Alat Bantu Pas Panjang']
+            engineering = self.env['request.engineering'].create({
+                'name': seq,
+                # 'type': 'from_quotation',
+                'type_id': self.env['request.engineering.type'].search([('name', '=', 'Mor')], limit=1).id,
+                'request_id': self.id,
+                'line_ids': [(0, 0, {'name': m}) for m in material]
+            })
+            self.request_engineering_id = engineering.id
+            self.state = 'confirm'
 
 
 class ManufacturingRequestLine(models.Model):

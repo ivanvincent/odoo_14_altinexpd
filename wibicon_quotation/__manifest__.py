@@ -1,7 +1,7 @@
 {
     'name': "Quotation",
     'version': '1.0',
-    'depends': ['base'],
+    'depends': ['base', 'stock', 'sale'],
     'author': "Wibicon, Yugi",
     'category': 'Category',
     'description': """
@@ -13,6 +13,9 @@
         'views/quotation.xml',
         'security/ir.model.access.csv',
         'views/sales_contract.xml',
+        'views/request_engineering.xml',
+        'views/stock_picking.xml',
+        'views/sale_order.xml',
     ],
     # data files containing optionally loaded demonstration data
 }

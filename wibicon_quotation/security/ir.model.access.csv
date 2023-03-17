@@ -1,4 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 user_quotation,quotation,model_quotation,base.group_system,1,1,1,1
 manager_quotation,quotation_line,model_quotation_line,base.group_system,1,1,1,1
-
+user_request_engineering,request_engineering,model_request_engineering,base.group_system,1,1,1,1
+user_request_engineering_line,request_engineering_line,model_request_engineering_line,base.group_system,1,1,1,1
+user_request_engineering_type,request_engineering_type,model_request_engineering_type,base.group_system,1,1,1,1

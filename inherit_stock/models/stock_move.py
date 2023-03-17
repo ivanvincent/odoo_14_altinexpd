@@ -15,6 +15,7 @@ class StockMove(models.Model):
     kd_keluar  = fields.Char(string='Kode Keluar')
     warna      = fields.Char(string='Warna') #sementara
     keterangan = fields.Char(string='Ket')
+    display_product = fields.Char(string='Display Product')
     
     
     

@@ -19,7 +19,7 @@ class MrpBom(models.Model):
     # total_unit_cost = fields.Float(compute='_compute_total', string='Total Unit Cost', store=False)
     
     @api.onchange('operation_template_id')
-    def _get_operations(self):
+    def _get_operations(self, picking_ids):
         operation_ids = []
         self.operation_ids = False
         for line in self.operation_template_id.line_ids:
@@ -28,8 +28,13 @@ class MrpBom(models.Model):
         # Get Component
         component_ids = []
         self.bom_line_ids = False
-        for c in self.operation_template_id.line_ids.parameter_ids.mrp_operation_template_line_parameter_tool_ids:
-            component_ids+= [(0,0,{'product_id':c.product_id.id,'product_qty':c.qty})]
+
+        # for c in self.operation_template_id.line_ids.parameter_ids.mrp_operation_template_line_parameter_tool_ids:
+        #     component_ids+= [(0,0,{'product_id':c.product_id.id,'product_qty':c.qty})]
+
+        for c in self.env['stock.picking'].browse(picking_ids).move_ids_without_package:
+            component_ids+= [(0,0,{'product_id':c.product_id.id,'product_qty':c.quantity_done})]
+
         self.bom_line_ids = component_ids
 
     def name_get(self):

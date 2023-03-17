@@ -19,3 +19,5 @@ from . import workorder_fat
 from . import setting_machine
 from . import sale_order
 from . import mrp_bom_cost
+from . import mrp_request
+from . import request_engineering
