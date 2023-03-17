@@ -22,7 +22,7 @@
                         <field name="makloon_order_id" />
                     </field>
                     <xpath expr="//field[@name='quantity_done']" position="after">
-                        <field name="roll"/>
+                        <field name="roll" string="Ikat"/>
                     </xpath>
 
                                           
