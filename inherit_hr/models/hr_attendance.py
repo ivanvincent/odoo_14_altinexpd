@@ -56,7 +56,7 @@ class HrAttendance(models.Model):
     def compute_shift_3_counter(self):
         for rec in self:
             checkin = datetime.strptime(rec.check_in.strftime('%Y-%m-%d %H:%M:%S'), "%Y-%m-%d %H:%M:%S") + timedelta(hours=7)
-            datetime_start = datetime.strptime(rec.check_in.strftime('%Y-%m-%d 23:00:00'), "%Y-%m-%d %H:%M:%S")
+            datetime_start = datetime.strptime(rec.check_in.strftime('%Y-%m-%d 21:30:00'), "%Y-%m-%d %H:%M:%S")
             datetime_end = datetime_start + timedelta(hours=2) 
             if checkin >= datetime_start and checkin <= datetime_end:
                 rec.shift_3_counter = 1
