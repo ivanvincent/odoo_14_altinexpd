@@ -190,19 +190,19 @@ class HrEmployeePublic(models.Model):
     jumlah_saudara = fields.Integer(string="Saudara")
     is_phl = fields.Boolean(string="Is PHL")
 
-    family_ids = fields.One2many(comodel_name="hr.employee.family", string="Family", inverse_name="employee_id")
-    education_ids = fields.One2many(comodel_name="hr.employee.education", string="Education", inverse_name="employee_id")
-    organization_ids = fields.One2many(comodel_name="hr.employee.organization", string="Organization", inverse_name="employee_id")
-    work_ids = fields.One2many(comodel_name="hr.employee.work", string="Work", inverse_name="employee_id")
-    reference_ids = fields.One2many(comodel_name="hr.employee.reference", string="Reference", inverse_name="employee_id")
-    guardian_ids = fields.One2many(comodel_name="hr.employee.guardian", string="Guardian", inverse_name="employee_id")
+    # family_ids = fields.One2many(comodel_name="hr.employee.family", string="Family", inverse_name="employee_id")
+    # education_ids = fields.One2many(comodel_name="hr.employee.education", string="Education", inverse_name="employee_id")
+    # organization_ids = fields.One2many(comodel_name="hr.employee.organization", string="Organization", inverse_name="employee_id")
+    # work_ids = fields.One2many(comodel_name="hr.employee.work", string="Work", inverse_name="employee_id")
+    # reference_ids = fields.One2many(comodel_name="hr.employee.reference", string="Reference", inverse_name="employee_id")
+    # guardian_ids = fields.One2many(comodel_name="hr.employee.guardian", string="Guardian", inverse_name="employee_id")
 
     get_picture = fields.Boolean(string="Get Picture", default=False)
 
     #field fungsional untuk kebutuhan report
     # contract_id = fields.Many2one(comodel_name="hr.contract", string="contract", compute="get_contract")
     contract_id = fields.Many2one(comodel_name="hr.contract", string="contract")
-    hr_employee_absence = fields.One2many('hr.attendance', 'employee_id', string='Employee absent')
+    # hr_employee_absence = fields.One2many('hr.attendance', 'employee_id', string='Employee absent')
     credit_limit      = fields.Float(string='Credit Limit')
     sisa_limit        = fields.Float(string='Sisa Limit',compute="_get_sisa_limit")
     reset_limit       = fields.Selection([("week","Week"),("month","Month"),("year","Year")], string='Reset Limit',default="month")
