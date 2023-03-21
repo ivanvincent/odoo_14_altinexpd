@@ -141,3 +141,4 @@ class HrEmployeePublic(models.Model):
     ], string='Employee Team')
     nama_alias = fields.Char(string='Nama Alias')
     nik_karyawan = fields.Char(string='NIK')
+    resource_calendar_ids = fields.Many2one('resource.calendar', 'Working Hours',)
