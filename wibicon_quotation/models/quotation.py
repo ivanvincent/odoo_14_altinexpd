@@ -172,6 +172,7 @@ class QuotationLine(models.Model):
     qty_available = fields.Float(
         string='Qty Available', compute='_compute_qty_available')
     kd_bahan = fields.Char(string='Kode Bahan')
+    lapisan = fields.Selection([("coating","Coating"),("plating","Plating")], string='Lapisan')
 
     @api.depends('quantity', 'price_unit')
     def compute_sub_total(self):
