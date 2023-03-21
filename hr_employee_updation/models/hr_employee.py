@@ -226,5 +226,5 @@ class HrEmployeePublic(models.Model):
                                    groups="om_om_hr_payroll.group_hr_payroll_user")
     birthday = fields.Date('Date of Birth', groups="base.group_user", help="Birthday")
     announcement_count = fields.Integer(compute='_announcement_count', string='# Announcements', help="Count of Announcement's")
-    slip_ids = fields.One2many('hr.payslip', 'employee_id', string='Payslips', readonly=True, help="payslip")
+    # slip_ids = fields.One2many('hr.payslip', 'employee_id', string='Payslips', readonly=True, help="payslip")
     payslip_count = fields.Integer(compute='_compute_payslip_count', string='Payslip Count')
