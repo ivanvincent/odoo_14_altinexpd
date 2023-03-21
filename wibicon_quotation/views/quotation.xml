@@ -48,6 +48,7 @@
                                         <field name="treatment_id"/>
                                         <field name="product_ingredient_id"/>
                                         <field name="kd_bahan"/>
+                                        <field name="lapisan"/>
                                         <field name="qty_available"/>
                                         <field name="quantity"/>
                                         <field name="price_unit"/>
