@@ -185,3 +185,5 @@ class HrEmployee(models.Model):
     resigned = fields.Boolean(string="Resigned", default=False, store=True,
                               help="If checked then employee has resigned")
     fired = fields.Boolean(string="Fired", default=False, store=True, help="If checked then employee has fired")
+    announcement_count = fields.Integer(compute='_announcement_count', string='# Announcements', help="Count of Announcement's")
+
