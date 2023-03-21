@@ -151,3 +151,80 @@ class HrEmployeePublic(models.Model):
     bpjs_ketenagakerjaan = fields.Char(string='Product name')
     berat_badan = fields.Integer(string='Quantity')
     anak_ke = fields.Char(string='Product name')
+    batch_recruitment  = fields.Integer(string="Batch Recruitment", readonly=True)
+    contract_type_id = fields.Many2one(related='contract_id.type_id', string='Contract')
+    shift_id         = fields.Many2one('hr.employee.shift', string='Shift')
+    golongan_id      = fields.Many2one('hr.employee.golongan', string='Golongan')
+    kelompok_id      = fields.Many2one('hr.employee.kelompok', string='Kelompok')
+    grop_id          = fields.Many2one('hr.employee.grop', string='Group')
+    barcode_date            = fields.Date("Date Barcode")
+    code                    = fields.Char(string="Barcode")
+    npwp                    = fields.Char(string="NPWP")
+    ptkp_id                 = fields.Many2one(comodel_name="hr.ptkp", string="PTKP Status")
+    nik                     = fields.Char(string="NIK")
+    bpjs_kesehatan          = fields.Char(string="BPJS Kesehatan", required=False)
+    bpjs_ketenagakerjaan 	= fields.Char(string="BPJS Ketenagakerjaan", required=False)
+    jurnal_id               = fields.Many2one('account.journal', string="Cara Bayar")
+    religion                = fields.Selection([('islam', 'Islam'), 
+                                                ('kristen', 'Kristen'), 
+                                                ('katolik', 'Katolik'), 
+                                                ('hindu', 'Hindu'),
+                                                ('budha', 'Budha'),
+                                                ('konghuchu', 'Konghuchu'),],string='Religion')
+
+    department_id           = fields.Many2one('hr.department', string='Department', required=False)
+    job_id                  = fields.Many2one('hr.job', string='Job Title', required=False)
+    identification_id       = fields.Char(string='Identification No', required=False, store=True)
+    job_level_id            = fields.Many2one('hr.job.level', string='Job Level')
+
+    tinggi_badan = fields.Integer(string="Tinggi Badan")
+    berat_badan = fields.Integer(string="Berat Badan")
+    kendaraan = fields.Selection([('mobil','Mobil'),('motor','Motor')], string="Kendaraan yang Dimiliki")
+    jenis_sim = fields.Selection([('a', 'A'), 
+                                  ('b', 'B'), 
+                                  ('b1', 'B1'),
+                                  ('b2', 'B2'),
+                                  ('b3', 'B3'),
+                                  ('c', 'C'),],string='Jenis SIM')
+    anak_ke = fields.Integer(string="Anak Ke")
+    jumlah_saudara = fields.Integer(string="Saudara")
+    is_phl = fields.Boolean(string="Is PHL")
+
+    family_ids = fields.One2many(comodel_name="hr.employee.family", string="Family", inverse_name="employee_id")
+    education_ids = fields.One2many(comodel_name="hr.employee.education", string="Education", inverse_name="employee_id")
+    organization_ids = fields.One2many(comodel_name="hr.employee.organization", string="Organization", inverse_name="employee_id")
+    work_ids = fields.One2many(comodel_name="hr.employee.work", string="Work", inverse_name="employee_id")
+    reference_ids = fields.One2many(comodel_name="hr.employee.reference", string="Reference", inverse_name="employee_id")
+    guardian_ids = fields.One2many(comodel_name="hr.employee.guardian", string="Guardian", inverse_name="employee_id")
+
+    get_picture = fields.Boolean(string="Get Picture", default=False)
+
+    #field fungsional untuk kebutuhan report
+    # contract_id = fields.Many2one(comodel_name="hr.contract", string="contract", compute="get_contract")
+    contract_id = fields.Many2one(comodel_name="hr.contract", string="contract")
+    hr_employee_absence = fields.One2many('hr.attendance', 'employee_id', string='Employee absent')
+    credit_limit      = fields.Float(string='Credit Limit')
+    sisa_limit        = fields.Float(string='Sisa Limit',compute="_get_sisa_limit")
+    reset_limit       = fields.Selection([("week","Week"),("month","Month"),("year","Year")], string='Reset Limit',default="month")
+    partner_id = fields.Many2one("res.partner", "Related Partner")
+    is_mkt = fields.Boolean('Is MKT')
+    code_mkt = fields.Char('MKT Code')
+    is_mekanik = fields.Boolean('Is Mekanik')
+    is_karu = fields.Boolean('Is Karu')
+    is_kasie = fields.Boolean('Is Kasie')
+    is_request = fields.Boolean('Is Request')
+
+    is_op_persiapan = fields.Boolean('Is Persiapan')
+    is_op_dyeing = fields.Boolean('Is OP Dyeing')
+    is_op_printing = fields.Boolean('Is OP Printing')
+    is_tracer = fields.Boolean('Is Tracer')
+    is_profer = fields.Boolean('Is Profer')
+    is_engraver = fields.Boolean('Is Engraver')
+    is_designer = fields.Boolean('Is Designer')
+    payslip_count = fields.Integer(compute='_compute_payslip_count', string='Payslip Count', groups="sh_hr_payroll.group_hr_payroll_user")
+    payslip_count = fields.Integer(compute='_compute_payslip_count', string='Payslip Count',
+                                   groups="om_om_hr_payroll.group_hr_payroll_user")
+    birthday = fields.Date('Date of Birth', groups="base.group_user", help="Birthday")
+    announcement_count = fields.Integer(compute='_announcement_count', string='# Announcements', help="Count of Announcement's")
+    slip_ids = fields.One2many('hr.payslip', 'employee_id', string='Payslips', readonly=True, help="payslip")
+    payslip_count = fields.Integer(compute='_compute_payslip_count', string='Payslip Count')
