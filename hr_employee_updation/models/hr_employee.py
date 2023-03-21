@@ -139,3 +139,4 @@ class HrEmployeePublic(models.Model):
         ('5', 'Staff Produksi Tidak Langsung'),
         ('6', 'Tim Netral Non-Shift'),
     ], string='Employee Team')
+    nama_alias = fields.Char(string='Nama Alias')
