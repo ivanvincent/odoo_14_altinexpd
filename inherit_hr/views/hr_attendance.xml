@@ -10,6 +10,9 @@
                     <field name="late_counter" sum="1"/>
                     <field name="shift_3_counter"/>
                     <field name="resource_calendar_ids" readonly="1"/>
+                    <field name="should_hour_from" widget="float_time"/>
+                    <field name="should_tolerance_in_hours" widget="float_time"/>
+                    <field name="should_hour_to" widget="float_time"/>
                 </xpath>
             </field>
         </record>
