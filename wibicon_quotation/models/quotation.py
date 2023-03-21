@@ -32,8 +32,6 @@ class Quotation(models.Model):
         string='Drawing Internal', related='design_code_id.drawing_internal')
     drawing_external = fields.Binary(
         string='Drawing External', related='design_code_id.drawing_external')
-    shape = fields.Selection(
-        [("caplet", "Caplet"), ("round", "Round")], string='Shape')
     size = fields.Many2one('size', string='Size')
     machine_id = fields.Many2one('machine', string='Machine')
     product_tmpl_ids = fields.Many2many('product.template',
@@ -42,9 +40,9 @@ class Quotation(models.Model):
     request_engineering_id = fields.Many2one(
         'request.engineering', string='Engineering')
     shape = fields.Selection(
-        [("oval", "Oval"), ("caplet", "Caplet")], string='Shape')
+        [("oval", "Oval"), ("caplet", "Caplet"), ("bulat", "Bulat")], string='Shape')
     delivery_date = fields.Date(string='Delivery Time')
-    kd_bahan = fields.Char(string='Kode Bahan')
+    kd_bahan = fields.Char(string='Nomor Sample')
 
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids')
@@ -173,6 +171,7 @@ class QuotationLine(models.Model):
     shape = fields.Char(string='Shape')
     qty_available = fields.Float(
         string='Qty Available', compute='_compute_qty_available')
+    kd_bahan = fields.Char(string='Kode Bahan')
 
     @api.depends('quantity', 'price_unit')
     def compute_sub_total(self):
