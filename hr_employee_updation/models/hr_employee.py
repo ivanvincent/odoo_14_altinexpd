@@ -131,3 +131,11 @@ class HrEmployeePublic(models.Model):
     joining_date = fields.Date(string='Joining Date')
     id_expiry_date = fields.Integer(string='id_expiry_date')
     passport_expiry_date = fields.Date(string='passport_expiry_date')
+    employee_team = fields.Selection([
+        ('1', 'Tim 1'),
+        ('2', 'Tim 2'),
+        ('3', 'Tim Netral'),
+        ('4', 'Staff Non-Produksi'),
+        ('5', 'Staff Produksi Tidak Langsung'),
+        ('6', 'Tim Netral Non-Shift'),
+    ], string='Employee Team')
