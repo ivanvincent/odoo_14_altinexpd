@@ -160,6 +160,14 @@ class HrPayslip(models.Model):
             'number_of_days': self.get_duration_time_off('Cuti Tahunan (2023)'),
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
+        
+        res.append({
+            'name':'Masuk Setengah Hari',
+            'sequence':100,
+            'code':'HALF',
+            'number_of_days': self.get_duration_time_off('Masuk Setengah Hari'),
+            'number_of_hours': 0.0,
+            'contract_id': self.contract_id.id})
 
         return res
 
@@ -231,7 +239,7 @@ class HrPayslip(models.Model):
             select count(*)
             from hr_attendance
             where employee_id = %s
-            and check_in between %s and %s and worked_hours >= 5
+            and check_in between %s and %s and worked_hours >= 6
         """
         cr = self.env.cr
         cr.execute(sql, (contracts.employee_id.id, date_from, date_to))
@@ -244,7 +252,7 @@ class HrPayslip(models.Model):
             select count(id)::float / 2 as late
             from hr_attendance
             where employee_id = %s
-            and check_in between %s and %s and worked_hours < 5
+            and check_in between %s and %s and worked_hours < 6
         """
         cr = self.env.cr
         cr.execute(sql, (contracts.employee_id.id, date_from, date_to))
