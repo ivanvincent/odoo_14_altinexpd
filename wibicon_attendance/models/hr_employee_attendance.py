@@ -230,6 +230,13 @@ class HrPayslip(models.Model):
             'code':'POTPPH',
             'amount': 0.0,
             'contract_id': self.contract_id.id})
+        
+        res.append({
+            'name':'Kurang Lebih Bayar',
+            'sequence':90,
+            'code':'KLB',
+            'amount': 0.0,
+            'contract_id': self.contract_id.id})
 
         return res
 
