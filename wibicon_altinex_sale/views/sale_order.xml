@@ -13,8 +13,13 @@
                 <xpath expr="//field[@name='payment_term_id']" position="after">
                     <field name="po_cust" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                     <field name="no_sample"/>
-                    <!-- <field name="mrp_request_id" attrs="{'invisible':[('mrp_request_id', '=', False)]}"/> -->
+                    <field name="note_so"/>
+                    <field name="no_dqc"/>
+                    <field name="up_kpd"/>
                 </xpath>
+                <!-- <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="up_kpd"/>
+                </xpath> -->
             </field>
         </record>
     </data>
