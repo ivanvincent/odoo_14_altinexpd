@@ -1,5 +1,5 @@
 from odoo import api, fields, models, _
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta, date, time
 from dateutil.relativedelta import relativedelta
 import dateutil.parser
 import pandas_access as mdb
@@ -83,7 +83,7 @@ class HrPayslip(models.Model):
         res = super(HrPayslip, self).get_worked_day_lines(contracts,date_from,date_to)        
         
         presense = self.get_presense(contracts, date_from, date_to)
-        presense_under_5_hour = self.get_presense_late(contracts, date_from, date_to)
+        presense_under_6_hour = self.get_presense_late(contracts, date_from, date_to)
 
         late = self.get_late(date_from,date_to)
 
@@ -93,7 +93,7 @@ class HrPayslip(models.Model):
             'name':'Kehadiran',
             'sequence':10,
             'code':'PRES',
-            'number_of_days': presense + presense_under_5_hour,
+            'number_of_days': presense + presense_under_6_hour,
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
 
@@ -234,7 +234,12 @@ class HrPayslip(models.Model):
         return res
 
     def get_presense(self, contracts, date_from, date_to):
-        
+        date_f = date_from
+        time_f = time(00,00,00)
+        date_t = date_to
+        time_t = time(23,59,59)
+        combined_datetime_from = datetime.combine(date_f,time_f)
+        combined_datetime_to = datetime.combine(date_t,time_t)
         sql = """
             select count(*)
             from hr_attendance
@@ -242,12 +247,17 @@ class HrPayslip(models.Model):
             and check_in between %s and %s and worked_hours >= 6
         """
         cr = self.env.cr
-        cr.execute(sql, (contracts.employee_id.id, date_from, date_to))
+        cr.execute(sql, (contracts.employee_id.id, combined_datetime_from, combined_datetime_to))
         res = cr.fetchone()
         return res[0]
 
     def get_presense_late(self, contracts, date_from, date_to):
-        
+        date_f = date_from
+        time_f = time(00,00,00)
+        date_t = date_to
+        time_t = time(23,59,59)
+        combined_datetime_from = datetime.combine(date_f,time_f)
+        combined_datetime_to = datetime.combine(date_t,time_t)
         sql = """
             select count(id)::float / 2 as late
             from hr_attendance
@@ -255,7 +265,7 @@ class HrPayslip(models.Model):
             and check_in between %s and %s and worked_hours < 6
         """
         cr = self.env.cr
-        cr.execute(sql, (contracts.employee_id.id, date_from, date_to))
+        cr.execute(sql, (contracts.employee_id.id, combined_datetime_from, combined_datetime_to))
         res = cr.fetchone()
         return res[0]
 
