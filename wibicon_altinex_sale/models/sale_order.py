@@ -9,7 +9,7 @@ class SaleOrder(models.Model):
     no_sample       = fields.Char(string='No Sample')
     up_kpd          = fields.Char(string='Up')
     note_so         = fields.Char(string='Note')
-    no_dqc          = fields.Boolean(related='partner_id.no_dqc', string='Status DQC')
+    # no_dqc          = fields.Boolean(related='partner_id.no_dqc', string='Status DQC')
     # demantional_quality_control
 
     def action_confirm(self):

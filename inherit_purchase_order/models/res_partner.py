@@ -8,7 +8,7 @@ class ResPartner(models.Model):
     supplier_code   = fields.Char(string='Supplier Code')
     attn            = fields.Char(string='ATTN')
     fax             = fields.Char(string='Fax')
-    no_dqc          = fields.Boolean(string='Status DQC')
+    # no_dqc          = fields.Boolean(string='Status DQC')
 
     def _compute_total_product(self):
         purchase_order_line_obj = self.env['purchase.order.line'].search([('partner_id', '=', self.id)]).mapped('product_id.id')
