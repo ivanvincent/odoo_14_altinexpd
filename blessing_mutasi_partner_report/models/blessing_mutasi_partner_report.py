@@ -587,6 +587,7 @@ class BlessingMutasiPartnerReport(models.Model):
                 ('date', '<=', self.end_date),
                 ('move_id.state', 'in', filters),
                 ('partner_id', '=', partner_id),
+                ('account_id.internal_type', '=', self.account_mutasi), 
                 # ('partner_id.status_customer', 'in', self.filter_status_customer()),
             ])
 
