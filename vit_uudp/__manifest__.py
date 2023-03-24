@@ -39,7 +39,7 @@
                 "product",
                 # "hr_expense",
                 "do_head_office",
-                "inherit_purchase_order"
+                # "inherit_purchase_order"
                 ],
     "data":[
         "security/group.xml",
