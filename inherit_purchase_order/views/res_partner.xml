@@ -19,7 +19,7 @@
                     <field name="fax"/>
                 </xpath>
                 <xpath expr="//field[@name='vat']" position="after">
-                    <!-- <field name="no_dqc"/> -->
+                    <field name="no_dqc"/>
                 </xpath>
             </field>
         </record>
