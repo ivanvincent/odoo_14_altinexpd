@@ -6,6 +6,11 @@
             <field name="model">hr.attendance</field>
             <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
             <field name="arch" type="xml">
+                <xpath expr="/tree" position="inside">
+                    <header>
+                        <button string="Refresh Data" name="action_refresh_data" type="object" class="oe_highlight" />
+                    </header>
+                </xpath>
                 <xpath expr="//field[@name='worked_hours']" position="after">
                     <field name="late_counter" sum="1"/>
                     <field name="shift_3_counter"/>
