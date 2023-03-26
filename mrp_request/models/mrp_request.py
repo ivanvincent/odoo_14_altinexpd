@@ -25,6 +25,11 @@ class ManufacturingRequest(models.Model):
     sale_id             = fields.Many2one('sale.order', string='Sale')
     partner_id          = fields.Many2one('res.partner', string='Customer', related='sale_id.partner_id')
     request_engineering_id = fields.Many2one('request.engineering', string='Request Engineering')
+    delivery_date       = fields.Date(related='sale_id.delivery_date', string='Delivery Date')
+    due_date_produksi   = fields.Date(string='Due Date Produksi',)
+    no_sample           = fields.Char(related='sale_id.no_sample', string='No Sample')
+    note_so             = fields.Char(related='sale_id.note_so' , string='Note')
+    kd_bahan            = fields.Char(related='sale_id.kd_bahan' , string='Kode Bahan')
 
     
     
