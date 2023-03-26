@@ -14,16 +14,20 @@ class HrEmployeeBase(models.AbstractModel):
         self.ensure_one()
         action_date = fields.Datetime.now()
         attendance_checked_out = self.env['hr.attendance'].search([('employee_id', '=', self.id), ('check_out', '!=', False)], limit=1)
-        self.check_out_waiting_time(attendance_checked_out, action_date)
+        # self.check_out_waiting_time(attendance_checked_out, action_date)
         if self.attendance_state != 'checked_in':
-            vals = {
-                'employee_id': self.id,
-                'check_in': action_date,
-                'resource_calendar_ids': self.resource_calendar_ids.id
-            }
-            return self.env['hr.attendance'].create(vals)
+            if(attendance_checked_out):
+                self.check_in_once_per_day(attendance_checked_out,action_date)
+            else:
+                vals = {
+                    'employee_id': self.id,
+                    'check_in': action_date,
+                    'resource_calendar_ids': self.resource_calendar_ids.id
+                }
+                return self.env['hr.attendance'].create(vals)
+        
         attendance = self.env['hr.attendance'].search([('employee_id', '=', self.id), ('check_out', '=', False)], limit=1)
-        self.check_waiting_time(attendance, action_date)
+        # self.check_waiting_time(attendance, action_date)
         if attendance:
             attendance.check_out = action_date
         else:
@@ -40,3 +44,10 @@ class HrEmployeeBase(models.AbstractModel):
         if attendance.time_waiting_co:
             if date_now <= attendance.time_waiting_co:
                 raise exceptions.UserError(_('Thank you, you have already checked out before'))
+            
+    def check_in_once_per_day(self,attendance,date_now):
+        previousCheckInDate = attendance.check_in.date()
+        todayCheckInDate = date_now.date()
+        if previousCheckInDate == todayCheckInDate:
+            raise UserError('Check In hanya bisa 1x')
+                
