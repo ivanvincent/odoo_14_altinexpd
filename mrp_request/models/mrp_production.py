@@ -27,7 +27,11 @@ class MrpProduction(models.Model):
     picking_finished_id = fields.Many2one('stock.picking', string='Picking Finished')
     picking_request_ids      = fields.Many2many('stock.picking', string='Picking Request',compute="_compute_picking_request")
     picking_request_count    = fields.Integer( string='Picking Request Amount',compute="_compute_picking_request")
-    wo_altinex = fields.Char(string='Wo Altinex')
+    wo_altinex          = fields.Char(string='Wo Altinex')
+    due_date_produksi   = fields.Date(related='request_id.due_date_produksi' , string='Due Date Produksi')
+    no_sample           = fields.Char(related='request_id.no_sample', string='No Sample')
+    note_so             = fields.Char(related='request_id.note_so', string='Note')
+    kd_bahan            = fields.Char(related='request_id.kd_bahan', string='Kode Bahan')
     
     
     def action_split_workorder(self):
