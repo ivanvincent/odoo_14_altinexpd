@@ -84,7 +84,7 @@
                                 <field name="request_date"/>
                                 <field name="sale_id"/>
                                 <field name="partner_id"/>
-                                <field name="request_engineering_id" attrs="{'invisible':[('request_engineering_id', '=', False)]}"/>
+                                <field name="request_engineering_id" attrs="{'invisible':[('request_engineering_id', '=', False)]}" context="{'form_view_ref': 'wibicon_quotation.request_engineering_mor_form'}"/>
                             </group>
                             <group>
                                 <field name="user_id" options="{'no_open': True, 'no_create': True}"/>

@@ -20,13 +20,63 @@
                             <field name="no_drawing" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="uk_bahan" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="picking_id" attrs="{'invisible':[('picking_id', '=', False)]}"/>
+
                         </group>
                         <notebook>
                             <page name="detail" string="Detail">
                                 <field name="line_ids" attrs="{'readonly': [('state', '!=', 'draft')]}">
                                     <tree editable="bottom">
-                                        <field name="name"/>
+                                        <!-- <field name="name"/> -->
                                         <field name="product_id" required="1"/>
+                                        <field name="product_hob_id" />
+                                        <field name="qty_available_hob"/>
+                                        <field name="product_baut_id" />
+                                        <field name="product_tonase_id" />
+                                        <field name="product_sepi_id" />
+                                        <field name="picking_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="request_engineering_mor_form" model="ir.ui.view">
+            <field name="name">request.engineering.form</field>
+            <field name="model">request.engineering</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button name="action_approve" type="object" string="Approve" class="oe_highlight" states="draft"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="quotation_id" readonly="1"/>
+                            <field name="type_id" readonly="1"/>
+                            <field name="no_drawing" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="uk_bahan" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="picking_id" attrs="{'invisible':[('picking_id', '=', False)]}"/>
+                        </group>
+                        <notebook>
+                            <page name="detail" string="Detail">
+                                <field name="line_ids" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                    <tree editable="bottom">
+                                        <!-- <field name="name"/> -->
+                                        <field name="product_id" required="1"/>
+                                        <field name="product_seweul_punch_id" />
+                                        <field name="product_seweul_die_id" />
+                                        <field name="product_mall_tip_id" />
+                                        <field name="product_mall_siku_id" />
+                                        <field name="product_mall_die_id" />
+                                        <field name="product_mall_honing_id" />
+                                        <field name="product_mall_holder_id" />
+                                        <field name="product_mall_cup_holder_id" />
+                                        <field name="product_alat_bantu_id"/>
+                                        <field name="picking_id"/>
                                     </tree>
                                 </field>
                             </page>

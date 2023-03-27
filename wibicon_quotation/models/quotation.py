@@ -38,7 +38,7 @@ class Quotation(models.Model):
                                         string='Product Template'
                                         )
     request_engineering_id = fields.Many2one(
-        'request.engineering', string='Engineering')
+        'request.engineering', string='Engineering', copy=False)
     shape = fields.Selection(
         [("oval", "Oval"), ("caplet", "Caplet"), ("bulat", "Bulat")], string='Shape')
     delivery_date = fields.Date(string='Delivery Time')
@@ -74,7 +74,7 @@ class Quotation(models.Model):
             # 'type': 'from_quotation',
             'type_id': self.env['request.engineering.type'].search([('name', '=', 'Quotation')], limit=1).id,
             'quotation_id': self.id,
-            'line_ids': [(0, 0, {'name': m}) for m in material]
+            'line_ids': [(0, 0, {'product_id': d.product_id.id}) for d in self.line_ids]
         })
         self.request_engineering_id = engineering.id
         self.state = 'confirm'

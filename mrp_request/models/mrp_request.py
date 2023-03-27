@@ -111,7 +111,7 @@ class ManufacturingRequest(models.Model):
                     production_id._onchange_move_finished()
                     production_id._onchange_workorder_ids()
                     # line.production_ids = [(4,production_id.id)]
-                    self._request_material(production_id)
+                    # self._request_material(production_id)
                 self.state = 'done'
         # action = self.env.ref('mrp_request.make_order_wizard_action').read()[0]
         # return action
@@ -196,7 +196,11 @@ class ManufacturingRequest(models.Model):
     def _prepare_bom(self, product_id, product_tmpl_id, operation_tmpl_id, fusion_project_id):
         bom_obj = self.env['mrp.bom'].search([('product_tmpl_id','=',product_tmpl_id.id),('operation_template_id', '=', operation_tmpl_id.id)],limit=1)
         bom_fusion = []
-        req_engineering_ids = [self.sale_id.quotation_id.request_engineering_id.picking_id.id, self.request_engineering_id.picking_id.id]
+        # req_engineering_ids = [self.sale_id.quotation_id.request_engineering_id.picking_id.id, self.request_engineering_id.picking_id.id]
+        print("product_id", product_id.id)
+        # nlfksdls
+        req_engineering_ids = [self.sale_id.quotation_id.request_engineering_id.line_ids.filtered(lambda x: x.product_id.id == product_id.id).picking_id.id,
+                               self.request_engineering_id.line_ids.filtered(lambda x: x.product_id.id == product_id.id).picking_id.id]
         if bom_obj:
             bom_obj._get_operations(req_engineering_ids)
             # for b in fusion_project_id.detail_line_ids:
@@ -261,13 +265,13 @@ class ManufacturingRequest(models.Model):
     
     def action_request_engineering(self):
             seq = self.env['ir.sequence'].next_by_code('request.engineering')
-            material = ['Sekuel Punch', 'Sekuel Die', 'Mall Tip', 'Mall Siku', 'Mall Leher', 'Ring Die', 'Mall Honing', 'Mall Holder', 'Mall Cup Holder', 'Alat Bantu Pas Panjang']
+            # material = ['Sekuel Punch', 'Sekuel Die', 'Mall Tip', 'Mall Siku', 'Mall Leher', 'Ring Die', 'Mall Honing', 'Mall Holder', 'Mall Cup Holder', 'Alat Bantu Pas Panjang']
             engineering = self.env['request.engineering'].create({
                 'name': seq,
                 # 'type': 'from_quotation',
                 'type_id': self.env['request.engineering.type'].search([('name', '=', 'Mor')], limit=1).id,
                 'request_id': self.id,
-                'line_ids': [(0, 0, {'name': m}) for m in material]
+                'line_ids': [(0, 0, {'product_id': m.product_id.id}) for m in self.line_ids]
             })
             self.request_engineering_id = engineering.id
             self.state = 'confirm'
