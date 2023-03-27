@@ -162,10 +162,10 @@ class HrPayslip(models.Model):
             'contract_id': self.contract_id.id})
         
         res.append({
-            'name':'Masuk Setengah Hari',
+            'name':'Kendala Kehadiran',
             'sequence':100,
-            'code':'HALF',
-            'number_of_days': self.get_duration_time_off('Masuk Setengah Hari'),
+            'code':'KKH',
+            'number_of_days': 0.0,
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
 

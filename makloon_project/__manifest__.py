@@ -7,7 +7,7 @@
     'category': 'Manufacturing',
     'sequence': 50,
     'summary': '3rd Party Textile Production',
-    'depends': ['mrp_textile'],
+    'depends': ['mrp_textile','inherit_purchase_order'],
     "author"	: "Jumeldi Panca Putra",
     'description': """
 Makloon Project

@@ -88,6 +88,10 @@
                             </group>
                             <group>
                                 <field name="user_id" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="delivery_date"/>
+                                <field name="due_date_produksi"/>
+                                <field name="no_sample"/>
+                                <field name="note_so"/>
                             </group>
                         </group>
 

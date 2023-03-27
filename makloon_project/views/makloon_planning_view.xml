@@ -120,7 +120,7 @@
                             <field name="mako_count"  invisible="1"/>
                         </group>
                         <group>
-                            <field name="desc" required="1"/>
+                            <field name="desc"/>
                         </group>
 
 
