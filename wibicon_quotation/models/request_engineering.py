@@ -221,9 +221,38 @@ class RequestEngineeringLine(models.Model):
     product_mall_holder_id = fields.Many2one('product.product', string='Mall Holder')
     product_mall_cup_holder_id = fields.Many2one('product.product', string='Mall Cup Holder')
     product_alat_bantu_id = fields.Many2one('product.product', string='Alat Bantu')
+    program_id = fields.Many2one('program', string='Program')
+    workcenter_ids = fields.One2many('engineering.workcenter', 'request_line_id', 'Line')
+
+    def action_open_workcenter(self):
+        self.ensure_one()
+        workcenter_obj = self.env['mrp.workcenter'].search([('is_default_in_engneering', '=', True)])
+        if not self.workcenter_ids:
+            self.write({
+                'workcenter_ids' : [(0, 0, {'workcenter_id': w.id}) for w in workcenter_obj]
+            })
+        action = self.env.ref('wibicon_quotation.request_engineering_line_action').read()[0]
+        action['name'] = '%s - %s' % (self.product_id.name, 'Workcenter')
+        action['display_name'] = '%s - %s' % (self.product_id.name, 'Workcenter')
+        action['res_id'] = self.id
+        return action
 
 class RequestEngineeringType(models.Model):
     _name = 'request.engineering.type'
 
     name = fields.Char(string='Name')
     picking_type_id = fields.Many2one('stock.picking.type', string='Picking Type')
+
+class EngineeringWorkcenter(models.Model):
+    _name = 'engineering.workcenter'
+
+    sequence      = fields.Integer(string='No',compute="_get_sequence")
+    workcenter_id = fields.Many2one('mrp.workcenter', string='Workcenter')
+    date = fields.Date(string='Date')
+    request_line_id = fields.Many2one('request.engineering.line', 'Engineering Line')
+
+    def _get_sequence(self):
+        seq = 0
+        for line in self:
+            seq +=1
+            line.sequence = seq

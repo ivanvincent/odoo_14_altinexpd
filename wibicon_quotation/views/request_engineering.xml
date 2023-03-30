@@ -76,7 +76,9 @@
                                         <field name="product_mall_holder_id" />
                                         <field name="product_mall_cup_holder_id" />
                                         <field name="product_alat_bantu_id"/>
-                                        <field name="picking_id"/>
+                                        <field name="program_id"/>
+                                        <button name="action_open_workcenter" type="object" string="Workcenter" class="oe_highlight"/>
+                                        <field name="picking_id" readonly="1"/>
                                     </tree>
                                 </field>
                             </page>
@@ -84,6 +86,31 @@
                     </sheet>
                 </form>
             </field>
+        </record>
+
+        <record id="request_engineering_line_workcenter_form" model="ir.ui.view">
+            <field name="name">request.engineering.line.workcenter.form</field>
+            <field name="model">request.engineering.line</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <field name="workcenter_ids">
+                            <tree editable="bottom">
+                                <field name="sequence"/>
+                                <field name="workcenter_id"/>
+                                <field name="date"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="request_engineering_line_action" model="ir.actions.act_window">
+            <field name="name">Workcenter</field>
+            <field name="res_model">request.engineering.line</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
         </record>
 
         <record id="request_engineering_tree" model="ir.ui.view">

@@ -15,7 +15,7 @@ class SaleOrder(models.Model):
         if qtn:
             self.partner_id = qtn.partner_id
             self.design_id = qtn.design_code_id.id
-            self.payment_term_id = qtn.payment_term_id.id
+            self.payment_term_id =  qtn.payment_term_id.id
             self.order_line = False
             self.delivery_date = qtn.delivery_date
             self.kd_bahan = qtn.kd_bahan
@@ -32,3 +32,4 @@ class SaleOrder(models.Model):
                         # 'contract_line_id'  : line.id,
                     }))
             self.order_line = order_lines
+            self.payment_term_id =  qtn.payment_term_id.id
