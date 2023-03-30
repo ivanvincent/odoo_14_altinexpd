@@ -49,3 +49,4 @@ access_treatment,treatment,model_treatment,base.group_system,1,1,1,1
 access_makloon_design_line,makloon_design_line,model_makloon_design_line,base.group_system,1,1,1,1
 access_size,size,model_size,base.group_system,1,1,1,1
 access_machine,machine,model_machine,base.group_system,1,1,1,1
+access_program,program,model_program,base.group_system,1,1,1,1

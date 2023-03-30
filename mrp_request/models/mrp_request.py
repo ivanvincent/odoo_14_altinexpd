@@ -206,8 +206,9 @@ class ManufacturingRequest(models.Model):
         # nlfksdls
         req_engineering_ids = [self.sale_id.quotation_id.request_engineering_id.line_ids.filtered(lambda x: x.product_id.id == product_id.id).picking_id.id,
                                self.request_engineering_id.line_ids.filtered(lambda x: x.product_id.id == product_id.id).picking_id.id]
+        workcenter_engineering = self.request_engineering_id.line_ids.filtered(lambda x: x.product_id.id == product_id.id)
         if bom_obj:
-            bom_obj._get_operations(req_engineering_ids)
+            bom_obj._get_operations(req_engineering_ids, workcenter_engineering)
             # for b in fusion_project_id.detail_line_ids:
             #     bom_fusion.append((0, 0, {'product_id':b.product_id.id,'product_qty':1}))
             #     bom_obj.write({
@@ -222,7 +223,7 @@ class ManufacturingRequest(models.Model):
                 'type': 'normal',
                 'operation_template_id': operation_tmpl_id.id
             })
-            bom_obj._get_operations(req_engineering_ids)
+            bom_obj._get_operations(req_engineering_ids, workcenter_engineering)
             # for b in fusion_project_id.detail_line_ids:
             #     bom_fusion.append((0, 0, {'product_id':b.product_id.id,'product_qty':1}))
             # bom_obj.write({
