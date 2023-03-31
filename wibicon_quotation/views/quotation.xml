@@ -21,24 +21,24 @@
                         </div>
                         <group>
                             <group>
-                                <field name="partner_id"/>
-                                <field name="date"/>
-                                <field name="design_code_id"/>
-                                <field name="image_binary" widget='image' class='oe_avatar'/>
+                                <field name="partner_id" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="date" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="design_code_id" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="image_binary" widget='image' class='oe_avatar' attrs="{'readonly':[('state','=','confirm')]}" />
                             </group>
                             <group>
-                                <field name="size" required="1"/>
-                                <field name="shape" required="1"/>
-                                <field name="machine_id" required="1"/>
-                                <field name="payment_term_id"/>
-                                <field name="product_tmpl_ids" widget="many2many_tags"/>
+                                <field name="size" required="1" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="shape" required="1" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="payment_term_id" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="product_tmpl_ids" widget="many2many_tags" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="request_engineering_id" readonly="1" attrs="{'invisible':[('request_engineering_id', '=', False)]}" context="{'form_view_ref': 'wibicon_quotation.request_engineering_form'}"/>
-                                <field name="kd_bahan"/>
+                                <field name="kd_bahan" attrs="{'readonly':[('state','=','confirm')]}" />
                             </group>
                         </group>
                         <notebook>
                             <page name="Details" string="Details">
-                                <field name="line_ids">
+                                <field name="line_ids" attrs="{'readonly':[('state','=','confirm')]}" >
                                     <tree editable="bottom">
                                         <field name="product_id"/>
                                         <field name="embos"/>
