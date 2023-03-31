@@ -41,7 +41,7 @@
                         <div style="margin-top: 5px;">
                             <center>
                                 <img t-attf-src="data:image/*;base64,{{o.image_1920}}" width="175px" height="260px"  style="padding-top: 2rem; aspect-ratio: 4 / 6;"/>
-                                <img alt="Barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', quote_plus(o.barcode or ''), 680, 90)" style="width:85%;height:6rem; padding-top: 2rem;"/>
+                                <img alt="Barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', quote_plus(o.barcode or ''), 1000, 90)" style="width:85%;height:6rem; padding-top: 2rem;"/>
                             </center>
                         </div>
                         <div>
