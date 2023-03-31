@@ -17,8 +17,6 @@
                             <field name="name"/>
                             <field name="quotation_id" readonly="1"/>
                             <field name="type_id" readonly="1"/>
-                            <field name="no_drawing" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                            <field name="uk_bahan" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="picking_id" attrs="{'invisible':[('picking_id', '=', False)]}"/>
 
                         </group>
@@ -31,8 +29,11 @@
                                         <field name="product_hob_id" />
                                         <field name="qty_available_hob"/>
                                         <field name="product_baut_id" />
-                                        <field name="product_tonase_id" />
+                                        <!-- <field name="product_tonase_id" /> -->
+                                        <field name="tonase_id" />
                                         <field name="product_sepi_id" />
+                                        <field name="no_drawing" />
+                                        <field name="uk_bahan" />
                                         <field name="picking_id"/>
                                     </tree>
                                 </field>
@@ -57,8 +58,6 @@
                             <field name="name"/>
                             <field name="quotation_id" readonly="1"/>
                             <field name="type_id" readonly="1"/>
-                            <field name="no_drawing" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                            <field name="uk_bahan" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="picking_id" attrs="{'invisible':[('picking_id', '=', False)]}"/>
                         </group>
                         <notebook>
@@ -121,8 +120,6 @@
                     <field name="name"/>
                     <field name="quotation_id"/>
                     <field name="type_id"/>
-                    <field name="no_drawing"/>
-                    <field name="uk_bahan"/>
                     <field name="picking_id"/>
                     <field name="state"/>
                 </tree>

@@ -85,12 +85,18 @@ class Quotation(models.Model):
                 [('product_tmpl_id', '=', product_tmpl.id), ('attribute_id.name', '=', 'MACHINE')], limit=1)
             size_attr = self.env['product.template.attribute.line'].sudo().search(
                 [('product_tmpl_id', '=', product_tmpl.id), ('attribute_id.name', '=', 'SIZE')], limit=1)
+            shape_attr = self.env['product.template.attribute.line'].sudo().search(
+                [('product_tmpl_id', '=', product_tmpl.id), ('attribute_id.name', '=', 'SHAPE')], limit=1)
+
+
             attribute_obj = self.env['product.attribute']
             value_obj = self.env['product.attribute.value']
             attr_machine = attribute_obj.search(
                 [('name', '=', 'MACHINE')], limit=1).id
             attr_size = attribute_obj.search(
                 [('name', '=', 'SIZE')], limit=1).id
+            attr_shape = attribute_obj.search(
+                [('name', '=', 'SHAPE')], limit=1).id
 
             machine_vals = value_obj.sudo().search(
                 [('name', '=', self.machine_id.name), ('attribute_id', '=', attr_machine)], limit=1)
@@ -131,9 +137,29 @@ class Quotation(models.Model):
                     'value_ids': [(6, 0, [size_vals.id])]
                 })
 
+            shape_vals = value_obj.sudo().search(
+                [('name', '=', self.shape), ('attribute_id', '=', attr_shape)], limit=1)
+            if not shape_vals:
+                shape_vals = self.env['product.attribute.value'].create({
+                    "attribute_id": attr_shape,
+                    "name": self.shape,
+                })
+
+            if shape_attr:
+                shape_attr.sudo().write({
+                    "attribute_id": attr_shape,
+                    "value_ids": [(4, shape_vals.id)],
+                })
+            else:
+                b = shape_attr.sudo().create({
+                    'product_tmpl_id': product_tmpl.id,
+                    'attribute_id': attr_shape,  # attribute design
+                    'value_ids': [(6, 0, [shape_vals.id])]
+                })
+
         # for color in self.color_ids:
             combination = self.env['product.template.attribute.value'].search(
-                [('product_tmpl_id', '=', product_tmpl.id), ('product_attribute_value_id', 'in', [machine_vals.id, size_vals.id])])
+                [('product_tmpl_id', '=', product_tmpl.id), ('product_attribute_value_id', 'in', [machine_vals.id, size_vals.id, shape_vals.id])])
             # if not combination:
             variant = product_tmpl._get_variant_for_combination(combination)
             if not variant:

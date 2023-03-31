@@ -12,7 +12,7 @@
     'maintainer': 'Sangkuriang',
     'support': 'denihida1216@gmail.com',
     'website': '',
-    'depends': ['fi_sale_sharon'],
+    'depends': ['fi_sale_sharon', 'vit_uudp'],
     'demo': [],
     'data': [
         'security/ir.model.access.csv',

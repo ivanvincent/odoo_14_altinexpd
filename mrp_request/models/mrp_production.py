@@ -31,7 +31,6 @@ class MrpProduction(models.Model):
     due_date_produksi   = fields.Date(related='request_id.due_date_produksi' , string='Due Date Produksi')
     no_sample           = fields.Char(related='request_id.no_sample', string='No Sample')
     note_so             = fields.Char(related='request_id.note_so', string='Note')
-    kd_bahan            = fields.Char(related='request_id.kd_bahan', string='Kode Bahan')
     
     
     def action_split_workorder(self):

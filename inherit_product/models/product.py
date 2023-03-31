@@ -132,8 +132,9 @@ class Product(models.Model):
             if record.categ_id.name == 'Finished Goods':
                 machine = record.product_template_attribute_value_ids.filtered(lambda x: x.attribute_id.name == 'MACHINE').name
                 size = record.product_template_attribute_value_ids.filtered(lambda x: x.attribute_id.name == 'SIZE').name
+                shape = record.product_template_attribute_value_ids.filtered(lambda x: x.attribute_id.name == 'SHAPE').name
                 # variant = record.product_id.product_template_attribute_value_ids._get_combination_name() or ''
-                variant = ' (%s, %s)' % (machine, size)
+                variant = ' (%s, %s, %s)' % (machine, size, shape)
                 res.append((record.id, record.name + variant))
         return res
     

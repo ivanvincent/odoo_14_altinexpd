@@ -8,8 +8,6 @@ class RequestEngineering(models.Model):
     line_ids = fields.One2many('request.engineering.line', 'request_engineering_id', 'Line')
     # type = fields.Selection([("from_quotation","Quotation"),("from_wo","Mor")], string='Type')
     type_id = fields.Many2one('request.engineering.type', string='Type')
-    no_drawing = fields.Char(string='No. Drawing')
-    uk_bahan = fields.Char(string='Ukuran Bahan')
     picking_id = fields.Many2one('stock.picking', string='Picking')
     quotation_id = fields.Many2one('quotation', string='Quotation')
 
@@ -207,8 +205,11 @@ class RequestEngineeringLine(models.Model):
     product_hob_id = fields.Many2one('product.product', string='Hob')
     qty_available_hob = fields.Float(string='Qty Available Hob')
     product_baut_id = fields.Many2one('product.product', string='Baut')
-    product_tonase_id = fields.Many2one('product.product', string='Tonase')
+    # product_tonase_id = fields.Many2one('product.product', string='Tonase')
+    tonase_id = fields.Many2one('tonase', string='Tonase')
     product_sepi_id = fields.Many2one('product.product', string='Sepi')
+    no_drawing = fields.Char(string='No. Drawing')
+    uk_bahan = fields.Char(string='Ukuran Bahan')
 
     #From MOR
     product_seweul_punch_id = fields.Many2one('product.product', string='Seweul Punch')

@@ -6,7 +6,7 @@
     'version': '1.0',
     'category': 'Makloon',
     'author'	: "Angkringan.com",
-    'depends': ['sale','product','stock','purchase','mrp_textile','makloon_project','almega_stock'],
+    'depends': ['sale','product','stock','purchase','mrp_textile','makloon_project','almega_stock', 'inherit_purchase_order'],
     'description': """
 Features
 ==========================

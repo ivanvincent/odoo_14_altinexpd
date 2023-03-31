@@ -6,7 +6,6 @@ class SaleOrder(models.Model):
 
     quotation_id = fields.Many2one('quotation', string='Quotation')
     delivery_date = fields.Date(string='Delivery Time')
-    kd_bahan = fields.Char(string='Kode Bahan')
 
     @api.onchange('quotation_id')
     def onchange_quotation_id(self):
@@ -18,7 +17,7 @@ class SaleOrder(models.Model):
             self.payment_term_id =  qtn.payment_term_id.id
             self.order_line = False
             self.delivery_date = qtn.delivery_date
-            self.kd_bahan = qtn.kd_bahan
+            
             order_lines = []
             for line in qtn.line_ids:
                 order_lines.append((0, 0, {

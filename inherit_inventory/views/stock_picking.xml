@@ -65,6 +65,11 @@
                     <field name="location_dest_id" options="{'no_open': True, 'no_create': True}" groups="stock.group_stock_multi_locations" attrs="{'invisible': [('picking_type_code', '=', 'outgoing')]}"/>
                 </xpath> -->
 
+                <xpath expr="//page[@name='note']" position="replace">
+                    <page string="Berita Acara" name="note">
+                        <field name="note" string="Note" placeholder="Add an internal note that will be printed on the Picking Operations sheet"/>
+                    </page>
+                </xpath>
                 
             </field>
         </record>

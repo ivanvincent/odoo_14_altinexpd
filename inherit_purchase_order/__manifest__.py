@@ -1,7 +1,7 @@
 {
     'name': "Inherit Purchase",
     'version': '1.0',
-    'depends': ['base', 'purchase', 'vit_uudp'],
+    'depends': ['base', 'purchase'],
     'author': "Wibicon",
     'category': 'Category',
     'description': """

@@ -13,3 +13,4 @@ from . import treatment
 from . import size
 from . import machine
 from . import program
+from . import tonase

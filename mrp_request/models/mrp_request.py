@@ -29,7 +29,7 @@ class ManufacturingRequest(models.Model):
     due_date_produksi   = fields.Date(string='Due Date Produksi',)
     no_sample           = fields.Char(related='sale_id.no_sample', string='No Sample')
     note_so             = fields.Char(related='sale_id.note_so' , string='Note')
-    kd_bahan            = fields.Char(related='sale_id.kd_bahan' , string='Kode Bahan')
+    team                = fields.Selection([("1","1"),("2","2"),("3","3")], string='Team')
 
     
     
@@ -317,7 +317,6 @@ class ManufacturingRequestLine(models.Model):
     display_type     = fields.Selection([
         ('line_section', "Section"),
         ('line_note', "Note")], default=False, help="Technical field for UX purpose.")
-    team = fields.Selection([("1","1"),("2","2"),("3","3")], string='Team')
     sale_line_id = fields.Many2one('sale.order.line', string='Sale Order Line')
     design_id = fields.Many2one('makloon.design', string='Design')
     operation_template_id = fields.Many2one('mrp.operation.template', string='Operation Template')
@@ -325,12 +324,15 @@ class ManufacturingRequestLine(models.Model):
     related='sale_line_id.treatment_id'
     )
     qty_produce = fields.Float(string='Qty Produce')
-    shape = fields.Selection([("caplet","Caplet"),("round","Round")], string='Shape', related='sale_line_id.shape')
     fusion_project_id = fields.Many2one('fusion.project', string='Fussion Project')
     qty_so = fields.Float(string='Qty Order', related='sale_line_id.product_uom_qty', store=True,)
+    
     quantity_remaining = fields.Float(string='Quantity Remaining', related='sale_line_id.quantity_remaining')
-#     product_orig_id_domain = fields.Char(
-#     compute="_compute_product_id_domain",
+    product_hob_id = fields.Many2one('product.product', string='Hob', compute="_compute_product_hob_id")
+#     product_orig_id_domain = fields.Char
+#     compute="_compute
+# quotation = rec.request_id.sale_id.quotation_id.request_engineering_id.line_ids.filtered(lambda x:x.product_id.id == rec.product_id.id)
+# rec.product_hob_id = ,
 #     readonly=True,
 #     store=False,
 # )
@@ -394,7 +396,11 @@ class ManufacturingRequestLine(models.Model):
             domain += [('categ_id','in', literal_eval(product_category_ids))]
         return domain
     
-    
+    @api.depends('request_id.sale_id')
+    def _compute_product_hob_id(self):
+        for rec in self:
+            engineering_line = rec.request_id.sale_id.quotation_id.request_engineering_id.line_ids.filtered(lambda x:x.product_id.id == rec.product_id.id)
+            rec.product_hob_id = engineering_line.product_hob_id.id
 
 class ManufacturingRequestLineProduct(models.Model):
     _name = 'mrp.request.line.product'
