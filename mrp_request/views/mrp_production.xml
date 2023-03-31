@@ -55,7 +55,7 @@
                     <field name="due_date_produksi"/>
                     <field name="no_sample"/>
                     <field name="note_so"/>
-                    <field name="kd_bahan"/>
+                    <!-- <field name="kd_bahan"/> -->
                 </xpath>
             </field>
         </record>
