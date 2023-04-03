@@ -7,9 +7,9 @@ class SaleOrder(models.Model):
     mrp_request_id  = fields.Many2one('mrp.request', string='Mrp Request')
     po_cust         = fields.Char(string='Po Customer')
     no_sample       = fields.Char(string='No Sample')
-    up_kpd          = fields.Char(string='Up')
+    up_kpd          = fields.Char(string='Untuk Kepada')
     note_so         = fields.Char(string='Note')
-    # no_dqc          = fields.Boolean(related='partner_id.no_dqc', string='Status DQC')
+    no_dqc          = fields.Boolean(related='partner_id.no_dqc', string='Status DQC')
     # demantional_quality_control
 
     def action_confirm(self):
