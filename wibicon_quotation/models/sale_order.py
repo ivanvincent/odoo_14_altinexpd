@@ -17,6 +17,7 @@ class SaleOrder(models.Model):
             self.payment_term_id =  qtn.payment_term_id.id
             self.order_line = False
             self.delivery_date = qtn.delivery_date
+            self.no_sample = qtn.no_sample
             
             order_lines = []
             for line in qtn.line_ids:
@@ -27,7 +28,7 @@ class SaleOrder(models.Model):
                         'name'              : line.product_id.name,
                         'product_uom'       : line.product_id.uom_id.id,
                         'state'             : 'draft',
-                        'treatment_id'      : line.treatment_id.id
+                        'treatment_id'      : line.treatment_id.id,
                         # 'contract_line_id'  : line.id,
                     }))
             self.order_line = order_lines
