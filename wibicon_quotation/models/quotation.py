@@ -25,7 +25,7 @@ class Quotation(models.Model):
     currency_id = fields.Many2one(
         'res.currency', related='company_id.currency_id', store=True,)
     company_currency_id = fields.Many2one(related='company_id.currency_id', string='Company Currency',
-                                          readonly=True, store=True, help='Utility field to express amount currency')
+                                        readonly=True, store=True, help='Utility field to express amount currency')
     payment_term_id = fields.Many2one(
         'account.payment.term', string='Payment Term')
     drawing_internal = fields.Binary(
@@ -42,7 +42,8 @@ class Quotation(models.Model):
     shape = fields.Selection(
         [("oval", "Oval"), ("caplet", "Caplet"), ("bulat", "Bulat")], string='Shape')
     delivery_date = fields.Date(string='Delivery Time')
-    kd_bahan = fields.Char(string='Nomor Sample')
+    # kd_bahan = fields.Char(string='Nomor Sample')
+    no_sample = fields.Char(string='No Sample')
 
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids')
