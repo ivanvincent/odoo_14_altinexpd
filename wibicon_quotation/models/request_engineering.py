@@ -22,7 +22,7 @@ class RequestEngineering(models.Model):
                     location_dest_id = type.picking_type_id.default_location_dest_id.id
                     hob = line.product_hob_id
                     baut = line.product_baut_id
-                    tonase = line.product_tonase_id
+                    # tonase = line.tonase_id.id
                     sepi = line.product_sepi_id
                     if hob:
                         move_line.append((0,0, {
@@ -44,16 +44,16 @@ class RequestEngineering(models.Model):
                             'location_id'     : location_id,
                             'location_dest_id': location_dest_id,
                         }))
-                    if tonase:
-                        move_line.append((0,0, {
-                            'type_material'   : line.name,
-                            'name'            : tonase.name,
-                            'product_id'      : tonase.id,
-                            'product_uom_qty' : 1,
-                            'product_uom'     : baut.uom_id.id,
-                            'location_id'     : location_id,
-                            'location_dest_id': location_dest_id,
-                        }))
+                    # if tonase:
+                    #     move_line.append((0,0, {
+                    #         'type_material'   : line.name,
+                    #         'name'            : tonase.name,
+                    #         'product_id'      : tonase.id,
+                    #         'product_uom_qty' : 1,
+                    #         'product_uom'     : baut.uom_id.id,
+                    #         'location_id'     : location_id,
+                    #         'location_dest_id': location_dest_id,
+                    #     }))
                     if sepi:
                         move_line.append((0,0, {
                             'type_material'   : line.name,
@@ -208,6 +208,7 @@ class RequestEngineeringLine(models.Model):
     # product_tonase_id = fields.Many2one('product.product', string='Tonase')
     tonase_id = fields.Many2one('tonase', string='Tonase')
     product_sepi_id = fields.Many2one('product.product', string='Sepi')
+    qty_available_sepi = fields.Float(string='Avb Sepi')
     no_drawing = fields.Char(string='No. Drawing')
     uk_bahan = fields.Char(string='Ukuran Bahan')
 
