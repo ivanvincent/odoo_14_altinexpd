@@ -33,7 +33,7 @@
                                 <field name="payment_term_id" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="product_tmpl_ids" widget="many2many_tags" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="request_engineering_id" readonly="1" attrs="{'invisible':[('request_engineering_id', '=', False)]}" context="{'form_view_ref': 'wibicon_quotation.request_engineering_form'}"/>
-                                <field name="kd_bahan" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="no_sample" attrs="{'readonly':[('state','=','confirm')]}" />
                             </group>
                         </group>
                         <notebook>
