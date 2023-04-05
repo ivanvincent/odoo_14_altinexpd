@@ -95,19 +95,21 @@ class ManufacturingRequest(models.Model):
                 bom_id = self._prepare_bom(line.product_id, line.product_id.product_tmpl_id, line.operation_template_id, line.fusion_project_id)
                 picking_type_id = self.env['stock.picking.type'].sudo().browse(picking_type_id)
                 production_id = self.env['mrp.production'].create({
-                    'product_id':line.product_id.id,
-                    'type_id':line.type_id.id,
-                    'product_uom_id':line.product_id.uom_id.id,
-                    'product_qty': line.qty_produce,
-                    'mrp_qty_produksi':line.qty_produce,
-                    'bom_id': bom_id.id,
+                    'product_id'        :line.product_id.id,
+                    'type_id'           :line.type_id.id,
+                    'product_uom_id'    :line.product_id.uom_id.id,
+                    'product_qty'       : line.qty_produce,
+                    'mrp_qty_produksi'  :line.qty_produce,
+                    'kd_bahan'          : line.kd_bahan,
+                    'lapisan'           : line.lapisan,
+                    'bom_id'            : bom_id.id,
                     # 'satuan_id':line.satuan_id.id,
-                    'picking_type_id': picking_type_id.id,
-                    'origin':self.name,
-                    'location_src_id': picking_type_id.default_location_src_id.id,
-                    'location_dest_id':picking_type_id.default_location_dest_id.id,
+                    'picking_type_id'   : picking_type_id.id,
+                    'origin'            :self.name,
+                    'location_src_id'   : picking_type_id.default_location_src_id.id,
+                    'location_dest_id'  :picking_type_id.default_location_dest_id.id,
                     'date_planned_start':line.request_id.request_date,
-                    'request_id':self.id,
+                    'request_id'        :self.id,
                 })
                 
                 if production_id:
@@ -260,9 +262,11 @@ class ManufacturingRequest(models.Model):
             line = []
             for l in self.sale_id.order_line:
                 line.append((0, 0, {
-                    'product_id': l.product_id.id,
-                    'qty_produce': l.quantity_remaining,
-                    'sale_line_id': l.id,
+                    'product_id'    : l.product_id.id,
+                    'qty_produce'   : l.quantity_remaining,
+                    'sale_line_id'  : l.id,
+                    'kd_bahan'      : l.kd_bahan,
+                    'lapisan'       : l.lapisan,
                 }))
             self.write({
                 'request_date': fields.Date.today(),
@@ -329,6 +333,9 @@ class ManufacturingRequestLine(models.Model):
     
     quantity_remaining = fields.Float(string='Quantity Remaining', related='sale_line_id.quantity_remaining')
     product_hob_id = fields.Many2one('product.product', string='Hob', compute="_compute_product_hob_id")
+
+    kd_bahan        = fields.Char('Kode Bahan')
+    lapisan         = fields.Selection([("coating","Coating"),("plating","Plating")], string='Lapisan')
 #     product_orig_id_domain = fields.Char
 #     compute="_compute
 # quotation = rec.request_id.sale_id.quotation_id.request_engineering_id.line_ids.filtered(lambda x:x.product_id.id == rec.product_id.id)
