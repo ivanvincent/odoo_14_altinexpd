@@ -204,6 +204,7 @@ class RequestEngineeringLine(models.Model):
     product_id = fields.Many2one('product.product', string='Value')
     product_hob_id = fields.Many2one('product.product', string='Hob')
     qty_available_hob = fields.Float(string='Qty Available Hob')
+    qty_available_sepi = fields.Float(string='Qty Available Sepi')
     product_baut_id = fields.Many2one('product.product', string='Baut')
     # product_tonase_id = fields.Many2one('product.product', string='Tonase')
     tonase_id = fields.Many2one('tonase', string='Tonase')
