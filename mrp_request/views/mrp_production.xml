@@ -52,6 +52,8 @@
                 </xpath>
                 <xpath expr="//field[@name='user_id']" position="after">
                     <field name="wo_altinex"/>
+                    <field name="kd_bahan"/>
+                    <field name="lapisan"/>
                     <field name="due_date_produksi"/>
                     <field name="no_sample"/>
                     <field name="note_so"/>
