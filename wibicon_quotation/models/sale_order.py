@@ -29,7 +29,6 @@ class SaleOrder(models.Model):
                         'product_uom'       : line.product_id.uom_id.id,
                         'state'             : 'draft',
                         'treatment_id'      : line.treatment_id.id,
-                        'treatment_id'      : line.treatment_id.id,
                         'kd_bahan'          : line.kd_bahan,
                         'lapisan'           : line.lapisan,
                         'tax_id'            : line.tax_ids,

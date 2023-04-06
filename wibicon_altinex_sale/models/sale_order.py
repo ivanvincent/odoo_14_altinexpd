@@ -22,9 +22,11 @@ class SaleOrder(models.Model):
         line = []
         for l in self.order_line:
             line.append((0, 0, {
-                'product_id': l.product_id.id,
-                'qty_produce': l.quantity_remaining,
-                'sale_line_id': l.id,
+                'product_id'    : l.product_id.id,
+                'qty_produce'   : l.quantity_remaining,
+                'sale_line_id'  : l.id,
+                'kd_bahan'      : l.kd_bahan,
+                'lapisan'       : l.lapisan,
             }))
         mrp_request = self.env['mrp.request'].create({
             'request_date': fields.Date.today(),
