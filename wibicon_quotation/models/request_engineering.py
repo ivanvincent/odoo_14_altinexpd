@@ -228,11 +228,11 @@ class RequestEngineeringLine(models.Model):
 
     def action_open_workcenter(self):
         self.ensure_one()
-        workcenter_obj = self.env['mrp.workcenter'].search([('is_default_in_engneering', '=', True)])
-        if not self.workcenter_ids:
-            self.write({
-                'workcenter_ids' : [(0, 0, {'workcenter_id': w.id}) for w in workcenter_obj]
-            })
+        # workcenter_obj = self.env['mrp.workcenter'].search([('is_default_in_engneering', '=', True)])
+        # if not self.workcenter_ids:
+        #     self.write({
+        #         'workcenter_ids' : [(0, 0, {'workcenter_id': w.id}) for w in workcenter_obj]
+        #     })
         action = self.env.ref('wibicon_quotation.request_engineering_line_action').read()[0]
         action['name'] = '%s - %s' % (self.product_id.name, 'Workcenter')
         action['display_name'] = '%s - %s' % (self.product_id.name, 'Workcenter')

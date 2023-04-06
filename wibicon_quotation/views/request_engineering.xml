@@ -32,6 +32,7 @@
                                         <!-- <field name="product_tonase_id" /> -->
                                         <field name="tonase_id" />
                                         <field name="product_sepi_id" />
+                                        <field name="qty_available_sepi"/>
                                         <field name="no_drawing" />
                                         <field name="uk_bahan" />
                                         <field name="picking_id"/>
@@ -76,7 +77,7 @@
                                         <field name="product_mall_cup_holder_id" />
                                         <field name="product_alat_bantu_id"/>
                                         <field name="program_id"/>
-                                        <button name="action_open_workcenter" type="object" string="Workcenter" class="oe_highlight"/>
+                                        <button name="action_open_workcenter" type="object" string="Program" class="oe_highlight"/>
                                         <field name="picking_id" readonly="1"/>
                                     </tree>
                                 </field>

@@ -40,7 +40,7 @@ class Quotation(models.Model):
     request_engineering_id = fields.Many2one(
         'request.engineering', string='Engineering', copy=False)
     shape = fields.Selection(
-        [("oval", "Oval"), ("caplet", "Caplet"), ("bulat", "Bulat")], string='Shape')
+        [("Oval", "Oval"), ("Kaplet", "Kaplet"), ("Bulat", "Bulat")], string='Shape')
     delivery_date = fields.Date(string='Delivery Time')
     # kd_bahan = fields.Char(string='Nomor Sample')
     no_sample = fields.Char(string='No Sample')

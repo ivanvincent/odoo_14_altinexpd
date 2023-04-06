@@ -131,6 +131,10 @@ class ManufacturingRequest(models.Model):
             
             
     def action_confirm(self):
+        for detail in self.line_ids:
+            if not detail.operation_template_id:
+                raise UserError(_('Silahkan isi terlebih dahulu operation template untuk product %s') % (detail.product_id.name))
+
         if self.name == 'New':
             ir_config        = self.env['ir.config_parameter'].sudo()
             mor_sequence_id  = ir_config.get_param('mor_sequence_id')
@@ -281,7 +285,12 @@ class ManufacturingRequest(models.Model):
                 # 'type': 'from_quotation',
                 'type_id': self.env['request.engineering.type'].search([('name', '=', 'Mor')], limit=1).id,
                 'request_id': self.id,
-                'line_ids': [(0, 0, {'product_id': m.product_id.id}) for m in self.line_ids]
+                'line_ids': [(0, 0, 
+                                {
+                                    'product_id': m.product_id.id,
+                                    'workcenter_ids': [(0, 0, {'workcenter_id': w.workcenter_id.id}) for w in m.operation_template_id.line_ids]
+                                }
+                            ) for m in self.line_ids]
             })
             self.request_engineering_id = engineering.id
             self.state = 'confirm'

@@ -130,7 +130,7 @@
                                         <field name="product_uom_id"/>
                                         <field name="treatment_id"/>
                                         <field name="sale_line_id" invisible="1"/>
-                                        <!-- <field name="operation_template_id" required="0" /> -->
+                                        <field name="operation_template_id" required="1" />
                                         <field name="fusion_project_id"/>
                                     </tree>
                                 </field>

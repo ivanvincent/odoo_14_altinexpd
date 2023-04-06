@@ -65,7 +65,12 @@ class MrpProduction(models.Model):
         
         if not vals.get('name') and vals.get('type_id'):
             type_id = self.env['mrp.production.type'].browse(vals.get('type_id'))
-            vals['name'] = type_id.sequence_id.next_by_id()
+            product_id = self.env['product.product'].browse(vals.get('product_id'))
+            years = datetime.now().strftime('%Y')
+            shape = str(product_id.product_template_attribute_value_ids.filtered(lambda x: x.attribute_id.name == 'SHAPE').name)[0]
+            no_urut_mor = str(self.env['mrp.request'].browse(vals.get('request_id')).name).split("/")[3]
+            running_number = type_id.sequence_id.next_by_id()
+            vals['name'] = '%s%s%s-%s' % (years, shape, no_urut_mor, running_number)
         
         res = super(MrpProduction, self).create(vals)
         return res
