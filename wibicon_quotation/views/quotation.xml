@@ -28,7 +28,7 @@
                             </group>
                             <group>
                                 <field name="size" required="1" attrs="{'readonly':[('state','=','confirm')]}" />
-                                <field name="shape" required="1" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <!-- <field name="shape" required="1" attrs="{'readonly':[('state','=','confirm')]}" /> -->
                                 <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="payment_term_id" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="product_tmpl_ids" widget="many2many_tags" attrs="{'readonly':[('state','=','confirm')]}" />
