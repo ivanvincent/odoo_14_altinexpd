@@ -300,7 +300,7 @@ class ManufacturingRequestLine(models.Model):
     _name = 'mrp.request.line'
     
     name             = fields.Text(string='Description', )
-    type_id          = fields.Many2one('mrp.production.type', string='Production Type',
+    type_id          = fields.Many2one('mrp.production.type', string='Production Type', related='operation_template_id.production_type_id'
         # compute="_get_production_type",
     )
     request_id       = fields.Many2one('mrp.request', string='Request')
