@@ -203,13 +203,13 @@ class RequestEngineeringLine(models.Model):
     #From Quotation
     product_id = fields.Many2one('product.product', string='Value')
     product_hob_id = fields.Many2one('product.product', string='Hob')
-    qty_available_hob = fields.Float(string='Qty Available Hob')
-    qty_available_sepi = fields.Float(string='Qty Available Sepi')
+    qty_available_hob = fields.Float(string='Qty Available Hob', compute="_compute_qty_available_hob")
+    qty_available_sepi = fields.Float(string='Qty Available Sepi', compute="_compute_qty_available_sepi")
     product_baut_id = fields.Many2one('product.product', string='Baut')
     # product_tonase_id = fields.Many2one('product.product', string='Tonase')
     tonase_id = fields.Many2one('tonase', string='Tonase')
     product_sepi_id = fields.Many2one('product.product', string='Sepi')
-    qty_available_sepi = fields.Float(string='Avb Sepi')
+    # qty_available_sepi = fields.Float(string='Avb Sepi')
     no_drawing = fields.Char(string='No. Drawing')
     uk_bahan = fields.Char(string='Ukuran Bahan')
 
@@ -240,6 +240,19 @@ class RequestEngineeringLine(models.Model):
         action['res_id'] = self.id
         return action
 
+    @api.depends('product_hob_id')
+    def _compute_qty_available_hob(self):
+        for rec in self:
+            domain = [('product_hob_id', '=', rec.product_hob_id.id),('location_id', '=', 116)]
+            quant = self.env['stock.quant'].search(domain)
+            rec.qty_available_hob = sum(quant.mapped('quantity'))
+    
+    @api.depends('product_sepi_id')
+    def _compute_qty_available_sepi(self):
+        for rec in self:
+            domain = [('product_sepi_id', '=', rec.product_sepi_id.id),('location_id', '=', 116)]
+            quant = self.env['stock.quant'].search(domain)
+            rec.qty_available_sepi = sum(quant.mapped('quantity'))
 class RequestEngineeringType(models.Model):
     _name = 'request.engineering.type'
 
