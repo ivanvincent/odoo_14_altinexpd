@@ -243,16 +243,19 @@ class RequestEngineeringLine(models.Model):
     @api.depends('product_hob_id')
     def _compute_qty_available_hob(self):
         for rec in self:
-            domain = [('product_hob_id', '=', rec.product_hob_id.id),('location_id', '=', 116)]
-            quant = self.env['stock.quant'].search(domain)
-            rec.qty_available_hob = sum(quant.mapped('quantity'))
+            if rec.product_hob_id == 'true' :
+                domain = [('product_id', '=', rec.product_hob_id.id),('location_id', '=', 116)]
+                quant = self.env['stock.quant'].search(domain)
+                rec.qty_available_hob = sum(quant.mapped('quantity'))
     
     @api.depends('product_sepi_id')
     def _compute_qty_available_sepi(self):
         for rec in self:
-            domain = [('product_sepi_id', '=', rec.product_sepi_id.id),('location_id', '=', 116)]
-            quant = self.env['stock.quant'].search(domain)
-            rec.qty_available_sepi = sum(quant.mapped('quantity'))
+            if rec.product_sepi_id == 'true' :
+                domain = [('product_id', '=', rec.product_sepi_id.id),('location_id', '=', 116)]
+                quant = self.env['stock.quant'].search(domain)
+                rec.qty_available_sepi = sum(quant.mapped('quantity'))
+
 class RequestEngineeringType(models.Model):
     _name = 'request.engineering.type'
 
