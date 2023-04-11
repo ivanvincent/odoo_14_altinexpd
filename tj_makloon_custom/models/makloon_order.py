@@ -2,7 +2,7 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from odoo.tools.float_utils import float_compare
-import odoo.addons.decimal_precision as dp
+import odoo.addons.decimal_precision as dp  
 
 class MakloonOrder(models.Model):
     _inherit = 'makloon.order'
@@ -56,7 +56,7 @@ class MakloonOrder(models.Model):
     order_rib_persen = fields.Float(string='Rib Persen %', )
     order_manset_persen = fields.Float(string='Manset Persen %', )
     source_po = fields.Char(string='Source PO', )
-    purchase_category_id = fields.Many2one('purchase.order.category', string='Category')
+    purchase_category_id = fields.Many2one('purchase.order.category', string='Category', related='stage_id.operation_id.purchase_category_id')
 
     # @api.model
     # def create(self, vals):

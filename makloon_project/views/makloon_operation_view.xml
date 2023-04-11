@@ -11,6 +11,7 @@
                 <tree string="Makloon Operation">
                     <field name="name"/>
                     <field name="sequence" />
+                    <field name="purchase_category_id"/>
                 </tree>
             </field>
         </record>
