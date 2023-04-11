@@ -8,7 +8,7 @@ class MrpOperationTemplate(models.Model):
     description = fields.Text(string='Description')
     line_ids    = fields.One2many('mrp.operation.template.line', 'template_id', 'Details')
     product_id  = fields.Many2one('product.product', string='Product')
-    
+    production_type_id = fields.Many2one('mrp.production.type', string='Production type')
     
     
     

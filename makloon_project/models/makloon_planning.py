@@ -190,3 +190,10 @@ class MakloonPlanningStage(models.Model):
 
         self.state='done'
         return True
+
+    @api.onchange('partner_id')
+    def onchange_partner_id(self):
+        self.ensure_one()
+        if self.partner_id:
+            location_id = self.env['stock.location'].search([('partner_id', '=', self.partner_id.id), ('usage', '=', 'production')], limit=1)
+            self.production_loc = location_id.id
