@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-<report
+
+    <report
             menu="False"
             string="Purchase + Material Order Textile"
             id="action_report_po_textile2"
@@ -37,10 +38,10 @@
                             <div name="partner_header">
                                 <div t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/><br/>
                                 <span><strong>Contact Person,</strong></span><br/>
-                                 <div t-field="o.partner_contact.name"/>
-                                 <div t-field="o.partner_contact.phone"/>
-                                 <div t-field="o.partner_contact.mobile"/>
-                             </div>
+                                    <div t-field="o.partner_contact.name"/>
+                                    <div t-field="o.partner_contact.phone"/>
+                                    <div t-field="o.partner_contact.mobile"/>
+                                </div>
                         </div>
                     <td>
                         <strong>NO. PO: </strong> <span t-field="o.name"/><br/>

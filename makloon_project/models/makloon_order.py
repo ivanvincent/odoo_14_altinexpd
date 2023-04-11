@@ -184,7 +184,9 @@ class MakloonOrder(models.Model):
                                  default=lambda self: self.env.user.company_id.id)
     partner_id = fields.Many2one('res.partner', "Makloon Company")
     origin = fields.Char("Source Document")
-    stage_id = fields.Many2one("makloon.planning.stage", "Stage")
+    stage_id = fields.Many2one("makloon.planning.stage", "Stage", 
+    # related='stage_id.operation_id.purchase_category_id'
+    )
     type = fields.Selection([('in', 'Makloon In'), ('out', 'Makloon Out')], string="Makloon Type")
 
     material_ids = fields.One2many('makloon.order.material', 'order_id', "Material List")

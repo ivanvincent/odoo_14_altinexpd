@@ -16,6 +16,7 @@ class MakloonOperation(models.Model):
 
     name = fields.Char(string="Jenis Makloon", required=True)
     sequence = fields.Integer("Sequence", default=1)
+    purchase_category_id = fields.Many2one('purchase.order.category', string='Purchase Category')
 
 
 

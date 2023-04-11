@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <tree string="operation">
                 	<field name="name"/>
+                    <field name="purchase_category_id"/>
                     <field name="sequence"/>
                 </tree>
             </field>
@@ -47,6 +48,7 @@
                             <group>
                                 <field name="name"/>
                                 <field name="sequence"/>
+                                <field name="purchase_category_id"/>
                             </group>
                         </group>
 						<notebook>
