@@ -194,14 +194,14 @@ class QuotationLine(models.Model):
     tax_ids = fields.Many2many(comodel_name='account.tax', string='Tax')
     sub_total = fields.Float(string='Sub Total', compute='compute_sub_total')
     quotation_id = fields.Many2one('quotation', string='Quotation')
-    treatment_id = fields.Many2one('treatment', string='Treatment')
+    treatment_id = fields.Many2one('treatment', string='Heat Treatment')
     product_ingredient_id = fields.Many2one(
-        'product.product', string='Ingredient')
+        'product.product', string='Material')
     shape = fields.Char(string='Shape')
     qty_available = fields.Float(
         string='Qty Available', compute='_compute_qty_available')
     kd_bahan = fields.Char(string='Kode Bahan')
-    lapisan = fields.Selection([("coating","Coating"),("plating","Plating")], string='Lapisan')
+    lapisan = fields.Selection([("coating","Coating"),("plating","Plating")], string='Surface Finish')
 
     @api.depends('quantity', 'price_unit')
     def compute_sub_total(self):

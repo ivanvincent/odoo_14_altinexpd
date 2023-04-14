@@ -7,9 +7,11 @@ class SaleOrder(models.Model):
     mrp_request_id  = fields.Many2one('mrp.request', string='Mrp Request')
     po_cust         = fields.Char(string='Po Customer')
     no_sample       = fields.Char(string='No Sample')
-    up_kpd          = fields.Char(string='Untuk Kepada')
+    up_kpd          = fields.Char(string='Up. Pengiriman')
     note_so         = fields.Char(string='Note')
     no_dqc          = fields.Boolean(related='partner_id.no_dqc', string='Status DQC')
+    payment_term_id = fields.Many2one(
+        'account.payment.term', string='Payment Term')
     # demantional_quality_control
 
     def action_confirm(self):
@@ -27,6 +29,7 @@ class SaleOrder(models.Model):
                 'sale_line_id'  : l.id,
                 'kd_bahan'      : l.kd_bahan,
                 'lapisan'       : l.lapisan,
+                'payment_term_id'       : l.payment_term_id,
             }))
         mrp_request = self.env['mrp.request'].create({
             'request_date': fields.Date.today(),
