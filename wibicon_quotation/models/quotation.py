@@ -45,7 +45,7 @@ class Quotation(models.Model):
     # kd_bahan = fields.Char(string='Nomor Sample')
     no_sample = fields.Char(string='No Sample')
     product_order_id = fields.Many2one('product.order', string='Product Order')
-    cup_depth_id = fields.Many2one('cup.depth', string='Kasir')
+    cup_depth_id = fields.Many2one('cup.depth', string='Cup Depth')
 
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids')
@@ -69,17 +69,17 @@ class Quotation(models.Model):
         return res
 
     def action_confirm(self):
-        seq = self.env['ir.sequence'].next_by_code('request.engineering')
+        # seq = self.env['ir.sequence'].next_by_code('request.engineering')
         # 'No Drawing', 'Ukuran Bahan'
-        material = ['Hob', 'Baut', 'Tonase', 'Sepi']
-        engineering = self.env['request.engineering'].create({
-            'name': seq,
-            # 'type': 'from_quotation',
-            'type_id': self.env['request.engineering.type'].search([('name', '=', 'Quotation')], limit=1).id,
-            'quotation_id': self.id,
-            'line_ids': [(0, 0, {'product_id': d.product_id.id}) for d in self.line_ids]
-        })
-        self.request_engineering_id = engineering.id
+        # material = ['Hob', 'Baut', 'Tonase', 'Sepi']
+        # engineering = self.env['request.engineering'].create({
+        #     'name': seq,
+        #     # 'type': 'from_quotation',
+        #     'type_id': self.env['request.engineering.type'].search([('name', '=', 'Quotation')], limit=1).id,
+        #     'quotation_id': self.id,
+        #     'line_ids': [(0, 0, {'product_id': d.product_id.id}) for d in self.line_ids]
+        # })
+        # self.request_engineering_id = engineering.id
         self.state = 'confirm'
 
     def action_generate(self):

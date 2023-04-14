@@ -15,4 +15,5 @@ from . import machine
 from . import program
 from . import tonase
 from . import drawing_internal
+from . import product_order
 from . import cup_depth

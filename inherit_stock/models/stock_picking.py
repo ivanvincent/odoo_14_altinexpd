@@ -219,6 +219,33 @@ class StockPicking(models.Model):
         if res == True:
             if sum(self.move_line_ids_without_package.mapped('waste')) > 0:
                 self._create_picking_scrap()
+            
+            if self.production_id and self.mrp_request_id:
+                for move in self.production_id.move_raw_ids:
+                    move._action_cancel()
+                    move.action_back_to_draft()
+                    move.unlink()
+
+                new_move = []
+                for move in self.move_ids_without_package:
+                    move.write({
+                            "move_dest_ids":new_move.append((0,0,{
+                                "name":move.product_id.name,
+                                "product_id":move.product_id.id,
+                                "product_uom_qty":move.quantity_done,
+                                "product_uom":move.product_id.uom_id.id,
+                                "location_id":self.location_id.id,
+                                "location_dest_id":self.location_dest_id.id,
+                                "state":"waiting",
+                                # "origin":self.production_id.name,
+                                # "group_id":self.production_id.procurement_group_id.id,
+                                # "move_orig_ids":[(4,move.id)]
+                        }))
+                    })
+                if new_move:
+                    self.production_id.sudo().write({
+                        "move_raw_ids":new_move
+                    })
         return res
 
     def _create_picking_scrap(self):

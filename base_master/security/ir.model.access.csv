@@ -52,4 +52,5 @@ access_machine,machine,model_machine,base.group_system,1,1,1,1
 access_program,program,model_program,base.group_system,1,1,1,1
 access_tonase,tonase,model_tonase,base.group_system,1,1,1,1
 access_drawing_internal,drawing_internal,model_drawing_internal,base.group_system,1,1,1,1
+access_product_order,product_order,model_product_order,base.group_system,1,1,1,1
 access_cup_depth,cup_depth,model_cup_depth,base.group_system,1,1,1,1
