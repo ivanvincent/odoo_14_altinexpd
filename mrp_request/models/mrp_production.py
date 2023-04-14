@@ -9,7 +9,7 @@ class MrpProduction(models.Model):
     
     type_id          = fields.Many2one('mrp.production.type', string='Type')
     request_id       = fields.Many2one('mrp.request', string='MRP Request')
-    treatment_id     = fields.Many2one('treatment', string='Treatment')
+    treatment_id     = fields.Many2one('treatment', string='Heat Treatment')
     sales_id         = fields.Many2one('sale.order', string='Sale Order')
     shape            = fields.Char(string='Shape')
     # html_color       = fields.Char(related='product_id.html_color', string='Color',store=True,)
@@ -32,7 +32,7 @@ class MrpProduction(models.Model):
     no_sample           = fields.Char(related='request_id.no_sample', string='No Sample')
     note_so             = fields.Char(related='request_id.note_so', string='Note')
     kd_bahan            = fields.Char('Kode Bahan')
-    lapisan             = fields.Char('Lapisan')
+    lapisan             = fields.Char('Surface Finish')
     partner_id          = fields.Many2one('res.partner', string='Customer', related='request_id.partner_id')
     
     def action_split_workorder(self):
