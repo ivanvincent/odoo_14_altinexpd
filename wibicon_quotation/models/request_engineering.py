@@ -226,6 +226,8 @@ class RequestEngineeringLine(models.Model):
     product_alat_bantu_id = fields.Many2one('product.product', string='Alat Bantu')
     program_id = fields.Many2one('program', string='Program')
     workcenter_ids = fields.One2many('engineering.workcenter', 'request_line_id', 'Line')
+    design = fields.Many2one('drawing.internal', string='Drawing Internal')
+    drawing_internal = fields.Date(string='3D Design')
 
     def action_open_workcenter(self):
         self.ensure_one()
@@ -253,6 +255,7 @@ class RequestEngineeringLine(models.Model):
             domain = [('product_sepi_id', '=', rec.product_sepi_id.id),('location_id', '=', 116)]
             quant = self.env['stock.quant'].search(domain)
             rec.qty_available_sepi = sum(quant.mapped('quantity'))
+
 class RequestEngineeringType(models.Model):
     _name = 'request.engineering.type'
 

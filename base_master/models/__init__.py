@@ -14,3 +14,5 @@ from . import size
 from . import machine
 from . import program
 from . import tonase
+from . import drawing_internal
+from . import cup_depth

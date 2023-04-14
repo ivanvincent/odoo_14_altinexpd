@@ -17,7 +17,7 @@
             <!-- <field name="dpi">110</field> -->
         </record>
 
-        <report id="action_report_sale_order" model="sale.order" string="Print Sale Order" report_type="qweb-pdf" name="my_report.report_sale_order" file="my_report.report_sale_order" />
+        <report id="action_report_sale_order" model="sale.order" string="Print Sale Order" report_type="qweb-pdf" name="my_report.report_sale_order" file="my_report.report_sale_order" menu="False"/>
 
         <record id="action_report_sale_order" model="ir.actions.report">
             <field name="paperformat_id" eval="paperformat_report_sale_order" />

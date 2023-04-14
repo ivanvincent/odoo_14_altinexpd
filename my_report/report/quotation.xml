@@ -10,6 +10,7 @@
             report_type="qweb-pdf"
             name="my_report.report_quotation"
             file="my_report.report_quotation"
+            menu="False"
         />
 
         <template id="report_quotation">

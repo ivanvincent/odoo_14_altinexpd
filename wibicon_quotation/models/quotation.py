@@ -44,6 +44,8 @@ class Quotation(models.Model):
     delivery_date = fields.Date(string='Delivery Time')
     # kd_bahan = fields.Char(string='Nomor Sample')
     no_sample = fields.Char(string='No Sample')
+    product_order_id = fields.Many2one('product.order', string='Product Order')
+    cup_depth_id = fields.Many2one('cup.depth', string='Kasir')
 
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids')
