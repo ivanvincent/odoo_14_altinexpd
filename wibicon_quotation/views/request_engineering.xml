@@ -34,6 +34,7 @@
                                         <field name="qty_available_sepi"/>
                                         <field name="no_drawing" />
                                         <field name="uk_bahan" />
+                                        <field name="drawing_external"/>
                                         <field name="picking_id"/>
                                     </tree>
                                 </field>
@@ -80,7 +81,7 @@
                                         <field name="picking_id" readonly="1"/> -->
                                         <field name="design"/>
                                         <field name="drawing_internal"/>
-                                        <field name="drawing_external"/>
+                                        <!-- <field name="drawing_external"/> -->
                                     </tree>
                                 </field>
                             </page>
