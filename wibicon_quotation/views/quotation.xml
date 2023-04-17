@@ -23,6 +23,8 @@
                             <group>
                                 <field name="partner_id" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="date" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="up_kpd"/>
+                                <field name="note_so"/>
                                 <field name="design_code_id" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="image_binary" widget='image' class='oe_avatar' attrs="{'readonly':[('state','=','confirm')]}" />
                             </group>

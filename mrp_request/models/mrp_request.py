@@ -333,7 +333,7 @@ class ManufacturingRequestLine(models.Model):
     sale_line_id = fields.Many2one('sale.order.line', string='Sale Order Line')
     design_id = fields.Many2one('makloon.design', string='Design')
     operation_template_id = fields.Many2one('mrp.operation.template', string='Operation Template')
-    treatment_id = fields.Many2one('treatment', string='Treatment', 
+    treatment_id = fields.Many2one('treatment', string='Heat Treatment', 
     related='sale_line_id.treatment_id'
     )
     qty_produce = fields.Float(string='Qty Produce')
@@ -344,7 +344,7 @@ class ManufacturingRequestLine(models.Model):
     product_hob_id = fields.Many2one('product.product', string='Hob', compute="_compute_product_hob_id")
 
     kd_bahan        = fields.Char('Kode Bahan')
-    lapisan         = fields.Selection([("coating","Coating"),("plating","Plating")], string='Lapisan')
+    lapisan         = fields.Selection([("coating","Coating"),("plating","Plating")], string='Surface Finish')
 #     product_orig_id_domain = fields.Char
 #     compute="_compute
 # quotation = rec.request_id.sale_id.quotation_id.request_engineering_id.line_ids.filtered(lambda x:x.product_id.id == rec.product_id.id)
