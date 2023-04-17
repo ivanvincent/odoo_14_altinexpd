@@ -226,8 +226,9 @@ class RequestEngineeringLine(models.Model):
     product_alat_bantu_id = fields.Many2one('product.product', string='Alat Bantu')
     program_id = fields.Many2one('program', string='Program')
     workcenter_ids = fields.One2many('engineering.workcenter', 'request_line_id', 'Line')
-    design = fields.Many2one('drawing.internal', string='Drawing Internal')
-    drawing_internal = fields.Date(string='3D Design')
+    design = fields.Many2one('drawing.internal', string='3D Design')
+    drawing_internal = fields.Date(string='Drawing Internal')
+    drawing_external = fields.Date(string='Drawing External')
 
     def action_open_workcenter(self):
         self.ensure_one()
@@ -255,10 +256,7 @@ class RequestEngineeringLine(models.Model):
     @api.depends('product_sepi_id')
     def _compute_qty_available_sepi(self):
         for rec in self:
-            domain = [('product_sepi_id', '=', rec.product_sepi_id.id),('location_id', '=', 116)]
-            quant = self.env['stock.quant'].search(domain)
-            rec.qty_available_sepi = sum(quant.mapped('quantity'))
-            if rec.product_sepi_id == 'true' :
+            if rec.product_sepi_id:
                 domain = [('product_id', '=', rec.product_sepi_id.id),('location_id', '=', 116)]
                 quant = self.env['stock.quant'].search(domain)
                 rec.qty_available_sepi = sum(quant.mapped('quantity'))

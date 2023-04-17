@@ -221,10 +221,10 @@ class StockPicking(models.Model):
                 self._create_picking_scrap()
             
             if self.production_id and self.mrp_request_id:
-                for move in self.production_id.move_raw_ids:
-                    move._action_cancel()
-                    move.action_back_to_draft()
-                    move.unlink()
+                # for move in self.production_id.move_raw_ids:
+                #     move._action_cancel()
+                #     move.action_back_to_draft()
+                #     move.unlink()
 
                 new_move = []
                 for move in self.move_ids_without_package:

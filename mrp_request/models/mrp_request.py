@@ -24,7 +24,7 @@ class ManufacturingRequest(models.Model):
     estimated_ids       = fields.One2many('mrp.production.estimated', 'request_id', string='Estimated')
     sale_id             = fields.Many2one('sale.order', string='Sale')
     partner_id          = fields.Many2one('res.partner', string='Customer', related='sale_id.partner_id')
-    request_engineering_id = fields.Many2one('request.engineering', string='Request Engineering')
+    request_engineering_id = fields.Many2one('request.engineering', string='Request Engineering', related='sale_id.quotation_id.request_engineering_id')
     delivery_date       = fields.Date(related='sale_id.delivery_date', string='Delivery Date')
     due_date_produksi   = fields.Date(string='Due Date Produksi',)
     no_sample           = fields.Char(related='sale_id.no_sample', string='No Sample')
