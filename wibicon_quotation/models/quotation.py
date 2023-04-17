@@ -69,17 +69,17 @@ class Quotation(models.Model):
         return res
 
     def action_confirm(self):
-        # seq = self.env['ir.sequence'].next_by_code('request.engineering')
-        # 'No Drawing', 'Ukuran Bahan'
-        # material = ['Hob', 'Baut', 'Tonase', 'Sepi']
-        # engineering = self.env['request.engineering'].create({
-        #     'name': seq,
-        #     # 'type': 'from_quotation',
-        #     'type_id': self.env['request.engineering.type'].search([('name', '=', 'Quotation')], limit=1).id,
-        #     'quotation_id': self.id,
-        #     'line_ids': [(0, 0, {'product_id': d.product_id.id}) for d in self.line_ids]
-        # })
-        # self.request_engineering_id = engineering.id
+        seq = self.env['ir.sequence'].next_by_code('request.engineering')
+        'No Drawing', 'Ukuran Bahan'
+        material = ['Hob', 'Baut', 'Tonase', 'Sepi']
+        engineering = self.env['request.engineering'].create({
+            'name': seq,
+            # 'type': 'from_quotation',
+            'type_id': self.env['request.engineering.type'].search([('name', '=', 'Quotation')], limit=1).id,
+            'quotation_id': self.id,
+            'line_ids': [(0, 0, {'product_id': d.product_id.id}) for d in self.line_ids]
+        })
+        self.request_engineering_id = engineering.id
         self.state = 'confirm'
 
     def action_generate(self):
