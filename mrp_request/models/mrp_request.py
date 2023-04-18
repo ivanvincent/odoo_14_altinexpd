@@ -110,7 +110,7 @@ class ManufacturingRequest(models.Model):
                     'location_dest_id'  :picking_type_id.default_location_dest_id.id,
                     'date_planned_start':line.request_id.request_date,
                     'request_id'        :self.id,
-                    'treatment_id'      :line.treatment_id.id,
+                    'treatment_id'      :line.treatment_id,
                 })
                 
                 if production_id:

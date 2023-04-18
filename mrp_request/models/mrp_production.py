@@ -9,7 +9,8 @@ class MrpProduction(models.Model):
     
     type_id          = fields.Many2one('mrp.production.type', string='Type')
     request_id       = fields.Many2one('mrp.request', string='MRP Request')
-    treatment_id     = fields.Many2one('treatment', string='Heat Treatment')
+    # treatment_id     = fields.Many2one('treatment', string='Heat Treatment')
+    treatment_id     = fields.Many2one(string='Heat Treatment')
     sales_id         = fields.Many2one('sale.order', string='Sale Order')
     shape            = fields.Char(string='Shape')
     # html_color       = fields.Char(related='product_id.html_color', string='Color',store=True,)
