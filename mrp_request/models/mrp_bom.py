@@ -22,10 +22,10 @@ class MrpBom(models.Model):
     def _get_operations(self, picking_ids, workcenter_engineering):
         operation_ids = []
         self.operation_ids = False
-        # for line in self.operation_template_id.line_ids:
-        #     operation_ids+= [(0,0,{'name':line.sequence,'template_line_id':line.id,'workcenter_id':line.workcenter_id.id,'machine_id':line.machine_id.id})]
-        for line in workcenter_engineering.workcenter_ids:
-            operation_ids+= [(0,0,{'name':line.sequence, 'workcenter_id':line.workcenter_id.id,})]
+        for line in self.operation_template_id.line_ids:
+            operation_ids+= [(0,0,{'name':line.sequence,'template_line_id':line.id,'workcenter_id':line.workcenter_id.id,'machine_id':line.machine_id.id})]
+        # for line in workcenter_engineering.workcenter_ids:
+        #     operation_ids+= [(0,0,{'name':line.sequence, 'workcenter_id':line.workcenter_id.id,})]
         self.operation_ids = operation_ids
         # Get Component
         component_ids = []
