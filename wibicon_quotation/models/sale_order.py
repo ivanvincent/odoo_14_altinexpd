@@ -12,12 +12,14 @@ class SaleOrder(models.Model):
         print("onchange_quotation_id")
         qtn = self.quotation_id
         if qtn:
-            self.partner_id = qtn.partner_id
-            self.design_id = qtn.design_code_id.id
+            self.partner_id     = qtn.partner_id
+            self.design_id      = qtn.design_code_id.id
             self.payment_term_id =  qtn.payment_term_id.id
-            self.order_line = False
-            self.delivery_date = qtn.delivery_date
-            self.no_sample = qtn.no_sample
+            self.order_line     = False
+            self.delivery_date  = qtn.delivery_date
+            self.no_sample      = qtn.no_sample
+            self.up_kpd         = qtn.up_kpd
+            self.note_so         = qtn.note_so
             
             order_lines = []
             for line in qtn.line_ids:
