@@ -1,5 +1,6 @@
 from email.policy import default
 from odoo import models, fields, api
+from dateutil.relativedelta import relativedelta
 
 
 class Quotation(models.Model):
@@ -25,7 +26,7 @@ class Quotation(models.Model):
     currency_id = fields.Many2one(
         'res.currency', related='company_id.currency_id', store=True,)
     company_currency_id = fields.Many2one(related='company_id.currency_id', string='Company Currency',
-                                        readonly=True, store=True, help='Utility field to express amount currency')
+                                          readonly=True, store=True, help='Utility field to express amount currency')
     payment_term_id = fields.Many2one(
         'account.payment.term', string='Payment Term')
     drawing_internal = fields.Binary(
@@ -46,9 +47,12 @@ class Quotation(models.Model):
     no_sample = fields.Char(string='No Sample')
     product_order_id = fields.Many2one('product.order', string='Product Order')
     cup_depth_id = fields.Many2one('cup.depth', string='Cup Depth')
-    up_kpd       = fields.Char(string='Up. Pengiriman')
-    note_so         = fields.Char(string='Note')
-
+    up_kpd = fields.Char(string='Up. Pengiriman')
+    note_so = fields.Char(string='Note')
+    perihal = fields.Char(string='Perihal')
+    tanggal_berlaku = fields.Date(
+        string='Tanggal Berlaku', compute="compute_tanggal_berlaku")
+    
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids')
     def _compute_amount(self):
@@ -92,7 +96,6 @@ class Quotation(models.Model):
                 [('product_tmpl_id', '=', product_tmpl.id), ('attribute_id.name', '=', 'SIZE')], limit=1)
             shape_attr = self.env['product.template.attribute.line'].sudo().search(
                 [('product_tmpl_id', '=', product_tmpl.id), ('attribute_id.name', '=', 'SHAPE')], limit=1)
-
 
             attribute_obj = self.env['product.attribute']
             value_obj = self.env['product.attribute.value']
@@ -183,6 +186,18 @@ class Quotation(models.Model):
                 self.line_ids = [
                     (0, 0, {"product_id": variant.id, "quantity": 1, "price_unit": 1, })]
 
+    @api.depends('date')
+    def compute_tanggal_berlaku(self):
+        for rec in self:
+            if rec.date:
+                rec.tanggal_berlaku = rec.date + relativedelta(days=30)
+            else:
+                rec.tanggal_berlaki = False
+
+    def action_set_to_draft(self):
+        self.state = 'draft'
+
+
 
 class QuotationLine(models.Model):
     _name = 'quotation.line'
@@ -203,7 +218,8 @@ class QuotationLine(models.Model):
     qty_available = fields.Float(
         string='Qty Available', compute='_compute_qty_available')
     kd_bahan = fields.Char(string='Kode Bahan')
-    lapisan = fields.Selection([("coating","Coating"),("plating","Plating")], string='Surface Finish')
+    lapisan = fields.Selection(
+        [("Coat", "Coat"), ("Plat", "Plat")], string='Surface Finish')
 
     @api.depends('quantity', 'price_unit')
     def compute_sub_total(self):

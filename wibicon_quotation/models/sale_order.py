@@ -6,6 +6,8 @@ class SaleOrder(models.Model):
 
     quotation_id = fields.Many2one('quotation', string='Quotation')
     delivery_date = fields.Date(string='Delivery Time')
+    product_order_id = fields.Many2one(string='Product Order', related='quotation_id.product_order_id')
+
 
     @api.onchange('quotation_id')
     def onchange_quotation_id(self):
@@ -34,6 +36,7 @@ class SaleOrder(models.Model):
                         'kd_bahan'          : line.kd_bahan,
                         'lapisan'           : line.lapisan,
                         'tax_id'            : line.tax_ids,
+                        'embos'             : line.embos
                         # 'contract_line_id'  : line.id,
                     }))
             self.order_line = order_lines

@@ -10,6 +10,9 @@
                     <field name="quotation_id"/>
                     <field name="delivery_date"/>
                 </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="product_order_id"/>
+                </xpath>
             </field>
         </record>
     </data>
