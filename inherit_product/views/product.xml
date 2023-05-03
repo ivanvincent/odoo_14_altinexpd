@@ -17,6 +17,8 @@
                     </div>
                     <field name="alias"/>
                     <field name="min_stock"/>
+                    <field name="diameter"/>
+                    <field name="variable"/>
                     <field name="usage_daily"/>
                     <field name="order_time"/>
                     <field name="lead_time" string="Lead Purchase"/>
