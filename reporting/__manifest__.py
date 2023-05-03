@@ -32,6 +32,7 @@
         'wizard/reporting_stock_lot_wizard.xml',
         'views/reporting_stock_lot.xml',
         'views/reporting_stock.xml',
+        'views/reporting_stock_kg.xml',
         'views/custom_fonts.xml',
         'views/reporting_stock_request.xml',
         'views/reporting_purchase_order.xml',

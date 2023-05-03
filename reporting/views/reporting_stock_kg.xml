@@ -2,9 +2,9 @@
 <odoo>
     <data>
         <!-- List View -->
-        <record model="ir.ui.view" id="reporting_stock_tree">
-            <field name="name">reporting.stock.tree</field>
-            <field name="model">reporting.stock</field>
+        <record model="ir.ui.view" id="reporting_stock_kg_tree">
+            <field name="name">reporting.stock.kg.tree</field>
+            <field name="model">reporting.stock.kg</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="location_id" />
@@ -15,9 +15,9 @@
         </record>
 
         <!-- Search View -->
-        <record model="ir.ui.view" id="reporting_stock_search">
-            <field name="name">reporting.stock.search</field>
-            <field name="model">reporting.stock</field>
+        <record model="ir.ui.view" id="reporting_stock_kg_search">
+            <field name="name">reporting.stock.kg.search</field>
+            <field name="model">reporting.stock.kg</field>
             <field name="arch" type="xml">
                 <search>
                     <field name="name" />
@@ -31,9 +31,9 @@
         </record>
 
         <!-- Form View -->
-        <record model="ir.ui.view" id="reporting_stock_form">
-            <field name="name">reporting.stock.form</field>
-            <field name="model">reporting.stock</field>
+        <record model="ir.ui.view" id="reporting_stock_kg_form">
+            <field name="name">reporting.stock.kg.form</field>
+            <field name="model">reporting.stock.kg</field>
             <field name="arch" type="xml">
                 <form>
                     <header>
@@ -184,9 +184,9 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="reporting_stock_line_form">
-            <field name="name">reporting.stock.line.tree</field>
-            <field name="model">reporting.stock.line</field>
+        <record model="ir.ui.view" id="reporting_stock_kg_line_form">
+            <field name="name">reporting.stock.kg.line.tree</field>
+            <field name="model">reporting.stock.kg.line</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
@@ -306,9 +306,9 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="reporting_stock_action">
-            <field name="name">Reporting Stock</field>
-            <field name="res_model">reporting.stock</field>
+        <record model="ir.actions.act_window" id="reporting_stock_kg_action">
+            <field name="name">Reporting Stock Kg</field>
+            <field name="res_model">reporting.stock.kg</field>
             <!-- <field name="view_type">form</field> -->
             <field name="view_mode">tree,form</field>
             <field name="context">{'name_product_without_code': True}</field>
@@ -317,7 +317,7 @@
 
 
 
-        <menuitem id="reporting_menu" name="Reporting" web_icon="reporting,static/description/icon.png">
+        <!-- <menuitem id="reporting_menu" name="Reporting" web_icon="reporting,static/description/icon.png">
             <menuitem id="reporting_submenu" name="Stock" sequence="1">
                 <menuitem id="stock_production_lot_menu" name="Reporting Stock">
                     <menuitem id="submenu_reporting_stock" name="Reporting Stock" action="reporting_stock_action" />
@@ -325,7 +325,7 @@
                     <menuitem id="submenu_reporting_stock_kg" name="Reporting Stock Kg" action="reporting_stock_kg_action" />
                 </menuitem>
             </menuitem>
-        </menuitem>
+        </menuitem> -->
 
 
 
