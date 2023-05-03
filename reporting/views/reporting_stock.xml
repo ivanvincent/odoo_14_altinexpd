@@ -322,7 +322,7 @@
                 <menuitem id="stock_production_lot_menu" name="Reporting Stock">
                     <menuitem id="submenu_reporting_stock" name="Reporting Stock" action="reporting_stock_action" />
                     <menuitem id="submenu_reporting_stock_lot" name="Reporting Stock Lot" action="reporting_stock_lot_action" />
-                    <menuitem id="submenu_reporting_stock_kg" name="Reporting Stock Kg" action="reporting_stock_action" />
+                    <menuitem id="submenu_reporting_stock_kg" name="Reporting Stock Kg" action="reporting_stock_kg_action" />
                 </menuitem>
             </menuitem>
         </menuitem>
