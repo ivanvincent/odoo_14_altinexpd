@@ -345,7 +345,7 @@ class ManufacturingRequestLine(models.Model):
     product_hob_id = fields.Many2one('product.product', string='Hob', compute="_compute_product_hob_id")
 
     kd_bahan        = fields.Char('Kode Bahan')
-    lapisan         = fields.Selection([("coating","Coating"),("plating","Plating")], string='Surface Finish')
+    lapisan         = fields.Selection([("Coat","Coat"),("Plat","Plat")], string='Surface Finish')
 #     product_orig_id_domain = fields.Char
 #     compute="_compute
 # quotation = rec.request_id.sale_id.quotation_id.request_engineering_id.line_ids.filtered(lambda x:x.product_id.id == rec.product_id.id)
