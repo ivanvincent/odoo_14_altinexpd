@@ -106,7 +106,7 @@
                                         <td width="30%" style="font-size:16px; padding-left:10px;">Attn</td>
                                         <td>
                                             <span>:</span>
-                                            <span style="font-size:16px"/>
+                                            <span style="font-size:16px" t-esc="doc.up_kpd"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -120,7 +120,7 @@
                                         <td width="30%" style="font-size:16px; padding-left:10px;">Perihal</td>
                                         <td>
                                             <span>:</span>
-                                            <span style="font-size:16px"/>
+                                            <span style="font-size:16px" t-esc="doc.perihal"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -179,7 +179,7 @@
                             <t t-foreach="doc.line_ids" t-as="line">
                                 <tr>
                                     <td style="vertical-align : middle; text-align : left; padding-left:10px; padding-right:10px;">
-                                        <span t-field="line.product_id"/>
+                                        <span t-field="line.quotation_id.product_order_id.name"/> <span t-esc="line.embos"/> <span t-esc="line.lapisan"/>
                                     </td>
                                     <td style="vertical-align : middle">
                                         <span t-field="line.quantity"/>
@@ -196,7 +196,7 @@
                         <tfoot>
                             <tr>
                                 <td colspan="2" rowspan="4" style="padding-left:10px; text-align : left">
-                                <span>Note</span>
+                                  <span>Note : </span> <span t-esc="doc.note_so"/>
                                 </td>
                             </tr>
                             <tr>
@@ -265,7 +265,7 @@
                         <br/><br/><br/><br/><br/>
                         <span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">Novi Lidya</span><br/>
                         <span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">Sales Admin</span><br/>  
-                        <span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">+6189661966550</span><br/>
+                        <span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">+6289661966550</span><br/>
                         <span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">PT.ALTINEX</span><br/>
                         <span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">sales@altinex.co</span><br/> 
                     </div>
