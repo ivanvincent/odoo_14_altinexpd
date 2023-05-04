@@ -60,6 +60,7 @@ class MrpOperationTemplatelineParameter(models.Model):
     uom_id = fields.Many2one(comodel_name='uom.uom',related="parameter_id.uom_id",string='Uom')
     mrp_operation_template_line_parameter_tool_ids = fields.One2many('mrp.operation.template.line.parameter.tool', 'template_line_parameter_id', 'Tool Line')
     machine_id = fields.Many2one('mrp.machine', string='Machine')
+    is_scanned = fields.Boolean(string='Is Scanned ?')
     
     def _get_sequence(self):
         seq = 0
