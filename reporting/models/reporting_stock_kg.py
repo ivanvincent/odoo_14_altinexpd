@@ -102,9 +102,9 @@ class ReportingStockKg(models.Model):
 
     def action_delete_reporting(self):
         query = """
-            DELETE FROM reporting_stock_line where reporting_id = %s;
+            DELETE FROM reporting_stock_kg_line where reporting_id = %s;
 
-            DELETE FROM reporting_stock_line_history where reporting_id = %s;
+            DELETE FROM reporting_stock_kg_line_history where reporting_id = %s;
         """%(self.id, self.id)
         self._cr.execute(query)
 
@@ -305,7 +305,7 @@ class ReportingStockKgLine(models.Model):
 
     def update_reporting_line(self):
         for rec in self:
-            sql = " update reporting_stock_line_history set reporting_line_id = %s WHERE reporting_id = %s and product_id = %s " % (rec.id, rec.reporting_id.id, rec.product_id.id)
+            sql = " update reporting_stock_kg_line_history set reporting_line_id = %s WHERE reporting_id = %s and product_id = %s " % (rec.id, rec.reporting_id.id, rec.product_id.id)
             self._cr.execute(sql)
 
     def query_update_onhand(self):
