@@ -72,7 +72,8 @@ class WorkorderDaily(models.Model):
                     'workcenter_name': wo_id.workcenter_id.name,
                     'production_qty': wo_id.production_qty,
                     'actual_qty': wo_id.actual_qty,
-                    'remaining_qty': wo_id.production_qty - wo_id.actual_qty
+                    'remaining_qty': wo_id.production_qty - wo_id.actual_qty,
+                    'workcenter_id': wo_id.workcenter_id.id
                 }
                 return data
         except Exception as e:
@@ -131,8 +132,9 @@ class WorkorderDaily(models.Model):
                         'product_uom_qty': qty,
                         'qty_rework': qty_rework,
                         'wo_daily_id': wo_daily_id,
-                        'machine_id': machine_obj.id,
+                        # 'machine_ids': machine_obj.id,
                         # 'resource_calendar_ids': user_id.employee_id.resource_calendar_ids.id,
+                        'parameter_id': wo_id.parameter_ids.filtered(lambda x: x.is_scanned == False).sorted(lambda x: x.sequence, reverse=True)[0].parameter_id.id,
                         'is_rework': True if int(qty_rework) > 0 else False,
                     })]
                 })  
