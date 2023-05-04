@@ -123,7 +123,9 @@ class MrpWorkOrderLine(models.Model):
     workorder_id    = fields.Many2one('mrp.workorder', string='Workorder')
     production_id   = fields.Many2one(related='workorder_id.production_id', string='Production',store=True,)
     workcenter_id   = fields.Many2one('mrp.workcenter', string='Workcenter')
-    machine_id      = fields.Many2one('mrp.machine', string='Machine')
+    # machine_id      = fields.Many2one('mrp.machine', string='Machine')
+    machine_ids     = fields.Many2many(comodel_name='mrp.machine', string='Machine')
+    
     no_machine      = fields.Integer(string='No Machine')
     location_id     = fields.Many2one('stock.location', string='Location')
     product_uom_qty = fields.Float(string='Quantity',help="Quantity Actual")
@@ -139,6 +141,7 @@ class MrpWorkOrderLine(models.Model):
     qty_rework      = fields.Float(string='Qty Rework')
     resource_calendar_ids = fields.Many2one('resource.calendar', string='Working Hours',)
     time_standard   = fields.Float(string='Time Standard', related='workcenter_id.time_std', store=True,)
+    parameter_id    = fields.Many2one('mrp.parameter', string='Parameter')
     
     def _read(self, fields):
         res = super()._read(fields)

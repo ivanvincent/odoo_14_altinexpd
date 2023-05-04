@@ -11,7 +11,7 @@
                     <field name="date"/>
                     <field name="production_id"/>
                     <field name="workcenter_id"/>
-                    <field name="machine_id"/>
+                    <field name="machine_ids"/>
                     <field name="no_machine"/>
                     <field name="location_id"/>
                     <field name="production_qty"/>
@@ -52,7 +52,7 @@
                                 <field name="date"/>
                                 <field name="production_id" options="{'no_open': True, 'no_create': True}"/>
                                 <field name="workcenter_id" options="{'no_open': True, 'no_create': True}"/>
-                                <field name="machine_id" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="machine_ids" options="{'no_open': True, 'no_create': True}"/>
                             </group>
                             <group>
                                 <field name="location_id" options="{'no_open': True, 'no_create': True}"/>
