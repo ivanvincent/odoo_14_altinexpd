@@ -15,7 +15,9 @@ class MrpOperationTemplate(models.Model):
 class MrpOperationTemplateLine(models.Model):
     _name = 'mrp.operation.template.line'
     
-    sequence      = fields.Integer(string='No',compute="_get_sequence")
+    sequence      = fields.Integer(string='No',
+        # compute="_get_sequence"
+    )
     template_id   = fields.Many2one('mrp.operation.template', 'Template')
     workcenter_id = fields.Many2one('mrp.workcenter', string='Workcenter')
     machine_id    = fields.Many2one('mrp.machine', string='Machine')
