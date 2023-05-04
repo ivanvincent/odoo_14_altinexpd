@@ -36,14 +36,14 @@ class ReportingStockKg(models.Model):
     inventory_id                = fields.Many2one('stock.inventory', string='Inventory Adjustment')
     location_id                 = fields.Many2one('stock.location', 'Location', domain=[('usage','=','internal')])
     product_category_id         = fields.Many2one('product.category', string='Product Category', domain=lambda self: [('id','in',self.get_product_category())],)
-    line_ids                    = fields.One2many('reporting.stock.line', 'reporting_id', 'Details', ondelete="cascade")
-    history_ids                 = fields.One2many('reporting.stock.line.history', 'reporting_id', string="History")
-    history_in_id               = fields.One2many('reporting.stock.line.history', 'reporting_id', string="History", domain=[('stock_type', '=', 'receipt')])
-    history_out_id              = fields.One2many('reporting.stock.line.history', 'reporting_id', string="History", domain=[('stock_type', '=', 'release')])
-    history_return_in_id        = fields.One2many('reporting.stock.line.history', 'reporting_id', string="History", domain=[('stock_type', '=', 'return_in')])
-    history_return_out_id       = fields.One2many('reporting.stock.line.history', 'reporting_id', string="History", domain=[('stock_type', '=', 'return_out')])
-    history_adjustment_in_id    = fields.One2many('reporting.stock.line.history', 'reporting_id', string="History", domain=[('stock_type', '=', 'adjustment_in')])
-    history_adjustment_out_id   = fields.One2many('reporting.stock.line.history', 'reporting_id', string="History", domain=[('stock_type', '=', 'adjustment_out')])
+    line_ids                    = fields.One2many('reporting.stock.kg.line', 'reporting_id', 'Details', ondelete="cascade")
+    history_ids                 = fields.One2many('reporting.stock.kg.line.history', 'reporting_id', string="History")
+    history_in_id               = fields.One2many('reporting.stock.kg.line.history', 'reporting_id', string="History", domain=[('stock_type', '=', 'receipt')])
+    history_out_id              = fields.One2many('reporting.stock.kg.line.history', 'reporting_id', string="History", domain=[('stock_type', '=', 'release')])
+    history_return_in_id        = fields.One2many('reporting.stock.kg.line.history', 'reporting_id', string="History", domain=[('stock_type', '=', 'return_in')])
+    history_return_out_id       = fields.One2many('reporting.stock.kg.line.history', 'reporting_id', string="History", domain=[('stock_type', '=', 'return_out')])
+    history_adjustment_in_id    = fields.One2many('reporting.stock.kg.line.history', 'reporting_id', string="History", domain=[('stock_type', '=', 'adjustment_in')])
+    history_adjustment_out_id   = fields.One2many('reporting.stock.kg.line.history', 'reporting_id', string="History", domain=[('stock_type', '=', 'adjustment_out')])
     data                        = fields.Binary(string='Image')
     type_reporting              = fields.Selection([("internal","Internal"),("all","All")], string='Type', default='internal')
     state                       = fields.Selection([('open', 'Open'),('locked', 'Locked'),], string='Status', default='open')
@@ -121,7 +121,7 @@ class ReportingStockKg(models.Model):
         
         query = """
         -- BEGIN DETAIL
-            insert into reporting_stock_line (reporting_id, location_id, product_id, qty_start, qty_in, qty_out, return_in, return_out, adjustment_in, adjustment_out, qty_balance, penyesuaian) (
+            insert into reporting_stock_kg_line (reporting_id, location_id, product_id, qty_start, qty_in, qty_out, return_in, return_out, adjustment_in, adjustment_out, qty_balance, penyesuaian) (
                 select %s as reporting_id, location_id, product_id, sum(qty_start) as qty_start, sum(qty_in) as qty_in, sum(qty_out) as qty_out, sum(return_in) as return_in, sum(return_out) as return_out, sum(adjustment_in) as adjustment_in, sum(adjustment_out) as adjustment_out, sum(qty_start) + sum(qty_in) + sum(return_in) - sum(qty_out) - sum(return_out) + sum(adjustment_in) - sum(adjustment_out) as qty_balance, sum(qty_start) + sum(qty_in) + sum(return_in) - sum(qty_out) - sum(return_out) + sum(adjustment_in) - sum(adjustment_out) as penyesuaian
                 from (
                     -- BEGIN SALDO AWAL
@@ -190,33 +190,33 @@ class ReportingStockKg(models.Model):
         -- END DETAIL
 
         -- BEGIN HISTORY IN
-            insert into reporting_stock_line_history (reporting_id, move_id, product_id, stock_type) (select %s as reporting_id, move_id, product_id, stock_type from (select row_number() OVER () as id, sm.id as move_id, pp.id as product_id, 'receipt' as stock_type 
+            insert into reporting_stock_kg_line_history (reporting_id, move_id, product_id, stock_type) (select %s as reporting_id, move_id, product_id, stock_type from (select row_number() OVER () as id, sm.id as move_id, pp.id as product_id, 'receipt' as stock_type 
             from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done >= %s and sp.date_done <= %s and sml.location_dest_id = %s and spt.return_type is null and sm.state = 'done' and %s) as a group by product_id, move_id, stock_type order by product_id);
 
         -- BEGIN HISTORY OUT
-            insert into reporting_stock_line_history (reporting_id, move_id, product_id, stock_type) (select %s as reporting_id, move_id, product_id, stock_type from (select row_number() OVER () as id, sm.id as move_id, pp.id as product_id, 'release' as stock_type 
+            insert into reporting_stock_kg_line_history (reporting_id, move_id, product_id, stock_type) (select %s as reporting_id, move_id, product_id, stock_type from (select row_number() OVER () as id, sm.id as move_id, pp.id as product_id, 'release' as stock_type 
             from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done >= %s and sp.date_done <= %s and sml.location_id = %s and spt.return_type is null and sm.state = 'done' and %s) as a group by product_id, move_id, stock_type order by product_id);
 
-            insert into reporting_stock_line_history (reporting_id, move_id, product_id, stock_type) (select %s as reporting_id, move_id, product_id, stock_type from (select row_number() OVER () as id, sm.id as move_id, pp.id as product_id, 'release' as stock_type 
+            insert into reporting_stock_kg_line_history (reporting_id, move_id, product_id, stock_type) (select %s as reporting_id, move_id, product_id, stock_type from (select row_number() OVER () as id, sm.id as move_id, pp.id as product_id, 'release' as stock_type 
             from stock_move_line sml, stock_move sm, product_product pp, product_template ppt where sml.move_id = sm.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sml.date >= %s and sml.date <= %s and sml.location_id = %s and sml.production_id is not null and %s) as a group by product_id, move_id, stock_type order by product_id);
 
         -- BEGIN RETURN IN
-            insert into reporting_stock_line_history (reporting_id, move_id, product_id, stock_type) (select %s as reporting_id, move_id, product_id, stock_type from (select row_number() OVER () as id, sm.id as move_id, pp.id as product_id, 'return_in' as stock_type 
+            insert into reporting_stock_kg_line_history (reporting_id, move_id, product_id, stock_type) (select %s as reporting_id, move_id, product_id, stock_type from (select row_number() OVER () as id, sm.id as move_id, pp.id as product_id, 'return_in' as stock_type 
             from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done >= %s and sp.date_done <= %s and sml.location_dest_id = %s and spt.return_type in ('return_out','return_in') and sm.state = 'done' and %s) as a group by product_id, move_id, stock_type order by product_id);
 
         -- BEGIN RETURN OUT
-            insert into reporting_stock_line_history (reporting_id, move_id, product_id, stock_type) (select %s as reporting_id, move_id, product_id, stock_type from (select row_number() OVER () as id, sm.id as move_id, pp.id as product_id, 'return_out' as stock_type 
+            insert into reporting_stock_kg_line_history (reporting_id, move_id, product_id, stock_type) (select %s as reporting_id, move_id, product_id, stock_type from (select row_number() OVER () as id, sm.id as move_id, pp.id as product_id, 'return_out' as stock_type 
             from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done >= %s and sp.date_done <= %s and sml.location_id = %s and spt.return_type in ('return_out','return_in') and sm.state = 'done' and %s) as a group by product_id, move_id, stock_type order by product_id);
 
         -- BEGIN ADJUSTMENT IN
-            insert into reporting_stock_line_history (reporting_id, move_id, product_id, stock_type) (select %s as reporting_id, move_id, product_id, stock_type from (select row_number() OVER () as id, sm.id as move_id, pp.id as product_id, 'adjustment_in' as stock_type 
+            insert into reporting_stock_kg_line_history (reporting_id, move_id, product_id, stock_type) (select %s as reporting_id, move_id, product_id, stock_type from (select row_number() OVER () as id, sm.id as move_id, pp.id as product_id, 'adjustment_in' as stock_type 
             from stock_move_line sml, stock_move sm, product_product pp, product_template ppt where sml.move_id = sm.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.inventory_id is not null and sm.inventory_id <> %s and sml.date >= %s and sml.date <= %s and sml.location_dest_id = %s and sm.state = 'done' and %s) as a group by product_id, move_id, stock_type order by product_id);
 
         -- BEGIN ADJUSTMENT OUT
-            insert into reporting_stock_line_history (reporting_id, move_id, product_id, stock_type) (select %s as reporting_id, move_id, product_id, stock_type from (select row_number() OVER () as id, sm.id as move_id, pp.id as product_id, 'adjustment_out' as stock_type 
+            insert into reporting_stock_kg_line_history (reporting_id, move_id, product_id, stock_type) (select %s as reporting_id, move_id, product_id, stock_type from (select row_number() OVER () as id, sm.id as move_id, pp.id as product_id, 'adjustment_out' as stock_type 
             from stock_move_line sml, stock_move sm, product_product pp, product_template ppt where sml.move_id = sm.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.inventory_id is not null and sm.inventory_id <> %s and sml.date >= %s and sml.date <= %s and sml.location_id = %s and sm.state = 'done' and %s) as a group by product_id, move_id, stock_type order by product_id);
 
-        DELETE FROM reporting_stock_line where reporting_id = %s and qty_start = 0 and qty_in = 0 and qty_out = 0 and return_in = 0 and return_out = 0 and adjustment_in = 0 and adjustment_out = 0 and qty_balance = 0;
+        DELETE FROM reporting_stock_kg_line where reporting_id = %s and qty_start = 0 and qty_in = 0 and qty_out = 0 and return_in = 0 and return_out = 0 and adjustment_in = 0 and adjustment_out = 0 and qty_balance = 0;
         """%(
             #head
             self.id, self.inventory_id.id, where_product_category_id,
@@ -295,12 +295,12 @@ class ReportingStockKgLine(models.Model):
     adjustment_out              = fields.Float("Penyesuaian Keluar", digits=(16,4),)
     qty_balance                 = fields.Float("Saldo Akhir", digits=(16,4),)
     penyesuaian                 = fields.Float("Penyesuaian", digits=(16,4))
-    history_in_ids              = fields.One2many('reporting.stock.line.history', 'reporting_line_id', string="History In", domain=[('stock_type', '=', 'receipt')])
-    history_out_ids             = fields.One2many('reporting.stock.line.history', 'reporting_line_id', string="History Out", domain=[('stock_type', '=', 'release')])
-    history_return_in_ids       = fields.One2many('reporting.stock.line.history', 'reporting_line_id', string="History Return In", domain=[('stock_type', '=', 'return_in')])
-    history_return_out_ids      = fields.One2many('reporting.stock.line.history', 'reporting_line_id', string="History Return Out", domain=[('stock_type', '=', 'return_out')])
-    history_adjustment_in_ids   = fields.One2many('reporting.stock.line.history', 'reporting_line_id', string="History Adjustment In", domain=[('stock_type', '=', 'adjustment_in')])
-    history_adjustment_out_ids  = fields.One2many('reporting.stock.line.history', 'reporting_line_id', string="History Adjustment Out", domain=[('stock_type', '=', 'adjustment_out')])
+    history_in_ids              = fields.One2many('reporting.stock.kg.line.history', 'reporting_line_id', string="History In", domain=[('stock_type', '=', 'receipt')])
+    history_out_ids             = fields.One2many('reporting.stock.kg.line.history', 'reporting_line_id', string="History Out", domain=[('stock_type', '=', 'release')])
+    history_return_in_ids       = fields.One2many('reporting.stock.kg.line.history', 'reporting_line_id', string="History Return In", domain=[('stock_type', '=', 'return_in')])
+    history_return_out_ids      = fields.One2many('reporting.stock.kg.line.history', 'reporting_line_id', string="History Return Out", domain=[('stock_type', '=', 'return_out')])
+    history_adjustment_in_ids   = fields.One2many('reporting.stock.kg.line.history', 'reporting_line_id', string="History Adjustment In", domain=[('stock_type', '=', 'adjustment_in')])
+    history_adjustment_out_ids  = fields.One2many('reporting.stock.kg.line.history', 'reporting_line_id', string="History Adjustment Out", domain=[('stock_type', '=', 'adjustment_out')])
    
 
     def update_reporting_line(self):
