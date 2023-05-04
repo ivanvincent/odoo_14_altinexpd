@@ -35,6 +35,7 @@ class MrpProduction(models.Model):
     kd_bahan            = fields.Char('Kode Bahan')
     lapisan             = fields.Char('Surface Finish')
     partner_id          = fields.Many2one('res.partner', string='Customer', related='request_id.partner_id')
+    process_terkini     = fields.Many2one('mrp.workcenter', string='Process Terkini')
     
     def action_split_workorder(self):
         return {
