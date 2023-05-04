@@ -93,7 +93,7 @@ class ReportingStockKg(models.Model):
     def unlink(self):
         if self.state == 'locked':
             raise UserError(_('You cannot delete a reporting !!!'))
-        return super(ReportingStock, self).unlink()
+        return super(ReportingStockKg, self).unlink()
 
 
     def action_calculate(self):
