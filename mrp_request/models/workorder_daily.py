@@ -172,12 +172,12 @@ class WorkorderDaily(models.Model):
         return data
 
     @api.model
-    def get_machine(self):
+    def get_machine(self, workcenter_id):
         print('==========get_action========')
         _logger.warning('==========get_action========')
-        user = self.env.user
-        _logger.warning(user.workcenter_id.machine_ids.ids)
-        return user.workcenter_id.machine_ids.ids
+        workcenter_obj = self.env['mrp.workcenter'].browse(workcenter_id)
+        _logger.warning(workcenter_obj.workcenter_id.machine_ids.ids)
+        return workcenter_obj.machine_ids.ids
 
     @api.model
     def scan_setter_machine(self, badge, no_mo, machine_id, time):
