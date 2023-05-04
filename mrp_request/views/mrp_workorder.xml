@@ -96,6 +96,8 @@
                     <field name="satuan_id"/>
                     <field name="actual_qty"/>
                     <field name="rework_qty"/>
+                    <field name="date_hold"/>
+                    <field name="date_unhold"/>
                     <field name="product_uom_id"/>
                 </xpath>
             </field>

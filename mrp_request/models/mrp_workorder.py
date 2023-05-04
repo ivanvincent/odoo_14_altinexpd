@@ -22,6 +22,8 @@ class MrpWorkorder(models.Model):
     setting_machine_ids = fields.One2many('setting.machine', 'workorder_id', 'Line')
     inputed_wo_daily = fields.Boolean(string='Inputed Wo Daily ?', default=False)
     no_urut          = fields.Integer(string='No Urut', compute='_compute_no_urut')
+    date_hold        = fields.Date(string='Date Hold')
+    date_unhold      = fields.Date(string='Date Unhold')
     
     @api.depends('workorder_ids')
     def _get_actual_qty(self):
