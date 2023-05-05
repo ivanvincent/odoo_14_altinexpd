@@ -65,7 +65,7 @@ class WorkorderDaily(models.Model):
                     'is_start': True,
                     'workcenter_name': wo_id.workcenter_id.name
                 }
-                return data
+                return data 
             else:
                 data = {
                     'is_start': False,
@@ -73,7 +73,7 @@ class WorkorderDaily(models.Model):
                     'production_qty': wo_id.production_qty,
                     'actual_qty': wo_id.actual_qty,
                     'remaining_qty': wo_id.production_qty - wo_id.actual_qty,
-                    'workcenter_id': wo_id.workcenter_id.id
+                    'workorder_id': wo_id.id
                 }
                 return data
         except Exception as e:
@@ -172,12 +172,13 @@ class WorkorderDaily(models.Model):
         return data
 
     @api.model
-    def get_machine(self, workcenter_id):
-        print('==========get_action========')
-        _logger.warning('==========get_action========')
-        workcenter_obj = self.env['mrp.workcenter'].browse(workcenter_id)
-        _logger.warning(workcenter_obj.workcenter_id.machine_ids.ids)
-        return workcenter_obj.machine_ids.ids
+    def get_machine(self, workorder_id):
+        print('==========get_machine========')
+        _logger.warning('==========get_machine========')
+        workorder_obj = self.env['mrp.workorder'].browse(workorder_id)
+        _logger.warning(workorder_obj.workcenter_id.id)
+        _logger.warning(workorder_obj.workcenter_id.machine_ids.ids)
+        return workorder_obj.workcenter_id.machine_ids.ids
 
     @api.model
     def scan_setter_machine(self, badge, no_mo, machine_id, time):

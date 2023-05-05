@@ -76,9 +76,9 @@
                                 <th style="border: 1px solid black; padding-left : 5px ; padding-right : 5px">Qty Remaining</th>
                                 <th style="border: 1px solid black; padding-left : 5px ; padding-right : 5px">Qty Produce</th>
                                 <th style="border: 1px solid black; padding-left : 5px ; padding-right : 5px">UoM</th>
-                                <th style="border: 1px solid black; padding-left : 5px ; padding-right : 5px">Shape</th>
-                                <th style="border: 1px solid black; padding-left : 5px ; padding-right : 5px">Team</th>
-                                <th style="border: 1px solid black; padding-left : 5px ; padding-right : 5px">Operation Template</th>
+                                <!-- <th style="border: 1px solid black; padding-left : 5px ; padding-right : 5px">Shape</th> -->
+                                <!-- <th style="border: 1px solid black; padding-left : 5px ; padding-right : 5px"  >Team</th> -->
+                                <th style="border: 1px solid black; pa  dding-left : 5px ; padding-right : 5px">Operation Template</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -93,7 +93,7 @@
                                     <td style="border: 1px solid black;" class="text-center"><span t-esc="line.quantity_remaining"/></td>
                                     <td style="border: 1px solid black;" class="text-center"><span t-esc="line.qty_produce"/></td>
                                     <td style="border: 1px solid black;" class="text-center"><span t-esc="line.product_uom_id.name"/></td>
-                                    <td style="border: 1px solid black;" class="text-center"><span t-esc="line.shape"/></td>
+                                    <!-- <td style="border: 1px solid black;" class="text-center"><span t-esc="line.shape"/></td> -->
                                     <td style="border: 1px solid black;" class="text-center"><span t-esc="line.team"/></td>
                                     <td style="border: 1px solid black;" class="text-center"><span t-esc="line.operation_template_id.name"/></td>
                                 </tr>
