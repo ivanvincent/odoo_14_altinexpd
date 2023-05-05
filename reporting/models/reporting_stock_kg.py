@@ -122,10 +122,15 @@ class ReportingStockKg(models.Model):
         query = """
         -- BEGIN DETAIL
             insert into reporting_stock_kg_line (reporting_id, location_id, product_id, qty_start, qty_in, qty_out, return_in, return_out, adjustment_in, adjustment_out, qty_balance, penyesuaian) (
-                select %s as reporting_id, location_id, product_id, sum(qty_start) as qty_start, sum(qty_in) as qty_in, sum(qty_out) as qty_out, sum(return_in) as return_in, sum(return_out) as return_out, sum(adjustment_in) as adjustment_in, sum(adjustment_out) as adjustment_out, sum(qty_start) + sum(qty_in) + sum(return_in) - sum(qty_out) - sum(return_out) + sum(adjustment_in) - sum(adjustment_out) as qty_balance, sum(qty_start) + sum(qty_in) + sum(return_in) - sum(qty_out) - sum(return_out) + sum(adjustment_in) - sum(adjustment_out) as penyesuaian
+                select %s as reporting_id, location_id, product_id, sum(qty_start) as qty_start, sum(qty_in) as qty_in, sum(qty_out) as qty_out, sum(return_in) as return_in, sum(return_out) as return_out, 
+                    sum(adjustment_in) as adjustment_in, sum(adjustment_out) as adjustment_out, 
+                    (pp.diameter * pp.diameter * pp.variable * (sum(qty_start) + sum(qty_in) + sum(return_in) - sum(qty_out) - sum(return_out) + sum(adjustment_in) - sum(adjustment_out))/ 1000000) as qty_balance, 
+                    (pp.diameter * pp.diameter * pp.variable * (sum(qty_start) + sum(qty_in) + sum(return_in) - sum(qty_out) - sum(return_out) + sum(adjustment_in) - sum(adjustment_out))/ 1000000) as penyesuaian
                 from (
                     -- BEGIN SALDO AWAL
-                    select row_number() OVER (), sil.location_id as location_id, sil.product_id as product_id, sil.product_qty as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out 
+                    select row_number() OVER (), sil.location_id as location_id, sil.product_id as product_id, 
+                    pp.diameter * pp.diameter * pp.variable * sil.product_qty / 1000000 as qty_start, 
+                    0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out 
                     from stock_inventory_line sil, product_product pp, product_template ppt where sil.product_id = pp.id and pp.product_tmpl_id = ppt.id and sil.inventory_id = %s and %s
                     union
                     select row_number() OVER () as id, location_id, product_id, sum(qty_start) + sum(qty_in) + sum(return_in) - sum(qty_out) - sum(return_out) + sum(adjustment_in) - sum(adjustment_out) as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out
@@ -152,40 +157,53 @@ class ReportingStockKg(models.Model):
 
                     -- Receipt
                     union
-                    select row_number() OVER (), sml.location_dest_id as location_id, sml.product_id as product_id, 0 as qty_start, sml.qty_done as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out 
+                    select row_number() OVER (), sml.location_dest_id as location_id, sml.product_id as product_id, 0 as qty_start, 
+                    (pp.diameter * pp.diameter * pp.variable * sml.qty_done / 1000000) as qty_in, 
+                    0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out 
                     from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done >= %s and sp.date_done <= %s and sml.location_dest_id = %s and spt.return_type is null and sm.state = 'done' and %s
 
                     -- Release
                     union
-                    select row_number() OVER (), sml.location_id as location_id, sml.product_id as product_id, 0 as qty_start, 0 as qty_in, sml.qty_done as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out 
+                    select row_number() OVER (), sml.location_id as location_id, sml.product_id as product_id, 0 as qty_start, 0 as qty_in, 
+                    (pp.diameter * pp.diameter * pp.variable * sml.qty_done / 1000000) as qty_out, 
+                    0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out 
                     from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done >= %s and sp.date_done <= %s and sml.location_id = %s and spt.return_type is null and sm.state = 'done' and %s
 
                     -- Release Manufacturing
                     union
-                    select row_number() OVER (), sml.location_id as location_id, sml.product_id as product_id, 0 as qty_start, 0 as qty_in, sml.qty_done as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out 
+                    select row_number() OVER (), sml.location_id as location_id, sml.product_id as product_id, 0 as qty_start, 0 as qty_in, 
+                    (pp.diameter * pp.diameter * pp.variable * sml.qty_done / 1000000) as qty_out, 
+                    0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out 
                     from stock_move_line sml, product_product pp, product_template ppt where sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sml.date >= %s and sml.date <= %s and sml.location_id = %s and sml.production_id is not null and %s
 
 
                     -- Retur In
                     union
-                    select row_number() OVER (), sml.location_dest_id as location_id, sml.product_id as product_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, sml.qty_done as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out 
+                    select row_number() OVER (), sml.location_dest_id as location_id, sml.product_id as product_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 
+                    (pp.diameter * pp.diameter * pp.variable * sml.qty_done / 1000000) as return_in, 
+                    0 as return_out, 0 as adjustment_in, 0 as adjustment_out 
                     from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done >= %s and sp.date_done <= %s and sml.location_dest_id = %s and spt.return_type in ('return_out','return_in') and sm.state = 'done' and %s
 
                     -- Retur Out
                     union
-                    select row_number() OVER (), sml.location_id as location_id, sml.product_id as product_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, sml.qty_done as return_out, 0 as adjustment_in, 0 as adjustment_out 
+                    select row_number() OVER (), sml.location_id as location_id, sml.product_id as product_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 
+                    (pp.diameter * pp.diameter * pp.variable * sml.qty_done / 1000000) as return_out, 
+                    0 as adjustment_in, 0 as adjustment_out 
                     from stock_move_line sml, stock_move sm, stock_picking sp, product_product pp, product_template ppt, stock_picking_type spt where sml.move_id = sm.id and sm.picking_id = sp.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.picking_type_id = spt.id and sp.date_done >= %s and sp.date_done <= %s and sml.location_id = %s and spt.return_type in ('return_out','return_in') and sm.state = 'done' and %s
 
                     -- Adjustment In
                     union
-                    select row_number() OVER (), sml.location_dest_id as location_id, sml.product_id as product_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, sml.qty_done as adjustment_in, 0 as adjustment_out 
+                    select row_number() OVER (), sml.location_dest_id as location_id, sml.product_id as product_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 
+                    (pp.diameter * pp.diameter * pp.variable * sml.qty_done / 1000000) as adjustment_in, 
+                    0 as adjustment_out 
                     from stock_move_line sml, stock_move sm, product_product pp, product_template ppt where sml.move_id = sm.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.inventory_id is not null and sm.inventory_id <> %s and sml.date >= %s and sml.date <= %s and sml.location_dest_id = %s and sm.state = 'done' and %s
 
                     -- Adjustment Out
                     union
-                    select row_number() OVER (), sml.location_id as location_id, sml.product_id as product_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, sml.qty_done as adjustment_out 
+                    select row_number() OVER (), sml.location_id as location_id, sml.product_id as product_id, 0 as qty_start, 0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 
+                    (pp.diameter * pp.diameter * pp.variable * sml.qty_done / 1000000) as adjustment_out 
                     from stock_move_line sml, stock_move sm, product_product pp, product_template ppt where sml.move_id = sm.id and sml.product_id = pp.id and pp.product_tmpl_id = ppt.id and sm.inventory_id is not null and sm.inventory_id <> %s and sml.date >= %s and sml.date <= %s and sml.location_id = %s and sm.state = 'done' and %s
-                ) as a group by location_id, product_id order by product_id
+                ) as a left join product_product pp on product_id = pp.id group by location_id, product_id, pp.diameter, pp.variable order by product_id
             );
         -- END DETAIL
 
@@ -248,10 +266,11 @@ class ReportingStockKg(models.Model):
 
             self.id
             )
+        # print(query)
+        # sdfnsldkfsnl
         self._cr.execute(query)
         for line in self.line_ids:
             line.update_reporting_line()
-            # line.query_update_onhand()
 
 
 
