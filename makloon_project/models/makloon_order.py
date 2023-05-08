@@ -228,6 +228,10 @@ class MakloonOrder(models.Model):
     stock_result_return_pack_ids = fields.One2many('stock.pack.operation', compute="_get_return_result_pack", string="Result Return")
     stock_material_scrap_ids = fields.One2many('stock.move', compute="_get_scrap_product", string="Valasi/Loss")
 
+    supplier    = fields.Char(string='Supplier')
+    product     = fields.Char(string='Product')
+    note        = fields.Char(string='Note')
+
     # @api.multi
     def _create_sequence_mo(self):
         me = self[0]
