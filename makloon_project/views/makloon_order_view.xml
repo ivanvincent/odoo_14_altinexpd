@@ -130,7 +130,9 @@
                         </group>
 
                         <group>
-                            <field name="notes" required="1"/>
+                            <field name="nama_alias"/>
+                            <field name="due_date"/>
+                            <field name="notes" required="0"/>
                         </group>
 
                         <notebook>
