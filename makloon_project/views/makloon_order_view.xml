@@ -161,6 +161,13 @@
                                     </tree>
                                 </field>
                             </page>
+                            <page string="Berita Acara" >
+                                    <group>
+                                            <field name="supplier"/>
+                                            <field name="product"/>
+                                            <field name="note"/>
+                                    </group>
+                            </page>
 
 
                             <page string="Material Ready To Send" attrs="{'invisible': [('state', 'in', ['draft','confirm'])]}">

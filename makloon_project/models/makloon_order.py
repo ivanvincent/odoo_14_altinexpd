@@ -230,6 +230,10 @@ class MakloonOrder(models.Model):
     nama_alias = fields.Char(string='Nama Alias')
     due_date = fields.Date(string='Due Date')
 
+    supplier    = fields.Char(string='Supplier')
+    product     = fields.Char(string='Product')
+    note        = fields.Char(string='Note')
+
     # @api.multi
     def _create_sequence_mo(self):
         me = self[0]
