@@ -82,7 +82,7 @@ class WorkorderDaily(models.Model):
             return False
 
     @api.model
-    def input_wo_daily(self, mo_name, machine_id, qty, qty_rework, wo_daily_id):
+    def input_wo_daily(self, mo_name, machine_ids, qty, qty_rework, wo_daily_id):
         try:
             mo_obj = self.env['mrp.production'].search([('name', '=', mo_name)])
             if mo_name:
@@ -92,8 +92,10 @@ class WorkorderDaily(models.Model):
                 self._cr.execute(query)
                 wo_obj = self._cr.dictfetchall()
                 print(wo_obj)
+                print("machine_ids", type(list(machine_ids)))
                 wo_id = self.env['mrp.workorder'].browse(wo_obj[0].get('id'))
-                parameter_id = wo_id.parameter_ids.filtered(lambda x: x.is_scanned == False).sorted(lambda x: x.sequence, reverse=True)[0].parameter_id if wo_id.parameter_ids else False
+                parameter_id = wo_id.parameter_ids.filtered(lambda x: x.is_scanned == False).sorted(lambda x: x.sequence, reverse=True)[0].parameter_id .id if wo_id.parameter_ids else False
+                print("parameter_id", parameter_id)
                 wo_id.write({
                     'inputed_wo_daily': True,
                     'workorder_ids': [(0, 0, {
@@ -103,13 +105,14 @@ class WorkorderDaily(models.Model):
                         'product_uom_qty': qty,
                         'qty_rework': qty_rework,
                         'wo_daily_id': wo_daily_id,
-                        # 'machine_ids': machine_obj.id,
+                        'machine_ids': [(6, 0, list(machine_ids))],
                         # 'resource_calendar_ids': user_id.employee_id.resource_calendar_ids.id,
-                        'parameter_id': parameter_id.id,
+                        'parameter_id': parameter_id,
                         'is_rework': True if int(qty_rework) > 0 else False,
                     })]
                 })  
                 if parameter_id:
+                    parameter_id = self.env['mrp.parameter'].browse(parameter_id)
                     parameter_id.write({
                         'is_scanned' : True
                     })
