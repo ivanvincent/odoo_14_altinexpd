@@ -40,7 +40,7 @@ class MakloonPlanning(models.Model):
             self.mako_count= len(self.mako_ids)
 
     name = fields.Char("Name", default="New", required=True)
-    date = fields.Date("Date Planning")
+    date = fields.Date("Create Date")
     due_date = fields.Date("Due Date")
     stage_ids = fields.One2many("makloon.planning.stage", "planning_id", "Makloon Stages")
     company_id = fields.Many2one('res.company', 'Company', required=True, index=True,
