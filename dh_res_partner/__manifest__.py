@@ -12,8 +12,8 @@
     'maintainer': 'Sangkuriang',
     'support': 'denihida1216@gmail.com',
     'website': '',
-    'depends': ['fi_sale_sharon', 'vit_uudp'],
-    # 'depends': ['fi_sale_sharon'],
+    # 'depends': ['fi_sale_sharon', 'vit_uudp'],
+    'depends': ['fi_sale_sharon'],
     # 'depends': ['fi_sale_sharon'],
     'demo': [],
     'data': [
