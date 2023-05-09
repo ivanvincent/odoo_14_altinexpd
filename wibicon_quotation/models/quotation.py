@@ -28,7 +28,7 @@ class Quotation(models.Model):
     company_currency_id = fields.Many2one(related='company_id.currency_id', string='Company Currency',
                                           readonly=True, store=True, help='Utility field to express amount currency')
     payment_term_id = fields.Many2one(
-        'account.payment.term', string='Payment Term')
+        'account.payment.term', string='Payment Term', related='partner_id.property_payment_term_id')
     drawing_internal = fields.Binary(
         string='Drawing Internal', related='design_code_id.drawing_internal')
     drawing_external = fields.Binary(
@@ -50,8 +50,7 @@ class Quotation(models.Model):
     up_kpd = fields.Char(string='Attn')
     note_so = fields.Char(string='Note')
     perihal = fields.Char(string='Perihal')
-    tanggal_berlaku = fields.Date(
-        string='Tanggal Berlaku', compute="compute_tanggal_berlaku")
+    tanggal_berlaku = fields.Date(string='Tanggal Berlaku', compute="compute_tanggal_berlaku")
     
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids')
