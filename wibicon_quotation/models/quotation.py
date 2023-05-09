@@ -47,7 +47,7 @@ class Quotation(models.Model):
     no_sample = fields.Char(string='No Sample')
     product_order_id = fields.Many2one('product.order', string='Product Order')
     cup_depth_id = fields.Many2one('cup.depth', string='Cup Depth')
-    up_kpd = fields.Char(string='Up. Pengiriman')
+    up_kpd = fields.Char(string='Attn')
     note_so = fields.Char(string='Note')
     perihal = fields.Char(string='Perihal')
     tanggal_berlaku = fields.Date(
