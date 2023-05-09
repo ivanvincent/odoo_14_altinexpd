@@ -33,7 +33,7 @@
                                         <field name="product_sepi_id" />
                                         <field name="qty_available_sepi"/>
                                         <field name="no_drawing" />
-                                        <field name="uk_bahan" />
+                                        <field name="uk_bahan" placeholder="DIA X PJG"/>
                                         <field name="drawing_external"/>
                                         <field name="picking_id"/>
                                     </tree>
