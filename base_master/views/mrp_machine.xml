@@ -73,7 +73,13 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem id="submenu_6" name="Machine" parent="menu_master" action="machine_action" />
+       <record id="mrp_machine_action" model="ir.actions.act_window">
+           <field name="name">Mrp Machine</field>
+           <field name="res_model">mrp.machine</field>
+           <field name="view_mode">tree,form</field>
+       </record>
+
+        <menuitem id="submenu_6" name="Machine" parent="menu_master" action="mrp_machine_action" />
       
         <menuitem id="machine_category_menu" name="Machine Category" parent="menu_master" action="machine_category_action" />
 
