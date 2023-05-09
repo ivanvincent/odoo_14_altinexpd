@@ -113,7 +113,7 @@
                                         <td width="30%" style="font-size:16px; padding-left:10px;">Email</td>
                                         <td>
                                             <span>:</span>
-                                            <span style="font-size:16px" t-esc="doc.partner_id.mobile"/>
+                                            <span style="font-size:16px" t-esc="doc.partner_id.email"/>
                                         </td>
                                     </tr>
                                     <tr>
