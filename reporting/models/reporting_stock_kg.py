@@ -129,7 +129,7 @@ class ReportingStockKg(models.Model):
                 from (
                     -- BEGIN SALDO AWAL
                     select row_number() OVER (), sil.location_id as location_id, sil.product_id as product_id, 
-                    pp.diameter * pp.diameter * pp.variable * sil.product_qty / 1000000 as qty_start, 
+                    (pp.diameter * pp.diameter * pp.variable * sil.product_qty / 1000000) as qty_start, 
                     0 as qty_in, 0 as qty_out, 0 as return_in, 0 as return_out, 0 as adjustment_in, 0 as adjustment_out 
                     from stock_inventory_line sil, product_product pp, product_template ppt where sil.product_id = pp.id and pp.product_tmpl_id = ppt.id and sil.inventory_id = %s and %s
                     union
@@ -301,7 +301,7 @@ class ReportingStockKgLine(models.Model):
     categ_id                    = fields.Many2one('product.category', string="Product Category" , related='product_id.categ_id')
     uom_id                      = fields.Many2one('uom.uom', string="Uom", related='product_id.uom_id')
     location_id                 = fields.Many2one('stock.location', 'Location', domain=[('usage','=','internal')])
-    reporting_id                = fields.Many2one('reporting.stock', string='Reporting')
+    reporting_id                = fields.Many2one('reporting.stock.kg', string='Reporting')
     picking_id                  = fields.Many2one('stock.picking', string='Picking',)
     product_id                  = fields.Many2one('product.product', string='Product',)
     hpp                         = fields.Float("HPP", related='product_id.standard_price')
