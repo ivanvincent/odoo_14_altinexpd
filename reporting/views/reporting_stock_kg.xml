@@ -67,7 +67,7 @@
                             </group>
                         </group>
                         <notebook>
-                            <page string="Detail">
+                            <!-- <page string="Detail">
                                 <field name="line_ids" attrs="{'readonly': [('state', '=', 'locked')]}">
                                     <tree string="Detail" editable="bottom" create="false">
                                         <field name="location_id" invisible="1" readonly="1"/>
@@ -87,7 +87,7 @@
                                         <field name="penyesuaian" sum='penyesuaian' />
                                     </tree>
                                 </field>
-                            </page>
+                            </page> -->
                             <page string="Receipt">
                                 <field name="history_in_id" readonly="1">
                                     <tree string="Detail" editable="bottom" create="false">
