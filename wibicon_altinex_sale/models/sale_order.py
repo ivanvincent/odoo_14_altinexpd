@@ -10,6 +10,7 @@ class SaleOrder(models.Model):
     up_kpd          = fields.Char(string='Up. Pengiriman')
     note_so         = fields.Char(string='Note')
     no_dqc          = fields.Boolean(related='partner_id.no_dqc', string='Status DQC')  
+    alamat          = fields.Text(string='Alamat')
     # payment_term_id = fields.Many2one(related='quotation_id.payment_term_id', string='Payment Term')
     # payment_term_id = fields.Many2one('account.payment.term', string='Payment Term')
     # demantional_quality_control
