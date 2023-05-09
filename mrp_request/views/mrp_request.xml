@@ -42,9 +42,10 @@
             <field name="arch" type="xml">
                 <tree default_order="name desc">
                     <field name="name"/>
+                    <field name="partner_id"/>
                     <field name="request_date"/>
                     <field name="user_id"/>
-                    <field name="sale_id"/>
+                    <field name="sale_id" string="No SO"/>
                     <!-- <field name="order_ids" widget="many2many_tags"/> -->
                     <field name="state" widget="badge" decoration-info="state == 'confirm'" decoration-success="state == 'done'" />
                 </tree>
