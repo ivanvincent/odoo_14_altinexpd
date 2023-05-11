@@ -72,7 +72,7 @@
                     </page>
                     <page string="Parameters">
                         <field name="parameter_ids">
-                            <tree >
+                            <tree>
                                 <field name="sequence"/>
                                 <field name="parameter_id" options="{'no_open': True, 'no_create': True}"/>
                                 <field name="factor"/>
@@ -90,6 +90,7 @@
             <field name="inherit_id" ref="mrp.mrp_production_workorder_tree_editable_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='workcenter_id']" position="after">
+                    <field name="id"/>
                     <field name="product_id"/>
                     <field name="product_code"/>
                     <field name="machine_id"/>
@@ -97,6 +98,7 @@
                     <field name="satuan_id"/>
                     <field name="actual_qty"/>
                     <field name="rework_qty"/>
+                    <field name="operation_id"/>
                     <field name="date_hold"/>
                     <field name="date_unhold"/>
                     <field name="product_uom_id"/>

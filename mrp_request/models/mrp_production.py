@@ -92,6 +92,14 @@ class MrpProduction(models.Model):
                 # If the operations of the parent BoM and phantom BoM are the same, don't recreate work orders.
                 if not (bom.operation_ids and (not bom_data['parent_line'] or bom_data['parent_line'].bom_id.operation_ids != bom.operation_ids)):
                     continue
+
+                list_parameter = []
+                for l in production.bom_id.operation_template_id.line_ids:
+                    for p in l.parameter_ids:
+                        list_parameter.append((0, 0, 
+                            {'sequence': p.sequence, 'parameter_id': p.parameter_id.id, 'factor': p.factor, 'machine_id': p.machine_id.id }
+                        ))
+
                 for operation in bom.operation_ids:
                     workorders_values += [{
                         'name': operation.name,
@@ -102,6 +110,8 @@ class MrpProduction(models.Model):
                         'state': 'pending',
                         'consumption': production.consumption,
                         'machine_id': operation.machine_id.id,
+                        'parameter_ids': list_parameter
+
                     }]
             production.workorder_ids = [(5, 0)] + [(0, 0, value) for value in workorders_values]
             for workorder in production.workorder_ids:
