@@ -13,7 +13,7 @@ class MrpWorkorder(models.Model):
     # html_color       = fields.Char(related='production_id.html_color', string='Color',store=True,)
     machine_id       = fields.Many2one('mrp.machine', string='Machine')
     actual_qty       = fields.Float(compute='_get_actual_qty', string='Actual Qty', store=False)
-    parameter_ids    = fields.One2many('mrp.operation.template.line.parameter', string='Parameters',related="operation_id.parameter_ids")
+    parameter_ids    = fields.One2many('mrp.operation.template.line.parameter','workorder_id', string='Parameters')
     satuan_id        = fields.Many2one('satuan.produksi', string='Satuan Produksi',related="production_id.satuan_id")
     production_qty   = fields.Float(string='Production Qty',related="production_id.mrp_qty_produksi")
     product_code     = fields.Char(related='product_id.default_code', string='Code')

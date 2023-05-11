@@ -54,11 +54,17 @@ class WorkorderDaily(models.Model):
             #     return data
             # wo_obj = self.env['mrp.workorder'].search([('production_id', '=', mo_obj.id), ('inputed_wo_daily', '=', False)], limit=1, order='no_urut asc')
             query = f"""
-                select * from mrp_workorder where production_id = {mo_obj.id} and inputed_wo_daily = false order by name::INTEGER asc limit 1;
+                select * from mrp_workorder where production_id = {mo_obj.id} and state <> 'done' order by name::INTEGER asc limit 1;
             """
             self._cr.execute(query)
             wo_obj = self._cr.dictfetchall()
             wo_id = self.env['mrp.workorder'].browse(wo_obj[0].get('id'))
+            print('wo_iddddd', wo_id)
+
+            list_parameter  = wo_id.parameter_ids.ids
+            list_parameter_scanned  = wo_id.parameter_ids.filtered(lambda x: x.is_scanned).ids
+            print('list_parameter wkwkw', list_parameter)
+            # if not wo_id.date_planned_start:
             if not wo_id.date_planned_start:
                 wo_id.sudo().button_start()
                 data = {
@@ -66,7 +72,7 @@ class WorkorderDaily(models.Model):
                     'workcenter_name': wo_id.workcenter_id.name
                 }
                 return data 
-            else:
+            elif len(list_parameter) != len(list_parameter_scanned):
                 data = {
                     'is_start': False,
                     'workcenter_name': wo_id.workcenter_id.name,
@@ -82,26 +88,35 @@ class WorkorderDaily(models.Model):
             return False
 
     @api.model
-    def input_wo_daily(self, mo_name, machine_ids, qty, qty_rework, wo_daily_id):
+    def input_wo_daily(self, mo_name, machine_ids, qty, qty_rework, wo_daily_id, operator_id, parameter_id):
         try:
+            print("parameter_id first", type(parameter_id))
             mo_obj = self.env['mrp.production'].search([('name', '=', mo_name)])
             if mo_name:
                 query = f"""
-                    select * from mrp_workorder where production_id = {mo_obj.id} and state = 'progress' order by name::INTEGER asc limit 1;
+                    select * from mrp_workorder where production_id = {mo_obj.id} and state <> 'done' order by name::INTEGER asc limit 1;
                 """
+                print('query', query)
                 self._cr.execute(query)
                 wo_obj = self._cr.dictfetchall()
                 print(wo_obj)
                 print("machine_ids", type(list(machine_ids)))
                 wo_id = self.env['mrp.workorder'].browse(wo_obj[0].get('id'))
-                parameter_id = wo_id.parameter_ids.filtered(lambda x: x.is_scanned == False).sorted(lambda x: x.sequence, reverse=True)[0].parameter_id .id if wo_id.parameter_ids else False
-                print("parameter_id", parameter_id)
+                print("TESTT", wo_id.parameter_ids.filtered(lambda x: x.is_scanned == False).sorted(lambda x: x.sequence, reverse=False))
+                employee_id = self.env['hr.employee'].browse(operator_id)
+                if parameter_id != 0:
+                    parameter_id = self.env['mrp.parameter'].browse(parameter_id).id
+                else:
+                    # parameter_id = wo_id.parameter_ids.filtered(lambda x: x.is_scanned == False).sorted(lambda x: x.sequence, reverse=False)[0].parameter_id .id if wo_id.parameter_ids else False
+                    parameter_id = wo_id.parameter_ids.filtered(lambda x: x.is_scanned == False).sorted(lambda x: x.sequence, reverse=False)[0].parameter_id.id if wo_id.parameter_ids else False
+
+                print("parameter_id asli", parameter_id)
                 wo_id.write({
                     'inputed_wo_daily': True,
                     'workorder_ids': [(0, 0, {
                         'date': fields.Date.today(),
                         'workcenter_id': wo_id.workcenter_id.id,
-                        # 'employee_id': user_id.employee_id.id,
+                        'employee_id': employee_id.id,
                         'product_uom_qty': qty,
                         'qty_rework': qty_rework,
                         'wo_daily_id': wo_daily_id,
@@ -112,11 +127,13 @@ class WorkorderDaily(models.Model):
                     })]
                 })  
                 if parameter_id:
-                    parameter_id = self.env['mrp.parameter'].browse(parameter_id)
+                    parameter_id = self.env['mrp.operation.template.line.parameter'].search([('workorder_id', '=', wo_id.id), ('parameter_id', '=', parameter_id)])
                     parameter_id.write({
                         'is_scanned' : True
                     })
-                if wo_id.production_qty == wo_id.actual_qty:
+                list_parameter  = wo_id.parameter_ids.ids
+                list_parameter_scanned  = wo_id.parameter_ids.filtered(lambda x: x.is_scanned).ids
+                if len(list_parameter) == list_parameter_scanned:
                     wo_id.button_done()
             return True
         except Exception as e:
