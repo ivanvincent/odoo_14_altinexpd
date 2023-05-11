@@ -30,6 +30,7 @@ class ManufacturingRequest(models.Model):
     no_sample           = fields.Char(related='sale_id.no_sample', string='No Sample')
     note_so             = fields.Char(related='sale_id.note_so' , string='Note')
     team                = fields.Selection([("1","1"),("2","2"),("3","3")], string='Team')
+    option_vip          = fields.Selection([("vip","VIP"),("high_gress","High Gress")], related='sale_id.option_vip' ,  string='HighGress / VIP')
 
     
     
