@@ -133,7 +133,9 @@ class WorkorderDaily(models.Model):
                     })
                 list_parameter  = wo_id.parameter_ids.ids
                 list_parameter_scanned  = wo_id.parameter_ids.filtered(lambda x: x.is_scanned).ids
-                if len(list_parameter) == list_parameter_scanned:
+                print("list_parameter", list_parameter)
+                print("list_parameter_scanned", list_parameter_scanned)
+                if len(list_parameter) == len(list_parameter_scanned):
                     wo_id.button_done()
             return True
         except Exception as e:
