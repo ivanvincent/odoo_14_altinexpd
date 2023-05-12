@@ -20,6 +20,7 @@
                     <field name="note_so"/>
                     <field name="no_dqc"/>
                     <field name="alamat"/>
+                    <field name="option_vip"/>
                 </xpath>
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="up_kpd"/>

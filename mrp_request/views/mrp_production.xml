@@ -59,6 +59,7 @@
                     <field name="due_date_produksi"/>
                     <field name="no_sample"/>
                     <field name="note_so"/>
+                    <field name="option_vip"/>
                     <!-- <field name="kd_bahan"/> -->
                 </xpath>
             </field>
