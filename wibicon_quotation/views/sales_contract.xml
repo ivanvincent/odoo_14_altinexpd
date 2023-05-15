@@ -269,15 +269,7 @@
                         <span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">PT.ALTINEX</span><br/>
                         <span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">sales@altinex.co</span><br/> 
                     </div>
-                    
-                    <t t-call="web.html_container"/>       
-                    <t t-call="web.external_layout">
-                    <div style=" background-color: #3498DB; color:#fff !important; font:15px lucida-console,sans-serif !important; ">
-                    <!--<p t-if="o.notes">-->
-                    <!--<strong><span>Note:</span> </strong> <span t-field="o.notes"/>-->
-                    <!--</p>-->
-                    </div>
-                    </t>    
+                
 
                 </t>
             </t>
