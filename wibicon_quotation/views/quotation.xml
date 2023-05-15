@@ -24,10 +24,12 @@
                             <group>
                                 <field name="partner_id" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="date" attrs="{'readonly':[('state','=','confirm')]}" />
-                                <field name="up_kpd"/>
+                                <field name="attn_ids" invisible="1"/>
+                                <field name="up_kpd" domain="[('id', 'in', attn_ids)]"/>
                                 <field name="note_so"/>
                                 <field name="perihal"/>
                                 <field name="design_code_id" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="no_quotation_accurate"/>
                                 <field name="image_binary" widget='image' class='oe_avatar' attrs="{'readonly':[('state','=','confirm')]}" />
                             </group>
                             <group>
