@@ -191,6 +191,7 @@ class MakloonOrder(models.Model):
 
     material_ids = fields.One2many('makloon.order.material', 'order_id', "Material List")
     result_ids = fields.One2many('makloon.order.result', 'order_id', "Result List")
+    # berita_acara_ids = fields.One2many('makloon.order.berita.acara', 'order_id', string='Berita Acara')
 
     stock_production_ids = fields.One2many('stock.move', compute="_get_stock_move", string="Production")
     stock_result_ids = fields.One2many('stock.move', compute="_get_stock_move", string="Result")
@@ -613,6 +614,8 @@ class MakloonOrderResult(models.Model):
     name = fields.Char("Number")
     order_id = fields.Many2one("makloon.order", "Order No", ondelete="cascade")
     stage_id = fields.Many2one("makloon.planning.stage", "Stage")
+    berita_acara_ids = fields.One2many('makloon.order.berita.acara', 'order_id', string='Berita Acara')
+
 
     product_id = fields.Many2one("product.product", "Result Product", required=True,
                                  domain=[('type', 'in', ['product', 'consu'])])
@@ -627,6 +630,13 @@ class MakloonOrderResult(models.Model):
 
     price_unit = fields.Float("Price")
     waste_valasi = fields.Float("Waste/Valasi in %")
+
+    no_wo         = fields.Char("No Wo")
+    tgl_terima  = fields.Datetime("Tgl Terima")
+    no_bpb      = fields.Char(string='No BPB')
+    qty_go      = fields.Char(string='Qty. GO')
+    qty_no_go   = fields.Char(string='Qty. NoGO')
+    keterangan  = fields.Char(string='Ket')
 
     @api.onchange('product_id')
     def onchage_product_id(self):
@@ -699,7 +709,23 @@ class MakloonOrderResult(models.Model):
                 done += moves.create(template)
         return done
 
+    def action_show_berita_acara(self):
+        self.ensure_one()
+        data = [(0,0,{'name':a.name }) for a in self.order_id.stage_id.operation_id.berita_acara_line]
+        # data = [(4,{'name':a.name }) for a in self.order_id.stage_id.operation_id.berita_acara_line]
+        action = self.env.ref('makloon_project.berita_acara_action').read()[0]
+        action['context'] = {'default_berita_acara_ids': data}
+        action['res_id'] = self.id
+        return action
 
 
+class MakloonOperationBeritaAcara(models.Model):
+    _name = 'makloon.order.berita.acara'
 
+    order_id    = fields.Many2one('makloon.order.result', string='Makloon Order Berita Acara', required=True, ondelete='cascade',
+                                index=True, copy=False)
+    name      = fields.Char(string="Name")
+    isi_berita_acara      = fields.Char(string="Isi")
+
+    
 

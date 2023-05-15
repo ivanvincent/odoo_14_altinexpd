@@ -158,6 +158,8 @@
                                         <field name="product_uom" />
                                         <field name="service_product_id" />
                                         <field name="waste_valasi" />
+                                        <button name="action_show_berita_acara" type="object" icon="fa-list" string="Berita Acara"/>
+                                        <!-- icon="fa-list" -->
                                     </tree>
                                 </field>
                             </page>
@@ -292,6 +294,51 @@
                     </div>
                 </form>
             </field>
+        </record>
+
+        <record id="berita_acara_form" model="ir.ui.view">
+            <field name="name">berita_acara_form</field>
+            <field name="model">makloon.order.result</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                    <group>
+                        <group>
+                            <field name="stage_id"/>
+                            <field name="no_wo"/>
+                            <!-- <field name="qty_kirim"/> -->
+                            <field name="product_uom_qty"/>
+                            <field name="tgl_terima"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="no_bpb"/>
+                            <field name="qty_go"/>
+                            <field name="qty_no_go"/>
+                            <field name="keterangan" string="Ket"/>
+                        </group>
+                    </group>
+                        
+                        <field name="berita_acara_ids">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="isi_berita_acara"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="berita_acara_action" model="ir.actions.act_window">
+            <field name="name">Berita Acara</field>
+            <field name="res_model">makloon.order.result</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="makloon_project.berita_acara_form"/>
         </record>
 
 
