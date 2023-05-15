@@ -7,6 +7,8 @@ class SaleOrder(models.Model):
     quotation_id = fields.Many2one('quotation', string='Quotation')
     delivery_date = fields.Date(string='Delivery Time')
     product_order_id = fields.Many2one(string='Product Order', related='quotation_id.product_order_id')
+    no_quotation_accurate = fields.Char(string='No Quotation Accurate')
+
 
 
     @api.onchange('quotation_id')
