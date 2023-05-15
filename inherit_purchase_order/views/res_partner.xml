@@ -16,7 +16,7 @@
                     <field name="no_dqc"/>
                 </xpath>
                 <xpath expr="//field[@name='website']" position="after">
-                    <field name="attn"/>
+                    <field name="attn" widget="many2many_tags"/>
                     <field name="fax"/>
                 </xpath>
             </field>

@@ -47,10 +47,13 @@ class Quotation(models.Model):
     no_sample = fields.Char(string='No Sample')
     product_order_id = fields.Many2one('product.order', string='Product Order')
     cup_depth_id = fields.Many2one('cup.depth', string='Cup Depth')
-    up_kpd = fields.Char(string='Attn')
+    up_kpd = fields.Many2one('attn', string='Attn')
+    attn_ids = fields.Many2many('attn', string='Attn', related='partner_id.attn')
+    
     note_so = fields.Char(string='Note')
     perihal = fields.Char(string='Perihal')
     tanggal_berlaku = fields.Date(string='Tanggal Berlaku', compute="compute_tanggal_berlaku")
+    no_quotation_accurate = fields.Char(string='No Quotation Accurate')
     
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids')

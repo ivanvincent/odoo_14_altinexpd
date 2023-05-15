@@ -36,7 +36,7 @@ class ReportingStockKg(models.Model):
     inventory_id                = fields.Many2one('stock.inventory', string='Inventory Adjustment')
     location_id                 = fields.Many2one('stock.location', 'Location', domain=[('usage','=','internal')])
     product_category_id         = fields.Many2one('product.category', string='Product Category', domain=lambda self: [('id','in',self.get_product_category())],)
-    line_ids                    = fields.One2many('reporting.stock.kg.line', 'reporting_id', 'Details', ondelete="cascade")
+    # line_ids                    = fields.One2many('reporting.stock.kg.line', 'reporting_id', 'Details', ondelete="cascade")
     history_ids                 = fields.One2many('reporting.stock.kg.line.history', 'reporting_id', string="History")
     history_in_id               = fields.One2many('reporting.stock.kg.line.history', 'reporting_id', string="History", domain=[('stock_type', '=', 'receipt')])
     history_out_id              = fields.One2many('reporting.stock.kg.line.history', 'reporting_id', string="History", domain=[('stock_type', '=', 'release')])
@@ -291,50 +291,50 @@ class ReportingStockKg(models.Model):
 
 
 
-class ReportingStockKgLine(models.Model):
-    _name = 'reporting.stock.kg.line'
+# class ReportingStockKgLine(models.Model):
+#     _name = 'reporting.stock.kg.line'
 
     
-    name                        = fields.Char(string='Name')
-    product_code                = fields.Char(string='Kode Barang', related='product_id.default_code')
-    variasi                     = fields.Char(string='Variasi', compute='_compute_variasi')
-    categ_id                    = fields.Many2one('product.category', string="Product Category" , related='product_id.categ_id')
-    uom_id                      = fields.Many2one('uom.uom', string="Uom", related='product_id.uom_id')
-    location_id                 = fields.Many2one('stock.location', 'Location', domain=[('usage','=','internal')])
-    reporting_id                = fields.Many2one('reporting.stock.kg', string='Reporting')
-    picking_id                  = fields.Many2one('stock.picking', string='Picking',)
-    product_id                  = fields.Many2one('product.product', string='Product',)
-    hpp                         = fields.Float("HPP", related='product_id.standard_price')
-    qty_start                   = fields.Float("Saldo Awal", digits=(16,4),)
-    qty_in                      = fields.Float("Qty Terima", digits=(16,4),)
-    qty_out                     = fields.Float("Qty Keluar", digits=(16,4),)
-    return_in                   = fields.Float("Return Terima", digits=(16,4),)
-    return_out                  = fields.Float("Return Keluar", digits=(16,4),)
-    adjustment_in               = fields.Float("Penyesuaian Terima", digits=(16,4),)
-    adjustment_out              = fields.Float("Penyesuaian Keluar", digits=(16,4),)
-    qty_balance                 = fields.Float("Saldo Akhir", digits=(16,4),)
-    penyesuaian                 = fields.Float("Penyesuaian", digits=(16,4))
-    history_in_ids              = fields.One2many('reporting.stock.kg.line.history', 'reporting_line_id', string="History In", domain=[('stock_type', '=', 'receipt')])
-    history_out_ids             = fields.One2many('reporting.stock.kg.line.history', 'reporting_line_id', string="History Out", domain=[('stock_type', '=', 'release')])
-    history_return_in_ids       = fields.One2many('reporting.stock.kg.line.history', 'reporting_line_id', string="History Return In", domain=[('stock_type', '=', 'return_in')])
-    history_return_out_ids      = fields.One2many('reporting.stock.kg.line.history', 'reporting_line_id', string="History Return Out", domain=[('stock_type', '=', 'return_out')])
-    history_adjustment_in_ids   = fields.One2many('reporting.stock.kg.line.history', 'reporting_line_id', string="History Adjustment In", domain=[('stock_type', '=', 'adjustment_in')])
-    history_adjustment_out_ids  = fields.One2many('reporting.stock.kg.line.history', 'reporting_line_id', string="History Adjustment Out", domain=[('stock_type', '=', 'adjustment_out')])
+#     name                        = fields.Char(string='Name')
+#     product_code                = fields.Char(string='Kode Barang', related='product_id.default_code')
+#     variasi                     = fields.Char(string='Variasi', compute='_compute_variasi')
+#     categ_id                    = fields.Many2one('product.category', string="Product Category" , related='product_id.categ_id')
+#     uom_id                      = fields.Many2one('uom.uom', string="Uom", related='product_id.uom_id')
+#     location_id                 = fields.Many2one('stock.location', 'Location', domain=[('usage','=','internal')])
+#     reporting_id                = fields.Many2one('reporting.stock.kg', string='Reporting')
+#     picking_id                  = fields.Many2one('stock.picking', string='Picking',)
+#     product_id                  = fields.Many2one('product.product', string='Product',)
+#     hpp                         = fields.Float("HPP", related='product_id.standard_price')
+#     qty_start                   = fields.Float("Saldo Awal", digits=(16,4),)
+#     qty_in                      = fields.Float("Qty Terima", digits=(16,4),)
+#     qty_out                     = fields.Float("Qty Keluar", digits=(16,4),)
+#     return_in                   = fields.Float("Return Terima", digits=(16,4),)
+#     return_out                  = fields.Float("Return Keluar", digits=(16,4),)
+#     adjustment_in               = fields.Float("Penyesuaian Terima", digits=(16,4),)
+#     adjustment_out              = fields.Float("Penyesuaian Keluar", digits=(16,4),)
+#     qty_balance                 = fields.Float("Saldo Akhir", digits=(16,4),)
+#     penyesuaian                 = fields.Float("Penyesuaian", digits=(16,4))
+#     history_in_ids              = fields.One2many('reporting.stock.kg.line.history', 'reporting_line_id', string="History In", domain=[('stock_type', '=', 'receipt')])
+#     history_out_ids             = fields.One2many('reporting.stock.kg.line.history', 'reporting_line_id', string="History Out", domain=[('stock_type', '=', 'release')])
+#     history_return_in_ids       = fields.One2many('reporting.stock.kg.line.history', 'reporting_line_id', string="History Return In", domain=[('stock_type', '=', 'return_in')])
+#     history_return_out_ids      = fields.One2many('reporting.stock.kg.line.history', 'reporting_line_id', string="History Return Out", domain=[('stock_type', '=', 'return_out')])
+#     history_adjustment_in_ids   = fields.One2many('reporting.stock.kg.line.history', 'reporting_line_id', string="History Adjustment In", domain=[('stock_type', '=', 'adjustment_in')])
+#     history_adjustment_out_ids  = fields.One2many('reporting.stock.kg.line.history', 'reporting_line_id', string="History Adjustment Out", domain=[('stock_type', '=', 'adjustment_out')])
    
 
-    def update_reporting_line(self):
-        for rec in self:
-            sql = " update reporting_stock_kg_line_history set reporting_line_id = %s WHERE reporting_id = %s and product_id = %s " % (rec.id, rec.reporting_id.id, rec.product_id.id)
-            self._cr.execute(sql)
+#     def update_reporting_line(self):
+#         for rec in self:
+#             sql = " update reporting_stock_kg_line_history set reporting_line_id = %s WHERE reporting_id = %s and product_id = %s " % (rec.id, rec.reporting_id.id, rec.product_id.id)
+#             self._cr.execute(sql)
 
-    def query_update_onhand(self):
-        for rec in self:
-            query = """ update stock_quant set quantity = %s where product_id = %s and location_id = %s """%(rec.qty_balance, rec.product_id.id, rec.reporting_id.location_id.id)
-            self._cr.execute(query)
+#     def query_update_onhand(self):
+#         for rec in self:
+#             query = """ update stock_quant set quantity = %s where product_id = %s and location_id = %s """%(rec.qty_balance, rec.product_id.id, rec.reporting_id.location_id.id)
+#             self._cr.execute(query)
 
-    def _compute_variasi(self):
-        for rec in self:
-            rec.variasi = rec.product_id.product_template_attribute_value_ids.filtered(lambda x: x.attribute_id.name == 'Variasi').name
+#     def _compute_variasi(self):
+#         for rec in self:
+#             rec.variasi = rec.product_id.product_template_attribute_value_ids.filtered(lambda x: x.attribute_id.name == 'Variasi').name
 
 class ReportingStockKgLineHistory(models.Model):
     _name = 'reporting.stock.kg.line.history'

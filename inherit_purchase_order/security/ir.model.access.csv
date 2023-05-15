@@ -12,3 +12,4 @@ access_purchase_custom_report,purchase_custom_report_models,model_purchase_custo
 access_purchase_report_wizard,purchase_report_wizard_models,model_purchase_report_wizard,purchase.group_purchase_manager,1,1,1,1
 access_image,image_models,model_insert_image,purchase.group_purchase_manager,1,1,1,1
 access_purchase_order_offer,purchase_order_offer,model_purchase_order_offer,purchase.group_purchase_manager,1,1,1,1
+user_attn,attn,model_attn,base.group_system,1,1,1,1

@@ -8,7 +8,7 @@ access_model_reporting_stock_lot_line,reporting.stock.lot.line,model_reporting_s
 access_model_reporting_stock_lot_line_history,reporting.stock.lot.line.history,model_reporting_stock_lot_line_history,stock.group_stock_manager,1,1,1,1
 
 access_model_reporting_stock_kg,reporting.stock.kg,model_reporting_stock_kg,stock.group_stock_manager,1,1,1,1
-access_model_reporting_stock_kg_line,reporting.stock.kg.line,model_reporting_stock_kg_line,stock.group_stock_manager,1,1,1,1
+
 access_model_reporting_stock_kg_line_history,reporting.stock.kg.line.history,model_reporting_stock_kg_line_history,stock.group_stock_manager,1,1,1,1
 
 access_model_reporting_stock_request,reporting.stock.request,model_reporting_stock_request,stock.group_stock_manager,1,1,1,1
