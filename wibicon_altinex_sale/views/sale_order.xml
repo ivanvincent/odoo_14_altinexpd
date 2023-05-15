@@ -51,5 +51,13 @@
             <field name="groups_id" eval="[(4, ref('sale.group_proforma_sales'))]"/>
         </record>
 
+        <menuitem
+            id="sale.menu_sale_quotations"
+            name="So Draft"
+            action="sale.action_quotations_with_onboarding"
+            parent="sale.sale_order_menu"
+            sequence="1"/>
+
+
     </data>
 </odoo>
