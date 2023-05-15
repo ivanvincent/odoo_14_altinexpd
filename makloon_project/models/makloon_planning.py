@@ -104,7 +104,9 @@ class MakloonPlanningStage(models.Model):
     operation_id = fields.Many2one("makloon.operation", string="Operation")
     state = fields.Selection([('draft', 'Draft'),('process', 'Process'), ('done','Done'),('cancel','Cancel')], string="State", default="draft")
     # next_stage = fields.Many2one("makloon.planning.stage", string="Next Stage", compute="_find_next_stage")
-    progress = fields.Float('Makloon Progress', compute="_get_makloon_progress")
+    progress = fields.Float('Makloon Progress', 
+    # compute="_get_makloon_progress"
+    )
     first_stage = fields.Boolean("First Stage", default=False)
     last_stage = fields.Boolean("Last Stage",default=False)
     order_ids = fields.One2many('makloon.order', 'stage_id', "Makloon Order List")
