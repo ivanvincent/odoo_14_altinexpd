@@ -76,7 +76,7 @@
                                             <td width="30%" style="font-size:20px; padding-left:10px;">Nomor</td>
                                             <td>
                                                 <span>:</span>
-                                                <span t-field="doc.name" style="font-size:20px"/>
+                                                <span t-field="doc.no_quotation_accurate" style="font-size:20px"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -106,7 +106,7 @@
                                         <td width="30%" style="font-size:16px; padding-left:10px;">Attn</td>
                                         <td>
                                             <span>:</span>
-                                            <span style="font-size:16px" t-esc="doc.up_kpd"/>
+                                            <span style="font-size:16px" t-esc="doc.up_kpd.name"/>
                                         </td>
                                     </tr>
                                     <tr>
