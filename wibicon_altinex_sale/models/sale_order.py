@@ -11,7 +11,7 @@ class SaleOrder(models.Model):
     note_so         = fields.Char(string='Note')
     no_dqc          = fields.Boolean(related='partner_id.no_dqc', string='Status DQC')  
     alamat          = fields.Text(string='Alamat')
-    option_vip      = fields.Selection([("vip","VIP"),("high_gress","High Gress")], string='HighGress / VIP')
+    option_vip      = fields.Selection([("vip","VIP"),("high_risk","High Risk")], string='HighRisk / VIP')
     # payment_term_id = fields.Many2one(related='quotation_id.payment_term_id', string='Payment Term')
     # payment_term_id = fields.Many2one('account.payment.term', string='Payment Term')
     # demantional_quality_control
