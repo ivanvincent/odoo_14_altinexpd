@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="progress_production_wizard_form" model="ir.ui.view">
+        <field name="name">progress.production.wizard.form</field>
+        <field name="model">progress.production.wizard</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                    </group>
+                    <footer>
+                        <button name="action_generate" type="object" string="Generate" class="oe_highlight"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mrp_production_progress_view_kanban" model="ir.ui.view">
+        <field name="name">mrp_production_progress.view.kanban</field>
+        <field name="model">mrp.production</field>
+        <field name="arch" type="xml">
+            <kanban create="false">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div>
+                            <field name="name"/>
+                            <field name="parameter_terkini"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="progress_production_action" model="ir.actions.act_window">
+        <field name="name">Progress  Production (Periode)</field>
+        <field name="res_model">progress.production.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="open_kanban_production_action" model="ir.actions.act_window">
+        <field name="name">Dashboard Progress Production</field>
+        <field name="res_model">mrp.production</field>
+        <field name="view_mode">kanban</field>
+        <field name="context">{'group_by': 'process_terkini'}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('mrp_request.mrp_production_progress_view_kanban')})]"/>
+    </record>
+    
+
+    <menuitem id="progress_production_menu" name="Dashboard Progress Production" action="progress_production_action" parent="mrp.mrp_planning_menu_root" sequence="13"/>
+
+</odoo>

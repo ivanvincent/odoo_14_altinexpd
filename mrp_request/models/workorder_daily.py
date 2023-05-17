@@ -118,6 +118,10 @@ class WorkorderDaily(models.Model):
                         'is_rework': True if int(qty_rework) > 0 else False,
                     })]
                 })  
+                mo_obj.write({
+                    'process_terkini': wo_id.workcenter_id.id,
+                    'parameter_terkini': parameter_id
+                })
                 if parameter_id:
                     parameter_id = self.env['mrp.operation.template.line.parameter'].search([('workorder_id', '=', wo_id.id), ('parameter_id', '=', parameter_id)])
                     parameter_id.write({
@@ -154,7 +158,7 @@ class WorkorderDaily(models.Model):
                 'wo_id': wod_obj.id,
                 'name': wod_obj.name,
                 'date': wod_obj.date,
-                'employee_id': employee_id.id
+                'employee_id': employee_id.name
             }
         return data
 

@@ -36,6 +36,7 @@ class MrpProduction(models.Model):
     lapisan             = fields.Char('Surface Finish')
     partner_id          = fields.Many2one('res.partner', string='Customer', related='request_id.partner_id')
     process_terkini     = fields.Many2one('mrp.workcenter', string='Process Terkini')
+    parameter_terkini   = fields.Many2one('mrp.parameter', string='Parameter Terkini')
     option_vip          = fields.Selection([("vip","VIP"),("high_gress","High Gress")], related='request_id.option_vip' ,  string='HighGress / VIP')
     
     def action_split_workorder(self):

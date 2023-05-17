@@ -25,3 +25,4 @@ access_workorder_fat,access_workorder_fat,model_workorder_fat,mrp.group_mrp_user
 access_setting_machine,access_setting_machine,model_setting_machine,mrp.group_mrp_user,1,1,1,1
 access_mrp_bom_cost,mrp_bom_cost,model_mrp_bom_cost,mrp.group_mrp_manager,1,1,1,1
 access_mrp_bom_cost_parameter,mrp_bom_cost_parameter,model_mrp_bom_cost_parameter,mrp.group_mrp_manager,1,1,1,1
+access_progress_production_wizard,progress_production_wizard,model_progress_production_wizard,mrp.group_mrp_manager,1,1,1,1
