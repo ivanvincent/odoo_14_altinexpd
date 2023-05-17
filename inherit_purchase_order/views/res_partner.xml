@@ -12,6 +12,7 @@
                     </button>
                 </div>
                 <xpath expr="//field[@name='vat']" position="after">
+                    <field name="alamat"/>
                     <field name="supplier_code"/>
                     <field name="no_dqc"/>
                 </xpath>

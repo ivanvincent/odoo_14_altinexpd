@@ -22,7 +22,7 @@ class SaleOrder(models.Model):
             self.order_line     = False
             self.delivery_date  = qtn.delivery_date
             self.no_sample      = qtn.no_sample
-            self.up_kpd         = qtn.up_kpd
+            self.up_kpd         = qtn.up_kpd.id
             self.note_so         = qtn.note_so
             
             order_lines = []

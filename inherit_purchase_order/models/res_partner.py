@@ -10,6 +10,7 @@ class ResPartner(models.Model):
     
     fax             = fields.Char(string='Fax')
     no_dqc          = fields.Boolean(string='DQC')
+    alamat          = fields.Text(string='Alamat')
 
     def _compute_total_product(self):
         purchase_order_line_obj = self.env['purchase.order.line'].search([('partner_id', '=', self.id)]).mapped('product_id.id')
