@@ -63,6 +63,7 @@ class WorkorderDaily(models.Model):
 
             list_parameter  = wo_id.parameter_ids.ids
             list_parameter_scanned  = wo_id.parameter_ids.filtered(lambda x: x.is_scanned).ids
+            parameter_now = wo_id.parameter_ids.filtered(lambda x: not x.is_scanned).sorted(lambda x: x.sequence, reverse=False)[0].parameter_id.name
             # if not wo_id.date_planned_start:
             if not wo_id.date_planned_start:
                 wo_id.sudo().button_start()
@@ -78,7 +79,8 @@ class WorkorderDaily(models.Model):
                     'production_qty': wo_id.production_qty,
                     'actual_qty': wo_id.actual_qty,
                     'remaining_qty': wo_id.production_qty - wo_id.actual_qty,
-                    'workorder_id': wo_id.id
+                    'workorder_id': wo_id.id,
+                    'parameter': parameter_now
                 }
                 return data
         except Exception as e:
