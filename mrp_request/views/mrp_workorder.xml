@@ -77,6 +77,9 @@
                                 <field name="parameter_id" options="{'no_open': True, 'no_create': True}"/>
                                 <field name="factor"/>
                                 <field name="uom_id" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="total_quantity"/>
+                                <field name="is_scanned"/>
+                                <button name="action_open_workorder_detail" type="object" string="WO Details" class="oe_highlight"/>
                             </tree>
                         </field>
                     </page>

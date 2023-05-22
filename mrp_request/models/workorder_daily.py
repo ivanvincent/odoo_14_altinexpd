@@ -59,11 +59,11 @@ class WorkorderDaily(models.Model):
             self._cr.execute(query)
             wo_obj = self._cr.dictfetchall()
             wo_id = self.env['mrp.workorder'].browse(wo_obj[0].get('id'))
-            print('wo_iddddd', wo_id)
 
             list_parameter  = wo_id.parameter_ids.ids
             list_parameter_scanned  = wo_id.parameter_ids.filtered(lambda x: x.is_scanned).ids
-            parameter_now = wo_id.parameter_ids.filtered(lambda x: not x.is_scanned).sorted(lambda x: x.sequence, reverse=False)[0].parameter_id.name
+            parameter_now = wo_id.parameter_ids.filtered(lambda x: not x.is_scanned).sorted(lambda x: x.sequence, reverse=False)[0]
+            print('==========parameter_now==========', parameter_now)
             # if not wo_id.date_planned_start:
             if not wo_id.date_planned_start:
                 wo_id.sudo().button_start()
@@ -73,14 +73,17 @@ class WorkorderDaily(models.Model):
                 }
                 return data 
             elif len(list_parameter) != len(list_parameter_scanned):
+                remaining = wo_id.production_id.mrp_qty_produksi - parameter_now.total_quantity
+                print('========remaining=========', remaining)
                 data = {
                     'is_start': False,
                     'workcenter_name': wo_id.workcenter_id.name,
                     'production_qty': wo_id.production_qty,
                     'actual_qty': wo_id.actual_qty,
-                    'remaining_qty': wo_id.production_qty - wo_id.actual_qty,
+                    # 'remaining_qty': wo_id.production_qty - wo_id.actual_qty,
+                    'remaining_qty': remaining,
                     'workorder_id': wo_id.id,
-                    'parameter': parameter_now
+                    'parameter': parameter_now.parameter_id.name
                 }
                 return data
         except Exception as e:
@@ -126,9 +129,11 @@ class WorkorderDaily(models.Model):
                 })
                 if parameter_id:
                     parameter_id = self.env['mrp.operation.template.line.parameter'].search([('workorder_id', '=', wo_id.id), ('parameter_id', '=', parameter_id)])
-                    parameter_id.write({
-                        'is_scanned' : True
-                    })
+                    qty_produce = wo_id.production_id.mrp_qty_produksi
+                    if parameter_id.total_quantity == qty_produce:
+                        parameter_id.write({
+                            'is_scanned' : True
+                        })
                 list_parameter  = wo_id.parameter_ids.ids
                 list_parameter_scanned  = wo_id.parameter_ids.filtered(lambda x: x.is_scanned).ids
                 if len(list_parameter) == len(list_parameter_scanned):
