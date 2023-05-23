@@ -44,8 +44,8 @@ class pencairanWizard(models.TransientModel):
 		nominal = self.nominal
 		sisa_pencairan = self.uudp_pencairan_id.sisa_pencairan_parsial
 		not_confirmed_accounting = self.uudp_pencairan_id.uudp_ids.filtered(lambda x: x.state != 'confirm_accounting')
-		if not_confirmed_accounting :
-			raise AccessError(_('Ada ajuan yang belum confirm accounting !') )
+		# if not_confirmed_accounting :
+		# 	raise AccessError(_('Ada ajuan yang belum confirm accounting !') )
 		now = datetime.datetime.now()
 		if nominal <= 0:
 			raise UserError(_('Nominal pencairan tidak boleh 0!'))

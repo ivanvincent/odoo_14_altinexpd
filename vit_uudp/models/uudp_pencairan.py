@@ -396,8 +396,8 @@ class uudpPencairan(models.Model):
 
                     journal_entry = self.env['account.move'].create(data)
                     journal_entry.post()
-                    if ajuan.state not in ('confirm_accounting','done') :
-                        raise AccessError(_('Ajuan %s belum confirm accounting !') % (ajuan.name))
+                    # if ajuan.state not in ('confirm_accounting','done') :
+                    #     raise AccessError(_('Ajuan %s belum confirm accounting !') % (ajuan.name))
                     ajuan.write({'total_pencairan'      : ajuan.total_ajuan,
                                     'state'             : 'done',
                                     'journal_entry_id'  : journal_entry.id,
