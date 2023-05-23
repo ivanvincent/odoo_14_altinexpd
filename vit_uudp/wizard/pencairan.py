@@ -241,9 +241,9 @@ class PencairanMultiWizard(models.TransientModel):
 			
 			if line.total_ajuan == 0.00:
 				raise UserError('Mohon maaf ajuan %s total ajuan masih 0'%(line.name))
-			elif line.state != 'confirm_finance':
-				raise UserError('Mohon maaf ajuan %s belum di confirm finance'%(line.name))
-			elif line.bank_statement_id:
+			# elif line.state != 'confirm_finance':
+			# 	raise UserError('Mohon maaf ajuan %s belum di confirm finance'%(line.name))
+			# elif line.bank_statement_id:
 				raise UserError('Mohon maaf ajuan %s sudah terbentuk bank statement'%(line.name))
 		
 			elif not self.journal_id:
