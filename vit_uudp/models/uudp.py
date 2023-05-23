@@ -104,7 +104,7 @@ class uudp(models.Model):
 
     ##########################################################################
     #Fungsi write untuk update data state detail berdasarkan state parentnya #
-    ##########################################################################
+    #############################################   #############################
 
     def write_state_line(self, state):
         line = self.env['uudp.detail'].search([('uudp_id','=',self.id)])
@@ -271,15 +271,15 @@ class uudp(models.Model):
                              ('penyelesaian', 'Penyelesaian'), 
                              ('reimberse', 'Reimberse'),],string='Type', required=True, track_visibility='onchange',)
     state = fields.Selection([('draft', 'Draft'),
-                              ('confirm', 'Waiting Department'),
+                              ('confirm', 'Confirm'),
                               ('confirm_department', 'Confirmed Department'),
-                              ('confirm_department1', 'Waiting HRD'),
-                              ('confirm_department2', 'Waiting KND'),
-                              ('confirm_hrd', 'Confirmed HRD'),
-                              ('confirm_knd', 'Confirmed KND'),
-                              ('pending', 'Pending'),
-                              ('confirm_finance', 'Confirmed Finance'),
-                              ('confirm_accounting', 'Confirmed Accounting'),
+                            #   ('confirm_department1', 'Waiting HRD'),
+                            #   ('confirm_department2', 'Waiting KND'),
+                            #   ('confirm_hrd', 'Confirmed HRD'),
+                            #   ('confirm_knd', 'Confirmed KND'),
+                               ('pending', 'Pending'),
+                            #   ('confirm_finance', 'Confirmed Finance'),
+                            #   ('confirm_accounting', 'Confirmed Accounting'),
                               ('done', 'Done'),
                               ('cancel', 'Cancelled'),
                               ('refuse','Refused')], default='draft', required=True, index=True, track_visibility='onchange',)
@@ -952,28 +952,28 @@ class uudp(models.Model):
             # self.post_mesages_uudp('Confirmed by Manager')
             return self.write({'state' : 'confirm_department'})
 
-    def button_confirm_department(self):
-        if not self.env.user.has_group('account.group_account_manager') :
-            #cek apakah user yg login adalah manager department atau bukan, jika bukan akan muncul warning ketika button confirm ditekan
-            if self.type != 'penyelesaian' and self.env.user.id != self.department_id.manager_id.user_id.id:
-                raise UserError(_('Hanya manager department yang bisa confirm pengajuan'))
-            elif self.type == 'penyelesaian' and self.env.user.id != self.ajuan_id.department_id.manager_id.user_id.id:
-                raise UserError(_('Hanya manager department sesuai ajuan yang bisa confirm penyelesaian'))
+    # def button_confirm_department(self):
+    #     if not self.env.user.has_group('account.group_account_manager') :
+    #         #cek apakah user yg login adalah manager department atau bukan, jika bukan akan muncul warning ketika button confirm ditekan
+    #         if self.type != 'penyelesaian' and self.env.user.id != self.department_id.manager_id.user_id.id:
+    #             raise UserError(_('Hanya manager department yang bisa confirm pengajuan'))
+    #         elif self.type == 'penyelesaian' and self.env.user.id != self.ajuan_id.department_id.manager_id.user_id.id:
+    #             raise UserError(_('Hanya manager department sesuai ajuan yang bisa confirm penyelesaian'))
 
-        if self.need_driver:
-            self.write_state_line('confirm_department1')
-            # self.post_mesages_uudp('Confirmed by Manager')
-            return self.write({'state' : 'confirm_department1'})
-        elif self.ajuan_id and self.ajuan_id.need_driver:
-            self.write_state_line('confirm_department1')
-            # self.post_mesages_uudp('Confirmed by Manager')
-            return self.write({'state' : 'confirm_department1'})
-        else:
-            if self.type == 'penyelesaian' :
-                self.write({'department_id' : self.ajuan_id.department_id.id})
-            self.write_state_line('confirm_department')
-            # self.post_mesages_uudp('Confirmed by Manager')
-            return self.write({'state' : 'confirm_department'})
+    #     if self.need_driver:
+    #         self.write_state_line('confirm_department1')
+    #         # self.post_mesages_uudp('Confirmed by Manager')
+    #         # return self.write({'state' : 'confirm_department1'})
+    #     elif self.ajuan_id and self.ajuan_id.need_driver:
+    #         self.write_state_line('confirm_department1')
+    #         # self.post_mesages_uudp('Confirmed by Manager')
+    #         return self.write({'state' : 'confirm_department1'})
+    #     else:
+    #         if self.type == 'penyelesaian' :
+    #             self.write({'department_id' : self.ajuan_id.department_id.id})
+    #         self.write_state_line('confirm_department')
+    #         # self.post_mesages_uudp('Confirmed by Manager')
+    #         return self.write({'state' : 'confirm_department'})
 
     
     def check_account_expense(self):
@@ -1533,10 +1533,10 @@ class uudp(models.Model):
             
     
     
-    def button_confirm_knd(self):
-        if self.env.user.has_group('vit_uudp.group_manager_uudp_approve_knd') or self.env.user.has_group('base.group_system'):
-            self.state = 'confirm_knd'
-            self.knd_approved = True
+    # def button_confirm_knd(self):
+    #     if self.env.user.has_group('vit_uudp.group_manager_uudp_approve_knd') or self.env.user.has_group('base.group_system'):
+    #         self.state = 'confirm_knd'
+    #         self.knd_approved = True
     
 
     def button_confirm_finance(self):
@@ -1573,11 +1573,11 @@ class uudp(models.Model):
                 else:
                     if not s.coa_debit :
                         raise UserError(_('Account atas deskipsi %s belum di set!')%(s.description))
-            self.write_state_line('confirm_finance')
+            # self.write_state_line('confirm_finance')
             # self.post_mesages_uudp('Confirmed by Finance')
             # if self.name == _('New'):
             #     self.name = self._get_identifier(self.type)
-            return self.write({'state' : 'confirm_finance'})
+            # return self.write({'state' : 'confirm_finance'})
         raise AccessError(_('Pengajuan masih kosong') )
 
     def button_confirm_accounting(self):
@@ -1597,12 +1597,15 @@ class uudp(models.Model):
         now = datetime.datetime.now()
         # partner = self.responsible_id.partner_id.id
         employee = self.employee_id.id
-        if self.state != 'confirm_accounting' or not self.pencairan_id:
-            raise AccessError(_('Ajuan %s belum confirm accounting atau belum dijadwalkan pencairan!') % (self.name))
+        # if self.state != 'confirm_accounting' or not self.pencairan_id:
+        #     raise AccessError(_('Ajuan %s belum confirm accounting atau belum dijadwalkan pencairan!') % (self.name))
 
-        reference =  self.name+ ' - ' + self.pencairan_id.name 
+        reference =  str(self.name) + ' - ' + str(self.pencairan_id.name )
         account_move = self.env['account.move']
         datas_form = {'state' : 'done'}
+        notes = self.notes
+        if not notes :
+            notes= self.coa_kredit.name
         # cek jika journal sdh di create
         journal_exist = account_move.sudo().search([('ref','=',reference)])
         if not journal_exist :
@@ -1645,9 +1648,6 @@ class uudp(models.Model):
                                                     'company_id'        : self.company_id.id,
                                                     'date_maturity'     : self.pencairan_id.tgl_pencairan}))
                 #account credit bank / hutang
-                notes = self.notes
-                if not notes :
-                    notes= self.coa_kredit.name
             account_move_line.append((0, 0 ,{'account_id'       : self.pencairan_id.coa_kredit.id,
                                             'employee_id'        : self.employee_id.id,
                                             # 'partner_id'        : self.responsible_id.partner_id.id,
@@ -1660,7 +1660,7 @@ class uudp(models.Model):
 
             data={"journal_id": self.pencairan_id.journal_id.id,
                   "ref": reference,
-                  "date": self.pencairan_id.tgl_pencairan,
+                  "date": self.date,
                   "company_id": self.company_id.id,
                   "narration": self.pencairan_id.notes,
                   "terbilang" : terbilang.terbilang(int(round(self.total_ajuan,0)), "IDR", "id"),
@@ -1673,10 +1673,10 @@ class uudp(models.Model):
         # self.post_mesages_uudp('Done')
         return self.write(datas_form)
 
-    def button_confirm_hrd(self):
-        self.write_state_line('confirm_hrd')
-        # self.post_mesages_uudp('Confirmed by HRD')
-        return self.write({'state' : 'confirm_hrd'})
+    # def button_confirm_hrd(self):
+    #     self.write_state_line('confirm_hrd')
+    #     # self.post_mesages_uudp('Confirmed by HRD')
+    #     return self.write({'state' : 'confirm_hrd'})
 
     def button_cancel(self):
         self.ensure_one()

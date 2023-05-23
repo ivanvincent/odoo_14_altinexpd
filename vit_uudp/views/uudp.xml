@@ -147,9 +147,9 @@
                     <header>
                         <button name="button_confirm" states="draft" string="Confirm" type="object" class="oe_highlight"/>
 
-                        <button name="button_confirm_department" states="confirm" string="Confirm" type="object" class="oe_highlight" groups="vit_uudp.group_user_uudp_manager"/>
+                        <!-- <button name="button_confirm_department" states="confirm" string="Confirm" type="object" class="oe_highlight" groups="vit_uudp.group_user_uudp_manager"/> -->
 
-                        <button name="button_confirm_hrd" states="confirm_department1" string="Confirm" type="object" class="oe_highlight" groups="hr.group_hr_manager"/>
+                        <!-- <button name="button_confirm_hrd" states="confirm_department1" string="Confirm" type="object" class="oe_highlight" groups="hr.group_hr_manager"/>
 
                         <button name="button_re_confirm_department" states="pending" string="Re Confirm" type="object" groups="vit_uudp.group_user_uudp_manager"/>
 
@@ -157,10 +157,10 @@
 
                         <button name="button_pending" states="confirm_hrd,confirm_department" string="Pending" type="object" class="oe_highlight" groups="account.group_account_manager"/>
 
-                        <button name="button_confirm_accounting" attrs="{'invisible': ['|','|',('state','!=','confirm_finance'),('pencairan_id','=',False),('is_rute_sale','=',True)]}" string="Confirm" type="object" class="oe_highlight" groups="account.group_account_manager"/>
+                        <button name="button_confirm_accounting" attrs="{'invisible': ['|','|',('state','!=','confirm_finance'),('pencairan_id','=',False),('is_rute_sale','=',True)]}" string="Confirm" type="object" class="oe_highlight" groups="account.group_account_manager"/> -->
 
                         <button name="button_cancel" confirm="Anda yakin data akan di cancel ?" states="confirm_finance,pending" string="Cancel" type="object" groups="vit_uudp.group_user_uudp_manager,vit_uudp.group_force_cancel_pengajuan"/>
-
+<!-- 
                         <button name="button_cancel" confirm="Anda yakin data akan di cancel ?" states="done" string="Cancel" type="object" groups="base.group_system"/>
 
 
@@ -174,9 +174,9 @@
 
                         <button name="button_cancel" confirm="Anda yakin data akan di cancel ?" states="confirm_department,confirm_hrd" string="Cancel" type="object" groups="account.group_account_manager"/>
 
-                        <button name="button_refuse_finance" confirm="Anda yakin data akan di refuse ?" states="confirm_department,confirm_hrd" string="Refuse" type="object" groups="account.group_account_manager"/>
+                        <button name="button_refuse_finance" confirm="Anda yakin data akan di refuse ?" states="confirm_department,confirm_hrd" string="Refuse" type="object" groups="account.group_account_manager"/> -->
 
-                        <button name="button_validate" attrs="{'invisible': ['|',('state','!=','confirm_accounting'),('type','=','penyelesaian')]}" string="Validate" class="oe_highlight" confirm="Anda yakin data akan di validasi ?" type="object" groups="vit_uudp.group_user_uudp_adviser"/>
+                        <button name="button_validate" attrs="{'invisible': ['|',('state','!=','confirm'),('type','=','penyelesaian')]}" string="Validate" class="oe_highlight" confirm="Anda yakin data akan di validasi ?" type="object" groups="vit_uudp.group_user_uudp_adviser"/>
 
                         <button name="button_set_to_draft" states="cancel" string="Set to Draft" type="object" groups="vit_uudp.group_user_uudp_manager,hr.group_hr_manager,account.group_account_manager,vit_uudp.group_force_cancel_pengajuan"/>
 
@@ -371,9 +371,9 @@
                         <!-- <button name="action_open_reimburse" attrs="{'invisible':['|','|','|',('sisa_penyelesaian', '&gt;=', 0.00),('reimburse_id','!=',False),('type','=','reimberse'),('journal_entry_id','!=',False)]}" string="Ajukan Reimburse" type="object" class="oe_highlight" groups=""/> -->
                         <!-- <button name="button_tekor" attrs="{'invisible':['|','|','|',('sisa_penyelesaian', '&gt;=', 0.00),('reimburse_id','!=',False),('type','=','reimberse'),('journal_entry_id','!=',False)]}" string="Tekorkan" type="object" class="oe_highlight" groups=""/> -->
 
-                        <button name="button_confirm_department" attrs="{'invisible': ['|',('state','!=','confirm'),('type','not in',('reimberse','penyelesaian'))]}" string="Confirm" type="object" class="oe_highlight" groups="vit_uudp.group_user_uudp_manager"/>
+                        <!-- <button name="button_confirm_department" attrs="{'invisible': ['|',('state','!=','confirm'),('type','not in',('reimberse','penyelesaian'))]}" string="Confirm" type="object" class="oe_highlight" groups="vit_uudp.group_user_uudp_manager"/> -->
 
-                        <button name="button_confirm_hrd" states="confirm_department1" string="Confirm" type="object" class="oe_highlight" groups="hr.group_hr_manager"/>
+                        <!-- <button name="button_confirm_hrd" states="confirm_department1" string="Confirm" type="object" class="oe_highlight" groups="hr.group_hr_manager"/>
 
                         <button name="button_cancel" confirm="Anda yakin data akan di cancel ?" states="confirm_department1" string="Cancel" type="object" groups="hr.group_hr_manager"/>
 
@@ -381,11 +381,11 @@
 
                         <button name="button_cancel" confirm="Anda yakin data akan di cancel ?" states="done" groups="base.group_system" string="Cancel" type="object"/>
 
-                        <button name="button_refuse" confirm="Anda yakin data akan di refuse ?" attrs="{'invisible': ['|',('state','!=','confirm'),('type','!=','reimberse')]}" string="Refuse" type="object" groups="vit_uudp.group_user_uudp_manager"/>
+                        <button name="button_refuse" confirm="Anda yakin data akan di refuse ?" attrs="{'invisible': ['|',('state','!=','confirm'),('type','!=','reimberse')]}" string="Refuse" type="object" groups="vit_uudp.group_user_uudp_manager"/> -->
 
                         <!-- <button name="button_confirm_finance" attrs="{'invisible': ['|',('state','!=','confirm'),('type','!=','penyelesaian')]}" string="Confirm" type="object" class="oe_highlight" groups="account.group_account_manager"/> -->
 
-                        <button name="button_confirm_finance" states="confirm_hrd,confirm_department,confirm_knd" string="Confirm" type="object" class="oe_highlight" groups="account.group_account_manager"/>
+                        <!-- <button name="button_confirm_finance" states="confirm_hrd,confirm_department,confirm_knd" string="Confirm" type="object" class="oe_highlight" groups="account.group_account_manager"/>
 
                         <button name="button_confirm_accounting" attrs="{'invisible': ['|',('state','!=','confirm_finance'),('pencairan_id','=',False)]}" string="Confirm" type="object" class="oe_highlight" groups="account.group_account_manager"/>
 
@@ -395,12 +395,13 @@
 
                         <button name="button_refuse_finance" confirm="Anda yakin data akan di refuse ?" attrs="{'invisible': ['|',('state','!=','confirm'),('type','!=','penyelesaian')]}" string="Refuse" type="object" groups="account.group_account_manager"/>
 
-                        <button name="button_refuse_finance" confirm="Anda yakin data akan di refuse ?" attrs="{'invisible': ['|',('state','!=','confirm_department'),('type','!=','reimberse')]}" string="Refuse" type="object" groups="account.group_account_manager"/>
+                        <button name="button_refuse_finance" confirm="Anda yakin data akan di refuse ?" attrs="{'invisible': ['|',('state','!=','confirm_department'),('type','!=','reimberse')]}" string="Refuse" type="object" groups="account.group_account_manager"/> -->
 
-                        <button name="button_validate" attrs="{'invisible': ['|',('state','!=','confirm_accounting'),('type','=','penyelesaian')]}" string="Validate" class="oe_highlight" confirm="Anda yakin data akan di validasi ?" type="object" groups="vit_uudp.group_user_uudp_adviser,vit_uudp.group_user_uudp_manager"/>
+                        <!-- <button name="button_validate" attrs="{'invisible': ['|',('state','!=','confirm'),('type','=','penyelesaian')]}" string="Validate" class="oe_highlight" confirm="Anda yakin data akan di validasi ?" type="object" groups="vit_uudp.group_user_uudp_adviser,vit_uudp.group_user_uudp_manager"/> -->
+                        <button name="button_validate" states="confirm" string="Validate" class="oe_highlight" confirm="Anda yakin data akan di validasi ?" type="object" groups="vit_uudp.group_user_uudp_adviser,vit_uudp.group_user_uudp_manager"/>
 
 
-                        <button name="button_confirm_knd" attrs="{'invisible': ['|','|',('state','!=','confirm_department2'),('type','!=','penyelesaian'),('need_approve','=',False)]}" string="Confirm Knd" class="oe_highlight" type="object" />
+                        <!-- <button name="button_confirm_knd" attrs="{'invisible': ['|','|',('state','!=','confirm_department2'),('type','!=','penyelesaian'),('need_approve','=',False)]}" string="Confirm Knd" class="oe_highlight" type="object" /> -->
 
 
 
