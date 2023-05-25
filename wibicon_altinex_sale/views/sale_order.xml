@@ -11,7 +11,7 @@
                     <field name="treatment_id"/>
                     <field name="kd_bahan"/>
                     <field name="lapisan"/>
-                    <field name="embos" readonly="1"/>
+                    <field name="embos" readonly="1" force_save="1"/>
                     <!-- <field name="tax_id"/> -->
                 </xpath>
                 <xpath expr="//field[@name='payment_term_id']" position="after">
