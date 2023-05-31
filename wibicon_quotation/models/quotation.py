@@ -54,7 +54,12 @@ class Quotation(models.Model):
     perihal = fields.Char(string='Perihal')
     tanggal_berlaku = fields.Date(string='Tanggal Berlaku', compute="compute_tanggal_berlaku")
     no_quotation_accurate = fields.Char(string='No Quotation Accurate')
+    kode_mkt = fields.Selection([("L","L"),("K","K")],string='Kode MKT')
     
+
+    @api.onchange('partner_id')
+    def get_kode_mkt(self):
+            self.kode_mkt = self.partner_id.kode_mkt
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids')
     def _compute_amount(self):
