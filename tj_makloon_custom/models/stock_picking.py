@@ -8,6 +8,7 @@ class StockPicking(models.Model):
     no_sj_result = fields.Many2one('stock.picking', 'No SJ Result')
 
     warehouse_id = fields.Many2one('stock.warehouse', 'Warehouse')
+    is_create_po = fields.Boolean(string='Create Po ?', default=False)
 
 
     # @api.multi
@@ -23,6 +24,21 @@ class StockPicking(models.Model):
                 display_value += ']'
             data.append((rec.id, display_value))
         return data
+
+    def action_create_purchase(self):
+        purchase = self.env['purchase.order'].create({
+            "partner_id": self.partner_id.id,
+            "purchase_category_id": self.makloon_order_id.purchase_category_id.id,
+            "order_line": [(0, 0, {
+                "product_id": sm.product_id.id,
+                "name": sm.product_id.name,
+                "specifications": "-",
+                "product_qty": sm.quantity_done,
+                "price_unit": sm.product_id.standard_price
+            })for sm in self.move_ids_without_package]
+        })
+        self.no_po = purchase.id
+        self.is_create_po = True
 
 class StockMove(models.Model):
     _inherit = 'stock.move'

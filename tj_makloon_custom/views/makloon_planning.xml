@@ -43,6 +43,7 @@
                  <field name="partner_id" domain="[('category_id.name', '=like', operation_name)]" />
              </xpath>
              <xpath expr="//notebook/page/field[@name='stage_ids']/tree/field[@name='state']" position="after">
+                 <field name="product_ids"/>
                  <field name="material_progress" widget="progressbar" readonly="1"/>
                  <field name="result_progress" widget="progressbar" readonly="1"/>
              </xpath>
