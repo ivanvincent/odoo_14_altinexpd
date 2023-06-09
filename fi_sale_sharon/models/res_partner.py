@@ -118,6 +118,8 @@ class Partner(models.Model):
 										('alfagroup','Alfa Group'),
 										('lainnya','Lainnya')
 									],"Partner Account",default="lainnya")
+	kode_mkt        = fields.Selection([("L","L"),("K","K")],string='Kode MKT')
+
 
 	def _get_name(self):
 		name = super(Partner, self)._get_name()
