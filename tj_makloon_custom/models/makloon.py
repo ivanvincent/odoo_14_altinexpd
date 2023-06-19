@@ -112,6 +112,7 @@ class MakloonPlanningStage(models.Model):
 
     material_progress = fields.Float('Material Progress', compute="_get_makloon_progress", copy=False)
     result_progress = fields.Float('Result Progress', compute="_get_makloon_progress", copy=False)
+    product_ids = fields.Many2many('product.product', string='Product')
 
 class MakloonPlanning(models.Model):
     _inherit = "makloon.planning"
