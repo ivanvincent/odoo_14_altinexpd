@@ -239,7 +239,7 @@
                         </table>
                     </div>
                     
-                    <div class="row">
+                    <!-- <div class="row">
                         <table class="table-condensed" width="100%">
                             <tr>
                                 <td style="font-size:16px; padding-left:30px;" width="15%">Pengiriman</td>
@@ -256,7 +256,7 @@
                                 </td>
                             </tr>
                         </table>
-                    </div>
+                    </div> -->
                     
                     <br/><br/>
                     
