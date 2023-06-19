@@ -29,7 +29,7 @@
         </record>
 
         <template id="report_sales_contract">
-        <t t-call="web.basic_layout">
+                    <t t-call="web.basic_layout">
             <t t-foreach="docs" t-as="doc">
                     <t t-if="o and 'company_id' in o">
                         <t t-set="company" t-value="o.company_id"/>
@@ -53,7 +53,7 @@
                         <br/>
                         <div class="row mt32">
                             <div class="col-6">
-                                <div style="border: 1px solid black; border-radius: 10px;">
+                                <div style="border: 1px solid black; border-radius: 0px;">
                                     <span style="padding-left:10px; padding-bottom:5px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;"><strong>PT. ALTINEX</strong></span><br/>
                                     <!--<div class="line" style="border-bottom: thin solid #222;"/>-->
                                     <span style="padding-left:10px; font-size:14px; height:1px; margin:0; padding-top:0; padding-bottom:0;">Jalan Panghegar No.7, Mekarmulya, Gedebage, Bandung 40614</span><br/>
@@ -63,43 +63,44 @@
                             </div>
                             <div class="col-1"/>
                             <div class="col-5">
-                                <div style="border: 1px solid black; border-radius: 10px;">
+                                <div style="border: 1px solid black; border-radius: 0px;">
                                     <table class="table-condensed" width="100%">
                                         <tr>
                                             <td width="30%" style="font-size:20px; padding-left:10px;">Tanggal</td>
                                             <td>
                                                 <span>:</span>
-                                                <span t-field="doc.date" t-options='{"widget": "date","format": "dd/MM/yyyy"}' style="font-size:20px;"/>
+                                                <span t-field="doc.date" t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd/MM/yyyy&quot;}" style="font-size:20px;"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td width="30%" style="font-size:20px; padding-left:10px;">Nomor</td>
                                             <td>
                                                 <span>:</span>
-                                                <span t-field="doc.no_quotation_accurate" style="font-size:20px"/>
+                                                <span t-field="doc.name" style="font-size:20px"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td width="50%" style="font-size:20px; padding-left:10px;">Berlaku Sampai</td>
                                             <td>
                                                 <span>:</span>
-                                                <span t-field="doc.tanggal_berlaku" t-options='{"widget": "date","format": "dd/MM/yyyy"}' style="font-size:20px"/>
+                                                <span t-field="doc.tanggal_berlaku" t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd/MM/yyyy&quot;}" style="font-size:20px"/>
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt32">
+                        <div class="row mt32" style="margin-top:6px;">
                             <div class="col-7">
-                            <div style="border: 1px solid black; border-radius: 10px;">
+                            <div style="border: 1px solid black; border-radius: 0px;">
                                 <table class="table-condensed" width="100%">
                                     <tr>
                                         <td width="30%" style="font-size:16px; padding-left:10px;">Kepada</td>
                                         <td>
                                             <span>:</span>
-                                            <span t-field="doc.partner_id" style="font-size:16px"/> <br/>
-                                            <span t-field="doc.partner_id.street" style="font-size:16px"/>
+                                            <span class="font-weight-bold" t-field="doc.partner_id" style="font-size:16px"/> <br/>
+                                            <span t-field="doc.partner_id.street" style="font-size:16px; padding:0;"/><br/>
+                                            <span>-----------------------------------------------------</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -144,7 +145,7 @@
                         }
                     </style>
                     
-                    <br/><br/><br/><br/>\<br/><br/><br/><br/>
+                    <br/><br/><br/><br/>\<br/><br/>
 
                     <div class="row">
                         <table class="table-condensed" width="100%">
