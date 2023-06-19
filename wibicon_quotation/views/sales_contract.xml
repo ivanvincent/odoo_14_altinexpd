@@ -29,8 +29,7 @@
         </record>
 
         <template id="report_sales_contract">
-            <t t-name="wibicon_quotation.report_sales_contract">
-                <t t-call="web.basic_layout">
+            <t t-call="web.basic_layout">
                     <style>
                         table-data {
                             border: 1px solid black;
