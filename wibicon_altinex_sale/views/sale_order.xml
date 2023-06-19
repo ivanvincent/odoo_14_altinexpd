@@ -18,7 +18,7 @@
                     <field name="po_cust" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                     <field name="no_sample"/>
                     <field name="note_so"/>
-                    <field name="no_dqc"/>
+                    <!-- <field name="no_dqc"/> -->
                     <field name="alamat" readonly="0" force_save="1"/>
                     <field name="option_vip"/>
                 </xpath>
