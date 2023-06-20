@@ -1,6 +1,7 @@
 from email.policy import default
 from odoo import models, fields, api
 from dateutil.relativedelta import relativedelta
+import odoo.addons.decimal_precision as dp
 
 
 class Quotation(models.Model):
@@ -28,7 +29,7 @@ class Quotation(models.Model):
     company_currency_id = fields.Many2one(related='company_id.currency_id', string='Company Currency',
                                           readonly=True, store=True, help='Utility field to express amount currency')
     payment_term_id = fields.Many2one(
-        'account.payment.term', string='Payment Term', related='partner_id.property_payment_term_id')
+        'account.payment.term', string='Payment Term')
     drawing_internal = fields.Binary(
         string='Drawing Internal', related='design_code_id.drawing_internal')
     drawing_external = fields.Binary(
@@ -55,14 +56,20 @@ class Quotation(models.Model):
                                 ("Penawaran Harga","Penawaran Harga")], string='Perihal', required=True, )
     tanggal_berlaku = fields.Date(string='Tanggal Berlaku', compute="compute_tanggal_berlaku")
     no_quotation_accurate = fields.Char(string='No Quotation Accurate')
-    kode_mkt = fields.Selection([("L","L"),("K","K")],string='Kode MKT')
-    
+    kode_mkt = fields.Selection([("L","L"),("K","K"),("G","G")],string='Kode MKT')
+    discount_type = fields.Selection([('percent', 'Percentage'), ('amount', 'Amount')], string='Discount type',
+                                 default='percent')
+    discount_rate = fields.Float('Discount Rate', digits=dp.get_precision('Account'), )
+    amount_discount = fields.Monetary(string='Discount', store=True, compute='_compute_amount',
+                                      digits=dp.get_precision('Account'), track_visibility='always')
 
     @api.onchange('partner_id')
     def get_kode_mkt(self):
+        if self.partner_id:
             self.kode_mkt = self.partner_id.kode_mkt
+            self.payment_term_id = self.partner_id.property_payment_term_id.id
 
-    @api.depends('line_ids.sub_total', 'line_ids.tax_ids')
+    @api.depends('line_ids.sub_total', 'line_ids.tax_ids', 'discount_rate', 'discount_type')
     def _compute_amount(self):
         for rec in self:
             total_tax = 0
@@ -71,9 +78,11 @@ class Quotation(models.Model):
                 for t in l.tax_ids:
                     total_tax += l.sub_total * (t.amount / 100)
                 total_untax += l.sub_total
+            amount_discount = total_untax * rec.discount_rate / 100 if rec.discount_type == 'percent' else rec.discount_rate
             rec.amount_tax = total_tax
             rec.amount_untaxed = total_untax
-            rec.amount_total = total_tax + total_untax
+            rec.amount_total = total_tax + total_untax - amount_discount
+            rec.amount_discount = amount_discount
 
     @api.model
     def create(self, vals):
@@ -205,7 +214,7 @@ class Quotation(models.Model):
     def action_set_to_draft(self):
         self.state = 'draft'
 
-
+    
 
 class QuotationLine(models.Model):
     _name = 'quotation.line'

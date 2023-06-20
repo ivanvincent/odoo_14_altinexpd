@@ -12,6 +12,7 @@
                 </xpath>
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="product_order_id"/>
+                    <field name="kode_mkt"/>
                     <!-- <field name="no_quotation_accurate"/> -->
                 </xpath>
             </field>
