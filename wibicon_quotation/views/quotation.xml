@@ -26,6 +26,14 @@
                                 <field name="date" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="attn_ids" invisible="1"/>
                                 <field name="up_kpd" domain="[('id', 'in', attn_ids)]"/>
+
+                                <field name="alamat"/>
+                                <field name="kota"/>
+                                <field name="phone"/>
+                                <field name="mobile"/>
+                                <field name="fax"/>
+                                <field name="email"/>
+
                                 <field name="note_so"/>
                                 <field name="perihal"/>
                                 <field name="design_code_id" attrs="{'readonly':[('state','=','confirm')]}" />

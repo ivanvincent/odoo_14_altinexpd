@@ -99,3 +99,4 @@ product_defect/models/__pycache__/product_defect.cpython-38.pyc
 *.log
 *.pot
 *.pyc
+plm/static/src/img/odooPLMV9_2.PNG
