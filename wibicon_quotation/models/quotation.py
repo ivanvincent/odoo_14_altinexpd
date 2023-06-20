@@ -209,7 +209,7 @@ class Quotation(models.Model):
             if rec.date:
                 rec.tanggal_berlaku = rec.date + relativedelta(days=30)
             else:
-                rec.tanggal_berlaki = False
+                rec.tanggal_berlaku = False
 
     def action_set_to_draft(self):
         self.state = 'draft'
