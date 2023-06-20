@@ -289,7 +289,8 @@
                                         <td style="font-size:16px; padding-left:30px;" width="15%">Pembayaran</td>
                                         <td>
                                             <span width="1%">:</span>
-                                            <span style="font-size:16px"> 1 (Satu) bulan setelah penerimaan barang</span>
+                                            <!-- <span style="font-size:16px"> 1 (Satu) bulan setelah penerimaan barang</span> -->
+                                            <span style="font-size:16px" t-esc="doc.payment_term_id.note" />
                                         </td>
                                     </tr>
                                 </table>
