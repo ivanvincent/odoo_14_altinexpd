@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='partner_id']" position="before">
                     <field name="quotation_id"/>
-                    <field name="up_kpd"/>
+                    <!-- <field name="up_kpd"/> -->
                     <field name="delivery_date"/>
                 </xpath>
                 <xpath expr="//field[@name='partner_id']" position="after">
