@@ -40,10 +40,11 @@ class SaleContract(models.Model):
                                   partner=line.order_id.partner_id or False)['taxes']
         return sum(tax.get('amount', 0.0) for tax in taxes)
 
-    # @api.onchange('partner_id')
-    # def _onchange_partner_id(self):
-    #     if self.partner_id:
-    #         self.term_of_payment = self.partner_id.property_payment_term_id.id
+    @api.onchange('partner_id')
+    def _onchange_partner_id(self):
+        if self.partner_id:
+            self.term_of_payment = self.partner_id.property_payment_term_id.id
+            self.kode_mkt = self.partner_id.kode_mkt
     #         pricelist = self.env['product.pricelist'].search([('partner_id', '=', self.partner_id.id)])
 
     #         if len(pricelist) == 0:
@@ -117,7 +118,7 @@ class SaleContract(models.Model):
     qty_order_uom               = fields.Many2one('product.uom',string='UoM')
     delivery_date               = fields.Date(string='Delivery Date', index=True, default=fields.Datetime.now)
     payment_type                = fields.Selection([('brutto','Brutto'),('netto','Netto')],'Payment By',default='brutto')
-    term_of_payment             = fields.Many2one('account.payment.term', string='Payment Terms',)
+    term_of_payment             = fields.Many2one('account.payment.term', string='Payment Terms', readonly=True)
     # term_of_payment             = fields.Char(string='Term of Payment')
     term_of_payment_information = fields.Char(string='Term of Payment Information')
     partner_id = fields.Many2one('res.partner', string='Customer',)
@@ -128,6 +129,8 @@ class SaleContract(models.Model):
     design_code = fields.Char(string='Design Code') #sementara
     design_code_id = fields.Many2one('makloon.design', string='Design')
     quotation_id = fields.Many2one('quotation', string='Quotation')
+    kode_mkt  = fields.Selection([("L","L"),("K","K"),("G","G")],string='Kode MKT')
+
 
 
 
