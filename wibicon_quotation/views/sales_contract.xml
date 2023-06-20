@@ -163,7 +163,7 @@
                                 <tr>
                                     <td
                                         style="font-size:16px; padding-left:30px; padding-bottom: 15px; padding-top:15px;">
-                                        Dear</td>
+                                        Dear <t t-esc="doc.up_kpd.name"/></td>
                                     <td>
                                         <span style="font-size:16px" /> <br />
                                     </td>
