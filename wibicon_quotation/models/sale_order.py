@@ -6,6 +6,7 @@ class SaleOrder(models.Model):
 
     quotation_id = fields.Many2one('quotation', string='Quotation')
     delivery_date = fields.Date(string='Delivery Time')
+    up_kpd = fields.Many2one('attn', string='Attn', related='quotation_id.up_kpd')
     product_order_id = fields.Many2one(string='Product Order', related='quotation_id.product_order_id')
     no_quotation_accurate = fields.Char(string='No Quotation Accurate')
     kode_mkt = fields.Selection([("L","L"),("K","K"),("G","G")],string='Kode MKT', related='quotation_id.kode_mkt', store=True,)
@@ -21,7 +22,8 @@ class SaleOrder(models.Model):
             self.order_line     = False
             self.delivery_date  = qtn.delivery_date
             self.no_sample      = qtn.no_sample
-            self.up_kpd         = qtn.up_kpd.id
+            # self.up_kpd         = qtn.up_kpd.id
+            self.alamat      = qtn.up_kpd.alamat
             self.note_so         = qtn.note_so
             
             order_lines = []
