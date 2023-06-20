@@ -29,7 +29,7 @@ class ResPartnerJalur(models.Model):
     #djoyo
     salesperson_id = fields.Many2one("hr.employee", "Supervisor", track_visibility='onchange' )
     
-    account_id = fields.Many2one("res.partner.account", "Partner Account",)
+    # account_id = fields.Many2one("res.partner.account", "Partner Account",)
     #  track_visibility='onchange'
     divisi1_id = fields.Many2one("res.partner.divisi1", "Partner Divisi 1", track_visibility='onchange' )
     divisi2_id = fields.Many2one("res.partner.divisi2", "Partner Divisi 2", track_visibility='onchange' )
