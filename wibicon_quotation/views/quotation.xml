@@ -37,7 +37,7 @@
                                 <field name="size" required="1" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="shape" required="1" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" />
-                                <field name="payment_term_id" readonly="1" />
+                                <field name="payment_term_id" readonly="1" force_save="1"/>
                                 <field name="product_tmpl_ids" widget="many2many_tags" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="request_engineering_id" readonly="1" attrs="{'invisible':[('request_engineering_id', '=', False)]}" context="{'form_view_ref': 'wibicon_quotation.request_engineering_form'}"/>
                                 <field name="no_sample" attrs="{'readonly':[('state','=','confirm')]}" />
