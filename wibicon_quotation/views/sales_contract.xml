@@ -274,6 +274,28 @@
                             </table>
                         </div>
 
+                        <t t-if="doc.perihal != 'Penawaran Harga'">
+                            <div class="row">
+                                <br/><br/>
+                                <table class="table-condensed" width="100%">
+                                    <tr>
+                                        <td style="font-size:16px; padding-left:30px;" width="15%">Pengiriman</td>
+                                        <td>
+                                            <span width="1%">:</span>
+                                            <span style="font-size:16px"> 60 hari kerja setelah PO diterima dan drawing disetujui</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:16px; padding-left:30px;" width="15%">Pembayaran</td>
+                                        <td>
+                                            <span width="1%">:</span>
+                                            <span style="font-size:16px"> 1 (Satu) bulan setelah penerimaan barang</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </t>
+
                         <div class="row">
                             <br /><br />
                             <span style="text-align: left; font-size: 16px; padding-left:30px;">Hormat Kami,</span>
@@ -291,6 +313,7 @@
                             <span
                                 style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">sales@altinex.co</span><br />
                         </div>
+
 
 
                     </div>

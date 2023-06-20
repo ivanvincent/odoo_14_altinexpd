@@ -51,7 +51,8 @@ class Quotation(models.Model):
     attn_ids = fields.Many2many('attn', string='Attn', related='partner_id.attn')
     
     note_so = fields.Char(string='Note')
-    perihal = fields.Char(string='Perihal')
+    perihal = fields.Selection([("Penawaran Harga Punch & Dies","Penawaran Harga Punch & Dies"),
+                                ("Penawaran Harga","Penawaran Harga")], string='Perihal', required=True, )
     tanggal_berlaku = fields.Date(string='Tanggal Berlaku', compute="compute_tanggal_berlaku")
     no_quotation_accurate = fields.Char(string='No Quotation Accurate')
     kode_mkt = fields.Selection([("L","L"),("K","K")],string='Kode MKT')
