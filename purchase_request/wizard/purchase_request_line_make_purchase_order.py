@@ -263,9 +263,14 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         po_line_obj = self.env["purchase.order.line"]
         pr_line_obj = self.env["purchase.request.line"]
         purchase = False
+        done = 0
+        count_line = 0
 
         for item in self.item_ids:
             line = item.line_id
+            count_line += 1
+            if line.product_qty == item.product_qty:
+                done += 1
             if item.product_qty <= 0.0:
                 raise UserError(_("Enter a positive quantity."))
             if self.purchase_order_id:
@@ -336,6 +341,10 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
                     date_required.year, date_required.month, date_required.day
                 )
             res.append(purchase.id)
+        if done == count_line:
+            ctx = self.env.context
+            print("contexttt")
+            self.env['purchase.request'].browse(ctx.get('active_id')).button_done()
 
         return {
             "domain": [("id", "in", res)],
