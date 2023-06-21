@@ -13,6 +13,7 @@ import base64
 from werkzeug import FileStorage
 from io import BytesIO
 import os
+import calendar
 
 _logger = logging.getLogger(__name__)
 
@@ -130,9 +131,73 @@ class SaleContract(models.Model):
     design_code_id = fields.Many2one('makloon.design', string='Design')
     quotation_id = fields.Many2one('quotation', string='Quotation')
     kode_mkt  = fields.Selection([("L","L"),("K","K"),("G","G")],string='Kode MKT')
+    delivery_date_desc = fields.Char(string='Delivery Date Desc', store=True)
 
+    def get_current_week(self, tahun, bulan, tgl):
+        tmp_cal = calendar.month(tahun, bulan).split('\n')[2:]
+        tmp_list = []
+        index = 1
+        tmp_out = None
+        kondisi = False
+        for val in tmp_cal:
 
+            tmp_string = val.replace(" ", ",").replace(",,", ",").lstrip(",")
+            tmp_list.append(tmp_string)
 
+            for val_hari in tmp_list:
+                if str(tgl) in val_hari:
+                    tmp_out = index
+                    kondisi = True
+
+                if kondisi:
+                    break
+
+            if kondisi:
+                break
+
+            index += 1
+            tmp_list.clear()
+
+        return tmp_out
+
+    @api.onchange('delivery_date')
+    def onchange_date_delivery_date(self):
+
+        tahun = int(self.delivery_date.strftime("%Y"))
+        bulan = int(self.delivery_date.strftime("%m"))
+        tgl = int(self.delivery_date.strftime("%d"))
+        
+        tmp_desc = self.get_current_week(tahun,bulan,str(tgl))
+        tmp_out = []
+        tmp_out.append("Week ")
+        tmp_out.append(str(tmp_desc))
+        if bulan == 1:
+            tmp_out.append(" Januari")
+        elif bulan == 2:
+            tmp_out.append(" Februari")
+        elif bulan == 3:
+            tmp_out.append(" Maret")
+        elif bulan == 4:
+            tmp_out.append(" April")
+        elif bulan == 5:
+            tmp_out.append(" Mei")
+        elif bulan == 6:
+            tmp_out.append(" Juni")
+        elif bulan == 7:
+            tmp_out.append(" Juli")
+        elif bulan == 8:
+            tmp_out.append(" Agustus")
+        elif bulan == 9:
+            tmp_out.append(" September")
+        elif bulan == 10:
+            tmp_out.append(" Oktober")
+        elif bulan == 11:
+            tmp_out.append(" November")
+        else:
+            tmp_out.append(" Desember")
+
+        tmp_out = ''.join(tmp_out)
+        self.delivery_date_desc = tmp_out
 
     @api.constrains('lines','set_duplicate_product')
     def _check_exist_product_in_line(self):

@@ -95,6 +95,7 @@
                         <group string="Accounting">
                             <!-- <field name="pricelist_id" domain="[('partner_id','=',partner_id)]" attrs="{'readonly': [('state','!=','draft')]}"/> -->
                             <field name="delivery_date" attrs="{'readonly': [('state','!=','draft')]}"/>
+                            <field name="delivery_date_desc" readonly="1" force_save="1" />
                             <field name="kode_mkt" readonly="1"/>
                             <label for="term_of_payment"/>
                             <span>
