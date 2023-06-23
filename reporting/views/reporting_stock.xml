@@ -69,7 +69,7 @@
                         <notebook>
                             <page string="Detail">
                                 <field name="line_ids" attrs="{'readonly': [('state', '=', 'locked')]}">
-                                    <tree string="Detail" editable="bottom" create="false">
+                                    <tree string="Detail" editable="bottom" create="false" default_order="product_code asc">
                                         <field name="location_id" invisible="1" readonly="1"/>
                                         <field name="categ_id" readonly="1"/>
                                         <field name="product_code" readonly="1"/>
@@ -90,7 +90,7 @@
                             </page>
                             <page string="Receipt">
                                 <field name="history_in_id" readonly="1">
-                                    <tree string="Detail" editable="bottom" create="false">
+                                    <tree string="Detail" editable="bottom" create="false" default_order="product_code asc">
                                         <field name="picking_id" />
                                         <field name="date" />
                                         <field name="categ_id" />
@@ -105,7 +105,7 @@
                             </page>
                             <page string="Release">
                                 <field name="history_out_id" readonly="1">
-                                    <tree string="Detail" editable="bottom" create="false">
+                                    <tree string="Detail" editable="bottom" create="false" default_order="product_code asc">
                                         <field name="picking_id" />
                                         <field name="date" />
                                         <field name="categ_id" />
@@ -120,7 +120,7 @@
                             </page>
                             <page string="Return In">
                                 <field name="history_return_in_id" readonly="1">
-                                    <tree string="Detail" editable="bottom" create="false">
+                                    <tree string="Detail" editable="bottom" create="false" default_order="product_code asc">
                                         <field name="picking_id" />
                                         <field name="date" />
                                         <field name="categ_id" />
@@ -135,7 +135,7 @@
                             </page>
                             <page string="Return Out">
                                 <field name="history_return_out_id" readonly="1">
-                                    <tree string="Detail" editable="bottom" create="false">
+                                    <tree string="Detail" editable="bottom" create="false" default_order="product_code asc">
                                         <field name="picking_id" />
                                         <field name="date" />
                                         <field name="categ_id" />
@@ -150,7 +150,7 @@
                             </page>
                             <page string="Adjustment In">
                                 <field name="history_adjustment_in_id" readonly="1">
-                                    <tree string="Detail" editable="bottom" create="false">
+                                    <tree string="Detail" editable="bottom" create="false" default_order="product_code asc">
                                         <field name="picking_id" />
                                         <field name="date" />
                                         <field name="categ_id" />
@@ -165,7 +165,7 @@
                             </page>
                             <page string="Adjustment Out">
                                 <field name="history_adjustment_out_id" readonly="1">
-                                    <tree string="Detail" editable="bottom" create="false">
+                                    <tree string="Detail" editable="bottom" create="false" default_order="product_code asc">
                                         <field name="picking_id" />
                                         <field name="date" />
                                         <field name="categ_id" />
