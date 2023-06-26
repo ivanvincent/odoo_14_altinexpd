@@ -71,12 +71,13 @@ class Quotation(models.Model):
     discount_rate = fields.Float('Discount Rate', digits=dp.get_precision('Account'), )
     amount_discount = fields.Monetary(string='Discount', store=True, compute='_compute_amount',
                                       digits=dp.get_precision('Account'), track_visibility='always')
+    payment_term_ids = fields.Many2many('account.payment.term', string='Payment Term Ids', related='partner_id.payment_term_ids')
 
     @api.onchange('partner_id')
     def get_kode_mkt(self):
         if self.partner_id:
             self.kode_mkt = self.partner_id.kode_mkt
-            self.payment_term_id = self.partner_id.property_payment_term_id.id
+            # self.payment_term_id = self.partner_id.property_payment_term_id.id
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids', 'discount_rate', 'discount_type')
     def _compute_amount(self):

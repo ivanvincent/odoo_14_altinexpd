@@ -8,6 +8,7 @@ class ResPartner(models.Model):
     supplier_code   = fields.Char(string='Supplier Code')
     attn            = fields.Many2many(comodel_name='attn', string='Attn')
     attn_ids        = fields.One2many('attn', 'partner_id', string='Attn')
+    payment_term_ids = fields.Many2many('account.payment.term', string='Payment Term')
     
     fax             = fields.Char(string='Fax')
     no_dqc          = fields.Boolean(string='DQC')
