@@ -49,7 +49,9 @@ class Quotation(models.Model):
     product_order_id = fields.Many2one('product.order', string='Product Order')
     cup_depth_id = fields.Many2one('cup.depth', string='Cup Depth')
     up_kpd = fields.Many2one('attn', string='Attn')
-    attn_ids = fields.Many2many('attn', string='Attn', related='partner_id.attn')
+    attn_ids = fields.Many2many('attn', string='Attn', compute='compute_attn_ids')
+
+
 
     alamat  = fields.Text(string='Alamat', related='up_kpd.alamat')
     kota    = fields.Char(string='Kota', related='up_kpd.kota')
@@ -220,6 +222,14 @@ class Quotation(models.Model):
 
     def action_set_to_draft(self):
         self.state = 'draft'
+
+    @api.depends('partner_id')
+    def compute_attn_ids(self):
+        for rec in self:
+            if rec.partner_id:
+                rec.attn_ids = [(6, 0, rec.partner_id.attn_ids.ids)]
+            else:
+                rec.attn_ids = False
 
     
 

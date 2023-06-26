@@ -10,4 +10,5 @@ class Attn(models.Model):
     mobile  = fields.Char(string='Mobile')
     fax     = fields.Char(string='Fax')
     email   = fields.Char(string='Email')
-    active		= fields.Boolean("Active", default=True)
+    active  = fields.Boolean("Active", default=True)
+    partner_id = fields.Many2one('res.partner', string='Partner')

@@ -7,6 +7,7 @@ class ResPartner(models.Model):
     total_product   = fields.Integer(string='Total Product', compute="_compute_total_product")
     supplier_code   = fields.Char(string='Supplier Code')
     attn            = fields.Many2many(comodel_name='attn', string='Attn')
+    attn_ids        = fields.One2many('attn', 'partner_id', string='Attn')
     
     fax             = fields.Char(string='Fax')
     no_dqc          = fields.Boolean(string='DQC')
