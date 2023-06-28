@@ -4,7 +4,7 @@ import logging
 import psycopg2
 from functools import partial
 from odoo import models, fields, api, tools, _
-from odoo.exceptions import UserError, Warning
+from odoo.exceptions import ValidationError, UserError, Warning
 import odoo.addons.decimal_precision as dp
 from odoo.tools import float_is_zero
 import requests
