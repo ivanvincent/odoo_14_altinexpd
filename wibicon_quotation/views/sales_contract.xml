@@ -181,6 +181,8 @@
                         </div>
 
                         <div class="row mt32">
+                            <div class="col-12">
+                        
                             <table width="100%" class="table-data"
                                 style="border: 1px solid black; text-align: center; margin-bottom: 1rem; border-collapse: collapse; font-size: 14px;">
                                 <thead>
@@ -269,6 +271,7 @@
                                     </tr>
                                 </tfoot>
                             </table>
+                            </div>
                         </div>
 
                         <div class="row">
