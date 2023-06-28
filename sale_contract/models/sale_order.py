@@ -7,6 +7,12 @@ from odoo import models, fields, api, tools, _
 from odoo.exceptions import UserError, Warning
 import odoo.addons.decimal_precision as dp
 from odoo.tools import float_is_zero
+import requests
+import urllib
+import base64
+from werkzeug import FileStorage
+from io import BytesIO
+import os
 import calendar
 
 
@@ -122,12 +128,18 @@ class SaleOrderContract(models.Model):
             'context': self.env.context,
             }
 
-    @api.onchange('date_order')
-    def onchange_date_order_date(self):
+    # @api.onchange('date_order')
+    # def onchange_date_order_date(self):
 
-        tahun = int(self.date_order.strftime("%Y"))
-        bulan = int(self.date_order.strftime("%m"))
-        tgl = int(self.date_order.strftime("%d"))
+    #     tahun = int(self.date_order.strftime("%Y"))
+    #     bulan = int(self.date_order.strftime("%m"))
+    #     tgl = int(self.date_order.strftime("%d"))
+    @api.onchange('delivery_date')
+    def onchange_date_delivery_date(self):
+
+        tahun = int(self.delivery_date.strftime("%Y"))
+        bulan = int(self.delivery_date.strftime("%m"))
+        tgl = int(self.delivery_date.strftime("%d"))
         
         tmp_desc = self.get_current_week(tahun,bulan,str(tgl))
         tmp_out = []
