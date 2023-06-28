@@ -122,12 +122,12 @@ class SaleOrderContract(models.Model):
             'context': self.env.context,
             }
 
-    @api.onchange('delivery_date')
-    def onchange_date_delivery_date(self):
+    @api.onchange('date_order')
+    def onchange_date_order_date(self):
 
-        tahun = int(self.delivery_date.strftime("%Y"))
-        bulan = int(self.delivery_date.strftime("%m"))
-        tgl = int(self.delivery_date.strftime("%d"))
+        tahun = int(self.date_order.strftime("%Y"))
+        bulan = int(self.date_order.strftime("%m"))
+        tgl = int(self.delivdate_orderery_date.strftime("%d"))
         
         tmp_desc = self.get_current_week(tahun,bulan,str(tgl))
         tmp_out = []
