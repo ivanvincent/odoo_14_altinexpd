@@ -9,7 +9,7 @@ class SaleOrder(models.Model):
     up_kpd = fields.Many2one('attn', string='Attn', related='quotation_id.up_kpd')
     product_order_id = fields.Many2one(string='Product Order', related='quotation_id.product_order_id')
     no_quotation_accurate = fields.Char(string='No Quotation Accurate')
-    kode_mkt = fields.Selection([("L","L"),("K","K"),("G","G")],string='Kode MKT', related='quotation_id.kode_mkt', store=True,)
+    kode_mkt_id = fields.Many2one('kode.mkt', string='Kode Mkt', related='quotation_id.kode_mkt_id', store=True,)
 
     @api.onchange('quotation_id')
     def onchange_quotation_id(self):

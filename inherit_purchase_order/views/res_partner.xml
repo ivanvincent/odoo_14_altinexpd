@@ -18,6 +18,7 @@
                 </xpath>
                 <xpath expr="//field[@name='website']" position="after">
                     <field name="payment_term_ids" widget="many2many_tags"/>
+                    <field name="kode_mkt_ids" widget="many2many_tags"/>
                     <field name="fax"/>
                 </xpath>
                 <xpath expr="//page[@name='sales_purchases']" position="after">

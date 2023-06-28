@@ -65,18 +65,19 @@ class Quotation(models.Model):
                                 ("Penawaran Harga","Penawaran Harga")], string='Perihal', required=True, )
     tanggal_berlaku = fields.Date(string='Tanggal Berlaku', compute="compute_tanggal_berlaku")
     no_quotation_accurate = fields.Char(string='No Quotation Accurate')
-    kode_mkt = fields.Selection([("L","L"),("K","K"),("G","G")],string='Kode MKT')
+    kode_mkt_id = fields.Many2one('kode.mkt', string='Kode Mkt')
     discount_type = fields.Selection([('percent', 'Percentage'), ('amount', 'Amount')], string='Discount type',
                                  default='percent')
     discount_rate = fields.Float('Discount Rate', digits=dp.get_precision('Account'), )
     amount_discount = fields.Monetary(string='Discount', store=True, compute='_compute_amount',
                                       digits=dp.get_precision('Account'), track_visibility='always')
     payment_term_ids = fields.Many2many('account.payment.term', string='Payment Term Ids', related='partner_id.payment_term_ids')
+    kode_mkt_ids = fields.Many2many('kode.mkt', string='Kode Mkt Ids', related='partner_id.kode_mkt_ids')
 
-    @api.onchange('partner_id')
-    def get_kode_mkt(self):
-        if self.partner_id:
-            self.kode_mkt = self.partner_id.kode_mkt
+    # @api.onchange('partner_id')
+    # def get_kode_mkt(self):
+        # if self.partner_id:
+            # self.kode_mkt = self.partner_id.kode_mkt
             # self.payment_term_id = self.partner_id.property_payment_term_id.id
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids', 'discount_rate', 'discount_type')

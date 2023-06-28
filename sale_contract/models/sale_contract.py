@@ -45,7 +45,7 @@ class SaleContract(models.Model):
     def _onchange_partner_id(self):
         if self.partner_id:
             self.term_of_payment = self.partner_id.property_payment_term_id.id
-            self.kode_mkt = self.partner_id.kode_mkt
+            # self.kode_mkt = self.partner_id.kode_mkt
     #         pricelist = self.env['product.pricelist'].search([('partner_id', '=', self.partner_id.id)])
 
     #         if len(pricelist) == 0:
@@ -130,7 +130,7 @@ class SaleContract(models.Model):
     design_code = fields.Char(string='Design Code') #sementara
     design_code_id = fields.Many2one('makloon.design', string='Design')
     quotation_id = fields.Many2one('quotation', string='Quotation')
-    kode_mkt  = fields.Selection([("L","L"),("K","K"),("G","G")],string='Kode MKT')
+    kode_mkt_id = fields.Many2one('kode.mkt', string='Kode Mkt')
     delivery_date_desc = fields.Char(string='Delivery Date Desc', store=True)
 
     def get_current_week(self, tahun, bulan, tgl):
