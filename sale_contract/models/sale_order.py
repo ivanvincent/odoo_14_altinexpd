@@ -127,7 +127,7 @@ class SaleOrderContract(models.Model):
 
         tahun = int(self.date_order.strftime("%Y"))
         bulan = int(self.date_order.strftime("%m"))
-        tgl = int(self.delivdate_orderery_date.strftime("%d"))
+        tgl = int(self.date_order.strftime("%d"))
         
         tmp_desc = self.get_current_week(tahun,bulan,str(tgl))
         tmp_out = []
