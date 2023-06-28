@@ -200,21 +200,21 @@
                                 <tbody>
                                     <t t-foreach="doc.line_ids" t-as="line">
                                         <tr>
-                                            <td style="vertical-align : middle; border-right: 1px solid black; padding: 0; border-collapse: collapse;"
+                                            <td style="vertical-align : middle; border-right: 1px solid black; padding-bottom: 10px; border-collapse: collapse; "
                                                 class="text-left pl-2">
                                                 <span t-field="line.product_id" /> <span
                                                     t-field="line.quotation_id.product_order_id.name" /> <span
                                                     t-esc="line.embos" /> <span t-esc="line.lapisan" />
                                             </td>
-                                            <td style="vertical-align : middle; border-right: 1px solid black; padding: 0; border-collapse: collapse;"
+                                            <td style="vertical-align : middle; border-right: 1px solid black; padding-bottom: 10px; border-collapse: collapse; "
                                                 class="text-right pr-2">
                                                 <span t-field="line.quantity" />
                                             </td>
-                                            <td style="vertical-align : middle; border-right: 1px solid black;  padding: 0; border-collapse: collapse;"
+                                            <td style="vertical-align : middle; border-right: 1px solid black;  padding-bottom: 10px; border-collapse: collapse; "
                                                 class="text-right pr-2">
                                                 <span t-field="line.price_unit" />
                                             </td>
-                                            <td style="vertical-align : middle; border-right: 1px solid black;  padding: 0; border-collapse: collapse;"
+                                            <td style="vertical-align : middle; border-right: 1px solid black;  padding-bottom: 10px; border-collapse: collapse; "
                                                 class="text-right pr-2">
                                                 <span t-field="line.sub_total" />
                                             </td>
@@ -275,7 +275,7 @@
                         </div>
 
                         <div class="row">
-                            <table class="table-condensed" width="100%">
+                            <table class="table-condensed" width="100%" style="margin-top: 20px; margin-bottom: 20px;">
                                 <tr>
                                     <td style="font-size:16px; padding-left:30px;" width="100%">
                                         <span>Kami harap penawaran harga ini dapat diterima dengan baik. Jika masih
@@ -292,18 +292,29 @@
                                 <br/><br/>
                                 <table class="table-condensed" width="100%">
                                     <tr>
-                                        <td style="font-size:16px; padding-left:30px;" width="15%">Pengiriman</td>
+                                        <td style="font-size:16px; padding-left:30px; padding-bottom:15px;" width="15%">Pengiriman</td>
                                         <td>
                                             <span width="1%">:</span>
-                                            <span style="font-size:16px"> 60 hari kerja setelah PO diterima dan drawing disetujui</span>
+                                            <span style="font-size:16px; padding-bottom:15px;"> 60 hari kerja setelah PO diterima dan drawing disetujui</span>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="font-size:16px; padding-left:30px;" width="15%">Pembayaran</td>
+                                        <br/>
+                                        <td style="font-size:16px; padding-left:30px; padding-bottom:15px;" width="15%">Pembayaran</td>
                                         <td>
                                             <span width="1%">:</span>
                                             <!-- <span style="font-size:16px"> 1 (Satu) bulan setelah penerimaan barang</span> -->
-                                            <span style="font-size:16px" t-esc="doc.payment_term_id.note" />
+                                            <span style="font-size:16px; padding-bottom:15px;" t-esc="doc.payment_term_id.note" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:16px; padding-left:30px; padding-bottom:15px;" width="15%">Garansi</td>
+                                        <td>
+                                            <span width="1%">:</span>
+                                            <!-- <span style="font-size:16px"> 1 (Satu) bulan setelah penerimaan barang</span> -->
+                                            <span style="font-size:16px">Garansi maksimal 4 bulan dari tanggal pengiriman barang.</span><br/>
+                                            <span style="font-size:16px; padding-left:8px;">Garansi berlaku jika terdapat kerusakan teknis atau adanya cacat yang disebabkan oleh</span><br/>
+                                            <span style="font-size:16px; padding-left:8px;">pihak PT. ALTINEX</span><br/>
                                         </td>
                                     </tr>
                                 </table>
@@ -311,7 +322,7 @@
                         </t>
 
                         <div class="row">
-                            <br /><br />
+                            <br />
                             <span style="text-align: left; font-size: 16px; padding-left:30px;">Hormat Kami,</span>
                             <br /><br /><br /><br />
                             <span
