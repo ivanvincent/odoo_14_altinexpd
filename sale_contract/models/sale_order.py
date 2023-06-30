@@ -4,9 +4,15 @@ import logging
 import psycopg2
 from functools import partial
 from odoo import models, fields, api, tools, _
-from odoo.exceptions import UserError, Warning
+from odoo.exceptions import ValidationError, UserError, Warning
 import odoo.addons.decimal_precision as dp
 from odoo.tools import float_is_zero
+import requests
+import urllib
+import base64
+from werkzeug import FileStorage
+from io import BytesIO
+import os
 import calendar
 
 
@@ -122,6 +128,7 @@ class SaleOrderContract(models.Model):
             'context': self.env.context,
             }
 
+<<<<<<< HEAD
     # @api.onchange('date_order')
     @api.depends('delivery_date')
     def compute_delivery_date_desc(self):
@@ -162,6 +169,47 @@ class SaleOrderContract(models.Model):
 
             tmp_out = ''.join(tmp_out)
             self.delivery_date_desc = tmp_out
+=======
+    @api.onchange('date_order')
+    def onchange_date_order_date(self):
+
+        tahun = int(self.date_order.strftime("%Y"))
+        bulan = int(self.date_order.strftime("%m"))
+        tgl = int(self.date_order.strftime("%d"))
+    # @api.onchange('delivery_date')
+    # def onchange_date_delivery_date(self):
+
+    #     tahun = int(self.delivery_date.strftime("%Y"))
+    #     bulan = int(self.delivery_date.strftime("%m"))
+    #     tgl = int(self.delivery_date.strftime("%d"))
+        
+        tmp_desc = self.get_current_week(tahun,bulan,str(tgl))
+        tmp_out = []
+        tmp_out.append("Week ")
+        tmp_out.append(str(tmp_desc))
+        if bulan == 1:
+            tmp_out.append(" Januari")
+        elif bulan == 2:
+            tmp_out.append(" Februari")
+        elif bulan == 3:
+            tmp_out.append(" Maret")
+        elif bulan == 4:
+            tmp_out.append(" April")
+        elif bulan == 5:
+            tmp_out.append(" Mei")
+        elif bulan == 6:
+            tmp_out.append(" Juni")
+        elif bulan == 7:
+            tmp_out.append(" Juli")
+        elif bulan == 8:
+            tmp_out.append(" Agustus")
+        elif bulan == 9:
+            tmp_out.append(" September")
+        elif bulan == 10:
+            tmp_out.append(" Oktober")
+        elif bulan == 11:
+            tmp_out.append(" November")
+>>>>>>> 6883d51d115a5bcfc4b61d5b5afb62269fcab825
         else:
             self.delivery_date_desc = False
 
