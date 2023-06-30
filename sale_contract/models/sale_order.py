@@ -127,7 +127,7 @@ class SaleOrderContract(models.Model):
             'res_id': wiz.id,
             'context': self.env.context,
             }
-            
+
     @api.depends('delivery_date')
     def compute_delivery_date_desc(self):
         if self.delivery_date:
@@ -167,6 +167,9 @@ class SaleOrderContract(models.Model):
 
             tmp_out = ''.join(tmp_out)
             self.delivery_date_desc = tmp_out
+        else:
+            self.delivery_date_desc = False
+            
     def get_current_week(self, tahun, bulan, tgl):
         tmp_cal = calendar.month(tahun, bulan).split('\n')[2:]
         tmp_list = []
