@@ -1,5 +1,5 @@
 from requests.sessions import default_hooks
-from odoo import models, fields, api, _
+from odoo import models, fields, tools, api, _
 from odoo.exceptions import UserError
 
 class PurchaseOrderLine(models.Model):
@@ -23,6 +23,7 @@ class PurchaseOrderLine(models.Model):
     image_ids           = fields.One2many('insert.image', 'purchase_line_id', string='Image')
     is_receipt_done         = fields.Boolean(string='Is Receipt Done',compute='_compute_receipt')
     qty_received_kg_actual = fields.Float(string='Received (Kg)', compute='compute_qty_received_kg_actual')
+    conversion            = fields.Integer(String='Konversi Satuan', default=1)
 
     
     def _compute_receipt(self):
@@ -91,3 +92,24 @@ class PurchaseOrderLine(models.Model):
             # for sm in picking_obj.move_ids_without_package:
             move_obj = self.env['stock.move'].search([('picking_id.origin', '=', line.order_id.name), ('picking_id.state', '=', 'done')])
             line.qty_received_kg_actual = sum(move_obj.mapped('qty_kg_actual'))
+
+    @api.depends('move_ids.state', 'move_ids.product_uom_qty', 'move_ids.product_uom')
+    def _compute_qty_received(self):
+        from_stock_lines = self.filtered(lambda order_line: order_line.qty_received_method == 'stock_moves')
+        super(PurchaseOrderLine, self - from_stock_lines)._compute_qty_received()
+        for line in self:
+            if line.qty_received_method == 'stock_moves':
+                total = 0.0
+                
+                for move in line.move_ids.filtered(lambda m: m.product_id == line.product_id):
+                    if move.state == 'done':
+                        if move._is_purchase_return():
+                            if move.to_refund:
+                                total -= move.product_uom._compute_quantity(move.quantity_done/line.conversion, 2, rounding_method='HALF-UP')
+                        elif move.origin_returned_move_id and move.origin_returned_move_id._is_dropshipped() and not move._is_dropshipped_returned():
+                            pass
+                        else:
+                            total+= tools.float_round(move.quantity_done/line.conversion, 2, rounding_method='HALF')
+
+                line._track_qty_received(total)
+                line.qty_received = total
