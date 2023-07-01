@@ -72,6 +72,7 @@
             <field name="arch" type="xml">
 
                 <field name="email" position="after">
+                <field name="currency_id"/>
 <!-- djoyo 200618
                     <field name="custom_jalur_id" string="Route" />
                     <field name="custom_group_id" string="Group" />
