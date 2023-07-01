@@ -12,6 +12,16 @@ class PurchaseOrder(models.Model):
                                  domain="[('parent_id','=',partner_id)]")
     partner_contact = fields.Many2one('res.partner.contact.list', 'Contact Person')
 
+    attn_ids = fields.Many2many('attn', string='Attn', compute='compute_attn_ids')
+
+    @api.depends('partner_id')
+    def compute_attn_ids(self):
+        for rec in self:
+            if rec.partner_id:
+                rec.attn_ids = [(6, 0, rec.partner_id.attn_ids.ids)]
+            else:
+                rec.attn_ids = False
+
     @api.model
     def create(self, vals):
         #res = super(PurchaseOrder, self).create(vals)
