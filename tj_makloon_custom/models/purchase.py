@@ -122,8 +122,8 @@ class PurchaseOrderLine(models.Model):
     roll_kg_id = fields.Many2one('makloon.roll', '@Kg', )
     price_include = fields.Float(string='Inc Price', )
 
-    categ_id = fields.Many2one('product.category')
-    
+    categ_id = fields.Many2one('product.category', related='order_id.categ_id')
+
     # product_body_kg = fields.Integer(string='Body KG', )
     # product_kerah_roll = fields.Integer(string='Kerah Roll', )
     # product_kerah_kg = fields.Integer(string='Kerah KG', )
