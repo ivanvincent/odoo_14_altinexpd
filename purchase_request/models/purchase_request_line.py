@@ -24,10 +24,16 @@ class PurchaseRequestLine(models.Model):
 
     @api.model
     def _filter_product(self):
-        domain = []
-        if self.env.user.id != 2:
-            domain += [('categ_id','in',[category.id for warehouse in self.env.user.default_warehouse_ids for category in warehouse.product_category_ids])]
+        domain = []        
+        domain += [('categ_id','in','categ_id')]
         return domain
+    
+    # @api.model
+    # def _filter_product(self):
+    #     domain = []
+    #     if self.env.user.id != 2:
+    #         domain += [('categ_id','in',[category.id for warehouse in self.env.user.default_warehouse_ids for category in warehouse.product_category_ids])]
+    #     return domain
 
     @api.model
     def _filter_lot(self):
@@ -219,6 +225,9 @@ class PurchaseRequestLine(models.Model):
     image_ids       = fields.One2many('insert.image', 'purchase_line_id', string='Image')
     date_dtg_brg = fields.Date(string='Date Dtg Barang')
     outstanding_po = fields.Float(string='Outstanding Po', compute='_compute_outstanding_po')
+
+    categ_id = fields.Many2one('product.category' , related='request_id.categ_id')
+    
 
     def _get_onhand(self):
         for line in  self:
