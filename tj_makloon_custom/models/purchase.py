@@ -12,7 +12,12 @@ class PurchaseOrder(models.Model):
                                  domain="[('parent_id','=',partner_id)]")
     partner_contact = fields.Many2one('res.partner.contact.list', 'Contact Person')
 
-    attn_ids = fields.Many2many('attn', string='Attn', compute='compute_attn_ids')
+    attn_id = fields.Many2one('attn', string='Contact Person')
+    alamat  = fields.Text(string='Alamat', related='attn_id.alamat')
+    kota    = fields.Char(string='Kota', related='attn_id.kota')
+    phone   = fields.Char(string='Phone', related='attn_id.phone')
+
+    attn_ids = fields.Many2many('attn', string='Contact Person', compute='compute_attn_ids')
 
     @api.depends('partner_id')
     def compute_attn_ids(self):

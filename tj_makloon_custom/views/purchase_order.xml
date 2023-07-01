@@ -6,7 +6,11 @@
                          <field name="inherit_id" ref="purchase.purchase_order_form"/>
                          <field name="arch" type="xml">
                              <field name="partner_id" position="after">
-                                 <field name="attn_ids" String="Contact Person"/>
+                                <field name="attn_id" domain="[('id', 'in', attn_ids)]"/>
+                                <field name="attn_ids" invisible="1"/>
+                                <field name="alamat"/>
+                                <field name="kota"/>
+                                <field name="phone"/>
                               </field>
                              <field name="date_order" position="after">
                                  <field name="date_planned"/>
