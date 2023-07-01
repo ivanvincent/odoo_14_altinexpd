@@ -83,6 +83,15 @@ class PurchaseOrder(models.Model):
             # Deal with double validation process
             if order._approval_allowed():
                 order.button_approve()
+
+                # BEGIN PERUBAHAN PRODUCT_UOM_QTY PADA STOCK_MOVE BERDASARKAN CONVERSION * PRODUCT_QTY
+                for data_line in order.order_line:
+                    data_stock_move = self.env['stock.move'].search([('purchase_line_id', '=', data_line.id)])
+                    if data_stock_move:
+                        data_stock_move.product_uom_qty = data_line.conversion * data_line.product_qty
+                # END PERUBAHAN PRODUCT_UOM_QTY PADA STOCK_MOVE BERDASARKAN CONVERSION * PRODUCT_QTY
+
+
             else:
                 order.write({'state': 'to approve'})
             if order.partner_id not in order.message_partner_ids:
