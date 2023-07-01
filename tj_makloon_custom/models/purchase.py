@@ -19,6 +19,8 @@ class PurchaseOrder(models.Model):
 
     attn_ids = fields.Many2many('attn', string='Contact Person', compute='compute_attn_ids')
 
+    categ_id = fields.Many2one('product.category')
+
     @api.depends('partner_id')
     def compute_attn_ids(self):
         for rec in self:
@@ -119,6 +121,9 @@ class PurchaseOrderLine(models.Model):
     product_roll = fields.Integer(string='Roll', )
     roll_kg_id = fields.Many2one('makloon.roll', '@Kg', )
     price_include = fields.Float(string='Inc Price', )
+
+    categ_id = fields.Many2one('product.category')
+    
     # product_body_kg = fields.Integer(string='Body KG', )
     # product_kerah_roll = fields.Integer(string='Kerah Roll', )
     # product_kerah_kg = fields.Integer(string='Kerah KG', )
