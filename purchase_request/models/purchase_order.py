@@ -93,7 +93,7 @@ class PurchaseOrder(models.Model):
         alloc_to_unlink.unlink()
         return res
     
-    purchase_request_id = fields.Many2one('purchase.request', string='Purchase Request', related='order_line.purchase_request_id', store=True,)
+    purchase_request_id = fields.Many2one('purchase.request', string='Purchase Request', related='order_line.purchase_request_id', store=True, required=True)
 
 
 class PurchaseOrderLine(models.Model):

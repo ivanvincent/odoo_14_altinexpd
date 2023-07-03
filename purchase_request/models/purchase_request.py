@@ -168,6 +168,9 @@ class PurchaseRequest(models.Model):
     no_komunikasi = fields.Char(string='No Komunikasi')
     
     po_categ_id = fields.Many2one('purchase.order.category', string='PO Category',help="Tujuan Pembelian")
+
+    categ_id = fields.Many2one('product.category')
+    # , related='order_id.categ_id'
     
     location_id  = fields.Many2one('stock.location', string='Location',related='picking_type_id.default_location_dest_id')
     date_line = fields.Date(string='Date Request')

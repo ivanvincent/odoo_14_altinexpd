@@ -28,6 +28,7 @@ class ResPartnerJalur(models.Model):
 
     #djoyo
     salesperson_id = fields.Many2one("hr.employee", "Supervisor", track_visibility='onchange' )
+    currency_id = fields.Many2one("res.currency", "Currency" )
     
     # account_id = fields.Many2one("res.partner.account", "Partner Account",)
     #  track_visibility='onchange'

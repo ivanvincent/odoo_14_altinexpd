@@ -26,7 +26,67 @@ class StockPicking(models.Model):
         return res
 
     #Create customer invoice from surat jalan
+    # ORIGINAL CODE 1 JULI 2023
+    # def action_create_invoice(self):
+    #     move_line = []
+    #     type = self.picking_type_id.code
+    #     type_journal = 'purchase' if type == 'incoming' else 'sale'
+    #     move_type = ''
+    #     if type == 'incoming':
+    #         move_type = 'in_invoice'
+    #     elif type == 'outgoing' and self.picking_type_id.return_type == 'return_out':
+    #         move_type = 'out_refund'
+    #     else:
+    #         move_type = 'out_invoice'
+    #     journal_id = self.env['account.journal'].search([('type', '=', type_journal), ('active', '=', True)], limit=1).id
+
+    #     po_obj = self.env['purchase.order'].search([('name', '=', self.origin)])
+    #     price_list = {}
+    #     for a in po_obj.order_line:
+    #         price_list[a.product_id.id] = a.price_unit
+
+    #     for picking in self:
+    #         for line in picking.move_ids_without_package:
+    #             account_id = line.product_id.categ_id.property_stock_account_input_categ_id.id if type == 'incoming' else line.product_id.categ_id.property_stock_account_output_categ_id.id
+    #             move_line.append((0, 0, {
+    #                 'product_id': line.product_id.id,
+    #                 'name': line.product_id.name,
+    #                 'account_id': account_id,
+    #                 'quantity': line.quantity_done,
+    #                 'product_uom_id': line.product_uom.id,
+    #                 'purchase_line_id': line.purchase_line_id.id,
+    #                 'price_unit': price_list.get(line.product_id.id, 0) if po_obj else line.product_id.standard_price,
+    #                 # 'grade_id': line.grade_id.id, 
+    #                 'tax_ids': [(6, 0, line.purchase_line_id.taxes_id.ids)],
+                    
+    #             }))
+
+    #         picking.write({'is_invoiced': True})
+            
+    #         move = self.env['account.move'].create({
+    #             'picking_id': picking.id,
+    #             'partner_id': picking.partner_id.id,
+    #             'move_type': move_type,
+    #             'sj_supplier': self.no_sj if type_journal == 'purchase' else False,
+    #             'payment_reference': picking.name,
+    #             'invoice_date': fields.Date.today(),
+    #             'journal_id': journal_id,
+    #             'invoice_line_ids': move_line
+    #         })
+
+    #         view = self.env.ref('account.view_move_form')
+    #         action = {
+    #                     'name': 'Customer Invoice' if move.move_type == 'out_invoice' else 'Vendor Bills',
+    #                     'type': 'ir.actions.act_window',
+    #                     'view_mode': 'form',
+    #                     'res_model': 'account.move',
+    #                     'res_id': move.id,
+    #                     'view_id': view.id,
+    #                 }
+    #         return action
+
     def action_create_invoice(self):
+        print('::::::::::::::::::::::::::::::::::::::::::::::::')
         move_line = []
         type = self.picking_type_id.code
         type_journal = 'purchase' if type == 'incoming' else 'sale'
@@ -47,11 +107,14 @@ class StockPicking(models.Model):
         for picking in self:
             for line in picking.move_ids_without_package:
                 account_id = line.product_id.categ_id.property_stock_account_input_categ_id.id if type == 'incoming' else line.product_id.categ_id.property_stock_account_output_categ_id.id
+                
+                purchase_line = self.env['purchase.order.line'].search([('id', '=', line.purchase_line_id.id)])
                 move_line.append((0, 0, {
                     'product_id': line.product_id.id,
                     'name': line.product_id.name,
                     'account_id': account_id,
-                    'quantity': line.quantity_done,
+                    # 'quantity': line.quantity_done,
+                    'quantity': line.quantity_done / purchase_line.conversion,
                     'product_uom_id': line.product_uom.id,
                     'purchase_line_id': line.purchase_line_id.id,
                     'price_unit': price_list.get(line.product_id.id, 0) if po_obj else line.product_id.standard_price,
