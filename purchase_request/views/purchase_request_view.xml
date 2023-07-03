@@ -66,13 +66,15 @@
                                     <field name="specifications" />
                                     <field name="grade_id" />
                                     <field name="outstanding_po"/>
-                                    <field name="product_qty" sum="Total"/>
+                                    <field name="estimated_price"/>
+                                    <field name="product_qty" sum="Total" required="1"/>
                                     <field name="product_uom_id" string="Satuan"  groups="uom.group_uom" options="{'no_open': True, 'no_create': True}"/>
                                     <!-- <field name="date_required" /> -->
-                                    <field name="date_dtg_brg"/>
+                                    <field name="date_dtg_brg" required="1"/>
                                     <field name="no_komunikasi" />
                                     <field name="qty_on_hand" />
                                     <button name="action_show_image" type="object" icon="fa-picture-o" width="0.1" role="img" title="Upload Image" />
+                                    <button name="action_show_image_product" type="object" icon="fa-picture-o" width="0.1" role="img" title="Image Product" />
                                     <field name="last_price" sum="last_price" invisible="1"/>
                                     <field name="estimated_cost" invisible="1" widget="monetary" groups="purchase_request.group_purchase_request_manager" />
                                     <field name="price" sum="price" invisible="1"/>
@@ -196,12 +198,33 @@
             </form>
         </field>
     </record>
+
+    <record id="purchase_request_image_product_form" model="ir.ui.view">
+        <field name="name">purchase.request.images.product.form</field>
+        <field name="model">purchase.request.line</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+                </header>
+                <sheet>
+                    <field name="image_product" widget="image"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
     <record id="purchase_request_line_action" model="ir.actions.act_window">
         <field name="name">Images</field>
         <field name="res_model">purchase.request.line</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
         <field name="view_id" ref="purchase_request.purchase_request_image_form"/>
+    </record>
+    <record id="purchase_request_line_image_action" model="ir.actions.act_window">
+        <field name="name">Images</field>
+        <field name="res_model">purchase.request.line</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="purchase_request.purchase_request_image_product_form"/>
     </record>
     <menuitem id="menu_purchase_request_pro_mgt" parent="purchase.menu_procurement_management" action="purchase_request_form_action" />
     <menuitem id="parent_menu_purchase_request" name="Purchase Requests" web_icon="purchase_request,static/description/icon.png" groups="group_purchase_request_user,group_purchase_request_manager" />

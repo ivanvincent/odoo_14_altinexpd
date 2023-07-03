@@ -227,6 +227,8 @@ class PurchaseRequestLine(models.Model):
     outstanding_po = fields.Float(string='Outstanding Po', compute='_compute_outstanding_po')
 
     categ_id = fields.Many2one('product.category' , related='request_id.categ_id')
+    estimated_price = fields.Float(string="Estimated Price", required=True)
+    image_product = fields.Binary(related="product_id.image_1920", string="Image")
     
 
     def _get_onhand(self):
@@ -502,6 +504,12 @@ class PurchaseRequestLine(models.Model):
 
     def action_show_image(self):
         action = self.env.ref('purchase_request.purchase_request_line_action').read()[0]
+        action['res_id'] = self.id
+        action['name'] = "Images of %s" % (self.product_id.name)
+        return action
+
+    def action_show_image_product(self):
+        action = self.env.ref('purchase_request.purchase_request_line_image_action').read()[0]
         action['res_id'] = self.id
         action['name'] = "Images of %s" % (self.product_id.name)
         return action
