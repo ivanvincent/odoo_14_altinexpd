@@ -103,7 +103,7 @@ class PurchaseOrderLine(models.Model):
                 
                 for move in line.move_ids.filtered(lambda m: m.product_id == line.product_id):
                     if move.state == 'done':
-                        if move._is_purchase_return():
+                        if move.to_refund:
                             if move.to_refund:
                                 total -= move.product_uom._compute_quantity(move.quantity_done/line.conversion, 2, rounding_method='HALF-UP')
                         elif move.origin_returned_move_id and move.origin_returned_move_id._is_dropshipped() and not move._is_dropshipped_returned():
