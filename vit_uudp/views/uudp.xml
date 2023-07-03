@@ -55,7 +55,7 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="purchase_request_inherit_form">
+        <!-- <record model="ir.ui.view" id="purchase_request_inherit_form">
             <field name="name">purchase.request.form</field>
             <field name="model">purchase.request</field>
             <field name="inherit_id" ref="purchase_request.view_purchase_request_form"/>
@@ -64,7 +64,7 @@
                     <attribute name="domain">[('parent_coa_id', '=', False)]</attribute>
                 </xpath>
             </field>
-        </record>
+        </record> -->
 
         <record id="view_uudp_tree" model="ir.ui.view">
             <field name="name">uudp.tree</field>

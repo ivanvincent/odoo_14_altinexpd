@@ -172,6 +172,7 @@ class PurchaseRequest(models.Model):
     location_id  = fields.Many2one('stock.location', string='Location',related='picking_type_id.default_location_dest_id')
     date_line = fields.Date(string='Date Request')
     tipe_permintaan = fields.Selection([('produksi', 'Produksi'), ('non_produksi', 'Non Produksi')], string="Tipe Permintaan")
+    product_categ_id = fields.Many2one('product.category', string='Product Category')
 
     @api.depends("line_ids", "line_ids.estimated_cost")
     def _compute_estimated_cost(self):
@@ -320,7 +321,7 @@ class PurchaseRequest(models.Model):
             self.write({"state": "to_approve"})
 
     def button_approved(self):
-        return self.write({"state": "approved"})
+        return self.write({"state": "approved", "assigned_to": self.env.user.id})
 
     def button_rejected(self):
         self.mapped("line_ids").do_cancel()

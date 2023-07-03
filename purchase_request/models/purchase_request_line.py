@@ -200,7 +200,8 @@ class PurchaseRequestLine(models.Model):
     product_id = fields.Many2one(
         comodel_name="product.product",
         string="Product",
-        domain = lambda self : self._filter_product(),
+        # domain = lambda self : self._filter_product(),
+        # domain="[('categ_id', '=', product_categ_id)]",
         tracking=True,
     )
     
@@ -219,6 +220,7 @@ class PurchaseRequestLine(models.Model):
     image_ids       = fields.One2many('insert.image', 'purchase_line_id', string='Image')
     date_dtg_brg = fields.Date(string='Date Dtg Barang')
     outstanding_po = fields.Float(string='Outstanding Po', compute='_compute_outstanding_po')
+    product_categ_id = fields.Many2one('product.category', string='Product Category', related='request_id.product_categ_id')
 
     def _get_onhand(self):
         for line in  self:

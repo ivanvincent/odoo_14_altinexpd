@@ -18,7 +18,8 @@
                 <field name="purchase_state" widget="badge" decoration-success="purchase_state == 'done'" decoration-muted="purchase_state == 'draft'" decoration-info="purchase_state in ('sent', 'purchase')" decoration-warning="purchase_state == 'to_approve'" decoration-danger="purchase_state == 'cancelled'" />
                 <field name="product_id" />
                 <field name="specifications" />
-                    <field name="name" />
+                <field name="name" />
+                <field name="outstanding_po"/>
                 <field name="product_qty" />
                 <field name="product_uom_id" string="Satuan" groups="uom.group_uom" />
                 <field name="analytic_account_id" groups="analytic.group_analytic_accounting" />
