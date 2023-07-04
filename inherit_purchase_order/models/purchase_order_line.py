@@ -61,7 +61,7 @@ class PurchaseOrderLine(models.Model):
                             'image_desc' : rec3.image_desc,
                         }))
             rec.write({'is_invoiced' : True})
-        res['image_ids'] = data
+        # res['image_ids'] = data
         return res
 
     def _compute_qty_sisa(self):
