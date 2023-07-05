@@ -44,7 +44,7 @@
                             <field name="date_start" readonly="1" />
                             <field name="tipe_permintaan" required="1" readonly="1"/>
                             <field name="location_id" invisible="1"/>
-                            <field name="po_categ_id" attrs="{'readonly': [('is_editable','=', False)]}" />
+                            <field name="po_categ_id" attrs="{'readonly': [('is_editable','=', False)]}" required="1"/>
                             <field name="picking_type_id" readonly="1" options="{'no_open': True, 'no_create': True}"/>
                             <field name="product_categ" attrs="{'readonly': [('is_editable','=', False)]}" widget='many2many_tags' required="1"/>
                         </group>
@@ -68,10 +68,10 @@
                                     <!-- <field name="lot_id" domain="[('product_id', '=', product_id)]"/> -->
                                     <field name="specifications" />
                                     <!-- <field name="grade_id" /> -->
-                                    <field name="estimated_price"/>
                                     <field name="product_qty" sum="Total" required="1"/>
                                     <field name="outstanding_po"/>
                                     <field name="product_uom_id" string="Satuan"  groups="uom.group_uom" options="{'no_open': True, 'no_create': True}" readonly="1"/>
+                                    <field name="estimated_price"/>
                                     <!-- <field name="date_required" /> -->
                                     <field name="date_dtg_brg" required="1"/>
                                     <!-- <field name="no_komunikasi" /> -->
