@@ -22,6 +22,8 @@
                     <field name="usage_daily"/>
                     <field name="order_time"/>
                     <field name="lead_time" string="Lead Purchase"/>
+                    <field name="drum_liter"/>
+                    <field name="pl_liter"/>
                 </xpath>
             </field>
         </record>

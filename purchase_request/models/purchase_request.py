@@ -97,7 +97,7 @@ class PurchaseRequest(models.Model):
         ],
         index=True,
     )
-    description = fields.Text(string="Description")
+    description = fields.Text(string="Note")
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
@@ -133,7 +133,8 @@ class PurchaseRequest(models.Model):
     )
     to_approve_allowed = fields.Boolean(compute="_compute_to_approve_allowed")
     picking_type_id = fields.Many2one(
-        comodel_name="stock.picking.type",
+        # comodel_name="stock.picking.type",
+        related='po_categ_id.picking_type_id',
         string="Picking Type",
         required=True,
         default=_default_picking_type,
@@ -174,8 +175,9 @@ class PurchaseRequest(models.Model):
     
     location_id  = fields.Many2one('stock.location', string='Location',related='picking_type_id.default_location_dest_id')
     date_line = fields.Date(string='Date Request')
-    tipe_permintaan = fields.Selection([('produksi', 'Produksi'), ('non_produksi', 'Non Produksi')], string="Tipe Permintaan")
-    product_categ_id = fields.Many2one('product.category', string='Product Category')
+    tipe_permintaan = fields.Selection([('produksi', 'Produksi'), ('non_produksi', 'Non Produksi')], string="Tipe Permintaan", default=lambda self:self.env.user.tipe_permintaan)
+    # product_categ_id = fields.Many2one('product.category', string='Product Category')
+    product_categ = fields.Many2many(related='po_categ_id.product_category_ids', string='Product Category')
 
     @api.depends("line_ids", "line_ids.estimated_cost")
     def _compute_estimated_cost(self):

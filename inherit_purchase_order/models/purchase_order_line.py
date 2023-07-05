@@ -24,6 +24,7 @@ class PurchaseOrderLine(models.Model):
     is_receipt_done         = fields.Boolean(string='Is Receipt Done',compute='_compute_receipt')
     qty_received_kg_actual = fields.Float(string='Received (Kg)', compute='compute_qty_received_kg_actual')
     conversion            = fields.Integer(String='Konversi Satuan', default=1)
+    conversion_type         = fields.Selection([("pl_liter","PL to Liter"),("drum_liter","Drum to Liter")], string='Tipe Konversi')
 
     
     def _compute_receipt(self):
@@ -33,7 +34,12 @@ class PurchaseOrderLine(models.Model):
                 order.purchase_request_id.sudo().button_done()
                 
             
-    
+    @api.onchange('conversion_type')
+    def onchange_conversion(self):
+        if self.conversion_type == 'pl_liter':
+            self.conversion = self.product_id.pl_liter
+        elif self.conversion_type == 'drum_liter':
+            self.conversion = self.product_id.drum_liter
     
     @api.onchange('lot_id')
     def onchange_product(self):

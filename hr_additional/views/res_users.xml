@@ -13,6 +13,7 @@
                     <field name="parent_id"/>
                     <field name="device_id"/>
                     <field name="fcm_key"/>
+                    <field name="tipe_permintaan"/>
                 </xpath>
             </field>
         </record>

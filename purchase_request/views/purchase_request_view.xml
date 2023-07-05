@@ -42,18 +42,18 @@
                             <field name="requested_by" readonly="1" options="{'no_open': True, 'no_create': True}" />
                             <field name="assigned_to" readonly="1" options="{'no_open': True, 'no_create': True}" attrs="{'invisible':[('assigned_to', '=', False)]}"/>
                             <field name="date_start" readonly="1" />
-                            <field name="picking_type_id" attrs="{'readonly': [('is_editable','=', False)]}" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="tipe_permintaan" required="1" readonly="1"/>
                             <field name="location_id" invisible="1"/>
-                            <field name="po_categ_id" attrs="{'readonly': [('is_editable','=', False)]}" />
-                            <field name="product_categ_id" attrs="{'readonly': [('is_editable','=', False)]}" />
+                            <field name="po_categ_id" attrs="{'readonly': [('is_editable','=', False)]}" required="1"/>
+                            <field name="picking_type_id" readonly="1" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="product_categ" attrs="{'readonly': [('is_editable','=', False)]}" widget='many2many_tags' required="1" readonly="1"/>
                         </group>
                         <group>
                             <field name="origin" class="oe_inline" attrs="{'readonly': [('is_editable','=', False)]}" />
-                            <field name="group_id" readonly="1" />
-                            <field name="no_komunikasi" readonly="1" />
+                            <!-- <field name="group_id" readonly="1" />
+                            <field name="no_komunikasi" readonly="1" /> -->
                             <field name="description" attrs="{'readonly': [('is_editable','=', False)]}" />
-                            <field name="tipe_permintaan" required="1"/>
-                            <field name="date_line"/>
+                            <!-- <field name="date_line"/> -->
                             <field name="company_id" groups="base.group_multi_company" widget="selection" attrs="{'readonly': [('is_editable','=', False)]}" />
                         </group>
                     </group>
@@ -61,19 +61,20 @@
                         <page string="Products">
                             <field name="line_ids">
                                 <tree decoration-muted="cancelled == True" editable="bottom">
-                                    <field name="product_categ_id" invisible="1"/>
-                                    <field name="product_id" options="{'no_open': True, 'no_create': True}" domain="[('categ_id', '=', product_categ_id)]"/>
+                                    <field name="product_categ" invisible="1"/>
+                                    <field name="product_id" options="{'no_open': True, 'no_create': True}" />
+                                    <!-- domain="[('categ_id', '=', product_categ)]" /> -->
                                     <field name="name" />
-                                    <field name="lot_id" domain="[('product_id', '=', product_id)]"/>
+                                    <!-- <field name="lot_id" domain="[('product_id', '=', product_id)]"/> -->
                                     <field name="specifications" />
-                                    <field name="grade_id" />
-                                    <field name="outstanding_po"/>
-                                    <field name="estimated_price"/>
+                                    <!-- <field name="grade_id" /> -->
                                     <field name="product_qty" sum="Total" required="1"/>
-                                    <field name="product_uom_id" string="Satuan"  groups="uom.group_uom" options="{'no_open': True, 'no_create': True}"/>
+                                    <field name="outstanding_po"/>
+                                    <field name="product_uom_id" string="Satuan"  groups="uom.group_uom" options="{'no_open': True, 'no_create': True}" readonly="1"/>
+                                    <field name="estimated_price"/>
                                     <!-- <field name="date_required" /> -->
                                     <field name="date_dtg_brg" required="1"/>
-                                    <field name="no_komunikasi" />
+                                    <!-- <field name="no_komunikasi" /> -->
                                     <field name="qty_on_hand" />
                                     <button name="action_show_image" type="object" icon="fa-picture-o" width="0.1" role="img" title="Upload Image" />
                                     <button name="action_show_image_product" type="object" icon="fa-picture-o" width="0.1" role="img" title="Image Product" />

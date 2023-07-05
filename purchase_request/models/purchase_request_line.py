@@ -48,7 +48,8 @@ class PurchaseRequestLine(models.Model):
 
     name = fields.Char(string="Description", tracking=True)
     product_uom_id = fields.Many2one(
-        comodel_name="uom.uom",
+        related='product_id.uom_id',
+        # comodel_name="uom.uom",
         string="UoM",
         tracking=True,
     )
@@ -108,7 +109,7 @@ class PurchaseRequestLine(models.Model):
     is_editable = fields.Boolean(
         string="Is editable", compute="_compute_is_editable", readonly=True
     )
-    specifications = fields.Text(string="Specifications", required=True, )
+    specifications = fields.Text(string="Specifications", )
     request_state = fields.Selection(
         string="Request state",
         related="request_id.state",
@@ -209,6 +210,7 @@ class PurchaseRequestLine(models.Model):
         # domain = lambda self : self._filter_product(),
         # domain="[('categ_id', '=', product_categ_id)]",
         tracking=True,
+        required=True,
     )
     
     qty_on_hand   = fields.Float(string="Current Stock", compute="_get_onhand")
@@ -226,7 +228,8 @@ class PurchaseRequestLine(models.Model):
     image_ids       = fields.One2many('insert.image', 'purchase_line_id', string='Image')
     date_dtg_brg = fields.Date(string='Date Dtg Barang')
     outstanding_po = fields.Float(string='Outstanding Po', compute='_compute_outstanding_po')
-    product_categ_id = fields.Many2one('product.category', string='Product Category', related='request_id.product_categ_id')
+    po_categ_id = fields.Many2one('purchase.order.category', string='PO Category',help="Tujuan Pembelian")
+    product_categ = fields.Many2many(related='po_categ_id.product_category_ids', string='Product Category')
 
     categ_id = fields.Many2one('product.category' , related='request_id.categ_id')
     estimated_price = fields.Float(string="Estimated Price", required=True)
