@@ -18,6 +18,8 @@ class Product(models.Model):
     lead_time           = fields.Float(string='Lead Purchase',compute="_get_order_time")
     diameter            = fields.Float(string='Diameter')
     variable            = fields.Float(string='Variable')
+    drum_liter          = fields.Float(string='Drum Liter')
+    pl_liter            = fields.Float(string='PL Liter')
     
     def _get_usage_daily(self):
         for line in self:
