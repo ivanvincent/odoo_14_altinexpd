@@ -71,6 +71,7 @@
                 </xpath>
 
                 <xpath expr="//field[@name='order_line']//tree/field[@name='product_qty']" position="before">
+                    <field name="conversion_type"/>
                     <field name="conversion" string="Konversi" />
                 </xpath>
 
