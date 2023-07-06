@@ -23,53 +23,34 @@
             </h1>
             <table width="100%" class="table-data">
                 <thead>
-                    <!-- <th>PERSIAPAN</th>
-                    <th>CNC MACHINING</th>
-                    <th>HEAT CYROTREATMENT</th>
-                    <th>FINISH MACHINING</th>
-                    <th>SURFACE TREATMENT</th>
-                    <th>QC PASS &amp; PACKING</th> -->
+                    <th style="background-color: #B7C2C7; color: black;">Kategori</th>
                     <t t-if="list_workcenter">
                         <t t-foreach="list_workcenter" t-as="w"> 
-                            <th><t t-esc="w.name"/></th>
+                            <th style="background-color: #B7C2C7; color: black;"><span t-esc="w.name"/></th>
                         </t>
                     </t>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>VIP</td>
-                        <td><span style="background-color: purple; color:white;">MO/23/05/2023</span></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>HIGHRISK</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>BIASA</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>MAKLOON</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-
+                    <t t-if="data_record">
+                        <t t-foreach="data_record" t-as="dr">
+                            <tr>
+                                <td class="text-center" style="background-color: #B7C2C7; color: black;"><h1><t t-esc="dr.option_vip"/></h1></td>
+                                <t t-if="list_workcenter">
+                                    <t t-foreach="list_workcenter" t-as="w">
+                                        <t t-if="dr[w.id]">
+                                            <td style="padding-bottom: 10rem;">
+                                                <t t-foreach="dr[w.id]" t-as="mo">
+                                                    <span style="background-color: #7C7BAC; color: white; padding-left: 5px; padding-right: 5px; border-radius: 3px;"><t t-esc="mo"/></span><br/>
+                                                </t>
+                                            </td>
+                                        </t>
+                                        
+                                    </t>
+                                </t>
+                            </tr>
+                        </t>
+                    </t>
+                </tbody>    
             </table>
         </div>
     </t>

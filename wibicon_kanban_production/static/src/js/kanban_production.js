@@ -47,6 +47,19 @@ odoo.define("wibicon_kanban_production.kanban_production_view", function (requir
                     self.list_workcenters = result
                 });
 
+                let data = await this._rpc({
+                    model: "mrp.production",
+                    method: "get_data_kanban_production",
+                    kwargs: {
+                        // domain: [["invoice_id", "=", line_id]],
+                        // fields: ["name"],
+                    },
+                    }).then((result) => {
+                        self.data_record = result
+                    });
+    
+                
+
             if (this.initial_render) {
                 console.log(self.list_workcenters);
                 // self.$(".kb-main").html(QWeb.render("KanbanProduction",{
@@ -54,7 +67,8 @@ odoo.define("wibicon_kanban_production.kanban_production_view", function (requir
                 // }));
                 this.$el.html(QWeb.render('KanbanProduction', {
                     title: 'Kanban Production',
-                    list_workcenter: self.list_workcenters
+                    list_workcenter: self.list_workcenters,
+                    data_record: self.data_record
                 })
                 );   
                 return $.when();
