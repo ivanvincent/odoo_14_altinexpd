@@ -22,7 +22,7 @@
                         </div>
                         <group>
                             <group>
-                                <field name="partner_id" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="partner_id" attrs="{'readonly':[('state','=','confirm')]}" required="1"/>
                                 <field name="date" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="attn_ids" invisible="1"/>
                                 <field name="up_kpd" domain="[('id', 'in', attn_ids)]"/>
@@ -34,7 +34,6 @@
                                 <field name="fax"/>
                                 <field name="email"/>
 
-                                <field name="note_so"/>
                                 <field name="perihal"/>
                                 <field name="design_code_id" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="no_quotation_accurate" invisible="1"/>
@@ -53,6 +52,7 @@
                                 <field name="no_sample" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="product_order_id" attrs="{'readonly':[('state','=','confirm')]}" required="1" />
                                 <field name="cup_depth_id" attrs="{'readonly':[('state','=','confirm')]}"/>
+                                <field name="note_so"/>
                             </group>
                         </group>
                         <notebook>
