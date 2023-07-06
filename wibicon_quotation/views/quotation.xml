@@ -40,7 +40,7 @@
                                 <field name="no_quotation_accurate" invisible="1"/>
                                 <field name="image_binary" widget='image' class='oe_avatar' attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="kode_mkt_ids" invisible="1"/>
-                                <field name="kode_mkt_id" domain="[('id', 'in', kode_mkt_ids)]"/>
+                                <field name="kode_mkt_id" domain="[('id', 'in', kode_mkt_ids)]" options="{'no_open': True, 'no_create': True}"/>
                             </group>
                             <group>
                                 <field name="size" required="1" attrs="{'readonly':[('state','=','confirm')]}" />
