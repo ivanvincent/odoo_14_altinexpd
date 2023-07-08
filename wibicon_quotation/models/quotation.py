@@ -36,9 +36,7 @@ class Quotation(models.Model):
         string='Drawing External', related='design_code_id.drawing_external')
     size = fields.Many2one('size', string='Size')
     machine_id = fields.Many2one('machine', string='Machine')
-    product_tmpl_ids = fields.Many2many('product.template',
-                                        string='Product Template'
-                                        )
+    product_tmpl_ids = fields.Many2many('product.template', string='Product Template', required=True)
     request_engineering_id = fields.Many2one(
         'request.engineering', string='Engineering', copy=False)
     shape = fields.Selection(

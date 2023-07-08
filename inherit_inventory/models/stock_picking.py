@@ -114,7 +114,7 @@ class StockPicking(models.Model):
                     'name': line.product_id.name,
                     'account_id': account_id,
                     # 'quantity': line.quantity_done,
-                    'quantity': line.quantity_done / purchase_line.conversion,
+                    'quantity':self.handle_division_zero(line.quantity_done, purchase_line.conversion),
                     'product_uom_id': line.product_uom.id,
                     'purchase_line_id': line.purchase_line_id.id,
                     'price_unit': price_list.get(line.product_id.id, 0) if po_obj else line.product_id.standard_price,
@@ -174,3 +174,9 @@ class StockPicking(models.Model):
             res = {}
             res['domain'] = {'location_dest_id': [('id', 'in', user.stock_location_dest_ids.ids)]}
             return res
+
+    def handle_division_zero(self,x,y):
+        try:
+            return x/y
+        except ZeroDivisionError:
+            return 0
