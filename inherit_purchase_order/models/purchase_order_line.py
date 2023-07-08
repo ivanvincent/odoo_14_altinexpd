@@ -25,6 +25,7 @@ class PurchaseOrderLine(models.Model):
     qty_received_kg_actual = fields.Float(string='Received (Kg)', compute='compute_qty_received_kg_actual')
     conversion            = fields.Integer(String='Konversi Satuan', default=1)
     conversion_type         = fields.Selection([("pl_liter","PL to Liter"),("drum_liter","Drum to Liter")], string='Tipe Konversi')
+    image_product           = fields.Binary(related="product_id.image_1920", string="Image")
 
     
     def _compute_receipt(self):
@@ -81,6 +82,12 @@ class PurchaseOrderLine(models.Model):
 
     def action_show_image(self):
         action = self.env.ref('inherit_purchase_order.purchase_order_action').read()[0]
+        action['res_id'] = self.id
+        action['name'] = "Images of %s" % (self.product_id.name)
+        return action
+
+    def action_show_image_product(self):
+        action = self.env.ref('inherit_purchase_order.purchase_order_line_image_action').read()[0]
         action['res_id'] = self.id
         action['name'] = "Images of %s" % (self.product_id.name)
         return action
