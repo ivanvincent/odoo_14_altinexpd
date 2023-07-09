@@ -30,17 +30,30 @@ class StockPicking(models.Model):
     #     return self.env['report'].get_action(self._context.get('active_ids'), 'inherit_stock.sppm_template')
     
     
-        
+
+    # ORIGINAL CODE 9 JULI 2023  
+    # @api.onchange('scheduled_date')
+    # def on_change_schedule_date(self):
+    #     for picking in self:
+    #         if picking.state not in ('done','cancel'):
+    #             picking.write({"date":picking.scheduled_date})
+    #             for move in picking.move_lines:
+    #                 move.write({"date":picking.scheduled_date})
+    
+    
     @api.onchange('scheduled_date')
     def on_change_schedule_date(self):
         for picking in self:
             if picking.state not in ('done','cancel'):
-                picking.write({"date":picking.scheduled_date})
+                picking.write({"date":self.scheduled_date})
                 for move in picking.move_lines:
-                    move.write({"date":picking.scheduled_date})
+                    move.write({"date":self.scheduled_date})
     
-    
-    
+    @api.depends('move_lines.state', 'move_lines.date', 'move_type')
+    def _compute_scheduled_date(self):
+        for picking in self:
+            picking.scheduled_date = self.scheduled_date
+            
     
     #todo need to fix harus back to draft sampe ke product_move nya juga
     def action_back_to_draft(self):
