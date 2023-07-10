@@ -11,3 +11,4 @@ class ResUser(models.Model):
     device_id       = fields.Char(string='Device Id')
     fcm_key         = fields.Char(string='FCM Key')
     tipe_permintaan = fields.Selection([('produksi', 'Produksi'), ('non_produksi', 'Non Produksi')], string="Tipe Permintaan")
+    po_categ_id     = fields.Many2one('purchase.order.category', string='PO Category',help="Tujuan Pembelian")

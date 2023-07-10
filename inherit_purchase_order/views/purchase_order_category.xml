@@ -8,7 +8,8 @@
             <field name="arch" type="xml">
                 <tree editable="bottom">
                     <field name="name"/>
-                    <field name="picking_type_id"/>
+                    <!-- <field name="picking_type_id"/> -->
+                    <field name="picking_type_ids" widget="many2many_tags"/>
                     <field name="product_category_ids" widget="many2many_tags"/>
                     <field name="sequence_id"/>
                     <field name="description"/>
@@ -29,7 +30,7 @@
                                 <field name="description"/>
                             </group>
                             <group>
-                                <field name="picking_type_id"/>
+                                <!-- <field name="picking_type_id"/> -->
                                 <field name="sequence_id"/>
                             </group>
                         </group>

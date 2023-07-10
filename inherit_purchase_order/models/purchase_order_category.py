@@ -11,12 +11,12 @@ class PurchaseOrderCategory(models.Model):
         return randint(1, 11)
     
     name                 = fields.Char(string='PO Category')
-    picking_type_id      = fields.Many2one('stock.picking.type', string='Picking Type')
+    # picking_type_id      = fields.Many2one('stock.picking.type', string='Picking Type')
     color                = fields.Integer(string='Color Index', default=_get_default_color)
     description          = fields.Text(string='Description')
     sequence_id          = fields.Many2one('ir.sequence', string='Sequence')
     product_category_ids = fields.Many2many(comodel_name='product.category',relation='purchase_product_category_rel',column1='product_categ_id',column2='po_categ_id',string='Product Category' )
-    
+    picking_type_ids     = fields.Many2many('stock.picking.type', column1='picking_type_id', string='Picking Type Ids')
     
     
     

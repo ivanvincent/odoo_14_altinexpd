@@ -42,11 +42,11 @@
                             <field name="requested_by" readonly="1" options="{'no_open': True, 'no_create': True}" />
                             <field name="assigned_to" readonly="1" options="{'no_open': True, 'no_create': True}" attrs="{'invisible':[('assigned_to', '=', False)]}"/>
                             <field name="date_start" readonly="1" />
-                            <field name="tipe_permintaan" required="1" readonly="1"/>
+                            <!-- <field name="tipe_permintaan" required="1" readonly="1"/> -->
                             <field name="location_id" invisible="1"/>
-                            <field name="po_categ_id" attrs="{'readonly': [('is_editable','=', False)]}" required="1" invisible="1"/>
-                            <field name="picking_type_id" readonly="1" options="{'no_open': True, 'no_create': True}" invisible="1"/>
-                            <field name="product_categ" attrs="{'readonly': [('is_editable','=', False)]}" widget='many2many_tags' required="1" readonly="1" invisible="1"/>
+                            <field name="po_categ_id" attrs="{'readonly': [('is_editable','=', False)]}" required="1"/>
+                            <!-- <field name="picking_type_id" readonly="1" options="{'no_open': True, 'no_create': True}" invisible="1"/> -->
+                            <field name="product_categ" attrs="{'readonly': [('is_editable','=', False)]}" widget='many2many_tags' required="1" readonly="1" />
                         </group>
                         <group>
                             <field name="origin" class="oe_inline" attrs="{'readonly': [('is_editable','=', False)]}" />
@@ -154,7 +154,7 @@
                 <!-- <field name="purchase_count" string="Purchase Count" /> -->
                 <field name="requested_by" />
                 <field name="assigned_to" />
-                <field name="picking_type_id" />
+                <!-- <field name="picking_type_id" /> -->
                 <group expand="0" string="Group By...">
                     <filter name="requested_by" string="Requested by" icon="fa-user" domain="[]" context="{'group_by':'requested_by'}" />
                     <filter name="assigned_to" string="Assigned to" icon="fa-user" domain="[]" context="{'group_by':'assigned_to'}" />
