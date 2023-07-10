@@ -20,14 +20,20 @@ class PurchaseOrderLine(models.Model):
     date_order              = fields.Datetime(string='Date', related='order_id.date_order', store=True,)
     grade_id                = fields.Many2one('makloon.grade', string='Grade')
     # purchase_request_id     = fields.Many2one('purchase.request', string='Purchase Request', related='purchase_request_lines.request_id')
-    image_ids           = fields.One2many('insert.image', 'purchase_line_id', string='Image')
+    image_ids               = fields.One2many('insert.image', 'purchase_line_id', string='Image')
     is_receipt_done         = fields.Boolean(string='Is Receipt Done',compute='_compute_receipt')
-    qty_received_kg_actual = fields.Float(string='Received (Kg)', compute='compute_qty_received_kg_actual')
-    conversion            = fields.Integer(String='Konversi Satuan', default=1)
+    qty_received_kg_actual  = fields.Float(string='Received (Kg)', compute='compute_qty_received_kg_actual')
+    conversion              = fields.Integer(String='Konversi Satuan', default=1)
     conversion_type         = fields.Selection([("pl_liter","PL to Liter"),("drum_liter","Drum to Liter")], string='Tipe Konversi')
     image_product           = fields.Binary(related="product_id.image_1920", string="Image")
+    qty_on_hand             = fields.Float(string="Current Stock", compute="_get_onhand")
 
-    
+    def _get_onhand(self):
+        for line in  self:
+            domain = [('product_id', '=', line.product_id.id)]
+            quant = self.env['stock.quant'].search(domain).mapped('quantity')
+            line.qty_on_hand = sum(quant)
+
     def _compute_receipt(self):
         for order in self:
             order.is_receipt_done = sum(order.mapped('qty_received')) >= sum(order.mapped('product_qty'))

@@ -88,6 +88,7 @@
 
 
                 <xpath expr="//field[@name='order_line']//tree/field[@name='price_subtotal']" position="after">
+                    <field name="qty_on_hand"/>
                     <field name="f_discount" optional="hide"/>
                     <field name="remarks" optional="hide"/>
                 </xpath>
