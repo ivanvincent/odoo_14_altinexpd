@@ -68,9 +68,9 @@
                 <!-- <xpath expr="//field[@name='line_ids']/tree/field[@name='partner_id']" position="before">
                     <field name="temp_partner_ids" widget="many2many_tags"/>
                 </xpath> -->
-                <xpath expr="//field[@name='line_ids']/tree/field[@name='partner_id']" position="attributes">
+                <!-- <xpath expr="//field[@name='line_ids']/tree/field[@name='partner_id']" position="attributes">
                     <attribute name="domain">[('is_created_bills','=', False)]</attribute>
-                </xpath>
+                </xpath> -->
 
                 <xpath expr="//field[@name='line_ids']/tree/field[@name='amount']" position="before">
                     <field name="outstanding" attrs="{'column_invisible':[('parent.operation_type', '=', 'receipt')]}"/>
