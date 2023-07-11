@@ -32,7 +32,7 @@ class PurchaseOrderLine(models.Model):
     def _get_onhand(self):
         for line in self:
             domain = [('product_id', '=', line.product_id.id)]
-            quant = self.env['stock.quant'].seacrh(domain).mapped('quantity')
+            quant = self.env['stock.quant'].search(domain).mapped('quantity')
             line.qty_on_hand = sum(quant)
 
     def _compute_receipt(self):
