@@ -133,8 +133,8 @@ class PurchaseRequest(models.Model):
     )
     to_approve_allowed = fields.Boolean(compute="_compute_to_approve_allowed")
     picking_type_id = fields.Many2one(
-        comodel_name="stock.picking.type",
-        # related='po_categ_id.picking_type_id',
+        # comodel_name="stock.picking.type",
+        related='po_categ_id.picking_type_id',
         string="Picking Type",
         required=True,
         default=_default_picking_type,
@@ -174,7 +174,7 @@ class PurchaseRequest(models.Model):
     # , related='order_id.categ_id'
     
     location_id  = fields.Many2one('stock.location', string='Location',
-    # related='picking_type_id.default_location_dest_id'
+    related='picking_type_id.default_location_dest_id'
     )
     date_line = fields.Date(string='Date Request')
     tipe_permintaan = fields.Selection([('produksi', 'Produksi'), ('non_produksi', 'Non Produksi')], string="Tipe Permintaan", default=lambda self:self.env.user.tipe_permintaan)

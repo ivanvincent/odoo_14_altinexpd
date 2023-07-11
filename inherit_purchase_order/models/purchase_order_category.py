@@ -11,7 +11,7 @@ class PurchaseOrderCategory(models.Model):
         return randint(1, 11)
     
     name                 = fields.Char(string='PO Category')
-    # picking_type_id      = fields.Many2one('stock.picking.type', string='Picking Type')
+    picking_type_id      = fields.Many2one('stock.picking.type', string='Picking Type')
     color                = fields.Integer(string='Color Index', default=_get_default_color)
     description          = fields.Text(string='Description')
     sequence_id          = fields.Many2one('ir.sequence', string='Sequence')
