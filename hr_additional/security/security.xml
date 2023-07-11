@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    	<record id="group_restrict_po_categ" model="res.groups">
+            <field name="name">Resrict PO Category</field>
+        </record>
+
+        <record id="filter_user_po_category" model="ir.rule">
+            <field name="name">PO Category</field>
+            <field name="model_id" search="[('model','=','purchase.order.category')]" model="ir.model"/>
+            <field name="groups" eval="[(4, ref('group_restrict_po_categ'))]"/>
+            <field name="domain_force">[('id','=', user.po_categ_id.id)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

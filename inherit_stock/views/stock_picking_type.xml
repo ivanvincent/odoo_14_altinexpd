@@ -11,12 +11,12 @@
                     <field name="journal_mutation_id"/>
                     <field name="is_multi_step"/>
                     <field name="is_multi_location"/>
-                    <field name="is_stock_point"/>
-                    <field name="is_transit_transfer"/>
+                    <!-- <field name="is_stock_point"/>
+                    <field name="is_transit_transfer"/> -->
                 </xpath>
 
                 <xpath expr="//field[@name='default_location_dest_id']" position="after">
-                    <field name="default_location_siba_id" domain="[('usage', '=', 'internal')]" attrs="{'invisible':['|',('is_stock_point', '=', False),('is_multi_location', '=', False),('code', '!=', 'internal')],'required':[('is_stock_point','=',True)]}"/>
+                    <field name="default_location_siba_id" invisible="1"/>
                 </xpath>
             </field>
         </record>

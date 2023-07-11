@@ -53,7 +53,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
             "request_id": line.request_id.id,
             "product_id": line.product_id.id,
             "name": line.name or line.product_id.name,
-            "product_qty": line.pending_qty_to_receive,
+            "product_qty": line.outstanding_po,
             "product_uom_id": line.product_uom_id.id,
             "specifications": line.specifications,
             "no_komunikasi": line.no_komunikasi,

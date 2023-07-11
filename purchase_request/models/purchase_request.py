@@ -168,12 +168,14 @@ class PurchaseRequest(models.Model):
     
     no_komunikasi = fields.Char(string='No Komunikasi')
     
-    po_categ_id = fields.Many2one('purchase.order.category', string='PO Category',help="Tujuan Pembelian")
+    po_categ_id = fields.Many2one('purchase.order.category', string='PO Category',help="Tujuan Pembelian", default=lambda self:self.env.user.po_categ_id)
 
     categ_id = fields.Many2one('product.category')
     # , related='order_id.categ_id'
     
-    location_id  = fields.Many2one('stock.location', string='Location',related='picking_type_id.default_location_dest_id')
+    location_id  = fields.Many2one('stock.location', string='Location',
+    related='picking_type_id.default_location_dest_id'
+    )
     date_line = fields.Date(string='Date Request')
     tipe_permintaan = fields.Selection([('produksi', 'Produksi'), ('non_produksi', 'Non Produksi')], string="Tipe Permintaan", default=lambda self:self.env.user.tipe_permintaan)
     # product_categ_id = fields.Many2one('product.category', string='Product Category')

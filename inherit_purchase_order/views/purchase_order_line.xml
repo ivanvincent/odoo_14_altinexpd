@@ -15,7 +15,7 @@
         </record>
 
         <record id="wibicon_purchase_rfq_line_action" model="ir.actions.act_window">
-            <field name="name">Request For Quotation</field>
+            <field name="name">PO Pending Approval</field>
             <field name="res_model">purchase.order</field>
             <field name="view_mode">owl_tree</field>
             <field name="domain">[('state', '=', 'approve')]</field>
@@ -23,7 +23,7 @@
             <!-- <field name="view_ids" eval="[(5, 0, 0),(0, 0, {'view_mode': 'tree', 'view_id': ref('inherit_purchase_order.purchase_order_line_group_by_tree')})]"/> -->
         </record>
 
-        <menuitem action="wibicon_purchase_rfq_line_action" groups="inherit_purchase_order.group_purchase_approver" id="menu_purchase_rfq_line" name="Requests For Quotation" parent="purchase.menu_procurement_management" sequence="1"/>
+        <menuitem action="wibicon_purchase_rfq_line_action" groups="inherit_purchase_order.group_purchase_approver" id="menu_purchase_rfq_line" name="PO Pending Approval" parent="purchase.menu_procurement_management" sequence="1"/>
 
 
 

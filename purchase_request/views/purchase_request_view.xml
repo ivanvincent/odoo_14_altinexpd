@@ -11,7 +11,7 @@
                     <button name="button_draft" states="to_approve,approved,rejected,done" string="Reset" type="object" groups="purchase_request.group_purchase_request_manager" />
                     <button name="button_to_approve" states="draft" string="Request approval" type="object" class="oe_highlight" />
                     <button name="button_approved" states="to_approve" string="Approve" type="object" class="oe_highlight" groups="purchase_request.group_purchase_request_approver" />
-                    <button name="%(action_purchase_request_line_make_purchase_order)d" states="approved" string="Create RFQ" type="action" />
+                    <button name="%(action_purchase_request_line_make_purchase_order)d" states="approved" string="Create PO" type="action" />
                     <button name="button_done" states="approved" string="Done" type="object" class="oe_highlight" groups="purchase_request.group_purchase_request_manager" />
                     <button name="button_rejected" states="to_approve,approved" string="Reject" type="object" groups="purchase_request.group_purchase_request_manager" />
                     <field name="state" widget="statusbar" statusbar_visible="draft,to_approve,approved,done,rejected" statusbar_colors='{"approved":"blue"}' />
@@ -42,11 +42,11 @@
                             <field name="requested_by" readonly="1" options="{'no_open': True, 'no_create': True}" />
                             <field name="assigned_to" readonly="1" options="{'no_open': True, 'no_create': True}" attrs="{'invisible':[('assigned_to', '=', False)]}"/>
                             <field name="date_start" readonly="1" />
-                            <field name="tipe_permintaan" required="1" readonly="1"/>
+                            <!-- <field name="tipe_permintaan" required="1" readonly="1"/> -->
                             <field name="location_id" invisible="1"/>
                             <field name="po_categ_id" attrs="{'readonly': [('is_editable','=', False)]}" required="1"/>
-                            <field name="picking_type_id" readonly="1" options="{'no_open': True, 'no_create': True}"/>
-                            <field name="product_categ" attrs="{'readonly': [('is_editable','=', False)]}" widget='many2many_tags' required="1" readonly="1"/>
+                            <field name="picking_type_id" readonly="1" options="{'no_open': True, 'no_create': True}" invisible="1"/>
+                            <field name="product_categ" attrs="{'readonly': [('is_editable','=', False)]}" widget='many2many_tags' required="1" readonly="1" />
                         </group>
                         <group>
                             <field name="origin" class="oe_inline" attrs="{'readonly': [('is_editable','=', False)]}" />
@@ -62,7 +62,7 @@
                             <field name="line_ids">
                                 <tree decoration-muted="cancelled == True" editable="bottom">
                                     <field name="product_categ" invisible="1"/>
-                                    <field name="product_id" options="{'no_open': True, 'no_create': True}" />
+                                    <field name="product_id"/>
                                     <!-- domain="[('categ_id', '=', product_categ)]" /> -->
                                     <field name="name" />
                                     <!-- <field name="lot_id" domain="[('product_id', '=', product_id)]"/> -->
@@ -154,7 +154,7 @@
                 <!-- <field name="purchase_count" string="Purchase Count" /> -->
                 <field name="requested_by" />
                 <field name="assigned_to" />
-                <field name="picking_type_id" />
+                <!-- <field name="picking_type_id" /> -->
                 <group expand="0" string="Group By...">
                     <filter name="requested_by" string="Requested by" icon="fa-user" domain="[]" context="{'group_by':'requested_by'}" />
                     <filter name="assigned_to" string="Assigned to" icon="fa-user" domain="[]" context="{'group_by':'assigned_to'}" />

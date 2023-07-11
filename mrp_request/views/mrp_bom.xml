@@ -10,8 +10,8 @@
                     <field name="operation_template_id"/>
                     <field name="tot_biaya"/>
                     <field name="besar_waste"/>
-                    <field name="standard_price"/>
                     <field name="raw_cost"/>
+                    <field name="standard_price"/>
                     <!-- <field name="total_price_var_cost"/>
                     <field name="total_unit_cost"/> -->
                 </xpath>

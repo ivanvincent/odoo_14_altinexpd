@@ -24,6 +24,7 @@
 
                 <xpath expr="//field[@name='price_subtotal']" position="after">
                     <button name="action_show_image" type="object" icon="fa-picture-o" width="0.1" role="img" title="Upload Image"/>
+                    <button name="action_show_image_product" type="object" icon="fa-picture-o" width="0.1" role="img" title="Image Product" />
                     <button name="action_shot_list_price" type="object" string="List Price" class="oe_highlight"/>
                 </xpath>
 
@@ -80,9 +81,9 @@
 
                 <xpath expr="//field[@name='order_line']//tree/field[@name='name']" position="after">
                     <field name="specifications" readonly="1"/>
-                    <field name="no_komunikasi"/>
+                    <!-- <field name="no_komunikasi"/>
                     <field name="lot_id" options="{'no_open': True, 'no_create': True}"/>
-                    <field name="grade_id"/>
+                    <field name="grade_id"/> -->
                     <field name="is_receipt_done" invisible="1"/>
                 </xpath>
 
@@ -103,6 +104,7 @@
 
 
                 <xpath expr="//field[@name='order_line']//tree/field[@name='price_subtotal']" position="after">
+                    <field name="qty_on_hand"/>
                     <field name="f_discount" optional="hide"/>
                     <field name="remarks" optional="hide"/>
                 </xpath>
@@ -182,12 +184,34 @@
             </field>
         </record>
 
+        <record id="po_image_product_form" model="ir.ui.view">
+        <field name="name">purchase.order.images.product.form</field>
+        <field name="model">purchase.order.line</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+                </header>
+                <sheet>
+                    <field name="image_product" widget="image"/>
+                </sheet>
+            </form>
+        </field>
+        </record>
+
         <record id="purchase_order_action" model="ir.actions.act_window">
             <field name="name">Images</field>
             <field name="res_model">purchase.order.line</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
             <field name="view_id" ref="inherit_purchase_order.purchase_order_image_form"/>
+        </record>
+
+        <record id="purchase_order_line_image_action" model="ir.actions.act_window">
+            <field name="name">Images</field>
+            <field name="res_model">purchase.order.line</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="inherit_purchase_order.po_image_product_form"/>
         </record>
 
         <menuitem id="purchase_analysis_menu" name="Purchase Analysis" action="purchase.action_purchase_order_report_all" parent="purchase.purchase_report" sequence="10"/>
