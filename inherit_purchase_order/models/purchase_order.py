@@ -12,17 +12,17 @@ class PurchaseOrder(models.Model):
     # compute='_compute_picking_release',
      default=0)
     purchase_category_id = fields.Many2one('purchase.order.category', string='Category')
-    state                = fields.Selection(selection_add=[("reject", "Rejected")])
     payment_term_id      = fields.Many2one('account.payment.term', string='Payment Term')
     street_delivery      = fields.Many2one('street.delivery', string='Street Delivery')
     date_datang_barang   = fields.Text(string='Dtg Barang', compute="_compute_date_datang_barang")
     lot_id               = fields.Many2one('stock.production.lot', string='Lot / serial number', related='order_line.lot_id')
     purchase_order_offer_line_ids = fields.One2many('purchase.order.offer', 'purchase_id', 'Line')
-    state                 = fields.Selection(selection_add=[('approve', 'Approve')])
+    state                 = fields.Selection(selection_add=[('draft', 'Draft'), ('approve', 'To be Approve'), ('purchase', 'Approved'), ("reject", "Rejected"),("done", "Done")])
     picking_count_makloon = fields.Integer(string='Picking Count Makloon', compute='compute_picking_count_makloon')
     is_surat_jalan        = fields.Boolean(string='Surat Jalan ?')
     is_bill               = fields.Boolean(string='Bill ?')
     is_fp                 = fields.Boolean(string='Faktur Pajak ?')
+    
 
     def action_approve(self):
         self.state = 'approve'
