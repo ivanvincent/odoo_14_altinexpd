@@ -72,6 +72,7 @@
                                     <field name="outstanding_po"/>
                                     <field name="product_uom_id" string="Satuan"  groups="uom.group_uom" options="{'no_open': True, 'no_create': True}" readonly="1"/>
                                     <field name="estimated_price"/>
+                                    <field name="subtotal_estimate"/>
                                     <!-- <field name="date_required" /> -->
                                     <field name="date_dtg_brg" required="1"/>
                                     <!-- <field name="no_komunikasi" /> -->

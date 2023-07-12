@@ -234,14 +234,14 @@ class PurchaseRequestLine(models.Model):
     categ_id = fields.Many2one('product.category' , related='request_id.categ_id')
     estimated_price = fields.Float(string="Estimated Price", required=True)
     image_product = fields.Binary(related="product_id.image_1920", string="Image")
-    
+    subtotal_estimate = fields.Monetary(string='Subtotal Estimate Price', compute='get_subtotal_estimate')
 
     def _get_onhand(self):
         for line in  self:
-            domain = [('product_id', '=', line.product_id.id), ('location_id', '=', line.request_id.picking_type_id.default_location_dest_id.id)]
+            domain = [('product_id', '=', line.product_id.id)]
             quant = self.env['stock.quant'].search(domain).mapped('quantity')
             line.qty_on_hand = sum(quant)
-            
+            # ('location_id', '=', line.request_id.picking_type_id.default_location_dest_id.id)
  
     
     @api.onchange('lot_id')
@@ -249,12 +249,15 @@ class PurchaseRequestLine(models.Model):
         for rec in self:
             rec.product_id = rec.lot_id.product_id.id
    
+    @api.depends('product_qty', 'estimated_price')
+    def get_subtotal_estimate(self):
+        for rec in self:
+            rec.subtotal_estimate = rec.product_qty * rec.estimated_price
     
-    
-    @api.depends('product_qty', 'price')
+    @api.depends('product_qty', 'estimated_price')
     def get_estimated_cost(self):
         for rec in self:
-            rec.estimated_cost = rec.product_qty * rec.price
+            rec.estimated_cost = rec.product_qty * rec.estimated_price
     
     
 
