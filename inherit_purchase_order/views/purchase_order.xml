@@ -96,7 +96,7 @@
                     <attribute name="string">Satuan</attribute>
                 </xpath>
 
-
+                
                 <xpath expr="//field[@name='order_line']//tree/field[@name='qty_received']" position="after">
                     <field name="qty_received_kg_actual"/>
                     <field name="qty_sisa"/>
@@ -136,6 +136,10 @@
                         </group>
                     </page>
                 </xpath>
+
+                <!-- <xpath expr="//field[@name='receipt_reminder_email']" position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </xpath> -->
 
             </field>
         </record>
@@ -216,5 +220,9 @@
 
         <menuitem id="purchase_analysis_menu" name="Purchase Analysis" action="purchase.action_purchase_order_report_all" parent="purchase.purchase_report" sequence="10"/>
 
+        <record id="purchase.purchase_form_action" model="ir.actions.act_window">
+            <field name="domain">[]</field>
+        </record>
+        
     </data>
 </odoo>

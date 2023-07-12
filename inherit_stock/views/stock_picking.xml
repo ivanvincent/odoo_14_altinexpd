@@ -28,7 +28,7 @@
                 </xpath>
 
                 <xpath expr="//field[@name='origin']" position="after">
-                    <field name="vehicle_id" groups="request_requisition.group_request_requisition_user_vehicle"/>
+                    <!-- <field name="vehicle_id" groups="request_requisition.group_request_requisition_user_vehicle"/> -->
                 </xpath>
 
 

@@ -8,8 +8,8 @@
                  <field name="arch" type="xml">
                      <field name="origin" position="after">
                         <!-- <field name="warehouse_id" /> -->
-                        <field name="no_po" />
-                        <field name="no_sj_result" />
+                        <!-- <field name="no_po" /> -->
+                        <!-- <field name="no_sj_result" /> -->
                         <field name="no_sj" />
                         <!-- <field name="makloon_order_id" /> -->
                      </field>
@@ -19,7 +19,7 @@
                         <!-- <field name="no_po" />
                         <field name="no_sj_result" />
                         <field name="no_sj" /> -->
-                        <field name="makloon_order_id" />
+                        <!-- <field name="makloon_order_id" /> -->
                     </field>
                     <xpath expr="//field[@name='quantity_done']" position="after">
                         <field name="roll" string="Ikat"/>
@@ -27,7 +27,7 @@
 
                     <xpath expr="//button[@name='action_cancel']" position="after">
                         <field name="is_create_po" invisible="1"/>
-                        <button name="action_create_purchase" type="object" string="Create Purchase" class="oe_highlight" attrs="{'invisible':['|','|','|', ('state', '!=', 'done'), ('makloon_order_id', '=', False), ('is_create_po', '=', True), ('picking_type_code', 'not in', ['outgoing'])]}" />
+                        <button name="action_create_purchase" type="object" string="Create Purchase" class="oe_highlight" attrs="{'invisible':['|','|', ('state', '!=', 'done'), ('is_create_po', '=', True), ('picking_type_code', 'not in', ['outgoing'])]}" />
                     </xpath>
 
                                           
