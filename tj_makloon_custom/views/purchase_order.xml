@@ -12,13 +12,13 @@
                                 <field name="kota"/>
                                 <field name="phone"/>
                               </field>
-                             <field name="date_order" position="after">
+                             <!-- <field name="date_order" position="after">
                                  <field name="date_planned"/>
                                  <field name="type_id"/>
-                            </field>
-                            <field name="makloon_id" position="after">
+                            </field> -->
+                            <!-- <field name="makloon_id" position="after">
                                  <field name="makloon_plan_id" readonly="1"/>
-                            </field>
+                            </field> -->
                              <xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='product_id']" position="replace">
                                  <field name="product_type_line" invisible="1"/>
                                  <field name="categ_id" invisible="1"/>
@@ -78,6 +78,11 @@
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="purchase_request_id"/>
                 </xpath>
+                
+                <xpath expr="//field[@name='state']" position="replace">
+                    <field name="state" widget="badge" decoration-success="state in ['purchase','done']" decoration-muted="state == 'draft'" decoration-warning="state == 'approve'" decoration-danger="state == 'reject'"/>
+                </xpath>
+
             </field>
         </record>
 </data>
