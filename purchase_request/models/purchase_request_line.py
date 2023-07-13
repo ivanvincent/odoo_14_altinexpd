@@ -229,7 +229,7 @@ class PurchaseRequestLine(models.Model):
     date_dtg_brg = fields.Date(string='Date Dtg Barang')
     outstanding_po = fields.Float(string='Outstanding Po', compute='_compute_outstanding_po')
     po_categ_id = fields.Many2one('purchase.order.category', string='PO Category',help="Tujuan Pembelian")
-    product_categ = fields.Many2many(related='po_categ_id.product_category_ids', string='Product Category')
+    product_category_ids = fields.Many2many(related='po_categ_id.product_category_ids', string='Product Category')
 
     categ_id = fields.Many2one('product.category' , related='request_id.categ_id')
     estimated_price = fields.Float(string="Estimated Price", required=True)
