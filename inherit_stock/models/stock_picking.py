@@ -49,11 +49,11 @@ class StockPicking(models.Model):
                 for move in picking.move_lines:
                     move.write({"date":self.scheduled_date})
     
-    @api.depends('move_lines.state', 'move_lines.date', 'move_type')
-    def _compute_scheduled_date(self):
-        for picking in self:
-            picking.scheduled_date = self.scheduled_date
-            
+    # @api.depends('move_lines.state', 'move_lines.date', 'move_type')
+    # def _compute_scheduled_date(self):
+    #     self.ensure_one()
+    #     for picking in self:
+    #         picking.scheduled_date = picking.scheduled_date
     
     #todo need to fix harus back to draft sampe ke product_move nya juga
     def action_back_to_draft(self):
