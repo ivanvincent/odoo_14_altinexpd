@@ -525,4 +525,4 @@ class PurchaseRequestLine(models.Model):
     @api.depends('purchase_lines', 'product_qty')
     def _compute_outstanding_po(self):
         for rec in self:
-            rec.outstanding_po = rec.product_qty - sum(self.purchase_lines.mapped('product_qty'))
+            rec.outstanding_po = rec.product_qty - sum(rec.purchase_lines.mapped('product_qty'))

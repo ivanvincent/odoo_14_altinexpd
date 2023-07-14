@@ -109,7 +109,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         request_lines = request_line_obj.browse(request_line_ids)
         self._check_valid_request_line(request_line_ids)
         self.check_group(request_lines)
-        for line in request_lines:
+        for line in request_lines.filtered(lambda x: x.outstanding_po > 0):
             items.append([0, 0, self._prepare_item(line)])
         return items
 
@@ -264,11 +264,9 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         pr_line_obj = self.env["purchase.request.line"]
         purchase = False
         done = 0
-        count_line = 0
 
         for item in self.item_ids:
             line = item.line_id
-            count_line += 1
             if line.product_qty == item.product_qty:
                 done += 1
             if item.product_qty <= 0.0:
@@ -341,20 +339,22 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
                     date_required.year, date_required.month, date_required.day
                 )
             res.append(purchase.id)
-        if done == count_line:
-            ctx = self.env.context
-            print("contexttt")
-            self.env['purchase.request'].browse(ctx.get('active_id')).button_done()
-
-        return {
-            "domain": [("id", "in", res)],
-            "name": _("Purchase Order"),
-            "view_mode": "tree,form",
-            "res_model": "purchase.order",
-            "view_id": False,
-            "context": False,
-            "type": "ir.actions.act_window",
-        }
+        ctx = self.env.context
+        pr = self.env['purchase.request'].browse(ctx.get('active_id'))
+        if not any(pr.mapped('line_ids.outstanding_po')):
+            pr.write({'state': 'done'})
+        action = self.env.ref('purchase.purchase_form_action').read()[0]
+        action['domain'] = [("id", "in", res)]
+        return action
+        # return {
+        #     "domain": [("id", "in", res)],
+        #     "name": _("Purchase Order"),
+        #     "view_mode": "tree,form",
+        #     "res_model": "purchase.order",
+        #     "view_id": False,
+        #     "context": False,
+        #     "type": "ir.actions.act_window",
+        # }
 
 
 class PurchaseRequestLineMakePurchaseOrderItem(models.TransientModel):
