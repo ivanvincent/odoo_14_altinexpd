@@ -266,7 +266,7 @@ class RequestRequisition(models.Model):
 
     def _compute_internal_transfer_count(self):
         for order in self:
-            int_ids = self.env['stock.picking'].search([('origin', '=', order.name)])
+            int_ids = self.env['stock.picking'].search([('request_requisition_id', '=', order.id)])
             if int_ids:
                 order.internal_transfer_count = len(int_ids)
             else:
@@ -278,7 +278,7 @@ class RequestRequisition(models.Model):
             'type': 'ir.actions.act_window',
             'view_mode': 'tree,form',
             'res_model': 'stock.picking',
-            'domain': [('origin', '=', self.name)],
+            'domain': [('request_requisition_id', '=', self.id)],
             'context': {'create': False},
             'target': 'current'
         }
@@ -313,7 +313,7 @@ class RequestRequisition(models.Model):
         
         self.sudo().write({'request_id': request.id})
         
-        request.button_to_approve()
+        # request.button_to_approve()
         
         return
     
