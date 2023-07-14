@@ -47,7 +47,7 @@
                                 <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="payment_term_ids" invisible="1"/>
                                 <field name="payment_term_id" attrs="{'readonly':[('state','=','confirm')]}" domain="[('id', 'in', payment_term_ids)]"/>
-                                <field name="product_tmpl_ids" widget="many2many_tags" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="product_tmpl_ids" widget="many2many_tags" attrs="{'readonly':[('state','=','confirm')]}" domain="[('categ_id', '=', 27)]"/>
                                 <field name="request_engineering_id" readonly="1" attrs="{'invisible':[('request_engineering_id', '=', False)]}" context="{'form_view_ref': 'wibicon_quotation.request_engineering_form'}"/>
                                 <field name="no_sample" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="product_order_id" attrs="{'readonly':[('state','=','confirm')]}" required="1" />
