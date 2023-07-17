@@ -238,9 +238,9 @@ class PurchaseRequestLine(models.Model):
 
     def _get_onhand(self):
         for line in  self:
-            domain = [('product_id', '=', line.product_id.id)]
-            quant = self.env['stock.quant'].search(domain).mapped('quantity')
-            line.qty_on_hand = sum(quant)
+            # domain = [('product_id', '=', line.product_id.id)]
+            # quant = self.env['stock.quant'].search(domain).mapped('quantity')
+            line.qty_on_hand = line.product_id.qty_available
             # ('location_id', '=', line.request_id.picking_type_id.default_location_dest_id.id)
  
     

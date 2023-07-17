@@ -26,14 +26,14 @@ class PurchaseOrderLine(models.Model):
     conversion              = fields.Integer(String='Konversi Satuan', default=1)
     conversion_type         = fields.Selection([("pl_liter","PL to Liter"),("drum_liter","Drum to Liter")], string='Tipe Konversi')
     image_product           = fields.Binary(related="product_id.image_1920", string="Image")
-    qty_on_hand             = fields.Float(string="Current Stock", compute="_get_onhand")
-    
+    qty_on_hand             = fields.Float(string="Current Stock", 
+    compute="_get_onhand",
+    )
+
     @api.depends('product_id')
     def _get_onhand(self):
         for line in self:
-            domain = [('product_id', '=', line.product_id.id)]
-            quant = self.env['stock.quant'].search(domain).mapped('quantity')
-            line.qty_on_hand = sum(quant)
+            line.qty_on_hand = line.product_id.qty_available
 
     def _compute_receipt(self):
         for order in self:
