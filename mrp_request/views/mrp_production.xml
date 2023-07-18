@@ -54,14 +54,14 @@
                 <xpath expr="//field[@name='user_id']" position="after">
                     <field name="wo_altinex"/>
                     <field name="kd_bahan"/>
-                    <field name="treatment_id"/>
-                    <field name="lapisan"/>
+                    <field name="treatment_id" readonly="1"/>
+                    <field name="lapisan" readonly="1"/>
                     <field name="due_date_produksi"/>
                     <field name="no_sample"/>
                     <field name="note_so"/>
                     <field name="option_vip"/>
-                    <field name="process_terkini"/>
-                    <field name="parameter_terkini"/>
+                    <field name="process_terkini" readonly="1"/>
+                    <field name="parameter_terkini" readonly="1"/>
                     <!-- <field name="kd_bahan"/> -->
                 </xpath>
             </field>
