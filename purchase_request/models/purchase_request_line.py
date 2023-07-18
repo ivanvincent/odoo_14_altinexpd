@@ -236,6 +236,7 @@ class PurchaseRequestLine(models.Model):
     image_product = fields.Binary(related="product_id.image_1920", string="Image")
     subtotal_estimate = fields.Monetary(string='Subtotal Estimate Price', compute='get_subtotal_estimate')
 
+    @api.depends('product_id')
     def _get_onhand(self):
         for line in  self:
             # domain = [('product_id', '=', line.product_id.id)]
