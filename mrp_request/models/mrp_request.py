@@ -117,6 +117,7 @@ class ManufacturingRequest(models.Model):
                 if production_id:
                     production_id._onchange_bom_id()
                     production_id._onchange_move_raw()
+                    production_id.update({'product_qty': line.qty_produce})
                     production_id._onchange_move_finished()
                     production_id._onchange_workorder_ids()
                     # line.production_ids = [(4,production_id.id)]
