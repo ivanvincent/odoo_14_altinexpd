@@ -71,7 +71,7 @@ class Quotation(models.Model):
                                       digits=dp.get_precision('Account'), track_visibility='always')
     payment_term_ids = fields.Many2many('account.payment.term', string='Payment Term Ids', related='partner_id.payment_term_ids')
     kode_mkt_ids = fields.Many2many('kode.mkt', string='Kode Mkt Ids', related='partner_id.kode_mkt_ids')
-
+    
     # @api.onchange('partner_id')
     # def get_kode_mkt(self):
         # if self.partner_id:
@@ -254,6 +254,7 @@ class QuotationLine(models.Model):
     kd_bahan = fields.Char(string='Kode Bahan')
     lapisan = fields.Selection(
         [("Coat", "Coat"), ("Plat", "Plat")], string='Surface Finish')
+
 
     @api.depends('quantity', 'price_unit')
     def compute_sub_total(self):
