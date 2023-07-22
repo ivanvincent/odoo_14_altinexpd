@@ -28,6 +28,20 @@
                             </tree>
                         </field>
                     </page>
+                    <!-- <page string="Flow Pprocess">
+                        <field name="flowprocess_ids">
+                            <tree editable="bottom">
+                                <field name="proses_master_id"/>
+                                <field name="no_urut"/>
+                                <field name="mesin_id"/>
+                                <field name="process_type_id"/>
+                                <field name="parameter_ids" />
+                                <field name="chemical_ids"/>
+                                <field name="price" />
+                                <field name="description_process" />
+                            </tree>
+                        </field>
+                    </page> -->
                 </xpath>
             </field>
         </record>

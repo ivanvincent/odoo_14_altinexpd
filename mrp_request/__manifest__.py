@@ -43,6 +43,7 @@
     'wizard/workorder_daily_wizard.xml',
     'wizard/progress_production_wizard.xml',
     'report/mrp_barcode.xml',
+    'report/mrp_bom_structure.xml',
     # 'wizard/make_order_wizard.xml',
   ],
   'qweb': [
