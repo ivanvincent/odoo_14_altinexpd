@@ -403,6 +403,24 @@ class PurchaseRequestLineMakePurchaseOrderItem(models.TransientModel):
         "wizard in the new PO.",
     )
     lot_id = fields.Many2one('stock.production.lot', string='Lot')
+    conversion = fields.Float(string='Konversi', related='product_id.drum_liter')
+    hasil_konversi = fields.Float(string='Hasil Konversi', compute='_get_hasil_konversi')
+    status_po = fields.Many2one('uom.uom', related='product_id.uom_po_id', string='Satuan PO')
+
+    # @api.onchange('product_id')
+    # def onchange_product(self):
+    #     self.conversion = self.product_id.drum_liter
+    #     self.status_po = self.product_id.uom_po_id
+
+    def _get_hasil_konversi(self):
+        for line in self :
+            line.hasil_konversi = self.handle_division_zero(line.product_qty , line.conversion)
+
+    def handle_division_zero(self,x,y):
+        try:
+            return x/y
+        except ZeroDivisionError:
+            return 0
 
     @api.onchange("product_id")
     def onchange_product_id(self):
