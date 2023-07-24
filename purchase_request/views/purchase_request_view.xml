@@ -70,9 +70,9 @@
                                     <field name="specifications" />
                                     <!-- <field name="grade_id" /> -->
                                     <field name="product_qty" sum="Total" required="1"/>
-                                    <field name="conversion" readonly="1"/>
+                                    <field name="conversion" readonly="1" force_save="1"/>
                                     <field name="hasil_konversi"/>
-                                    <field name="status_po" readonly="1"/>
+                                    <field name="status_po" readonly="1" force_save="1"/>
                                     <field name="outstanding_po"/>
                                     <field name="product_uom_id" string="Satuan"  groups="uom.group_uom" options="{'no_open': True, 'no_create': True}" readonly="1"/>
                                     <field name="estimated_price"/>
