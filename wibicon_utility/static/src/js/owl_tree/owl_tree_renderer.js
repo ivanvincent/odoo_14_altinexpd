@@ -290,7 +290,7 @@ odoo.define("wibicon_utility.OWLTreeRenderer", function (require) {
                     dataType: "number",
                   },
                   {
-                    dataField: "qty_pr",
+                    dataField: "hasil_konversi",
                     caption: "Quantity PR",
                     dataType: "number",
                   },
@@ -301,7 +301,7 @@ odoo.define("wibicon_utility.OWLTreeRenderer", function (require) {
                     dataType: "number",
                   },
                   {
-                    dataField: "hasil_konversi",
+                    dataField: "qty_pr",
                     caption: "Hasil Konversi",
                     dataType: "number",
                   },

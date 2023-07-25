@@ -44,7 +44,7 @@ class PurchaseOrderLine(models.Model):
 
     def handle_division_zero(self,x,y):
         try:
-            return x/y
+            return x*y
         except ZeroDivisionError:
             return 0
 
