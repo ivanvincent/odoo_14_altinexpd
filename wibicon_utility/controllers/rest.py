@@ -39,7 +39,7 @@ class Rest(http.Controller):
                 line.append({"no":x+1,
                             "id":ln.id,
                             "product":ln.product_id.name,
-                            "qty_pr":ln.qty_pr,
+                            "qty_pr":ln.product_qty,
                             "product_uom":ln.product_uom.name,
                             "price_unit":ln.price_unit,
                             #  "discount":ln.discount,
