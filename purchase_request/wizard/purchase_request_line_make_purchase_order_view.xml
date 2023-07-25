@@ -34,11 +34,11 @@
                             <field name="name" readonly="1" force_save="1"/>
                             <field name="specifications" readonly="1" force_save="1"/>
                             <!-- <field name="no_komunikasi" /> -->
-                            <field name="product_qty" readonly="0"/>
+                            <field name="product_qty" readonly="0"/>                            
                             <field name="outstanding_po"/>                            
                             <field name="conversion" readonly="1" force_save="1"/>
-                            <field name="qty_pr"/>
                             <field name="product_uom_id" groups="uom.group_uom" readonly="1" force_save="1"/>
+                            <field name="qty_pr"/>                            
                             <field name="status_po" readonly="1" force_save="1"/>
                             <!-- <field name="keep_description" widget="boolean_toggle" /> -->
                         </tree>
