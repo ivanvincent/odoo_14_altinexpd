@@ -47,6 +47,9 @@ class Rest(http.Controller):
                             "taxes_id":', '.join(ln.taxes_id.mapped('name')),
                             "qty_onhand": prl_obj.qty_on_hand,
                             #  "amount_tax":order.order_id.amount_tax,
+                            "conversion":ln.conversion,
+                            "hasil_konversi":ln.hasil_konversi,
+                            "status_po":ln.product_id.uom_po_id.name,
                         })
 
             data.append({

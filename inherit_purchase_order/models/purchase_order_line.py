@@ -23,12 +23,30 @@ class PurchaseOrderLine(models.Model):
     image_ids               = fields.One2many('insert.image', 'purchase_line_id', string='Image')
     is_receipt_done         = fields.Boolean(string='Is Receipt Done',compute='_compute_receipt')
     qty_received_kg_actual  = fields.Float(string='Received (Kg)', compute='compute_qty_received_kg_actual')
-    conversion              = fields.Integer(String='Konversi Satuan', default=1)
+    conversion              = fields.Float(String='Konversi Satuan', related='product_id.drum_liter')
     conversion_type         = fields.Selection([("pl_liter","PL to Liter"),("drum_liter","Drum to Liter")], string='Tipe Konversi')
     image_product           = fields.Binary(related="product_id.image_1920", string="Image")
     qty_on_hand             = fields.Float(string="Current Stock", 
     compute="_get_onhand",
     )
+    
+    hasil_konversi = fields.Float(string='Hasil Konversi', compute='_get_hasil_konversi')
+    status_po = fields.Many2one('uom.uom', related='product_id.uom_po_id', string='Satuan PO')
+
+    # @api.onchange('product_id')
+    # def onchange_product(self):
+    #     self.conversion = self.product_id.drum_liter
+    #     self.status_po = self.product_id.uom_po_id
+
+    def _get_hasil_konversi(self):
+        for line in self :
+            line.hasil_konversi = self.handle_division_zero(line.product_qty , line.conversion)
+
+    def handle_division_zero(self,x,y):
+        try:
+            return x/y
+        except ZeroDivisionError:
+            return 0
 
     @api.depends('product_id')
     def _get_onhand(self):
