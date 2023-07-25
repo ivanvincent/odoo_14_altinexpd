@@ -302,7 +302,7 @@ odoo.define("wibicon_utility.OWLTreeRenderer", function (require) {
                   },
                   {
                     dataField: "qty_pr",
-                    caption: "Hasil Konversi",
+                    caption: "Quantity PO",
                     dataType: "number",
                   },
                   {
