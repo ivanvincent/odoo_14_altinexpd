@@ -290,8 +290,8 @@ odoo.define("wibicon_utility.OWLTreeRenderer", function (require) {
                     dataType: "number",
                   },
                   {
-                    dataField: "product_qty",
-                    caption: "Quantity",
+                    dataField: "qty_pr",
+                    caption: "Quantity PR",
                     dataType: "number",
                   },
                   { dataField: "product_uom", caption: "Uom" },
