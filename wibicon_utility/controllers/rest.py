@@ -40,7 +40,7 @@ class Rest(http.Controller):
                             "id":ln.id,
                             "product":ln.product_id.name,
                             "qty_pr":ln.product_qty,
-                            "product_uom":ln.product_uom.name,
+                            "product_uom":ln.product_id.uom_id.name,
                             "price_unit":ln.price_unit,
                             #  "discount":ln.discount,
                             "price_subtotal":ln.price_subtotal,
