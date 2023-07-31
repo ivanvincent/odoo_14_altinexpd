@@ -26,3 +26,6 @@ access_setting_machine,access_setting_machine,model_setting_machine,mrp.group_mr
 access_mrp_bom_cost,mrp_bom_cost,model_mrp_bom_cost,mrp.group_mrp_manager,1,1,1,1
 access_mrp_bom_cost_parameter,mrp_bom_cost_parameter,model_mrp_bom_cost_parameter,mrp.group_mrp_manager,1,1,1,1
 access_progress_production_wizard,progress_production_wizard,model_progress_production_wizard,mrp.group_mrp_manager,1,1,1,1
+access_mrp_bom_flowprocess,mrp_bom_flowprocess,model_mrp_bom_flowprocess,mrp.group_mrp_manager,1,1,1,1
+access_bom_parameter_line,bom_parameter_line,model_bom_parameter_line,mrp.group_mrp_manager,1,1,1,1
+access_bom_chemical_line,bom_chemical_line,model_bom_chemical_line,mrp.group_mrp_manager,1,1,1,1

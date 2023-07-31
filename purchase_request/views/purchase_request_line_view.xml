@@ -21,7 +21,7 @@
                 <field name="name" />
                 <field name="outstanding_po"/>
                 <field name="product_qty" />
-                <field name="product_uom_id" string="Satuan" groups="uom.group_uom" />
+                <!-- <field name="product_uom_id" string="Satuan" groups="uom.group_uom" /> -->
                 <field name="analytic_account_id" groups="analytic.group_analytic_accounting" />
                 <field name="analytic_tag_ids" groups="analytic.group_analytic_accounting" />
                 <field name="supplier_id" />
@@ -64,7 +64,7 @@
                             <label for="product_qty" />
                             <div>
                                 <field name="product_qty" class="oe_inline" attrs="{'readonly': [('is_editable','=', False)]}" />
-                                <field name="product_uom_id" groups="uom.group_uom" string="Satuan" class="oe_inline" attrs="{'readonly': [('is_editable','=', False)]}" />
+                                <!-- <field name="product_uom_id" groups="uom.group_uom" string="Satuan" class="oe_inline" attrs="{'readonly': [('is_editable','=', False)]}" /> -->
                             </div>
                             <field name="analytic_account_id" groups="analytic.group_analytic_accounting" attrs="{'readonly': [('is_editable','=', False)]}" />
                             <field name="analytic_tag_ids" groups="analytic.group_analytic_accounting" attrs="{'readonly': [('is_editable','=', False)]}" />

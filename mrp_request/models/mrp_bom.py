@@ -17,7 +17,8 @@ class MrpBom(models.Model):
     qty_weight	= fields.Float('Qty Weight', compute='_compute_bom_cost')
     # total_price_var_cost = fields.Float(compute='_compute_total', string='Total Price Var Cost', store=False)
     # total_unit_cost = fields.Float(compute='_compute_total', string='Total Unit Cost', store=False)
-    
+    flowprocess_ids = fields.One2many('mrp.bom.flowprocess','bom_id','Flow Process')
+
     @api.onchange('operation_template_id')
     def _get_operations(self, picking_ids, workcenter_engineering):
         operation_ids = []

@@ -54,7 +54,7 @@ class PurchaseRequestLine(models.Model):
         tracking=True,
     )
     product_qty = fields.Float(
-        string="Quantity", tracking=True, digits="Product Unit of Measure"
+        string="Quantity PO", tracking=True, digits="Product Unit of Measure"
     )
     request_id = fields.Many2one(
         comodel_name="purchase.request",
@@ -235,6 +235,29 @@ class PurchaseRequestLine(models.Model):
     estimated_price = fields.Float(string="Estimated Price", required=True)
     image_product = fields.Binary(related="product_id.image_1920", string="Image")
     subtotal_estimate = fields.Monetary(string='Subtotal Estimate Price', compute='get_subtotal_estimate')
+    conversion = fields.Float(string='Konversi')
+    qty_pr = fields.Float(string='Quantity PR')
+    status_po = fields.Many2one('uom.uom', string='Satuan PO')
+
+    @api.onchange('product_id')
+    def onchange_product(self):
+        self.conversion = self.product_id.drum_liter
+        self.status_po = self.product_id.uom_po_id
+
+    @api.onchange('qty_pr')
+    def onchange_qty_pr(self):
+        for line in self :
+            self.product_qty = self.handle_division_zero(line.qty_pr , line.conversion)
+
+    # def _get_hasil_konversi(self):
+    #     for line in self :
+    #         line.hasil_konversi = self.handle_division_zero(line.product_qty , line.conversion)
+
+    def handle_division_zero(self,x,y):
+        try:
+            return x/y
+        except ZeroDivisionError:
+            return 0
 
     @api.depends('product_id')
     def _get_onhand(self):

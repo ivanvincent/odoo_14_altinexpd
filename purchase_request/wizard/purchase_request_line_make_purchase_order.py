@@ -405,6 +405,25 @@ class PurchaseRequestLineMakePurchaseOrderItem(models.TransientModel):
         "wizard in the new PO.",
     )
     lot_id = fields.Many2one('stock.production.lot', string='Lot')
+    conversion = fields.Float(string='Konversi', related='product_id.drum_liter')
+    qty_pr = fields.Float(string='Quantity PR', compute='_get_qty_pr')
+    status_po = fields.Many2one('uom.uom', related='product_id.uom_po_id', string='Satuan PO')
+    outstanding_po = fields.Float(string='Outstanding Po', compute='_compute_outstanding_po')
+
+    # @api.onchange('product_id')
+    # def onchange_product(self):
+    #     self.conversion = self.product_id.drum_liter
+    #     self.status_po = self.product_id.uom_po_id
+
+    def _get_qty_pr(self):
+        for line in self :
+            line.qty_pr = line.product_qty * line.conversion
+
+    # def handle_division_zero(self,x,y):
+    #     try:
+    #         return x/y
+    #     except ZeroDivisionError:
+    #         return 0
 
     @api.onchange("product_id")
     def onchange_product_id(self):
@@ -443,3 +462,8 @@ class PurchaseRequestLineMakePurchaseOrderItem(models.TransientModel):
         action['name'] = "Product from %s" % (self.name)
         action['domain'] = [('partner_id', '=', self.order_id.partner_id.id), ('product_id', '=', self.product_id.id), ('order_id.state', '=', 'done')]
         return action
+
+    @api.depends('product_qty')
+    def _compute_outstanding_po(self):
+        for rec in self:
+            rec.outstanding_po = rec.product_qty 

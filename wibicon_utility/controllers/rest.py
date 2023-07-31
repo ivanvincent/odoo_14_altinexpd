@@ -39,14 +39,17 @@ class Rest(http.Controller):
                 line.append({"no":x+1,
                             "id":ln.id,
                             "product":ln.product_id.name,
-                            "product_qty":ln.product_qty,
-                            "product_uom":ln.product_uom.name,
+                            "qty_pr":ln.product_qty,
+                            "product_uom":ln.product_id.uom_id.name,
                             "price_unit":ln.price_unit,
                             #  "discount":ln.discount,
                             "price_subtotal":ln.price_subtotal,
                             "taxes_id":', '.join(ln.taxes_id.mapped('name')),
                             "qty_onhand": prl_obj.qty_on_hand,
                             #  "amount_tax":order.order_id.amount_tax,
+                            "conversion":ln.conversion,
+                            "hasil_konversi":ln.hasil_konversi,
+                            "status_po":ln.product_id.uom_po_id.name,
                         })
 
             data.append({
