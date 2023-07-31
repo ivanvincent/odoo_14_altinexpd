@@ -66,11 +66,10 @@
                          <field name="state"/>
                          <field name="available_for_pos"/>
                          <field name="lot_parent_name"/>
-                         
+                         <field name="heat_number" />
      		    	</field>
 
 		     </field>
 		</record>
-        
 	</data>
 </odoo>

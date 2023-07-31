@@ -42,6 +42,7 @@ class StockMoveLine(models.Model):
     pcs          = fields.Float(string='Pcs')
     keterangan_wo = fields.Char(string='Ket Wo')
     waste       = fields.Float(string='Waste')
+    heat_number = fields.Char(string='Heat Number')
     
     
             
