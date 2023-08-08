@@ -244,10 +244,10 @@ class PurchaseRequestLine(models.Model):
         self.conversion = self.product_id.drum_liter
         self.status_po = self.product_id.uom_po_id
 
-    @api.onchange('qty_pr')
-    def onchange_qty_pr(self):
-        for line in self :
-            self.product_qty = self.handle_division_zero(line.qty_pr , line.conversion)
+    # @api.onchange('qty_pr')
+    # def onchange_qty_pr(self):
+    #     for line in self :
+    #         self.product_qty = self.handle_division_zero(line.qty_pr , line.conversion)
 
     # def _get_hasil_konversi(self):
     #     for line in self :
