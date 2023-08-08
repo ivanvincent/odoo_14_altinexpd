@@ -246,8 +246,8 @@ class PurchaseRequestLine(models.Model):
 
     @api.onchange('qty_pr')
     def onchange_qty_pr(self):
-        for line in self :
-            self.product_qty = self.handle_division_zero(line.qty_pr , line.conversion)
+        # for line in self :
+        self.product_qty = self.handle_division_zero(self.qty_pr , self.conversion)
 
     # def _get_hasil_konversi(self):
     #     for line in self :
