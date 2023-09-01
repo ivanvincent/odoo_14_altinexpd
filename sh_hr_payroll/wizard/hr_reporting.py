@@ -1860,8 +1860,8 @@ class HrReporting(models.TransientModel):
 
             # # WKS 1
 
-        worksheet.merge_range('B2:E2', report_name , wbf['merge_format'])
-        worksheet.merge_range('B3:E3', 'PERIODE (' + str(self.date_start) + ' - ' + str(self.date_end) + ')' , wbf['merge_format_2'])
+        worksheet.merge_range('A2:AH2', report_name , wbf['merge_format'])
+        worksheet.merge_range('A3:AH3', 'PERIODE (' + str(self.month_selection) + ')' , wbf['merge_format_2'])
 
         row = 6
         worksheet.write('A%s' % (row), 'No', wbf['header'])
@@ -1900,6 +1900,46 @@ class HrReporting(models.TransientModel):
         worksheet.write('AH%s' % (row), 'THP', wbf['header'])
 
         row += 1
+        no = 1 
+            
+        for rec in rslt:
+            worksheet.write('A%s' % (row), no, wbf['content_center'])
+            worksheet.write('B%s' % (row), rec.get('nik', ''), wbf['content_center'])
+            worksheet.write('C%s' % (row), rec.get('name', ''), wbf['content_center'])
+            worksheet.write('D%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_gapok'])), wbf['content_float'])
+            worksheet.write('E%s' % (row), 'Rp.' + '{0:,.2f}'.format(rec['bpjs_kesehatan'] if rec['bpjs_kesehatan'] else 0).replace(',',','), wbf['content_float'])
+            worksheet.write('F%s' % (row), 'Rp.' + '{0:,.2f}'.format(rec['bpjs_tk'] if rec['bpjs_tk'] else 0).replace(',',','), wbf['content_float'])
+            worksheet.write('G%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_ahli'])), wbf['content_float'])
+            worksheet.write('H%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_shift3'])), wbf['content_float'])
+            worksheet.write('I%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_faskes'])), wbf['content_float'])
+            worksheet.write('J%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_lembur'])), wbf['content_float'])
+            worksheet.write('K%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_bonus'])), wbf['content_float'])
+            worksheet.write('L%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_tunjangan'])), wbf['content_float'])
+            worksheet.write('M%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_tpph'])), wbf['content_float'])
+            worksheet.write('N%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_kes'])), wbf['content_float'])
+            worksheet.write('O%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_jkk'])), wbf['content_float'])
+            worksheet.write('P%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_jkm'])), wbf['content_float'])
+            worksheet.write('Q%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_bpjs_perusahaan'])), wbf['content_float'])
+            worksheet.write('R%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_bota'])), wbf['content_float'])
+            worksheet.write('S%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_thr'])), wbf['content_float'])
+            worksheet.write('T%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_ktt'])), wbf['content_float'])
+            worksheet.write('U%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_bruto'])), wbf['content_float'])
+            worksheet.write('V%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_jht2'])), wbf['content_float'])
+            worksheet.write('W%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_jp2'])), wbf['content_float'])
+            worksheet.write('X%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_bpjs_karyawan'])), wbf['content_float'])
+            worksheet.write('Y%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_jabat'])), wbf['content_float'])
+            worksheet.write('Z%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_potong'])), wbf['content_float'])
+            worksheet.write('AA%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_net'])), wbf['content_float'])
+            worksheet.write('AB%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_net_annual'])), wbf['content_float'])
+            worksheet.write('AC%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_ptkp'])), wbf['content_float'])
+            worksheet.write('AD%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_pkp_1'])), wbf['content_float'])
+            worksheet.write('AE%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['pkp_pembulatan'])), wbf['content_float'])
+            worksheet.write('AF%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_pph21_1'])), wbf['content_float'])
+            worksheet.write('AG%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_pph21_2'])), wbf['content_float'])
+            worksheet.write('AH%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_thp'])), wbf['content_float'])
+                
+            no += 1
+            row += 1
             
         # no = 1
         # for rec in rslt:
@@ -1919,7 +1959,7 @@ class HrReporting(models.TransientModel):
 
         filename = '%s %s%s' % (report_name, date_string, '.xlsx')
         workbook.close()
-        out = base64.encodestring(fp.getvalue())
+        out = base64.encodebytes(fp.getvalue())
         self.write({'data': out})
         fp.close()
 
