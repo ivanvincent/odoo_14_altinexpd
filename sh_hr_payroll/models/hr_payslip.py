@@ -164,7 +164,6 @@ class HrPayslip(models.Model):
 
     @api.model
     def get_worked_day_lines(self, contracts, date_from, date_to):
-        print('get_worked_day_lines============yugiiii')
         """
         @param contract: Browse record of contracts
         @return: returns a list of dict containing the input that should be applied for the given contract between date_from and date_to

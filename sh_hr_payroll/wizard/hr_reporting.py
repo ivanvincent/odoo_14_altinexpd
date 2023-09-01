@@ -6,6 +6,11 @@ from odoo.exceptions import UserError
 from datetime import date, datetime, timedelta
 import logging
 logger = logging.getLogger(__name__)
+from io import BytesIO
+import base64
+import xlsxwriter
+from datetime import datetime
+from . import add_workbook_format as awf
 
 
 _STATE =[("bpjs", "Laporan Gaji pada BPJS"),
@@ -35,13 +40,14 @@ class HrReporting(models.TransientModel):
                         ("12","Desember %s" % current_year),
                         ],string='Month Selection')
     job_ids = fields.Many2many('hr.job', string='Access Job', compute='compute_job_ids', compute_sudo=True)
+    data = fields.Binary(string='Data')
 
-    def action_generate_pdf(self):
+    def query(self):
         job_ids = str(tuple(self.job_ids.ids)).replace(',)',')')
         if not self.job_ids:
             raise UserError('Mohon maaf anda tidak memiliki akses ..')
         query =f"""
-            SELECT 
+                SELECT 
                 he.name, 
 				he.identification_id as nik,
 				hc.gapok_bpjs_kes as bpjs_kesehatan,
@@ -1766,11 +1772,14 @@ class HrReporting(models.TransientModel):
             GROUP BY he.name, he.identification_id, hc.gapok_bpjs_kes, hc.gapok_bpjs_tk
             """ 
         self._cr.execute(query)
-        record = self._cr.dictfetchall()
+        return self._cr.dictfetchall()
+	
+    def action_generate_pdf(self):
+        record = self.query()
         data = {
-            'me': self,
-            'ids': self.ids,
-            'model': self._name,
+			'me': self,
+			'ids': self.ids,
+			'model': self._name,
             'form': {
                 'date_start': self.date_start,
                 'date_end': self.date_end,
@@ -1780,7 +1789,7 @@ class HrReporting(models.TransientModel):
         }
         if self.report_type == 'bpjs': 
             return self.env.ref('sh_hr_payroll.action_report_salary_bpjs').report_action(None, data=data)
-        else :
+        else:
             return self.env.ref('sh_hr_payroll.action_report_salary_gs').report_action(None, data=data)
 
     @api.depends('report_type')
@@ -1801,6 +1810,128 @@ class HrReporting(models.TransientModel):
         job_ids = rule.domain_force.split(",'in',")[1].replace(")])", "")
         for rec in self:
             rec.job_ids = [(6, 0, list(map(int, job_ids[1:-1].split(','))) if job_ids else [])]
+
+    def action_generate_excel(self):
+        print("action_generate_excel")
+        rslt = self.query()
+        fp = BytesIO()
+        date_string = datetime.now().strftime("%Y-%m-%d")
+        workbook = xlsxwriter.Workbook(fp)
+        wbf, workbook = awf.add_workbook_format(workbook)
+
+            # # WKS 1
+        report_name = 'LAPORAN GAJI KE GITA SARANA'
+        worksheet = workbook.add_worksheet(report_name)        
+            
+        worksheet.set_column('A2:A2', 10)
+        worksheet.set_column('B2:B2', 35)
+        worksheet.set_column('C2:C2', 35)
+        worksheet.set_column('D2:D2', 35)
+        worksheet.set_column('E2:E2', 35)
+        worksheet.set_column('F2:F2', 35)
+        worksheet.set_column('G2:G2', 35)
+        worksheet.set_column('H2:H2', 35)
+        worksheet.set_column('I2:I2', 35)
+        worksheet.set_column('J2:J2', 35)
+        worksheet.set_column('K2:K2', 35)
+        worksheet.set_column('L2:L2', 35)
+        worksheet.set_column('M2:M2', 35)
+        worksheet.set_column('N2:N2', 35)
+        worksheet.set_column('O2:O2', 35)
+        worksheet.set_column('P2:P2', 35)
+        worksheet.set_column('Q2:Q2', 35)
+        worksheet.set_column('R2:R2', 35)
+        worksheet.set_column('S2:S2', 35)
+        worksheet.set_column('T2:T2', 35)
+        worksheet.set_column('U2:U2', 35)
+        worksheet.set_column('V2:V2', 35)
+        worksheet.set_column('W2:W2', 35)
+        worksheet.set_column('X2:X2', 35)
+        worksheet.set_column('Y2:Y2', 35)
+        worksheet.set_column('AA2:AA2', 35)
+        worksheet.set_column('AB2:AB2', 35)
+        worksheet.set_column('AC2:AC2', 35)
+        worksheet.set_column('AD2:AD2', 35)
+        worksheet.set_column('AE2:AE2', 35)
+        worksheet.set_column('AF2:AF2', 35)
+        worksheet.set_column('AG2:AG2', 35)
+        worksheet.set_column('AH2:AH2', 35)
+    
+
+            # # WKS 1
+
+        worksheet.merge_range('B2:E2', report_name , wbf['merge_format'])
+        worksheet.merge_range('B3:E3', 'PERIODE (' + str(self.date_start) + ' - ' + str(self.date_end) + ')' , wbf['merge_format_2'])
+
+        row = 6
+        worksheet.write('A%s' % (row), 'No', wbf['header'])
+        worksheet.write('B%s' % (row), 'NIK', wbf['header'])
+        worksheet.write('C%s' % (row), 'Nama', wbf['header'])
+        worksheet.write('D%s' % (row), 'Gaji Pokok', wbf['header'])
+        worksheet.write('E%s' % (row), 'Gaji Pokok BPJS Kes', wbf['header'])
+        worksheet.write('F%s' % (row), 'Gaji Pokok BPJS TK', wbf['header'])
+        worksheet.write('G%s' % (row), 'Tunjangan Keahlian', wbf['header'])
+        worksheet.write('H%s' % (row), 'Tunjangan Shift 3', wbf['header'])
+        worksheet.write('I%s' % (row), 'Tunjangan Kes Non BPJS', wbf['header'])
+        worksheet.write('J%s' % (row), 'Bonus Proyek', wbf['header'])
+        worksheet.write('K%s' % (row), 'Bonus Bulanan', wbf['header'])
+        worksheet.write('L%s' % (row), 'Total Tjg selain Tjg PPh', wbf['header'])
+        worksheet.write('M%s' % (row), 'Tunjangan PPh 21', wbf['header'])
+        worksheet.write('N%s' % (row), 'BPJS Kes (Perusahaan)', wbf['header'])
+        worksheet.write('O%s' % (row), 'BPJS JKK (Perusahaan)', wbf['header'])
+        worksheet.write('P%s' % (row), 'BPJS JKM (Perusahaan)', wbf['header'])
+        worksheet.write('Q%s' % (row), 'Total BPJS u/ PPh 21', wbf['header'])
+        worksheet.write('R%s' % (row), 'Bonus Tahunan', wbf['header'])
+        worksheet.write('S%s' % (row), 'THR', wbf['header'])
+        worksheet.write('T%s' % (row), 'Total Komponen Tidak Tetap', wbf['header'])
+        worksheet.write('U%s' % (row), 'Penghasilan Bruto', wbf['header'])
+        worksheet.write('V%s' % (row), 'BPJS JHT (Karyawan)', wbf['header'])
+        worksheet.write('W%s' % (row), 'BPJS JP (Karyawan)', wbf['header'])
+        worksheet.write('X%s' % (row), 'Total pot BPJS u/ PPh21', wbf['header'])
+        worksheet.write('Y%s' % (row), 'Biaya Jabatan', wbf['header'])
+        worksheet.write('Z%s' % (row), 'Potongan Resmi lainnya', wbf['header'])
+        worksheet.write('AA%s' % (row), 'Penghasilan Netto', wbf['header'])
+        worksheet.write('AB%s' % (row), 'Penghasilan Netto disetahunkan', wbf['header'])
+        worksheet.write('AC%s' % (row), 'PTKP', wbf['header'])
+        worksheet.write('AD%s' % (row), 'PKP', wbf['header'])
+        worksheet.write('AE%s' % (row), 'PKP Pembulatan', wbf['header'])
+        worksheet.write('AF%s' % (row), 'PPh 21 Terutang', wbf['header'])
+        worksheet.write('AG%s' % (row), 'PPh 21 Dicicil', wbf['header'])
+        worksheet.write('AH%s' % (row), 'THP', wbf['header'])
+
+        row += 1
+            
+        # no = 1
+        # for rec in rslt:
+
+        #     worksheet.write('B%s' % (row), rec.get('name', ''), wbf['content'])
+        #     worksheet.write('C%s' % (row), rec.get('qty', ''), wbf['content_number'])
+        #     worksheet.write('D%s' % (row), rec.get('uom', ''), wbf['content_number'])
+        #     worksheet.write('E%s' % (row), rec.get('rp', ''), wbf['content_number'])
+
+        #     no += 1
+        #     row += 1
+
+        #     worksheet.write('B%s' % (row), '', wbf['header'])
+        #     worksheet.write('C%s' % (row), '', wbf['header'])
+        #     worksheet.write('D%s' % (row), 'TOTAL', wbf['header'])
+        #     worksheet.write('E%s' % (row), '=SUM(E7:E%s)' % str(row-1), wbf['content_number'])
+
+        filename = '%s %s%s' % (report_name, date_string, '.xlsx')
+        workbook.close()
+        out = base64.encodestring(fp.getvalue())
+        self.write({'data': out})
+        fp.close()
+
+
+        url = "web/content/?model=" + self._name + "&id=" + str(self.id) + "&field=data&download=true&filename=" + filename
+        result = {
+			'name': 'LAPORAN GAJI KE GITA SARANA XLSX',
+			'type': 'ir.actions.act_url',
+			'url': url,
+			'target': 'download',
+		}
+        return result
     
 class HrReportingBpjs(models.AbstractModel):
     _name = 'report.sh_hr_payroll.report_salary_bpjs'
