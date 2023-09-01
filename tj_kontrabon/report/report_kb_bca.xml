@@ -42,7 +42,7 @@
                 <t t-if="o.state != 'draft' or o.type_kontra == 'out_invoice'">
                     <div class="page">
 
-                    <h2><div class="text-center"><strong> KONTRA BON - PIUTANG</strong></div></h2>
+                    <h2><div class="text-center"><strong> KONTRA BON - <span t-field="o.type_kontra"/></strong></div></h2>
                     <div class="d-flex">
                         <div class="col-4">
                             <strong>Customer : 
