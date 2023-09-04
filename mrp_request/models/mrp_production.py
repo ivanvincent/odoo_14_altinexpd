@@ -38,7 +38,7 @@ class MrpProduction(models.Model):
     process_terkini     = fields.Many2one('mrp.workcenter', string='Process Terkini')
     parameter_terkini   = fields.Many2one('mrp.parameter', string='Parameter Terkini')
     option_vip      = fields.Selection([("VIP","VIP"),("HIGH RISK","HIGH RISK"), ("BIASA", "BIASA"), ("MAKLOON", "MAKLOON")], string='HighRisk / VIP', ondelete='cascade', 
-    # related='request_id.option_vip', 
+    related='request_id.option_vip', 
     store=True,)
     
     def action_split_workorder(self):
