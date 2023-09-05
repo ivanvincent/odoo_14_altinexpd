@@ -16,7 +16,6 @@
                                 <field name="name"/>
                                 <field name="desc"/>
                                 <field name="price"/>
-                                <field name="type"/>
                             </group>
                         </group>
                     </sheet>
