@@ -17,3 +17,6 @@ from . import tonase
 from . import drawing_internal
 from . import product_order
 from . import cup_depth
+from . import master_die
+from . import master_multipart
+from . import master_monoblock
