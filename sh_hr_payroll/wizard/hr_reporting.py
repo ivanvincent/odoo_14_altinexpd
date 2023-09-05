@@ -1848,6 +1848,7 @@ class HrReporting(models.TransientModel):
         worksheet.set_column('W2:W2', 35)
         worksheet.set_column('X2:X2', 35)
         worksheet.set_column('Y2:Y2', 35)
+        worksheet.set_column('Z2:Z2', 35)
         worksheet.set_column('AA2:AA2', 35)
         worksheet.set_column('AB2:AB2', 35)
         worksheet.set_column('AC2:AC2', 35)
@@ -1901,6 +1902,37 @@ class HrReporting(models.TransientModel):
 
         row += 1
         no = 1 
+        sum_total_gapok = 0
+        sum_bpjs_kesehatan = 0
+        sum_bpjs_tk = 0
+        sum_total_ahli = 0
+        sum_total_shift3 = 0
+        sum_total_faskes = 0
+        sum_total_lembur = 0
+        sum_total_bonus = 0
+        sum_total_tunjangan = 0
+        sum_total_tpph = 0
+        sum_total_kes = 0
+        sum_total_jkk = 0
+        sum_total_jkm = 0
+        sum_total_bpjs_perusahaan = 0
+        sum_total_bota = 0
+        sum_total_thr = 0
+        sum_total_ktt = 0
+        sum_total_bruto = 0
+        sum_total_jht2 = 0
+        sum_total_jp2 = 0
+        sum_total_bpjs_karyawan = 0
+        sum_total_jabat = 0
+        sum_total_potong = 0
+        sum_total_net = 0
+        sum_total_net_annual = 0
+        sum_total_ptkp = 0 
+        sum_total_pkp_1 = 0
+        sum_pkp_pembulatan = 0
+        sum_total_pph21_1 = 0
+        sum_total_pph21_2 = 0
+        sum_total_thp = 0
             
         for rec in rslt:
             worksheet.write('A%s' % (row), no, wbf['content_center'])
@@ -1937,25 +1969,75 @@ class HrReporting(models.TransientModel):
             worksheet.write('AF%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_pph21_1'])), wbf['content_float'])
             worksheet.write('AG%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_pph21_2'])), wbf['content_float'])
             worksheet.write('AH%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['total_thp'])), wbf['content_float'])
-                
+			
+            sum_total_gapok += float(rec['total_gapok'])
+            sum_bpjs_kesehatan += float(rec['bpjs_kesehatan'] if rec['bpjs_kesehatan'] else 0)
+            sum_bpjs_tk += float(rec['bpjs_tk'] if rec['bpjs_tk'] else 0)
+            sum_total_ahli += float(rec['total_ahli'])
+            sum_total_shift3 += float(rec['total_shift3'])
+            sum_total_faskes += float(rec['total_faskes'])
+            sum_total_lembur += float(rec['total_lembur'])
+            sum_total_bonus += float(rec['total_bonus'])
+            sum_total_tunjangan += float(rec['total_tunjangan'])
+            sum_total_tpph += float(rec['total_tpph'])
+            sum_total_kes += float(rec['total_kes'])
+            sum_total_jkk += float(rec['total_jkk'])
+            sum_total_jkm += float(rec['total_jkm'])
+            sum_total_bpjs_perusahaan += float(rec['total_bpjs_perusahaan'])
+            sum_total_bota += float(rec['total_bota'])
+            sum_total_thr += float(rec['total_thr'])
+            sum_total_ktt += float(rec['total_ktt'])
+            sum_total_bruto += float(rec['total_bruto'])
+            sum_total_jht2 += float(rec['total_jht2'])
+            sum_total_jp2 += float(rec['total_jp2'])
+            sum_total_bpjs_karyawan += float(rec['total_bpjs_karyawan'])
+            sum_total_jabat += float(rec['total_jabat'])
+            sum_total_potong += float(rec['total_potong'])
+            sum_total_net += float(rec['total_net'])
+            sum_total_net_annual += float(rec['total_net_annual'])
+            sum_total_ptkp += float(rec['total_ptkp']) 
+            sum_total_pkp_1 += float(rec['total_pkp_1'])
+            sum_pkp_pembulatan += float(rec['pkp_pembulatan'])
+            sum_total_pph21_1 += float(rec['total_pph21_1'])
+            sum_total_pph21_2 += float(rec['total_pph21_2'])
+            sum_total_thp += float(rec['total_thp'])
+
             no += 1
             row += 1
             
-        # no = 1
-        # for rec in rslt:
-
-        #     worksheet.write('B%s' % (row), rec.get('name', ''), wbf['content'])
-        #     worksheet.write('C%s' % (row), rec.get('qty', ''), wbf['content_number'])
-        #     worksheet.write('D%s' % (row), rec.get('uom', ''), wbf['content_number'])
-        #     worksheet.write('E%s' % (row), rec.get('rp', ''), wbf['content_number'])
-
-        #     no += 1
-        #     row += 1
-
-        #     worksheet.write('B%s' % (row), '', wbf['header'])
-        #     worksheet.write('C%s' % (row), '', wbf['header'])
-        #     worksheet.write('D%s' % (row), 'TOTAL', wbf['header'])
-        #     worksheet.write('E%s' % (row), '=SUM(E7:E%s)' % str(row-1), wbf['content_number'])
+        # TOTAL
+        worksheet.merge_range('A%s:C%s' % (row, row), 'TOTAL', wbf['foot_merge_format'])
+        worksheet.write('D%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_gapok), wbf['total_float'])
+        worksheet.write('E%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_bpjs_kesehatan), wbf['total_float'])
+        worksheet.write('F%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_bpjs_tk), wbf['total_float'])
+        worksheet.write('G%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_ahli), wbf['total_float'])
+        worksheet.write('H%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_shift3), wbf['total_float'])
+        worksheet.write('I%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_faskes), wbf['total_float'])
+        worksheet.write('J%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_lembur), wbf['total_float'])
+        worksheet.write('K%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_bonus), wbf['total_float'])
+        worksheet.write('L%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_tunjangan), wbf['total_float'])
+        worksheet.write('M%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_tpph), wbf['total_float'])
+        worksheet.write('N%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_kes), wbf['total_float'])
+        worksheet.write('O%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_jkk), wbf['total_float'])
+        worksheet.write('P%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_jkm), wbf['total_float'])
+        worksheet.write('Q%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_bpjs_perusahaan), wbf['total_float'])
+        worksheet.write('R%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_bota), wbf['total_float'])
+        worksheet.write('S%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_thr), wbf['total_float'])
+        worksheet.write('T%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_ktt), wbf['total_float'])
+        worksheet.write('U%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_bruto), wbf['total_float'])
+        worksheet.write('V%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_jht2), wbf['total_float'])
+        worksheet.write('W%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_jp2), wbf['total_float'])
+        worksheet.write('X%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_bpjs_karyawan), wbf['total_float'])
+        worksheet.write('Y%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_jabat), wbf['total_float'])
+        worksheet.write('Z%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_potong), wbf['total_float'])
+        worksheet.write('AA%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_net), wbf['total_float'])
+        worksheet.write('AB%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_net_annual), wbf['total_float'])
+        worksheet.write('AC%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_ptkp), wbf['total_float'])
+        worksheet.write('AD%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_pkp_1), wbf['total_float'])
+        worksheet.write('AE%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_pkp_pembulatan), wbf['total_float'])
+        worksheet.write('AF%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_pph21_1), wbf['total_float'])
+        worksheet.write('AG%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_pph21_2), wbf['total_float'])
+        worksheet.write('AH%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_total_thp), wbf['total_float'])
 
         filename = '%s %s%s' % (report_name, date_string, '.xlsx')
         workbook.close()

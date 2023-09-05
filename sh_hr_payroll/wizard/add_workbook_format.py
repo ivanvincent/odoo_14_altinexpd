@@ -160,4 +160,7 @@ def add_workbook_format(workbook):
     wbf['merge_format_border'].set_font_size(12)
     wbf['merge_format_border'].set_border()
 
+    wbf['foot_merge_format'] = workbook.add_format({'bold': 1,   'border': 1, 'align': 'center', 'valign': 'vcenter'})
+    wbf['foot_merge_format'].set_font_size(11)
+    
     return wbf, workbook
