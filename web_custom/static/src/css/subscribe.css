@@ -1,0 +1,226 @@
+.w_other_jobs {
+    margin-left: 20px;
+    margin-top: 10px;
+    min-width: 200px;
+    /* border-radius: 12px; */
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 1px 3px -2px #9098a9;
+    font-size: 16px;
+    transition: all 150ms ease;
+
+}
+
+/* .o_home_portal {
+    height: 100%;
+    overflow: auto;
+    margin-top: 32px;
+    background-image: url('../img/think-logo-big.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 800px 600px;
+} */
+
+input.o_input_img_payment,
+input.o_input_img_identity {
+
+    padding: 12px;
+
+}
+
+/* 
+.o_subscribe_s_main {
+    display: flex;
+    flex: 1;
+    height: 100%;
+    overflow: auto;
+    margin-top: 32px;
+    margin-bottom: 100px;
+    background-image: url('../img/think-logo-big.png');
+    background-repeat: repeat-y;
+    background-position: center;
+    background-size: contain;
+
+    /* background-size: 900px 900px; */
+}
+
+*/ .o_subscribe_wrapper {
+    background: var(--wibicon-card-dark-color);
+    border-radius: var(--wibicon-border-radius);
+}
+
+.o_subscribe_title {
+    padding: 32px;
+    color: var(--wibicon-title-color);
+
+}
+
+
+.o_subscribe_form_head {
+    padding-left: 32px;
+}
+
+.o_subscribe_form_body {
+    padding-left: 32px;
+    padding-right: 32px;
+    padding-bottom: 64px;
+    gap: 12px;
+}
+
+
+input.form-rounded {
+    padding: 18px;
+    border-radius: 8px;
+}
+
+
+.o_username_field {
+    padding-right: 32px;
+}
+
+
+
+.o_firstname,
+.o_lastname {
+    flex: 1;
+    padding-left: 32px;
+}
+
+.o_subscribe_label {
+    color: var(--wibicon-title-color);
+
+
+}
+
+.o_img_profile_wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.o_img_holder {
+    text-align: center;
+    position: relative;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.o_img_holder .o_default_img {
+    height: 100%;
+    width: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: center;
+    object-position: center;
+}
+
+.o_img_holder .o_file_upload_block,
+.o_img_holder .upload-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(90, 92, 105, 0.7);
+    color: #f8f9fc;
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.o_img_holder .o_file_upload_block {
+    cursor: pointer;
+}
+
+.o_img_holder:hover .o_file_upload_block {
+    opacity: 1;
+}
+
+.o_img_holder.uploadInProgress .o_file_upload_block {
+    display: none;
+}
+
+.o_img_holder.uploadInProgress .upload-loader {
+    opacity: 1;
+}
+
+/* Snackbar css */
+.snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 14px;
+    transform: translateX(-50%);
+}
+
+.snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}

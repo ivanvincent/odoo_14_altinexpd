@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="subscribe" name="Subscribe">
+            <t t-call="website.layout">
+                <t t-set="no_footer" t-value="True"/>
+                <div class="o_subscribe_s_main">
+                    <div class="container">
+                        <div class="d-flex flex-column o_subscribe_wrapper">
+                            <h4 class="o_subscribe_title o_subscribe_label">Subscribe</h4>
+                            <form class="needs-validation">
+                                <div class="d-flex flex-row o_subscribe_form_head">
+                                    <div class="o_img_profile_wrapper">
+                                        <div class="o_img_holder">
+                                            <img id="profilePic" class="o_default_img" src="/elearning_controller/static/img/default_user.png"/>
+                                            <label for="newProfilePhoto" class="o_file_upload_block">
+                                                <div class="text-center">
+                                                    <div class="mb-2">
+                                                        <i class="fa fa-camera fa-2x"></i>
+                                                    </div>
+                                                    <div class="text-uppercase">
+                                                        Upload <br />
+                                                Profile Photo
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <Input class="d-none uploadProfileInput" type="file" name="profile_pic" id="newProfilePhoto" accept="image/*"/>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-fill flex-column o_username_field">
+                                        <div class="d-flex flex-column o_firstname">
+                                            <label for="input_firstname" class="o_subscribe_label">First Name</label>
+                                            <input type="text" name="input_firstname" required="true" class="form-control form-rounded o_input_firstname" placeholder="Nama harus sesuai ID dan hanya huruf alfabet yang akan digunakan sebagai user"/>
+                                        </div>
+                                        <div class="d-flex flex-column o_lastname pt8">
+                                            <label for="input_lastname" class="o_subscribe_label">Last Name</label>
+                                            <input type="text" name="input_lastname" required="true" class="form-control form-rounded o_input_lastname" placeholder="Nama harus sesuai ID dan hanya huruf alfabet yang akan digunakan sebagai user"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column o_subscribe_form_body">
+                                    <div class="d-flex flex-column o_email">
+                                        <label for="input_email" class="o_subscribe_label">Email</label>
+                                        <input type="email" name="input_email" required="true" class="form-control form-rounded o_input_email" placeholder="Email akan di pakai untuk aktifasi dan login"/>
+                                    </div>
+                                    <!-- <div class="d-flex flex-column o_id_number">
+                                        <div class="form-row d-flex">
+                                            <div class="col-md-4">
+                                                <label for="input_id_number" class="o_subscribe_label">Id Number</label>
+                                                <input type="number" name="input_id_number" required="true" placeholder="Ktp / Sim / Passport" class="form-control form-rounded o_input_id_number"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="input_address_user" class="o_subscribe_label">Address</label>
+                                                <input type="text" name="input_address_user" required="true" placeholder="Alamat valid pengiriman merchandise" class="form-control form-rounded o_input_address"/>
+                                            </div>
+                                            <div class="col-md-4 h-100">
+                                                <label for="o_input_img_identity" class="o_subscribe_label">Upload Photo</label>
+                                                <input id="o_input_img_identity" type="file" accept="image/*" class="form-control-file s_website_form_input" name="o_input_img_identity" required="true" />
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="d-flex flex-column o_address">
+                                        <label for="input_address_user" class="o_subscribe_label">Address</label>
+                                                <input type="text" name="input_address_user" required="true" placeholder="Masukan alamat valid" class="form-control form-rounded o_input_address"/>
+                                    </div>
+                                    <div class="d-flex flex-column o_phone">
+                                        <label for="input_phone" class="o_subscribe_label">Phone Number</label>
+                                        <input type="number" name="input_phone" required="true" class="form-control form-rounded o_input_phone" placeholder="Masukkan no tlp / telegram yang bisa di hubungi"/>
+                                    </div>
+                                    <label for="form-check" class="col-form-label o_subscribe_label">Gender</label>
+                                    <div class="d-flex flex-row">
+                                        <div class="form-check-inline o_gender">
+                                            <input type="radio" name="gender" value="male" checked="true" class="form-check-input"/>
+                                            <label class="form-check-label o_subscribe_label" for="o_male">
+                                            Male
+                                            </label>
+                                        </div>
+                                        <div class="form-check-inline">
+                                            <input type="radio" name="gender" value="female" class="form-check-input "/>
+                                            <label class="form-check-label o_subscribe_label" for="o_female">
+                                                Female
+                                            </label>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- <div class="d-flex flex-row">
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input"/>
+                                                    <label class="custom-control-label o_subscribe_label" for="customRadioInline1">Male</label>
+                                                </div>
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input"/>
+                                                    <label class="custom-control-label o_subscribe_label" for="customRadioInline2">Female</label>
+                                                </div>
+                                            </div> -->
+
+                                    <label for="selection_job" class="col-form-label o_subscribe_label">Job</label>
+                                    <div class="form-row">
+                                        <div class="d-flex inline-flex align-items-stretch o_job_title_wrapper">
+                                            <label class="select_issues h-100" for="slct">
+                                                <select id="slct" required="" name="selected_job">
+                                                    <option t-attf-name="0">
+                                                        <span>Select Job</span>
+                                                    </option>
+                                                    <option name="pns">
+                                                        <span>PNS</span>
+                                                    </option>
+                                                    <option name="buruh">
+                                                        <span>Karyawan Swasta</span>
+                                                    </option>
+                                                    <option name="wirausaha">
+                                                        <span>Wirausaha</span>
+                                                    </option>
+                                                    <option name="others">
+                                                        <span>Others</span>
+                                                    </option>
+                                                </select>
+                                                <svg class="sprites">
+                                                    <symbol id="select-arrow-down" viewbox="0 0 10 6">
+                                                        <polyline points="1 1 5 5 9 1"></polyline>
+                                                    </symbol>
+                                                </svg>
+                                            </label>
+                                            <input type="text" id="other_jobs" class="w_other_jobs form-control d-none flex-grow-1" placeholder="Fill Your Jobs"/>
+
+                                        </div>
+                                    </div>
+
+
+                                    <!-- <div class="form-row">
+                                        <div class="col-md-4 h-100">
+                                            <label for="o_input_img_payment" class="o_subscribe_label">Upload Bukti Transfer</label>
+                                            <input id="o_input_img_payment" type="file" accept="image/*" class="form-control-file s_website_form_input" name="o_input_img_payment" required="true"/>
+                                        </div>
+                                        <div>
+                                            <img src="/elearning_controller/static/img/bca.png" style="width: 100px; height:25px; margin-top:25px; margin-right:5px;"/>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <h7>Bank&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;: BCA</h7>
+                                            <h7>Acc Name&#160;&#160;&#160;&#160;&#160;&#160;: Sumadi</h7>
+                                            <h7>No Number&#160;&#160;&#160;&#160;: 544-016-9483</h7>
+                                            <h7>Harga Paket&#160;&#160;&#160;: Rp. 15.000.000/ tahun</h7>
+                                        </div>
+                                    </div> -->
+
+
+
+                                    <div class="form-group pt8">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="o_term_checkbox" required="true"/>
+                                            <!-- <label class="form-check-label o_subscribe_label" for="o_term_checkbox">
+                                            </label> -->
+                                            <!-- <u><a data-toggle="modal" data-target="#approvalPdf" class="o_subscribe_label" href="">Agree to terms and conditions</a></u> -->
+                                        </div>
+                                        
+                                    </div>
+                                    
+
+                                    <div id="approvalPdf" class="modal fade" role="dialog">
+                                        <div class="modal-dialog modal-md">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Agree to terms and conditions</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- <object data="your_url_to_pdf" type="application/pdf">
+                                                        <embed src="/elearning_controller/static/pdf/approval.pdf" frameborder="0" width="100%" height="400px" type="application/pdf"/>
+                                                    </object> -->
+                                                    <!-- <t t-call="elearning_controller.template_approval"/> -->
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary o_button_subcribe"><b>Subscribe</b></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>
