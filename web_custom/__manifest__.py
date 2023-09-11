@@ -9,6 +9,7 @@
     """,
     # data files always loaded at installation
     'data': [
+        'security/ir.model.access.csv',
         'views/website_templates.xml',
         'views/subscribe.xml',
         'views/monoblock.xml',

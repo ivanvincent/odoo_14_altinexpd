@@ -33,6 +33,7 @@
                                 <field name="fat_option_id"/>
                                 <field name="hobb_id"/>
                                 <field name="drawing_id"/>
+                                <field name="user_id"/>
                             </group>
                         </group>
                     </sheet>
@@ -61,6 +62,7 @@
                     <field name="fat_option_id"/>
                     <field name="hobb_id"/>
                     <field name="drawing_id"/>
+                    <field name="user_id"/>
                 </tree>
             </field>
         </record>
@@ -71,11 +73,9 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <!-- <menuitem id="quotation_qrf_home" name="Quotation QRF" sequence="50">
-            <menuitem id="monobloc_quotation_menu" name="Monoblock" sequence="1" action="monoblock_action">
-            </menuitem> -->
-
-        <!-- </menuitem> -->
+        <menuitem id="quotation_qrf_home" name="Quotation QRF" sequence="50">
+            <menuitem id="monobloc_quotation_menu" name="Monoblock" sequence="1" action="monoblock_action" />
+        </menuitem>
     
     </data>
     

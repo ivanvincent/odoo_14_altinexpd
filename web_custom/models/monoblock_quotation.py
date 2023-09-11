@@ -18,3 +18,4 @@ class Monoblock(models.Model):
     hobb_id                         = fields.Many2one('hobb', string='Hobb')
     drawing_id                      = fields.Many2one('drawing', string='Drawing')
     keyway_configuration_id         = fields.Many2one('keyway.configuration', string='Keyway Configuration')
+    user_id                         = fields.Many2one('res.users', string='User')
