@@ -21,7 +21,7 @@ from odoo.addons.web.controllers.main import Home
 import logging
 _logger = logging.getLogger(__name__)
 
-class ElearningController(http.Controller):
+class Main(http.Controller):
 
     @http.route('/subscribe',type='http',auth='public',website=True)
     def subscribe(self,*kwargs):
@@ -133,6 +133,7 @@ class ElearningController(http.Controller):
                     'phone':phone_number,
                     'image_1920':img_profile.split(',')[1],
                     'password': '1234',
+                    'action_id': 1457,
                     # 'bukti_transfer_url': proof_of_payments_url + id_photo_filename,
                     # 'identitas_url': photo_id_url + pop_filename,
                     # 'bukti_transfer_binary': bukti_transfer_binary,
@@ -162,3 +163,24 @@ class ElearningController(http.Controller):
             _logger.warning('='*100)
             _logger.warning(err)
             # return {'success':False,'message':err,'data':None, 'code':889}
+    
+    @http.route('/order-monoblock',type='http',auth='public',website=True)
+    def order_monoblock(self,*kwargs):
+        data = {
+            'basics': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['basic.specification'].sudo().search([('type', '=', 'MONOBLOCK')])],
+            'materials': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['material'].sudo().search([('type', '=', 'MONOBLOCK')])],
+            'single_or_multi': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['single.or.multi.tip'].sudo().search([('type', '=', 'MONOBLOCK')])],
+            'dust_cups': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['dust.cup.configuration'].sudo().search([('type', '=', 'MONOBLOCK')])],
+            'keyway_config': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['keyway.configuration'].sudo().search([('type', '=', 'MONOBLOCK')])],
+            'keyway_position': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['keyway.position'].sudo().search([('type', '=', 'MONOBLOCK')])],
+            'head_flats': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['head.flat.extension'].sudo().search([('type', '=', 'MONOBLOCK')])],
+            'heat_treatments': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['heat.treatment'].sudo().search([('type', '=', 'MONOBLOCK')])],
+            'surface_treatments': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['surface.treatment'].sudo().search([('type', '=', 'MONOBLOCK')])],
+            'custom_adjustments': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['custom.adjustment'].sudo().search([('type', '=', 'MONOBLOCK')])],
+            'fat_options': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['fat.option'].sudo().search([('type', '=', 'MONOBLOCK')])],
+            'hobbs': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['hobb'].sudo().search([('type', '=', 'MONOBLOCK')])],
+            'drawings': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['drawing'].sudo().search([('type', '=', 'MONOBLOCK')])],
+
+        }
+        response_content = request.env['ir.ui.view']._render_template('web_custom.monoblock', data)
+        return request.make_response(response_content,headers=[('Content-Type','text/html')])
