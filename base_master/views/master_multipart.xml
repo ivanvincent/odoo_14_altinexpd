@@ -807,7 +807,7 @@
                 action="holder_cap_bore_action"
                 sequence="16"/>
             <menuitem
-                id="custom_adjustment_multipart_action"
+                id="custom_adjustment_multipart_menu"
                 name="Custom Adjustment"
                 action="hobb_action"
                 sequence="17"/>
