@@ -19,6 +19,12 @@
                         <div class="container">
                             <a href="/subscribe" class="btn btn-primary ml-4">Subscribe</a>
                         </div>
+                        <t t-set="is_connected" t-value="not user_id._is_public()"/>
+                        <li t-if="is_connected" t-attf-class="#{_item_class} o_no_autohide_item">
+                            <div class="container">
+                                <a href="/order-monoblock" class="btn btn-primary ml-4">Order Monoblock</a>
+                            </div>
+                        </li>
                     </section>
                 </div>
             </xpath>
