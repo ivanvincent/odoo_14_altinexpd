@@ -11,6 +11,7 @@
     'data': [
         'views/website_templates.xml',
         'views/subscribe.xml',
+        'views/monoblock.xml',
     ],
     # data files containing optionally loaded demonstration data
     'demo': [
