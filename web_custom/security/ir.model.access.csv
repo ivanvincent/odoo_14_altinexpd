@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_model_monoblock,monoblock,model_monoblock,base.group_system,1,1,1,1
+access_model_multipart,multipart,model_multipart,base.group_system,1,1,1,1
+access_model_die,die,model_die,base.group_system,1,1,1,1
