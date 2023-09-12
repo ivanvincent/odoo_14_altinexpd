@@ -14,7 +14,7 @@
         'views/subscribe.xml',
         'views/monoblock.xml',
         'views/monoblock_quotation.xml',
-
+        'views/error.xml',
     ],
     # data files containing optionally loaded demonstration data
     'demo': [

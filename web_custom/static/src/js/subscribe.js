@@ -2,6 +2,8 @@ odoo.define("web_custom.subscribe", function (require) {
   "use strict";
 
   var publicWidget = require("web.public.widget");
+  var core = require('web.core');
+  var session = require('web.session');
 
   publicWidget.registry.ElearningSubscribe = publicWidget.Widget.extend({
     selector: ".o_subscribe_s_main",
@@ -23,7 +25,7 @@ odoo.define("web_custom.subscribe", function (require) {
 
     _onChangeJobTitle: function (ev) {
       console.log("tusttt");
-      let job = $("select#slct :selected").val();
+      let job = $("select#slwebct :selected").val();
       // console.log("on change job title", job);
       if (job === "Others") {
         $("input#other_jobs").removeClass("d-none");
@@ -33,6 +35,7 @@ odoo.define("web_custom.subscribe", function (require) {
     },
 
     _onChangeImageProfile: function (ev) {
+      console.log('_onChangeImageProfile');
       let self = this;
       let triggerInput = this;
       this.imgProfile = null;
@@ -135,6 +138,16 @@ odoo.define("web_custom.subscribe", function (require) {
       // ev.stopPropagation();
       ev.preventDefault();
       let self = this;
+      // first_pw = $("input.first_password").val();
+      // first_confirm_password = $("input.confirm_password").val();
+      // console.log(first_pw);
+      // console.log(first_confirm_password);
+      // if (first_pw != first_confirm_password) {
+      //   $(".o_img_profile_wrapper").append(
+      //     '<div class="snackbar show" role="alert"><i class="fa fa-check-circle text-danger"></i> Password tidak sesuai!</div>'
+      //   );
+      //   return
+      // }
       if (self.imgProfile === undefined){
         $(".o_img_profile_wrapper").append(
           '<div class="snackbar show" role="alert"><i class="fa fa-check-circle text-danger"></i> Profile image must be required!</div>'
@@ -181,7 +194,7 @@ odoo.define("web_custom.subscribe", function (require) {
           console.log(response);
   
           if (response.success) {
-            window.location.href = "/elearning/success" + '?user=' + btoa(firstName + ' ' + lastName);
+            window.location.href = "/page/success" + '?user=' + btoa(firstName + ' ' + lastName);
           } else {
             if (response.code == 889){
               btn.html("Subscribe");
@@ -190,12 +203,12 @@ odoo.define("web_custom.subscribe", function (require) {
                 '<div class="snackbar show" role="alert"><i class="fa fa-check-circle text-danger"></i>'+response.message+'</div>'
               );
             }else{
-              window.location.href = "/elearning/error";
+              window.location.href = "/page/error";
             }
           }
         } catch (error) {
           console.error(error);
-          window.location.href = "/elearning/error";
+          window.location.href = "/page/error";
         }
 
       }

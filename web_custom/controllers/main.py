@@ -227,3 +227,18 @@ class Main(http.Controller):
         except Exception as err:
             _logger.warning('='*100)
             _logger.warning(err)
+
+    @http.route('/page/success',type='http',auth='public',website=True)
+    def success_subscribe(self,**kwargs):
+        print('====success_subscribe===')
+        print(kwargs)
+        if kwargs.get('user'):
+            data = {'name_user': base64.b64decode(kwargs.get('user'))}
+            response_content = request.env['ir.ui.view']._render_template('web_custom.success_subscribe', data)
+            return request.make_response(response_content,headers=[('Content-Type','text/html')])
+    
+    @http.route('/page/error',type='http',auth='public',website=True)
+    def error_subscribe(self,**kwargs):
+        
+        response_content = request.env['ir.ui.view']._render_template('web_custom.error_subscribe')
+        return request.make_response(response_content,headers=[('Content-Type','text/html')])
