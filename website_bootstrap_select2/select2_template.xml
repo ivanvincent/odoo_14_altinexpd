@@ -40,7 +40,7 @@
 <!--                    </span>-->
 <!--                </div>-->
 <!--            </xpath>-->
-        </template>
+        <!-- </template> -->
 
     </data>
 </odoo>
