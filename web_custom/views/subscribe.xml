@@ -61,7 +61,7 @@
                                     </div> -->
                                     <div class="d-flex flex-column o_address">
                                         <label for="input_address_user" class="o_subscribe_label">Address</label>
-                                                <input type="text" name="input_address_user" required="true" placeholder="Masukan alamat valid" class="form-control form-rounded o_input_address"/>
+                                        <input type="text" name="input_address_user" required="true" placeholder="Masukan alamat valid" class="form-control form-rounded o_input_address"/>
                                     </div>
                                     <div class="d-flex flex-column o_phone">
                                         <label for="input_phone" class="o_subscribe_label">Phone Number</label>
@@ -81,8 +81,15 @@
                                                 Female
                                             </label>
                                         </div>
-
                                     </div>
+                                    <!-- <div class="d-flex flex-column o_phone">
+                                        <label for="first_password" class="o_subscribe_label">Password</label>
+                                        <input type="password" name="first_password" required="true" class="form-control form-rounded" />
+                                    </div> -->
+                                    <!-- <div class="d-flex flex-column o_phone">
+                                        <label for="input_phone" class="o_subscribe_label">Confirm Password</label>
+                                        <input type="password" name="new_password" required="true" class="form-control form-rounded o_input_phone" placeholder="Masukkan no tlp / telegram yang bisa di hubungi"/>
+                                    </div> -->
 
                                     <!-- <div class="d-flex flex-row">
                                                 <div class="custom-control custom-radio custom-control-inline">
@@ -95,8 +102,8 @@
                                                 </div>
                                             </div> -->
 
-                                    <label for="selection_job" class="col-form-label o_subscribe_label">Job</label>
-                                    <div class="form-row">
+                                    <!-- <label for="selection_job" class="col-form-label o_subscribe_label">Job</label>
+                                    <div class="form-row" style="margin-top: 0;">
                                         <div class="d-flex inline-flex align-items-stretch o_job_title_wrapper">
                                             <label class="select_issues h-100" for="slct">
                                                 <select id="slct" required="" name="selected_job">
@@ -123,9 +130,8 @@
                                                 </svg>
                                             </label>
                                             <input type="text" id="other_jobs" class="w_other_jobs form-control d-none flex-grow-1" placeholder="Fill Your Jobs"/>
-
                                         </div>
-                                    </div>
+                                    </div> -->
 
 
                                     <!-- <div class="form-row">
@@ -146,15 +152,14 @@
 
 
 
-                                    <div class="form-group pt8">
+                                    <!-- <div class="form-group pt8">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" id="o_term_checkbox" required="true"/>
-                                            <!-- <label class="form-check-label o_subscribe_label" for="o_term_checkbox">
-                                            </label> -->
-                                            <!-- <u><a data-toggle="modal" data-target="#approvalPdf" class="o_subscribe_label" href="">Agree to terms and conditions</a></u> -->
+                                            <label class="form-check-label o_subscribe_label" for="o_term_checkbox">
+                                            </label>
+                                            <u><a data-toggle="modal" data-target="#approvalPdf" class="o_subscribe_label" href="">Agree to terms and conditions</a></u>
                                         </div>
-                                        
-                                    </div>
+                                    </div> -->
                                     
 
                                     <div id="approvalPdf" class="modal fade" role="dialog">

@@ -133,7 +133,7 @@ class Main(http.Controller):
                     'phone':phone_number,
                     'image_1920':img_profile.split(',')[1],
                     'password': '1234',
-                    'action_id': 1457,
+                    # 'action_id': 1457,
                     # 'bukti_transfer_url': proof_of_payments_url + id_photo_filename,
                     # 'identitas_url': photo_id_url + pop_filename,
                     # 'bukti_transfer_binary': bukti_transfer_binary,
@@ -169,6 +169,7 @@ class Main(http.Controller):
         data = {
             'basics': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['basic.specification'].sudo().search([('type', '=', 'MONOBLOCK')])],
             'materials': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['material'].sudo().search([('type', '=', 'MONOBLOCK')])],
+            'tips': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['tip.type'].sudo().search([])],
             'single_or_multi': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['single.or.multi.tip'].sudo().search([('type', '=', 'MONOBLOCK')])],
             'dust_cups': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['dust.cup.configuration'].sudo().search([('type', '=', 'MONOBLOCK')])],
             'keyway_config': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['keyway.configuration'].sudo().search([('type', '=', 'MONOBLOCK')])],
@@ -184,3 +185,45 @@ class Main(http.Controller):
         }
         response_content = request.env['ir.ui.view']._render_template('web_custom.monoblock', data)
         return request.make_response(response_content,headers=[('Content-Type','text/html')])
+
+    @http.route('/confirm-order-monoblock',type='json',auth='user',website=True,cors="*")
+    def prepare_order_monoblock(self,**kwargs):
+        try:
+            basicSpecification =  int(kwargs['data']['basicSpecification']) if 'basicSpecification' in kwargs['data'] else False
+            materials          =  int(kwargs['data']['materials']) if 'materials' in kwargs['data'] else False
+            tips               =  int(kwargs['data']['tips']) if 'tips' in kwargs['data'] else False
+            single_or_multi    =  int(kwargs['data']['single_or_multi']) if 'single_or_multi' in kwargs['data'] else False
+            dust_cups          =  int(kwargs['data']['dust_cups']) if 'dust_cups' in kwargs['data'] else False
+            keyway_config      =  int(kwargs['data']['keyway_config']) if 'keyway_config' in kwargs['data'] else False
+            keyway_position    =  int(kwargs['data']['keyway_position']) if 'keyway_position' in kwargs['data'] else False
+            head_flats         =  int(kwargs['data']['head_flats']) if 'head_flats' in kwargs['data'] else False
+            heat_treatments    =  int(kwargs['data']['heat_treatments']) if 'heat_treatments' in kwargs['data'] else False
+            surface_treatments =  int(kwargs['data']['surface_treatments']) if 'surface_treatments' in kwargs['data'] else False
+            custom_adjustments =  int(kwargs['data']['custom_adjustments']) if 'custom_adjustments' in kwargs['data'] else False
+            fat_options        =  int(kwargs['data']['fat_options']) if 'fat_options' in kwargs['data'] else False
+            hobbs              =  int(kwargs['data']['hobbs']) if 'hobbs' in kwargs['data'] else False
+            drawings           =  int(kwargs['data']['drawings']) if 'drawings' in kwargs['data'] else False
+            print('======kwargs===========', kwargs)
+            print('=========basicSpecification========', basicSpecification)
+
+            monoblock_obj = request.env['monoblock'].create({
+                'basic_specification_id' : basicSpecification,
+                'material_id' : materials,
+                'tip_type_id' : tips,
+                'single_multi_tip_id' : single_or_multi,
+                'dust_cup_configuration_id' : dust_cups,
+                'keyway_position_id' : keyway_position,
+                'head_flat_extension_id' : head_flats,
+                'heat_treatment_id' : heat_treatments,
+                'surface_treatment_id' : surface_treatments,
+                'custom_adjustment_id' : custom_adjustments,
+                'fat_option_id' : fat_options,
+                'hobb_id' : hobbs,
+                'drawing_id' : drawings,
+                'keyway_configuration_id' : keyway_config,
+                'user_id' : request.env.user.id,
+            })
+
+        except Exception as err:
+            _logger.warning('='*100)
+            _logger.warning(err)

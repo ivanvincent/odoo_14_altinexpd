@@ -9,6 +9,7 @@
             </xpath>
             <xpath expr="//script[last()]" position="after">
                 <script type="text/javascript" src="/web_custom/static/src/js/subscribe.js" />
+                <script type="text/javascript" src="/web_custom/static/src/js/order_monoblock.js" />
             </xpath>
         </template>
 
