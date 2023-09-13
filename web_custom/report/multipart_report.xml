@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record model="report.paperformat" id="paperformat_multipart_report">
+            <field name="name">paperformat.receipt.a4</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_right">10</field>
+            <field name="margin_left">10</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="action_multipart_report" model="ir.actions.report">
+                <field name="name">Multipart Quotation Report</field>
+                <field name="model">multipart</field>
+                <field name="report_name">web_custom.multipart_report</field>
+                <field name="report_file">web_custom.multipart_report</field>
+                <field name="print_report_name">'%s' % object.name</field>
+                <field name="binding_model_id" ref="model_multipart"/>
+                <field name="binding_type">report</field>
+                <field name="paperformat_id" eval="paperformat_multipart_report"/>
+            </record>
+
+        <template id="multipart_report">
+            <t t-call="web.html_container"> 
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <!-- <body> -->
+                        <center>
+                            <h3> MULTIPART QUOTATION REPORT </h3>
+                        </center>  
+                                                
+                        <table class="table-condensed" width="100%" style="font-size:18px">
+                            <thead>
+                                <tr>
+                                    <td style="border : 1px solid black" class="text-center">
+                                        <span><strong>Category</strong></span>
+                                    </td>
+                                    <td  style="border : 1px solid black" class="text-center">
+                                        <span><strong>Items</strong></span>
+                                    </td>
+                                    <td  style="border : 1px solid black" class="text-center">
+                                        <span><strong>Price Unit</strong></span>
+                                    </td>
+                                    <td  style="border : 1px solid black" class="text-center">
+                                        <span><strong>Subtotal</strong></span>
+                                    </td>
+                                    <td  style="border : 1px solid black" class="text-center">
+                                        <span><strong>Total</strong></span>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="total_holder_spec" t-value="0"/> 
+                                <t t-set="total_holder_pos" t-value="0"/> 
+                                <t t-set="total_holder_mat" t-value="0"/> 
+                                <t t-set="total_dust_cup" t-value="0"/>
+                                <t t-set="total_kconfig" t-value="0"/>   
+                                <t t-set="total_kposition" t-value="0"/> 
+                                <t t-set="total_head_flat" t-value="0"/> 
+                                <t t-set="total_holder_heat" t-value="0"/>
+                                <t t-set="total_holder_surface" t-value="0"/>
+                                <t t-set="total_tip_shape" t-value="0"/>  
+                                <t t-set="total_tip_pos" t-value="0"/>  
+                                <t t-set="total_tip_mat" t-value="0"/>  
+                                <t t-set="total_tip_heat" t-value="0"/>  
+                                <t t-set="total_tip_surface" t-value="0"/>  
+                                <t t-set="total_holder_cap" t-value="0"/>  
+                                <t t-set="total_holder_cap_bore" t-value="0"/>  
+                                <t t-set="total_holder_cap_surface" t-value="0"/> 
+                                <t t-set="total_custom_adj" t-value="0"/> 
+                                <t t-set="total_fat_option" t-value="0"/> 
+                                <t t-set="total_hobb" t-value="0"/> 
+                                <t t-set="total_drawing" t-value="0"/> 
+                                <t t-set="subtotal_holder_price" t-value="0"/> 
+                                <t t-set="total_holder_price" t-value="0"/>  
+                                <t t-set="subtotal_tip_price" t-value="0"/> 
+                                <t t-set="total_tip_price" t-value="0"/>  
+                                <t t-set="subtotal_holder_cap_price" t-value="0"/> 
+                                <t t-set="total_holder_cap_price" t-value="0"/>  
+                                <t t-set="subtotal_item_price" t-value="0"/> 
+                                <t t-set="total_item_price" t-value="0"/>  
+                                <t t-set="subtotal_price" t-value="0"/> 
+                                <t t-set="total_price" t-value="0"/> 
+                                    <t t-set="total_holder_spec" t-value="total_holder_spec + (doc.holder * doc.price_holder_spec)"/> 
+                                    <t t-set="total_holder_pos" t-value="total_holder_pos + (doc.holder * doc.price_holder_pos)"/> 
+                                    <t t-set="total_holder_mat" t-value="total_holder_mat + (doc.holder * doc.price_holder_mat)"/>  
+                                    <t t-set="total_dust_cup" t-value="total_dust_cup + (doc.holder * doc.price_dust_cup)"/> 
+                                    <t t-set="total_kconfig" t-value="total_kconfig + (doc.holder * doc.price_kconfig)"/>  
+                                    <t t-set="total_kposition" t-value="total_kposition + (doc.holder * doc.price_kposition)"/> 
+                                    <t t-set="total_head_flat" t-value="total_head_flat + (doc.holder * doc.price_head_flat)"/>
+                                    <t t-set="total_holder_heat" t-value="total_holder_heat + (doc.holder * doc.price_holder_heat)"/> 
+                                    <t t-set="total_holder_surface" t-value="total_holder_surface + (doc.holder * doc.price_holder_surface)"/> 
+                                    <t t-set="total_tip_shape" t-value="total_tip_shape + (doc.holder * doc.price_tip_shape)"/> 
+                                    <t t-set="total_tip_pos" t-value="total_tip_pos + (doc.holder * doc.price_tip_pos)"/> 
+                                    <t t-set="total_tip_mat" t-value="total_tip_mat + (doc.holder * doc.price_tip_mat)"/> 
+                                    <t t-set="total_tip_heat" t-value="total_tip_heat + (doc.holder * doc.price_tip_heat)"/> 
+                                    <t t-set="total_tip_surface" t-value="total_tip_surface + (doc.holder * doc.price_tip_surface)"/> 
+                                    <t t-set="total_holder_cap" t-value="total_holder_cap + (doc.holder * doc.price_holder_cap)"/> 
+                                    <t t-set="total_holder_cap_bore" t-value="total_holder_cap_bore + (doc.holder * doc.price_holder_cap_bore)"/> 
+                                    <t t-set="total_holder_cap_surface" t-value="total_holder_cap_surface + (doc.holder * doc.price_holder_cap_surface)"/> 
+                                    <t t-set="total_custom_adj" t-value="total_custom_adj + (doc.holder * doc.price_custom_adj)"/> 
+                                    <t t-set="total_fat_option" t-value="total_fat_option + (doc.holder * doc.price_fat_option)"/> 
+                                    <t t-set="total_hobb" t-value="total_hobb + (doc.holder * doc.price_hobb)"/> 
+                                    <t t-set="total_drawing" t-value="total_drawing + (doc.holder * doc.price_drawing)"/>
+                                    <t t-set="subtotal_holder_price" t-value="subtotal_holder_price + (doc.price_holder_spec + doc.price_holder_pos + doc.price_holder_mat + doc.price_dust_cup + doc.price_kconfig + doc.price_kposition + doc.price_head_flat + doc.price_holder_heat + doc.price_holder_surface)"/> 
+                                    <t t-set="total_holder_price" t-value="total_holder_price + (total_holder_spec + total_holder_pos + total_holder_mat + total_dust_cup + total_kconfig + total_kposition + total_head_flat + total_holder_heat + total_holder_surface)"/>
+                                    <t t-set="subtotal_tip_price" t-value="subtotal_tip_price + (doc.price_tip_shape + doc.price_tip_pos + doc.price_tip_mat + doc.price_tip_heat + doc.price_tip_surface)"/> 
+                                    <t t-set="total_tip_price" t-value="total_tip_price + (total_tip_shape + total_tip_pos + total_tip_mat + total_tip_heat + total_tip_surface)"/>
+                                    <t t-set="subtotal_holder_cap_price" t-value="subtotal_holder_cap_price + (doc.price_holder_cap + doc.price_holder_cap_bore +  doc.price_holder_cap_surface)"/> 
+                                    <t t-set="total_holder_cap_price" t-value="total_holder_cap_price + (total_holder_cap + total_holder_cap_bore + doc.price_holder_cap_surface)"/>
+                                    <t t-set="subtotal_item_price" t-value="subtotal_item_price + (doc.price_custom_adj + doc.price_fat_option + doc.price_hobb + doc.price_drawing)"/> 
+                                    <t t-set="total_item_price" t-value="total_item_price + (total_custom_adj + total_fat_option + total_hobb + total_drawing)"/>
+                                    <t t-set="subtotal_price" t-value="subtotal_price + (doc.price_holder_spec + doc.price_holder_pos + doc.price_holder_mat + doc.price_dust_cup + doc.price_kconfig + doc.price_kposition + doc.price_head_flat + doc.price_holder_heat + doc.price_holder_surface + doc.price_tip_shape + doc.price_tip_pos + doc.price_tip_mat + doc.price_tip_heat + doc.price_tip_surface + doc.price_holder_cap + doc.price_holder_cap_bore +  doc.price_holder_cap_surface + doc.price_custom_adj + doc.price_fat_option + doc.price_hobb + doc.price_drawing)"/> 
+                                    <t t-set="total_price" t-value="total_price + (total_holder_spec + total_holder_pos + total_holder_mat + total_dust_cup + total_kconfig + total_kposition + total_head_flat + total_holder_heat + total_holder_surface + total_tip_shape + total_tip_pos + total_tip_mat + total_tip_heat + total_tip_surface + total_holder_cap + total_holder_cap_bore + doc.price_holder_cap_surface + total_custom_adj + total_fat_option + total_hobb + total_drawing)"/>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Holder Specification</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.holder_specification_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_holder_spec"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_holder_spec"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_holder_spec))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Holder Position</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.holder_position_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_holder_pos"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_holder_pos"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_holder_pos))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Holder Material</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.holder_material_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_holder_mat"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_holder_mat"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_holder_mat))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Dust Cup Configuration</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <span t-field="doc.dust_cup_configuration_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_dust_cup"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_dust_cup"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_dust_cup))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Keyway Configuration</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.keyway_configuration_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_kconfig"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_kconfig"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_kconfig))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Keyway Position</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <span t-field="doc.keyway_position_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_kposition"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_kposition"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_kposition))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Head Flat Extension</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.head_flat_extension_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_head_flat"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_head_flat"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_head_flat))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Holder Heat Treatment</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <span t-field="doc.holder_heat_treatment_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_holder_heat"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_holder_heat"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_holder_heat))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Holder Surface Treatment</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <span t-field="doc.holder_surface_treatment_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_holder_surface"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_holder_surface"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_holder_surface))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid black" class="text-center" >
+                                            <span>HOLDER TOTAL </span>
+                                        </td>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(subtotal_holder_price))"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_holder_price))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Tip Shape</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.tip_shape_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_tip_shape"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_tip_shape"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_tip_shape))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Tip Position</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <span t-field="doc.tip_position_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_tip_pos"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_tip_pos"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_tip_pos))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Tip Material</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.tip_material_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_tip_mat"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_tip_mat"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_tip_mat))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Tip Heat Treatment</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <span t-field="doc.tip_heat_treatment_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_tip_heat"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_tip_heat"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_tip_heat))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Tip Surface Treatment</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <span t-field="doc.tip_surface_treatment_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_holder_surface"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_holder_surface"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_tip_surface))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid black" class="text-center" >
+                                            <span>TIP TOTAL </span>
+                                        </td>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(subtotal_tip_price))"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_tip_price))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Holder Cap</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.holder_cap_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_holder_cap"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_holder_cap"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_holder_cap))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Holder Cap Bore</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <span t-field="doc.holder_cap_bore_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_holder_cap_bore"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_holder_cap_bore"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_holder_cap_bore))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Holder Cap Surface</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <span t-field="doc.holder_cap_surface_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_holder_cap_surface"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_holder_cap_surface"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_holder_cap_bore))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid black" class="text-center" >
+                                            <span>HOLDER CAP TOTAL </span>
+                                        </td>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(subtotal_holder_cap_price))"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_holder_cap_price))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Custom Adjustment</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.custom_adjustment_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_custom_adj"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_custom_adj"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_custom_adj))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>FAT Option</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.fat_option_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_fat_option"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_fat_option"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_fat_option))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Hobb</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <span t-field="doc.hobb_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_hobb"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_hobb"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_hobb))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span>Drawing</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.drawing_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_drawing"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_drawing"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_drawing))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid black" class="text-center" >
+                                            <span>GENERAL ITEM TOTAL</span>
+                                        </td>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(subtotal_item_price))"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_item_price))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(subtotal_price))"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_price))"/>
+                                        </td>
+                                    </tr>
+                            </tbody>
+                            
+                        </table>
+                    <!-- </body> -->
+                </div>
+            </t>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -18,7 +18,10 @@
         'views/multipart_quotation.xml',
         'views/die_quotation.xml',
         'views/die.xml',
-        'views/multipart.xml',
+        'views/multipart.xml',                        
+        'report/monoblock_report.xml',
+        'report/multipart_report.xml',
+        'report/die_report.xml',          
     ],
     # data files containing optionally loaded demonstration data
     'demo': [

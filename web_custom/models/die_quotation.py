@@ -28,6 +28,8 @@ class Die(models.Model):
     price_custom_adj                = fields.Float(related='custom_adjustment_id.price', string='Price')
     price_fat_option                = fields.Float(related='fat_option_id.price', string='Price')
     price_die_setting               = fields.Float(related='die_setting_aligner_id.price', string='Price')
+    die_segment                     = fields.Float('Die/Segment')
+    bore                            = fields.Float('Bore')
 
     @api.depends('subtotal')
     def _compute_subtotal(self):
