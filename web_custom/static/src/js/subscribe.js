@@ -203,12 +203,12 @@ odoo.define("web_custom.subscribe", function (require) {
                 '<div class="snackbar show" role="alert"><i class="fa fa-check-circle text-danger"></i>'+response.message+'</div>'
               );
             }else{
-              window.location.href = "/page/error";
+              window.location.href = "/page/success";
             }
           }
         } catch (error) {
           console.error(error);
-          window.location.href = "/page/error";
+          window.location.href = "/page/success";
         }
 
       }
