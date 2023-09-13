@@ -29,7 +29,7 @@
             </record>
 
         <template id="monoblock_report">
-            <t t-call="web.html_container"> 
+            <t t-call="web.basic_layout"> 
             <t t-foreach="docs" t-as="doc">
                 <div class="page">
                     <!-- <body> -->
@@ -91,10 +91,10 @@
                                     <t t-set="subtotal_price" t-value="subtotal_price + (doc.price_basic + doc.price_material + doc.price_tip_type + doc.price_single_multi + doc.price_dust_cup + doc.price_kposition + doc.price_head_flat + doc.price_kconfig + doc.price_heat_treatment + doc.price_surface + doc.price_custom_adj + doc.price_fat_option + doc.price_hobb + doc.price_drawing)"/> 
                                     <t t-set="total_price" t-value="total_price + (total_basic + total_material + total_tip_type + total_single_multi + total_dust_cup + total_kposition + total_head_flat + total_kconfig + total_heat_treatment + total_surface + total_custom_adj + total_fat_option + total_hobb + total_drawing)"/>
                                     <tr>
-                                        <td style="border : 1px solid black" class="text-center">
+                                        <td style="border : 1px solid black" class="text-left">
                                             <span>Basic Specification</span>
                                         </td>
-                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <td style="border: 1px solid black;" class="text-left">
                                             <span t-field="doc.basic_specification_id.name"/>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
@@ -108,10 +108,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border : 1px solid black" class="text-center">
+                                        <td style="border : 1px solid black" class="text-left">
                                             <span>Material</span>
                                         </td>
-                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <td style="border: 1px solid black;" class="text-left">
                                             <span t-field="doc.material_id.name"/>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
@@ -125,10 +125,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border : 1px solid black" class="text-center">
+                                        <td style="border : 1px solid black" class="text-left">
                                             <span>Tip Type</span>
                                         </td>
-                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <td style="border: 1px solid black;" class="text-left">
                                             <span t-field="doc.tip_type_id.name"/>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
@@ -142,10 +142,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border : 1px solid black" class="text-center">
+                                        <td style="border : 1px solid black" class="text-left">
                                             <span>Single / Multi Tip</span>
                                         </td>
-                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <td style="border: 1px solid black;" class="text-left">
                                         <span t-field="doc.single_multi_tip_id.name"/>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
@@ -159,10 +159,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border : 1px solid black" class="text-center">
+                                        <td style="border : 1px solid black" class="text-left">
                                             <span>Dust Cup Configuration</span>
                                         </td>
-                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <td style="border: 1px solid black;" class="text-left">
                                         <span t-field="doc.dust_cup_configuration_id.name"/>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
@@ -176,10 +176,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border : 1px solid black" class="text-center">
+                                        <td style="border : 1px solid black" class="text-left">
                                             <span>Keyway Configuration</span>
                                         </td>
-                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <td style="border: 1px solid black;" class="text-left">
                                             <span t-field="doc.keyway_configuration_id.name"/>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
@@ -193,10 +193,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border : 1px solid black" class="text-center">
+                                        <td style="border : 1px solid black" class="text-left">
                                             <span>Keyway Position</span>
                                         </td>
-                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <td style="border: 1px solid black;" class="text-left">
                                         <span t-field="doc.keyway_position_id.name"/>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
@@ -210,10 +210,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border : 1px solid black" class="text-center">
+                                        <td style="border : 1px solid black" class="text-left">
                                             <span>Head Flat Extension</span>
                                         </td>
-                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <td style="border: 1px solid black;" class="text-left">
                                             <span t-field="doc.head_flat_extension_id.name"/>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
@@ -227,10 +227,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border : 1px solid black" class="text-center">
+                                        <td style="border : 1px solid black" class="text-left">
                                             <span>Heat Treatment</span>
                                         </td>
-                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <td style="border: 1px solid black;" class="text-left">
                                         <span t-field="doc.heat_treatment_id.name"/>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
@@ -244,10 +244,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border : 1px solid black" class="text-center">
+                                        <td style="border : 1px solid black" class="text-left">
                                             <span>Surface Treatment</span>
                                         </td>
-                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <td style="border: 1px solid black;" class="text-left">
                                         <span t-field="doc.surface_treatment_id.name"/>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
@@ -261,10 +261,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border : 1px solid black" class="text-center">
+                                        <td style="border : 1px solid black" class="text-left">
                                             <span>Custom Adjusment</span>
                                         </td>
-                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <td style="border: 1px solid black;" class="text-left">
                                             <span t-field="doc.custom_adjustment_id.name"/>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
@@ -278,10 +278,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border : 1px solid black" class="text-center">
+                                        <td style="border : 1px solid black" class="text-left">
                                             <span>FAT Option</span>
                                         </td>
-                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <td style="border: 1px solid black;" class="text-left">
                                             <span t-field="doc.fat_option_id.name"/>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
@@ -295,10 +295,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border : 1px solid black" class="text-center">
+                                        <td style="border : 1px solid black" class="text-left">
                                             <span>Hobb</span>
                                         </td>
-                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <td style="border: 1px solid black;" class="text-left">
                                         <span t-field="doc.hobb_id.name"/>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
@@ -312,10 +312,10 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border : 1px solid black" class="text-center">
+                                        <td style="border : 1px solid black" class="text-left">
                                             <span>Drawing</span>
                                         </td>
-                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                        <td style="border: 1px solid black;" class="text-left">
                                             <span t-field="doc.drawing_id.name"/>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
