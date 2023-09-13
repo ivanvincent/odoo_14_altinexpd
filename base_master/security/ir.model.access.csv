@@ -60,6 +60,7 @@ access_bore_type,bore_type,model_bore_type,base.group_system,1,1,1,1
 access_single_or_multi_tip,single_or_multi_tip,model_single_or_multi_tip,base.group_system,1,1,1,1
 access_die_screw,die_screw,model_die_screw,base.group_system,1,1,1,1
 access_optional_tapered_bore,optional_tapered_bore,model_optional_tapered_bore,base.group_system,1,1,1,1
+access_holder_cap_surface_treatment,holder_cap_surface_treatment,model_holder_cap_surface_treatment,base.group_system,1,1,1,1
 access_heat_treatment,heat_treatment,model_heat_treatment,base.group_system,1,1,1,1
 access_surface_treatment,surface_treatment,model_surface_treatment,base.group_system,1,1,1,1
 access_custom_adjustment,custom_adjustment,model_custom_adjustment,base.group_system,1,1,1,1

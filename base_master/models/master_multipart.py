@@ -116,6 +116,13 @@ class HolderCapBore(models.Model):
     desc = fields.Char(string='Desc')
     price = fields.Float(string='Price')
 
+class HolderCapSurfaceTreatment(models.Model):
+    _name = 'holder.cap.surface.treatment'
+
+    name = fields.Char(string='Name')
+    desc = fields.Char(string='Desc')
+    price = fields.Float(string='Price')
+
 class Hobb(models.Model):
     _name = 'hobb'
 

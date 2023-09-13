@@ -622,6 +622,44 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+        <record id="holder_cap_surface_treatment_form" model="ir.ui.view">
+            <field name="name">holder.cap.surface.treatment.form</field>
+            <field name="model">holder.cap.surface.treatment</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="holder_cap_surface_treatment_tree" model="ir.ui.view">
+            <field name="name">holder.cap.surface.treatment.tree</field>
+            <field name="model">holder.cap.surface.treatment</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="holder_cap_surface_treatment_action" model="ir.actions.act_window">
+            <field name="name">holder.cap.surface.treatment</field>
+            <field name="res_model">holder.cap.surface.treatment</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
         <record id="hobb_form" model="ir.ui.view">
             <field name="name">hobb.form</field>
             <field name="model">hobb</field>
@@ -807,25 +845,30 @@
                 action="holder_cap_bore_action"
                 sequence="16"/>
             <menuitem
+                id="holder_cap_surface_treatment_menu"
+                name="Holder Cap Surface Treatment"
+                action="holder_cap_surface_treatment_action"
+                sequence="17"/>
+            <menuitem
                 id="custom_adjustment_multipart_menu"
                 name="Custom Adjustment"
                 action="custom_adjustment_multipart_action"
-                sequence="17"/>
+                sequence="18"/>
             <menuitem
                 id="fat_option_menu"
                 name="Fat Option"
                 action="fat_option_multipart_action"
-                sequence="18"/>
+                sequence="19"/>
             <menuitem
                 id="hobb_menu"
                 name="Hobb"
                 action="hobb_action"
-                sequence="19"/>
+                sequence="20"/>
             <menuitem
                 id="drawing_menu"
                 name="Drawing"
                 action="drawing_action"
-                sequence="19"/>
+                sequence="21"/>
         </menuitem>
     
     </data>
