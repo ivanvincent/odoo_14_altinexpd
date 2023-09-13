@@ -24,7 +24,7 @@
                                     <field name="material_id" style="width: 49%" />
                                     <field name="price_material" style="width: 49%" />
                                 </div>
-                                <label for="bore_type_id" string="Tip Type"/>
+                                <label for="bore_type_id" string="Bore Type"/>
                                 <div class="d-flex">
                                     <field name="bore_type_id" style="width: 49%" />
                                     <field name="price_bore_type" style="width: 49%" />
@@ -34,12 +34,12 @@
                                     <field name="single_multi_tip_id" style="width: 49%" />
                                     <field name="price_single_multi" style="width: 49%" />
                                 </div>
-                                <label for="die_screw_id" string="Dust Cup"/>
+                                <label for="die_screw_id" string="Die Screw"/>
                                 <div class="d-flex">
                                     <field name="die_screw_id" style="width: 49%" />
                                     <field name="price_die_screw" style="width: 49%" />
                                 </div>
-                                <label for="optional_tapered_bore_id" string="Keyway Position"/>
+                                <label for="optional_tapered_bore_id" string="Optional Tapered Bore"/>
                                 <div class="d-flex">
                                     <field name="optional_tapered_bore_id" style="width: 49%" />
                                     <field name="price_optional_tapered" style="width: 49%" />
@@ -66,7 +66,7 @@
                                     <field name="fat_option_id" style="width: 49%" />
                                     <field name="price_fat_option" style="width: 49%" />
                                 </div>
-                                <label for="die_setting_aligner_id" string="Hobb"/>
+                                <label for="die_setting_aligner_id" string="Die Setting Aligener"/>
                                 <div class="d-flex">
                                     <field name="die_setting_aligner_id" style="width: 49%" />
                                     <field name="price_die_setting" style="width: 49%" />
