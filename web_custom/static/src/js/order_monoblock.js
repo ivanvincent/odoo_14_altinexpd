@@ -3,7 +3,7 @@ odoo.define("web_custom.order_monoblock", function (require) {
   
     var publicWidget = require("web.public.widget");
   
-    publicWidget.registry.ElearningSubscribe = publicWidget.Widget.extend({
+    publicWidget.registry.OrderMonoblock = publicWidget.Widget.extend({
       selector: ".o_order_monoblock_main",
       events: {
         submit: "_onSubmit",
