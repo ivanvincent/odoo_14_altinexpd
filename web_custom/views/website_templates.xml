@@ -10,6 +10,7 @@
             <xpath expr="//script[last()]" position="after">
                 <script type="text/javascript" src="/web_custom/static/src/js/subscribe.js" />
                 <script type="text/javascript" src="/web_custom/static/src/js/order_monoblock.js" />
+                <script type="text/javascript" src="/web_custom/static/src/js/order_die.js" />
             </xpath>
         </template>
 
@@ -26,6 +27,9 @@
                         <li t-if="is_connected" t-attf-class="#{_item_class} o_no_autohide_item">
                             <div class="container">
                                 <a href="/order-monoblock" class="btn btn-primary ml-4">Order Monoblock</a>
+                            </div>
+                            <div class="container">
+                                <a href="/order-die" class="btn btn-primary ml-4">Order Die</a>
                             </div>
                         </li>
                     </section>

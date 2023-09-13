@@ -186,6 +186,25 @@ class Main(http.Controller):
         response_content = request.env['ir.ui.view']._render_template('web_custom.monoblock', data)
         return request.make_response(response_content,headers=[('Content-Type','text/html')])
 
+    @http.route('/order-die',type='http',auth='public',website=True)
+    def order_die(self,*kwargs):
+        data = {
+            'basics': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['basic.specification'].sudo().search([('type', '=', 'DIE')])],
+            'materials': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['material'].sudo().search([('type', '=', 'DIE')])],
+            'bores': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['bore.type'].sudo().search([])],
+            'single_or_multi': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['single.or.multi.tip'].sudo().search([('type', '=', 'DIE')])],
+            'die_screws': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['die.screw'].sudo().search([])],
+            'optional_tapered_bores': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['optional.tapered.bore'].sudo().search([])],
+            'heat_treatments': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['heat.treatment'].sudo().search([('type', '=', 'DIE')])],
+            'surface_treatments': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['surface.treatment'].sudo().search([('type', '=', 'DIE')])],
+            'custom_adjustments': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['custom.adjustment'].sudo().search([('type', '=', 'DIE')])],
+            'fat_options': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['fat.option'].sudo().search([('type', '=', 'DIE')])],
+            'die_setting_aligners': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['die.setting.aligner'].sudo().search([])],
+
+        }
+        response_content = request.env['ir.ui.view']._render_template('web_custom.die', data)
+        return request.make_response(response_content,headers=[('Content-Type','text/html')])
+
     @http.route('/confirm-order-monoblock',type='json',auth='user',website=True,cors="*")
     def prepare_order_monoblock(self,**kwargs):
         try:
@@ -203,8 +222,6 @@ class Main(http.Controller):
             fat_options        =  int(kwargs['data']['fat_options']) if 'fat_options' in kwargs['data'] else False
             hobbs              =  int(kwargs['data']['hobbs']) if 'hobbs' in kwargs['data'] else False
             drawings           =  int(kwargs['data']['drawings']) if 'drawings' in kwargs['data'] else False
-            print('======kwargs===========', kwargs)
-            print('=========basicSpecification========', basicSpecification)
 
             monoblock_obj = request.env['monoblock'].sudo().create({
                 'basic_specification_id' : basicSpecification,
@@ -221,6 +238,40 @@ class Main(http.Controller):
                 'hobb_id' : hobbs,
                 'drawing_id' : drawings,
                 'keyway_configuration_id' : keyway_config,
+                'user_id' : request.env.user.id,
+            })
+
+        except Exception as err:
+            _logger.warning('='*100)
+            _logger.warning(err)
+
+    @http.route('/confirm-die',type='json',auth='user',website=True,cors="*")
+    def prepare_order_die(self,**kwargs):
+        try:
+            basics = int(kwargs['data']['basics']) if 'basics' in kwargs['data'] else False
+            materials = int(kwargs['data']['materials']) if 'materials' in kwargs['data'] else False
+            bores = int(kwargs['data']['bores']) if 'bores' in kwargs['data'] else False
+            single_or_multi = int(kwargs['data']['single_or_multi']) if 'single_or_multi' in kwargs['data'] else False
+            die_screws = int(kwargs['data']['die_screws']) if 'die_screws' in kwargs['data'] else False
+            optional_tapered_bores = int(kwargs['data']['optional_tapered_bores']) if 'optional_tapered_bores' in kwargs['data'] else False
+            heat_treatments = int(kwargs['data']['heat_treatments']) if 'heat_treatments' in kwargs['data'] else False
+            surface_treatments = int(kwargs['data']['surface_treatments']) if 'surface_treatments' in kwargs['data'] else False
+            custom_adjustments = int(kwargs['data']['custom_adjustments']) if 'custom_adjustments' in kwargs['data'] else False
+            fat_options = int(kwargs['data']['fat_options']) if 'fat_options' in kwargs['data'] else False
+            die_setting_aligners = int(kwargs['data']['die_setting_aligners']) if 'die_setting_aligners' in kwargs['data'] else False
+
+            die = request.env['die'].sudo().create({
+                'basic_specification_id' : basics,
+                'material_id' : materials,
+                'bore_type_id' : bores,
+                'single_multi_tip_id' : single_or_multi,
+                'die_screw_id' : die_screws,
+                'optional_tapered_bore_id' : optional_tapered_bores,
+                'heat_treatment_id' : heat_treatments,
+                'surface_treatment_id' : surface_treatments,
+                'custom_adjustment_id' : custom_adjustments,
+                'fat_option_id' : fat_options,
+                'die_setting_aligner_id' : die_setting_aligners,
                 'user_id' : request.env.user.id,
             })
 
