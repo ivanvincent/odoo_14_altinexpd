@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="multipart_quotation_form" model="ir.ui.view">
+            <field name="name">multipart.form</field>
+            <field name="model">multipart</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <label for="holder_specification_id" string="Holder Specification"/>
+                                <div class="d-flex">
+                                    <field name="holder_specification_id" style="width: 49%" />
+                                    <field name="price_holder_spec" style="width: 49%" />
+                                </div>
+                                <label for="holder_position_id" string="Holder Position"/>
+                                <div class="d-flex">
+                                    <field name="holder_position_id" style="width: 49%" />
+                                    <field name="price_holder_pos" style="width: 49%" />
+                                </div>
+                                <label for="holder_material_id" string="Holder Material"/>
+                                <div class="d-flex">
+                                    <field name="holder_material_id" style="width: 49%" />
+                                    <field name="price_holder_mat" style="width: 49%" />
+                                </div>
+                                <label for="dust_cup_configuration_id" string="Dust Cup"/>
+                                <div class="d-flex">
+                                    <field name="dust_cup_configuration_id" style="width: 49%" />
+                                    <field name="price_dust_cup" style="width: 49%" />
+                                </div>
+                                <label for="keyway_configuration_id" string="Keyway Configuration"/>
+                                <div class="d-flex">
+                                    <field name="keyway_configuration_id" style="width: 49%" />
+                                    <field name="price_kconfig" style="width: 49%" />
+                                </div>
+                                <label for="keyway_position_id" string="Keyway Position"/>
+                                <div class="d-flex">
+                                    <field name="keyway_position_id" style="width: 49%" />
+                                    <field name="price_kposition" style="width: 49%" />
+                                </div>
+                                <label for="head_flat_extension_id" string="Head Flat Extension"/>
+                                <div class="d-flex">
+                                    <field name="head_flat_extension_id" style="width: 49%" />
+                                    <field name="price_head_flat" style="width: 49%" />
+                                </div>
+                                <label for="holder_heat_treatment_id" string="Holder Heat Treatment"/>
+                                <div class="d-flex">
+                                    <field name="holder_heat_treatment_id" style="width: 49%" />
+                                    <field name="price_holder_heat" style="width: 49%" />
+                                </div>
+                                <label for="holder_surface_treatment_id" string="Holder Surface Treatment"/>
+                                <div class="d-flex">
+                                    <field name="holder_surface_treatment_id" style="width: 49%" />
+                                    <field name="price_holder_surface" style="width: 49%" />
+                                </div>
+                                <label for="tip_shape_id" string="Tip Shape"/>
+                                <div class="d-flex">
+                                    <field name="tip_shape_id" style="width: 49%" />
+                                    <field name="price_tip_shape" style="width: 49%" />
+                                </div>
+                                <label for="tip_position_id" string="Tip Position"/>
+                                <div class="d-flex">
+                                    <field name="tip_position_id" style="width: 49%" />
+                                    <field name="price_tip_pos" style="width: 49%" />
+                                </div>
+                            </group>
+                            <group>
+                                <label for="tip_material_id" string="Tip Material"/>
+                                <div class="d-flex">
+                                    <field name="tip_material_id" style="width: 49%" />
+                                    <field name="price_tip_mat" style="width: 49%" />
+                                </div>
+                                <label for="tip_heat_treatment_id" string="Tip Heat Treatment"/>
+                                <div class="d-flex">
+                                    <field name="tip_heat_treatment_id" style="width: 49%" />
+                                    <field name="price_tip_heat" style="width: 49%" />
+                                </div>
+                                <label for="tip_surface_treatment_id" string="Tip Surface Treatment"/>
+                                <div class="d-flex">
+                                    <field name="tip_surface_treatment_id" style="width: 49%" />
+                                    <field name="price_tip_surface" style="width: 49%" />
+                                </div>
+                                <label for="holder_cap_id" string="Holder Cap"/>
+                                <div class="d-flex">
+                                    <field name="holder_cap_id" style="width: 49%" />
+                                    <field name="price_holder_cap" style="width: 49%" />
+                                </div>
+                                <label for="holder_cap_bore_id" string="Holder Cap Bore"/>
+                                <div class="d-flex">
+                                    <field name="holder_cap_bore_id" style="width: 49%" />
+                                    <field name="price_holder_cap_bore" style="width: 49%" />
+                                </div>
+                                <!-- <label for="holder_cap_surface_id" string="Holder Cap Surface"/>
+                                <div class="d-flex">
+                                    <field name="holder_cap_surface_id" style="width: 49%" />
+                                    <field name="price_holder_cap_surface" style="width: 49%" />
+                                </div> -->
+                                <label for="custom_adjustment_id" string="Custom Adjustment"/>
+                                <div class="d-flex">
+                                    <field name="custom_adjustment_id" style="width: 49%" />
+                                    <field name="price_custom_adj" style="width: 49%" />
+                                </div>
+                                <label for="fat_option_id" string="Fat Option"/>
+                                <div class="d-flex">
+                                    <field name="fat_option_id" style="width: 49%" />
+                                    <field name="price_fat_option" style="width: 49%" />
+                                </div>
+                                <label for="hobb_id" string="Hobb"/>
+                                <div class="d-flex">
+                                    <field name="hobb_id" style="width: 49%" />
+                                    <field name="price_hobb" style="width: 49%" />
+                                </div>
+                                <label for="drawing_id" string="Drawing"/>
+                                <div class="d-flex">
+                                    <field name="drawing_id" style="width: 49%" />
+                                    <field name="price_drawing" style="width: 49%" />
+                                </div>
+                                <field name="user_id"/>
+                            </group>
+                            <group class="oe_subtotal_footer oe_right">
+                                <!-- <field name="currency_id" invisible="1"/> -->
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="subtotal"/>
+                                </div>
+                                <field name="subtotal" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="multipart_quotation_tree" model="ir.ui.view">
+            <field name="name">multipart.tree</field>
+            <field name="model">multipart</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="holder_specification_id"/>
+                    <field name="holder_position_id"/>
+                    <field name="holder_material_id"/>
+                    <field name="dust_cup_configuration_id"/>
+                    <field name="holder_surface_treatment_id"/>
+                    <field name="keyway_position_id"/>
+                    <field name="head_flat_extension_id"/>
+                    <field name="keyway_configuration_id"/>
+                    <field name="head_flat_extension_id"/>
+                    <field name="tip_material_id"/>
+                    <!-- <field name="surface_treatment_id"/> -->
+                    <field name="custom_adjustment_id"/>
+                    <field name="fat_option_id"/>
+                    <field name="hobb_id"/>
+                    <field name="drawing_id"/>
+                    <field name="user_id"/>
+                    <field name="subtotal"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="multipart_action" model="ir.actions.act_window">
+            <field name="name">Multipart</field>
+            <field name="res_model">multipart</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="multipart_quotation_menu" name="Multipart" sequence="2" action="multipart_action" parent='quotation_qrf_home'/>
+    
+    </data>
+    
+
+</odoo>

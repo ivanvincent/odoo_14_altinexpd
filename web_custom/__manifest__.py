@@ -15,6 +15,8 @@
         'views/monoblock.xml',
         'views/monoblock_quotation.xml',
         'views/error.xml',
+        'views/multipart_quotation.xml',
+        'views/die_quotation.xml',
     ],
     # data files containing optionally loaded demonstration data
     'demo': [
