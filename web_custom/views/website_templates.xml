@@ -9,7 +9,7 @@
             </xpath>
             <xpath expr="//script[last()]" position="after">
                 <script type="text/javascript" src="/web_custom/static/src/js/subscribe.js" />
-                <!-- <script type="text/javascript" src="/web_custom/static/src/js/order_monoblock.js" /> -->
+                <script type="text/javascript" src="/web_custom/static/src/js/order_monoblock.js" />
             </xpath>
         </template>
 
@@ -18,11 +18,11 @@
                 <div class="oe_structure oe_structure_solo" id="oe_structure_header_default_1">
                     <section class="s_text_block" data-snippet="s_text_block" data-name="Text">
                         <t t-set="is_connected" t-value="not user_id._is_public()"/>
-                        <!-- <li t-if="not is_connected" t-attf-class="#{_item_class} o_no_autohide_item"> -->
+                        <li t-if="not is_connected" t-attf-class="#{_item_class} o_no_autohide_item">
                             <div class="container">
                                 <a href="/subscribe" class="btn btn-primary ml-4">Subscribe</a>
                             </div>
-                        <!-- </li> -->
+                        </li>
                         <li t-if="is_connected" t-attf-class="#{_item_class} o_no_autohide_item">
                             <div class="container">
                                 <a href="/order-monoblock" class="btn btn-primary ml-4">Order Monoblock</a>
