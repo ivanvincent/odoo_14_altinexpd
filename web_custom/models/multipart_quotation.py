@@ -20,7 +20,7 @@ class Multipart(models.Model):
     tip_surface_treatment_id        = fields.Many2one('tip.surface.treatment', string='Tip Surface Treatment')
     holder_cap_id                   = fields.Many2one('holder.cap', string='Holder Cap')
     holder_cap_bore_id              = fields.Many2one('holder.cap.bore', string='Holder Cap Bore')
-    # holder_cap_surface_id           = fields.Many2one('holder.cap.surface.treatment', string='Holder Cap Surface Treatment')
+    holder_cap_surface_id           = fields.Many2one('holder.cap.surface.treatment', string='Holder Cap Surface Treatment')
     custom_adjustment_id            = fields.Many2one('custom.adjustment', string='Custom Adjustment')
     fat_option_id                   = fields.Many2one('fat.option', string='Fat Option')
     hobb_id                         = fields.Many2one('hobb', string='Hobb')

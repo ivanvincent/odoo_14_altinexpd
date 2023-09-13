@@ -169,7 +169,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem id="multipart_quotation_menu" name="Multipart" sequence="2" action="multipart_action" parent='quotation_qrf_home'/>
+        <menuitem id="multipart_quotation_menu" name="Quotation Request Form Multipart" sequence="2" action="multipart_action" parent='quotation_qrf_home'/>
     
     </data>
     

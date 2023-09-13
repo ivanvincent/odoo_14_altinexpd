@@ -205,6 +205,35 @@ class Main(http.Controller):
         response_content = request.env['ir.ui.view']._render_template('web_custom.die', data)
         return request.make_response(response_content,headers=[('Content-Type','text/html')])
 
+    @http.route('/order-multipart',type='http',auth='public',website=True)
+    def order_die(self,*kwargs):
+        data = {
+            'holder_specifications': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['holder.specification'].sudo().search([])],
+            'holder_positions': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['holder.position'].sudo().search([])],
+            'holder_materials': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['holder.material'].sudo().search([])],
+            'dust_cup_configurations': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['dust.cup.configuration'].sudo().search([])],
+            'keyway_configurations': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['keyway.configuration'].sudo().search([])],
+            'keyway_positions': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['keyway.position'].sudo().search([])],
+            'head_flat_extensions': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['head.flat.extension'].sudo().search([])],
+            'holder_heat_treatments': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['holder.heat.treatment'].sudo().search([])],
+            'holder_surface_treatments': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['holder.surface.treatment'].sudo().search([])],
+            'tip_shapes': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['tip.shape'].sudo().search([])],
+            'tip_positions': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['tip.position'].sudo().search([])],
+            'tip_materials': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['tip.material'].sudo().search([])],
+            'tip_heat_treatments': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['tip.heat.treatment'].sudo().search([])],
+            'tip_surface_treatments': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['tip.surface.treatment'].sudo().search([])],
+            'holder_caps': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['holder.cap'].sudo().search([])],
+            'holder_cap_bores': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['holder.cap.bore'].sudo().search([])],
+            'holder_cap_surface_treatments': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['holder.cap.surface.treatment'].sudo().search([])],
+            'custom_adjustments': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['custom.adjustment'].sudo().search([])],
+            'fat_options': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['fat.option'].sudo().search([('type', '=', 'MULTIPART')])],
+            'hobbs': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['hobb'].sudo().search([('type', '=', 'MULTIPART')])],
+            'drawings': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['drawing'].sudo().search([])],
+
+        }
+        response_content = request.env['ir.ui.view']._render_template('web_custom.multipart', data)
+        return request.make_response(response_content,headers=[('Content-Type','text/html')])
+
     @http.route('/confirm-order-monoblock',type='json',auth='user',website=True,cors="*")
     def prepare_order_monoblock(self,**kwargs):
         try:
@@ -272,6 +301,59 @@ class Main(http.Controller):
                 'custom_adjustment_id' : custom_adjustments,
                 'fat_option_id' : fat_options,
                 'die_setting_aligner_id' : die_setting_aligners,
+                'user_id' : request.env.user.id,
+            })
+        except Exception as err:
+            _logger.warning('='*100)
+            _logger.warning(err)
+    
+    @http.route('/confirm-multipart',type='json',auth='user',website=True,cors="*")
+    def prepare_order_multipart(self,**kwargs):
+        try:
+            holder_specification_id = int(kwargs['data']['holder_specifications']) if 'holder_specifications' in kwargs['data'] else False
+            holder_position_id = int(kwargs['data']['holder_positions']) if 'holder_positions' in kwargs['data'] else False
+            holder_material_id = int(kwargs['data']['holder_materials']) if 'holder_materials' in kwargs['data'] else False
+            dust_cup_configuration_id = int(kwargs['data']['dust_cup_configurations']) if 'dust_cup_configurations' in kwargs['data'] else False
+            keyway_configuration_id = int(kwargs['data']['keyway_configurations']) if 'keyway_configurations' in kwargs['data'] else False
+            keyway_position_id = int(kwargs['data']['keyway_positions']) if 'keyway_positions' in kwargs['data'] else False
+            head_flat_extension_id = int(kwargs['data']['head_flat_extensions']) if 'head_flat_extensions' in kwargs['data'] else False
+            holder_heat_treatment_id = int(kwargs['data']['holder_heat_treatments']) if 'holder_heat_treatments' in kwargs['data'] else False
+            holder_surface_treatment_id = int(kwargs['data']['holder_surface_treatments']) if 'holder_surface_treatments' in kwargs['data'] else False
+            tip_shape_id = int(kwargs['data']['tip_shapes']) if 'tip_shapes' in kwargs['data'] else False
+            tip_position_id = int(kwargs['data']['tip_positions']) if 'tip_positions' in kwargs['data'] else False
+            tip_material_id = int(kwargs['data']['tip_materials']) if 'tip_materials' in kwargs['data'] else False
+            tip_heat_treatment_id = int(kwargs['data']['tip_heat_treatments']) if 'tip_heat_treatments' in kwargs['data'] else False
+            tip_surface_treatment_id = int(kwargs['data']['tip_surface_treatments']) if 'tip_surface_treatments' in kwargs['data'] else False
+            holder_cap_id = int(kwargs['data']['holder_caps']) if 'holder_caps' in kwargs['data'] else False
+            holder_cap_bore_id = int(kwargs['data']['holder_cap_bores']) if 'holder_cap_bores' in kwargs['data'] else False
+            holder_cap_surface_id = int(kwargs['data']['holder_cap_surface_treatments']) if 'holder_cap_surface_treatments' in kwargs['data'] else False
+            custom_adjustment_id = int(kwargs['data']['custom_adjustments']) if 'custom_adjustments' in kwargs['data'] else False
+            fat_option_id = int(kwargs['data']['fat_options']) if 'fat_options' in kwargs['data'] else False
+            hobb_id = int(kwargs['data']['hobbs']) if 'hobbs' in kwargs['data'] else False
+            drawing_id = int(kwargs['data']['drawings']) if 'drawings' in kwargs['data'] else False
+
+            multipart = request.env['multipart'].sudo().create({
+                'holder_specification_id' : holder_specification_id,
+                'holder_position_id' : holder_position_id,
+                'holder_material_id' : holder_material_id,
+                'dust_cup_configuration_id' : dust_cup_configuration_id,
+                'keyway_configuration_id' : keyway_configuration_id,
+                'keyway_position_id' : keyway_position_id,
+                'head_flat_extension_id' : head_flat_extension_id,
+                'holder_heat_treatment_id' : holder_heat_treatment_id,
+                'holder_surface_treatment_id' : holder_surface_treatment_id,
+                'tip_shape_id' : tip_shape_id,
+                'tip_position_id' : tip_position_id,
+                'tip_material_id' : tip_material_id,
+                'tip_heat_treatment_id' : tip_heat_treatment_id,
+                'tip_surface_treatment_id' : tip_surface_treatment_id,
+                'holder_cap_id' : holder_cap_id,
+                'holder_cap_bore_id' : holder_cap_bore_id,
+                'holder_cap_surface_id' : holder_cap_surface_id,
+                'custom_adjustment_id' : custom_adjustment_id,
+                'fat_option_id' : fat_option_id,
+                'hobb_id' : hobb_id,
+                'drawing_id' : drawing_id,
                 'user_id' : request.env.user.id,
             })
 

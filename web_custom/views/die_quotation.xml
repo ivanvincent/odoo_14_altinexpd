@@ -115,7 +115,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem id="die_quotation_menu" name="Die" sequence="3" action="die_action" parent="quotation_qrf_home"/>
+        <menuitem id="die_quotation_menu" name="Quotation Request Form Die" sequence="3" action="die_action" parent="quotation_qrf_home"/>
     
     </data>
     

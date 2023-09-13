@@ -135,7 +135,7 @@
         </record>
 
         <menuitem id="quotation_qrf_home" name="Quotation QRF" sequence="50">
-            <menuitem id="monobloc_quotation_menu" name="Monoblock" sequence="1" action="monoblock_action" />
+            <menuitem id="monobloc_quotation_menu" name="Quotation Request Form Monoblock" sequence="1" action="monoblock_action" />
         </menuitem>
     
     </data>
