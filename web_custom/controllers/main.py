@@ -206,7 +206,7 @@ class Main(http.Controller):
         return request.make_response(response_content,headers=[('Content-Type','text/html')])
 
     @http.route('/order-multipart',type='http',auth='public',website=True)
-    def order_die(self,*kwargs):
+    def order_multipart(self,*kwargs):
         data = {
             'holder_specifications': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['holder.specification'].sudo().search([])],
             'holder_positions': [{'id': b.id, 'val':'%s ( IDR %s )' % (b.name,b.price) } for b in request.env['holder.position'].sudo().search([])],
