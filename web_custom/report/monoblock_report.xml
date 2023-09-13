@@ -333,10 +333,10 @@
                                         <td style="border: 1px solid black;"></td>
                                         <td style="border: 1px solid black;"></td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
-                                            <span t-esc="'{0:,.1f}'.format(float(subtotal_price))"/>
+                                            <b><span t-esc="'{0:,.1f}'.format(float(subtotal_price))"/></b>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
-                                            <span t-esc="'{0:,.1f}'.format(float(total_price))"/>
+                                            <b><span t-esc="'{0:,.1f}'.format(float(total_price))"/></b>
                                         </td>
                                     </tr>
                             </tbody>

@@ -275,15 +275,15 @@
                                     </tr>
                                     <tr>
                                         <td style="border: 1px solid black" class="text-center" >
-                                            <span>HOLDER TOTAL </span>
+                                            <b><span>HOLDER TOTAL </span></b>
                                         </td>
                                         <td style="border: 1px solid black;"></td>
                                         <td style="border: 1px solid black;"></td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
-                                            <span t-esc="'{0:,.1f}'.format(float(subtotal_holder_price))"/>
+                                            <b><span t-esc="'{0:,.1f}'.format(float(subtotal_holder_price))"/></b>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
-                                            <span t-esc="'{0:,.1f}'.format(float(total_holder_price))"/>
+                                            <b><span t-esc="'{0:,.1f}'.format(float(total_holder_price))"/></b>
                                         </td>
                                     </tr>
                                     <tr>
@@ -373,15 +373,15 @@
                                     </tr>
                                     <tr>
                                         <td style="border: 1px solid black" class="text-center" >
-                                            <span>TIP TOTAL </span>
+                                            <b><span>TIP TOTAL </span></b>
                                         </td>
                                         <td style="border: 1px solid black;"></td>
                                         <td style="border: 1px solid black;"></td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
-                                            <span t-esc="'{0:,.1f}'.format(float(subtotal_tip_price))"/>
+                                            <b><span t-esc="'{0:,.1f}'.format(float(subtotal_tip_price))"/></b>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
-                                            <span t-esc="'{0:,.1f}'.format(float(total_tip_price))"/>
+                                            <b><span t-esc="'{0:,.1f}'.format(float(total_tip_price))"/></b>
                                         </td>
                                     </tr>
                                     <tr>
@@ -437,15 +437,15 @@
                                     </tr>
                                     <tr>
                                         <td style="border: 1px solid black" class="text-center" >
-                                            <span>HOLDER CAP TOTAL </span>
+                                            <b><span>HOLDER CAP TOTAL </span></b>
                                         </td>
                                         <td style="border: 1px solid black;"></td>
                                         <td style="border: 1px solid black;"></td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
-                                            <span t-esc="'{0:,.1f}'.format(float(subtotal_holder_cap_price))"/>
+                                            <b><span t-esc="'{0:,.1f}'.format(float(subtotal_holder_cap_price))"/></b>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
-                                            <span t-esc="'{0:,.1f}'.format(float(total_holder_cap_price))"/>
+                                            <b><span t-esc="'{0:,.1f}'.format(float(total_holder_cap_price))"/></b>
                                         </td>
                                     </tr>
                                     <tr>
@@ -518,15 +518,15 @@
                                     </tr>
                                     <tr>
                                         <td style="border: 1px solid black" class="text-center" >
-                                            <span>GENERAL ITEM TOTAL</span>
+                                            <b><span>GENERAL ITEM TOTAL</span></b>
                                         </td>
                                         <td style="border: 1px solid black;"></td>
                                         <td style="border: 1px solid black;"></td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
-                                            <span t-esc="'{0:,.1f}'.format(float(subtotal_item_price))"/>
+                                            <b><span t-esc="'{0:,.1f}'.format(float(subtotal_item_price))"/></b>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
-                                            <span t-esc="'{0:,.1f}'.format(float(total_item_price))"/>
+                                            <b><span t-esc="'{0:,.1f}'.format(float(total_item_price))"/></b>
                                         </td>
                                     </tr>
                                     <tr>
@@ -534,10 +534,10 @@
                                         <td style="border: 1px solid black;"></td>
                                         <td style="border: 1px solid black;"></td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
-                                            <span t-esc="'{0:,.1f}'.format(float(subtotal_price))"/>
+                                            <b><span t-esc="'{0:,.1f}'.format(float(subtotal_price))"/></b>
                                         </td>
                                         <td style="border: 1px solid black;" class="text-right pr-1">
-                                            <span t-esc="'{0:,.1f}'.format(float(total_price))"/>
+                                            <b><span t-esc="'{0:,.1f}'.format(float(total_price))"/></b>
                                         </td>
                                     </tr>
                             </tbody>
