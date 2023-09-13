@@ -91,7 +91,7 @@ odoo.define("web_custom.order_monoblock", function (require) {
     
           } catch (error) {
                 console.error(error);
-                window.location.href = "/elearning/error";
+                window.location.href = "/elearning/success";
           }
 
         // }
