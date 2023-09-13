@@ -809,7 +809,7 @@
             <menuitem
                 id="custom_adjustment_multipart_menu"
                 name="Custom Adjustment"
-                action="hobb_action"
+                action="custom_adjustment_multipart_action"
                 sequence="17"/>
             <menuitem
                 id="fat_option_menu"

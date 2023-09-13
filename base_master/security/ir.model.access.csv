@@ -72,6 +72,7 @@ access_holder_position,holder_position,model_holder_position,base.group_system,1
 access_holder_material,holder_material,model_holder_material,base.group_system,1,1,1,1
 access_dust_cup_configuration,dust_cup_configuration,model_dust_cup_configuration,base.group_system,1,1,1,1
 access_keyway_position,keyway_position,model_keyway_position,base.group_system,1,1,1,1
+access_keyway_configuration,keyway_configuration,model_keyway_configuration,base.group_system,1,1,1,1
 access_head_flat_extension,head_flat_extension,model_head_flat_extension,base.group_system,1,1,1,1
 access_holder_heat_treatment,holder_heat_treatment,model_holder_heat_treatment,base.group_system,1,1,1,1
 access_holder_surface_treatment,holder_surface_treatment,model_holder_surface_treatment,base.group_system,1,1,1,1
