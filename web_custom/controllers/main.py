@@ -206,7 +206,7 @@ class Main(http.Controller):
             print('======kwargs===========', kwargs)
             print('=========basicSpecification========', basicSpecification)
 
-            monoblock_obj = request.env['monoblock'].create({
+            monoblock_obj = request.env['monoblock'].sudo().create({
                 'basic_specification_id' : basicSpecification,
                 'material_id' : materials,
                 'tip_type_id' : tips,
