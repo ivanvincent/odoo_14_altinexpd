@@ -855,7 +855,7 @@
                 action="custom_adjustment_multipart_action"
                 sequence="18"/>
             <menuitem
-                id="fat_option_menu"
+                id="fat_option_multipart_menu"
                 name="Fat Option"
                 action="fat_option_multipart_action"
                 sequence="19"/>

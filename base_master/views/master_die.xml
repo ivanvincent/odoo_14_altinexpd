@@ -38,6 +38,8 @@
         <record id="basic_specification_action" model="ir.actions.act_window">
             <field name="name">Basic Specification</field>
             <field name="res_model">basic.specification</field>
+            <field name="domain">[('type', '=', 'DIE')]</field>
+            <field name="context">{'default_type': 'DIE'}</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -314,8 +316,8 @@
         <record id="surface_treatment_action" model="ir.actions.act_window">
             <field name="name">surface.treatment</field>
             <field name="res_model">surface.treatment</field>
-            <field name="context">{'default_type': 'MULTIPART'}</field>
-            <field name="domain">[('type', '=', 'MULTIPART')]</field>
+            <field name="context">{'default_type': 'DIE'}</field>
+            <field name="domain">[('type', '=', 'DIE')]</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -396,7 +398,8 @@
         <record id="fat_option_action" model="ir.actions.act_window">
             <field name="name">fat.option</field>
             <field name="res_model">fat.option</field>
-            <field name="context">{'defaulut_type': 'DIE'}</field>
+            <field name="domain">[('type', '=', 'DIE')]</field>
+            <field name="context">{'default_type': 'DIE'}</field>
             <field name="view_mode">tree,form</field>
         </record>
 
