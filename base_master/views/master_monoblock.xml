@@ -144,8 +144,8 @@
             <field name="name">Drawing</field>
             <field name="res_model">drawing</field>
             <field name="view_mode">tree,form</field>
-            <field name="context">{'default_type': 'MULTIPART'}</field>
-            <field name="domain">[('type', '=', 'MULTIPART')]</field>
+            <field name="context">{'default_type': 'MONOBLOCK'}</field>
+            <field name="domain">[('type', '=', 'MONOBLOCK')]</field>
         </record>
 
 
