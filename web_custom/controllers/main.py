@@ -31,7 +31,7 @@ class Main(http.Controller):
     @http.route('/register',type='json',auth='public',website=True,cors="*")
     def prepare_subscribe(self,**kwargs):
         try:
-            
+            print('prepare_subscribe')
             firstname              = kwargs['data']['firstName'] if 'firstName' in kwargs['data'] else False
             lastname               = kwargs['data']['lastName'] if 'lastName' in kwargs['data'] else False
             email                  = kwargs['data']['email'] if 'email' in kwargs['data'] else False
@@ -41,8 +41,9 @@ class Main(http.Controller):
             address_user           = kwargs['data']['address'] if 'address' in kwargs['data'] else False
             job                    = kwargs['data']['job'] if 'job' in kwargs['data'] else False
             img_profile            = kwargs['data']['imgProfile'] if 'imgProfile' in kwargs['data'] else False
-            id_photo               = kwargs['data']['idPhoto'] if 'idPhoto' in kwargs['data'] else False
-            proof_of_payments      = kwargs['data']['proofOfPayments'] if 'proofOfPayments' in kwargs['data'] else False
+            nama_perusahaan        = kwargs['data']['nama_perusahaan'] if 'nama_perusahaan' in kwargs['data'] else False
+            jabatan                = kwargs['data']['jabatan'] if 'jabatan' in kwargs['data'] else False
+            divisi                 = kwargs['data']['divisi'] if 'divisi' in kwargs['data'] else False
             # proof_of_payments_url  = request.env["ir.config_parameter"].sudo().get_param(PROOFOFPAYMENTS_URL)
             # photo_id_url           = request.env["ir.config_parameter"].sudo().get_param(IDPHOTO_URL_KEY)
             # proof_of_payments_path = request.env["ir.config_parameter"].sudo().get_param(PROOFOFPAYMENTS_PATH_KEY)
@@ -133,12 +134,15 @@ class Main(http.Controller):
                     'phone':phone_number,
                     'image_1920':img_profile.split(',')[1],
                     'password': '1234',
+                    'nama_perusahaan': nama_perusahaan,
+                    'jabatan': jabatan,
+                    'divisi': divisi,
                     # 'action_id': 1457,
                     # 'bukti_transfer_url': proof_of_payments_url + id_photo_filename,
                     # 'identitas_url': photo_id_url + pop_filename,
                     # 'bukti_transfer_binary': bukti_transfer_binary,
                     # 'identitas_url_binary' : identitas_url_binary,
-                    # 'groups_id': [(6, 0, [1,57,58,15])],
+                    'groups_id': [(6, 0, [9])],
                     
                 })
 

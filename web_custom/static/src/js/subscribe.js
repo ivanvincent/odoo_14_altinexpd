@@ -160,6 +160,9 @@ odoo.define("web_custom.subscribe", function (require) {
         let phoneNumber = $("input.o_input_phone").val();
         let gender = $("input[name='gender']:checked").val();
         let address = $("input.o_input_address").val();
+        let nama_perusahaan = $("input.o_input_nama_perusahaan").val();
+        let jabatan = $("input.o_input_jabatan").val();
+        let divisi = $("input.o_input_divisi").val();
         let job = $("#slct :selected").val();
         job =
           $("#slct :selected").val() !== "Others"
@@ -187,6 +190,9 @@ odoo.define("web_custom.subscribe", function (require) {
                 idPhoto,
                 proofOfPayments,
                 address,
+                nama_perusahaan,
+                jabatan,
+                divisi,
               },
             },
           });

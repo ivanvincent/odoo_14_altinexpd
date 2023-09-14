@@ -17,4 +17,7 @@ class ResUsers(models.Model):
     # recharge_ids       = fields.One2many('recharge','user_id', string='Recharge')
     bukti_transfer_binary = fields.Binary(string='Proof Of Payments')
     identitas_url_binary = fields.Binary(string='Id Photo')
+    nama_perusahaan = fields.Char(string='Nama Perusahaan')
+    jabatan = fields.Char(string='Jabatan')
+    divisi = fields.Char(string='Divisi')
     # vdociper_currenttime_id = fields.One2many('vdochiper.currenttime', 'user_id', string='Current time video')
