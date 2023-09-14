@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record model="report.paperformat" id="paperformat_die_report">
+            <field name="name">paperformat.receipt.a4</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_right">10</field>
+            <field name="margin_left">10</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="action_die_report" model="ir.actions.report">
+                <field name="name">Die Quotation Report</field>
+                <field name="model">die</field>
+                <field name="report_name">web_custom.die_report</field>
+                <field name="report_file">web_custom.die_report</field>
+                <field name="print_report_name">'%s' % object.name</field>
+                <field name="binding_model_id" ref="model_die"/>
+                <field name="binding_type">report</field>
+                <field name="paperformat_id" eval="paperformat_die_report"/>
+            </record>
+
+        <template id="die_report">
+            <t t-call="web.basic_layout"> 
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <!-- <body> -->
+                        <center>
+                            <h3> DIE QUOTATION REPORT </h3>
+                        </center>  
+                                                
+                        <table class="table-condensed" width="100%" style="font-size:18px">
+                            <thead>
+                                <tr>
+                                    <td style="border : 1px solid black" class="text-center">
+                                        <span><strong>Category</strong></span>
+                                    </td>
+                                    <td  style="border : 1px solid black" class="text-center">
+                                        <span><strong>Items</strong></span>
+                                    </td>
+                                    <td  style="border : 1px solid black" class="text-center">
+                                        <span><strong>Price Unit</strong></span>
+                                    </td>
+                                    <td  style="border : 1px solid black" class="text-center">
+                                        <span><strong>Subtotal</strong></span>
+                                    </td>
+                                    <td  style="border : 1px solid black" class="text-center">
+                                        <span><strong>Total</strong></span>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                <t t-set="total_basic" t-value="0"/> 
+                                <t t-set="total_material" t-value="0"/> 
+                                <t t-set="total_bore_type" t-value="0"/> 
+                                <t t-set="total_single_multi" t-value="0"/> 
+                                <t t-set="total_die_screw" t-value="0"/> 
+                                <t t-set="total_optional_tapered" t-value="0"/>
+                                <t t-set="total_heat_treatment" t-value="0"/> 
+                                <t t-set="total_surface" t-value="0"/> 
+                                <t t-set="total_custom_adj" t-value="0"/> 
+                                <t t-set="total_fat_option" t-value="0"/> 
+                                <t t-set="total_die_setting" t-value="0"/> 
+                                <t t-set="subtotal_price" t-value="0"/> 
+                                <t t-set="total_price" t-value="0"/> 
+                                    <t t-set="total_basic" t-value="total_basic + (doc.die_segment * doc.price_basic)"/> 
+                                    <t t-set="total_material" t-value="total_material + (doc.die_segment * doc.price_material)"/> 
+                                    <t t-set="total_bore_type" t-value="total_bore_type + (doc.die_segment * doc.price_bore_type)"/> 
+                                    <t t-set="total_single_multi" t-value="total_single_multi + (doc.die_segment * doc.price_single_multi)"/> 
+                                    <t t-set="total_die_screw" t-value="total_die_screw + (doc.die_segment * doc.price_die_screw)"/> 
+                                    <t t-set="total_optional_tapered" t-value="total_optional_tapered + (doc.die_segment * doc.price_optional_tapered)"/> 
+                                    <t t-set="total_heat_treatment" t-value="total_heat_treatment + (doc.die_segment * doc.price_heat_treatment)"/> 
+                                    <t t-set="total_surface" t-value="total_surface + (doc.die_segment * doc.price_surface)"/> 
+                                    <t t-set="total_custom_adj" t-value="total_custom_adj + (doc.die_segment * doc.price_custom_adj)"/> 
+                                    <t t-set="total_fat_option" t-value="total_fat_option + (doc.die_segment * doc.price_fat_option)"/> 
+                                    <t t-set="total_die_setting" t-value="total_die_setting + (doc.die_segment * doc.price_die_setting)"/> 
+                                    <t t-set="subtotal_price" t-value="subtotal_price + (doc.price_basic + doc.price_material + doc.price_bore_type + doc.price_single_multi + doc.price_die_screw + doc.price_optional_tapered + doc.price_heat_treatment + doc.price_surface + doc.price_custom_adj + doc.price_fat_option + doc.price_die_setting)"/> 
+                                    <t t-set="total_price" t-value="total_price + (total_basic + total_material + total_bore_type + total_single_multi + total_die_screw + total_optional_tapered + total_heat_treatment + total_surface + total_custom_adj + total_fat_option + total_die_setting)"/>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-left">
+                                            <span>Basic Specification</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-left">
+                                            <span t-field="doc.basic_specification_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_basic"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_basic"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_basic))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-left">
+                                            <span>Material</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-left">
+                                            <span t-field="doc.material_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_material"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_material"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_material))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-left">
+                                            <span>Bore Type</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-left">
+                                            <span t-field="doc.bore_type_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_bore_type"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_bore_type"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_bore_type))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-left">
+                                            <span>Single / Multi Tip</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-left">
+                                        <span t-field="doc.single_multi_tip_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_single_multi"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_single_multi"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_single_multi))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-left">
+                                            <span>Die Screw Groove Configuration</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-left">
+                                        <span t-field="doc.die_screw_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_die_screw"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_die_screw"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_die_screw))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-left">
+                                            <span>Optional Tapered Bore</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-left">
+                                            <span t-field="doc.optional_tapered_bore_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_optional_tapered"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_optional_tapered"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_optional_tapered))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-left">
+                                            <span>Heat Treatment</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-left">
+                                        <span t-field="doc.heat_treatment_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_heat_treatment"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_heat_treatment"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_heat_treatment))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-left">
+                                            <span>Surface Treatment</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-left">
+                                        <span t-field="doc.surface_treatment_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_surface"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_surface"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_surface))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-left">
+                                            <span>Custom Adjusment</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-left">
+                                            <span t-field="doc.custom_adjustment_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_custom_adj"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_custom_adj"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_custom_adj))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-left">
+                                            <span>FAT Option</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-left">
+                                            <span t-field="doc.fat_option_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_fat_option"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_fat_option"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_fat_option))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-left">
+                                            <span>Die Setting Aligner</span>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-left">
+                                        <span t-field="doc.die_setting_aligner_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_die_setting"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-field="doc.price_die_setting"/>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <span t-esc="'{0:,.1f}'.format(float(total_die_setting))"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;"></td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <b><span t-esc="'{0:,.1f}'.format(float(subtotal_price))"/></b>
+                                        </td>
+                                        <td style="border: 1px solid black;" class="text-right pr-1">
+                                            <b><span t-esc="'{0:,.1f}'.format(float(total_price))"/></b>
+                                        </td>
+                                    </tr>
+                            </tbody>
+                            
+                        </table>
+                    <!-- </body> -->
+                </div>
+            </t>
+            </t>
+        </template>
+    </data>
+</odoo>

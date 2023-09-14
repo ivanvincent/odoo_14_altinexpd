@@ -47,7 +47,10 @@ class Multipart(models.Model):
     price_tip_surface               = fields.Float(related='tip_surface_treatment_id.price', string='Price')
     price_holder_cap                = fields.Float(related='holder_cap_id.price', string='Price')
     price_holder_cap_bore           = fields.Float(related='holder_cap_bore_id.price', string='Price')
-    # price_holder_cap_surface        = fields.Float(related='holder_cap_surface_id.price', string='Price')
+    price_holder_cap_surface        = fields.Float(related='holder_cap_surface_id.price', string='Price')
+    holder                          = fields.Float('Holder')
+    holder_cap                      = fields.Float('Holder Cap')
+    tip                             = fields.Float('Tip') 
 
     @api.depends('subtotal')
     def _compute_subtotal(self):

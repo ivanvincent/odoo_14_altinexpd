@@ -34,6 +34,8 @@ class Monoblock(models.Model):
     price_hobb                      = fields.Float(related='hobb_id.price', string='Price')
     price_drawing                   = fields.Float(related='drawing_id.price', string='Price')
     price_kconfig                   = fields.Float(related='keyway_configuration_id.price', string='Price')
+    punch                           = fields.Float('Punch')
+    tip                             = fields.Float('Tip')
 
     @api.depends('subtotal')
     def _compute_subtotal(self):
