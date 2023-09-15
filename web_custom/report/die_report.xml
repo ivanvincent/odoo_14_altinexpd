@@ -93,8 +93,8 @@
                                             <td width="30%" style=" padding-left:10px;">Tanggal</td>
                                             <td>
                                                 <span>:</span>
-                                                <!-- <span t-field="doc.date"
-                                                    t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd/MM/yyyy&quot;}" /> -->
+                                                <span t-field="doc.create_date"
+                                                    t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd/MM/yyyy&quot;}" />
                                             </td>
                                         </tr>
                                         <tr>
