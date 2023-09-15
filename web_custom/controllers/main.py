@@ -238,7 +238,7 @@ class Main(http.Controller):
         response_content = request.env['ir.ui.view']._render_template('web_custom.multipart', data)
         return request.make_response(response_content,headers=[('Content-Type','text/html')])
 
-    @http.route('/confirm-order-monoblock',type='json',auth='user',website=True,cors="*")
+    @http.route('/confirm-order-monoblock',type='json',auth='public',website=True,cors="*")
     def prepare_order_monoblock(self,**kwargs):
         try:
             basicSpecification =  int(kwargs['data']['basicSpecification']) if 'basicSpecification' in kwargs['data'] else False
@@ -278,7 +278,7 @@ class Main(http.Controller):
             _logger.warning('='*100)
             _logger.warning(err)
 
-    @http.route('/confirm-die',type='json',auth='user',website=True,cors="*")
+    @http.route('/confirm-die',type='json',auth='public',website=True,cors="*")
     def prepare_order_die(self,**kwargs):
         try:
             basics = int(kwargs['data']['basics']) if 'basics' in kwargs['data'] else False
@@ -311,7 +311,7 @@ class Main(http.Controller):
             _logger.warning('='*100)
             _logger.warning(err)
     
-    @http.route('/confirm-multipart',type='json',auth='user',website=True,cors="*")
+    @http.route('/confirm-multipart',type='json',auth='public',website=True,cors="*")
     def prepare_order_multipart(self,**kwargs):
         try:
             holder_specification_id = int(kwargs['data']['holder_specifications']) if 'holder_specifications' in kwargs['data'] else False
