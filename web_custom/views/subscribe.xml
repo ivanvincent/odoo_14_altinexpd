@@ -48,7 +48,7 @@
                                         <input type="text" name="input_address_user" required="true" placeholder="Masukan alamat valid" class="form-control form-rounded o_input_address"/>
                                     </div>
                                     <div class="d-flex flex-column o_phone">
-                                        <label for="input_phone" class="o_subscribe_label">No Telepn / WA</label>
+                                        <label for="input_phone" class="o_subscribe_label">No Telepon / WA</label>
                                         <input type="number" name="input_phone" required="true" class="form-control form-rounded o_input_phone" placeholder="Masukkan No tlp / WA yang bisa di hubungi"/>
                                     </div>
                                     <div class="d-flex flex-column o_address">

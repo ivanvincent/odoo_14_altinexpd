@@ -4,9 +4,10 @@
         <template id="multipart" name="multipart">
             <t t-call="website.layout">
                 <t t-set="no_footer" t-value="True"/>
+                <div class="bgr-img"></div>
                 <div class="o_order_multipart_main">
                     <div class="container">
-                        <div class="d-flex flex-column o_subscribe_wrapper">
+                        <div class="d-flex flex-column o_subscribe_wrapper o_die_wrapper">
                             <h4 class="o_subscribe_title o_subscribe_label">Quotation Request Form Multipart</h4>
                             <form class="needs-validation">
                                 <div class="d-flex flex-column o_subscribe_form_body">

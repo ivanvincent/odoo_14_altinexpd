@@ -4,17 +4,30 @@
         <template id="monoblock" name="monoblock">
             <t t-call="website.layout">
                 <t t-set="no_footer" t-value="True"/>
+                <div class="bgr-img"></div>
                 <div class="o_order_monoblock_main">
                     <div class="container">
-                        <div class="d-flex flex-column o_subscribe_wrapper">
-                            <h4 class="o_subscribe_title o_subscribe_label">Quotation Request Form Monoblock</h4>
+                        <div class="d-flex flex-column o_subscribe_wrapper o_die_wrapper">
+                            <div class="d-flex">
+                                <h4 class="o_subscribe_title o_subscribe_label"><strong>Quotation Request Form Monoblock</strong></h4>                                
+                                <button type="submit" class="btn btn-primary o_button_print d-none" style="margin-left:40%; height: 40px; margin-top: 10px;"><b>Print</b></button>
+                            </div>
                             <form class="needs-validation">
                                 <div class="d-flex flex-column o_subscribe_form_body">
                                     <div class="row">
-                                        <div class="col-5">
+                                        <div class="col-6">
+                                            <div class="d-flex flex-column o_phone">
+                                                <label for="input_phone" class="o_subscribe_label">Punch</label>
+                                                <input type="number" name="input_punch" required="true" class="form-control form-rounded o_input_phone" placeholder="Masukkan Punch"/>
+                                            </div>
+                                            <div class="d-flex flex-column o_phone">
+                                                <label for="input_phone" class="o_subscribe_label">Tip</label>
+                                                <input type="number" name="input_tip" required="true" class="form-control form-rounded o_input_phone" placeholder="Masukkan Tip"/>
+                                            </div>
                                             <div class="d-flex flex-column o_email">
                                                 <label for="search" class="o_subscribe_label">Basic Specification</label>
                                                 <select name="basics" class="oe_select9_search_field" data-placeholder="" style="width: 70%;" single="single">
+                                                    <!-- <option>-</option> -->
                                                     <t t-foreach="basics" t-as="basic">
                                                         <option t-att-value="basic.get('id')" ><t t-esc="basic.get('val')"/></option>
                                                     </t>
@@ -23,6 +36,7 @@
                                             <div class="d-flex flex-column o_email">
                                                 <label for="input_email" class="o_subscribe_label">Material</label>
                                                 <select name="materials" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <!-- <option>-</option> -->
                                                     <t t-foreach="materials" t-as="basic">
                                                         <option t-att-value="basic.get('id')" ><t t-esc="basic.get('val')"/></option>
                                                     </t>
@@ -31,6 +45,7 @@
                                             <div class="d-flex flex-column o_email">
                                                 <label for="input_email" class="o_subscribe_label">Tip Type</label>
                                                 <select name="tips" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <!-- <option>-</option> -->
                                                     <t t-foreach="tips" t-as="basic">
                                                         <option t-att-value="basic.get('id')" ><t t-esc="basic.get('val')"/></option>
                                                     </t>
@@ -39,6 +54,7 @@
                                             <div class="d-flex flex-column o_email">
                                                 <label for="input_email" class="o_subscribe_label">Single / Multi-Tip</label>
                                                 <select name="single_or_multi" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <!-- <option>-</option> -->
                                                     <t t-foreach="single_or_multi" t-as="basic">
                                                         <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
                                                     </t>
@@ -47,6 +63,7 @@
                                             <div class="d-flex flex-column o_email">
                                                 <label for="input_email" class="o_subscribe_label">Dust Cup Configuration</label>
                                                 <select name="dust_cups" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <!-- <option>-</option> -->
                                                     <t t-foreach="dust_cups" t-as="basic">
                                                         <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
                                                     </t>
@@ -55,6 +72,7 @@
                                             <div class="d-flex flex-column o_email">
                                                 <label for="input_email" class="o_subscribe_label">Keyway Configuration</label>
                                                 <select name="keyway_config" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <!-- <option>-</option> -->
                                                     <t t-foreach="keyway_config" t-as="basic">
                                                         <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
                                                     </t>
@@ -63,16 +81,18 @@
                                             <div class="d-flex flex-column o_email">
                                                 <label for="input_email" class="o_subscribe_label">Keyway Position</label>
                                                 <select name="keyway_position" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <!-- <option>-</option> -->
                                                     <t t-foreach="keyway_position" t-as="basic">
                                                         <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
                                                     </t>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-5">
+                                        <div class="col-6">
                                             <div class="d-flex flex-column o_email">
                                                 <label for="input_email" class="o_subscribe_label">Head Flat Extension</label>
                                                 <select name="head_flats" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <!-- <option>-</option> -->
                                                     <t t-foreach="head_flats" t-as="basic">
                                                         <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
                                                     </t>
@@ -81,6 +101,7 @@
                                             <div class="d-flex flex-column o_email">
                                                 <label for="input_email" class="o_subscribe_label">Heat Treatment</label>
                                                 <select name="heat_treatments" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <!-- <option>-</option> -->
                                                     <t t-foreach="heat_treatments" t-as="basic">
                                                         <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
                                                     </t>
@@ -89,6 +110,7 @@
                                             <div class="d-flex flex-column o_email">
                                                 <label for="input_email" class="o_subscribe_label">Surface Treatment</label>
                                                 <select name="surface_treatments" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <!-- <option>-</option> -->
                                                     <t t-foreach="surface_treatments" t-as="basic">
                                                         <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
                                                     </t>
@@ -97,6 +119,7 @@
                                             <div class="d-flex flex-column o_email">
                                                 <label for="input_email" class="o_subscribe_label">Custom Adjustment</label>
                                                 <select name="custom_adjustments"  class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <!-- <option>-</option> -->
                                                     <t t-foreach="custom_adjustments" t-as="basic">
                                                         <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
                                                     </t>
@@ -105,6 +128,7 @@
                                             <div class="d-flex flex-column o_email">
                                                 <label for="input_email" class="o_subscribe_label">FAT Option</label>
                                                 <select name="fat_options" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <!-- <option>-</option> -->
                                                     <t t-foreach="fat_options" t-as="basic">
                                                         <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
                                                     </t>
@@ -113,6 +137,7 @@
                                             <div class="d-flex flex-column o_email">
                                                 <label for="input_email" class="o_subscribe_label">Hobb</label>
                                                 <select name="hobbs" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <!-- <option>-</option> -->
                                                     <t t-foreach="hobbs" t-as="basic">
                                                         <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
                                                     </t>
@@ -121,6 +146,7 @@
                                             <div class="d-flex flex-column o_email">
                                                 <label for="input_email" class="o_subscribe_label">Drawing</label>
                                                 <select name="drawings" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <!-- <option>-</option> -->
                                                     <t t-foreach="drawings" t-as="basic">
                                                         <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
                                                     </t>

@@ -7,7 +7,7 @@ odoo.define("web_custom.order_monoblock", function (require) {
       selector: ".o_order_monoblock_main",
       events: {
         submit: "_onSubmit",
-        // 'click .o_button_subcribe': "_onSubmit",
+        'click .o_button_print': "_onPrint",
         // submit: "_onSubmit",
         // "change input.uploadProfileInput": "_onChangeImageProfile",
         // "change input#o_input_img_identity": "_onChangeImageIdPhoto",
@@ -88,16 +88,28 @@ odoo.define("web_custom.order_monoblock", function (require) {
             });
     
             console.log(response);
+            // if (response) {
+              $(".o_die_wrapper").append(
+                '<div class="snackbar show" role="alert"><i class="fa fa-check-circle text-success"></i> Data berhasil tersimpan!</div>'
+              );
+              $(".o_button_print").removeClass("d-none");
+              console.log('success');
+            this.id_monoblock = response
+            // }
     
           } catch (error) {
                 console.error(error);
-                window.location.href = "/elearning/success";
+                // window.location.href = "/elearning/success";
           }
 
         // }
   
         // this._rpc
       },
+
+      _onPrint: function (ev) {
+        window.open('/id/report/pdf/web_custom.monoblock_report/'+this.id_monoblock, '_blank');
+      }
   
       // _onChangeCheckBoxAgreement : function (params) {
       //   if ($("#o_term_checkbox:checked").length > 0){

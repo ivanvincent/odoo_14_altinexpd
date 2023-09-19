@@ -9,7 +9,7 @@ odoo.define("web_custom.order_die", function (require) {
         submit: "_onSubmit",
         // 'click .o_button_subcribe': "_onSubmit",
         // submit: "_onSubmit",
-        // "change input.uploadProfileInput": "_onChangeImageProfile",
+        "change select[name='basics']": "_computeTotalHarga",
         // "change input#o_input_img_identity": "_onChangeImageIdPhoto",
         // "change input#o_input_img_payment": "_onChangeImageProofOfPayments",
         // "change select#slct": "_onChangeJobTitle",
@@ -19,6 +19,15 @@ odoo.define("web_custom.order_die", function (require) {
       init: function (parent, options) {
         this._super.apply(this, arguments);      
         console.log("testt");
+      },
+      _computeTotalHarga: function (ev) {
+        console.log('_computeTotalHarga');
+        $('#form-die select option:selected').each(
+          function(index){  
+              var input = parseFloat($(this).text().split("IDR ")[1].replace(" )", ""));
+              console.log(input)
+          }
+        );
       },
       _onSubmit: async function (ev) {
         // ev.stopPropagation();

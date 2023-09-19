@@ -273,10 +273,12 @@ class Main(http.Controller):
                 'keyway_configuration_id' : keyway_config,
                 'user_id' : request.env.user.id,
             })
+            return monoblock_obj.id
 
         except Exception as err:
             _logger.warning('='*100)
             _logger.warning(err)
+            return False
 
     @http.route('/confirm-die',type='json',auth='public',website=True,cors="*")
     def prepare_order_die(self,**kwargs):
