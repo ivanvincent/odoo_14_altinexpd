@@ -58,7 +58,8 @@
                         <notebook>
                             <page name="Details" string="Details">
                                 <field name="line_ids" attrs="{'readonly':[('state','=','confirm')]}" >
-                                    <tree editable="bottom" create="false">
+                                    <tree editable="bottom"> 
+                                     <!-- create="false" -->
                                         <!-- <field name="product_id"/> -->
                                         <!-- <field name="embos"/> -->
                                         <!-- <field name="tip"/>
