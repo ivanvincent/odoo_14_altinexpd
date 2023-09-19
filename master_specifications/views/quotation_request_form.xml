@@ -76,7 +76,7 @@
                                         <!-- <button name="action_view_makloon_order" type="object" icon="fa-pencil-square-o" states="process"/> -->
                                         <field name="line_spec_ids"/>
                                         <field name="state" invisible="1"/>
-                                        <field name="name"/>
+                                        <!-- <field name="name"/> -->
                                         <field name="quantity"/>
                                         <field name="price_unit"/>
                                         <field name="tax_ids" widget="many2many_tags"/>
