@@ -256,6 +256,11 @@ class QuotationRequestFormLine(models.Model):
     kd_bahan = fields.Char(string='Kode Bahan')
     lapisan = fields.Selection(
         [("Coat", "Coat"), ("Plat", "Plat")], string='Surface Finish')
+    
+    @api.depends('line_spec_ids', 'price_unit')
+    def compute_price_unit(self):
+        for rec in self:
+            self.price_unit =+ rec.line_spec_ids.harga
 
 
     @api.depends('quantity', 'price_unit')
