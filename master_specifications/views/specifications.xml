@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="specifications_tree" model="ir.ui.view">
+            <field name="name">specifications.tree</field>
+            <field name="model">specifications</field>
+            <field name="arch" type="xml">
+                <tree string="" editable="bottom">
+                    <field name="jenis_id"/>
+                    <field name="spec_id"/>
+                    <field name="desc"/>
+                    <field name="harga"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="specifications_action" model="ir.actions.act_window">
+            <field name="name">Master Specifications</field>
+            <field name="res_model">specifications</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem
+            id="specifications_menu"
+            name="Master Specifications"
+            action="specifications_action"
+            parent="specifications_root_menu"
+            sequence="20"/>
+    
+    </data>
+    
+
+</odoo>
