@@ -10,6 +10,7 @@
     # data files always loaded at installation
     'data': [
         'security/ir.model.access.csv',
+        'data/ir_sequence_data.xml',
         'views/website_templates.xml',
         'views/subscribe.xml',
         'views/monoblock.xml',

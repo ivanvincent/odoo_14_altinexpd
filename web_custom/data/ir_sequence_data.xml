@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <data noupdate="1"> -->
+    <data>
+
+        <record id="monoblock_seq" model="ir.sequence">
+            <field name="name">Monoblock Quotation RF</field>
+            <field name="code">monoblock</field>
+            <field name="prefix">MNBLCK/%(year)s/%(month)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="multipart_seq" model="ir.sequence">
+            <field name="name">Multipart Quotation RF</field>
+            <field name="code">multipart</field>
+            <field name="prefix">MLTPRT/%(year)s/%(month)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="die_seq" model="ir.sequence">
+            <field name="name">Die Quotation RF</field>
+            <field name="code">die</field>
+            <field name="prefix">DIE/%(year)s/%(month)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>
