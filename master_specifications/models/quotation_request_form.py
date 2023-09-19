@@ -268,6 +268,7 @@ class QuotationRequestFormLine(models.Model):
     
     def create_specification_detail(self):
         self.ensure_one()
+        mak_order = self.env['quotation.request.form.line.specification']
 
 
 class QuotationRequestFormLineSpecification(models.Model):
