@@ -38,12 +38,12 @@ class QuotationRequestForm(models.Model):
 
 
 
-    alamat  = fields.Text(string='Alamat', related='up_kpd.alamat')
-    kota    = fields.Char(string='Kota', related='up_kpd.kota')
-    phone   = fields.Char(string='Phone', related='up_kpd.phone')
-    mobile  = fields.Char(string='Mobile', related='up_kpd.mobile')
-    fax     = fields.Char(string='Fax', related='up_kpd.fax')
-    email   = fields.Char(string='Email', related='up_kpd.email')
+    # alamat  = fields.Text(string='Alamat', related='up_kpd.alamat')
+    # kota    = fields.Char(string='Kota', related='up_kpd.kota')
+    # phone   = fields.Char(string='Phone', related='up_kpd.phone')
+    # mobile  = fields.Char(string='Mobile', related='up_kpd.mobile')
+    # fax     = fields.Char(string='Fax', related='up_kpd.fax')
+    # email   = fields.Char(string='Email', related='up_kpd.email')
     
     note_so = fields.Char(string='Note')
     perihal = fields.Selection([("Penawaran Harga Punch & Dies","Penawaran Harga Punch & Dies"),
