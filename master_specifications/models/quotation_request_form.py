@@ -90,6 +90,10 @@ class QuotationRequestForm(models.Model):
     def action_confirm(self):
         self.state = 'confirm'
 
+
+    def create_specification_detail(self):
+        self.ensure_one()
+
     # def action_confirm(self):
     #     seq = self.env['ir.sequence'].next_by_code('request.engineering')
     #     'No Drawing', 'Ukuran Bahan'
