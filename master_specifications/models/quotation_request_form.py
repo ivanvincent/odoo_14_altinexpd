@@ -238,7 +238,7 @@ class QuotationRequestFormLine(models.Model):
     quantity = fields.Float(string='Quantity')
     price_unit = fields.Float(string='Price Unit', compute='_compute_price_unit')
     tax_ids = fields.Many2many(comodel_name='account.tax', string='Tax')
-    sub_total = fields.Float(string='Sub Total', compute='compute_sub_total')
+    sub_total = fields.Float(string='Sub Total', compute='_compute_price_unit')
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
 
@@ -260,7 +260,11 @@ class QuotationRequestFormLine(models.Model):
     @api.depends('line_spec_ids', 'price_unit')
     def compute_price_unit(self):
         for rec in self:
-            self.price_unit =+ rec.line_spec_ids.harga
+            tot_price =+ rec.line_spec_ids.harga
+            self.price_unit = tot_price
+            exclude = self.quantity * tot_price
+            self.sub_total = exclude
+
 
 
     @api.depends('quantity', 'price_unit')
