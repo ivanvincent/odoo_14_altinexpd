@@ -325,7 +325,7 @@ class QuotationRequestFormLineSpecification(models.Model):
 
     qrf_line_id = fields.Many2one('quotation.request.form.line', string='QRF')
     specifications_id = fields.Many2one('specifications', string='Specifications')
-    spec_id = fields.Char(string='Spefisikasi', related='specifications_id.spec_id')
+    spec_id = fields.Many2one('master.require',string='Spefisikasi', related='specifications_id.spec_id')
     spect_name = fields.Char(string='Nama Spefisikasi', related='specifications_id.spect_name')
     desc = fields.Char(string='Desc', related='specifications_id.desc')
     harga = fields.Float(string='Harga', related='specifications_id.harga')
