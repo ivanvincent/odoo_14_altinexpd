@@ -226,7 +226,7 @@ class QuotationRequestFormLine(models.Model):
     
     qrf_id = fields.Many2one('quotation.request.form', string='QRF')
     jenis_id = fields.Many2one('master.jenis', string='Jenis')
-    line_spec_ids = fields.One2many('quotation.request.form.line', 'qrf_line_id', 'Line Spec')
+    line_spec_ids = fields.One2many('quotation.request.form.line.specification', 'qrf_line_id', 'Line Spec')
     name = fields.Char(string='Description')
     quantity = fields.Float(string='Quantity')
     price_unit = fields.Float(string='Price Unit')
