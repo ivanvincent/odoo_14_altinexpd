@@ -258,13 +258,13 @@ class QuotationRequestFormLine(models.Model):
     lapisan = fields.Selection(
         [("Coat", "Coat"), ("Plat", "Plat")], string='Surface Finish')
     
-    @api.depends('line_spec_ids', 'price_unit' , 'sub_total')
-    def compute_price_unit(self):
-        for rec in self:
-            tot_price += rec.line_spec_ids.harga
-            self.price_unit = tot_price
-            exclude = self.quantity * tot_price
-            self.sub_total = exclude
+    # @api.depends('line_spec_ids', 'price_unit' , 'sub_total')
+    # def compute_price_unit(self):
+    #     for rec in self:
+    #         tot_price += rec.line_spec_ids.harga
+    #         self.price_unit = tot_price
+    #         exclude = self.quantity * tot_price
+    #         self.sub_total = exclude
 
 
 
