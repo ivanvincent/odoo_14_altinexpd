@@ -156,6 +156,26 @@
                                     </table>
                                 </div>
                             </div>
+                            <div class="col-3">
+                                <div style="border: 1px solid black; border-radius: 0px; font-size:14px;">
+                                    <table class="table-condensed" width="100%">
+                                        <tr>
+                                            <td width="30%" style=" padding-left:10px;">Punch</td>
+                                            <td>
+                                                <span>:</span>
+                                                <span t-field="doc.punch"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%" style="padding-left:10px;">Tip</td>
+                                            <td>
+                                                <span>:</span>
+                                                <span t-field="doc.tip"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
 
                         </div>
 
