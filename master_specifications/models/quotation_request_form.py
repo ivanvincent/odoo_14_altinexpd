@@ -239,6 +239,8 @@ class QuotationRequestFormLine(models.Model):
     price_unit = fields.Float(string='Price Unit')
     tax_ids = fields.Many2many(comodel_name='account.tax', string='Tax')
     sub_total = fields.Float(string='Sub Total', compute='compute_sub_total')
+    state = fields.Selection(
+        [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
 
 
     product_id = fields.Many2one('product.product', string='Product')
@@ -279,4 +281,6 @@ class QuotationRequestFormLineSpecification(models.Model):
     spect_name = fields.Char(string='Nama Spefisikasi')
     desc = fields.Char(string='Desc')
     harga = fields.Float(string='Harga')
+    state = fields.Selection(
+        [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
     
