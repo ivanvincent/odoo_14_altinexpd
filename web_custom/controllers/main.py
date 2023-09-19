@@ -255,6 +255,8 @@ class Main(http.Controller):
             fat_options        =  int(kwargs['data']['fat_options']) if 'fat_options' in kwargs['data'] else False
             hobbs              =  int(kwargs['data']['hobbs']) if 'hobbs' in kwargs['data'] else False
             drawings           =  int(kwargs['data']['drawings']) if 'drawings' in kwargs['data'] else False
+            punch              =  int(kwargs['data']['punch']) if 'punch' in kwargs['data'] else False
+            tip           =  int(kwargs['data']['tip']) if 'tip' in kwargs['data'] else False
 
             monoblock_obj = request.env['monoblock'].sudo().create({
                 'basic_specification_id' : basicSpecification,
@@ -272,6 +274,8 @@ class Main(http.Controller):
                 'drawing_id' : drawings,
                 'keyway_configuration_id' : keyway_config,
                 'user_id' : request.env.user.id,
+                'punch': punch,
+                'tip': tip
             })
             return monoblock_obj.id
 

@@ -44,6 +44,8 @@ odoo.define("web_custom.order_monoblock", function (require) {
           let fat_options = $("select[name='fat_options']").val();
           let hobbs = $("select[name='hobbs']").val();
           let drawings = $("select[name='drawings']").val();
+          let punch = $(".o_input_punch").val();
+          let tip = $(".o_input_tip").val();
           
 
           console.log(basicSpecification);
@@ -83,6 +85,8 @@ odoo.define("web_custom.order_monoblock", function (require) {
                   fat_options,
                   hobbs,
                   drawings,
+                  punch,
+                  tip
                 },
               },
             });

@@ -18,11 +18,11 @@
                                         <div class="col-6">
                                             <div class="d-flex flex-column o_phone">
                                                 <label for="input_phone" class="o_subscribe_label">Punch</label>
-                                                <input type="number" name="input_punch" required="true" class="form-control form-rounded o_input_phone" placeholder="Masukkan Punch"/>
+                                                <input type="number" name="input_punch" required="true" class="form-control form-rounded o_input_punch" placeholder="Masukkan Punch"/>
                                             </div>
                                             <div class="d-flex flex-column o_phone">
                                                 <label for="input_phone" class="o_subscribe_label">Tip</label>
-                                                <input type="number" name="input_tip" required="true" class="form-control form-rounded o_input_phone" placeholder="Masukkan Tip"/>
+                                                <input type="number" name="input_tip" required="true" class="form-control form-rounded o_input_tip" placeholder="Masukkan Tip"/>
                                             </div>
                                             <div class="d-flex flex-column o_email">
                                                 <label for="search" class="o_subscribe_label">Basic Specification</label>
