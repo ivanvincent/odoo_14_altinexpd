@@ -271,6 +271,48 @@ class QuotationRequestFormLine(models.Model):
     def create_specification_detail(self):
         self.ensure_one()
         mak_order = self.env['quotation.request.form.line.specification']
+        data = {
+            # 'name':'/',
+            'qrf_line_id': self.id,
+            # 'origin': self.planning_id.name,
+            # 'stage_id':self.id,
+            # 'type': 'out',
+            # 'warehouse_id': self.planning_id.warehouse_id.id,
+            # 'production_loc': self.production_loc.id,
+            # 'material_ids': [(0, 0, 
+            #     {
+            #         'product_id': sale.product_id.id,
+            #         'no_po': self.planning_id.source_po.name,
+            #         'product_uom_qty': sale.product_uom_qty,
+            #         'product_uom': sale.product_uom.id,
+            #     })
+            # for sale in self.planning_id.sale_id.order_line],
+            # 'result_ids':  [(0, 0, 
+            #     {
+            #         'product_id': sale.product_id.id,
+            #         'product_uom_qty': sale.product_uom_qty,
+            #         'product_uom': sale.product_uom.id,
+            #         'service_product_id': self.env['product.product'].search([('name', '=', 'Biaya Makloon')]).id,
+            #         'price_unit': sale.product_id.standard_price,
+            #     })
+            # for sale in self.planning_id.sale_id.order_line],
+
+        }
+        mak_order.create(data)
+        # self.state="process"
+        # self.action_view_specification_detail_order()
+
+    # def action_view_specification_detail_order(self):
+
+        # action = self.env.ref('makloon_project.action_makloonorder_list').read()[0]
+
+        # orders = self.mapped('line_spec_ids')
+        # if len(orders) > 1:
+        #     action['domain'] = [('id', 'in', orders.ids)]
+        # elif orders:
+        #     action['views'] = [(self.env.ref('makloon_project.view_makloon_order_form').id, 'form')]
+        #     action['res_id'] = orders.id
+        # return action
 
 
 class QuotationRequestFormLineSpecification(models.Model):
