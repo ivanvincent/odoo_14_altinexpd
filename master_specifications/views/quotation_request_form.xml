@@ -123,8 +123,9 @@
             <field name="arch" type="xml">
                 <tree string="">
                     <field name="name"/>
+                    <field name="date"/>
                     <field name="partner_id"/>
-                    <field name="name"/>
+                    <field name="amount_total"/>
                 </tree>
             </field>
         </record>
