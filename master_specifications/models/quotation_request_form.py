@@ -319,14 +319,16 @@ class QuotationRequestFormLine(models.Model):
         # return action
 
 
+
 class QuotationRequestFormLineSpecification(models.Model):
     _name = 'quotation.request.form.line.specification'
 
     qrf_line_id = fields.Many2one('quotation.request.form.line', string='QRF')
     specifications_id = fields.Many2one('specifications', string='Specifications')
-    spect_name = fields.Char(string='Nama Spefisikasi')
-    desc = fields.Char(string='Desc')
-    harga = fields.Float(string='Harga')
+    spec_id = fields.Char(string='Spefisikasi', related='specifications_id.spec_id')
+    spect_name = fields.Char(string='Nama Spefisikasi', related='specifications_id.spect_name')
+    desc = fields.Char(string='Desc', related='specifications_id.desc')
+    harga = fields.Float(string='Harga', related='specifications_id.harga')
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
     

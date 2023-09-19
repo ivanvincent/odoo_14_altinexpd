@@ -130,6 +130,26 @@
             </field>
         </record>
 
+
+
+        <!-- <record id="quotation_request_form.line_specification_tree" model="ir.ui.view">
+            <field name="name">quotation.request.form.line.specification.tree</field>
+            <field name="model">quotation.request.form.line.specification</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="qrf_line_id"/>
+                    <field name="specifications_id"/>
+                    <field name="spect_name"/>
+                    <field name="desc"/>
+                    <field name="harga"/>                    
+                </tree>
+            </field>
+        </record> -->
+
+
+
+
+
         <record id="quotation_request_form_action" model="ir.actions.act_window">
             <field name="name">Quotation Request Form</field>
             <field name="res_model">quotation.request.form</field>
@@ -146,10 +166,11 @@
                             <field name="line_spec_ids" nolabel="1">
                                 <tree editable="bottom">
                                     <field name="specifications_id"/>
+                                    <field name="spec_id"/>
                                     <field name="spect_name"/>
                                     <field name="desc"/>
                                     <field name="harga"/>
-                                    <field name="state"/>
+                                    <!-- <field name="state"/> -->
                                 </tree>
                             </field>
                         </group>
