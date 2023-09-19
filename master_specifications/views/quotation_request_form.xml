@@ -114,7 +114,7 @@
 
         <record id="quotation_request_form_tree" model="ir.ui.view">
             <field name="name">quotation.request.form.tree</field>
-            <field name="model">quotation_request_form</field>
+            <field name="model">quotation.request.form</field>
             <field name="arch" type="xml">
                 <tree string="">
                     <field name="name"/>
@@ -126,7 +126,7 @@
 
         <record id="quotation_request_form_action" model="ir.actions.act_window">
             <field name="name">Quotation Request Form</field>
-            <field name="res_model">quotation_request_form</field>
+            <field name="res_model">quotation.request.form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
