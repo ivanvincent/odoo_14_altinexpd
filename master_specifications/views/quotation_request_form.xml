@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="quotation_request_form_form" model="ir.ui.view">
+            <field name="name">quotation_request_form</field>
+            <field name="model">quotation.request.form</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <!-- <button name="action_generate" type="object" string="Generate" class="oe_highlight"/> -->
+                        <button name="action_confirm" type="object" string="Confirm" states="draft"/>
+                        <button name="action_set_to_draft" type="object" string="Se to draft" states="confirm"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="partner_id" attrs="{'readonly':[('state','=','confirm')]}" required="1"/>
+                                <field name="date" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="attn_ids" invisible="1"/>
+                                <field name="up_kpd" domain="[('id', 'in', attn_ids)]"/>
+
+                                <field name="alamat"/>
+                                <field name="kota"/>
+                                <field name="phone"/>
+                                <field name="mobile"/>
+                                <field name="fax"/>
+                                <field name="email"/>
+
+                                <field name="perihal"/>
+                                <!-- <field name="design_code_id" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="no_quotation_accurate" invisible="1"/>
+                                <field name="image_binary" widget='image' class='oe_avatar' attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="kode_mkt_ids" invisible="1"/>
+                                <field name="kode_mkt_id" domain="[('id', 'in', kode_mkt_ids)]" options="{'no_open': True, 'no_create': True}"/> -->
+                            </group>
+                            <group>
+                                <!-- <field name="size" required="1" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="shape" required="1" attrs="{'readonly':[('state','=','confirm')]}" /> -->
+                                <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="payment_term_ids" invisible="1"/>
+                                <field name="payment_term_id" attrs="{'readonly':[('state','=','confirm')]}" domain="[('id', 'in', payment_term_ids)]"/>
+                                <!-- <field name="product_tmpl_ids" widget="many2many_tags" attrs="{'readonly':[('state','=','confirm')]}" domain="[('categ_id', '=', 27)]"/>
+                                <field name="request_engineering_id" readonly="1" attrs="{'invisible':[('request_engineering_id', '=', False)]}" context="{'form_view_ref': 'wibicon_quotation.request_engineering_form'}"/>
+                                <field name="no_sample" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="product_order_id" attrs="{'readonly':[('state','=','confirm')]}" required="1" />
+                                <field name="cup_depth_id" attrs="{'readonly':[('state','=','confirm')]}"/> -->
+                                <!-- <field name="note_so"/> -->
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="Details" string="Details">
+                                <field name="line_ids" attrs="{'readonly':[('state','=','confirm')]}" >
+                                    <tree editable="bottom" create="false">
+                                        <!-- <field name="product_id"/> -->
+                                        <!-- <field name="embos"/> -->
+                                        <!-- <field name="tip"/>
+                                        <field name="size"/>
+                                        <field name="shape"/> -->
+                                        <!-- <field name="treatment_id"/> -->
+                                        <!-- <field name="product_ingredient_id" domain="[('categ_id', '=', (20,21,22,23))]"/> -->
+                                        <!-- <field name="kd_bahan"/> -->
+                                        <!-- <field name="lapisan"/> -->
+                                        <!-- <field name="qty_available"/> -->
+                                        <field name="jenis_id"/>
+                                        <field name="line_spec_ids"/>
+                                        <field name="name"/>
+                                        <field name="quantity"/>
+                                        <field name="price_unit"/>
+                                        <field name="tax_ids" widget="many2many_tags"/>
+                                        <field name="sub_total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <!-- <page name="drawing" string="Drawing">
+                                <group col="2">
+                                    <group string="Design Approved">
+                                        <field name="drawing_internal" widget="pdf_viewer"/>
+                                    </group>
+                                    <group string="Design Approved">
+                                        <field name="drawing_external" widget="pdf_viewer"/>
+                                    </group>
+                                </group>
+                            </page> -->
+                        </notebook>
+                        <group col="6">
+                            <group name="discount" colspan="2">
+                                <field name="discount_type"/>
+                                <field name="discount_rate"/>
+                            </group>
+                            <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                <field name="currency_id" invisible="1"/>
+                                <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label for="amount_total"/>
+                                </div>
+                                <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                        </group>
+                        <div class="oe_clear"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="quotation_request_form_tree" model="ir.ui.view">
+            <field name="name">quotation.request.form.tree</field>
+            <field name="model">quotation_request_form</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="quotation_request_form_action" model="ir.actions.act_window">
+            <field name="name">Quotation Request Form</field>
+            <field name="res_model">quotation_request_form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            id="quotation_request_form_menu"
+            name="Quotation Request Form"
+            action="quotation_request_form_action"
+            parent="specifications_root_menu"
+            sequence="1"/>
+    
+    </data>
+    
+
+</odoo>

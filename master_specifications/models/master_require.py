@@ -8,5 +8,5 @@ class MasterRequire(models.Model):
         comodel_name='master.jenis', 
         string='Jenis'
         )
-    active = fields.Boolean(string='Active ?', Default=True)
+    active = fields.Boolean(string='Active ?', default=True)
     

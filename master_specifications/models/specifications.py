@@ -8,4 +8,4 @@ class Specifications(models.Model):
     spect_name = fields.Char(string='Nama Spefisikasi')
     desc = fields.Char(string='Desc')
     harga = fields.Float(string='Harga')
-    active = fields.Boolean(string='Active ?', Default=True)
+    active = fields.Boolean(string='Active ?', default=True)

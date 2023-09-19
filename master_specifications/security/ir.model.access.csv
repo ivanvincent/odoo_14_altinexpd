@@ -2,3 +2,6 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_model_master_jenis,master_jenis,model_master_jenis,base.group_system,1,1,1,1
 access_model_master_require,master_require,model_master_require,base.group_system,1,1,1,1
 access_model_specifications,specifications,model_specifications,base.group_system,1,1,1,1
+access_model_quotation_request_form_line_specification,quotation_request_form_line_specification,model_quotation_request_form_line_specification,base.group_system,1,1,1,1
+access_model_quotation_request_form_line,quotation_request_form_line,model_quotation_request_form_line,base.group_system,1,1,1,1
+access_model_quotation_request_form,quotation_request_form,model_quotation_request_form,base.group_system,1,1,1,1

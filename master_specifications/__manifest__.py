@@ -18,6 +18,8 @@ Dev
         'views/master_jenis.xml',
         'views/master_require.xml',
         'views/specifications.xml',
+        'views/quotation_request_form.xml',
+        
     ],
     'installable': True,
     'auto_install': False,
