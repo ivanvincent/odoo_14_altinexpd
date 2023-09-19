@@ -42,3 +42,9 @@ class Monoblock(models.Model):
         for a in self:
             a.subtotal = (a.price_basic + a.price_material + a.price_single_multi + a.price_tip_type + a.price_dust_cup + a.price_kposition + a.price_head_flat
             + a.price_heat_treatment + a.price_surface + a.price_custom_adj + a.price_fat_option + a.price_hobb + a.price_drawing + a.price_kconfig)
+
+    @api.model
+    def create(self, vals):
+        seq_id = self.env.ref('web_custom.monoblock_seq')
+        vals['name'] = seq_id.next_by_id() if seq_id else '/'
+        return super(Monoblock, self).create(vals)

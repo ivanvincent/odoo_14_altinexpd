@@ -58,3 +58,9 @@ class Multipart(models.Model):
             a.subtotal = (a.price_holder_spec + a.price_holder_pos + a.price_holder_mat + a.price_holder_heat + a.price_dust_cup + a.price_kposition + a.price_head_flat
             + a.price_holder_surface + a.price_tip_shape + a.price_custom_adj + a.price_fat_option + a.price_hobb + a.price_drawing + a.price_kconfig + a.price_tip_pos 
             + a.price_tip_mat + a.price_tip_heat + a.price_tip_surface + a.price_holder_cap + a.price_holder_cap_bore)
+
+    @api.model
+    def create(self, vals):
+        seq_id = self.env.ref('web_custom.multipart_seq')
+        vals['name'] = seq_id.next_by_id() if seq_id else '/'
+        return super(Multipart, self).create(vals)

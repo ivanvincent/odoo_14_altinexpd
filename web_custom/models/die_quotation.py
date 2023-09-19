@@ -36,3 +36,9 @@ class Die(models.Model):
         for a in self:
             a.subtotal = (a.price_basic + a.price_material + a.price_single_multi + a.price_bore_type + a.price_die_screw + a.price_optional_tapered
             + a.price_heat_treatment + a.price_surface + a.price_custom_adj + a.price_fat_option + a.price_die_setting)
+
+    @api.model
+    def create(self, vals):
+        seq_id = self.env.ref('web_custom.die_seq')
+        vals['name'] = seq_id.next_by_id() if seq_id else '/'
+        return super(Die, self).create(vals)
