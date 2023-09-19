@@ -270,10 +270,13 @@ class QuotationRequestFormLine(models.Model):
     
     def create_specification_detail(self):
         self.ensure_one()
-        mak_order = self.env['quotation.request.form.line.specification']
-        data = {
+        action = self.env.ref('master_specifications.quotation_request_form_line_action').read()[0]
+        action['res_id'] = self.id
+        return action
+        # mak_order = self.env['quotation.request.form.line.specification']
+        # data = {
             # 'name':'/',
-            'qrf_line_id': self.id,
+            # 'qrf_line_id': self.id,
             # 'origin': self.planning_id.name,
             # 'stage_id':self.id,
             # 'type': 'out',
@@ -297,8 +300,9 @@ class QuotationRequestFormLine(models.Model):
             #     })
             # for sale in self.planning_id.sale_id.order_line],
 
-        }
-        mak_order.create(data)
+        # }
+
+        # mak_order.create(data)
         # self.state="process"
         # self.action_view_specification_detail_order()
 
