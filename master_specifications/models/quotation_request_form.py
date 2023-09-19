@@ -86,6 +86,9 @@ class QuotationRequestForm(models.Model):
         vals['name'] = sequence
         res = super(QuotationRequestForm, self).create(vals)
         return res
+    
+    def action_confirm(self):
+        self.state = 'confirm'
 
     # def action_confirm(self):
     #     seq = self.env['ir.sequence'].next_by_code('request.engineering')
@@ -207,6 +210,8 @@ class QuotationRequestForm(models.Model):
                 rec.tanggal_berlaku = rec.date + relativedelta(days=30)
             else:
                 rec.tanggal_berlaku = False
+
+    
 
     def action_set_to_draft(self):
         self.state = 'draft'
