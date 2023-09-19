@@ -90,9 +90,7 @@ class QuotationRequestForm(models.Model):
     def action_confirm(self):
         self.state = 'confirm'
 
-
-    def create_specification_detail(self):
-        self.ensure_one()
+    
 
     # def action_confirm(self):
     #     seq = self.env['ir.sequence'].next_by_code('request.engineering')
@@ -267,6 +265,9 @@ class QuotationRequestFormLine(models.Model):
     def _compute_qty_available(self):
         for rec in self:
             rec.qty_available = 0
+    
+    def create_specification_detail(self):
+        self.ensure_one()
 
 
 class QuotationRequestFormLineSpecification(models.Model):
