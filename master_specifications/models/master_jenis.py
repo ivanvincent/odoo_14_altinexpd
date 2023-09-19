@@ -4,5 +4,5 @@ class MasterJenis(models.Model):
     _name = 'master.jenis'
 
     name = fields.Char(string='Name')
-    active = fields.Boolean(string='Active ?')
+    active = fields.Boolean(string='Active ?', Default=True)
     sequence_id = fields.Many2one('ir.sequence', string='Sequence')
