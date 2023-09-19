@@ -165,6 +165,7 @@
                         <group>
                             <field name="line_spec_ids" nolabel="1">
                                 <tree editable="bottom">
+                                    <field name="jenis_id" invisible="1"/>
                                     <field name="specifications_id"/>
                                     <field name="spec_id"/>
                                     <field name="spect_name"/>
