@@ -56,8 +56,8 @@ class QuotationRequestForm(models.Model):
     discount_rate = fields.Float('Discount Rate', digits=dp.get_precision('Account'), )
     amount_discount = fields.Monetary(string='Discount', store=True, compute='_compute_amount',
                                       digits=dp.get_precision('Account'), track_visibility='always')
-    payment_term_ids = fields.Many2many('account.payment.term', string='Payment Term Ids', related='partner_id.payment_term_ids')
-    kode_mkt_ids = fields.Many2many('kode.mkt', string='Kode Mkt Ids', related='partner_id.kode_mkt_ids')
+    # payment_term_ids = fields.Many2many('account.payment.term', string='Payment Term Ids', related='partner_id.payment_term_ids')
+    # kode_mkt_ids = fields.Many2many('kode.mkt', string='Kode Mkt Ids', related='partner_id.kode_mkt_ids')
     
     # @api.onchange('partner_id')
     # def get_kode_mkt(self):
