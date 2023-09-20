@@ -259,6 +259,7 @@ class QuotationRequestFormLine(models.Model):
     
     @api.depends('line_spec_ids', 'price_unit' , 'sub_total')
     def _compute_price_unit(self):
+        tot_price = 0
         for rec in self:
             tot_price += rec.line_spec_ids.harga
             self.price_unit = tot_price
