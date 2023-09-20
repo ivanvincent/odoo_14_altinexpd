@@ -266,7 +266,7 @@ class QuotationRequestFormLine(models.Model):
     #         self.sub_total = exclude
 
     @api.depends('quantity', 'price_unit')
-    def compute_sub_total(self):
+    def _compute_sub_total(self):
         for a in self:
             exclude = a.quantity * a.price_unit
             a.sub_total = exclude
