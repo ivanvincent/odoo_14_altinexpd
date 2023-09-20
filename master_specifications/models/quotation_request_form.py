@@ -236,9 +236,9 @@ class QuotationRequestFormLine(models.Model):
     line_spec_ids = fields.One2many('quotation.request.form.line.specification', 'qrf_line_id', 'Line Spec')
     name = fields.Char(string='Description')
     quantity = fields.Float(string='Quantity')
-    price_unit = fields.Float(string='Price Unit')
+    price_unit = fields.Float(string='Price Unit', compute='_compute_price_unit')
     tax_ids = fields.Many2many(comodel_name='account.tax', string='Tax')
-    sub_total = fields.Float(string='Sub Total', compute='_compute_sub_total')
+    sub_total = fields.Float(string='Sub Total', compute='_compute_price_unit')
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
 
@@ -257,19 +257,19 @@ class QuotationRequestFormLine(models.Model):
     lapisan = fields.Selection(
         [("Coat", "Coat"), ("Plat", "Plat")], string='Surface Finish')
     
-    # @api.depends('line_spec_ids', 'price_unit' , 'sub_total')
-    # def compute_price_unit(self):
-    #     for rec in self:
-    #         tot_price += rec.line_spec_ids.harga
-    #         self.price_unit = tot_price
-    #         exclude = self.quantity * tot_price
-    #         self.sub_total = exclude
+    @api.depends('line_spec_ids', 'price_unit' , 'sub_total')
+    def _compute_price_unit(self):
+        for rec in self:
+            tot_price += rec.line_spec_ids.harga
+            self.price_unit = tot_price
+            exclude = self.quantity * tot_price
+            self.sub_total = exclude
 
-    @api.depends('quantity', 'price_unit')
-    def _compute_sub_total(self):
-        for a in self:
-            exclude = a.quantity * a.price_unit
-            a.sub_total = exclude
+    # @api.depends('quantity', 'price_unit')
+    # def _compute_sub_total(self):
+    #     for a in self:
+    #         exclude = a.quantity * a.price_unit
+    #         a.sub_total = exclude
 
     def _compute_qty_available(self):
         for rec in self:
