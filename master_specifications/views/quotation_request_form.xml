@@ -170,7 +170,7 @@
                                     <field name="spec_id"/>
                                     <field name="spect_name"/>
                                     <field name="desc"/>
-                                    <field name="harga"/>
+                                    <field name="harga" sum="harga"/>
                                     <!-- <field name="state"/> -->
                                 </tree>
                             </field>
