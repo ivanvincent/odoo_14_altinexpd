@@ -259,12 +259,18 @@ class QuotationRequestFormLine(models.Model):
     
     @api.depends('line_spec_ids', 'price_unit' , 'sub_total')
     def _compute_price_unit(self):
-        tot_price = 0
         for rec in self:
-            tot_price += rec.line_spec_ids.harga
+            tot_price = 0
+            for l in rec.line_spec_ids:
+                tot_price += rec.line_spec_ids.harga
             self.price_unit = tot_price
             exclude = self.quantity * tot_price
             self.sub_total = exclude
+
+
+            # for t in l.tax_ids:
+            #         total_tax += l.sub_total * (t.amount / 100)
+            #     total_untax += l.sub_total
 
     # @api.depends('quantity', 'price_unit')
     # def _compute_sub_total(self):
