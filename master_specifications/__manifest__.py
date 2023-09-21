@@ -19,6 +19,7 @@ Dev
         'views/master_require.xml',
         'views/specifications.xml',
         'views/quotation_request_form.xml',
+        'report/print_qrf.xml',
         
     ],
     'installable': True,
