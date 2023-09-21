@@ -240,7 +240,7 @@
                                             </td>
 
                                         </tr>
-                                        <tr t-foreach="line.get_lines_spec()" t-as="spec">
+                                        <tr t-foreach="line.line_spec_ids" t-as="spec">
                                             <td class="text-center">
                                                 <!-- <strong>
                                                     <a style="color: #000 !important;" t-esc="line.partner_id.name" view-type="form" res-model="res.partner"  t-att-res-id="line.partner_id.id"/>
@@ -250,28 +250,25 @@
                                                 <!-- <a style="color: #000 !important;" t-esc="history.move_id.name" view-type="form" res-model="account.move"  t-att-res-id="history.move_id.id"/> -->
                                             </td>
                                             <td style="border : 1px solid black" class="text-center">
-                                                <span t-esc="spec.get('name')"/>
+                                                <span t-esc="spec.spec_id.name"/>
                                             </td>
-
-                                            <t t-foreach="line.line_spec_ids.filtered(lambda x: x.specifications_id.id == spec.get('specifications_id'))" t-as="q"> 
-                                                <td style="border : 1px solid black" class="text-center">
-                                                    <span t-esc="q.spect_name"/>
-                                                </td>
-                                                <td style="border : 1px solid black" class="text-center">
-                                                    <span t-esc="q.desc"/>
-                                                </td>
-                                                <td style="border : 1px solid black" class="text-right" width="11%">Rp. 
-                                                    <span t-esc="'{0:,.0f}'.format(q.harga)"/>
-                                                </td>
-                                                <td>
-                                                    <!-- <span t-esc="spec.harga"/> -->
-                                                </td>
-                                                <td >
-                                                    <!-- <strong>
-                                                        <span t-esc="line.sisa_hutang" t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                                                    </strong> -->
-                                                </td>
-                                            </t>
+                                            <td style="border : 1px solid black" class="text-center">
+                                                <span t-esc="spec.spect_name"/>
+                                            </td>
+                                            <td style="border : 1px solid black" class="text-center">
+                                                <span t-esc="spec.desc"/>
+                                            </td>
+                                            <td style="border : 1px solid black" class="text-right" width="11%">Rp. 
+                                                <span t-esc="'{0:,.0f}'.format(spec.harga)"/>
+                                            </td>
+                                            <td>
+                                                <!-- <span t-esc="spec.harga"/> -->
+                                            </td>
+                                            <td >
+                                                <!-- <strong>
+                                                    <span t-esc="line.sisa_hutang" t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                                </strong> -->
+                                            </td>
                                         </tr>
                                     </t>
                                 </tbbody>
