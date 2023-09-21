@@ -73,7 +73,7 @@
         <record id="specifications_action" model="ir.actions.act_window">
             <field name="name">Master Specifications</field>
             <field name="res_model">specifications</field>
-            <field name="view_mode">tree</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
         </record>
 
         <menuitem

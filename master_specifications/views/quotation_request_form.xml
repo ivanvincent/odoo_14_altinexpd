@@ -153,7 +153,7 @@
         <record id="quotation_request_form_action" model="ir.actions.act_window">
             <field name="name">Quotation Request Form</field>
             <field name="res_model">quotation.request.form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
         </record>
 
         <record id="quotation_request_form_line_form" model="ir.ui.view">
