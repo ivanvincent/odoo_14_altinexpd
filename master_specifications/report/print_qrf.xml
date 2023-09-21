@@ -206,24 +206,24 @@
                                         <tr>
                                             <td style="border : 1px solid black" class="text-center">
                                                 <strong>
-                                                    <a style="color: #000 !important;" t-esc="line.jenis_id.name" view-type="form" res-model="master.jenis"  t-att-res-id="line.jenis_id.id"/>
+                                                    <a style="color: #000 !important;" t-esc="line.jenis_id.name" view-type="form" res-model="master.jenis" t-att-res-id="line.jenis_id.id"/>
                                                 </strong>
                                             </td>
                                             <td style="border : 1px solid black" width="20%">
                                                 <strong>
-                                                    <a style="color: #000 !important;" t-esc="line.name" view-type="form" />
+                                                    <a style="color: #000 !important;" t-esc="line.name" view-type="form"/>
                                                 </strong>
                                             </td>
-                                            <td >
+                                            <td>
                                                 <!-- Kosong Bill Date-->
                                             </td>
-                                            <td >
+                                            <td>
                                                 <!-- Kosong  Tax-->
                                             </td>
-                                            <td >
+                                            <td>
                                                 <!-- Kosong  Tax-->
                                             </td>
-                                            <td style="border : 1px solid black" class="text-right"  width="11%">Rp. 
+                                            <td style="border : 1px solid black" class="text-right" width="11%">Rp. 
                                                 <strong>
                                                     <span t-esc="'{0:,.0f}'.format(line.price_unit)"/>
                                                 </strong>
@@ -233,14 +233,16 @@
                                                     <span t-esc="line.quantity"/>
                                                 </strong>
                                             </td>
-                                            <td style="border : 1px solid black" class="text-right"  width="11%">Rp.
+                                            <td style="border : 1px solid black" class="text-right" width="11%">Rp.
                                                 <strong>
                                                     <span t-esc="'{0:,.0f}'.format(line.sub_total)"/>
                                                 </strong>
                                             </td>
 
                                         </tr>
-                                        <tr t-foreach="line.line_spec_ids" t-as="spec">
+                                        
+                                        <t t-set="name_spec" t-value=""/>
+                                        <tr t-foreach="line.line_spec_ids.sorted(key=lambda b: b.spec_id.name)" t-as="spec">
                                             <td class="text-center">
                                                 <!-- <strong>
                                                     <a style="color: #000 !important;" t-esc="line.partner_id.name" view-type="form" res-model="res.partner"  t-att-res-id="line.partner_id.id"/>
@@ -249,9 +251,18 @@
                                             <td class="text-center">
                                                 <!-- <a style="color: #000 !important;" t-esc="history.move_id.name" view-type="form" res-model="account.move"  t-att-res-id="history.move_id.id"/> -->
                                             </td>
-                                            <td style="border : 1px solid black" class="text-center">
+                                            <t t-set="len_spec" t-value="len(line.line_spec_ids.filtered(lambda x: x.spec_id.name == spec.spec_id.name))"/>
+                                            <t t-if="name_spec != spec.spec_id.name">
+                                              <td style="border : 1px solid black" class="text-center" t-att-rowspan="len_spec">
                                                 <span t-esc="spec.spec_id.name"/>
-                                            </td>
+                                              </td>
+                                              <t t-set="name_spec" t-value="spec.spec_id.name" />
+                                            </t>
+                                            <!--<t t-if="len_spec == 1">-->
+                                            <!--  <td style="border : 1px solid black" class="text-center">-->
+                                            <!--    <span t-esc="spec.spec_id.name"/>-->
+                                            <!--  </td>-->
+                                            <!--</t>-->
                                             <td style="border : 1px solid black" class="text-center">
                                                 <span t-esc="spec.spect_name"/>
                                             </td>
@@ -264,7 +275,7 @@
                                             <td>
                                                 <!-- <span t-esc="spec.harga"/> -->
                                             </td>
-                                            <td >
+                                            <td>
                                                 <!-- <strong>
                                                     <span t-esc="line.sisa_hutang" t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                                                 </strong> -->
