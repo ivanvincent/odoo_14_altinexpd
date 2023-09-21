@@ -7,7 +7,8 @@
             <field name="name">specifications.tree</field>
             <field name="model">specifications</field>
             <field name="arch" type="xml">
-                <tree string="" editable="bottom">
+                <tree string="">
+                 <!-- editable="bottom" -->
                     <field name="jenis_id"/>
                     <field name="spec_id"/>
                     <field name="spect_name"/>
@@ -15,6 +16,57 @@
                     <field name="harga"/>
                     <field name="active"/>
                 </tree>
+            </field>
+        </record>
+
+        <record id="specifications_form" model="ir.ui.view">
+            <field name="name">specifications_form</field>
+            <field name="model">specifications</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <!-- <button name="action_generate" type="object" string="Generate" class="oe_highlight"/> -->
+                        <!-- <button name="action_confirm" type="object" string="Confirm" states="draft"/>
+                        <button name="action_set_to_draft" type="object" string="Se to draft" states="confirm"/> -->
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="jenis_id"/>
+                                <field name="spec_id"/>
+                                <field name="spect_name"/>
+                                <field name="desc"/>
+                                <field name="harga"/>
+                                <field name="active"/>
+                            </group>
+                            <!-- <group>
+                                
+                            </group> -->
+                        </group>
+                        <notebook>
+                            <page name="Details" string="Details">
+                                <field name="desc_detail"/>
+                            </page>
+                            <!-- <page name="drawing" string="Drawing">
+                                <group col="2">
+                                    <group string="Design Approved">
+                                        <field name="drawing_internal" widget="pdf_viewer"/>
+                                    </group>
+                                    <group string="Design Approved">
+                                        <field name="drawing_external" widget="pdf_viewer"/>
+                                    </group>
+                                </group>
+                            </page> -->
+                        </notebook>                        
+                        <div class="oe_clear"/>
+                    </sheet>
+                </form>
             </field>
         </record>
 
