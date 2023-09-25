@@ -5,7 +5,9 @@ class Specifications(models.Model):
 
     name = fields.Char(string='Kode Master')
     jenis_id = fields.Many2one('master.jenis', string='Jenis')
-    spec_id = fields.Many2one('master.require', string='Spec',domain="[('jenis_ids', 'in', jenis_id)]")
+    spec_id = fields.Many2one('master.require', string='Spec',
+    # domain="[('jenis_ids', 'in', jenis_id)]"
+    )
     spect_name = fields.Char(string='Nama Spesifikasi')
     desc = fields.Char(string='Nama Spefisikasi')
     desc_detail = fields.Text(string='Deskripsi Detail')
