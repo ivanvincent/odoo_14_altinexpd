@@ -12,6 +12,7 @@
                     <field name="spec_id"/>
                     <field name="spect_name"/>
                     <field name="desc"/>
+                    <field name="deskripsi"/>
                     <field name="harga"/>
                     <field name="active"/>
                 </tree>

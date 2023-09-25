@@ -6,6 +6,7 @@ class Specifications(models.Model):
     jenis_id = fields.Many2one('master.jenis', string='Jenis')
     spec_id = fields.Many2one('master.require', string='Spec',domain="[('jenis_ids', 'in', jenis_id)]")
     spect_name = fields.Char(string='Nama Spefisikasi')
-    desc = fields.Char(string='Desc')
+    desc = fields.Char(string='Nama')
     harga = fields.Float(string='Harga')
     active = fields.Boolean(string='Active ?', default=True)
+    deskripsi = fields.Char(string='Deskripsi')
