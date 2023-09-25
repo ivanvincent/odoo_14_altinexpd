@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record model="report.paperformat" id="paperformat_specifications_summary">
+            <field name="name">paperformat.receipt.a4</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">45</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_right">10</field>
+            <field name="margin_left">10</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+        </record>
+
+        <record id="action_specifications_summary" model="ir.actions.report">
+                <field name="name">Specification Summary</field>
+                <field name="model">quotation.request.form</field>
+                <field name="report_name">master_specifications.specification_summary_template</field>
+                <field name="report_file">master_specifications.specification_summary_template</field>
+                <field name="print_report_name">'%s' % object.name</field>
+                <field name="binding_model_id" ref="model_quotation_request_form"/>
+                <field name="binding_type">report</field>
+                <field name="paperformat_id" eval="paperformat_specifications_summary"/>
+            </record>
+
+        <template id="specification_summary_template">
+            <t t-call="web.basic_layout"> 
+            <style>
+                    table-data {
+                        border: 1px solid black;
+                        text-align: center;
+                        margin-bottom: 1rem;
+                        border-collapse: collapse;
+                    }
+
+                    .table-data th,
+                    .table-data td {
+                        border: 1px solid black;
+                        padding: 0;
+                        border-collapse: collapse;
+                    }
+                </style>
+                <t t-foreach="docs" t-as="doc">
+                    <t t-if="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id" />
+                    </t>
+                    <t t-if="not o or not 'company_id' in o">
+                        <t t-set="company" t-value="res_company" />
+                    </t>
+
+
+                    <div class="header">
+                        <div class="row mt32">
+                            <div class="col-6" style="margin-top: 20px">
+                            <span style="text-align: left; font-size: 20px">SPECIFICATION SUMMARY</span>
+                            </div>
+                            <div class="col-6" style="margin-top: 20px"> Quotation :
+                            <span t-esc="doc.name" style="text-align: left; font-size: 20px"></span>
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="row mt32">
+                            <div class="col-12">
+                        
+                            <table width="100%" class="table-data" style="border: 1px solid black; text-align: center; margin-bottom: 1rem; border-collapse: collapse; font-size: 14px;">
+                                <thead>
+                                    <t t-foreach="doc.line_ids" t-as="line">
+                                        <tr>
+                                            <td style="border : 1px solid black;" class="text-left">
+                                                  <div class="row mt32">
+                                                      <div class="col-12" style="border-top : 1px solid black;background-color:#D9DDDC">
+                                                        <strong><span t-esc="line.jenis_id.name" /></strong>
+                                                      </div>
+                                                  </div>
+                                                <t t-foreach="set(line.line_spec_ids.mapped('spec_id.name'))" t-as="detail">
+                                                  <div class="row mt32">
+                                                      <div class="col-12" style="border-top : 1px solid black">
+                                                        <strong><span t-esc="detail"/></strong>
+                                                      </div>
+                                                  </div>
+                                                  <t t-foreach="line.line_spec_ids.filtered(lambda x: x.spec_id.name == detail)" t-as="detail2">
+                                                    <div  class="row mt32">
+                                                        <div class="col-5" style="border-bottom : 1px solid black;border-top : 1px solid black">
+                                                          <span t-field="detail2.spect_name"/>
+                                                        </div>
+                                                        <div class="col-3" style="border-bottom : 1px solid black;border-top : 1px solid black">
+                                                          <span t-field="detail2.desc"/>
+                                                        </div>
+                                                        <div class="col-1" style="border-bottom : 1px solid black;border-top : 1px solid black">
+                                                          <span t-field="line.quantity"/>
+                                                        </div>
+                                                        <div class="col-3" style="border-bottom : 1px solid black;border-top : 1px solid black;text-align: right">
+                                                          <span t-field="detail2.harga"/>
+                                                        </div>
+                                                    </div>
+                                                  </t>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </thead>
+                                <tbbody>
+                                </tbbody>
+                                
+                            </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <br /><br />
+
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
