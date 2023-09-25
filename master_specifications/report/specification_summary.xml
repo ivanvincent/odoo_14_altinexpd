@@ -69,26 +69,32 @@
                         
                             <table width="100%" class="table-data" style="border: 1px solid black; text-align: center; margin-bottom: 1rem; border-collapse: collapse; font-size: 16px;">
                                 <thead>
+                                    <t t-set="no" t-value="1"/>
                                     <t t-foreach="doc.line_ids" t-as="line">
                                         <tr>
                                             <td style="border: 1px solid black;" class="text-left">
                                                   <div class="row" style="background-color:#D9DDDC">
-                                                      <div class="col-12">
+                                                      <div class="col-1"/>#
+                                                      <div class="col-11">
                                                         <strong><span t-esc="line.jenis_id.name" /></strong>
                                                       </div>
                                                   </div>
                                                 <t t-foreach="set(line.line_spec_ids.mapped('spec_id.name'))" t-as="detail">
                                                   <div class="row mt32">
-                                                      <div class="col-12">
+                                                      <div class="col-1"/>
+                                                      <div class="col-11">
                                                         <strong><span t-esc="detail"/></strong>
                                                       </div>
                                                   </div>
                                                   <t t-foreach="line.line_spec_ids.filtered(lambda x: x.spec_id.name == detail)" t-as="detail2">
                                                     <div  class="row mt32">
+                                                        <div class="col-1" style="text-align: center;">
+                                                          <span t-esc="no"/> <t t-set="no" t-value="no + 1"/>
+                                                        </div>
                                                         <div class="col-5">
                                                           <span t-field="detail2.spect_name"/>
                                                         </div>
-                                                        <div class="col-4">
+                                                        <div class="col-3">
                                                           <span t-field="detail2.desc"/>
                                                         </div>
                                                         <div class="col-1">
