@@ -113,7 +113,7 @@
                                                     <div class="row mt32">
                                                         <div class="col-1"/>
                                                         <div class="col-5">
-                                                          <strong><span t-esc="detail2.desc_detail"/></strong>
+                                                          <span t-esc="detail2.desc_detail"/>
                                                         </div>
                                                         <div class="col-6"/>
                                                     </div>
