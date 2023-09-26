@@ -22,6 +22,7 @@ Dev
         'report/print_qrf.xml',
         'report/specification_summary.xml',
         'report/specification.xml',
+        'report/specification_detail.xml',
         
     ],
     'installable': True,
