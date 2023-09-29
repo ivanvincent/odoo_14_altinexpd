@@ -101,7 +101,7 @@
                                             <td width="20%" style="padding-left:10px;">Nomor</td>
                                             <td>
                                                 <span>:</span>
-                                                <!-- <span t-field="doc.name" /> -->
+                                                <span t-field="doc.name" />
                                             </td>
                                         </tr>
                                         <tr>

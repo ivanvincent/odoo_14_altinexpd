@@ -15,6 +15,7 @@ Dev
 """,
     'data': [
         'security/ir.model.access.csv',
+        'data/ir_sequence.xml',
         'views/master_jenis.xml',
         'views/master_require.xml',
         'views/specifications.xml',
