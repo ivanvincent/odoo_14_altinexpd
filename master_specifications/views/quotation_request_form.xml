@@ -166,9 +166,10 @@
                             <field name="line_spec_ids" nolabel="1">
                                 <tree editable="bottom">
                                     <field name="jenis_id" invisible="1"/>
-                                    <field name="specifications_id"/>
-                                    <field name="spec_id"/>
-                                    <field name="spect_name"/>
+                                    <field name="require_id"/>
+                                    <field name="specifications_id" domain="[('spec_id','=',require_id)]"/>
+                                    <!-- <field name="spec_id"/> -->
+                                    <!-- <field name="spect_name"/> -->
                                     <field name="desc"/>
                                     <field name="harga" sum="harga"/>
                                     <!-- <field name="state"/> -->

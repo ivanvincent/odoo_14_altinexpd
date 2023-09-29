@@ -2,6 +2,7 @@ from odoo import models, fields, api
 
 class Specifications(models.Model):
     _name = 'specifications'
+    _rec_name = 'spect_name'
 
     name = fields.Char(string='Kode Master')
     jenis_id = fields.Many2one('master.jenis', string='Jenis')

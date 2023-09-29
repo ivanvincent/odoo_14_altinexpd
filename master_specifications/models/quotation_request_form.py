@@ -35,15 +35,6 @@ class QuotationRequestForm(models.Model):
     
     up_kpd = fields.Many2one('attn', string='Attn')
     attn_ids = fields.Many2many('attn', string='Attn', compute='compute_attn_ids')
-
-
-
-    # alamat  = fields.Text(string='Alamat', related='up_kpd.alamat')
-    # kota    = fields.Char(string='Kota', related='up_kpd.kota')
-    # phone   = fields.Char(string='Phone', related='up_kpd.phone')
-    # mobile  = fields.Char(string='Mobile', related='up_kpd.mobile')
-    # fax     = fields.Char(string='Fax', related='up_kpd.fax')
-    # email   = fields.Char(string='Email', related='up_kpd.email')
     
     note_so = fields.Char(string='Note')
     perihal = fields.Selection([("Penawaran Harga Punch & Dies","Penawaran Harga Punch & Dies"),
@@ -82,10 +73,9 @@ class QuotationRequestForm(models.Model):
 
     @api.model
     def create(self, vals):
-        sequence = self.env['ir.sequence'].next_by_code('QuotationRequestForm')
-        vals['name'] = sequence
-        res = super(QuotationRequestForm, self).create(vals)
-        return res
+        seq_id = self.env.ref('master_specifications.qrf_seq')
+        vals['name'] = seq_id.next_by_id() if seq_id else '/'
+        return super(QuotationRequestForm, self).create(vals)
     
     def action_confirm(self):
         self.state = 'confirm'
@@ -287,6 +277,16 @@ class QuotationRequestFormLine(models.Model):
     
     def create_specification_detail(self):
         self.ensure_one()
+        # spec = self.env['master.require'].search([('jenis_ids', 'in', self.jenis_id.ids)])
+        spec = self.env['master.require'].search([('active', '=', True)])
+        data = []
+        if not any(self.line_spec_ids):
+            for line in spec:
+                if self.jenis_id in line.jenis_ids: 
+                    data.append((0, 0, {
+                        'require_id': line.id
+                    }))
+            self.line_spec_ids = data 
         action = self.env.ref('master_specifications.quotation_request_form_line_action').read()[0]
         action['res_id'] = self.id
         return action
@@ -342,9 +342,10 @@ class QuotationRequestFormLineSpecification(models.Model):
 
     qrf_line_id = fields.Many2one('quotation.request.form.line', string='QRF')
     jenis_id = fields.Many2one('master.jenis', string='Jenis', related='qrf_line_id.jenis_id')
-    specifications_id = fields.Many2one('specifications', string='Master Spec', domain="[('jenis_id', '=',jenis_id)]")
-    spec_id = fields.Many2one('master.require',string='Spefisikasi', related='specifications_id.spec_id')
-    spect_name = fields.Char(string='Kode', related='specifications_id.spect_name')
+    require_id = fields.Many2one('master.require', string='Spesifikasi')
+    specifications_id = fields.Many2one('specifications', string='Kode', domain="[('jenis_id', '=',jenis_id)]")
+    # spec_id = fields.Many2one('master.require',string='Spefisikasi', related='specifications_id.spec_id')
+    # spect_name = fields.Char(string='Kode', related='specifications_id.spect_name')
     desc = fields.Char(string='Nama', related='specifications_id.desc')
     desc_detail = fields.Text(string='Description Detail', related='specifications_id.desc_detail')
     harga = fields.Float(string='Harga', related='specifications_id.harga')
