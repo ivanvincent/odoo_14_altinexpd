@@ -163,11 +163,20 @@
                 <form string="">
                     <sheet>
                         <group>
+                            <field name="line_qty_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="jenis_id" invisible="1"/>
+                                    <field name="qty_id"/>
+                                    <field name="qty"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group>
                             <field name="line_spec_ids" nolabel="1">
                                 <tree editable="bottom">
                                     <field name="jenis_id" invisible="1"/>
                                     <field name="require_id"/>
-                                    <field name="specifications_id" domain="[('spec_id','=',require_id)]"/>
+                                    <field name="specifications_id" domain="[('spec_id','=',require_id),('jenis_id','=', jenis_id)]"/>
                                     <!-- <field name="spec_id"/> -->
                                     <!-- <field name="spect_name"/> -->
                                     <field name="desc"/>

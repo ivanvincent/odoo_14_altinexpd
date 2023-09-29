@@ -18,3 +18,4 @@ class Specifications(models.Model):
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
     deskripsi = fields.Char(string='Deskripsi')
+    rumus = fields.Char('Rumus')

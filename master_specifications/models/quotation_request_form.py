@@ -246,6 +246,7 @@ class QuotationRequestFormLine(models.Model):
     kd_bahan = fields.Char(string='Kode Bahan')
     lapisan = fields.Selection(
         [("Coat", "Coat"), ("Plat", "Plat")], string='Surface Finish')
+    line_qty_ids = fields.One2many('quotation.request.form.line.quantity', 'qrf_line_id', 'Line Qty')
     
     # @api.depends('line_spec_ids', 'price_unit' , 'sub_total')
     @api.depends('price_unit')
@@ -287,6 +288,15 @@ class QuotationRequestFormLine(models.Model):
                         'require_id': line.id
                     }))
             self.line_spec_ids = data 
+
+        # jenis = self.env['master.jenis'].search([('id','in', self.jenis_id.ids)])
+        # jenis = self.env['master.jenis'].search([('active', '=', True)])
+        # data = []
+        # for line in jenis:
+        #     data.append((0, 0, {
+        #         'qty_id': [(6,0,line.qty_ids.ids)]
+        #     }))
+        # self.line_qty_ids = data 
         action = self.env.ref('master_specifications.quotation_request_form_line_action').read()[0]
         action['res_id'] = self.id
         return action
@@ -352,4 +362,12 @@ class QuotationRequestFormLineSpecification(models.Model):
     urutan = fields.Integer(string='Urutan', related='specifications_id.urutan')
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
+
+class QuotationRequestFormLineQuantity(models.Model):
+    _name = 'quotation.request.form.line.quantity'
+
+    qrf_line_id = fields.Many2one('quotation.request.form.line', string='QRF')
+    jenis_id    = fields.Many2one('master.jenis', string='Jenis', related='qrf_line_id.jenis_id')
+    qty_id      = fields.Many2one('master.qty', string='Quantity')
+    qty         = fields.Float(string='Qty')
     
