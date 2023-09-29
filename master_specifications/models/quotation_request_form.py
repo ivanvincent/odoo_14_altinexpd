@@ -291,12 +291,13 @@ class QuotationRequestFormLine(models.Model):
 
         # jenis = self.env['master.jenis'].search([('id','in', self.jenis_id.ids)])
         # jenis = self.env['master.jenis'].search([('active', '=', True)])
-        # data = []
-        # for line in jenis:
-        #     data.append((0, 0, {
-        #         'qty_id': [(6,0,line.qty_ids.ids)]
-        #     }))
-        # self.line_qty_ids = data 
+        list_qty = []
+        if not any(self.line_qty_ids):
+            for line in self.jenis_id.qty_ids:
+                list_qty.append((0, 0, {
+                    'qty_id': line.id
+                }))
+            self.line_qty_ids = list_qty 
         action = self.env.ref('master_specifications.quotation_request_form_line_action').read()[0]
         action['res_id'] = self.id
         return action
