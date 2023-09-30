@@ -106,10 +106,10 @@
                                                         <div class="col-2" style="text-align: right">
                                                           <span t-field="detail2.harga"/>
                                                         </div>
-                                                        <div class="col-2">
+                                                        <div class="col-2" style="text-align: right">
                                                           <span t-field="detail2.subtotal"/>
                                                         </div>
-                                                        <div class="col-2">
+                                                        <div class="col-2" style="text-align: right">
                                                           <span t-field="detail2.total"/>
                                                         </div>
                                                     </div>
