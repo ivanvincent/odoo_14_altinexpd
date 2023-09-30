@@ -265,11 +265,15 @@ class QuotationRequestFormLine(models.Model):
             #         total_tax += l.sub_total * (t.amount / 100)
             #     total_untax += l.sub_total
 
-    @api.depends('quantity', 'price_unit')
+    @api.depends('sub_total')
     def _compute_sub_total(self):
         for a in self:
-            exclude = a.quantity * a.price_unit
-            a.sub_total = exclude
+            _total = 0
+            for l in a.line_spec_ids:
+                _total += l.total
+            a.sub_total = _total
+            # exclude = a.quantity * a.price_unit
+            # a.sub_total = exclude
             # a.price_unit = sum(a.line_spec_ids.specifications_id.harga)
 
     def _compute_qty_available(self):
@@ -289,8 +293,6 @@ class QuotationRequestFormLine(models.Model):
                     }))
             self.line_spec_ids = data 
 
-        # jenis = self.env['master.jenis'].search([('id','in', self.jenis_id.ids)])
-        # jenis = self.env['master.jenis'].search([('active', '=', True)])
         list_qty = []
         if not any(self.line_qty_ids):
             for line in self.jenis_id.qty_ids:
@@ -363,6 +365,61 @@ class QuotationRequestFormLineSpecification(models.Model):
     urutan = fields.Integer(string='Urutan', related='specifications_id.urutan')
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
+    subtotal = fields.Float(string='Subtotal', compute='_compute_subtotal')
+    total = fields.Float(string='Total', compute='_compute_total')
+
+    @api.depends('harga', 'qrf_line_id.line_qty_ids.qty', 'require_id', 'specifications_id')
+    def _compute_subtotal(self):
+        for rec in self:
+            spec = rec.specifications_id
+            if spec:
+                if spec.rumus_subtotal == 'HARGA' or not spec.rumus_subtotal:
+                    rec.subtotal = rec.harga
+                else:
+                    rumus = spec.rumus_subtotal.replace("(", "( ").replace(")", " )")
+                    if rumus:
+                        splited = rumus.split(" ")
+                        final = []
+                        for s in splited:
+                            master_quantity = rec.qrf_line_id.line_qty_ids.filtered(lambda x: x.qty_id.name == s)
+                            if s == master_quantity.qty_id.name:
+                                final.append(str(master_quantity.qty))
+                            elif s == 'HARGA':
+                                final.append(str(rec.harga))
+                            else:
+                                final.append(str(s))
+                        rec.subtotal = eval(' '.join(final))
+                    else:
+                        rec.subtotal = rec.harga
+            else:
+                rec.subtotal = rec.harga
+
+    @api.depends('harga', 'qrf_line_id.line_qty_ids.qty', 'require_id', 'specifications_id')
+    def _compute_total(self):
+        for rec in self:
+            spec = rec.specifications_id
+            if spec:
+                if spec.rumus_total == 'SUBTOTAL' or not spec.rumus_total:
+                    rec.total = rec.subtotal
+                else:
+                    rumus = spec.rumus_total.replace("(", "( ").replace(")", " )")
+                    if rumus:
+                        splited = rumus.split(" ")
+                        final = []
+                        for s in splited:
+                            master_quantity = rec.qrf_line_id.line_qty_ids.filtered(lambda x: x.qty_id.name == s)
+                            if s == master_quantity.qty_id.name:
+                                final.append(str(master_quantity.qty))
+                            elif s == 'SUBTOTAL':
+                                final.append(str(rec.subtotal))
+                            else:
+                                final.append(str(s))
+                        rec.total = eval(' '.join(final))
+                    else:
+                        rec.total = rec.subtotal
+            else:
+                rec.total = rec.subtotal
+
 
 class QuotationRequestFormLineQuantity(models.Model):
     _name = 'quotation.request.form.line.quantity'
