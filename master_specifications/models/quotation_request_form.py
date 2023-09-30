@@ -361,8 +361,8 @@ class QuotationRequestFormLineSpecification(models.Model):
     urutan = fields.Integer(string='Urutan', related='specifications_id.urutan')
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
-    subtotal = fields.Char(string='Subtotal', related='specifications_id.rumus_subtotal')
-    total = fields.Char(string='Total', related='specifications_id.rumus_total')
+    subtotal = fields.Float(string='Subtotal')
+    total = fields.Float(string='Total')
 
 class QuotationRequestFormLineQuantity(models.Model):
     _name = 'quotation.request.form.line.quantity'
