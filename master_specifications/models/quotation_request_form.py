@@ -265,11 +265,15 @@ class QuotationRequestFormLine(models.Model):
             #         total_tax += l.sub_total * (t.amount / 100)
             #     total_untax += l.sub_total
 
-    @api.depends('quantity', 'price_unit')
+    @api.depends('sub_total')
     def _compute_sub_total(self):
         for a in self:
-            exclude = a.quantity * a.price_unit
-            a.sub_total = exclude
+            _total = 0
+            for l in a.line_spec_ids:
+                _total += l.total
+            a.sub_total = _total
+            # exclude = a.quantity * a.price_unit
+            # a.sub_total = exclude
             # a.price_unit = sum(a.line_spec_ids.specifications_id.harga)
 
     def _compute_qty_available(self):
