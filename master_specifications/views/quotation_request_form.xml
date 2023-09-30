@@ -181,6 +181,8 @@
                                     <!-- <field name="spect_name"/> -->
                                     <field name="desc"/>
                                     <field name="harga" sum="harga"/>
+                                    <field name="subtotal" sum="Subtoal"/>
+                                    <field name="total" sum="Total"/>
                                     <!-- <field name="state"/> -->
                                 </tree>
                             </field>

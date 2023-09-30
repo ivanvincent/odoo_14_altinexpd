@@ -9,7 +9,7 @@ class Specifications(models.Model):
     spec_id = fields.Many2one('master.require', string='Spec',
     # domain="[('jenis_ids', 'in', jenis_id)]"
     )
-    spect_name = fields.Char(string='Nama Spesifikasi')
+    spect_name = fields.Char(string='Kode')
     desc = fields.Char(string='Nama Spefisikasi')
     desc_detail = fields.Text(string='Deskripsi Detail')
     harga = fields.Float(string='Harga')
@@ -18,4 +18,5 @@ class Specifications(models.Model):
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
     deskripsi = fields.Char(string='Deskripsi')
-    rumus = fields.Char('Rumus')
+    rumus_subtotal = fields.Char('Rumus Subtotal')
+    rumus_total = fields.Char('Rumus Total')

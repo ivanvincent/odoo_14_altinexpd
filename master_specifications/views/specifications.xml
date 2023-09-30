@@ -13,9 +13,10 @@
                     <field name="spec_id"/>
                     <field name="spect_name"/>
                     <field name="desc"/>
-                    <field name="rumus"/>
                     <field name="deskripsi"/>
                     <field name="harga"/>
+                    <field name="rumus_subtotal"/>
+                    <field name="rumus_total"/>
                     <field name="active"/>
                 </tree>
             </field>
@@ -44,8 +45,9 @@
                                 <field name="spec_id"/>
                                 <field name="spect_name"/>
                                 <field name="desc"/>
-                                <field name="rumus"/>
                                 <field name="harga"/>
+                                <field name="rumus_subtotal"/>
+                                <field name="rumus_total"/>
                                 <field name="active"/>
                             </group>
                             <!-- <group>

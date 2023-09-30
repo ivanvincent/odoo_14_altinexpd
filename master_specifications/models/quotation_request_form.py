@@ -289,8 +289,6 @@ class QuotationRequestFormLine(models.Model):
                     }))
             self.line_spec_ids = data 
 
-        # jenis = self.env['master.jenis'].search([('id','in', self.jenis_id.ids)])
-        # jenis = self.env['master.jenis'].search([('active', '=', True)])
         list_qty = []
         if not any(self.line_qty_ids):
             for line in self.jenis_id.qty_ids:
@@ -363,6 +361,8 @@ class QuotationRequestFormLineSpecification(models.Model):
     urutan = fields.Integer(string='Urutan', related='specifications_id.urutan')
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
+    subtotal = fields.Char(string='Subtotal', related='specifications_id.rumus_subtotal')
+    total = fields.Char(string='Total', related='specifications_id.rumus_total')
 
 class QuotationRequestFormLineQuantity(models.Model):
     _name = 'quotation.request.form.line.quantity'
