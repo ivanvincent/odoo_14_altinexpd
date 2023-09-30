@@ -32,6 +32,7 @@
         'wizard/hr_reporting_views.xml',
         'report/report_salary_to_bpjs.xml',
         'report/report_salary_to_gs.xml',
+        'views/rv_payroll.xml',
     ],
     'demo': ['data/hr_payroll_demo.xml'],
     "application": True,

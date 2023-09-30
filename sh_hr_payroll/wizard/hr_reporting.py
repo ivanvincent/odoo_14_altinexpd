@@ -1858,6 +1858,81 @@ class HrReporting(models.TransientModel):
             """ 
         self._cr.execute(query)
         return self._cr.dictfetchall()
+    
+    def action_form_voucher_payroll(self):
+        print('action_form_voucher_payroll')
+        rslt = self.query()
+        uid = self.env.user.id
+        # for rec in rslt:
+        #     rec.l
+        # lines = [(0,0,{
+        #     # "date":self.date,
+        #     "name":'-',
+        #     # "amount":self.nominal*-1,
+        #     # "account_id":1616
+            
+        #     })]
+        lines = []
+        total_pkp_1 = 0
+        for lot in rslt:
+            total_pkp_1 = if lot.get('total_pkp_1', '') > 0 else 0,
+            lines.append((0, 0, {
+                    "nik_id": lot.get('nik', ''),
+                    "karyawan": lot.get('name', ''),
+                    "total_gapok": lot.get('total_gapok', ''),
+                    "bpjs_kesehatan": lot.get('total_gapok_bpjs', ''),
+                    "bpjs_tk": lot.get('bpjs_tk', ''),
+                    "total_ahli": lot.get('total_ahli', ''),
+                    "total_shift3": lot.get('total_shift3', ''),
+                    "total_faskes": lot.get('total_faskes', ''),
+                    "total_lembur": lot.get('total_lembur', ''),
+                    "total_bonus": lot.get('total_bonus', ''),
+                    "total_tunjangan": lot.get('total_tunjangan', ''),
+                    "total_tpph": lot.get('total_tpph', ''),
+                    "total_kes": lot.get('total_kes', ''),
+                    "jht": lot.get('jht', ''),
+                    "total_jkk": lot.get('total_jkk', ''),
+                    "total_jp": lot.get('total_jp', ''),
+                    "total_jkm": lot.get('total_jkm', ''),
+                    "total_bpjs_perusahaan": lot.get('total_bpjs_perusahaan', ''),
+                    "tot_pph21_perusahaan": lot.get('tot_pph21_perusahaan', ''),
+                    "total_bota": lot.get('total_bota', ''),
+                    "total_thr": lot.get('total_thr', ''),
+                    "total_ktt": lot.get('total_ktt', ''),
+                    "total_bruto": lot.get('total_bruto', ''),
+                    "kes2": lot.get('kes2', ''),
+                    "total_jht2": lot.get('total_jht2', ''),
+                    "total_jp2": lot.get('total_jp2', ''),
+                    "total_pkp_2": lot.get('total_pkp_2', ''),
+                    "tot_pph21_karyawan": lot.get('tot_pph21_karyawan', ''),
+                    "total_jabat": lot.get('total_jabat', ''),
+                    "total_potong": lot.get('total_potong', ''),
+                    "total_net": lot.get('total_net', ''),
+                    "total_net_annual": lot.get('total_net_annual', ''),
+                    "total_ptkp": lot.get('total_ptkp', ''),
+                    "total_pkp_1": lot.get('total_pkp_1', '')  ,
+                    "pkp_pembulatan": lot.get('pkp_pembulatan', '') if lot.get('pkp_pembulatan', '') > 0 else 0,
+                    "total_pph21_1": lot.get('total_pph21_1', ''),
+                    "total_pph21_2": lot.get('total_pph21_2', ''),
+                    # "total_thp": lot.get('total_gapok', '') + lot.get('total_tpph', ''),
+                    "total_thp": lot.get('tot_thp', ''),
+                }))
+
+        # bs = self.env['rv.payroll'].search([('journal_id', '=', self.journal_src_id.id)], order="id desc", limit=1)
+
+        abs = self.env['rv.payroll'].sudo().create({
+            # "balance_start": bs.balance_end_real,
+            # "request_kasbon_id": self.id,
+            # "journal_id": self.journal_src_id.id,
+            "tanggal":self.date_end,
+            "name":self.month_selection,
+            "rvp_line_ids":lines,
+            "create_uid": uid
+            })
+
+        # abs.write({
+        #     "balance_end_real": abs.balance_end
+        # })
 	
     def action_generate_pdf(self):
         record = self.query()
@@ -2187,7 +2262,8 @@ class HrReporting(models.TransientModel):
 			'target': 'download',
 		}
         return result
-    
+ 
+ 
 class HrReportingBpjs(models.AbstractModel):
     _name = 'report.sh_hr_payroll.report_salary_bpjs'
 

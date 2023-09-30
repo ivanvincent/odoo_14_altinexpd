@@ -414,6 +414,7 @@
     </record>
     <menuitem action="action_hr_payslip_run_tree" id="menu_hr_payslip_run" parent="menu_hr_payroll_root"/>
 
+
     <!--  Shortcuts -->
 
    <!--  <act_window name="Payslip Lines"
