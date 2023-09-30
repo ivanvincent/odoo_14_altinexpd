@@ -1873,9 +1873,7 @@ class HrReporting(models.TransientModel):
             
         #     })]
         lines = []
-        total_pkp_1 = 0
         for lot in rslt:
-            total_pkp_1 = if lot.get('total_pkp_1', '') > 0 else 0,
             lines.append((0, 0, {
                     "nik_id": lot.get('nik', ''),
                     "karyawan": lot.get('name', ''),
