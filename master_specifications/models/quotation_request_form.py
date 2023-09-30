@@ -361,8 +361,61 @@ class QuotationRequestFormLineSpecification(models.Model):
     urutan = fields.Integer(string='Urutan', related='specifications_id.urutan')
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
-    subtotal = fields.Float(string='Subtotal')
-    total = fields.Float(string='Total')
+    subtotal = fields.Float(string='Subtotal', compute='_compute_subtotal')
+    total = fields.Float(string='Total', compute='_compute_total')
+
+    @api.depends('harga', 'qrf_line_id.line_qty_ids.qty', 'require_id', 'specifications_id')
+    def _compute_subtotal(self):
+        for rec in self:
+            spec = rec.specifications_id
+            if spec:
+                if spec.rumus_subtotal == 'HARGA' or not spec.rumus_subtotal:
+                    rec.subtotal = rec.harga
+                else:
+                    rumus = spec.rumus_subtotal.replace("(", "( ").replace(")", " )")
+                    if rumus:
+                        splited = rumus.split(" ")
+                        final = []
+                        for s in splited:
+                            master_quantity = rec.qrf_line_id.line_qty_ids.filtered(lambda x: x.qty_id.name == s)
+                            if s == master_quantity.qty_id.name:
+                                final.append(str(master_quantity.qty))
+                            elif s == 'HARGA':
+                                final.append(str(rec.harga))
+                            else:
+                                final.append(str(s))
+                        rec.subtotal = eval(' '.join(final))
+                    else:
+                        rec.subtotal = rec.harga
+            else:
+                rec.subtotal = rec.harga
+
+    @api.depends('harga', 'qrf_line_id.line_qty_ids.qty', 'require_id', 'specifications_id')
+    def _compute_total(self):
+        for rec in self:
+            spec = rec.specifications_id
+            if spec:
+                if spec.rumus_total == 'SUBTOTAL' or not spec.rumus_total:
+                    rec.total = rec.subtotal
+                else:
+                    rumus = spec.rumus_total.replace("(", "( ").replace(")", " )")
+                    if rumus:
+                        splited = rumus.split(" ")
+                        final = []
+                        for s in splited:
+                            master_quantity = rec.qrf_line_id.line_qty_ids.filtered(lambda x: x.qty_id.name == s)
+                            if s == master_quantity.qty_id.name:
+                                final.append(str(master_quantity.qty))
+                            elif s == 'SUBTOTAL':
+                                final.append(str(rec.subtotal))
+                            else:
+                                final.append(str(s))
+                        rec.total = eval(' '.join(final))
+                    else:
+                        rec.total = rec.subtotal
+            else:
+                rec.total = rec.subtotal
+
 
 class QuotationRequestFormLineQuantity(models.Model):
     _name = 'quotation.request.form.line.quantity'
