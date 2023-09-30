@@ -85,37 +85,40 @@
                                                         <strong><span t-esc="line.jenis_id.name" /></strong>
                                                       </div>
                                                   </div>
-                                                <t t-foreach="set(line.line_spec_ids.mapped('spec_id.name'))" t-as="detail">
+                                                <t t-foreach="set(line.line_spec_ids.mapped('require_id.name'))" t-as="detail">
                                                   <div class="row mt32">
                                                       <div class="col-1"/>
                                                       <div class="col-11">
                                                         <strong><span t-esc="detail"/></strong>
                                                       </div>
                                                   </div>
-                                                  <t t-foreach="line.line_spec_ids.filtered(lambda x: x.spec_id.name == detail)" t-as="detail2">
+                                                  <t t-foreach="line.line_spec_ids.filtered(lambda x: x.specifications_id.spec_id.name == detail)" t-as="detail2">
                                                     <div  class="row mt32">
                                                         <div class="col-1" style="text-align: center;">
                                                           <span t-esc="no"/> <t t-set="no" t-value="no + 1"/>
                                                         </div>
-                                                        <div class="col-5">
-                                                          <span t-field="detail2.spect_name"/>
-                                                        </div>
                                                         <div class="col-3">
-                                                          <span t-field="detail2.desc"/>
+                                                          <span t-field="detail2.specifications_id.spect_name"/>
                                                         </div>
-                                                        <div class="col-1">
-                                                          <span t-field="line.quantity"/>
+                                                        <div class="col-2">
+                                                          <span t-field="detail2.desc"/>
                                                         </div>
                                                         <div class="col-2" style="text-align: right">
                                                           <span t-field="detail2.harga"/>
                                                         </div>
+                                                        <div class="col-2">
+                                                          <span t-field="detail2.subtotal"/>
+                                                        </div>
+                                                        <div class="col-2">
+                                                          <span t-field="detail2.total"/>
+                                                        </div>
                                                     </div>
                                                     <div class="row mt32">
                                                         <div class="col-1"/>
-                                                        <div class="col-5">
+                                                        <div class="col-4">
                                                           <span t-esc="detail2.desc_detail"/>
                                                         </div>
-                                                        <div class="col-6"/>
+                                                        <div class="col-7"/>
                                                     </div>
                                                   </t>
                                                 </t>
