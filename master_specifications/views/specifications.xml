@@ -44,6 +44,7 @@
                                 <field name="spec_id"/>
                                 <field name="spect_name"/>
                                 <field name="desc"/>
+                                <field name="rumus"/>
                                 <field name="harga"/>
                                 <field name="active"/>
                             </group>
