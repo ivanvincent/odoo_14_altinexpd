@@ -1908,7 +1908,7 @@ class HrReporting(models.TransientModel):
                     "total_net": lot.get('total_net', ''),
                     "total_net_annual": lot.get('total_net_annual', ''),
                     "total_ptkp": lot.get('total_ptkp', ''),
-                    "total_pkp_1": lot.get('total_pkp_1', '')  ,
+                    "total_pkp_1": lot.get('total_pkp_1', '') if lot.get('total_pkp_1', '') > 0 else 0,
                     "pkp_pembulatan": lot.get('pkp_pembulatan', '') if lot.get('pkp_pembulatan', '') > 0 else 0,
                     "total_pph21_1": lot.get('total_pph21_1', ''),
                     "total_pph21_2": lot.get('total_pph21_2', ''),
