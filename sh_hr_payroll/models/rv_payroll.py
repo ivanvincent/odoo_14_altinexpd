@@ -37,6 +37,11 @@ class RvPayroll(models.Model):
         inverse_name="rv_id",
         string="Rvp Line",
         required=False,)
+    rvp_account_ids = fields.One2many(
+        comodel_name='rv.payroll.line.account', 
+        inverse_name="rv_id",
+        string="Account Line",
+        required=False,)
     
 class RvPayrollLine(models.Model):
     _name = 'rv.payroll.line'
@@ -46,7 +51,7 @@ class RvPayrollLine(models.Model):
     description = fields.Text(string="Description", required=False, track_visibility='onchange',)
     rv_id = fields.Many2one('rv.payroll')
     state = fields.Selection(string="State", selection=KB_STATES, required=True, readonly=True, default=KB_STATES[0][0], track_visibility='onchange',)
-    amount = fields.Float(string='Amount', store=False)
+    amount = fields.Float(string='Amount')
     
     nik_id = fields.Char(string="NIK")
     karyawan = fields.Char(string="Name")
@@ -94,3 +99,60 @@ class RvPayrollLine(models.Model):
     #     inverse_name="rv_id",
     #     string="Rvp Line",
     #     required=False,)   
+
+class RvPayrollLineAccount(models.Model):
+    _name = 'rv.payroll.line.account'
+    
+    
+    rv_id = fields.Many2one('rv.payroll')
+    state = fields.Selection(string="State", selection=KB_STATES, required=True, readonly=True, default=KB_STATES[0][0], track_visibility='onchange',)
+    account_id = fields.Many2one('account.account', 'Account')
+    description = fields.Text(string="Description", required=False, track_visibility='onchange',)
+    amount_debit = fields.Float(string='Debit')
+    amount_credit = fields.Float(string='Credit')
+
+class RvPayrollAccount(models.Model):
+    _name = 'rv.payroll.account'
+    
+    
+    name = fields.Char(string='No Voucher', required=True, copy=False, readonly=True, index=True, default=lambda self: _('New'))
+    description = fields.Text(string="Description", required=False, track_visibility='onchange',)
+    
+    journal_id = fields.Many2one('account.journal', 'Journal')
+    total_gapok_account_id = fields.Many2one('account.account', 'Gaji pokok')
+    bpjs_kesehatan_account_id = fields.Many2one('account.account',string='Gaji Pokok BPJS Kes')
+    bpjs_tk_account_id = fields.Many2one('account.account',string='Gaji Pokok BPJS TK')
+    total_ahli_account_id = fields.Many2one('account.account',string='Tunjangan Keahlian')
+    total_shift3_account_id = fields.Many2one('account.account',string='Tunjangan Shift 3')
+    total_faskes_account_id = fields.Many2one('account.account',string='Tunjangan Kes Non BPJS')
+    total_lembur_account_id = fields.Many2one('account.account',string='Bonus Proyek')
+    total_bonus_account_id = fields.Many2one('account.account',string='Bonus Bulanan')
+    total_tunjangan_account_id = fields.Many2one('account.account',string='Total Tjg selain Tjg PPh')
+    total_tpph_account_id = fields.Many2one('account.account',string='Tunjangan PPh 21')
+    total_kes_account_id = fields.Many2one('account.account',string='BPJS Kes (Perusahaan)')
+    total_jkk_account_id = fields.Many2one('account.account',string='BPJS JKK (Perusahaan)')
+    total_jkm_account_id = fields.Many2one('account.account',string='BPJS JKM (Perusahaan)')
+    total_bota_account_id = fields.Many2one('account.account',string='Bonus Tahunan')
+    total_thr_account_id = fields.Many2one('account.account',string='THR')
+    total_ktt_account_id = fields.Many2one('account.account',string='Total Komponen Tidak Tetap')
+    total_bruto_account_id = fields.Many2one('account.account',string='Penghasilan Bruto')
+    total_jht2_account_id = fields.Many2one('account.account',string='BPJS JHT (Karyawan)')
+    total_jp2_account_id = fields.Many2one('account.account',string='BPJS JP (Karyawan)')
+    total_jabat_account_id = fields.Many2one('account.account',string='Biaya Jabatan')
+    total_potong_account_id = fields.Many2one('account.account',string='Potongan Resmi lainnya')
+    total_net_account_id = fields.Many2one('account.account',string='Penghasilan Netto')
+    total_net_annual_account_id = fields.Many2one('account.account',string='Penghasilan Netto disetahunkan')
+    total_ptkp_account_id = fields.Many2one('account.account',string='PTKP')
+    total_pkp_1_account_id = fields.Many2one('account.account',string='PKP')
+    pkp_pembulatan_account_id = fields.Many2one('account.account',string='PKP Pembulatan')
+    total_pph21_1_account_id = fields.Many2one('account.account',string='PPh 21 Terutang')
+    total_pph21_2_account_id = fields.Many2one('account.account',string='PPh 21 Dicicil')
+    total_thp_account_id = fields.Many2one('account.account',string=' ')
+    total_jp_account_id = fields.Many2one('account.account',string='BPJS JP (Perusahaan)')
+    jht_account_id = fields.Many2one('account.account',string='BPJS JHT (Perusahaan)')
+    total_bpjs_perusahaan_account_id = fields.Many2one('account.account',string='Total BPJS bayar Perusahaan')
+    kes2_account_id = fields.Many2one('account.account',string='BPJS Kes (Karyawan)')
+    total_pkp_2_account_id = fields.Many2one('account.account',string='Total BPJS bayar Karyawan')
+    total_thp_account_id = fields.Many2one('account.account',string='THP')
+    tot_pph21_perusahaan_account_id = fields.Many2one('account.account',string='Total BPJS untuk PPh21')
+    tot_pph21_karyawan_account_id = fields.Many2one('account.account',string='Total pot BPJS u/ PPh21')

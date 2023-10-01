@@ -101,6 +101,22 @@
 
                                     </field>
                                 </page>
+                                <page string="Account Lines">
+                                    <!-- domain="[ ('state','=','posted'),('partner_id','=',partner_id),('kontrabon_id','=',False), ('amount_residual_signed', '!=', 0)]"
+                                        context="{'tree_view_ref':'account.invoice_tree'}" attrs="{'readonly': [('state', '!=', 'draft')]}" -->
+                                    <field name="rvp_account_ids"
+
+                                     >
+                                     <!-- 39 -->
+                                        <tree >
+                                            <field name="account_id"/>
+                                            <field name="description"/>
+                                            <field name="amount_debit" sum="amount_debit"/>
+                                            <field name="amount_credit" sum="amount_credit"/>
+                                        </tree>
+
+                                    </field>
+                                </page>
                             </notebook>
                      </sheet>
                 </form>
