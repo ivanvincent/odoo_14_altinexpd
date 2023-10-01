@@ -355,18 +355,18 @@ class QuotationRequestFormLineSpecification(models.Model):
 
     qrf_line_id = fields.Many2one('quotation.request.form.line', string='QRF')
     jenis_id = fields.Many2one('master.jenis', string='Jenis', related='qrf_line_id.jenis_id')
-    require_id = fields.Many2one('master.require', string='Spesifikasi')
+    require_id = fields.Many2one('master.require', string='Category')
     specifications_id = fields.Many2one('specifications', string='Kode', domain="[('jenis_id', '=',jenis_id)]")
     # spec_id = fields.Many2one('master.require',string='Spefisikasi', related='specifications_id.spec_id')
     # spect_name = fields.Char(string='Kode', related='specifications_id.spect_name')
-    desc = fields.Char(string='Nama', related='specifications_id.desc')
+    desc = fields.Char(string='Items', related='specifications_id.desc')
     desc_detail = fields.Text(string='Description Detail', related='specifications_id.desc_detail')
-    harga = fields.Float(string='Harga', related='specifications_id.harga')
+    harga = fields.Float(string='Unit Price', related='specifications_id.harga')
     urutan = fields.Integer(string='Urutan', related='specifications_id.urutan')
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
     subtotal = fields.Float(string='Subtotal', compute='_compute_subtotal')
-    total = fields.Float(string='Total', compute='_compute_total')
+    total = fields.Float(string='TOTAL', compute='_compute_total')
 
     @api.depends('harga', 'qrf_line_id.line_qty_ids.qty', 'require_id', 'specifications_id')
     def _compute_subtotal(self):
