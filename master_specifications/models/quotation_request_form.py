@@ -352,10 +352,12 @@ class QuotationRequestFormLine(models.Model):
 
 class QuotationRequestFormLineSpecification(models.Model):
     _name = 'quotation.request.form.line.specification'
+    _order = "urutan asc"
 
     qrf_line_id = fields.Many2one('quotation.request.form.line', string='QRF')
     jenis_id = fields.Many2one('master.jenis', string='Jenis', related='qrf_line_id.jenis_id')
     require_id = fields.Many2one('master.require', string='Category')
+    urutan = fields.Integer(string='Urutan', related='require_id.urutan')
     specifications_id = fields.Many2one('specifications', string='Kode', domain="[('jenis_id', '=',jenis_id)]")
     # spec_id = fields.Many2one('master.require',string='Spefisikasi', related='specifications_id.spec_id')
     # spect_name = fields.Char(string='Kode', related='specifications_id.spect_name')
@@ -423,9 +425,11 @@ class QuotationRequestFormLineSpecification(models.Model):
 
 class QuotationRequestFormLineQuantity(models.Model):
     _name = 'quotation.request.form.line.quantity'
+    _order = "urutan asc"
 
     qrf_line_id = fields.Many2one('quotation.request.form.line', string='QRF')
     jenis_id    = fields.Many2one('master.jenis', string='Jenis', related='qrf_line_id.jenis_id')
     qty_id      = fields.Many2one('master.qty', string='Quantity')
+    urutan      = fields.Integer(string='Urutan', related='qty_id.urutan')
     qty         = fields.Float(string='Qty')
     

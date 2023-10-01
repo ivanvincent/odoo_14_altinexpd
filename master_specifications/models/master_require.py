@@ -2,6 +2,7 @@ from odoo import models, fields, api
 
 class MasterRequire(models.Model):
     _name = 'master.require'
+    _order = "urutan asc"
 
     name = fields.Char(string='Name')
     jenis_ids = fields.Many2many(
@@ -10,6 +11,7 @@ class MasterRequire(models.Model):
         compute="_get_jenis_ids"
         )
     active = fields.Boolean(string='Active ?', default=True)
+    urutan = fields.Integer(string='Urutan', default=99)
 
 
     def _get_jenis_ids(self):

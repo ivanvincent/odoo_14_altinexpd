@@ -9,6 +9,7 @@
             <field name="arch" type="xml">
                 <tree string="" editable="bottom">
                     <field name="name"/>
+                    <field name="urutan"/>
                     <field name="jenis_ids" widget="many2many_tags"/>
                     <field name="active"/>
                 </tree>
