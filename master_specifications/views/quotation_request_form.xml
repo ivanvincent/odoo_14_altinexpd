@@ -179,7 +179,7 @@
                                     <field name="specifications_id" domain="[('spec_id','=',require_id),('jenis_id','=', jenis_id)]"/>
                                     <!-- <field name="spec_id"/> -->
                                     <!-- <field name="spect_name"/> -->
-                                    <field name="desc"/>
+                                    <field name="spect_name"/>
                                     <field name="harga"/>
                                     <field name="subtotal" sum="Subtotal"/>
                                     <field name="total" sum="Total"/>
