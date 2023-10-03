@@ -34,7 +34,9 @@ class QuotationRequestForm(models.Model):
     no_sample = fields.Char(string='No Sample')
     
     up_kpd = fields.Many2one('attn', string='Attn')
-    attn_ids = fields.Many2many('attn', string='Attn', compute='compute_attn_ids')
+    attn_ids = fields.Many2many('attn', string='Attn', 
+    # compute='compute_attn_ids'
+    )
     
     note_so = fields.Char(string='Note')
     perihal = fields.Selection([("Penawaran Harga Punch & Dies","Penawaran Harga Punch & Dies"),
