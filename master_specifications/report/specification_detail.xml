@@ -98,10 +98,10 @@
                                                           <span t-esc="no"/> <t t-set="no" t-value="no + 1"/>
                                                         </div>
                                                         <div class="col-3">
-                                                          <span t-field="detail2.specifications_id.spect_name"/>
+                                                          <span t-field="detail2.specifications_id.desc"/>
                                                         </div>
                                                         <div class="col-2">
-                                                          <span t-field="detail2.desc"/>
+                                                          <span t-field="detail2.spect_name"/>
                                                         </div>
                                                         <div class="col-2" style="text-align: right">
                                                           <span t-field="detail2.harga"/>
