@@ -14,7 +14,7 @@
             <field name="margin_left">7</field>
             <field name="header_line" eval="False" />
             <field name="header_spacing">35</field>
-            <!-- <field name="dpi">90</field> -->
+            <field name="dpi">90</field>
         </record>
 
         <record id="action_qrf_report" model="ir.actions.report">
@@ -201,87 +201,71 @@
                                     </tr>
                                 </thead>
                                 <tbbody>
-                                    <t t-foreach="doc.line_ids" t-as="line">
-                                        <!-- <t t-set="currency" t-value="line.company_id.currency_id"/> -->
-                                        <tr>
-                                            <td style="border : 1px solid black" class="text-center">
-                                                <strong>
-                                                    <a style="color: #000 !important;" t-esc="line.jenis_id.name" view-type="form" res-model="master.jenis" t-att-res-id="line.jenis_id.id"/>
-                                                </strong>
-                                            </td>
-                                            <td style="border : 1px solid black" width="20%">
-                                                <strong>
-                                                    <a style="color: #000 !important;" t-esc="line.name" view-type="form"/>
-                                                </strong>
-                                            </td>
-                                            <td>
-                                                <!-- Kosong Bill Date-->
-                                            </td>
-                                            <td>
-                                                <!-- Kosong  Tax-->
-                                            </td>
-                                            <td>
-                                                <!-- Kosong  Tax-->
-                                            </td>
-                                            <td style="border : 1px solid black" class="text-right" width="11%">Rp. 
-                                                <strong>
-                                                    <span t-esc="'{0:,.0f}'.format(line.price_unit)"/>
-                                                </strong>
-                                            </td>
-                                            <td style="border : 1px solid black" class="text-center">
-                                                <strong>
-                                                    <span t-esc="line.quantity"/>
-                                                </strong>
-                                            </td>
-                                            <td style="border : 1px solid black" class="text-right" width="11%">Rp.
-                                                <strong>
-                                                    <span t-esc="'{0:,.0f}'.format(line.sub_total)"/>
-                                                </strong>
-                                            </td>
+                                   <t t-foreach="doc.line_ids" t-as="line">
+                                       <tr>
+                                           <td style="border : 1px solid black" class="text-center">
+                                               <strong>
+                                                   <a style="color: #000 !important;" t-esc="line.jenis_id.name" view-type="form" res-model="master.jenis" t-att-res-id="line.jenis_id.id"/>
+                                               </strong>
+                                           </td>
+                                           <td style="border : 1px solid black" width="20%">
+                                               <strong>
+                                                   <a style="color: #000 !important;" t-esc="line.name" view-type="form"/>
+                                               </strong>
+                                           </td>
+                                           <td>
+                                           </td>
+                                           <td>
+                                           </td>
+                                           <td>
+                                           </td>
+                                           <td style="border : 1px solid black" class="text-right" width="11%">Rp.
+                                               <strong>
+                                                   <span t-esc="'{0:,.0f}'.format(line.price_unit)"/>
+                                               </strong>
+                                           </td>
+                                           <td style="border : 1px solid black" class="text-center">
+                                               <strong>
+                                                   <span t-esc="line.quantity"/>
+                                               </strong>
+                                           </td>
+                                           <td style="border : 1px solid black" class="text-right" width="11%">Rp.
+                                               <strong>
+                                                   <span t-esc="'{0:,.0f}'.format(line.sub_total)"/>
+                                               </strong>
+                                           </td>
 
-                                        </tr>
+                                       </tr>
                                         
-                                        <t t-set="name_spec" t-value=""/>
-                                        <tr t-foreach="line.line_spec_ids.sorted(key=lambda b: b.spec_id.name)" t-as="spec">
-                                            <td class="text-center">
-                                                <!-- <strong>
-                                                    <a style="color: #000 !important;" t-esc="line.partner_id.name" view-type="form" res-model="res.partner"  t-att-res-id="line.partner_id.id"/>
-                                                </strong> -->
-                                            </td>
-                                            <td class="text-center">
-                                                <!-- <a style="color: #000 !important;" t-esc="history.move_id.name" view-type="form" res-model="account.move"  t-att-res-id="history.move_id.id"/> -->
-                                            </td>
-                                            <t t-set="len_spec" t-value="len(line.line_spec_ids.filtered(lambda x: x.spec_id.name == spec.spec_id.name))"/>
-                                            <t t-if="name_spec != spec.spec_id.name">
-                                              <td style="border : 1px solid black" class="text-center" t-att-rowspan="len_spec">
-                                                <span t-esc="spec.spec_id.name"/>
-                                              </td>
-                                              <t t-set="name_spec" t-value="spec.spec_id.name" />
-                                            </t>
-                                            <!--<t t-if="len_spec == 1">-->
-                                            <!--  <td style="border : 1px solid black" class="text-center">-->
-                                            <!--    <span t-esc="spec.spec_id.name"/>-->
-                                            <!--  </td>-->
-                                            <!--</t>-->
-                                            <td style="border : 1px solid black" class="text-center">
-                                                <span t-esc="spec.spect_name"/>
-                                            </td>
-                                            <td style="border : 1px solid black" class="text-center">
-                                                <span t-esc="spec.desc"/>
-                                            </td>
-                                            <td style="border : 1px solid black" class="text-right" width="11%">Rp. 
-                                                <span t-esc="'{0:,.0f}'.format(spec.harga)"/>
-                                            </td>
-                                            <td>
-                                                <!-- <span t-esc="spec.harga"/> -->
-                                            </td>
-                                            <td>
-                                                <!-- <strong>
-                                                    <span t-esc="line.sisa_hutang" t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                                                </strong> -->
-                                            </td>
-                                        </tr>
-                                    </t>
+                                       <t t-set="name_spec" t-value=""/>
+                                       <tr t-foreach="line.line_spec_ids.sorted(key=lambda b: b.specifications_id.spec_id.name)" t-as="spec">
+                                           <td class="text-center">
+                                           </td>
+                                           <td class="text-center">
+                                           </td>
+                                           <t t-set="len_spec" t-value="len(line.line_spec_ids.filtered(lambda x: x.specifications_id.spec_id.name == spec.specifications_id.spec_id.name))"/>
+                                           <t t-if="name_spec != spec.specifications_id.spec_id.name">
+                                             <td style="border : 1px solid black" class="text-center" t-att-rowspan="len_spec">
+                                               <span t-esc="spec.specifications_id.spec_id.name"/>
+                                             </td>
+                                             <t t-set="name_spec" t-value="spec.specifications_id.name"/>
+                                           </t>
+                                           <td style="border : 1px solid black" class="text-center">
+                                               <span t-esc="spec.specifications_id.desc"/>
+                                           </td>
+                                           <td style="border : 1px solid black" class="text-center">
+                                               <span t-esc="spec.spect_name"/>
+                                           </td>
+                                           <td style="border : 1px solid black" class="text-right" width="11%">Rp.
+                                               <span t-esc="'{0:,.0f}'.format(spec.harga)"/>
+                                           </td>
+                                           <td>
+                                           </td>
+                                           <td>
+                                              
+                                           </td>
+                                       </tr>
+                                   </t>
                                 </tbbody>
                                 
                             </table>
