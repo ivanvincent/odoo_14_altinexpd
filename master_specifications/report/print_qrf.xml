@@ -4,11 +4,11 @@
     <data>
 
         <record model="report.paperformat" id="paperformat_print_qrf">
-            <field name="name">paperformat.receipt.a4</field>
+            <field name="name">paperformat.qrf.a4</field>
             <field name="default" eval="False" />
             <field name="format">A4</field>
             <field name="orientation">Portrait</field>
-            <field name="margin_top">45</field>
+            <field name="margin_top">17</field>
             <field name="margin_bottom">10</field>
             <field name="margin_right">7</field>
             <field name="margin_left">7</field>
@@ -238,7 +238,8 @@
                                        </tr>
                                         
                                        <t t-set="name_spec" t-value=""/>
-                                       <tr t-foreach="line.line_spec_ids.sorted(key=lambda b: b.specifications_id.spec_id.name)" t-as="spec">
+                                       <!-- <tr t-foreach="line.line_spec_ids.filtered(lambda x: x.specifications_id.spec_id.name).sorted(key=lambda b: b.specifications_id.spec_id.name)" t-as="spec"> -->
+                                       <tr t-foreach="line.line_spec_ids.filtered(lambda x: x.specifications_id.spec_id.name)" t-as="spec">
                                            <td class="text-center">
                                            </td>
                                            <td class="text-center">
@@ -248,12 +249,13 @@
                                              <td style="border : 1px solid black" class="text-center" t-att-rowspan="len_spec">
                                                <span t-esc="spec.specifications_id.spec_id.name"/>
                                              </td>
-                                             <t t-set="name_spec" t-value="spec.specifications_id.name"/>
+                                             <t t-set="name_spec" t-value="spec.specifications_id.spec_id.name"/>
                                            </t>
                                            <td style="border : 1px solid black" class="text-center">
                                                <span t-esc="spec.specifications_id.desc"/>
                                            </td>
                                            <td style="border : 1px solid black" class="text-center">
+                                              <!--<span t-if="spec.spect_name" t-esc="spec.spect_name"/>-->
                                                <span t-esc="spec.spect_name"/>
                                            </td>
                                            <td style="border : 1px solid black" class="text-right" width="11%">Rp.
