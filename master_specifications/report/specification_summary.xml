@@ -53,7 +53,8 @@
                                                           <strong><span t-esc="line.jenis_id.name"/></strong>
                                                         </div>
                                                     </div>
-                                                  <t t-foreach="set(line.line_spec_ids.mapped('require_id.name'))" t-as="detail">
+                                                  <t t-foreach="line.line_spec_ids.filtered(lambda x: x.require_id.name).sorted(key=lambda b: b.require_id.urutan).mapped('require_id.name')" t-as="detail">
+                                                  <!-- <t t-foreach="set(line.line_spec_ids.mapped('require_id.name'))" t-as="detail"> -->
                                                     <div class="row mt32">
                                                         <div class="col-1"/>
                                                         <div class="col-11">
