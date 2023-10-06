@@ -23,15 +23,16 @@
                         <group>
                             <group>
                                 <field name="partner_id" attrs="{'readonly':[('state','=','confirm')]}" required="1"/>
-                                <field name="date" attrs="{'readonly':[('state','=','confirm')]}" />
-                                <field name="attn_ids" invisible="1"/>
-                                <field name="perihal"/>
-                            </group>
-                            <group>
-                                <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="pic_name"/>
                                 <field name="pic_email"/>
                                 <field name="pic_phone"/>
+                                <field name="attn_ids" invisible="1"/>
+                                
+                            </group>
+                            <group>
+                                <field name="date" attrs="{'readonly':[('state','=','confirm')]}" />
+                                <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" />                                
+                                <field name="perihal"/>
                             </group>
                         </group>
                         <notebook>
