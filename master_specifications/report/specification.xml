@@ -17,7 +17,7 @@
         </record>
 
         <record id="action_specification" model="ir.actions.report">
-                <field name="name">Specification</field>
+                <field name="name">Surat Penawaran</field>
                 <field name="model">quotation.request.form</field>
                 <field name="report_name">master_specifications.specification_template</field>
                 <field name="report_file">master_specifications.specification_template</field>
@@ -99,7 +99,7 @@
                                 <tr>
                                     <td style="font-size:16px; padding-left:30px; padding-bottom: 15px; padding-top:15px;">
                                         <!-- Dear <t t-esc="doc.up_kpd.name"/> -->
-                                            <span>Dear Mr, Stefan</span>
+                                            <span>Dear ,</span><t t-esc="doc.pic_name"/>
                                         </td>
                                     <td>
                                         <span style="font-size:16px"/> <br/>
@@ -110,7 +110,7 @@
                                 <tr>
                                     <td style="font-size:16px; padding-left:30px; padding-bottom:15px;">
                                         <span>We thank you for your interest in our products and are pleased to submit our enclosed quotation
-                                            for 
+                                            for: 
                                         </span>
                                     </td>
                                 <tr/>
