@@ -136,13 +136,14 @@
                         </div>
 
                     </div>
-                          <br/>
+                    <br/>
+                    <t t-foreach="line.line_qty_ids" t-as="qty">
                     <div class="row mt32">
                               <div class="col-6" style="margin-top: 5px">
-                              <span style="text-align: left; font-size: 20px" t-esc="line.name"></span>
+                                <span style="text-align: left; font-size: 20px" t-esc="line.name"></span>
                               </div>
                               <div class="col-6" style="margin-top: 5px;text-align: left; font-size: 17px"> Quantity :
-                              <!--<span t-esc="docs.name"/>-->
+                                <span t-esc="qty.qty_id.name"/>: <span t-esc="qty.qty"/>
                               </div>
                           </div>
                           <br/>
