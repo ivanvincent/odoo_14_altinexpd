@@ -105,10 +105,8 @@
                                         <span style="font-size:16px"/> <br/>
                                     </td>
                                 </tr>
-<<<<<<< HEAD
-=======
+
                                 <tr/>
->>>>>>> a6ca3155e7b9244418d47783c0026fecdaf288a2
                                 <tr>
                                     <td style="font-size:16px; padding-left:30px; padding-bottom:15px;">
                                         <span>We thank you for your interest in our products and are pleased to submit our enclosed quotation
@@ -118,11 +116,8 @@
                                 <tr/>
                                 <tr>
                                     <td style="font-size:16px; padding-left:30px; padding-bottom:15px;">
-<<<<<<< HEAD
                                         <!--<b><span t-field="doc.line_ids.name" style="font-size:16px"/> </b><br/>-->
-=======
                                         <!--<b><span t-esc="doc.machine_id.name" style="font-size:16px"/> </b><br/>-->
->>>>>>> a6ca3155e7b9244418d47783c0026fecdaf288a2
                                         <t t-set="no" t-value="1"/>
                                         <t t-foreach="doc.line_ids" t-as="l">
                                           <strong> <span t-esc="no"/>. <span t-esc="l.name"/></strong> <br/>
@@ -151,13 +146,10 @@
                             <br/>
                             <br/>
                             <br/>
-<<<<<<< HEAD
                             <span style="text-align: left; font-size: 16px; padding-left:30px;">Your sincerely,</span><br/>
                             <b><span style="text-align: left; font-size: 16px; padding-left:30px;">PT. ALTINEX PUNCH &amp; DIE DIVISION</span></b>
-=======
                             <span style="text-align: left; font-size: 16px; padding-left:30px;">Yours sincerely,</span><br/>
                             <b><span style="text-align: left; font-size: 16px; padding-left:30px;">PT. ALTINEX PUNCH &amp; DIES DIVISION</span></b>
->>>>>>> a6ca3155e7b9244418d47783c0026fecdaf288a2
                             <br/><br/><br/><br/>
                             <span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
                                 Sales</span><br/><br/>
