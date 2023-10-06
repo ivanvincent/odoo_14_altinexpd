@@ -95,34 +95,32 @@
                         <div class="row">
                             <table class="table-condensed" width="100%">
                                 <tr>
-                                    <td
-                                        style="font-size:16px; padding-left:30px; padding-bottom: 15px; padding-top:15px;">
+                                    <td style="font-size:16px; padding-left:30px; padding-bottom: 15px; padding-top:15px;">
                                         Our Quotation No : <t t-esc="doc.name"/>
                                         </td>
                                     <td>
-                                        <span style="font-size:16px" /> <br />
+                                        <span style="font-size:16px"/> <br/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td
-                                        style="font-size:16px; padding-left:30px; padding-bottom: 15px; padding-top:15px;">
+                                    <td style="font-size:16px; padding-left:30px; padding-bottom: 15px; padding-top:15px;">
                                         <!-- Dear <t t-esc="doc.up_kpd.name"/> -->
                                             <span>Dear Mr, Stefan</span>
                                         </td>
                                     <td>
-                                        <span style="font-size:16px" /> <br />
+                                        <span style="font-size:16px"/> <br/>
                                     </td>
                                 </tr>
-                                <tr />
                                 <tr>
                                     <td style="font-size:16px; padding-left:30px; padding-bottom:15px;">
                                         <span>We thank you for your interest in our products and are pleased to submit our enclosed quotation
                                             for 
                                         </span>
                                     </td>
+                                <tr/>
                                 <tr>
                                     <td style="font-size:16px; padding-left:30px; padding-bottom:15px;">
-                                        <b><span t-esc="doc.machine_id.name" style="font-size:16px" /> </b><br />
+                                        <!--<b><span t-field="doc.line_ids.name" style="font-size:16px"/> </b><br/>-->
                                     </td>
                                 </tr>
                                 <tr>
@@ -143,18 +141,16 @@
 
 
                         <div class="row">
-                            <br />
-                            <br />
-                            <br />
-                            <span style="text-align: left; font-size: 16px; padding-left:30px;">Yours sincerely</span><br/>
-                            <b><span style="text-align: left; font-size: 16px; padding-left:30px;">PT. DMG MORI INDONESIA</span></b>
-                            <br /><br /><br /><br />
-                            <span
-                                style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
-                                Area Sales Manager</span><br /><br />
-                            <i><span
-                                style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
-                                Attachments</span></i><br />
+                            <br/>
+                            <br/>
+                            <br/>
+                            <span style="text-align: left; font-size: 16px; padding-left:30px;">Your sincerely,</span><br/>
+                            <b><span style="text-align: left; font-size: 16px; padding-left:30px;">PT. ALTINEX PUNCH &amp; DIE DIVISION</span></b>
+                            <br/><br/><br/><br/>
+                            <span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
+                                Sales</span><br/><br/>
+                            <i><span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
+                                Attachments</span></i><br/>
                         </div>
 
 

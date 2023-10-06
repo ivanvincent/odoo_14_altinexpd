@@ -49,14 +49,9 @@ class QuotationRequestForm(models.Model):
     discount_rate = fields.Float('Discount Rate', digits=dp.get_precision('Account'), )
     amount_discount = fields.Monetary(string='Discount', store=True, compute='_compute_amount',
                                       digits=dp.get_precision('Account'), track_visibility='always')
-    # payment_term_ids = fields.Many2many('account.payment.term', string='Payment Term Ids', related='partner_id.payment_term_ids')
-    # kode_mkt_ids = fields.Many2many('kode.mkt', string='Kode Mkt Ids', related='partner_id.kode_mkt_ids')
-    
-    # @api.onchange('partner_id')
-    # def get_kode_mkt(self):
-        # if self.partner_id:
-            # self.kode_mkt = self.partner_id.kode_mkt
-            # self.payment_term_id = self.partner_id.property_payment_term_id.id
+    pic_name = fields.Char(string='PIC Name')
+    pic_email = fields.Char(string='PIC Email')
+    pic_phone = fields.Char(string='PIC Mobile Phone (WA)')
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids', 'discount_rate', 'discount_type')
     def _compute_amount(self):
@@ -81,121 +76,6 @@ class QuotationRequestForm(models.Model):
     
     def action_confirm(self):
         self.state = 'confirm'
-
-    
-
-    # def action_confirm(self):
-    #     seq = self.env['ir.sequence'].next_by_code('request.engineering')
-    #     'No Drawing', 'Ukuran Bahan'
-    #     material = ['Hob', 'Baut', 'Tonase', 'Sepi']
-    #     engineering = self.env['request.engineering'].create({
-    #         'name': seq,
-    #         # 'type': 'from_quotation',
-    #         'type_id': self.env['request.engineering.type'].search([('name', '=', 'Quotation')], limit=1).id,
-    #         'quotation_id': self.id,
-    #         'line_ids': [(0, 0, {'product_id': d.product_id.id}) for d in self.line_ids]
-    #     })
-    #     self.request_engineering_id = engineering.id
-    #     self.state = 'confirm'
-
-    # def action_generate(self):
-    #     for product_tmpl in self.product_tmpl_ids:
-    #         machine_attr = self.env['product.template.attribute.line'].sudo().search(
-    #             [('product_tmpl_id', '=', product_tmpl.id), ('attribute_id.name', '=', 'MACHINE')], limit=1)
-    #         size_attr = self.env['product.template.attribute.line'].sudo().search(
-    #             [('product_tmpl_id', '=', product_tmpl.id), ('attribute_id.name', '=', 'SIZE')], limit=1)
-    #         shape_attr = self.env['product.template.attribute.line'].sudo().search(
-    #             [('product_tmpl_id', '=', product_tmpl.id), ('attribute_id.name', '=', 'SHAPE')], limit=1)
-
-    #         attribute_obj = self.env['product.attribute']
-    #         value_obj = self.env['product.attribute.value']
-    #         attr_machine = attribute_obj.search(
-    #             [('name', '=', 'MACHINE')], limit=1).id
-    #         attr_size = attribute_obj.search(
-    #             [('name', '=', 'SIZE')], limit=1).id
-    #         attr_shape = attribute_obj.search(
-    #             [('name', '=', 'SHAPE')], limit=1).id
-
-    #         machine_vals = value_obj.sudo().search(
-    #             [('name', '=', self.machine_id.name), ('attribute_id', '=', attr_machine)], limit=1)
-    #         if not machine_vals:
-    #             machine_vals = self.env['product.attribute.value'].create({
-    #                 "attribute_id": attr_machine,
-    #                 "name": self.machine_id.name,
-    #             })
-    #         if machine_attr:
-    #             machine_attr.sudo().write({
-    #                 "attribute_id": attr_machine,
-    #                 "value_ids": [(4, machine_vals.id)],
-    #             })
-    #         else:
-    #             a = machine_attr.sudo().create({
-    #                 'product_tmpl_id': product_tmpl.id,
-    #                 'attribute_id': attr_machine,
-    #                 'value_ids': [(6, 0, machine_vals.ids)]
-    #             })
-
-    #         size_vals = value_obj.sudo().search(
-    #             [('name', '=', self.size.name), ('attribute_id', '=', attr_size)], limit=1)
-    #         if not size_vals:
-    #             size_vals = self.env['product.attribute.value'].create({
-    #                 "attribute_id": attr_size,
-    #                 "name": self.size.name,
-    #             })
-
-    #         if size_attr:
-    #             size_attr.sudo().write({
-    #                 "attribute_id": attr_size,
-    #                 "value_ids": [(4, size_vals.id)],
-    #             })
-    #         else:
-    #             b = size_attr.sudo().create({
-    #                 'product_tmpl_id': product_tmpl.id,
-    #                 'attribute_id': attr_size,  # attribute design
-    #                 'value_ids': [(6, 0, [size_vals.id])]
-    #             })
-
-    #         shape_vals = value_obj.sudo().search(
-    #             [('name', '=', self.shape), ('attribute_id', '=', attr_shape)], limit=1)
-    #         if not shape_vals:
-    #             shape_vals = self.env['product.attribute.value'].create({
-    #                 "attribute_id": attr_shape,
-    #                 "name": self.shape,
-    #             })
-
-    #         if shape_attr:
-    #             shape_attr.sudo().write({
-    #                 "attribute_id": attr_shape,
-    #                 "value_ids": [(4, shape_vals.id)],
-    #             })
-    #         else:
-    #             b = shape_attr.sudo().create({
-    #                 'product_tmpl_id': product_tmpl.id,
-    #                 'attribute_id': attr_shape,  # attribute design
-    #                 'value_ids': [(6, 0, [shape_vals.id])]
-    #             })
-
-
-        # # for color in self.color_ids:
-        #     combination = self.env['product.template.attribute.value'].search(
-        #         [('product_tmpl_id', '=', product_tmpl.id), ('product_attribute_value_id', 'in', [machine_vals.id, size_vals.id, shape_vals.id])])
-        #     # if not combination:
-        #     variant = product_tmpl._get_variant_for_combination(combination)
-        #     if not variant:
-        #         variant = product_tmpl._create_product_variant(
-        #             combination, True)
-        #     # variant = self.product_id._get_variant_id_for_combination(combination)
-        #     # if self.product_id._is_combination_possible(combination):
-        #     #     print('s')
-
-        #     # [color.sudo().write({"variant_id":variant.id}) for color in self.design_id.line_ids.filtered(lambda x:x.color_id.id == color.id)]
-        #     # variant.sudo().write({
-        #     #         "design_id":self.design_id.id
-        #     #     })
-        #     # history = self.env['sale.product.history'].search([('product_id','=',variant.id),('partner_id','=',self.partner_id.id)],limit=1)
-        #     if variant not in self.line_ids.mapped('product_id'):
-        #         self.line_ids = [
-        #             (0, 0, {"product_id": variant.id, "quantity": 1, "price_unit": 1, })]
 
     @api.depends('date')
     def compute_tanggal_berlaku(self):
@@ -305,52 +185,6 @@ class QuotationRequestFormLine(models.Model):
         action = self.env.ref('master_specifications.quotation_request_form_line_action').read()[0]
         action['res_id'] = self.id
         return action
-        # mak_order = self.env['quotation.request.form.line.specification']
-        # data = {
-            # 'name':'/',
-            # 'qrf_line_id': self.id,
-            # 'origin': self.planning_id.name,
-            # 'stage_id':self.id,
-            # 'type': 'out',
-            # 'warehouse_id': self.planning_id.warehouse_id.id,
-            # 'production_loc': self.production_loc.id,
-            # 'material_ids': [(0, 0, 
-            #     {
-            #         'product_id': sale.product_id.id,
-            #         'no_po': self.planning_id.source_po.name,
-            #         'product_uom_qty': sale.product_uom_qty,
-            #         'product_uom': sale.product_uom.id,
-            #     })
-            # for sale in self.planning_id.sale_id.order_line],
-            # 'result_ids':  [(0, 0, 
-            #     {
-            #         'product_id': sale.product_id.id,
-            #         'product_uom_qty': sale.product_uom_qty,
-            #         'product_uom': sale.product_uom.id,
-            #         'service_product_id': self.env['product.product'].search([('name', '=', 'Biaya Makloon')]).id,
-            #         'price_unit': sale.product_id.standard_price,
-            #     })
-            # for sale in self.planning_id.sale_id.order_line],
-
-        # }
-
-        # mak_order.create(data)
-        # self.state="process"
-        # self.action_view_specification_detail_order()
-
-    # def action_view_specification_detail_order(self):
-
-        # action = self.env.ref('makloon_project.action_makloonorder_list').read()[0]
-
-        # orders = self.mapped('line_spec_ids')
-        # if len(orders) > 1:
-        #     action['domain'] = [('id', 'in', orders.ids)]
-        # elif orders:
-        #     action['views'] = [(self.env.ref('makloon_project.view_makloon_order_form').id, 'form')]
-        #     action['res_id'] = orders.id
-        # return action
-
-
 
 class QuotationRequestFormLineSpecification(models.Model):
     _name = 'quotation.request.form.line.specification'
