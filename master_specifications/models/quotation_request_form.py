@@ -354,7 +354,7 @@ class QuotationRequestFormLine(models.Model):
 
 class QuotationRequestFormLineSpecification(models.Model):
     _name = 'quotation.request.form.line.specification'
-    _order = "urutan asc"
+    # _order = "urutan asc"
 
     qrf_line_id = fields.Many2one('quotation.request.form.line', string='QRF')
     jenis_id = fields.Many2one('master.jenis', string='Jenis', related='qrf_line_id.jenis_id')
