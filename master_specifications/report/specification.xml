@@ -121,6 +121,11 @@
                                 <tr>
                                     <td style="font-size:16px; padding-left:30px; padding-bottom:15px;">
                                         <!--<b><span t-field="doc.line_ids.name" style="font-size:16px"/> </b><br/>-->
+                                        <t t-set="no" t-value="1"/>
+                                        <t t-foreach="doc.line_ids" t-as="l">
+                                          <strong> <span t-esc="no"/>. <span t-esc="l.name"/></strong> <br/>
+                                          <t t-set="no" t-value="no + 1"/>
+                                        </t>
                                     </td>
                                 </tr>
                                 <tr>
