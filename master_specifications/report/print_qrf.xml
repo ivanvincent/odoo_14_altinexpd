@@ -134,7 +134,7 @@
                         </div>
                         <div class="col-5" style="margin-top: 5px;text-align: left; font-size: 15px"> Quantity : <br/>
                           <t t-foreach="line.line_qty_ids" t-as="qty">
-                            <span t-esc="qty.qty_id.name"/> <span t-esc="qty.qty"/> <br/>
+                            - <span t-esc="qty.qty_id.name"/> <span t-esc="qty.qty"/> <br/>
                           </t>
                         </div>
 
