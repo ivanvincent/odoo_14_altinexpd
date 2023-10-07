@@ -96,7 +96,7 @@
                         </div>
                     </div>
                     <div class="row mt32" style="margin-top:6px;">
-                        <div class="col-7">
+                        <div class="col-6">
                             <div style="border: 1px solid black; border-radius: 0px; font-size:14px">
                                 <table class="table-condensed" width="100%">
                                     <tr>
@@ -105,21 +105,21 @@
                                             <span>:</span>
                                             <span class="font-weight-bold" t-field="docs.partner_id"/> <br/>
                                              <!--<span t-field="doc.partner_id.street" style="padding:0;" /><br /> -->
-                                             <span></span> 
+                                             <span/> 
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="13%" style="padding-left:5px;">Attn</td>
                                         <td>
                                             <span>:</span>
-                                             <span t-esc="docs.pic_name" /> 
+                                             <span t-esc="docs.pic_name"/> 
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="13%" style="padding-left:5px;">Email</td>
                                         <td>
                                             <span>:</span>
-                                             <span t-esc="docs.pic_email" /> 
+                                             <span t-esc="docs.pic_email"/> 
                                         </td>
                                     </tr>
                                     <tr>
@@ -132,17 +132,19 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-5" style="margin-top: 5px;text-align: left; font-size: 15px"> Quantity : <br/>
-                          <t t-foreach="line.line_qty_ids" t-as="qty">
-                            - <span t-esc="qty.qty_id.name"/> <span t-esc="qty.qty"/> <br/>
-                          </t>
-                        </div>
 
                     </div>
                     <br/>
                     <div class="row mt32">
-                              <div class="col-12" style="margin-top: 5px">
-                                <span style="text-align: left; font-size: 18px" t-esc="line.name"/>
+                              <div class="col-12">
+                                <strong><span style="text-align: left; font-size: 18px" t-esc="line.name"/></strong>
+                              </div>
+                          </div>
+                          <div class="row mt32">
+                              <div class="col-6" style="margin-top: 5px;text-align: left; font-size: 15px"> Quantity : <br/>
+                                <t t-foreach="line.line_qty_ids" t-as="qty">
+                                  - <span t-esc="qty.qty_id.name"/> : <span t-esc="qty.qty"/> <br/>
+                                </t>
                               </div>
                           </div>
                           <div class="row mt32">
@@ -151,11 +153,11 @@
                                       <t t-set="no" t-value="1"/>
                                           <tr>
                                               <td>
-                                                    <div class="row" style="background-color:#D9DDDC; padding-left:-100px">
-                                                        <div class="col-1" style="text-align: left"/>NO
-                                                        <div class="col-3" style="text-align: center">CATEGORY &amp; ITEM
+                                                    <div class="row mt32" style="background-color:#D9DDDC">
+                                                        <div class="col-1" style="text-align: center">NO</div>
+                                                        <div class="col-3">CATEGORY &amp; ITEM
                                                         </div>
-                                                        <div class="col-2" style="text-align: center">KODE
+                                                        <div class="col-2">KODE
                                                         </div>
                                                         <div class="col-2" style="text-align: center">UNIT PRICE
                                                         </div>
