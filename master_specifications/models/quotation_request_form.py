@@ -206,7 +206,8 @@ class QuotationRequestFormLineSpecification(models.Model):
     subtotal = fields.Float(string='Subtotal', compute='_compute_subtotal')
     total = fields.Float(string='TOTAL', compute='_compute_total')
 
-    @api.depends('harga', 'qrf_line_id.line_qty_ids.qty', 'require_id', 'specifications_id')
+    # @api.depends('harga', 'qrf_line_id.line_qty_ids.qty', 'require_id', 'specifications_id')
+    @api.depends('harga', 'require_id', 'specifications_id')
     def _compute_subtotal(self):
         for rec in self:
             spec = rec.specifications_id
@@ -227,12 +228,14 @@ class QuotationRequestFormLineSpecification(models.Model):
                             else:
                                 final.append(str(s))
                         rec.subtotal = eval(' '.join(final))
+                        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++",final)
                     else:
                         rec.subtotal = rec.harga
             else:
                 rec.subtotal = rec.harga
 
-    @api.depends('harga', 'qrf_line_id.line_qty_ids.qty', 'require_id', 'specifications_id')
+    # @api.depends('harga', 'qrf_line_id.line_qty_ids.qty', 'require_id', 'specifications_id')
+    @api.depends('harga', 'require_id', 'specifications_id')
     def _compute_total(self):
         for rec in self:
             spec = rec.specifications_id
@@ -268,4 +271,3 @@ class QuotationRequestFormLineQuantity(models.Model):
     qty_id      = fields.Many2one('master.qty', string='Quantity')
     urutan      = fields.Integer(string='Urutan', related='qty_id.urutan')
     qty         = fields.Float(string='Qty')
-    
