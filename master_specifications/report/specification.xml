@@ -68,14 +68,12 @@
                         <div class="row mt32">
                             <div class="col-6 ">
                                 <div style="border-radius: 0px;">
-                                    <span style="padding-left:10px; padding-bottom:5px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;">Mr. Stefan Rusli</span><br/>
-                                    <span style="padding-left:10px; padding-bottom:5px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;">PT.
-                                            ALTINEX</span><br/><br/>
-                                    <span style="padding-left:10px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;">Jl. Mekar Mulya Rt. 003 Rw. 03
-                                        (Jl. Panghegar No. 7)</span><br/>
-                                    <span style="padding-left:10px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;">Cipadung Kulon, Panyileukan </span><br/>
-                                    <span style="padding-left:10px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;">
-                                        40613 BANDUNG WEST JAVA</span>
+                                    <span style="padding-left:10px; padding-bottom:5px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;" t-esc="doc.pic_name"></span><br/>
+                                    <span style="padding-left:10px; padding-bottom:5px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;" t-esc="doc.partner_id.name"></span><br/><br/>
+                                    <span style="padding-left:10px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;" t-esc="doc.partner_id.street"></span><br/>
+                                    <!--<span style="padding-left:10px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;">Cipadung Kulon, Panyileukan </span><br/>-->
+                                    <!--<span style="padding-left:10px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;">-->
+                                    <!--    40613 BANDUNG WEST JAVA</span>-->
                                 </div>
                             </div>
                         </div>
