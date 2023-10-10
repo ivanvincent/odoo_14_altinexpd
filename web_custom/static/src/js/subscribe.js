@@ -148,11 +148,11 @@ odoo.define("web_custom.subscribe", function (require) {
       //   );
       //   return
       // }
-      if (self.imgProfile === undefined){
-        $(".o_img_profile_wrapper").append(
-          '<div class="snackbar show" role="alert"><i class="fa fa-check-circle text-danger"></i> Profile image must be required!</div>'
-        );
-      }else{
+      // if (self.imgProfile === undefined){
+      //   $(".o_img_profile_wrapper").append(
+      //     '<div class="snackbar show" role="alert"><i class="fa fa-check-circle text-danger"></i> Profile image must be required!</div>'
+      //   );
+      // }else{
         let firstName = $("input.o_input_firstname").val();
         let lastName = $("input.o_input_lastname").val();
         let email = $("input.o_input_email").val();
@@ -217,7 +217,7 @@ odoo.define("web_custom.subscribe", function (require) {
           // window.location.href = "/page/error";
         }
 
-      }
+      // }
 
       // this._rpc
     },

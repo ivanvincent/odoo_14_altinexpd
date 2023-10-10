@@ -132,7 +132,7 @@ class Main(http.Controller):
                     'address':address_user,
                     'job_users':job,
                     'phone':phone_number,
-                    'image_1920':img_profile.split(',')[1],
+                    'image_1920':img_profile.split(',')[1] if img_profile else False,
                     'password': '1234',
                     'nama_perusahaan': nama_perusahaan,
                     'jabatan': jabatan,
