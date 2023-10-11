@@ -126,6 +126,7 @@
                                     <field name="qty"/>
                                 </tree>
                             </field>
+                            <button name="action_refresh_spec" type="object" string="Refresh" />
                         </group>
                         <group>
                             <field name="line_spec_ids" nolabel="1">

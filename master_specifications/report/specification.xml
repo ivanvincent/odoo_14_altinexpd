@@ -28,32 +28,33 @@
             </record>
 
         <template id="specification_template">
-                        <t t-call="web.basic_layout">
-                <style>
-                    table-data {
-                        border: 1px solid black;
-                        text-align: center;
-                        margin-bottom: 1rem;
-                        border-collapse: collapse;
-                    }
+            <div class="page">
+                <t t-call="web.basic_layout">
+                    <style>
+                        table-data {
+                            border: 1px solid black;
+                            text-align: center;
+                            margin-bottom: 1rem;
+                            border-collapse: collapse;
+                        }
 
-                    .table-data th,
-                    .table-data td {
-                        border: 1px solid black;
-                        padding: 0;
-                        border-collapse: collapse;
-                    }
-                </style>
-                <t t-foreach="docs" t-as="doc">
-                    <t t-if="o and 'company_id' in o">
-                        <t t-set="company" t-value="o.company_id"/>
-                    </t>
-                    <t t-if="not o or not 'company_id' in o">
-                        <t t-set="company" t-value="res_company"/>
-                    </t>
+                        .table-data th,
+                        .table-data td {
+                            border: 1px solid black;
+                            padding: 0;
+                            border-collapse: collapse;
+                        }
+                    </style>
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-if="o and 'company_id' in o">
+                            <t t-set="company" t-value="o.company_id"/>
+                        </t>
+                        <t t-if="not o or not 'company_id' in o">
+                            <t t-set="company" t-value="res_company"/>
+                        </t>
 
 
-                    <div class="header">
+                        <!-- <div class="header"> -->
                         <div class="row mt32">
                             <div class="col-4"/>
                             <div class="col-8">
@@ -118,8 +119,8 @@
                                         <!--<b><span t-esc="doc.machine_id.name" style="font-size:16px"/> </b><br/>-->
                                         <t t-set="no" t-value="1"/>
                                         <t t-foreach="doc.line_ids" t-as="l">
-                                          <strong> <span t-esc="no"/>. <span t-esc="l.name"/></strong> <br/>
-                                          <t t-set="no" t-value="no + 1"/>
+                                            <strong> <span t-esc="no"/>. <span t-esc="l.name"/></strong> <br/>
+                                            <t t-set="no" t-value="no + 1"/>
                                         </t>
                                     </td>
                                 </tr>
@@ -155,11 +156,12 @@
 
 
 
-                    </div>
-                    <br/><br/>
+                        <!-- </div> -->
+                        <br/><br/>
 
+                    </t>
                 </t>
-            </t>
+            </div>
         </template>
 
 

@@ -186,6 +186,22 @@ class QuotationRequestFormLine(models.Model):
         action['res_id'] = self.id
         return action
 
+    # @api.onchange('qty')
+    def action_refresh_spec(self):
+        self.ensure_one()
+        spec = self.line_spec_ids.filtered(lambda x: x.require_id.id == 79)
+        # for t in spec:
+        if self.line_qty_ids.filtered(lambda x: x.qty_id.id == 3 )  and self.line_qty_ids.filtered(lambda x: x.qty_id.id == 3 ).qty == 1:
+            spec.write({"specifications_id": 527})
+            print("A")
+        elif self.line_qty_ids.filtered(lambda x: x.qty_id.id == 3 )  and self.line_qty_ids.filtered(lambda x: x.qty_id.id == 3 ).qty >= 1:
+            spec.write({"specifications_id": 528})
+            print("B")
+        action = self.env.ref('master_specifications.quotation_request_form_line_action').read()[0]
+        action['res_id'] = self.id
+        return action
+
+
 class QuotationRequestFormLineSpecification(models.Model):
     _name = 'quotation.request.form.line.specification'
     # _order = "urutan asc"
@@ -228,7 +244,7 @@ class QuotationRequestFormLineSpecification(models.Model):
                             else:
                                 final.append(str(s))
                         rec.subtotal = eval(' '.join(final))
-                        print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++",final)
+                        # print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++",final)
                     else:
                         rec.subtotal = rec.harga
             else:
@@ -256,11 +272,21 @@ class QuotationRequestFormLineSpecification(models.Model):
                             else:
                                 final.append(str(s))
                         rec.total = eval(' '.join(final))
+                        # print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++",final)
                     else:
                         rec.total = rec.subtotal
             else:
                 rec.total = rec.subtotal
 
+    # @api.onchange('qrf_line_id.line_qty_ids.qty')
+    # def onchange_qty(self):
+    #     if self.jenis_id.id == 1:
+    #         spec = self.qrf_line_id.line_qty_ids.filtered(lambda x: x.qty_id.id == 3)
+    #         for t in spec:
+    #             if t.qty == 1:
+    #                 self.specifications_id == 527
+    #             elif t.qty >= 1:
+    #                 self.specifications_id == 528
 
 class QuotationRequestFormLineQuantity(models.Model):
     _name = 'quotation.request.form.line.quantity'
@@ -271,3 +297,17 @@ class QuotationRequestFormLineQuantity(models.Model):
     qty_id      = fields.Many2one('master.qty', string='Quantity')
     urutan      = fields.Integer(string='Urutan', related='qty_id.urutan')
     qty         = fields.Float(string='Qty')
+
+    # @api.onchange('qty')
+    def action_refresh_spec(self):
+        # print("onchange_qty===============")
+        # if self.jenis_id.id == 1:
+        spec = self.qrf_line_id.line_spec_ids.filtered(lambda x: x.require_id.id == 79)
+        # for t in spec:
+        if self.qty_id.id == 3 and self.qty == 1:
+            spec.sudo().write({"specifications_id": 527})
+            print("A")
+        elif self.qty_id.id == 3 and self.qty >= 1:
+            spec.sudo().write({"specifications_id": 528})
+            print("B")
+
