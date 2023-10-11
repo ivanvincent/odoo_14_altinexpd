@@ -212,7 +212,7 @@
                                             Sampai
                                         </td>
                                         <td>
-                                            <span>:</span>
+                                            <span>: 31 Desember 2023</span>
                                              <!--<span t-field="doc.tanggal_berlaku"-->
                                              <!--   t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd/MM/yyyy&quot;}" /> -->
                                         </td>
@@ -264,6 +264,9 @@
                                     </tr>
                                 </table>
                             </div>
+                        </div>
+                        <div class="col-6"> Keterangan : <br/>
+                            <span/> * PO dan approval drawing sebelum 31 Desember 2023
                         </div>
 
                     </div>
