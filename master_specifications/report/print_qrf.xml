@@ -266,7 +266,7 @@
                             </div>
                         </div>
                         <div class="col-6"> Keterangan : <br/>
-                            <span> * <span t-esc="docs.note"/> 
+                            * <span t-esc="docs.note"/> 
                         </div>
 
                     </div>
