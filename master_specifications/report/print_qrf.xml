@@ -70,9 +70,9 @@
                         <div class="row mt32">
                             <div class="col-6 ">
                                 <div style="border-radius: 0px;">
-                                    <span style="padding-left:10px; padding-bottom:5px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;" t-esc="doc.pic_name"></span><br/>
-                                    <span style="padding-left:10px; padding-bottom:5px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;" t-esc="doc.partner_id.name"></span><br/><br/>
-                                    <span style="padding-left:10px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;" t-esc="doc.partner_id.street"></span><br/>
+                                    <span style="padding-left:10px; padding-bottom:5px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;" t-esc="doc.pic_name"/><br/>
+                                    <span style="padding-left:10px; padding-bottom:5px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;" t-esc="doc.partner_id.name"/><br/><br/>
+                                    <span style="padding-left:10px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;" t-esc="doc.partner_id.street"/><br/>
                                     <!--<span style="padding-left:10px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;">Cipadung Kulon, Panyileukan </span><br/>-->
                                     <!--<span style="padding-left:10px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;">-->
                                     <!--    40613 BANDUNG WEST JAVA</span>-->
@@ -163,7 +163,10 @@
                     </t>
                 </t>
             </div>
-            <t t-foreach="docs.line_ids" t-as="line">
+            <!--<div class="page">-->
+                <t t-set="no_page" t-value="0"/>
+                <t t-foreach="docs.line_ids" t-as="line">
+                <t t-set="no_page" t-value="no_page + 1"/>
                 <div class="page">
                   <t t-call="web.basic_layout">
                     <div class="row mt32">
@@ -335,12 +338,44 @@
                                                       </div>
                                                     </t>
                                                   </t>
-                                                  <div class="row mt32" style="background-color:#D9DDDC">
+                                                  <div class="row mt32" style="background-color:#D9DDDC;hr:black">
                                                       <div class="col-10" style="text-align: right"> TOTAL</div>
                                                       <div class="col-2" style="text-align: right">
                                                             <span t-esc="'{0:,.1f}'.format(float(tot_total))"/> 
                                                       </div>
                                                   </div>
+                                                  <br/>
+                                                      
+                                                  <t t-if="no_page == len(docs.line_ids.ids)">
+                                                  <!--<div class="footer">-->
+                                                  <div class="col-xs-6 text-right" style="font-size : 16px">
+                                                  <div class="row mt32" style="background-color:#D9DDDC">
+                                                      <div class="col-10" style="text-align: right"> Amount Untaxed :</div>
+                                                      <div class="col-2" style="text-align: right">
+                                                            <span t-esc="'{0:,.1f}'.format(float(docs.amount_untaxed))"/> 
+                                                      </div>
+                                                  </div>
+                                                  <div class="row mt32" style="background-color:#D9DDDC">
+                                                      <div class="col-10" style="text-align: right"> Taxes :</div>
+                                                      <div class="col-2" style="text-align: right">
+                                                            <span t-esc="'{0:,.1f}'.format(float(docs.amount_tax))"/> 
+                                                      </div>
+                                                  </div>
+                                                  <div class="row mt32" style="background-color:#D9DDDC">
+                                                      <div class="col-10" style="text-align: right"> Discount :</div>
+                                                      <div class="col-2" style="text-align: right">
+                                                            <span t-esc="'{0:,.1f}'.format(float(docs.amount_discount))"/> 
+                                                      </div>
+                                                  </div>
+                                                  <div class="row mt32" style="background-color:#D9DDDC">
+                                                      <div class="col-10" style="text-align: right"> Amount Total :</div>
+                                                      <div class="col-2" style="text-align: right">
+                                                            <span t-esc="'{0:,.1f}'.format(float(docs.amount_total))"/> 
+                                                      </div>
+                                                  </div>
+                                                  </div>
+                                                  <!--</div>-->
+                                                  </t>
                                               </td>
                                           </tr>
                                   </thead>
@@ -348,11 +383,12 @@
                                   </tbbody>
                                   
                               </table>
+
                           </div>
-                  
                     </t>
-                </div>
-            </t>
+                 </div>
+              </t>
+           
         </template>
 
 
