@@ -269,7 +269,10 @@
                             </div>
                         </div>
                         <div class="col-6"> Keterangan : <br/>
-                            * <span t-esc="docs.note"/> 
+                            * berlaku jika PO dan approval drawing sebelum tanggal 31 Desember 2023
+                        </div>
+                        <div class="col-6"> Note : <br/>
+                            <span t-esc="docs.note"/> 
                         </div>
 
                     </div>
