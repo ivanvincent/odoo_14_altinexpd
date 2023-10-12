@@ -32,7 +32,8 @@
                             <group>
                                 <field name="date" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" />                                
-                                <field name="perihal"/>
+                                <field name="perihal"/>                              
+                                <field name="note"/>
                             </group>
                         </group>
                         <notebook>

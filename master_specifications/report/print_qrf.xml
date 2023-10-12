@@ -212,7 +212,7 @@
                                             Sampai
                                         </td>
                                         <td>
-                                            <span>: 31 Desember 2023</span>
+                                            <span>: 31 Desember 2023 *</span>
                                              <!--<span t-field="doc.tanggal_berlaku"-->
                                              <!--   t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd/MM/yyyy&quot;}" /> -->
                                         </td>
@@ -266,7 +266,7 @@
                             </div>
                         </div>
                         <div class="col-6"> Keterangan : <br/>
-                            <span/> * PO dan approval drawing sebelum 31 Desember 2023
+                            <span> * <span t-esc="docs.note"/> 
                         </div>
 
                     </div>
@@ -338,7 +338,7 @@
                                                   <div class="row mt32" style="background-color:#D9DDDC">
                                                       <div class="col-10" style="text-align: right"> TOTAL</div>
                                                       <div class="col-2" style="text-align: right">
-                                                            <span t-esc="tot_total"/> 
+                                                            <span t-esc="'{0:,.1f}'.format(float(tot_total))"/> 
                                                       </div>
                                                   </div>
                                               </td>
