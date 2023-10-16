@@ -294,6 +294,7 @@
                                   <thead>
                                       <t t-set="no" t-value="1"/>
                                       <t t-set="tot_total" t-value="0"/>
+                                      <t t-set="tot_subtotal" t-value="0"/>
                                           <tr>
                                               <td>
                                                     <div class="row mt32" style="background-color:#D9DDDC">
@@ -302,11 +303,11 @@
                                                         </div>
                                                         <div class="col-2">KODE
                                                         </div>
-                                                        <div class="col-2" style="text-align: center">UNIT PRICE
+                                                        <div class="col-2" style="text-align: right">ITEM PRICE
                                                         </div>
-                                                        <div class="col-2" style="text-align: center">SUBTOTAL
+                                                        <div class="col-2" style="text-align: right">UNIT PRICE/PCS
                                                         </div>
-                                                        <div class="col-2" style="text-align: center">TOTAL
+                                                        <div class="col-2" style="text-align: right">TOTAL
                                                         </div>
                                                     </div>
                                                   <t t-foreach="line.line_spec_ids.filtered(lambda x: x.require_id.name).sorted(key=lambda b: b.require_id.urutan).mapped('require_id.name')" t-as="detail">
@@ -321,6 +322,7 @@
                                                     </div>
                                                     <t t-foreach="line.line_spec_ids.filtered(lambda x: x.specifications_id.spec_id.name == detail)" t-as="detail2">
                                                       <t t-set="tot_total" t-value="tot_total +  detail2.total"/>
+                                                      <t t-set="tot_subtotal" t-value="tot_subtotal +  detail2.subtotal"/>
                                                       <div class="row mt32">
                                                           <div class="col-1"/>
                                                           <div class="col-3">
@@ -342,7 +344,10 @@
                                                     </t>
                                                   </t>
                                                   <div class="row mt32" style="background-color:#D9DDDC;hr:black">
-                                                      <div class="col-10" style="text-align: right"> TOTAL</div>
+                                                      <div class="col-8" style="text-align: right"> TOTAL</div>
+                                                      <div class="col-2" style="text-align: right">
+                                                            <span t-esc="'{0:,.1f}'.format(float(tot_subtotal))"/> 
+                                                      </div>
                                                       <div class="col-2" style="text-align: right">
                                                             <span t-esc="'{0:,.1f}'.format(float(tot_total))"/> 
                                                       </div>
