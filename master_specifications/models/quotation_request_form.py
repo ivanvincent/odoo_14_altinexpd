@@ -270,6 +270,8 @@ class QuotationRequestFormLineSpecification(models.Model):
                                 final.append(str(master_quantity.qty))
                             elif s == 'SUBTOTAL':
                                 final.append(str(rec.subtotal))
+                            elif s == 'HARGA':
+                                final.append(str(spec.harga))
                             else:
                                 final.append(str(s))
                         rec.total = eval(' '.join(final))
