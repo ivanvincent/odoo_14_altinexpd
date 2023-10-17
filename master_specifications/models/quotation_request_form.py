@@ -53,6 +53,11 @@ class QuotationRequestForm(models.Model):
     pic_email = fields.Char(string='PIC Email')
     pic_phone = fields.Char(string='PIC Mobile Phone (WA)')
     note = fields.Char('Notes')
+    payment_terms = fields.Char('Payment Terms')
+    delivery_terms = fields.Char('Delivery Terms')
+    sales_condition = fields.Char('Sales Condition')
+    valid_date = fields.Date('Valid To')
+    reference = fields.Char('Reference')
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids', 'discount_rate', 'discount_type')
     def _compute_amount(self):

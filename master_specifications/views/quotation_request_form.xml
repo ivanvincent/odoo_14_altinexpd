@@ -26,13 +26,18 @@
                                 <field name="pic_name"/>
                                 <field name="pic_email"/>
                                 <field name="pic_phone"/>
+                                <field name="reference"/>
                                 <field name="attn_ids" invisible="1"/>
                                 
                             </group>
                             <group>
                                 <field name="date" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" />                                
-                                <field name="perihal"/>                              
+                                <field name="perihal"/>                                
+                                <field name="payment_terms"/>                                                          
+                                <field name="delivery_terms"/>                                                          
+                                <field name="sales_condition"/>                                                          
+                                <field name="valid_date"/>                                                        
                                 <field name="note"/>
                             </group>
                         </group>

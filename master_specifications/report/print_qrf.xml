@@ -114,15 +114,69 @@
                                         </span>
                                     </td>
                                 <tr/>
+                                
                                 <tr>
                                     <td style="font-size:16px; padding-left:30px; padding-bottom:15px;">
-                                        <!--<b><span t-field="doc.line_ids.name" style="font-size:16px"/> </b><br/>-->
-                                        <!--<b><span t-esc="doc.machine_id.name" style="font-size:16px"/> </b><br/>-->
                                         <t t-set="no" t-value="1"/>
-                                        <t t-foreach="doc.line_ids" t-as="l">
-                                            <strong> <span t-esc="no"/>. <span t-esc="l.name"/></strong> <br/>
-                                            <t t-set="no" t-value="no + 1"/>
-                                        </t>
+                                            <!--<strong> <span t-esc="no"/>. <span t-esc="l.name"/></strong> <br/>-->
+                                            <!--<t t-set="no" t-value="no + 1"/>-->
+                                              <table class="table-condensed" width="100%">
+                                                <tr>
+                                                    <td style="font-size:15px;" width="20%">Products</td>
+                                                    <td>
+                                                        <span width="3%">:</span>
+                                                        <t t-foreach="doc.line_ids" t-as="l">
+                                                            <strong> <span t-esc="no"/>. <span t-esc="l.name"/></strong> <br/>
+                                                        <t t-set="no" t-value="no + 1"/>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-size:15px;" width="20%">Product Descriptions </td> 
+                                                    <td>
+                                                        <span width="3%">:</span> Please refer to the following pages
+                                                        <!--<span t-field="docs.payment_terms"/>-->
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-size:15px;" width="20%">Payment Terms </td> 
+                                                    <td>
+                                                        <span width="3%">:</span>
+                                                        <span t-field="docs.payment_terms"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-size:15px;" width="20%">Delivery Terms </td>
+                                                     <td>
+                                                        <span width="3%">:</span>
+                                                        <span t-field="docs.delivery_terms"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-size:15px;" width="20%">Sales condition </td>
+                                                     <td>
+                                                        <span width="3%">:</span>
+                                                        <span t-field="docs.sales_condition"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-size:15px;" width="20%">Valid to </td>
+                                                     <td>
+                                                        <span width="3%">:</span>
+                                                        <span t-field="docs.valid_date"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-size:15px;" width="20%">Notes</td>
+                                                     <td>
+                                                        <span width="3%">:</span><br/>
+                                                        <!--- <span t-field="docs.note"/>-->
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-size:15px;" width="20%"> - <span t-field="docs.note"/> </td>
+                                                </tr>
+                                            </table>
                                     </td>
                                 </tr>
                                 <tr>
