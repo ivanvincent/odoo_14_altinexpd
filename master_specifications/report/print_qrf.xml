@@ -126,7 +126,7 @@
                                                     <td>
                                                         <span width="3%">:</span>
                                                         <t t-foreach="doc.line_ids" t-as="l">
-                                                            <strong> <span t-esc="no"/>. <span t-esc="l.name"/></strong> <br/>
+                                                            <span t-esc="no"/>. <span t-esc="l.name"/> <br/>
                                                         <t t-set="no" t-value="no + 1"/>
                                                         </t>
                                                     </td>
