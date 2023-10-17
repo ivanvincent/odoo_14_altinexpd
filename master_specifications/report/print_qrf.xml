@@ -170,12 +170,12 @@
                                                     <td style="font-size:15px;" width="20%">Notes</td>
                                                      <td>
                                                         <span width="3%">:</span><br/>
-                                                        <!--- <span t-field="docs.note"/>-->
+                                                        - <span t-field="docs.note"/>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <!-- <tr>
                                                     <td style="font-size:15px;" width="20%"> - <span t-field="docs.note"/> </td>
-                                                </tr>
+                                                </tr> -->
                                             </table>
                                     </td>
                                 </tr>
