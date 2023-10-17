@@ -99,7 +99,7 @@
                                 <tr>
                                     <td style="font-size:16px; padding-left:30px; padding-bottom: 15px; padding-top:15px;">
                                         <!-- Dear <t t-esc="doc.up_kpd.name"/> -->
-                                            <span>Dear ,</span><t t-esc="doc.pic_name"/>
+                                            <span>Dear , &amp;nbsp;</span><t t-esc="doc.pic_name"/>
                                         </td>
                                     <td>
                                         <span style="font-size:16px"/> <br/>
@@ -122,7 +122,7 @@
                                             <!--<t t-set="no" t-value="no + 1"/>-->
                                               <table class="table-condensed" width="100%">
                                                 <tr>
-                                                    <td style="font-size:15px;" width="20%">Products</td>
+                                                    <td style="font-size:16px;" width="20%">Products</td>
                                                     <td>
                                                         <span width="3%">:</span>
                                                         <t t-foreach="doc.line_ids" t-as="l">
@@ -132,56 +132,68 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="font-size:15px;" width="20%">Product Descriptions </td> 
+                                                    <td style="font-size:16px;" width="20%">Product Descriptions </td> 
                                                     <td>
                                                         <span width="3%">:</span> Please refer to the following pages
                                                         <!--<span t-field="docs.payment_terms"/>-->
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="font-size:15px;" width="20%">Payment Terms </td> 
+                                                    <td style="font-size:16px;" width="20%">Payment Terms </td> 
                                                     <td>
                                                         <span width="3%">:</span>
                                                         <span t-field="docs.payment_terms"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="font-size:15px;" width="20%">Delivery Terms </td>
+                                                    <td style="font-size:16px;" width="20%">Delivery Terms </td>
                                                      <td>
                                                         <span width="3%">:</span>
                                                         <span t-field="docs.delivery_terms"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="font-size:15px;" width="20%">Sales condition </td>
+                                                    <td style="font-size:16px;" width="20%">Sales condition </td>
                                                      <td>
                                                         <span width="3%">:</span>
                                                         <span t-field="docs.sales_condition"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="font-size:15px;" width="20%">Valid to </td>
+                                                    <td style="font-size:16px;" width="20%">Valid to </td>
                                                      <td>
                                                         <span width="3%">:</span>
                                                         <span t-field="docs.valid_date"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="font-size:15px;" width="20%">Notes</td>
+                                                    <td style="font-size:16px;" width="20%">Notes</td>
                                                      <td>
                                                         <span width="3%">:</span><br/>
-                                                        - <span t-field="docs.note"/>
+                                                        <!-- - <span t-field="docs.note"/> -->
                                                     </td>
                                                 </tr>
-                                                <!-- <tr>
-                                                    <td style="font-size:15px;" width="20%"> - <span t-field="docs.note"/> </td>
-                                                </tr> -->
                                             </table>
+                                    
                                     </td>
+                                    <div>
+                                        <tr>
+                                            <td style="font-size:16px;padding-left:30px;"> - Prices are subject to change without notice.</td> 
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:16px;padding-left:30px;"> - Please issue your purchase order to PT. ALTINEX Punch &amp; Die Division</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:16px;padding-left:30px;" > - Delivery of this product is subject to the approval of authority government</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:16px;padding-left:30px;"> - Warranty period of the tooling is 4 months for spare parts against any manufacturing defects</td><br/>
+                                        </tr>
+                                    </div>
                                 </tr>
                                 <tr>
-                                    <td style="font-size:16px; padding-left:30px; padding-bottom:15px;">
-                                        <span>together with the technical specifications for your consideration. 
+                                    <td style="font-size:16px; padding-left:30px; padding-bottom:16px;">
+                                        <br/><span>together with the technical specifications for your consideration. 
                                         </span>
                                     </td>
                                 </tr>
@@ -269,9 +281,9 @@
                                             Sampai
                                         </td>
                                         <td>
-                                            <span>: 31 Desember 2023 *</span>
-                                             <!--<span t-field="doc.tanggal_berlaku"-->
-                                             <!--   t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd/MM/yyyy&quot;}" /> -->
+                                            <span>:</span>
+                                             <span t-field="docs.valid_date"
+                                               t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd/MM/yyyy&quot;}" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -322,12 +334,12 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-6"> Keterangan : <br/>
+                        <!-- <div class="col-6"> Keterangan : <br/>
                             * berlaku jika PO dan approval drawing sebelum tanggal 31 Desember 2023
-                        </div>
-                        <div class="col-6"> Note : <br/>
+                        </div> -->
+                        <!-- <div class="col-6"> Note : <br/>
                             <span t-esc="docs.note"/> 
-                        </div>
+                        </div> -->
 
                     </div>
                     <br/>
