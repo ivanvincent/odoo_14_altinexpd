@@ -36,7 +36,7 @@
                                 <field name="perihal"/>                                
                                 <field name="payment_terms"/>                                                          
                                 <field name="delivery_terms"/>                                                          
-                                <field name="sales_condition"/>                                                          
+                                <field name="sales_condition" string="Warranty"/>                                                          
                                 <field name="valid_date"/>                                                        
                                 <field name="note" string="Notes Internal"/>
                             </group>
