@@ -13,7 +13,7 @@ class QuotationRequestForm(models.Model):
     image_binary = fields.Binary(string='Drawing', store=False,)
     line_ids = fields.One2many('quotation.request.form.line', 'qrf_id', 'Line')
     state = fields.Selection(
-        [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
+        [("draft", "Draft"), ("confirm", "Approval Requested"), ("approved", "Approved"), ("order_processed", "Order Processed")], string='State', default='draft')
     amount_tax = fields.Monetary(
         string='Taxes', currency_field='currency_id', compute='_compute_amount')
     amount_untaxed = fields.Monetary(
@@ -58,6 +58,7 @@ class QuotationRequestForm(models.Model):
     sales_condition = fields.Char('Sales Condition')
     valid_date = fields.Date('Valid To')
     reference = fields.Char('Reference')
+    processed = fields.Boolean(string='Processed ?', default=False)
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids', 'discount_rate', 'discount_type')
     def _compute_amount(self):
@@ -103,6 +104,12 @@ class QuotationRequestForm(models.Model):
                 rec.attn_ids = [(6, 0, rec.partner_id.attn_ids.ids)]
             else:
                 rec.attn_ids = False
+
+    def action_approve(self):
+        self.state = 'approved'
+
+    def action_process(self):
+        self.state = 'approved'
 
     
 
