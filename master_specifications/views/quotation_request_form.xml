@@ -144,8 +144,8 @@
                                     <!-- <field name="spec_id"/> -->
                                     <!-- <field name="spect_name"/> -->
                                     <field name="spect_name"/>
-                                    <field name="harga"/>
-                                    <field name="subtotal" sum="Subtotal"/>
+                                    <field name="harga" string="Item Price"/>
+                                    <field name="subtotal" string="Unit Price/Pcs" sum="Subtotal"/>
                                     <field name="total" sum="Total"/>
                                     <!-- <field name="state"/> -->
                                 </tree>
