@@ -109,7 +109,9 @@ class QuotationRequestForm(models.Model):
         self.state = 'approved'
 
     def action_process(self):
-        self.state = 'approved'
+        self.processed = True
+        self.state = 'order_processed'
+
 
     def action_print(self):
         return {
