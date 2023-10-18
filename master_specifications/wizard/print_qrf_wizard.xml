@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+
+        <record id="print_qrf_wizard_form" model="ir.ui.view">
+            <field name="name">print.qrf.wizard.form</field>
+            <field name="model">print.qrf.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="qrf_id" readonly="1"/>
+                        <field name="type_report" required="1"/>
+                    </group>
+                    <footer>
+                        <button string="Print" name="action_print" type="object" default_focus="1" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
