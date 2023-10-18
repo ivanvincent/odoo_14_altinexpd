@@ -7,3 +7,4 @@ access_model_quotation_request_form_line,quotation_request_form_line,model_quota
 access_model_quotation_request_form,quotation_request_form,model_quotation_request_form,base.group_system,1,1,1,1
 access_model_master_qty,master_qty,model_master_qty,base.group_system,1,1,1,1
 access_model_quotation_request_form_line_quantity,quotation_request_form_line_quantity,model_quotation_request_form_line_quantity,base.group_system,1,1,1,1
+access_model_print_qrf_wizard,print_qrf_wizard,model_print_qrf_wizard,base.group_system,1,1,1,1

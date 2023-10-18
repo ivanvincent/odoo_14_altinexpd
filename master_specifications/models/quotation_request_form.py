@@ -111,7 +111,16 @@ class QuotationRequestForm(models.Model):
     def action_process(self):
         self.state = 'approved'
 
-    
+    def action_print(self):
+        return {
+            'type'      : 'ir.actions.act_window',
+            'name'      : "Print",
+            'res_model' : 'print.qrf.wizard',
+            'target'    : 'new',
+            'view_id'   : self.env.ref('master_specifications.print_qrf_wizard_form').id,
+            'view_mode' : 'form',
+            'context'   : {'default_qrf_id': self.id,},
+        }
 
 class QuotationRequestFormLine(models.Model):
     _name = 'quotation.request.form.line'
