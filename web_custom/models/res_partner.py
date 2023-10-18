@@ -12,7 +12,7 @@ class ResPartner(models.Model):
 
     def compute_info(self):
         for rec in self:
-            user_id = self.env['res.partner'].search([('partner_id', '=', rec.id)])
+            user_id = self.env['res.users'].search([('partner_id', '=', rec.id)])
             rec.address = user_id.address
             rec.nama_perusahaan = user_id.nama_perusahaan
             rec.jabatan = user_id.jabatan
