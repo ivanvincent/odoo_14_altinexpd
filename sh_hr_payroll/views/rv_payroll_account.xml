@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="rv_payroll_account_account_tree" model="ir.ui.view">
+            <field name="name">rv.payroll.account.tree</field>
+            <field name="model">rv.payroll.account</field>
+            <field name="arch" type="xml">
+                <tree string="Requirement Voucher Payroll Acoount">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="journal_id" />
+                    <field name="total_gapok_account_id" />
+                    <field name="bpjs_kesehatan_account_id" />
+                    <field name="bpjs_tk_account_id" />
+                    <field name="total_ahli_account_id" />
+                    <field name="total_shift3_account_id" />
+                    <field name="total_faskes_account_id" />
+                    <field name="total_lembur_account_id" />
+                    <field name="total_bonus_account_id" />
+                    <field name="total_tunjangan_account_id" />
+                    <field name="total_tpph_account_id" />
+                    <field name="total_kes_account_id" />
+                    <field name="total_jkk_account_id" />
+                    <field name="total_jkm_account_id" />
+                    <field name="total_bota_account_id" />
+                    <field name="total_thr_account_id" />
+                    <field name="total_ktt_account_id" />
+                    <field name="total_bruto_account_id" />
+                    <field name="total_jht2_account_id" />
+                    <field name="total_jp2_account_id" />
+                    <field name="total_jabat_account_id" />
+                    <field name="total_potong_account_id" />
+                    <field name="total_net_account_id" />
+                    <field name="total_net_annual_account_id" />
+                    <field name="total_ptkp_account_id" />
+                    <field name="total_pkp_1_account_id" />
+                    <field name="pkp_pembulatan_account_id" />
+                    <field name="total_pph21_1_account_id" />
+                    <field name="total_pph21_2_account_id" />
+                    <field name="total_thp_account_id" />
+                    <field name="total_jp_account_id" />
+                    <field name="jht_account_id" />
+                    <field name="total_bpjs_perusahaan_account_id" />
+                    <field name="kes2_account_id" />
+                    <field name="total_pkp_2_account_id" />
+                    <field name="total_thp_account_id" />
+                    <field name="tot_pph21_perusahaan_account_id" />
+                    <field name="tot_pph21_karyawan_account_id" />
+                </tree>
+            </field>
+        </record>
+        
+        <record id="rv_payroll_account_form" model="ir.ui.view">
+            <field name="name">rv.payroll.account.form</field>
+            <field name="model">rv.payroll.account</field>
+            <field name="arch" type="xml">
+                <form string="Requirement Voucher Payroll Account form">
+                <header>
+                    <!-- <button name="close_payslip_run" type="object" string="Close" states="draft" class="oe_highlight"/>
+                    <button name="%(action_hr_payslip_by_employees)d" type="action" states="draft" string="Generate Payslips" class="oe_highlight"/>
+                    <button string="Set to Draft" name="draft_payslip_run" type="object" states="close" /> -->
+                    <!-- <field name="state" widget="statusbar"/> -->
+                </header>
+                <sheet>
+                            <div class="oe_title">
+                                <!--<label for="name" class="oe_edit_only" string="Delivery Order Name"/>-->
+                                <h1>
+                                    <field name="name" readonly="1"/>
+                                </h1>
+                            </div>
+                              <group>
+                                    <group>
+                                        <field name="journal_id" />
+                                        <field name="total_gapok_account_id" />
+                                        <field name="bpjs_kesehatan_account_id" />
+                                        <field name="bpjs_tk_account_id" />
+                                        <field name="total_ahli_account_id" />
+                                        <field name="total_shift3_account_id" />
+                                        <field name="total_faskes_account_id" />
+                                        <field name="total_lembur_account_id" />
+                                        <field name="total_bonus_account_id" />
+                                        <field name="total_tunjangan_account_id" />
+                                        <field name="total_tpph_account_id" />
+                                        <field name="total_kes_account_id" />
+                                        <field name="total_jkk_account_id" />
+                                        <field name="total_jkm_account_id" />
+                                        <field name="total_bota_account_id" />
+                                        <field name="total_thr_account_id" />
+                                        <field name="total_ktt_account_id" />
+                                        <field name="total_bruto_account_id" />
+                                        <field name="total_jht2_account_id" />
+                                    </group>
+                                    <group>
+                                        <field name="total_jp2_account_id" />
+                                        <field name="total_jabat_account_id" />
+                                        <field name="total_potong_account_id" />
+                                        <field name="total_net_account_id" />
+                                        <field name="total_net_annual_account_id" />
+                                        <field name="total_ptkp_account_id" />
+                                        <field name="total_pkp_1_account_id" />
+                                        <field name="pkp_pembulatan_account_id" />
+                                        <field name="total_pph21_1_account_id" />
+                                        <field name="total_pph21_2_account_id" />
+                                        <field name="total_thp_account_id" />
+                                        <field name="total_jp_account_id" />
+                                        <field name="jht_account_id" />
+                                        <field name="total_bpjs_perusahaan_account_id" />
+                                        <field name="kes2_account_id" />
+                                        <field name="total_pkp_2_account_id" />
+                                        <field name="total_thp_account_id" />
+                                        <field name="tot_pph21_perusahaan_account_id" />
+                                        <field name="tot_pph21_karyawan_account_id" />
+                                    </group>
+                                </group>
+                     </sheet>
+                </form>
+            </field>
+        </record>
+    
+        <record id="action_rv_payroll_account_tree" model="ir.actions.act_window">
+            <field name="name">Requirement Voucher Payroll Account</field>
+            <field name="res_model">rv.payroll.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" />
+            <!-- <field name="search_view_id" ref="hr_payslip_run_filter"/> -->
+        </record>
+        <menuitem id="Requirement_Voucher_Payroll_Account"
+        name="Requirement Voucher Payroll Account"
+        action="action_rv_payroll_account_tree"
+        parent="menu_hr_payroll_configuration"
+        sequence="20"/>
+ 
+    </data>
+</odoo> 

@@ -46,7 +46,6 @@ class RvPayroll(models.Model):
 class RvPayrollLine(models.Model):
     _name = 'rv.payroll.line'
     
-    
     name = fields.Char(string='No Voucher', required=True, copy=False, readonly=True, index=True, default=lambda self: _('New'))
     description = fields.Text(string="Description", required=False, track_visibility='onchange',)
     rv_id = fields.Many2one('rv.payroll')
@@ -100,16 +99,6 @@ class RvPayrollLine(models.Model):
     #     string="Rvp Line",
     #     required=False,)   
 
-class RvPayrollLineAccount(models.Model):
-    _name = 'rv.payroll.line.account'
-    
-    
-    rv_id = fields.Many2one('rv.payroll')
-    state = fields.Selection(string="State", selection=KB_STATES, required=True, readonly=True, default=KB_STATES[0][0], track_visibility='onchange',)
-    account_id = fields.Many2one('account.account', 'Account')
-    description = fields.Text(string="Description", required=False, track_visibility='onchange',)
-    amount_debit = fields.Float(string='Debit')
-    amount_credit = fields.Float(string='Credit')
 
 class RvPayrollAccount(models.Model):
     _name = 'rv.payroll.account'
@@ -156,3 +145,25 @@ class RvPayrollAccount(models.Model):
     total_thp_account_id = fields.Many2one('account.account',string='THP')
     tot_pph21_perusahaan_account_id = fields.Many2one('account.account',string='Total BPJS untuk PPh21')
     tot_pph21_karyawan_account_id = fields.Many2one('account.account',string='Total pot BPJS u/ PPh21')
+    
+    
+class RvPayrollLineAccount(models.Model):
+    _name = 'rv.payroll.line.account'
+    
+    
+    rv_id = fields.Many2one('rv.payroll')
+    state = fields.Selection(string="State", selection=KB_STATES, required=True, readonly=True, default=KB_STATES[0][0], track_visibility='onchange',)
+    account_id = fields.Many2one('account.account', 'Account')
+    description = fields.Text(string="Description", required=False, track_visibility='onchange',)
+    amount_debit = fields.Float(string='Debit', compute="compute_amount")
+    amount_credit = fields.Float(string='Credit')
+
+    def compute_amount(self):
+        print("======compute_amount======")
+        query = """ select * from rv_payroll_account where id = 1; """
+        self._cr.execute(query)
+        results = self._cr.dictfetchall()
+        print("=======Result=======")
+        print(results)
+        for rec in self:
+            rec.amount_debit = 99

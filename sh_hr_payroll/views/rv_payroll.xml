@@ -36,7 +36,7 @@
                                     <group>
                                        <field name="name" />
                                        <field name="description" />
-                                       <field name="tanggal" />
+                                       <field name="tanggal" required="1"/>
                                        <!-- <field name="amount" /> -->
                                     </group>
                                     <group>
@@ -60,42 +60,42 @@
                                         <tree >
                                             <field name="nik_id"/>
                                             <field name="karyawan"/>
-                                            <field name="total_gapok"/>
-                                            <field name="bpjs_kesehatan"/>
-                                            <field name="bpjs_tk"/>
-                                            <field name="total_ahli" />
-                                            <field name="total_shift3"/>
-                                            <field name="total_faskes"/>
-                                            <field name="total_lembur" />
-                                            <field name="total_bonus" />
-                                            <field name="total_tunjangan" />
-                                            <field name="total_tpph" />
-                                            <field name="total_kes" />
-                                            <field name="jht" />
-                                            <field name="total_jkk" />
-                                            <field name="total_jp" />
-                                            <field name="total_jkm" />
-                                            <field name="total_bpjs_perusahaan" />
-                                            <field name="tot_pph21_perusahaan" />
-                                            <field name="total_bota" />
-                                            <field name="total_thr" />
-                                            <field name="total_ktt" />
-                                            <field name="total_bruto" />
-                                            <field name="kes2" />
-                                            <field name="total_jht2" />
-                                            <field name="total_jp2" />
-                                            <field name="total_pkp_2" />
-                                            <field name="tot_pph21_karyawan" />
-                                            <field name="total_jabat" />
-                                            <field name="total_potong" />
-                                            <field name="total_net" />
-                                            <field name="total_net_annual" />
-                                            <field name="total_ptkp" />
-                                            <field name="total_pkp_1" />
-                                            <field name="pkp_pembulatan" />
-                                            <field name="total_pph21_1" />
-                                            <field name="total_pph21_2" />
-                                            <field name="total_thp" />
+                                            <field name="total_gapok" sum="total_gapok"/>
+                                            <field name="bpjs_kesehatan" sum="bpjs_kesehatan"/>
+                                            <field name="bpjs_tk" sum="bpjs_tk"/>
+                                            <field name="total_ahli" sum="total_ahli"/>
+                                            <field name="total_shift3" sum="total_shift3"/>
+                                            <field name="total_faskes" sum="total_faskes"/>
+                                            <field name="total_lembur" sum="total_lembur"/>
+                                            <field name="total_bonus" sum="total_bonus"/>
+                                            <field name="total_tunjangan" sum="total_tunjangan"/>
+                                            <field name="total_tpph" sum="total_tpph"/>
+                                            <field name="total_kes" sum="total_kes"/>
+                                            <field name="jht" sum="jht"/>
+                                            <field name="total_jkk" sum="total_jkk"/>
+                                            <field name="total_jp" sum="total_jp"/>
+                                            <field name="total_jkm" sum="total_jkm"/>
+                                            <field name="total_bpjs_perusahaan" sum="total_bpjs_perusahaan"/>
+                                            <field name="tot_pph21_perusahaan" sum="tot_pph21_perusahaan"/>
+                                            <field name="total_bota" sum="total_bota"/>
+                                            <field name="total_thr" sum="total_thr"/>
+                                            <field name="total_ktt" sum="total_ktt"/>
+                                            <field name="total_bruto" sum="total_bruto"/>
+                                            <field name="kes2" sum="kes2"/>
+                                            <field name="total_jht2" sum="total_jht2"/>
+                                            <field name="total_jp2" sum="total_jp2"/>
+                                            <field name="total_pkp_2" sum="total_pkp_2"/>
+                                            <field name="tot_pph21_karyawan" sum="tot_pph21_karyawan"/>
+                                            <field name="total_jabat" sum="total_jabat"/>
+                                            <field name="total_potong" sum="total_potong"/>
+                                            <field name="total_net" sum="total_net"/>
+                                            <field name="total_net_annual" sum="total_net_annual"/>
+                                            <field name="total_ptkp" sum="total_ptkp"/>
+                                            <field name="total_pkp_1" sum="total_pkp_1"/>
+                                            <field name="pkp_pembulatan" sum="pkp_pembulatan"/>
+                                            <field name="total_pph21_1" sum="total_pph21_1"/>
+                                            <field name="total_pph21_2" sum="total_pph21_2"/>
+                                            <field name="total_thp" sum="total_thp"/>
                                             
                                         </tree>
 
@@ -135,5 +135,6 @@
         action="action_rv_payroll_tree"
         parent="menu_hr_payroll_root"
         sequence="20"/>
+ 
     </data>
 </odoo> 

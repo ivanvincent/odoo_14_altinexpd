@@ -33,6 +33,7 @@
         'report/report_salary_to_bpjs.xml',
         'report/report_salary_to_gs.xml',
         'views/rv_payroll.xml',
+        'views/rv_payroll_account.xml',
     ],
     'demo': ['data/hr_payroll_demo.xml'],
     "application": True,
