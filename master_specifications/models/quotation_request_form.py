@@ -153,7 +153,58 @@ class QuotationRequestFormLine(models.Model):
     lapisan = fields.Selection(
         [("Coat", "Coat"), ("Plat", "Plat")], string='Surface Finish')
     line_qty_ids = fields.One2many('quotation.request.form.line.quantity', 'qrf_line_id', 'Line Qty')
+    amount_tax = fields.Monetary(
+        string='Taxes', currency_field='currency_id', compute='_compute_amount')
+    currency_id = fields.Many2one(
+        'res.currency', related='company_id.currency_id', store=True,)
+    company_id = fields.Many2one(
+        'res.company', default=lambda self: self.env.company)
+    total_tax_11 = fields.Monetary(
+        string='Taxes', currency_field='currency_id', compute='_compute_tax')
+    total_tax_pph23 = fields.Monetary(
+        string='Taxes', currency_field='currency_id', 
+        compute='_compute_tax_pph'
+        )
+
+    @api.depends('sub_total', 'tax_ids')
+    def _compute_amount(self):
+        for rec in self:
+            total_tax = 0
+            total_untax = 0
+            # for l in rec.line_ids:
+            for t in rec.tax_ids:
+                total_tax += rec.sub_total * (t.amount / 100)
+            total_untax += rec.sub_total
+            # amount_discount = total_untax * rec.discount_rate / 100 if rec.discount_type == 'percent' else rec.discount_rate
+            rec.amount_tax = total_tax
+            # rec.amount_untaxed = total_untax
+            # rec.amount_total = total_tax + total_untax - amount_discount
+            # rec.amount_discount = amount_discount
     
+    @api.depends('sub_total', 'tax_ids')
+    def _compute_tax(self):
+        for rec in self:
+            if any(rec.tax_ids):
+                for t in rec.tax_ids.filtered(lambda x:x.id == 2):
+                    if t.id == 2 :
+                        rec.total_tax_11 = rec.sub_total * (11/100)
+                    else:
+                        rec.total_tax_11 = 0
+            else:
+                rec.total_tax_11 = 0
+
+    @api.depends('sub_total', 'tax_ids')
+    def _compute_tax_pph(self):
+        for rec in self:
+            if any(rec.tax_ids):
+                for t in rec.tax_ids.filtered(lambda x:x.id == 6):
+                    if t.id == 6 :
+                        rec.total_tax_pph23 = rec.sub_total * (2/100)
+                    else:
+                        rec.total_tax_pph23 = 0
+            else:
+                rec.total_tax_pph23 = 0
+
     # @api.depends('line_spec_ids', 'price_unit' , 'sub_total')
     @api.depends('price_unit')
     def _compute_price_unit(self):
