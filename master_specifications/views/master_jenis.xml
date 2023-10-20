@@ -24,7 +24,7 @@
 
         <menuitem
             id="specifications_root_menu"
-            name="Specifications"
+            name="Product Configurator"
             sequence="20"
             />
 

@@ -3,8 +3,8 @@
 <odoo>
     <data>
 
-        <record model="report.paperformat" id="paperformat_specifications_summary_1">
-            <field name="name">paperformat.specifications.summary.a4</field>
+        <record model="report.paperformat" id="paperformat_specifications_summary_up">
+            <field name="name">paperformat.specifications.summary.update.a4</field>
             <field name="format">A4</field>
             <field name="orientation">Portrait</field>
             <field name="margin_top">17</field>
@@ -16,18 +16,18 @@
             <field name="dpi">90</field>
         </record>
 
-        <record id="action_specifications_summary" model="ir.actions.report">
-                <field name="name">Specification Summary</field>
+        <record id="action_specifications_summary_up" model="ir.actions.report">
+                <field name="name">Specification Summary UP</field>
                 <field name="model">quotation.request.form</field>
-                <field name="report_name">master_specifications.specification_summary_template</field>
-                <field name="report_file">master_specifications.specification_summary_template</field>
+                <field name="report_name">master_specifications.specification_summary_template_up</field>
+                <field name="report_file">master_specifications.specification_summary_template_up</field>
                 <field name="print_report_name">'%s' % object.name</field>
                 <field name="binding_model_id" ref="model_quotation_request_form"/>
                 <field name="binding_type">report</field>
-                <field name="paperformat_id" eval="paperformat_specifications_summary_1"/>
+                <field name="paperformat_id" eval="paperformat_specifications_summary_up"/>
             </record>
 
-        <template id="specification_summary_template">
+        <template id="specification_summary_template_up">
             <t t-foreach="docs.line_ids" t-as="line">
                 <div class="page">
                   <t t-call="web.basic_layout">

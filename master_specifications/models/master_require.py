@@ -12,6 +12,7 @@ class MasterRequire(models.Model):
         )
     active = fields.Boolean(string='Active ?', default=True)
     urutan = fields.Integer(string='Urutan', default=99)
+    kelompok = fields.Selection([('holder','Holder'),('holder_cap','Holder Cap'),('tip','Tip'),('gen_item','General Items')], string='Kelompok')
 
 
     def _get_jenis_ids(self):
