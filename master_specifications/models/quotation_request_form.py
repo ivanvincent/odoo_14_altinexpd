@@ -184,9 +184,10 @@ class QuotationRequestFormLine(models.Model):
     @api.depends('sub_total', 'tax_ids')
     def _compute_tax(self):
         for rec in self:
+            rec.total_tax_11 = 0
             if any(rec.tax_ids):
                 for t in rec.tax_ids.filtered(lambda x:x.id == 2):
-                    if t.id == 2 :
+                    if t:
                         rec.total_tax_11 = rec.sub_total * (11/100)
                     else:
                         rec.total_tax_11 = 0
@@ -196,9 +197,10 @@ class QuotationRequestFormLine(models.Model):
     @api.depends('sub_total', 'tax_ids')
     def _compute_tax_pph(self):
         for rec in self:
+            rec.total_tax_pph23 = 0
             if any(rec.tax_ids):
                 for t in rec.tax_ids.filtered(lambda x:x.id == 6):
-                    if t.id == 6 :
+                    if t:
                         rec.total_tax_pph23 = rec.sub_total * (2/100)
                     else:
                         rec.total_tax_pph23 = 0
