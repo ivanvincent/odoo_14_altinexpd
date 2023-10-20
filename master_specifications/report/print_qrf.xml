@@ -228,8 +228,12 @@
             </div>
             <!--<div class="page">-->
                 <t t-set="no_page" t-value="0"/>
+                <t t-set="tot_tax11" t-value="0"/>
+                <t t-set="tot_tax_pph23" t-value="0"/>
                 <t t-foreach="docs.line_ids" t-as="line">
                 <t t-set="no_page" t-value="no_page + 1"/>
+                <t t-set="tot_tax11" t-value="tot_tax11 +  line.total_tax_11"/>
+                <t t-set="tot_tax_pph23" t-value="tot_tax_pph23 +  line.total_tax_pph23"/>
                 <div class="page">
                   <t t-call="web.basic_layout">
                     <div class="row mt32">
@@ -279,8 +283,7 @@
                                         </td>
                                         <td>
                                             <span>:</span>
-                                             <span t-field="docs.valid_date"
-                                               t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd/MM/yyyy&quot;}" />
+                                             <span t-field="docs.valid_date" t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -390,7 +393,6 @@
                                                       <t t-set="tot_subtotal" t-value="tot_subtotal +  detail2.subtotal"/>
                                                       <t t-set="tot_amount_subtotal" t-value="docs.amount_untaxed -  docs.amount_discount"/>
                                                       <t t-set="tot_amount_total" t-value="tot_amount_subtotal +  docs.amount_tax"/>
-                                                      
                                                       <div class="row mt32">
                                                           <div class="col-1"/>
                                                           <div class="col-3">
@@ -446,13 +448,13 @@
                                                   <div class="row mt32" style="background-color:#D9DDDC">
                                                       <div class="col-10" style="text-align: right"> Taxes (PPN 11%):</div>
                                                       <div class="col-2" style="text-align: right">
-                                                            <span t-esc="'{0:,.1f}'.format(float(line.total_tax_11))"/> 
+                                                            <span t-esc="'{0:,.1f}'.format(float(tot_tax11))"/> 
                                                       </div>
                                                   </div>
                                                   <div class="row mt32" style="background-color:#D9DDDC">
                                                       <div class="col-10" style="text-align: right"> Taxes (PPh 23):</div>
                                                       <div class="col-2" style="text-align: right">
-                                                            <span t-esc="'{0:,.1f}'.format(float(line.total_tax_pph23))"/> 
+                                                            <span t-esc="'{0:,.1f}'.format(float(tot_tax_pph23))"/> 
                                                       </div>
                                                   </div>
                                                   <div class="row mt32" style="background-color:#D9DDDC">
