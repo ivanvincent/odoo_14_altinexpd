@@ -59,21 +59,35 @@ class QuotationRequestForm(models.Model):
     valid_date = fields.Date('Valid To')
     reference = fields.Char('Reference')
     processed = fields.Boolean(string='Processed ?', default=False)
+    amount_tax_11 = fields.Monetary(
+        string='Taxes (PPN 11%)', currency_field='currency_id', compute='_compute_amount')
+    amount_tax_pph23 = fields.Monetary(
+        string='Taxes (PPh 23)', currency_field='currency_id', compute='_compute_amount' )
+    amount_subtotal = fields.Monetary(
+        string='Subtotal', currency_field='currency_id', compute='_compute_amount')
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids', 'discount_rate', 'discount_type')
     def _compute_amount(self):
         for rec in self:
             total_tax = 0
             total_untax = 0
+            total_ppn11 = 0
+            total_pph23 = 0
             for l in rec.line_ids:
                 for t in l.tax_ids:
                     total_tax += l.sub_total * (t.amount / 100)
                 total_untax += l.sub_total
+                total_ppn11 += l.total_tax_11
+                total_pph23 += l.total_tax_pph23
             amount_discount = total_untax * rec.discount_rate / 100 if rec.discount_type == 'percent' else rec.discount_rate
             rec.amount_tax = total_tax
             rec.amount_untaxed = total_untax
             rec.amount_total = total_tax + total_untax - amount_discount
             rec.amount_discount = amount_discount
+            rec.amount_tax_11 = total_ppn11
+            rec.amount_tax_pph23 = total_pph23
+            rec.amount_subtotal = total_untax - amount_discount
+
 
     @api.model
     def create(self, vals):
@@ -160,10 +174,9 @@ class QuotationRequestFormLine(models.Model):
     company_id = fields.Many2one(
         'res.company', default=lambda self: self.env.company)
     total_tax_11 = fields.Monetary(
-        string='Taxes', currency_field='currency_id', compute='_compute_tax')
+        string='Taxes (PPN 11%)', currency_field='currency_id', compute='_compute_tax')
     total_tax_pph23 = fields.Monetary(
-        string='Taxes', currency_field='currency_id', 
-        compute='_compute_tax_pph'
+        string='Taxes (PPh 23)', currency_field='currency_id', compute='_compute_tax_pph'
         )
 
     @api.depends('sub_total', 'tax_ids')
