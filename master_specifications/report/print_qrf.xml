@@ -428,7 +428,7 @@
                                                   <!--<div class="footer">-->
                                                   <div class="col-xs-6 text-right" style="font-size : 16px">
                                                   <div class="row mt32" style="background-color:#D9DDDC">
-                                                      <div class="col-10" style="text-align: right"> Amount Untaxed :</div>
+                                                      <div class="col-10" style="text-align: right"> Amount :</div>
                                                       <div class="col-2" style="text-align: right">
                                                             <span t-esc="'{0:,.1f}'.format(float(docs.amount_untaxed))"/> 
                                                       </div>
@@ -445,22 +445,22 @@
                                                             <span t-esc="'{0:,.1f}'.format(float(tot_amount_subtotal))"/> 
                                                       </div>
                                                   </div>
-                                                  <div class="row mt32" style="background-color:#D9DDDC">
+                                                  <!-- <div class="row mt32" style="background-color:#D9DDDC">
                                                       <div class="col-10" style="text-align: right"> Taxes (PPN 11%):</div>
                                                       <div class="col-2" style="text-align: right">
                                                             <span t-esc="'{0:,.1f}'.format(float(tot_tax11))"/> 
                                                       </div>
-                                                  </div>
-                                                  <div class="row mt32" style="background-color:#D9DDDC">
+                                                  </div> -->
+                                                  <!-- <div class="row mt32" style="background-color:#D9DDDC">
                                                       <div class="col-10" style="text-align: right"> Taxes (PPh 23):</div>
                                                       <div class="col-2" style="text-align: right">
                                                             <span t-esc="'{0:,.1f}'.format(float(tot_tax_pph23))"/> 
                                                       </div>
-                                                  </div>
+                                                  </div> -->
                                                   <div class="row mt32" style="background-color:#D9DDDC">
                                                       <div class="col-10" style="text-align: right"> Amount Total :</div>
                                                       <div class="col-2" style="text-align: right">
-                                                            <span t-esc="'{0:,.1f}'.format(float(tot_amount_total))"/> 
+                                                            <span t-esc="'{0:,.1f}'.format(float(tot_amount_subtotal))"/> 
                                                       </div>
                                                   </div>
                                                   </div>
