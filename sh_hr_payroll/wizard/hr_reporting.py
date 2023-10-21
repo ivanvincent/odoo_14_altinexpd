@@ -2159,7 +2159,7 @@ class HrReporting(models.TransientModel):
             worksheet.write('AK%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_pph21_1'])), wbf['content_float'])
             worksheet.write('AL%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_pph21_2'])), wbf['content_float'])
             # worksheet.write('AM%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_kes'])), wbf['content_float'])
-            worksheet.write('AN%s' % (row), 'Rp.' + '{0:,.0f}'.format(tot_thp), wbf['content_float'])
+            worksheet.write('AN%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['thp_2'])), wbf['content_float'])
 
 			
             sum_total_gapok += float(rec['total_gapok'])
@@ -2198,7 +2198,7 @@ class HrReporting(models.TransientModel):
             sum_total_bpjs_perusahaan += float(rec['total_bpjs_perusahaan'])
             sum_kes2 += float(rec['kes2'])
             sum_total_pkp_2 += float(rec['total_pkp_2'])
-            sum_thp += float(tot_thp)
+            sum_thp += float(rec['thp_2'])
             sum_tot_pph21_perusahaan += float(tot_pph21_perusahaan)
             sum_tot_pph21_karyawan += float(tot_pph21_karyawan)
 
@@ -2243,7 +2243,7 @@ class HrReporting(models.TransientModel):
         worksheet.write('AK%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_pph21_1), wbf['total_float'])
         worksheet.write('AL%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_pph21_2), wbf['total_float'])
         # worksheet.write('AM%s' % (row), 'Rp.' + '{0:,.0f}'.format(), wbf['total_float'])
-        worksheet.write('AN%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_thp), wbf['total_float'])
+        worksheet.write('AN%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_thp), wbf['total_float'])
 
         filename = '%s %s%s' % (report_name, date_string, '.xlsx')
         workbook.close()
