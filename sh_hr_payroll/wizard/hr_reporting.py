@@ -1749,7 +1749,7 @@ class HrReporting(models.TransientModel):
 					left join hr_employee he on he.id = hp.employee_id
 					left join hr_job hj on hj.id = he.job_id
 					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'THP_2'
+                    WHERE hpl.code in ('THP_1','THP_2')
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
 				
