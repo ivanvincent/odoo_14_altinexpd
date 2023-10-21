@@ -19,7 +19,7 @@ class QuotationRequestForm(models.Model):
     amount_untaxed = fields.Monetary(
         string='Amount Untaxed', currency_field='currency_id', compute='_compute_amount')
     amount_total = fields.Monetary(
-        string='Amount Total', currency_field='currency_id', compute='_compute_amount')
+        string='Total', currency_field='currency_id', compute='_compute_amount')
     company_id = fields.Many2one(
         'res.company', default=lambda self: self.env.company)
     currency_id = fields.Many2one(
