@@ -42,7 +42,7 @@
                                 <field name="end_user_name"/>
                                 <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" string="End User Machine"/>                                
                                 <field name="end_user_machine_serial"/>
-                                <field name="perihal"/>                                
+                                <field name="perihal" invisible="1"/>                                
                                 <field name="payment_terms"/>                                                          
                                 <field name="delivery_terms"/>                                                          
                                 <field name="sales_condition" string="Warranty"/>                                                          
@@ -59,11 +59,13 @@
                                         <button name="create_specification_detail" type="object" icon="fa-list" states="draft"/>                                        
                                         <!-- <button name="action_view_makloon_order" type="object" icon="fa-pencil-square-o" states="process"/> -->
                                         <field name="line_spec_ids"/>
+                                        <field name="quantity"/>
+                                        <field name="price_unit"/>
                                         <field name="discount_type"/>
                                         <field name="discount_rate"/>
-                                        <field name="amount_discount" string="Discount A"/>
+                                        <field name="amount_discount" string="Discount Amount"/>
                                         <field name="state" invisible="1"/>
-                                        <field name="tax_ids" widget="many2many_tags"/>
+                                        <field name="tax_ids" widget="many2many_tags" invisible="1"/>
                                         <field name="amount_tax" invisible="1"/>
                                         <field name="total_tax_11" invisible="1"/>
                                         <field name="total_tax_pph23" invisible="1"/>
