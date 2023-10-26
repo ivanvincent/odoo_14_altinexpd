@@ -16,7 +16,7 @@
                         <button name="action_process" type="object" string="Process" attrs="{'invisible':['|', ('processed', '=', True), ('state', '!=', 'approved')]}" groups="sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
                         <field name="processed" invisible="1"/>
                         <button name="action_set_to_draft" type="object" string="Se to draft" states="confirm"/>
-                        <button name="action_print" type="object" string="Print" attrs="{'invisible':[('state', 'not in', ('approved','order_processed'))]}" class="oe_highlight"/>
+                        <button name="action_print_dqups2" type="object" string="Print" attrs="{'invisible':[('state', 'not in', ('approved','order_processed'))]}" class="oe_highlight"/>
                     </header>
                     <sheet>
                         <div class="oe_title">
