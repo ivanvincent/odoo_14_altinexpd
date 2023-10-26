@@ -152,6 +152,7 @@
                                     <field name="jenis_id" invisible="1"/>
                                     <field name="qty_id"/>
                                     <field name="qty"/>
+                                    <field name="set"/>
                                 </tree>
                             </field>
                             <button name="action_refresh_spec" type="object" string="Refresh" />

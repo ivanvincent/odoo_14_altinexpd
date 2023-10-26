@@ -153,7 +153,7 @@ class QuotationRequestFormLine(models.Model):
     jenis_id = fields.Many2one('master.jenis', string='Jenis')
     line_spec_ids = fields.One2many('quotation.request.form.line.specification', 'qrf_line_id', 'Line Spec')
     name = fields.Char(string='Description')
-    quantity = fields.Float(string='Quantity')
+    quantity = fields.Float(string='Quantity', compute='compute_quantity')
     price_unit = fields.Float(string='Price Unit', compute='_compute_price_unit')
     tax_ids = fields.Many2many(comodel_name='account.tax', string='Tax')
     sub_total = fields.Float(string='Sub Total', compute='_compute_sub_total')
@@ -305,6 +305,15 @@ class QuotationRequestFormLine(models.Model):
         action['res_id'] = self.id
         return action
 
+    def compute_quantity(self):
+        for rec in self:
+            if any(rec.line_qty_ids):
+                if len(rec.line_qty_ids) > 1:
+                    rec.quantity = sum(rec.line_qty_ids.filtered(lambda x: x.set).mapped('qty'))
+                elif len(rec.line_qty_ids) == 1:
+                    rec.quantity = sum(rec.line_qty_ids.mapped('qty'))
+            else:
+                rec.quantity = 0
 
 class QuotationRequestFormLineSpecification(models.Model):
     _name = 'quotation.request.form.line.specification'
@@ -345,6 +354,10 @@ class QuotationRequestFormLineSpecification(models.Model):
                                 final.append(str(master_quantity.qty))
                             elif s == 'HARGA':
                                 final.append(str(rec.harga))
+                            # elif s in ['*', '/', '+', '-', '%']:
+                            #     final.append(str(s))
+                            # else:
+                            #     final.append(str('(1 * 0)'))
                             else:
                                 final.append(str(s))
                         rec.subtotal = eval(' '.join(final))
@@ -375,8 +388,14 @@ class QuotationRequestFormLineSpecification(models.Model):
                                 final.append(str(rec.subtotal))
                             elif s == 'HARGA':
                                 final.append(str(spec.harga))
+                            # else:
+                            #     final.append(str(s))
+                            # elif s in ['*', '/', '+', '-', '%']:
+                            #     final.append(str(s))
+                            # else:
+                            #     final.append(str('(1 * 0)'))
                             else:
-                                final.append(str(s))
+                                    final.append(str(s))
                         rec.total = eval(' '.join(final))
                         # print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++",final)
                     else:
@@ -403,6 +422,7 @@ class QuotationRequestFormLineQuantity(models.Model):
     qty_id      = fields.Many2one('master.qty', string='Quantity')
     urutan      = fields.Integer(string='Urutan', related='qty_id.urutan')
     qty         = fields.Float(string='Qty')
+    set         = fields.Boolean(string='Set ?')
 
     # @api.onchange('qty')
     def action_refresh_spec(self):
