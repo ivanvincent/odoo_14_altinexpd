@@ -58,6 +58,7 @@
                                         <button name="create_specification_detail" type="object" icon="fa-list" states="draft"/>                                        
                                         <!-- <button name="action_view_makloon_order" type="object" icon="fa-pencil-square-o" states="process"/> -->
                                         <field name="line_spec_ids"/>
+                                        <field name="quantity"/>
                                         <field name="state" invisible="1"/>
                                         <field name="tax_ids" widget="many2many_tags" invisible="1"/>
                                         <field name="amount_tax" invisible=""/>

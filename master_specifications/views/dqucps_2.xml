@@ -61,6 +61,7 @@
                                         <field name="line_spec_ids"/>
                                         <field name="discount_type"/>
                                         <field name="discount_rate"/>
+                                        <field name="amount_discount" string="Discount A"/>
                                         <field name="state" invisible="1"/>
                                         <field name="tax_ids" widget="many2many_tags"/>
                                         <field name="amount_tax" invisible="1"/>

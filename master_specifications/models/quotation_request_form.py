@@ -189,6 +189,9 @@ class QuotationRequestFormLine(models.Model):
     discount_type = fields.Selection([('percent', 'Percentage'), ('amount', 'Amount')], string='Discount type',
                                  default='percent')
     discount_rate = fields.Float('Discount Rate', digits=dp.get_precision('Account'), )
+    amount_discount = fields.Monetary(string='Discount', store=False,
+                                        compute='_compute_amount',
+                                        digits=dp.get_precision('Account'))
 
     @api.depends('sub_total', 'tax_ids')
     def _compute_amount(self):
@@ -199,11 +202,11 @@ class QuotationRequestFormLine(models.Model):
             for t in rec.tax_ids:
                 total_tax += rec.sub_total * (t.amount / 100)
             total_untax += rec.sub_total
-            # amount_discount = total_untax * rec.discount_rate / 100 if rec.discount_type == 'percent' else rec.discount_rate
+            amount_discount = total_untax * rec.discount_rate / 100 if rec.discount_type == 'percent' else rec.discount_rate
             rec.amount_tax = total_tax
             # rec.amount_untaxed = total_untax
             # rec.amount_total = total_tax + total_untax - amount_discount
-            # rec.amount_discount = amount_discount
+            rec.amount_discount = amount_discount
     
     @api.depends('sub_total', 'tax_ids')
     def _compute_tax(self):
