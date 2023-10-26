@@ -65,6 +65,11 @@ class QuotationRequestForm(models.Model):
         string='Taxes (PPh 23)', currency_field='currency_id', compute='_compute_amount' )
     amount_subtotal = fields.Monetary(
         string='Subtotal', currency_field='currency_id', compute='_compute_amount')
+    tax_id = fields.Many2one('account.tax', string='Tax Type')
+    notes_to_customer = fields.Text(string='Notes to customer')
+    type = fields.Selection([("1","1"),("2","2")], string='Type')
+    end_user_name = fields.Char(string='End User Name')
+    end_user_machine_serial = fields.Char(string='End User Machine Serial No.')
 
     @api.depends('line_ids.sub_total', 'line_ids.tax_ids', 'discount_rate', 'discount_type')
     def _compute_amount(self):
@@ -74,12 +79,15 @@ class QuotationRequestForm(models.Model):
             total_ppn11 = 0
             total_pph23 = 0
             for l in rec.line_ids:
-                for t in l.tax_ids:
-                    total_tax += l.sub_total * (t.amount / 100)
+                # for t in l.tax_ids:
+                #     total_tax += l.sub_total * (t.amount / 100)
+
                 total_untax += l.sub_total
                 total_ppn11 += l.total_tax_11
                 total_pph23 += l.total_tax_pph23
             amount_discount = total_untax * rec.discount_rate / 100 if rec.discount_type == 'percent' else rec.discount_rate
+
+            total_tax = total_untax * (rec.tax_id.amount / 100)
             rec.amount_tax = total_tax
             rec.amount_untaxed = total_untax
             rec.amount_total = total_tax + total_untax - amount_discount
@@ -178,6 +186,9 @@ class QuotationRequestFormLine(models.Model):
     total_tax_pph23 = fields.Monetary(
         string='Taxes (PPh 23)', currency_field='currency_id', compute='_compute_tax_pph'
         )
+    discount_type = fields.Selection([('percent', 'Percentage'), ('amount', 'Amount')], string='Discount type',
+                                 default='percent')
+    discount_rate = fields.Float('Discount Rate', digits=dp.get_precision('Account'), )
 
     @api.depends('sub_total', 'tax_ids')
     def _compute_amount(self):

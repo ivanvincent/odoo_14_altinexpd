@@ -21,6 +21,7 @@ Dev
         'views/specifications.xml',
         'views/quotation_request_form.xml',
         'views/master_qty.xml',
+        'views/dqucps_2.xml',
         # 'report/specification.xml',
         'report/print_qrf.xml',
         # 'report/specification_summary.xml',

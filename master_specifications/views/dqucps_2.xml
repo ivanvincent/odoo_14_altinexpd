@@ -3,8 +3,8 @@
 
     <data>
     
-        <record id="quotation_request_form_form" model="ir.ui.view">
-            <field name="name">quotation_request_form</field>
+        <record id="dqups_2_form" model="ir.ui.view">
+            <field name="name">dqups_form</field>
             <field name="model">quotation.request.form</field>
             <field name="arch" type="xml">
                 <form string="">
@@ -35,11 +35,12 @@
                                 <field name="notes_to_customer"/>
                                 <field name="date"/>
                                 <field name="attn_ids" invisible="1"/>
+                                
                             </group>
                             <group>
                                 <field name="date" attrs="{'readonly':[('state','=','confirm')]}" />
                                 <field name="end_user_name"/>
-                                <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" string="End User Machine" />                                
+                                <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" string="End User Machine"/>                                
                                 <field name="end_user_machine_serial"/>
                                 <field name="perihal"/>                                
                                 <field name="payment_terms"/>                                                          
@@ -58,9 +59,11 @@
                                         <button name="create_specification_detail" type="object" icon="fa-list" states="draft"/>                                        
                                         <!-- <button name="action_view_makloon_order" type="object" icon="fa-pencil-square-o" states="process"/> -->
                                         <field name="line_spec_ids"/>
+                                        <field name="discount_type"/>
+                                        <field name="discount_rate"/>
                                         <field name="state" invisible="1"/>
-                                        <field name="tax_ids" widget="many2many_tags" invisible="1"/>
-                                        <field name="amount_tax" invisible=""/>
+                                        <field name="tax_ids" widget="many2many_tags"/>
+                                        <field name="amount_tax" invisible="1"/>
                                         <field name="total_tax_11" invisible="1"/>
                                         <field name="total_tax_pph23" invisible="1"/>
                                         <field name="sub_total"/>
@@ -69,16 +72,16 @@
                             </page>
                         </notebook>
                         <group col="6">
-                            <group name="discount" colspan="2">
+                            <!-- <group name="discount" colspan="2">
                                 <field name="discount_type"/>
                                 <field name="discount_rate"/>
-                            </group>
+                            </group> -->
                             <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
                                 <field name="currency_id" invisible="1"/>
                                 <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}" string="Price Product"/>
                                 <field name="amount_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                <!-- <field name="amount_subtotal" widget="monetary" options="{'currency_field': 'currency_id'}"/> -->
-                                <field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}" string="VAT"/>
+                                <field name="amount_subtotal" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
+                                <!-- <field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}"/> -->
                                 <field name="amount_tax_11" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
                                 <field name="amount_tax_pph23" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
                                 <div class="oe_subtotal_footer_separator oe_inline o_td_label">
@@ -93,7 +96,7 @@
             </field>
         </record>
 
-        <record id="quotation_request_form_tree" model="ir.ui.view">
+        <record id="dqups_2_tree" model="ir.ui.view">
             <field name="name">quotation.request.form.tree</field>
             <field name="model">quotation.request.form</field>
             <field name="arch" type="xml">
@@ -108,37 +111,18 @@
             </field>
         </record>
 
-
-
-        <!-- <record id="quotation_request_form.line_specification_tree" model="ir.ui.view">
-            <field name="name">quotation.request.form.line.specification.tree</field>
-            <field name="model">quotation.request.form.line.specification</field>
-            <field name="arch" type="xml">
-                <tree string="">
-                    <field name="qrf_line_id"/>
-                    <field name="specifications_id"/>
-                    <field name="spect_name"/>
-                    <field name="desc"/>
-                    <field name="harga"/>                    
-                </tree>
-            </field>
-        </record> -->
-
-
-
-
-
-        <record id="quotation_request_form_action" model="ir.actions.act_window">
-            <field name="name">D-QUPS 1</field>
+        <record id="dqups_2_action" model="ir.actions.act_window">
+            <field name="name">D-QUPS 2</field>
             <field name="res_model">quotation.request.form</field>
             <field name="view_mode">tree,form,pivot,graph</field>
-            <field name="context">{'default_type': '1'}</field>
+            <field name="context">{'default_type': '2'}</field>
             <field name="view_ids" eval="[(5, 0, 0),
-                (0, 0, {'view_mode': 'tree', 'view_id': ref('master_specifications.quotation_request_form_tree')}),
-                (0, 0, {'view_mode': 'form', 'view_id': ref('master_specifications.quotation_request_form_form')})]"/>
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('master_specifications.dqups_2_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('master_specifications.dqups_2_form')})]"/>
         </record>
+    
 
-        <record id="quotation_request_form_line_form" model="ir.ui.view">
+        <record id="dqups_2_line_form" model="ir.ui.view">
             <field name="name">quotation.request.form.line.form</field>
             <field name="model">quotation.request.form.line</field>
             <field name="arch" type="xml">
@@ -183,11 +167,11 @@
         </record>
 
         <menuitem
-            id="quotation_request_form_menu"
-            name="D-QUPS 1"
-            action="quotation_request_form_action"
+            id="dqups_2_menu"
+            name="D-QUPS 2"
+            action="dqups_2_action"
             parent="specifications_root_menu"
-            sequence="1"/>
+            sequence="2"/>
     
     </data>
     
