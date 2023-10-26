@@ -65,7 +65,6 @@
                                         <field name="amount_tax" invisible="1"/>
                                         <field name="total_tax_11" invisible="1"/>
                                         <field name="total_tax_pph23" invisible="1"/>
-                                        <field name="price_unit"/>
                                         <field name="sub_total"/>
                                     </tree>
                                 </field>
