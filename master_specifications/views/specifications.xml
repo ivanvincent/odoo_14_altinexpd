@@ -86,7 +86,8 @@
             name="Master Specifications"
             action="specifications_action"
             parent="specifications_root_menu"
-            sequence="20"/>
+            sequence="20"
+            groups="sales_team.group_sale_manager"/>
     
     </data>
     

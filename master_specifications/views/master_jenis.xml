@@ -24,7 +24,7 @@
 
         <menuitem
             id="specifications_root_menu"
-            name="Product Configurator"
+            name="D-QUPS"
             sequence="20"
             />
 
@@ -33,7 +33,8 @@
             name="Master Jenis"
             action="master_jenis_action"
             parent="specifications_root_menu"
-            sequence="10"/>
+            sequence="10"
+            groups="sales_team.group_sale_manager"/>
     
     </data>
     

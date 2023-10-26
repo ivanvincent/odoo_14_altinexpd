@@ -118,6 +118,7 @@
             <field name="res_model">quotation.request.form</field>
             <field name="view_mode">tree,form,pivot,graph</field>
             <field name="context">{'default_type': '2'}</field>
+            <field name="domain">[('type', '=', '2')]</field>
             <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'tree', 'view_id': ref('master_specifications.dqups_2_tree')}),
                 (0, 0, {'view_mode': 'form', 'view_id': ref('master_specifications.dqups_2_form')})]"/>

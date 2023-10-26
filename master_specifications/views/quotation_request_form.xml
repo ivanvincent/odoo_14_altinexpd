@@ -11,9 +11,9 @@
                     <header>
                         <field name="state" widget="statusbar"/>
                         <!-- <button name="action_generate" type="object" string="Generate" class="oe_highlight"/> -->
-                        <button name="action_confirm" type="object" string="Request Approval" states="draft" groups="sales_team.group_sale_salesman" class="oe_highlight"/>
-                        <button name="action_approve" type="object" string="Approve" states="confirm" groups="sales_team.group_sale_salesman" class="oe_highlight"/>
-                        <button name="action_process" type="object" string="Process" attrs="{'invisible':['|', ('processed', '=', True), ('state', '!=', 'approved')]}" groups="sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
+                        <button name="action_confirm" type="object" string="Request Approval" states="draft" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
+                        <button name="action_approve" type="object" string="Approve" states="confirm" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
+                        <button name="action_process" type="object" string="Process" attrs="{'invisible':['|', ('processed', '=', True), ('state', '!=', 'approved')]}" groups="sales_team.group_sale_manager" class="oe_highlight"/>
                         <field name="processed" invisible="1"/>
                         <button name="action_set_to_draft" type="object" string="Se to draft" states="confirm"/>
                         <button name="action_print" type="object" string="Print" attrs="{'invisible':[('state', 'not in', ('approved','order_processed'))]}" class="oe_highlight"/>
@@ -135,6 +135,7 @@
             <field name="res_model">quotation.request.form</field>
             <field name="view_mode">tree,form,pivot,graph</field>
             <field name="context">{'default_type': '1'}</field>
+            <field name="domain">[('type', '=', '1')]</field>
             <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'tree', 'view_id': ref('master_specifications.quotation_request_form_tree')}),
                 (0, 0, {'view_mode': 'form', 'view_id': ref('master_specifications.quotation_request_form_form')})]"/>

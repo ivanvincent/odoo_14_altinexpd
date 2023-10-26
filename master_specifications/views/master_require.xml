@@ -28,7 +28,8 @@
             name="Master Require"
             action="master_require_action"
             parent="specifications_root_menu"
-            sequence="15"/>
+            sequence="15"
+            groups="sales_team.group_sale_manager"/>
 
     </data>
     
