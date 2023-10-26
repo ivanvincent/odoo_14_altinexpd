@@ -18,3 +18,11 @@ class PrintQrfWizard(models.TransientModel):
             return self.env.ref('master_specifications.action_specifications_summary_2').report_action(self.qrf_id)
 
         return True
+
+    def action_print_dqups2(self):
+        if self.type_report == 'quotation_request':
+            return self.env.ref('master_specifications.action_report_dqups2').report_action(self.qrf_id)
+        elif self.type_report == 'quotation_request_summary':
+            return self.env.ref('master_specifications.action_specifications_summary_2').report_action(self.qrf_id)
+
+        return True

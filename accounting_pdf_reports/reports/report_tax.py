@@ -69,3 +69,5 @@ class ReportTax(models.AbstractModel):
             if tax['tax']:
                 groups[tax['type']].append(tax)
         return groups
+
+        

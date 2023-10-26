@@ -145,6 +145,17 @@ class QuotationRequestForm(models.Model):
             'view_mode' : 'form',
             'context'   : {'default_qrf_id': self.id,},
         }
+    
+    def action_print_dqups2(self):
+        return {
+            'type'      : 'ir.actions.act_window',
+            'name'      : "Print",
+            'res_model' : 'print.qrf.wizard',
+            'target'    : 'new',
+            'view_id'   : self.env.ref('master_specifications.print_qrf_dqups2_form').id,
+            'view_mode' : 'form',
+            'context'   : {'default_qrf_id': self.id,},
+        }
 
 class QuotationRequestFormLine(models.Model):
     _name = 'quotation.request.form.line'

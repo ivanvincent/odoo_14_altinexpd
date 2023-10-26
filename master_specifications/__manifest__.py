@@ -24,9 +24,11 @@ Dev
         'views/dqucps_2.xml',
         # 'report/specification.xml',
         'report/print_qrf.xml',
+        'report/d_qups2_report.xml',
         # 'report/specification_summary.xml',
         'report/specification_detail.xml',
         'wizard/print_qrf_wizard.xml',
+        'wizard/print_qrf_dqups2.xml',
         
     ],
     'installable': True,
