@@ -56,6 +56,8 @@
 
 
                         <!-- <div class="header"> -->
+                            <br/>
+                            <br/>
                         <div class="row mt32">
                             <div class="col-4"/>
                             <div class="col-8">
@@ -70,134 +72,42 @@
                         <div class="row mt32">
                             <div class="col-6 ">
                                 <div style="border-radius: 0px;">
-                                    <span style="padding-left:10px; padding-bottom:5px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;" t-esc="doc.pic_name"/><br/>
-                                    <span style="padding-left:10px; padding-bottom:5px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;" t-esc="doc.partner_id.name"/><br/><br/>
-                                    <span style="padding-left:10px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;" t-esc="doc.partner_id.street"/><br/>
-                                    <!--<span style="padding-left:10px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;">Cipadung Kulon, Panyileukan </span><br/>-->
-                                    <!--<span style="padding-left:10px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;">-->
-                                    <!--    40613 BANDUNG WEST JAVA</span>-->
+                                    <span style="font-size:16px; padding-left:15px; padding-bottom:15px;" t-esc="doc.pic_name"/><br/>
+                                    <span style="font-size:16px; padding-left:15px; padding-bottom:15px;" t-esc="doc.partner_id.name"/><br/><br/>
+                                    <span style="font-size:16px; padding-left:15px; padding-bottom:15px;" t-esc="doc.partner_id.street"/><br/>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row mt32"> 
-                            <div class="col-2"/>
-                            <div class="col-10 text-right">
-                                Date :<span t-esc="doc.date" style="padding-left:10px; font-size: 16px"/>
                             </div>
                         </div>
 
                         <div class="row">
                             <table class="table-condensed" width="100%">
                                 <tr>
-                                    <td style="font-size:16px; padding-left:30px; padding-bottom: 15px; padding-top:15px;">
-                                        Our Quotation No : <t t-esc="doc.name"/>
+                                    <td style="font-size:16px; padding-left:30px; padding-top:15px;">
+                                            <span>Dear &amp;nbsp;</span><t t-esc="doc.pic_name"/>,
                                         </td>
                                     <td>
                                         <span style="font-size:16px"/> <br/>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="font-size:16px; padding-left:30px; padding-bottom: 15px; padding-top:15px;">
-                                        <!-- Dear <t t-esc="doc.up_kpd.name"/> -->
-                                            <span>Dear , &amp;nbsp;</span><t t-esc="doc.pic_name"/>
-                                        </td>
-                                    <td>
-                                        <span style="font-size:16px"/> <br/>
-                                    </td>
-                                </tr>
-
-                                <tr/>
                                 <tr>
                                     <td style="font-size:16px; padding-left:30px; padding-bottom:15px;">
-                                        <span>We thank you for your interest in our products and are pleased to submit our enclosed quotation
-                                            for: 
+                                        <span>We thank you for your interest in our product and are pleased to submit our enclosed quotation: 
                                         </span>
                                     </td>
                                 <tr/>
-                                
                                 <tr>
                                     <td style="font-size:16px; padding-left:30px; padding-bottom:15px;">
-                                        <t t-set="no" t-value="1"/>
-                                            <!--<strong> <span t-esc="no"/>. <span t-esc="l.name"/></strong> <br/>-->
-                                            <!--<t t-set="no" t-value="no + 1"/>-->
-                                              <table class="table-condensed" width="100%">
-                                                <tr>
-                                                    <td style="font-size:16px;" width="20%">Products</td>
-                                                    <td>
-                                                        <span width="3%">:</span>
-                                                        <t t-foreach="doc.line_ids" t-as="l">
-                                                            <span t-esc="no"/>. <span t-esc="l.name"/> <br/>
-                                                        <t t-set="no" t-value="no + 1"/>
-                                                        </t>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="font-size:16px;" width="20%">Product Descriptions </td> 
-                                                    <td>
-                                                        <span width="3%">:</span> Please refer to the following pages
-                                                        <!--<span t-field="docs.payment_terms"/>-->
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="font-size:16px;" width="20%">Payment Terms </td> 
-                                                    <td>
-                                                        <span width="3%">:</span>
-                                                        <span t-field="docs.payment_terms"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="font-size:16px;" width="20%">Delivery Terms </td>
-                                                     <td>
-                                                        <span width="3%">:</span>
-                                                        <span t-field="docs.delivery_terms"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="font-size:16px;" width="20%">Warranty </td>
-                                                     <td>
-                                                        <span width="3%">:</span>
-                                                        <span t-field="docs.sales_condition"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="font-size:16px;" width="20%">Valid to </td>
-                                                     <td>
-                                                        <span width="3%">:</span>
-                                                        <span t-field="docs.valid_date"/>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="font-size:16px;" width="20%">Notes</td>
-                                                     <td>
-                                                        <span width="3%">:</span><br/>
-                                                        <!-- - <span t-field="docs.note"/> -->
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                    
+                                          <span>Quote No : </span><t t-esc="doc.name"/>
                                     </td>
-                                    <div>
-                                        <tr>
-                                            <td style="font-size:16px;padding-left:30px;"> - Prices are subject to change without notice.</td> 
-                                        </tr>
-                                        <tr>
-                                            <td style="font-size:16px;padding-left:30px;"> - Please issue your purchase order to PT. ALTINEX Punch &amp; Die Division</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="font-size:16px;padding-left:30px;"> - Delivery of this product is subject to the approval of authority government</td>
-                                        </tr>
-                                    </div>
                                 </tr>
                                 <tr>
                                     <td style="font-size:16px; padding-left:30px; padding-bottom:16px;">
-                                        <br/><span>together with the technical specifications for your consideration. 
-                                        </span>
+                                        <span>Altogether with detailed technical specifications for your consideration. </span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="font-size:16px; padding-left:30px;" width="100%">
-                                        <span>Please do not hesitate to contact us should you require further information. 
-                                        </span>
+                                        <span>Please do not hesitate to contact us should you require further information. </span>
                                     </td>
                                 </tr>
                                 </tr>
@@ -213,9 +123,7 @@
                             <b><span style="text-align: left; font-size: 16px; padding-left:30px;">PT. ALTINEX PUNCH &amp; DIE DIVISION</span></b>
                             <br/><br/><br/><br/>
                             <span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
-                                Sales</span><br/><br/>
-                            <i><span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
-                                Attachments</span></i><br/>
+                                Sales</span><br/>
                         </div>
 
 
@@ -228,6 +136,7 @@
             </div>
             <div class="page">
               <t t-call="web.basic_layout">
+                <br/><br/>
                   <div class="row mt32">
                       <div class="col-12" style="margin-top: 20px; text-align: center">
                           <strong><span style="font-size: 22px">QUOTATION</span></strong>
@@ -236,31 +145,31 @@
                   <br/>
                   <div class="row mt32">
                       <div class="col-6">
-                          <div style="font-size:14px">
-                              <table class="table-condensed" width="100%">
+                          <div style="font-size:16px">
+                              <table width="100%">
                                   <tr>
-                                      <td width="24%" style="padding-left:5px;">No</td>
+                                      <td width="30%" style="padding-left:10px;">No</td>
                                       <td>
                                           <span>:</span>
                                           <span t-field="docs.name"/> <br/><span/> 
                                       </td>
                                   </tr>
                                   <tr>
-                                      <td width="24%" style="padding-left:5px;">Date</td>
+                                      <td width="30%" style="padding-left:10px;">Date</td>
                                       <td>
                                           <span>:</span>
-                                           <span t-esc="docs.date"/> 
+                                           <span t-field="docs.date" t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/> 
                                       </td>
                                   </tr>
                                   <tr>
-                                      <td width="24%" style="padding-left:5px;">Page</td>
+                                      <td width="30%" style="padding-left:10px;">Page</td>
                                       <td>
                                           <span>:</span>
-                                           <span class="page"/> / <span class="topage"/>
+                                           <span class="page"/> "1/1" <span class="topage"/>
                                       </td>
                                   </tr>
                                   <tr>
-                                      <td width="24%" style=" padding-left:5px;"><br/>Valid-to Date</td>
+                                      <td width="30%" style=" padding-left:10px;"><br/>Valid-to Date</td>
                                       <td>
                                           <span><br/>:</span>
                                           <span t-esc="docs.valid_date"/>
@@ -272,10 +181,10 @@
                   </div>
 
                   <br/>
-                  <div class="row mt32">
+                  <div>
                       <div class="col-12">
                   
-                      <table width="100%" class="table-data" style="border: 1px solid black; text-align: center; margin-bottom: 1rem; border-collapse: collapse; font-size: 14px;">
+                      <table width="100%">
                           <thead>
                               <tr class="text-left">
                                   <th colspan="3" style="vertical-align : top; border: 1px solid black; padding: 0; border-collapse: collapse;" width="100%">Sold to<br/>
@@ -290,68 +199,90 @@
                                   </th>
                               </tr>
                               <tr class="text-left">
-                                  <th colspan="2" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding-left:10px; border-collapse: collapse;background-color:#87CEEB">Payment Terms</th>
-                                  <th colspan="2" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding-left:10px; border-collapse: collapse;background-color:#87CEEB">Delivery Terms</th>
-                                  <th colspan="2" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding-left:10px; border-collapse: collapse;background-color:#87CEEB">Warranty</th>
+                                  <th colspan="2" style="vertical-align : middle; border: 1px solid black; border-collapse: collapse;background-color:#87CEEB">Payment Terms</th>
+                                  <th colspan="2" style="vertical-align : middle; border: 1px solid black; border-collapse: collapse;background-color:#87CEEB">Delivery Terms</th>
+                                  <th colspan="2" style="vertical-align : middle; border: 1px solid black; border-collapse: collapse;background-color:#87CEEB">Warranty</th>
                               </tr>
                               <tr class="text-left">
-                                  <th colspan="2" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;"><span style="padding-left:10px" t-esc="docs.payment_terms"/></th>
-                                  <th colspan="2" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;"><span style="padding-left:10px" t-esc="docs.delivery_terms"/></th>
-                                  <th colspan="2" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;"><span style="padding-left:10px" t-esc="docs.sales_condition"/></th>
+                                  <th colspan="2" style="vertical-align : middle; border: 1px solid black; padding: 0; border-collapse: collapse;"><span t-esc="docs.payment_terms"/></th>
+                                  <th colspan="2" style="vertical-align : middle; border: 1px solid black; padding: 0; border-collapse: collapse;"><span t-esc="docs.delivery_terms"/></th>
+                                  <th colspan="2" style="vertical-align : middle; border: 1px solid black; padding: 0; border-collapse: collapse;"><span t-esc="docs.sales_condition"/></th>
                               </tr>
                               <tr class="text-left" style="padding-left:10px">
-                                  <th colspan="3" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding-left:10px; border-collapse: collapse;background-color:#87CEEB">Machine Name</th>
-                                  <th colspan="3" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding-left:10px; border-collapse: collapse;background-color:#87CEEB">Machine Serial No.</th>
+                                  <th colspan="3" style="vertical-align : middle; border: 1px solid black; border-collapse: collapse;background-color:#87CEEB">Machine Name</th>
+                                  <th colspan="3" style="vertical-align : middle; border: 1px solid black; border-collapse: collapse;background-color:#87CEEB">Machine Serial No.</th>
                               </tr>
                               <tr class="text-left">
-                                  <th colspan="3" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;"><span style="padding-left:10px" t-esc="docs.machine_id.name"/></th>
-                                  <th colspan="3" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;"><span style="padding-left:10px" t-esc="docs.end_user_machine_serial"/></th>
+                                  <th colspan="3" style="vertical-align : middle; border: 1px solid black; padding: 0; border-collapse: collapse;"><span t-esc="docs.machine_id.name"/></th>
+                                  <th colspan="3" style="vertical-align : middle; border: 1px solid black; padding: 0; border-collapse: collapse;"><span t-esc="docs.end_user_machine_serial"/></th>
                               </tr>
-                              <tr class="text-center">
-                                  <th style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="3%">NO</th>
-                                  <th style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="20%">Description</th>
-                                  <th style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="5%">QTY</th>
-                                  <th style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="7%">Unit Price</th>
-                                  <th style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="10%">Discount</th>
-                                  <th style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="10%">Subtotal</th>
+                              <tr>
+                                  <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-left: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="3%">NO</th>
+                                  <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="20%">Description</th>
+                                  <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="5%">QTY</th>
+                                  <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="12%">Unit Price</th>
+                                  <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="2%"></th>
+                                  <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="12%">Subtotal</th>
                               </tr>
                           </thead>
                           <tbody>
                               <t t-set="no" t-value="1"/>
-                              <t t-set="tot_qty" t-value="0"/>
-                              <t t-set="tot_amount" t-value="0"/>
                                   <tr t-foreach="docs.line_ids" t-as="line">
-                                      <!--<t t-set="tot_qty" t-value="tot_qty + line.qty"/>-->
-                                      <!--<t t-set="tot_amount" t-value="tot_amount + line.price_subtotal"/>-->
-                                      <td style="vertical-align : middle; border-right: 1px solid black; padding-bottom: 10px; border-collapse: collapse; " class="text-center">
+                                      <td style="vertical-align : middle; border-left: 1px solid black; border-collapse: collapse; " class="text-center">
                                           <span t-esc="no"/> <t t-set="no" t-value="no + 1"/>
                                       </td>
-                                      <td style="vertical-align : middle; border-right: 1px solid black; padding-bottom: 10px; border-collapse: collapse; " class="text-left">
+                                      <td style="vertical-align : middle; border-collapse: collapse; " class="text-left">
                                            <span t-field="line.name"/> 
                                       </td>
-                                      <td style="vertical-align : middle; border-right: 1px solid black;  padding-bottom: 10px; border-collapse: collapse; " class="text-center">
-                                           <!--<span t-field="line.qty" /> yards-->
-                                           <!--<span t-esc="'{0:,.0f}'.format(float(line.qty))"/> yards-->
+                                      <td style="vertical-align : middle; border-collapse: collapse; " class="text-center">
+                                           <span t-field="line.quantity" />
                                       </td>
-                                      <td style="vertical-align : middle; border-right: 1px solid black;  padding-bottom: 10px; border-collapse: collapse; " class="text-right pr-2">
+                                      <td style="vertical-align : middle; border-collapse: collapse; " class="text-right pr-2">
                                           <span style="padding-left:20px" t-field="line.price_unit"/> 
                                       </td>
-                                      <td style="vertical-align : middle; border-right: 1px solid black;  padding-bottom: 10px; border-collapse: collapse; " class="text-right pr-2">
-                                          <!--$ <span style="padding-left:20px" t-field="line.price_unit"/> -->
+                                      <td style="vertical-align : middle; border-collapse: collapse; " class="text-right pr-2">
+                                          <!--<span style="padding-left:20px" t-field="line.amount_discount"/> -->
                                       </td>
-                                      <td style="vertical-align : middle; border-right: 1px solid black;  padding-bottom: 10px; border-collapse: collapse; " class="text-right pr-2">
-                                          <span style="padding-left:20px" t-field="line.sub_total" /> 
-                                          <!--$  <span style="padding-left:20px" t-esc="'{0:,.2f}'.format(float(line.price_subtotal))"/> -->
+                                      <td style="vertical-align : middle; border-right: 1px solid black; border-collapse: collapse; " class="text-right pr-2">
+                                          <span style="padding-left:20px" t-field="line.sub_total"/> 
                                       </td>
                                   </tr>
                                   <tr class="text-left">
                                       <th colspan="3" style="vertical-align : top; border: 1px solid black; padding: 0; border-collapse: collapse;" width="100%">NOTES<br/>
-                                            <!--<span style="padding-left:10px" t-esc="docs.partner_id.name"/> <br/>-->
+                                            <span style="padding-left:10px" t-esc="docs.notes_to_customer"/> <br/>
                                       </th>
-                                      <th colspan="3" style="vertical-align : top;" width="100%"><br/><br/>
-                                            <span style="padding-left:10px"/>Price Product<span style="padding-left:20px">:</span><span style="padding-left:20px" t-esc="docs.amount_untaxed"/><br/>
-                                            <span style="padding-left:10px"/>Tax <span t-esc="docs.tax_id.name"/><span style="padding-left:39px">:</span><span style="padding-left:20px" t-esc="docs.amount_tax"/><br/>
-                                            <span style="padding-left:10px"/>Total <span style="padding-left:69px">:</span><span style="padding-left:20px" t-esc="docs.amount_total"/>
+                                      <th colspan="3" style="vertical-align : middle; border-top: 1px solid black; padding: 0; border-collapse: collapse;" width="100%"><br/>
+                                            <table width="100%">
+                                              <tr>
+                                                  <td width="30%" style="padding-left:10px;">Price Product</td>
+                                                  <td>
+                                                      <span>:</span>
+                                                      <span t-field="docs.amount_untaxed"/><span/> 
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="30%" style="padding-left:10px;">Discount</td>
+                                                  <td>
+                                                      <span>:</span>
+                                                      <span t-field="docs.amount_discount"/><span/> 
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="30%" style="padding-left:10px;">Tax (<span t-esc="docs.tax_id.name"/>)</td>
+                                                  <td>
+                                                      <span>:</span>
+                                                       <span t-field="docs.amount_tax"/> 
+                                                  </td>
+                                              </tr>
+                                                  <br/>
+                                              <tr>
+                                                  <td style="padding-left:10px;">Total</td>
+                                                  <td>
+                                                      <span>:</span>
+                                                      <span t-field="docs.amount_total"/>
+                                                  </td>
+                                              </tr>
+                                          </table>
                                       </th>
                                   </tr>
                           </tbody>
@@ -383,15 +314,32 @@
                     <br/>
                     <div class="row mt32">
                         <div class="col-6">
-                            <div style="border: 1px solid black; border-radius: 0px;">
-                                <span style="padding-left:10px; padding-bottom:5px; font-size:16px; height:1px; margin:0; padding-top:0; padding-bottom:0;"><strong>PT.
-                                        ALTINEX</strong></span><br/>
-                                <span style="padding-left:10px; font-size:14px; height:1px; margin:0; padding-top:0; padding-bottom:0;">Jalan
-                                    Panghegar No.7, Mekarmulya, Gedebage, Bandung 40614</span><br/>
-                                <span style="padding-left:10px; font-size:14px; height:1px; margin:0; padding-top:0; padding-bottom:0;">Telepon
-                                    : (022)87880241 / (022)87880243 </span><br/>
-                                <span style="padding-left:10px; font-size:14px; height:1px; margin:0; padding-top:0; padding-bottom:0;">Fax
-                                    : (022)7803989 </span>
+                            <div style="border: 1px solid black; border-radius: 0px; font-size:16px">
+                                <table class="table-condensed" width="100%">
+                                    <tr>
+                                        <td width="20%" style="padding-left:10px;">Kepada</td>
+                                        <td>
+                                            <span>:</span>
+                                            <span class="font-weight-bold" t-field="docs.partner_id"/> <br/>
+                                             <!--<span t-field="doc.partner_id.street" style="padding:0;" /><br /> -->
+                                             <span/> 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" style="padding-left:10px;">Attn</td>
+                                        <td>
+                                            <span>:</span>
+                                             <span t-esc="docs.pic_name"/> 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" style="padding-left:10px;">Email</td>
+                                        <td>
+                                            <span>:</span>
+                                             <span t-esc="docs.pic_email"/> 
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                         <div class="col-6">
@@ -431,52 +379,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mt32" style="margin-top:6px;">
-                        <div class="col-6">
-                            <div style="border: 1px solid black; border-radius: 0px; font-size:14px">
-                                <table class="table-condensed" width="100%">
-                                    <tr>
-                                        <td width="13%" style="padding-left:5px;">Kepada</td>
-                                        <td>
-                                            <span>:</span>
-                                            <span class="font-weight-bold" t-field="docs.partner_id"/> <br/>
-                                             <!--<span t-field="doc.partner_id.street" style="padding:0;" /><br /> -->
-                                             <span/> 
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="13%" style="padding-left:5px;">Attn</td>
-                                        <td>
-                                            <span>:</span>
-                                             <span t-esc="docs.pic_name"/> 
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="13%" style="padding-left:5px;">Email</td>
-                                        <td>
-                                            <span>:</span>
-                                             <span t-esc="docs.pic_email"/> 
-                                        </td>
-                                    </tr>
-                                    <!-- <tr>
-                                        <td width="13%" style=" padding-left:5px;">Perihal</td>
-                                        <td>
-                                            <span>:</span>
-                                            <span t-esc="docs.perihal"/>
-                                        </td>
-                                    </tr> -->
-                                </table>
-                            </div>
-                        </div>
-                        <!-- <div class="col-6"> Keterangan : <br/>
-                            * berlaku jika PO dan approval drawing sebelum tanggal 31 Desember 2023
-                        </div> -->
-                        <!-- <div class="col-6"> Note : <br/>
-                            <span t-esc="docs.note"/> 
-                        </div> -->
-
-                    </div>
-                    <br/>
                     <div class="row mt32">
                               <div class="col-12">
                                 <strong><span style="text-align: left; font-size: 18px" t-esc="line.name"/></strong>
@@ -562,7 +464,7 @@
                                                   <!--<div class="footer">-->
                                                   <div class="col-xs-6 text-right" style="font-size : 16px">
                                                   <div class="row mt32" style="background-color:#D9DDDC">
-                                                      <div class="col-10" style="text-align: right"> Amount :</div>
+                                                      <div class="col-10" style="text-align: right"> Price Product :</div>
                                                       <div class="col-2" style="text-align: right">
                                                             <span t-esc="'{0:,.1f}'.format(float(docs.amount_untaxed))"/> 
                                                       </div>
@@ -574,25 +476,13 @@
                                                       </div>
                                                   </div>
                                                   <div class="row mt32" style="background-color:#D9DDDC">
-                                                      <div class="col-10" style="text-align: right"> Subtotal :</div>
+                                                      <div class="col-10" style="text-align: right"> VAT :</div>
                                                       <div class="col-2" style="text-align: right">
-                                                            <span t-esc="'{0:,.1f}'.format(float(tot_amount_subtotal))"/> 
+                                                            <span t-esc="'{0:,.1f}'.format(float(docs.amount_tax))"/> 
                                                       </div>
                                                   </div>
-                                                  <!-- <div class="row mt32" style="background-color:#D9DDDC">
-                                                      <div class="col-10" style="text-align: right"> Taxes (PPN 11%):</div>
-                                                      <div class="col-2" style="text-align: right">
-                                                            <span t-esc="'{0:,.1f}'.format(float(tot_tax11))"/> 
-                                                      </div>
-                                                  </div> -->
-                                                  <!-- <div class="row mt32" style="background-color:#D9DDDC">
-                                                      <div class="col-10" style="text-align: right"> Taxes (PPh 23):</div>
-                                                      <div class="col-2" style="text-align: right">
-                                                            <span t-esc="'{0:,.1f}'.format(float(tot_tax_pph23))"/> 
-                                                      </div>
-                                                  </div> -->
                                                   <div class="row mt32" style="background-color:#D9DDDC">
-                                                      <div class="col-10" style="text-align: right"> Amount Total :</div>
+                                                      <div class="col-10" style="text-align: right">Total :</div>
                                                       <div class="col-2" style="text-align: right">
                                                             <span t-esc="'{0:,.1f}'.format(float(tot_amount_subtotal))"/> 
                                                       </div>
