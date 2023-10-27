@@ -40,7 +40,7 @@ class QuotationRequestForm(models.Model):
     
     note_so = fields.Char(string='Note')
     perihal = fields.Selection([("Penawaran Harga Punch & Dies","Penawaran Harga Punch & Dies"),
-                                ("Penawaran Harga","Penawaran Harga")], string='Perihal', required=True, )
+                                ("Penawaran Harga","Penawaran Harga")], string='Perihal',)
     tanggal_berlaku = fields.Date(string='Tanggal Berlaku', compute="compute_tanggal_berlaku")
     no_quotation_accurate = fields.Char(string='No Quotation Accurate')
     kode_mkt_id = fields.Many2one('kode.mkt', string='Kode Mkt')
@@ -164,7 +164,7 @@ class QuotationRequestFormLine(models.Model):
     jenis_id = fields.Many2one('master.jenis', string='Jenis')
     line_spec_ids = fields.One2many('quotation.request.form.line.specification', 'qrf_line_id', 'Line Spec')
     name = fields.Char(string='Description')
-    quantity = fields.Float(string='Quantity', compute='compute_quantity')
+    quantity = fields.Integer(string='Quantity', compute='compute_quantity')
     price_unit = fields.Float(string='Price Unit', compute='_compute_price_unit')
     tax_ids = fields.Many2many(comodel_name='account.tax', string='Tax')
     sub_total = fields.Float(string='Sub Total', compute='_compute_sub_total')
@@ -432,7 +432,7 @@ class QuotationRequestFormLineQuantity(models.Model):
     jenis_id    = fields.Many2one('master.jenis', string='Jenis', related='qrf_line_id.jenis_id')
     qty_id      = fields.Many2one('master.qty', string='Quantity')
     urutan      = fields.Integer(string='Urutan', related='qty_id.urutan')
-    qty         = fields.Float(string='Qty')
+    qty         = fields.Integer(string='Qty')
     set         = fields.Boolean(string='Set ?')
 
     # @api.onchange('qty')
