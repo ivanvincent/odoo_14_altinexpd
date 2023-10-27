@@ -42,7 +42,7 @@
                                 <field name="end_user_name"/>
                                 <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" string="End User Machine"/>                                
                                 <field name="end_user_machine_serial"/>
-                                <field name="perihal" invisible="1"/>                                
+                                <!-- <field name="perihal" invisible="1"/>                                 -->
                                 <field name="payment_terms"/>                                                          
                                 <field name="delivery_terms"/>                                                          
                                 <field name="sales_condition" string="Warranty"/>                                                          
