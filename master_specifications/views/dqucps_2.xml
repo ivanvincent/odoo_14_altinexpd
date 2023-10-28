@@ -70,6 +70,7 @@
                                         <field name="total_tax_11" invisible="1"/>
                                         <field name="total_tax_pph23" invisible="1"/>
                                         <field name="sub_total"/>
+                                        <field name="price_discount"/>
                                     </tree>
                                 </field>
                             </page>
@@ -81,16 +82,16 @@
                             </group> -->
                             <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
                                 <field name="currency_id" invisible="1"/>
-                                <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}" string="Price Product"/>
+                                <field name="amount_untaxed_2" widget="monetary" options="{'currency_field': 'currency_id'}" string="Price Product"/>
                                 <field name="amount_discount" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
                                 <field name="amount_subtotal" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
-                                <field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}" string="TAX"/>
+                                <field name="amount_tax_2" widget="monetary" options="{'currency_field': 'currency_id'}" string="TAX"/>
                                 <field name="amount_tax_11" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
                                 <field name="amount_tax_pph23" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
                                 <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                                    <label for="amount_total"/>
+                                    <label for="amount_total_2"/>
                                 </div>
-                                <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_total_2" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                             </group>
                         </group>
                         <div class="oe_clear"/>

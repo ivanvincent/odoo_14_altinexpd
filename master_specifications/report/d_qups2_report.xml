@@ -453,8 +453,8 @@
                                                   </div>
                                                   <br/>
                                                       
-                                                  <t t-if="no_page == len(docs.line_ids.ids)">
-                                                  <!--<div class="footer">-->
+                                                  <!-- <t t-if="no_page == len(docs.line_ids.ids)">
+                                                  <div class="footer">
                                                   <div class="col-xs-6 text-right" style="font-size : 16px">
                                                   <div class="row mt32" style="background-color:#D9DDDC">
                                                       <div class="col-10" style="text-align: right"> Price Product :</div>
@@ -474,9 +474,9 @@
                                                             <span t-esc="'{0:,.1f}'.format(float(docs.amount_total))"/> 
                                                       </div>
                                                   </div>
-                                                  </div>
+                                                  </div> -->
                                                   <!--</div>-->
-                                                  </t>
+                                                  <!-- </t> -->
                                               </td>
                                           </tr>
                                   </thead>
