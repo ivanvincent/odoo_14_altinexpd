@@ -31,7 +31,7 @@
                                 <field name="pic_email"/>
                                 <field name="pic_phone"/>
                                 <field name="reference"/>
-                                <field name="tax_id"/>
+                                <field name="tax_id" domain="[('id','in',(2,6))]" options="{'no_create': True}"/>
                                 <field name="notes_to_customer"/>
                                 <field name="date"/>
                                 <field name="attn_ids" invisible="1"/>
@@ -39,7 +39,8 @@
                             <group>
                                 <!-- <field name="date" attrs="{'readonly':[('state','=','confirm')]}" /> -->
                                 <field name="end_user_name"/>
-                                <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" string="End User Machine" />                                
+                                <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" string="End User Machine" />                           
+                                <field name="station_no"/>                              
                                 <field name="end_user_machine_serial"/>
                                 <!-- <field name="perihal" invisible="1"/>                                 -->
                                 <field name="payment_terms"/>                                                          
@@ -79,6 +80,7 @@
                                 <field name="currency_id" invisible="1"/>
                                 <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}" string="Price Product"/>
                                 <field name="amount_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_price_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <!-- <field name="amount_subtotal" widget="monetary" options="{'currency_field': 'currency_id'}"/> -->
                                 <field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}" string="VAT"/>
                                 <field name="amount_tax_11" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>

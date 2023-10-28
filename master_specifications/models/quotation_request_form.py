@@ -76,6 +76,8 @@ class QuotationRequestForm(models.Model):
         string='Total', currency_field='currency_id', compute='_compute_amount')
     amount_tax_2 = fields.Monetary(
         string='Taxes', currency_field='currency_id', compute='_compute_amount')
+    amount_price_discount = fields.Float(string='Price After Discount', compute='_compute_amount')
+    station_no = fields.Char(string='Station Number')
 
     @api.depends('line_ids.sub_total', 'line_ids.price_discount', 'line_ids.tax_ids', 'discount_rate', 'discount_type')
     def _compute_amount(self):
@@ -96,11 +98,12 @@ class QuotationRequestForm(models.Model):
                 total_untax_2 += l.price_discount
             amount_discount = total_untax * rec.discount_rate / 100 if rec.discount_type == 'percent' else rec.discount_rate
 
-            total_tax = total_untax * (rec.tax_id.amount / 100)
+            total_price_discount = total_untax - amount_discount
+            total_tax = total_price_discount * (rec.tax_id.amount / 100)
             total_tax_2 = total_untax_2 * (rec.tax_id.amount / 100)
             rec.amount_tax = total_tax
             rec.amount_untaxed = total_untax
-            rec.amount_total = total_tax + total_untax - amount_discount
+            rec.amount_total = total_price_discount + total_tax
             rec.amount_discount = amount_discount
             rec.amount_tax_11 = total_ppn11
             rec.amount_tax_pph23 = total_pph23
@@ -108,6 +111,7 @@ class QuotationRequestForm(models.Model):
             rec.amount_untaxed_2 = total_untax_2
             rec.amount_total_2 = total_untax_2 + total_tax_2
             rec.amount_tax_2 = total_tax_2
+            rec.amount_price_discount = total_price_discount
 
 
 

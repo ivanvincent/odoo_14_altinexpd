@@ -61,6 +61,7 @@
                                         <field name="line_spec_ids"/>
                                         <field name="quantity"/>
                                         <field name="price_unit"/>
+                                        <field name="sub_total"/>
                                         <field name="discount_type"/>
                                         <field name="discount_rate"/>
                                         <field name="amount_discount" string="Discount Amount"/>
@@ -69,7 +70,6 @@
                                         <field name="amount_tax" invisible="1"/>
                                         <field name="total_tax_11" invisible="1"/>
                                         <field name="total_tax_pph23" invisible="1"/>
-                                        <field name="sub_total"/>
                                         <field name="price_discount"/>
                                     </tree>
                                 </field>
@@ -85,7 +85,7 @@
                                 <field name="amount_untaxed_2" widget="monetary" options="{'currency_field': 'currency_id'}" string="Price Product"/>
                                 <field name="amount_discount" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
                                 <field name="amount_subtotal" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
-                                <field name="amount_tax_2" widget="monetary" options="{'currency_field': 'currency_id'}" string="TAX"/>
+                                <field name="amount_tax_2" widget="monetary" options="{'currency_field': 'currency_id'}" string="VAT"/>
                                 <field name="amount_tax_11" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
                                 <field name="amount_tax_pph23" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
                                 <div class="oe_subtotal_footer_separator oe_inline o_td_label">
