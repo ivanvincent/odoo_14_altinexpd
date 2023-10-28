@@ -3,8 +3,8 @@
 
     <data>
 
-        <record model="report.paperformat" id="paperformat_print_dqups2">
-            <field name="name">paperformat.qrf.a4.dqups2</field>
+        <record model="report.paperformat" id="paperformat_print_qrf_unpage">
+            <field name="name">paperformat.qrf.a4</field>
             <field name="default" eval="False" />
             <field name="format">A4</field>
             <field name="orientation">Portrait</field>
@@ -17,18 +17,18 @@
             <field name="dpi">90</field>
         </record>
 
-        <record id="action_report_dqups2" model="ir.actions.report">
+        <record id="action_qrf_report_unpage" model="ir.actions.report">
                 <field name="name">Quotation Request Form Report</field>
                 <field name="model">quotation.request.form</field>
-                <field name="report_name">master_specifications.print_dqups_2</field>
-                <field name="report_file">master_specifications.print_dqups_2</field>
+                <field name="report_name">master_specifications.print_qrf_unpage</field>
+                <field name="report_file">master_specifications.print_qrf_unpage</field>
                 <field name="print_report_name">'%s' % object.name</field>
                 <field name="binding_model_id" eval="False"/>
                 <field name="binding_type">report</field>
-                <field name="paperformat_id" eval="paperformat_print_dqups2"/>
+                <field name="paperformat_id" eval="paperformat_print_qrf_unpage"/>
         </record>
 
-        <template id="print_dqups_2">
+        <template id="print_qrf_unpage">
             <div class="page">
                 <t t-call="web.basic_layout">
                     <style>
@@ -220,9 +220,9 @@
                                   <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-left: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="3%">NO</th>
                                   <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="20%">Description</th>
                                   <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="5%">QTY</th>
-                                  <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="7%">Unit Price</th>
-                                  <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="10%">Discount</th>
-                                  <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="10%">Subtotal</th>
+                                  <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="12%">Unit Price</th>
+                                  <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="2%"/>
+                                  <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#87CEEB" width="12%">Subtotal</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -241,7 +241,7 @@
                                           <span style="padding-left:20px" t-esc="'{0:,.0f}'.format(float(line.price_unit))"/> 
                                       </td>
                                       <td style="vertical-align : middle; border-collapse: collapse; " class="text-right pr-2">
-                                          <span style="padding-left:20px" t-esc="'{0:,.0f}'.format(float(line.amount_discount))"/> 
+                                          <!--<span style="padding-left:20px" t-field="line.amount_discount"/> -->
                                       </td>
                                       <td style="vertical-align : middle; border-right: 1px solid black; border-collapse: collapse; " class="text-right pr-2">
                                           <span style="padding-left:20px" t-esc="'{0:,.0f}'.format(float(line.sub_total))"/> 
@@ -254,14 +254,28 @@
                                       <th colspan="3" style="vertical-align : middle; border-top: 1px solid black; padding: 0; border-collapse: collapse;" width="100%"><br/>
                                             <table width="100%">
                                               <tr>
-                                                  <td width="30%" style="padding-left:10px;">Price Product</td>
+                                                  <td width="45%" style="padding-left:10px;">Price Product</td>
                                                   <td>
                                                       <span>:</span>
-                                                      <span class="font-weight-normal" t-field="docs.amount_untaxed"/> <br/><span/> 
+                                                      <span class="font-weight-normal" t-field="docs.amount_untaxed"/><span/> 
                                                   </td>
                                               </tr>
                                               <tr>
-                                                  <td width="30%" style="padding-left:10px;">VAT (<span t-esc="docs.tax_id.name"/>)</td>
+                                                  <td width="45%" style="padding-left:10px;">Discount</td>
+                                                  <td>
+                                                      <span>:</span>
+                                                      <span class="font-weight-normal" t-field="docs.amount_discount"/><span/> 
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="45%" style="padding-left:10px;">Price After Discount</td>
+                                                  <td>
+                                                      <span>:</span>
+                                                      <span class="font-weight-normal">Rp</span> <span class="font-weight-normal" t-esc="'{0:,.0f}'.format(float(docs.amount_price_discount))"/><span/> 
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="45%" style="padding-left:10px;">VAT (<span t-esc="docs.tax_id.name"/>)</td>
                                                   <td>
                                                       <span>:</span>
                                                        <span class="font-weight-normal" t-field="docs.amount_tax"/> 
@@ -285,13 +299,12 @@
               </t>
             </div>
             <!--<div class="page">-->
-                <t t-set="no_page" t-value="0"/>
+                <!-- <t t-set="no_page" t-value="0"/>
                 <t t-set="tot_tax11" t-value="0"/>
                 <t t-set="tot_tax_pph23" t-value="0"/>
-                <t t-foreach="docs.line_ids" t-as="line">
                 <t t-set="no_page" t-value="no_page + 1"/>
                 <t t-set="tot_tax11" t-value="tot_tax11 +  line.total_tax_11"/>
-                <t t-set="tot_tax_pph23" t-value="tot_tax_pph23 +  line.total_tax_pph23"/>
+                <t t-set="tot_tax_pph23" t-value="tot_tax_pph23 +  line.total_tax_pph23"/> -->
                 <div class="page">
                   <t t-call="web.basic_layout">
                     <div class="row mt32">
@@ -372,6 +385,7 @@
                             </div>
                         </div>
                     </div>
+                    <t t-foreach="docs.line_ids" t-as="line">
                     <div class="row mt32">
                               <div class="col-12">
                                 <strong><span style="text-align: left; font-size: 18px" t-esc="line.name"/></strong>
@@ -463,7 +477,13 @@
                                                       </div>
                                                   </div>
                                                   <div class="row mt32" style="background-color:#D9DDDC">
-                                                      <div class="col-10" style="text-align: right"> TAX :</div>
+                                                      <div class="col-10" style="text-align: right"> Discount :</div>
+                                                      <div class="col-2" style="text-align: right">
+                                                            <span t-esc="'{0:,.1f}'.format(float(docs.amount_discount))"/> 
+                                                      </div>
+                                                  </div>
+                                                  <div class="row mt32" style="background-color:#D9DDDC">
+                                                      <div class="col-10" style="text-align: right"> VAT :</div>
                                                       <div class="col-2" style="text-align: right">
                                                             <span t-esc="'{0:,.1f}'.format(float(docs.amount_tax))"/> 
                                                       </div>
@@ -487,8 +507,11 @@
 
                           </div>
                     </t>
+                    </t>
                 </div>
-            </t>
+            
+           
+           
         </template>
 
 

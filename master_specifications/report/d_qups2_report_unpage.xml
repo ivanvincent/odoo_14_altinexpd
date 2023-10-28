@@ -3,7 +3,7 @@
 
     <data>
 
-        <record model="report.paperformat" id="paperformat_print_dqups2">
+        <record model="report.paperformat" id="paperformat_print_dqups2_unpage">
             <field name="name">paperformat.qrf.a4.dqups2</field>
             <field name="default" eval="False" />
             <field name="format">A4</field>
@@ -17,18 +17,18 @@
             <field name="dpi">90</field>
         </record>
 
-        <record id="action_report_dqups2" model="ir.actions.report">
+        <record id="action_report_dqups2_unpage" model="ir.actions.report">
                 <field name="name">Quotation Request Form Report</field>
                 <field name="model">quotation.request.form</field>
-                <field name="report_name">master_specifications.print_dqups_2</field>
-                <field name="report_file">master_specifications.print_dqups_2</field>
+                <field name="report_name">master_specifications.print_dqups_2_unpage</field>
+                <field name="report_file">master_specifications.print_dqups_2_unpage</field>
                 <field name="print_report_name">'%s' % object.name</field>
                 <field name="binding_model_id" eval="False"/>
                 <field name="binding_type">report</field>
-                <field name="paperformat_id" eval="paperformat_print_dqups2"/>
+                <field name="paperformat_id" eval="paperformat_print_dqups2_unpage"/>
         </record>
 
-        <template id="print_dqups_2">
+        <template id="print_dqups_2_unpage">
             <div class="page">
                 <t t-call="web.basic_layout">
                     <style>
@@ -285,13 +285,12 @@
               </t>
             </div>
             <!--<div class="page">-->
-                <t t-set="no_page" t-value="0"/>
+                <!-- <t t-set="no_page" t-value="0"/>
                 <t t-set="tot_tax11" t-value="0"/>
                 <t t-set="tot_tax_pph23" t-value="0"/>
-                <t t-foreach="docs.line_ids" t-as="line">
                 <t t-set="no_page" t-value="no_page + 1"/>
                 <t t-set="tot_tax11" t-value="tot_tax11 +  line.total_tax_11"/>
-                <t t-set="tot_tax_pph23" t-value="tot_tax_pph23 +  line.total_tax_pph23"/>
+                <t t-set="tot_tax_pph23" t-value="tot_tax_pph23 +  line.total_tax_pph23"/> -->
                 <div class="page">
                   <t t-call="web.basic_layout">
                     <div class="row mt32">
@@ -372,6 +371,7 @@
                             </div>
                         </div>
                     </div>
+                    <t t-foreach="docs.line_ids" t-as="line">
                     <div class="row mt32">
                               <div class="col-12">
                                 <strong><span style="text-align: left; font-size: 18px" t-esc="line.name"/></strong>
@@ -487,8 +487,9 @@
 
                           </div>
                     </t>
+                    </t>
                 </div>
-            </t>
+            
         </template>
 
 
