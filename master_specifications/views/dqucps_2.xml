@@ -31,7 +31,7 @@
                                 <field name="pic_email"/>
                                 <field name="pic_phone"/>
                                 <field name="reference"/>
-                                <field name="tax_id"/>
+                                <field name="tax_id" domain="[('id','in',(2,6))]" options="{'no_create': True}"/>
                                 <field name="notes_to_customer"/>
                                 <field name="date"/>
                                 <field name="attn_ids" invisible="1"/>
