@@ -442,15 +442,15 @@
                                                       </div>
                                                     </t>
                                                   </t>
-                                                  <!--<div class="row mt32" style="background-color:#D9DDDC;hr:black">-->
-                                                  <!--    <div class="col-8" style="text-align: right"> TOTAL</div>-->
-                                                  <!--    <div class="col-2" style="text-align: right">-->
-                                                  <!--          <span t-esc="'{0:,.1f}'.format(float(tot_subtotal))"/> -->
-                                                  <!--    </div>-->
-                                                  <!--    <div class="col-2" style="text-align: right">-->
-                                                  <!--          <span t-esc="'{0:,.1f}'.format(float(tot_total))"/> -->
-                                                  <!--    </div>-->
-                                                  <!--</div>-->
+                                                  <div class="row mt32" style="background-color:#D9DDDC;hr:black">
+                                                     <div class="col-8" style="text-align: right"> TOTAL</div>
+                                                     <div class="col-2" style="text-align: right">
+                                                           <span t-esc="'{0:,.1f}'.format(float(tot_subtotal))"/>
+                                                     </div>
+                                                     <div class="col-2" style="text-align: right">
+                                                           <span t-esc="'{0:,.1f}'.format(float(tot_total))"/>
+                                                     </div>
+                                                  </div>
                                                   <!--<br/>-->
                                                       
                                                   <!-- <t t-if="no_page == len(docs.line_ids.ids)">
