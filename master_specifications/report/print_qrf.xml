@@ -271,7 +271,7 @@
                                                   <td width="45%" style="padding-left:10px;">Price After Discount</td>
                                                   <td>
                                                       <span>:</span>
-                                                      <span class="font-weight-normal" t-field="docs.amount_price_discount"/><span/> 
+                                                      <span class="font-weight-normal">Rp</span> <span class="font-weight-normal" t-esc="'{0:,.0f}'.format(float(docs.amount_price_discount))"/><span/> 
                                                   </td>
                                               </tr>
                                               <tr>
