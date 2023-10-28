@@ -99,11 +99,11 @@ class QuotationRequestForm(models.Model):
             amount_discount = total_untax * rec.discount_rate / 100 if rec.discount_type == 'percent' else rec.discount_rate
 
             total_price_discount = total_untax - amount_discount
-            total_tax = total_price_discount * (rec.tax_id.amount / 100)
+            total_tax = total_untax * (rec.tax_id.amount / 100)
             total_tax_2 = total_untax_2 * (rec.tax_id.amount / 100)
             rec.amount_tax = total_tax
             rec.amount_untaxed = total_untax
-            rec.amount_total = total_price_discount + total_tax
+            rec.amount_total = total_untax + total_tax
             rec.amount_discount = amount_discount
             rec.amount_tax_11 = total_ppn11
             rec.amount_tax_pph23 = total_pph23
@@ -185,7 +185,7 @@ class QuotationRequestFormLine(models.Model):
     quantity = fields.Integer(string='Quantity', compute='compute_quantity')
     price_unit = fields.Float(string='Price Unit', compute='_compute_price_unit')
     tax_ids = fields.Many2many(comodel_name='account.tax', string='Tax')
-    sub_total = fields.Float(string='Sub Total', compute='_compute_sub_total')
+    sub_total = fields.Float(string='Sub Total', compute='_compute_amount')
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
 
@@ -221,7 +221,7 @@ class QuotationRequestFormLine(models.Model):
     amount_discount = fields.Monetary(string='Discount', store=False,
                                         compute='_compute_amount',
                                         digits=dp.get_precision('Account'))
-    price_discount = fields.Float(string='Price After Discount', compute='_compute_price_discount')
+    price_discount = fields.Float(string='Price After Discount', compute='_compute_amount')
 
     @api.depends('sub_total', 'tax_ids')
     def _compute_amount(self):
@@ -233,10 +233,14 @@ class QuotationRequestFormLine(models.Model):
                 total_tax += rec.sub_total * (t.amount / 100)
             total_untax += rec.sub_total
             amount_discount = total_untax * rec.discount_rate / 100 if rec.discount_type == 'percent' else rec.discount_rate
+            tot_price_disc = rec.price_unit - amount_discount
+            tot_subtotal = tot_price_disc * rec.quantity
             rec.amount_tax = total_tax
             # rec.amount_untaxed = total_untax
             # rec.amount_total = total_tax + total_untax - amount_discount
             rec.amount_discount = amount_discount
+            rec.price_discount = tot_price_disc
+            rec.sub_total = tot_subtotal
     
     @api.depends('sub_total', 'tax_ids')
     def _compute_tax(self):
@@ -284,10 +288,10 @@ class QuotationRequestFormLine(models.Model):
     @api.depends('sub_total')
     def _compute_sub_total(self):
         for a in self:
-            _total = 0
-            for l in a.line_spec_ids:
-                _total += l.total
-            a.sub_total = _total
+            # _total = 0
+            # for l in a.line_spec_ids:
+            #     _total += l.total
+            a.sub_total = a.quantity * a.price_discount
             # exclude = a.quantity * a.price_unit
             # a.sub_total = exclude
             # a.price_unit = sum(a.line_spec_ids.specifications_id.harga)
@@ -295,7 +299,7 @@ class QuotationRequestFormLine(models.Model):
     @api.depends('price_discount')
     def _compute_price_discount(self):
         for a in self:
-            a.price_discount = a.sub_total - a.amount_discount
+            a.price_discount = a.price_unit - a.amount_discount
 
     def _compute_qty_available(self):
         for rec in self:

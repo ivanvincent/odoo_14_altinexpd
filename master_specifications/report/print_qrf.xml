@@ -123,7 +123,7 @@
                             <b><span style="text-align: left; font-size: 16px; padding-left:30px;">PT. ALTINEX PUNCH &amp; DIE DIVISION</span></b>
                             <br/><br/><br/><br/>
                             <span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
-                                Sales</span><br/>
+                                <t t-esc="doc.create_uid.name"/></span><br/>
                         </div>
 
 
@@ -172,7 +172,7 @@
                                       <td width="30%" style=" padding-left:10px;"><br/>Valid-to Date</td>
                                       <td>
                                           <span><br/>:</span>
-                                          <span t-esc="docs.valid_date"/>
+                                          <span t-field="docs.valid_date" t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                       </td>
                                   </tr>
                               </table>
@@ -238,13 +238,13 @@
                                            <span t-field="line.quantity"/>
                                       </td>
                                       <td style="vertical-align : middle; border-collapse: collapse; " class="text-right pr-2">
-                                          <span style="padding-left:20px" t-field="line.price_unit"/> 
+                                          <span style="padding-left:20px" t-esc="'{0:,.0f}'.format(float(line.price_unit))"/> 
                                       </td>
                                       <td style="vertical-align : middle; border-collapse: collapse; " class="text-right pr-2">
                                           <!--<span style="padding-left:20px" t-field="line.amount_discount"/> -->
                                       </td>
                                       <td style="vertical-align : middle; border-right: 1px solid black; border-collapse: collapse; " class="text-right pr-2">
-                                          <span style="padding-left:20px" t-field="line.sub_total"/> 
+                                          <span style="padding-left:20px" t-esc="'{0:,.0f}'.format(float(line.sub_total))"/> 
                                       </td>
                                   </tr>
                                   <tr class="text-left">
@@ -445,13 +445,13 @@
                                                             <span t-field="detail2.spect_name"/>
                                                           </div>
                                                           <div class="col-2" style="text-align: right">
-                                                            <span t-field="detail2.harga"/>
+                                                            <span t-esc="'{0:,.0f}'.format(float(detail2.harga))"/>
                                                           </div>
                                                           <div class="col-2" style="text-align: right">
-                                                            <span t-field="detail2.subtotal"/>
+                                                            <span t-esc="'{0:,.0f}'.format(float(detail2.subtotal))"/>
                                                           </div>
                                                           <div class="col-2" style="text-align: right">
-                                                            <span t-field="detail2.total"/>
+                                                            <span t-esc="'{0:,.0f}'.format(float(detail2.total))"/>
                                                           </div>
                                                       </div>
                                                     </t>
@@ -459,10 +459,10 @@
                                                   <div class="row mt32" style="background-color:#D9DDDC;hr:black">
                                                      <div class="col-8" style="text-align: right"> TOTAL</div>
                                                      <div class="col-2" style="text-align: right">
-                                                           <span t-esc="'{0:,.1f}'.format(float(tot_subtotal))"/>
+                                                           <span t-esc="'{0:,.0f}'.format(float(tot_subtotal))"/>
                                                      </div>
                                                      <div class="col-2" style="text-align: right">
-                                                           <span t-esc="'{0:,.1f}'.format(float(tot_total))"/>
+                                                           <span t-esc="'{0:,.0f}'.format(float(tot_total))"/>
                                                      </div>
                                                   </div>
                                                   <!--<br/>-->
