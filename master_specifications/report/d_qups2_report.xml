@@ -165,7 +165,7 @@
                                       <td width="30%" style="padding-left:10px;">Page</td>
                                       <td>
                                           <span>:</span>
-                                           <span class="page"/> "1/1" <span class="topage"/>
+                                           <span class="page"/> 1/1 <span class="topage"/>
                                       </td>
                                   </tr>
                                   <tr>
@@ -247,31 +247,31 @@
                                           <span style="padding-left:20px" t-esc="'{0:,.0f}'.format(float(line.sub_total))"/> 
                                       </td>
                                   </tr>
-                                  <tr class="text-left">
+                                  <tr>
                                       <th colspan="3" style="vertical-align : top; border: 1px solid black; padding: 0; border-collapse: collapse;" width="100%">NOTES<br/>
                                             <span class="font-weight-normal" style="padding-left:10px" t-esc="docs.notes_to_customer"/> <br/>
                                       </th>
                                       <th colspan="3" style="vertical-align : middle; border-top: 1px solid black; padding: 0; border-collapse: collapse;" width="100%"><br/>
                                             <table width="100%">
-                                              <tr>
-                                                  <td width="30%" style="padding-left:10px;">Price Product</td>
+                                              <tr class="text-right">
+                                                  <td width="30%" style="padding-left:10px;">Price Product :</td>
                                                   <td>
-                                                      <span>:</span>
+                                                      <!-- <span>:</span> -->
                                                       <span class="font-weight-normal" t-field="docs.amount_untaxed"/> <br/><span/> 
                                                   </td>
                                               </tr>
-                                              <tr>
-                                                  <td width="30%" style="padding-left:10px;">VAT (<span t-esc="docs.tax_id.name"/>)</td>
+                                              <tr class="text-right">
+                                                  <td width="30%" style="padding-left:10px;">VAT (<span t-esc="docs.tax_id.name"/>) :</td>
                                                   <td>
-                                                      <span>:</span>
+                                                      <!-- <span>:</span> -->
                                                        <span class="font-weight-normal" t-field="docs.amount_tax"/> 
                                                   </td>
                                               </tr>
                                                   <br/>
-                                              <tr>
-                                                  <td style="padding-left:10px;">Total</td>
+                                              <tr class="text-right">
+                                                  <td style="padding-left:10px;">Total :</td>
                                                   <td>
-                                                      <span>:</span>
+                                                      <!-- <span>:</span> -->
                                                       <span class="font-weight-normal" t-field="docs.amount_total"/>
                                                   </td>
                                               </tr>
