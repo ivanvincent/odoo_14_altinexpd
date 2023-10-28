@@ -244,7 +244,7 @@
                                           <span style="padding-left:20px" t-field="line.amount_discount"/> 
                                       </td>
                                       <td style="vertical-align : middle; border-right: 1px solid black; border-collapse: collapse; " class="text-right pr-2">
-                                          <span style="padding-left:20px" t-field="line.sub_total"/> 
+                                          <span style="padding-left:20px" t-field="line.price_discount"/> 
                                       </td>
                                   </tr>
                                   <tr class="text-left">
@@ -257,14 +257,14 @@
                                                   <td width="30%" style="padding-left:10px;">Price Product</td>
                                                   <td>
                                                       <span>:</span>
-                                                      <span t-field="docs.amount_untaxed"/> <br/><span/> 
+                                                      <span t-field="docs.amount_untaxed_2"/> <br/><span/> 
                                                   </td>
                                               </tr>
                                               <tr>
                                                   <td width="30%" style="padding-left:10px;">Tax (<span t-esc="docs.tax_id.name"/>)</td>
                                                   <td>
                                                       <span>:</span>
-                                                       <span t-field="docs.amount_tax"/> 
+                                                       <span t-field="docs.amount_tax_2"/> 
                                                   </td>
                                               </tr>
                                                   <br/>
@@ -272,7 +272,7 @@
                                                   <td style="padding-left:10px;">Total</td>
                                                   <td>
                                                       <span>:</span>
-                                                      <span t-field="docs.amount_total"/>
+                                                      <span t-field="docs.amount_total_2"/>
                                                   </td>
                                               </tr>
                                           </table>
