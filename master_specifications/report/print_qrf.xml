@@ -277,7 +277,7 @@
                                               <tr class="text-right">
                                                   <td width="45%" style="padding-left:10px;">VAT (<span t-esc="docs.tax_id.name"/>) :</td>
                                                   <td>
-                                                      <span>:</span>
+                                                      <!-- <span>:</span> -->
                                                        <span class="font-weight-normal" t-field="docs.amount_tax"/> 
                                                   </td>
                                               </tr>
