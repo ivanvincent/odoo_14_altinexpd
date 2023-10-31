@@ -53,7 +53,7 @@
                         </group>
                         <notebook>
                             <page name="Details" string="Details">
-                                <field name="line_ids" attrs="{'readonly':[('state','=','confirm')]}" >
+                                <field name="line_ids" attrs="{'readonly':[('state','=','approved')]}" >
                                     <tree editable="bottom"> 
                                         <field name="jenis_id"/>
                                         <field name="name"/>
