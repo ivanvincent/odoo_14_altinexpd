@@ -100,7 +100,7 @@ class QuotationRequestForm(models.Model):
 
             total_price_discount = total_untax - amount_discount
             total_tax = total_untax * (rec.tax_id.amount / 100)
-            total_tax_2 = total_untax_2 * (rec.tax_id.amount / 100)
+            total_tax_2 = total_price_discount * (rec.tax_id.amount / 100)
             rec.amount_tax = total_tax
             rec.amount_untaxed = total_untax
             rec.amount_total = total_untax + total_tax
@@ -109,7 +109,7 @@ class QuotationRequestForm(models.Model):
             rec.amount_tax_pph23 = total_pph23
             rec.amount_subtotal = total_untax - amount_discount
             rec.amount_untaxed_2 = total_untax_2
-            rec.amount_total_2 = total_untax_2 + total_tax_2
+            rec.amount_total_2 = total_price_discount + total_tax_2
             rec.amount_tax_2 = total_tax_2
             rec.amount_price_discount = total_price_discount
 
@@ -122,6 +122,7 @@ class QuotationRequestForm(models.Model):
         return super(QuotationRequestForm, self).create(vals)
     
     def action_confirm(self):
+        # self.action_confirm_so()
         self.state = 'confirm'
 
     @api.depends('date')
@@ -274,7 +275,7 @@ class QuotationRequestFormLine(models.Model):
         for rec in self:
             tot_price = 0
             for l in rec.line_spec_ids:
-                tot_price += l.specifications_id.harga
+                tot_price += l.subtotal
             rec.price_unit = tot_price
                     
     #         exclude = self.quantity * tot_price
