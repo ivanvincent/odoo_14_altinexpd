@@ -15,7 +15,7 @@
 Dev
 """,
     'data': [
-        'security/ir.model.access.csv',
+        # 'security/ir.model.access.csv',
         'data/ir_sequence.xml',
         'views/master_jenis.xml',
         'views/master_require.xml',
@@ -31,9 +31,9 @@ Dev
         'report/d_qups2_report_unpage.xml',
         'report/surat_penawaran.xml',
         'report/quotation.xml',
-        'report/surat_penawaran_dqups2.xml',
-        'report/quotation_dqups2.xml',
-        'report/specification_summary_dqups2.xml',
+        # 'report/surat_penawaran_dqups2.xml',
+        # 'report/quotation_dqups2.xml',
+        # 'report/specification_summary_dqups2.xml',
         'report/print_qrf_unpage.xml',
         'wizard/print_qrf_wizard.xml',
         'wizard/print_qrf_dqups2.xml',
