@@ -30,6 +30,7 @@ Dev
         'report/specification_detail.xml',
         'report/d_qups2_report_unpage.xml',
         'report/surat_penawaran.xml',
+        'report/quotation.xml',
         'report/print_qrf_unpage.xml',
         'wizard/print_qrf_wizard.xml',
         'wizard/print_qrf_dqups2.xml',
