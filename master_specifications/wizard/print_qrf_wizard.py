@@ -6,11 +6,12 @@ class PrintQrfWizard(models.TransientModel):
 
     qrf_id          = fields.Many2one('quotation.request.form', string='Quotation', required=True,)
     type_report     = fields.Selection([
-        ("surat_penawaran","Surat Penawaran"),
-        ("quotation","Quotation"),
         ("quotation_request","Quotation Request Form Report"),
         ("quotation_request_nonpage","Quotation Request Form Report Non Page-Break"),
         ("quotation_request_summary","Quotation Request Form Summary Report"),
+        ("surat_penawaran","Surat Penawaran"),
+        ("quotation","Quotation"),
+        ("product_specification","Product Specifications"),
         ], string='Type'
     )
 
@@ -21,6 +22,8 @@ class PrintQrfWizard(models.TransientModel):
             return self.env.ref('master_specifications.action_qrf_report_penawaran').report_action(self.qrf_id)
         elif self.type_report == 'quotation':
             return self.env.ref('master_specifications.action_qrf_report_quotation').report_action(self.qrf_id)
+        elif self.type_report == 'product_specification':
+            return self.env.ref('master_specifications.action_specifications_summary').report_action(self.qrf_id)
         elif self.type_report == 'quotation_request_nonpage':
             return self.env.ref('master_specifications.action_qrf_report_unpage').report_action(self.qrf_id)
         elif self.type_report == 'quotation_request_summary':

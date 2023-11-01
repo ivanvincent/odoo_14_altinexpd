@@ -26,7 +26,7 @@ Dev
         # 'report/specification.xml',
         'report/print_qrf.xml',
         'report/d_qups2_report.xml',
-        # 'report/specification_summary.xml',
+        'report/specification_summary.xml',
         'report/specification_detail.xml',
         'report/d_qups2_report_unpage.xml',
         'report/surat_penawaran.xml',
