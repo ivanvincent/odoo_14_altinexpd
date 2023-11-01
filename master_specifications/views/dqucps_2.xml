@@ -27,27 +27,28 @@
                         <group>
                             <group>
                                 <field name="partner_id" attrs="{'readonly':[('state','=','confirm')]}" required="1"/>
-                                <field name="pic_name"/>
-                                <field name="pic_email"/>
-                                <field name="pic_phone"/>
-                                <field name="reference"/>
-                                <field name="tax_id" domain="[('id','in',(2,6))]" options="{'no_create': True}"/>
+                                <field name="pic_name" required="1"/>
+                                <field name="pic_email" required="1"/>
+                                <field name="pic_phone" required="1"/>
+                                <field name="reference" required="1"/>
+                                <field name="tax_id" domain="[('id','in',(2,6))]" options="{'no_create': True}" required="1"/>
                                 <field name="notes_to_customer"/>
-                                <field name="date"/>
+                                <field name="date" required="1"/>
                                 <field name="attn_ids" invisible="1"/>
+                                <field name="create_uid" string="Responsible Sales"/>
                                 
                             </group>
                             <group>
                                 <!-- <field name="date" attrs="{'readonly':[('state','=','confirm')]}" /> -->
-                                <field name="end_user_name"/>
+                                <field name="end_user_name" required="1"/>
                                 <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" string="End User Machine"/>                                
-                                <field name="station_no"/>                                                        
-                                <field name="end_user_machine_serial"/>
+                                <field name="station_no" required="1"/>                                                        
+                                <field name="end_user_machine_serial" required="1"/>
                                 <!-- <field name="perihal" invisible="1"/>                                 -->
-                                <field name="payment_terms"/>                                                          
-                                <field name="delivery_terms"/>                                                          
-                                <field name="sales_condition" string="Warranty"/>                                                          
-                                <field name="valid_date"/>                                                        
+                                <field name="payment_terms" required="1"/>                                                          
+                                <field name="delivery_terms" required="1"/>                                                          
+                                <field name="sales_condition" string="Warranty" required="1"/>                                                          
+                                <field name="valid_date" required="1"/>                                                        
                                 <field name="note" string="Notes Internal"/>
                             </group>
                         </group>
@@ -55,7 +56,7 @@
                             <page name="Details" string="Details">
                                 <field name="line_ids" attrs="{'readonly':[('state','=','approved')]}" >
                                     <tree editable="bottom"> 
-                                        <field name="jenis_id"/>
+                                        <field name="jenis_id" options="{'no_create': True}"/>
                                         <field name="name"/>
                                         <button name="create_specification_detail" type="object" icon="fa-list" states="draft"/>                                        
                                         <!-- <button name="action_view_makloon_order" type="object" icon="fa-pencil-square-o" states="process"/> -->
@@ -112,6 +113,7 @@
                     <field name="amount_total"/>
                     <field name="note"/>
                     <field name="state"/>
+                    <field name="create_uid" string="Responsible Sales"/>
                 </tree>
             </field>
         </record>
@@ -138,8 +140,8 @@
                             <field name="line_qty_ids" nolabel="1">
                                 <tree editable="bottom">
                                     <field name="jenis_id" invisible="1"/>
-                                    <field name="qty_id"/>
-                                    <field name="qty"/>
+                                    <field name="qty_id" options="{'no_create': True}"/>
+                                    <field name="qty" required="1"/>
                                 </tree>
                             </field>
                             <button name="action_refresh_spec" type="object" string="Refresh" />
@@ -149,7 +151,7 @@
                                 <tree editable="bottom">
                                     <field name="jenis_id" invisible="1"/>
                                     <field name="require_id" readonly="1"/>
-                                    <field name="specifications_id" domain="[('spec_id','=',require_id),('jenis_id','=', jenis_id)]"/>
+                                    <field name="specifications_id" domain="[('spec_id','=',require_id),('jenis_id','=', jenis_id)]" options="{'no_create': True}"/>
                                     <!-- <field name="spec_id"/> -->
                                     <!-- <field name="spect_name"/> -->
                                     <field name="spect_name"/>
