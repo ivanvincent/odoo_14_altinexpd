@@ -71,7 +71,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page name="drawing" string="Drawing">
+                            <!-- <page name="drawing" string="Drawing">
                                 <field name="drawing_attachment_line_ids" attrs="{'readonly':[('state','=','approved')]}" >
                                     <tree editable="bottom"> 
                                         <field name="drawing_attachment_ids" filename="attachment_name"/>
@@ -86,7 +86,7 @@
                                         <field name="attachment_name" />
                                     </tree>
                                 </field>
-                            </page>
+                            </page> -->
                         </notebook>
                         <group col="6">
                             <group name="discount" colspan="2">
