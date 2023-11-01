@@ -125,6 +125,42 @@ class QuotationRequestForm(models.Model):
         # self.action_confirm_so()
         self.state = 'confirm'
 
+    def action_confirm_so(self):
+        for line in self.line_ids:
+            product = self.env['product.product'].search([('name','=',line.name)],limit=1)
+            if not product :
+                product = self.env['product.product'].create({
+                    "name":line.name,
+                    "type":"product",
+                    # "product_tmpl_id":line.name,
+                })
+
+                sale_order_id = self.env['sale.order'].create({
+                    'name':self.name,
+                    'partner_id':self.partner_id.id,
+                    'date_order':self.date,
+                    'payment_term_id': self.payment_terms,
+                    'amount_untaxed': self.amount_untaxed,
+                    'partner_invoice_id':self.partner_id.id,
+                    'partner_shipping_id':self.partner_id.id,
+                    'option_vip':'HIGH RISK',
+                    # 'amount_discount': self.payment_terms,
+                    # 'term_of_payment': self.payment_terms,
+                    'order_line':[(0,0,{
+                        'product_id':product.id,
+                        # 'name':line.name,
+                        'price_unit':line.price_unit,
+                        'product_uom_qty':line.quantity,
+                        # 'tax_id':self.tax_id.id,
+                        'price_subtotal':line.sub_total,
+                        })]
+                })
+
+    # def action_view_so(self):
+    #     action = self.env["ir.actions.actions"]._for_xml_id("stock_move_line_before.stock_move_line_before_action")
+    #     return action
+
+
     @api.depends('date')
     def compute_tanggal_berlaku(self):
         for rec in self:
@@ -231,7 +267,7 @@ class QuotationRequestFormLine(models.Model):
             for t in rec.tax_ids:
                 total_tax += rec.sub_total * (t.amount / 100)
             total_untax += rec.sub_total
-            amount_discount = total_untax * rec.discount_rate / 100 if rec.discount_type == 'percent' else rec.discount_rate
+            amount_discount = rec.price_unit * rec.discount_rate / 100 if rec.discount_type == 'percent' else rec.discount_rate
             tot_price_disc = rec.price_unit - amount_discount
             tot_subtotal = tot_price_disc * rec.quantity
             rec.amount_tax = total_tax
