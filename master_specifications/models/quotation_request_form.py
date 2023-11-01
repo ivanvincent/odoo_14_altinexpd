@@ -133,8 +133,6 @@ class QuotationRequestForm(models.Model):
             else:
                 rec.tanggal_berlaku = False
 
-    
-
     def action_set_to_draft(self):
         self.state = 'draft'
 
@@ -275,7 +273,7 @@ class QuotationRequestFormLine(models.Model):
         for rec in self:
             tot_price = 0
             for l in rec.line_spec_ids:
-                tot_price += l.subtotal
+                tot_price += l.subtotal if l.subtotal else l.total
             rec.price_unit = tot_price
                     
     #         exclude = self.quantity * tot_price
