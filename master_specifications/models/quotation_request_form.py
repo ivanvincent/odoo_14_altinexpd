@@ -78,6 +78,8 @@ class QuotationRequestForm(models.Model):
         string='Taxes', currency_field='currency_id', compute='_compute_amount')
     amount_price_discount = fields.Float(string='Price After Discount', compute='_compute_amount')
     station_no = fields.Char(string='Station Number')
+    drawing_attachment_line_ids = fields.One2many('drawing.attachment', 'qrf_id', 'Drawing')
+    qrf_attachment_line_ids = fields.One2many('qrf.attachment', 'qrf_id', 'QRF')
 
     @api.depends('line_ids.sub_total', 'line_ids.price_discount', 'line_ids.tax_ids', 'discount_rate', 'discount_type')
     def _compute_amount(self):
@@ -510,4 +512,18 @@ class QuotationRequestFormLineQuantity(models.Model):
         elif self.qty_id.id == 3 and self.qty >= 1:
             spec.sudo().write({"specifications_id": 528})
             print("B")
+
+class DrawingAttachment(models.Model):
+    _name = 'drawing.attachment'
+
+    qrf_id = fields.Many2one('quotation.request.form', string='QRF')
+    drawing_attachment_ids = fields.Binary('Drawing', required=True)
+    attachment_name = fields.Char('Name')
+
+class QrfAttachment(models.Model):
+    _name = 'qrf.attachment'
+
+    qrf_id = fields.Many2one('quotation.request.form', string='QRF')
+    qrf_attachment_ids = fields.Binary('QRF', required=True)
+    attachment_name = fields.Char('Name')
 
