@@ -76,6 +76,22 @@
                                     </tree>
                                 </field>
                             </page>
+                            <page name="drawing" string="Drawing">
+                                <field name="drawing_attachment_line_ids" attrs="{'readonly':[('state','=','approved')]}" >
+                                    <tree editable="bottom"> 
+                                        <field name="drawing_attachment_ids" widget="pdf_viewer" style="width :250px; height:65px;"/>
+                                        <!-- <field name="attachment_name" invisible="1"/> -->
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="qrf" string="QRF">
+                                <field name="qrf_attachment_line_ids" attrs="{'readonly':[('state','=','approved')]}" >
+                                    <tree editable="bottom"> 
+                                        <field name="qrf_attachment_ids" widget="pdf_viewer" style="width :250px; height:65px;"/>
+                                        <!-- <field name="attachment_name" /> -->
+                                    </tree>
+                                </field>
+                            </page>
                         </notebook>
                         <group col="6">
                             <!-- <group name="discount" colspan="2">
