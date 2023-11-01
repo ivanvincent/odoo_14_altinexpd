@@ -3,7 +3,7 @@
 <odoo>
     <data>
 
-        <record model="report.paperformat" id="paperformat_specifications_summary_1">
+        <record model="report.paperformat" id="paperformat_specifications_summary_dqups2">
             <field name="name">paperformat.specifications.summary.a4</field>
             <field name="format">A4</field>
             <field name="orientation">Portrait</field>
@@ -16,18 +16,18 @@
             <field name="dpi">90</field>
         </record>
 
-        <record id="action_specifications_summary" model="ir.actions.report">
-                <field name="name">Specification Summary</field>
+        <record id="action_specifications_summary_dqups2" model="ir.actions.report">
+                <field name="name">Product Specifications</field>
                 <field name="model">quotation.request.form</field>
-                <field name="report_name">master_specifications.specification_summary_template</field>
-                <field name="report_file">master_specifications.specification_summary_template</field>
+                <field name="report_name">master_specifications.specification_summary_template_dqups2</field>
+                <field name="report_file">master_specifications.specification_summary_template_dqups2</field>
                 <field name="print_report_name">'%s' % object.name</field>
                 <field name="binding_model_id" eval="False"/>
                 <field name="binding_type">report</field>
-                <field name="paperformat_id" eval="paperformat_specifications_summary_1"/>
+                <field name="paperformat_id" eval="paperformat_specifications_summary_dqups2"/>
             </record>
 
-        <template id="specification_summary_template">
+        <template id="specification_summary_template_dqups2">
                 <t t-set="no_page" t-value="0"/>
                 <t t-set="tot_tax11" t-value="0"/>
                 <t t-set="tot_tax_pph23" t-value="0"/>
