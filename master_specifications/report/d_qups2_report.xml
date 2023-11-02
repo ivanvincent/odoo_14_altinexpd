@@ -125,7 +125,7 @@
                             <b><span style="text-align: left; font-size: 16px; padding-left:30px;">PT. ALTINEX PUNCH &amp; DIE DIVISION</span></b>
                             <br/><br/><br/><br/>
                             <span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
-                                <t t-esc="doc.create_uid.name"/></span><br/>
+                                <t t-esc="doc.user_id.name"/></span><br/>
                         </div>
 
 

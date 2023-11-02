@@ -80,6 +80,7 @@ class QuotationRequestForm(models.Model):
     station_no = fields.Char(string='Station Number')
     drawing_attachment_line_ids = fields.One2many('drawing.attachment', 'qrf_id', 'Drawing')
     qrf_attachment_line_ids = fields.One2many('qrf.attachment', 'qrf_id', 'QRF')
+    user_id = fields.Many2one(string='Responsible Sales',related='partner_id.user_id')
 
     @api.depends('line_ids.sub_total', 'line_ids.price_discount', 'line_ids.tax_ids', 'discount_rate', 'discount_type')
     def _compute_amount(self):
@@ -135,6 +136,7 @@ class QuotationRequestForm(models.Model):
                     "name":line.name,
                     "type":"product",
                     # "product_tmpl_id":line.name,
+                    "categ_id": 27,
                 })
 
                 sale_order_id = self.env['sale.order'].create({
