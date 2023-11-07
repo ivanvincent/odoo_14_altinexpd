@@ -10,6 +10,7 @@ class SaleOrder(models.Model):
     product_order_id = fields.Many2one(string='Product Order', related='quotation_id.product_order_id')
     no_quotation_accurate = fields.Char(string='No Quotation Accurate')
     kode_mkt_id = fields.Many2one('kode.mkt', string='Kode Mkt', related='quotation_id.kode_mkt_id', store=True,)
+    dqups_id = fields.Many2one('quotation.request.form', string='D-QUPS')
 
     @api.onchange('quotation_id')
     def onchange_quotation_id(self):

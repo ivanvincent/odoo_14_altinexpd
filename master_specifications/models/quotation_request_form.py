@@ -52,7 +52,7 @@ class QuotationRequestForm(models.Model):
     pic_name = fields.Char(string='PIC Name')
     pic_email = fields.Char(string='PIC Email')
     pic_phone = fields.Char(string='PIC Mobile Phone (WA)')
-    note = fields.Char('Notes')
+    note = fields.Text('Notes')
     payment_terms = fields.Char('Payment Terms')
     delivery_terms = fields.Char('Delivery Terms')
     sales_condition = fields.Char('Sales Condition')
@@ -81,6 +81,7 @@ class QuotationRequestForm(models.Model):
     drawing_attachment_line_ids = fields.One2many('drawing.attachment', 'qrf_id', 'Drawing')
     qrf_attachment_line_ids = fields.One2many('qrf.attachment', 'qrf_id', 'QRF')
     user_id = fields.Many2one(string='Responsible Sales',related='partner_id.user_id')
+    so_count = fields.Integer(string='Sale Order Count',compute="_compute_so")
 
     @api.depends('line_ids.sub_total', 'line_ids.price_discount', 'line_ids.tax_ids', 'discount_rate', 'discount_type')
     def _compute_amount(self):
@@ -125,10 +126,11 @@ class QuotationRequestForm(models.Model):
         return super(QuotationRequestForm, self).create(vals)
     
     def action_confirm(self):
-        # self.action_confirm_so()
+        self.action_confirm_so()
         self.state = 'confirm'
 
     def action_confirm_so(self):
+        data = []
         for line in self.line_ids:
             product = self.env['product.product'].search([('name','=',line.name)],limit=1)
             if not product :
@@ -138,8 +140,16 @@ class QuotationRequestForm(models.Model):
                     # "product_tmpl_id":line.name,
                     "categ_id": 27,
                 })
-
-                sale_order_id = self.env['sale.order'].create({
+            data.append((0,0,{
+                    'product_id':product.id,
+                    # 'name':line.name,
+                    'price_unit':line.price_unit,
+                    'product_uom_qty':line.quantity,
+                    'tax_id':[(6, 0, self.tax_id.ids)],
+                    'price_subtotal':line.sub_total,
+                    }))
+        sale_order_id = self.env['sale.order'].create({
+                    'dqups_id':self.id,
                     'name':self.name,
                     'partner_id':self.partner_id.id,
                     'date_order':self.date,
@@ -148,21 +158,24 @@ class QuotationRequestForm(models.Model):
                     'partner_invoice_id':self.partner_id.id,
                     'partner_shipping_id':self.partner_id.id,
                     'option_vip':'HIGH RISK',
-                    # 'amount_discount': self.payment_terms,
+                    # 'payment_term_id': self.payment_terms,
                     # 'term_of_payment': self.payment_terms,
-                    'order_line':[(0,0,{
-                        'product_id':product.id,
-                        # 'name':line.name,
-                        'price_unit':line.price_unit,
-                        'product_uom_qty':line.quantity,
-                        # 'tax_id':self.tax_id.id,
-                        'price_subtotal':line.sub_total,
-                        })]
+                    # 'up_kpd': self.pic_name,
+                    # 'amount_tax':self.amount_tax_2,
+                    # 'amount_total':self.amount_total_2,
+                    # 'term_of_payment': self.payment_terms,
+                    'order_line': data
                 })
 
-    # def action_view_so(self):
-    #     action = self.env["ir.actions.actions"]._for_xml_id("stock_move_line_before.stock_move_line_before_action")
-    #     return action
+    def action_view_so(self):
+        action = self.env.ref('sale.action_quotations_with_onboarding').read()[0]
+        action['domain'] = [('dqups_id','=',self.id)]
+        action['context'] = {}
+        return action
+
+    def _compute_so(self):
+        for sale in self:
+            sale.so_count = len(sale.line_ids)
 
 
     @api.depends('date')

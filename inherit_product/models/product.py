@@ -130,17 +130,17 @@ class Product(models.Model):
         # return result
     # End Overide From Base Odoo
 
-    def name_get(self):
-        res = super(Product, self).name_get()
-        for record in self:
-            if record.categ_id.name == 'Finished Goods':
-                machine = record.product_template_attribute_value_ids.filtered(lambda x: x.attribute_id.name == 'MACHINE').name
-                size = record.product_template_attribute_value_ids.filtered(lambda x: x.attribute_id.name == 'SIZE').name
-                shape = record.product_template_attribute_value_ids.filtered(lambda x: x.attribute_id.name == 'SHAPE').name
-                # variant = record.product_id.product_template_attribute_value_ids._get_combination_name() or ''
-                variant = ' (%s, %s, %s)' % (machine, size, shape)
-                res.append((record.id, record.name + variant))
-        return res
+    # def name_get(self):
+    #     res = super(Product, self).name_get()
+    #     for record in self:
+    #         if record.categ_id.name == 'Finished Goods':
+    #             machine = record.product_template_attribute_value_ids.filtered(lambda x: x.attribute_id.name == 'MACHINE').name
+    #             size = record.product_template_attribute_value_ids.filtered(lambda x: x.attribute_id.name == 'SIZE').name
+    #             shape = record.product_template_attribute_value_ids.filtered(lambda x: x.attribute_id.name == 'SHAPE').name
+    #             # variant = record.product_id.product_template_attribute_value_ids._get_combination_name() or ''
+    #             variant = ' (%s, %s, %s)' % (machine, size, shape)
+    #             res.append((record.id, record.name + variant))
+    #     return res
     
     
 class ProductTemplate(models.Model):
