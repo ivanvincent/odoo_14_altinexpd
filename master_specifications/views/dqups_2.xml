@@ -53,7 +53,25 @@
                             </group>
                         </group>
                         <notebook>
-                            <page name="Details" string="Details">
+                            <page name="qrf" string="QRF">
+                                <field name="qrf_attachment_line_ids" attrs="{'readonly':[('state','=','approved')]}" >
+                                    <tree editable="bottom"> 
+                                        <field name="qrf_attachment_ids" widget="pdf_viewer" style="width :250px; height:65px;"/>
+                                        <!-- <field name="attachment_name" /> -->
+                                        <field name="reference" />
+                                        <field name="notes" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="drawing" string="Drawing" attrs="{'invisible':[('qrf_attachment_line_ids','=',[])]}">
+                                <field name="drawing_attachment_line_ids" attrs="{'readonly':[('state','=','approved')]}" >
+                                    <tree editable="bottom"> 
+                                        <field name="drawing_attachment_ids" widget="pdf_viewer" style="width :250px; height:65px;"/>
+                                        <!-- <field name="attachment_name" invisible="1"/> -->
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="Details" string="Details" attrs="{'invisible':[('drawing_attachment_line_ids','=',[])]}" groups="master_specifications.user_dqups,master_specifications.manager_dqups">
                                 <field name="line_ids" attrs="{'readonly':[('state','=','approved')]}" >
                                     <tree editable="bottom"> 
                                         <field name="jenis_id" options="{'no_create': True}"/>
@@ -73,22 +91,6 @@
                                         <field name="total_tax_pph23" invisible="1"/>
                                         <field name="price_discount"/>
                                         <field name="sub_total"/>
-                                    </tree>
-                                </field>
-                            </page>
-                            <page name="drawing" string="Drawing">
-                                <field name="drawing_attachment_line_ids" attrs="{'readonly':[('state','=','approved')]}" >
-                                    <tree editable="bottom"> 
-                                        <field name="drawing_attachment_ids" widget="pdf_viewer" style="width :250px; height:65px;"/>
-                                        <!-- <field name="attachment_name" invisible="1"/> -->
-                                    </tree>
-                                </field>
-                            </page>
-                            <page name="qrf" string="QRF">
-                                <field name="qrf_attachment_line_ids" attrs="{'readonly':[('state','=','approved')]}" >
-                                    <tree editable="bottom"> 
-                                        <field name="qrf_attachment_ids" widget="pdf_viewer" style="width :250px; height:65px;"/>
-                                        <!-- <field name="attachment_name" /> -->
                                     </tree>
                                 </field>
                             </page>

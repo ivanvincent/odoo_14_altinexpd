@@ -67,7 +67,7 @@ class QuotationRequestForm(models.Model):
         string='Subtotal', currency_field='currency_id', compute='_compute_amount')
     tax_id = fields.Many2one('account.tax', string='Tax Type')
     notes_to_customer = fields.Text(string='Notes to customer')
-    type = fields.Selection([("1","1"),("2","2")], string='Type')
+    type = fields.Selection([("1","1"),("2","2"),("3","3")], string='Type')
     end_user_name = fields.Char(string='End User Name')
     end_user_machine_serial = fields.Char(string='End User Machine Serial No.')
     amount_untaxed_2 = fields.Monetary(
@@ -82,6 +82,8 @@ class QuotationRequestForm(models.Model):
     qrf_attachment_line_ids = fields.One2many('qrf.attachment', 'qrf_id', 'QRF')
     user_id = fields.Many2one(string='Responsible Sales',related='partner_id.user_id')
     so_count = fields.Integer(string='Sale Order Count',compute="_compute_so")
+    billing_address = fields.Text(string='Billing Address')
+    shipping_address = fields.Text(string='Shipping Address')
 
     @api.depends('line_ids.sub_total', 'line_ids.price_discount', 'line_ids.tax_ids', 'discount_rate', 'discount_type')
     def _compute_amount(self):
@@ -157,7 +159,7 @@ class QuotationRequestForm(models.Model):
                     'amount_untaxed': self.amount_untaxed,
                     'partner_invoice_id':self.partner_id.id,
                     'partner_shipping_id':self.partner_id.id,
-                    'option_vip':'HIGH RISK',
+                    # 'option_vip':'HIGH RISK',
                     # 'payment_term_id': self.payment_terms,
                     # 'term_of_payment': self.payment_terms,
                     # 'up_kpd': self.pic_name,
@@ -362,21 +364,22 @@ class QuotationRequestFormLine(models.Model):
         # spec = self.env['master.require'].search([('jenis_ids', 'in', self.jenis_id.ids)])
         spec = self.env['master.require'].search([('active', '=', True)])
         data = []
-        if not any(self.line_spec_ids):
-            for line in spec:
-                if self.jenis_id in line.jenis_ids: 
-                    data.append((0, 0, {
-                        'require_id': line.id
-                    }))
-            self.line_spec_ids = data 
+        if self.qrf_id.type != '3':
+            if not any(self.line_spec_ids):
+                for line in spec:
+                    if self.jenis_id in line.jenis_ids: 
+                        data.append((0, 0, {
+                            'require_id': line.id
+                        }))
+                self.line_spec_ids = data 
 
-        list_qty = []
-        if not any(self.line_qty_ids):
-            for line in self.jenis_id.qty_ids:
-                list_qty.append((0, 0, {
-                    'qty_id': line.id
-                }))
-            self.line_qty_ids = list_qty 
+            list_qty = []
+            if not any(self.line_qty_ids):
+                for line in self.jenis_id.qty_ids:
+                    list_qty.append((0, 0, {
+                        'qty_id': line.id
+                    }))
+                self.line_qty_ids = list_qty 
         action = self.env.ref('master_specifications.quotation_request_form_line_action').read()[0]
         action['res_id'] = self.id
         return action
@@ -425,6 +428,8 @@ class QuotationRequestFormLineSpecification(models.Model):
         [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
     subtotal = fields.Float(string='Subtotal', compute='_compute_subtotal')
     total = fields.Float(string='TOTAL', compute='_compute_total')
+    qty = fields.Integer(string='QTY')
+    unit = fields.Char(string='Unit')
 
     # @api.depends('harga', 'qrf_line_id.line_qty_ids.qty', 'require_id', 'specifications_id')
     @api.depends('harga', 'require_id', 'specifications_id')
@@ -541,4 +546,6 @@ class QrfAttachment(models.Model):
     qrf_id = fields.Many2one('quotation.request.form', string='QRF')
     qrf_attachment_ids = fields.Binary('QRF', required=True)
     attachment_name = fields.Char('Name')
+    reference = fields.Selection([("standard","Standard"),("sample","Sample/Drawing"),("custom","Custom")])
+    notes = fields.Text(string='Notes')
 
