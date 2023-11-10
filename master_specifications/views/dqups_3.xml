@@ -92,6 +92,14 @@
                                     </tree>
                                 </field>
                             </page>
+                            <page name="po" string="PO" attrs="{'invisible':[('state','!=','approved')]}" >
+                                <field name="po_attachment_line_ids" >
+                                    <tree editable="bottom"> 
+                                        <field name="po_attachment_ids" widget="pdf_viewer" style="width : 250px; height:65px;"/>
+                                        <!-- <field name="attachment_name" invisible="1"/> -->
+                                    </tree>
+                                </field>
+                            </page>
                         </notebook>
                         <group col="6">
                             <group name="discount" colspan="2">
@@ -206,11 +214,12 @@
             </field>
         </record>
 
-        <record id="quotation_request_form_line_action" model="ir.actions.act_window">
+        <record id="dqups3_line_action" model="ir.actions.act_window">
             <field name="name">Detail</field>
             <field name="res_model">quotation.request.form.line</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
+            <field name="view_id" ref="dqups_3_line_form"/>
         </record>
 
         <menuitem

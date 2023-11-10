@@ -84,6 +84,7 @@ class QuotationRequestForm(models.Model):
     so_count = fields.Integer(string='Sale Order Count',compute="_compute_so")
     billing_address = fields.Text(string='Billing Address')
     shipping_address = fields.Text(string='Shipping Address')
+    po_attachment_line_ids = fields.One2many('po.attachment', 'qrf_id', 'QRF')
 
     @api.depends('line_ids.sub_total', 'line_ids.price_discount', 'line_ids.tax_ids', 'discount_rate', 'discount_type')
     def _compute_amount(self):
@@ -128,10 +129,10 @@ class QuotationRequestForm(models.Model):
         return super(QuotationRequestForm, self).create(vals)
     
     def action_confirm(self):
-        self.action_confirm_so()
         self.state = 'confirm'
 
-    def action_confirm_so(self):
+    def action_create_so(self):
+        # self.state = 'order_processed'
         data = []
         for line in self.line_ids:
             product = self.env['product.product'].search([('name','=',line.name)],limit=1)
@@ -239,7 +240,7 @@ class QuotationRequestFormLine(models.Model):
     quantity = fields.Integer(string='Quantity', compute='compute_quantity')
     price_unit = fields.Float(string='Price Unit', compute='_compute_price_unit')
     tax_ids = fields.Many2many(comodel_name='account.tax', string='Tax')
-    sub_total = fields.Float(string='Sub Total', compute='_compute_amount')
+    sub_total = fields.Float(string='Sub Total', compute='_compute_sub_total')
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
 
@@ -294,7 +295,7 @@ class QuotationRequestFormLine(models.Model):
             # rec.amount_total = total_tax + total_untax - amount_discount
             rec.amount_discount = amount_discount
             rec.price_discount = tot_price_disc
-            rec.sub_total = tot_subtotal
+            # rec.sub_total = tot_subtotal
     
     @api.depends('sub_total', 'tax_ids')
     def _compute_tax(self):
@@ -330,22 +331,14 @@ class QuotationRequestFormLine(models.Model):
             for l in rec.line_spec_ids:
                 tot_price += l.subtotal if l.subtotal else l.total
             rec.price_unit = tot_price
-                    
-    #         exclude = self.quantity * tot_price
-    #         self.sub_total = exclude
 
-
-            # for t in l.tax_ids:
-            #         total_tax += l.sub_total * (t.amount / 100)
-            #     total_untax += l.sub_total
-
-    @api.depends('sub_total')
+    @api.depends('qrf_id.type')
     def _compute_sub_total(self):
         for a in self:
-            # _total = 0
-            # for l in a.line_spec_ids:
-            #     _total += l.total
-            a.sub_total = a.quantity * a.price_discount
+            if a.qrf_id.type in ('1', '2'):
+                a.sub_total = a.quantity * a.price_unit
+            elif a.qrf_id.type in ('3'):
+                a.sub_total = sum(a.line_spec_ids.mapped('total'))
             # exclude = a.quantity * a.price_unit
             # a.sub_total = exclude
             # a.price_unit = sum(a.line_spec_ids.specifications_id.harga)
@@ -380,9 +373,13 @@ class QuotationRequestFormLine(models.Model):
                         'qty_id': line.id
                     }))
                 self.line_qty_ids = list_qty 
-        action = self.env.ref('master_specifications.quotation_request_form_line_action').read()[0]
-        action['res_id'] = self.id
-        return action
+            action = self.env.ref('master_specifications.quotation_request_form_line_action').read()[0]
+            action['res_id'] = self.id
+            return action
+        else : 
+            action = self.env.ref('master_specifications.dqups3_line_action').read()[0]
+            action['res_id'] = self.id
+            return action
 
     # @api.onchange('qty')
     def action_refresh_spec(self):
@@ -401,6 +398,7 @@ class QuotationRequestFormLine(models.Model):
 
     def compute_quantity(self):
         for rec in self:
+            # if self.qrf_id.type != '3':
             if any(rec.line_qty_ids):
                 if len(rec.line_qty_ids) > 1:
                     rec.quantity = sum(rec.line_qty_ids.filtered(lambda x: x.set).mapped('qty'))
@@ -408,6 +406,8 @@ class QuotationRequestFormLine(models.Model):
                     rec.quantity = sum(rec.line_qty_ids.mapped('qty'))
             else:
                 rec.quantity = 0
+            # else :
+            #     rec.quantity = sum(rec.line_spec_ids.mapped('qty'))
 
 class QuotationRequestFormLineSpecification(models.Model):
     _name = 'quotation.request.form.line.specification'
@@ -467,37 +467,40 @@ class QuotationRequestFormLineSpecification(models.Model):
     @api.depends('harga', 'require_id', 'specifications_id')
     def _compute_total(self):
         for rec in self:
-            spec = rec.specifications_id
-            if spec:
-                if spec.rumus_total == 'SUBTOTAL' or not spec.rumus_total:
-                    rec.total = rec.subtotal
-                else:
-                    rumus = spec.rumus_total.replace("(", "( ").replace(")", " )")
-                    if rumus:
-                        splited = rumus.split(" ")
-                        final = []
-                        for s in splited:
-                            master_quantity = rec.qrf_line_id.line_qty_ids.filtered(lambda x: x.qty_id.name == s)
-                            if s == master_quantity.qty_id.name:
-                                final.append(str(master_quantity.qty))
-                            elif s == 'SUBTOTAL':
-                                final.append(str(rec.subtotal))
-                            elif s == 'HARGA':
-                                final.append(str(spec.harga))
-                            # else:
-                            #     final.append(str(s))
-                            # elif s in ['*', '/', '+', '-', '%']:
-                            #     final.append(str(s))
-                            # else:
-                            #     final.append(str('(1 * 0)'))
-                            else:
-                                    final.append(str(s))
-                        rec.total = eval(' '.join(final))
-                        # print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++",final)
-                    else:
+            if rec.qrf_line_id.qrf_id.type != '3':
+                spec = rec.specifications_id
+                if spec:
+                    if spec.rumus_total == 'SUBTOTAL' or not spec.rumus_total:
                         rec.total = rec.subtotal
-            else:
-                rec.total = rec.subtotal
+                    else:
+                        rumus = spec.rumus_total.replace("(", "( ").replace(")", " )")
+                        if rumus:
+                            splited = rumus.split(" ")
+                            final = []
+                            for s in splited:
+                                master_quantity = rec.qrf_line_id.line_qty_ids.filtered(lambda x: x.qty_id.name == s)
+                                if s == master_quantity.qty_id.name:
+                                    final.append(str(master_quantity.qty))
+                                elif s == 'SUBTOTAL':
+                                    final.append(str(rec.subtotal))
+                                elif s == 'HARGA':
+                                    final.append(str(spec.harga))
+                                # else:
+                                #     final.append(str(s))
+                                # elif s in ['*', '/', '+', '-', '%']:
+                                #     final.append(str(s))
+                                # else:
+                                #     final.append(str('(1 * 0)'))
+                                else:
+                                        final.append(str(s))
+                            rec.total = eval(' '.join(final))
+                            # print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++",final)
+                        else:
+                            rec.total = rec.subtotal
+                else:
+                    rec.total = rec.subtotal
+            else :
+                rec.total = rec.qty * rec.subtotal 
 
     # @api.onchange('qrf_line_id.line_qty_ids.qty')
     # def onchange_qty(self):
@@ -549,3 +552,9 @@ class QrfAttachment(models.Model):
     reference = fields.Selection([("standard","Standard"),("sample","Sample/Drawing"),("custom","Custom")])
     notes = fields.Text(string='Notes')
 
+class PoAttachment(models.Model):
+    _name = 'po.attachment'
+
+    qrf_id = fields.Many2one('quotation.request.form', string='QRF')
+    po_attachment_ids = fields.Binary('PO', required=True)
+    attachment_name = fields.Char('Name')

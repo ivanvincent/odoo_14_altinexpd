@@ -15,11 +15,12 @@
                         <button name="action_process" type="object" string="Process" attrs="{'invisible':['|', ('processed', '=', True), ('state', '!=', 'approved')]}" groups="sales_team.group_sale_manager" class="oe_highlight"/>
                         <field name="processed" invisible="1"/>
                         <button name="action_set_to_draft" type="object" string="Set To Draft" groups="sales_team.group_sale_manager" attrs="{'invisible':[('state', 'not in', ('approved','confirm'))]}"/>
+                        <button name="action_create_so" type="object" string="Create SO" attrs="{'invisible':[('state', '!=', 'approved')]}" class="oe_highlight"/>
                         <button name="action_print" type="object" string="Print" attrs="{'invisible':[('state', 'not in', ('approved','order_processed'))]}" class="oe_highlight"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button class="oe_stat_button" type="object" name="action_view_so" icon="fa-truck" string="Order">
+                            <button class="oe_stat_button" type="object" name="action_view_so" icon="fa-truck" string="Order" attrs="{'invisible':[('state', '!=', 'approved')]}">
                                 <!-- <field name="so_count" widget="statinfo" string="Sale Order"/> -->
                             </button>
                         </div>
@@ -91,6 +92,14 @@
                                         <field name="total_tax_11" invisible="1"/>
                                         <field name="total_tax_pph23" invisible="1"/>
                                         <field name="sub_total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="po" string="PO" attrs="{'invisible':[('state','!=','approved')]}" >
+                                <field name="po_attachment_line_ids" >
+                                    <tree editable="bottom"> 
+                                        <field name="po_attachment_ids" widget="pdf_viewer" style="width : 250px; height:65px;"/>
+                                        <!-- <field name="attachment_name" invisible="1"/> -->
                                     </tree>
                                 </field>
                             </page>
@@ -211,6 +220,7 @@
             <field name="res_model">quotation.request.form.line</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
+            <field name="view_id" ref="quotation_request_form_line_form"/>
         </record>
 
         <menuitem
