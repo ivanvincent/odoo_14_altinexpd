@@ -157,7 +157,7 @@
     
 
         <record id="dqups_2_line_form" model="ir.ui.view">
-            <field name="name">dqups2.form</field>
+            <field name="name">quotation.request.form.line.form</field>
             <field name="model">quotation.request.form.line</field>
             <field name="arch" type="xml">
                 <form string="">
@@ -193,7 +193,7 @@
             </field>
         </record>
 
-        <record id="dqups2_line_action" model="ir.actions.act_window">
+        <record id="quotation_request_form_line_action" model="ir.actions.act_window">
             <field name="name">Detail</field>
             <field name="res_model">quotation.request.form.line</field>
             <field name="view_mode">form</field>

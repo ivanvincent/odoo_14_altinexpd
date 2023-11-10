@@ -240,7 +240,7 @@ class QuotationRequestFormLine(models.Model):
     quantity = fields.Integer(string='Quantity', compute='compute_quantity')
     price_unit = fields.Float(string='Price Unit', compute='_compute_price_unit')
     tax_ids = fields.Many2many(comodel_name='account.tax', string='Tax')
-    sub_total = fields.Float(string='Sub Total', compute='_compute_sub_total')
+    sub_total = fields.Float(string='Sub Total', compute='_compute_amount')
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
 
@@ -278,7 +278,7 @@ class QuotationRequestFormLine(models.Model):
                                         digits=dp.get_precision('Account'))
     price_discount = fields.Float(string='Price After Discount', compute='_compute_amount')
 
-    @api.depends('sub_total', 'tax_ids')
+    @api.depends('sub_total', 'tax_ids', 'qrf_id.type')
     def _compute_amount(self):
         for rec in self:
             total_tax = 0
@@ -295,6 +295,13 @@ class QuotationRequestFormLine(models.Model):
             # rec.amount_total = total_tax + total_untax - amount_discount
             rec.amount_discount = amount_discount
             rec.price_discount = tot_price_disc
+
+            if rec.qrf_id.type == '1':
+                rec.sub_total = rec.quantity * rec.price_unit
+            elif rec.qrf_id.type == '2':
+                rec.sub_total = rec.quantity * rec.price_discount
+            elif rec.qrf_id.type == '3':
+                rec.sub_total = sum(rec.line_spec_ids.mapped('total'))
             # rec.sub_total = tot_subtotal
     
     @api.depends('sub_total', 'tax_ids')
@@ -332,21 +339,23 @@ class QuotationRequestFormLine(models.Model):
                 tot_price += l.subtotal if l.subtotal else l.total
             rec.price_unit = tot_price
 
-    @api.depends('qrf_id.type')
-    def _compute_sub_total(self):
-        for a in self:
-            if a.qrf_id.type in ('1', '2'):
-                a.sub_total = a.quantity * a.price_unit
-            elif a.qrf_id.type in ('3'):
-                a.sub_total = sum(a.line_spec_ids.mapped('total'))
+    # @api.depends('qrf_id.type')
+    # def _compute_sub_total(self):
+    #     for a in self:
+    #         if a.qrf_id.type == '1':
+    #             a.sub_total = a.quantity * a.price_unit
+    #         elif a.qrf_id.type == '2':
+    #             a.sub_total = a.price_unit - a.amount_discount
+    #         elif a.qrf_id.type == '3':
+    #             a.sub_total = sum(a.line_spec_ids.mapped('total'))
             # exclude = a.quantity * a.price_unit
             # a.sub_total = exclude
             # a.price_unit = sum(a.line_spec_ids.specifications_id.harga)
     
-    @api.depends('price_discount')
-    def _compute_price_discount(self):
-        for a in self:
-            a.price_discount = a.price_unit - a.amount_discount
+    # @api.depends('price_discount')
+    # def _compute_price_discount(self):
+    #     for a in self:
+    #         a.price_discount = a.price_unit - a.amount_discount
 
     def _compute_qty_available(self):
         for rec in self:
