@@ -82,8 +82,8 @@ class QuotationRequestForm(models.Model):
     qrf_attachment_line_ids = fields.One2many('qrf.attachment', 'qrf_id', 'QRF')
     user_id = fields.Many2one(string='Responsible Sales',related='partner_id.user_id')
     so_count = fields.Integer(string='Sale Order Count',compute="_compute_so")
-    billing_address = fields.Text(string='Billing Address')
-    shipping_address = fields.Text(string='Shipping Address')
+    billing_address = fields.Text(string='Billing Address', required=True)
+    shipping_address = fields.Text(string='Shipping Address', required=True)
     po_attachment_line_ids = fields.One2many('po.attachment', 'qrf_id', 'QRF')
 
     @api.depends('line_ids.sub_total', 'line_ids.price_discount', 'line_ids.tax_ids', 'discount_rate', 'discount_type')
