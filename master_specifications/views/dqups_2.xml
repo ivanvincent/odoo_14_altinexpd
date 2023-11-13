@@ -28,6 +28,7 @@
                         <group>
                             <group>
                                 <field name="partner_id" attrs="{'readonly':[('state','=','confirm')]}" required="1"/>
+                                <field name="billing_address"/>
                                 <field name="pic_name" required="1"/>
                                 <field name="pic_email" required="1"/>
                                 <field name="pic_phone" required="1"/>
@@ -42,6 +43,7 @@
                             <group>
                                 <!-- <field name="date" attrs="{'readonly':[('state','=','confirm')]}" /> -->
                                 <field name="end_user_name" required="1"/>
+                                <field name="shipping_address"/>
                                 <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" string="End User Machine"/>                                
                                 <field name="station_no" required="1"/>                                                        
                                 <field name="end_user_machine_serial" required="1"/>
