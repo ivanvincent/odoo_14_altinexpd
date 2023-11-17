@@ -25,6 +25,15 @@ class ResPartner(models.Model):
         action['domain'] = [('partner_id', '=', self.id)]
         return action
 
+    def name_get(self):
+        result = []
+        for partner in self:
+            if self.env.context.get('partner_custom', False):
+                result.append((partner.id, str(partner.street)))
+            else:
+                result.append((partner.id, partner.name))
+        return result
+
     # def _compute_total_product(self):
     #     product_obj = self.env['purchase.order.line'].search([('partner_id', '=', self.id)]).mapped('partner_id.id')
     #     print('')

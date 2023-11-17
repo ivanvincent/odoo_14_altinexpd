@@ -68,7 +68,7 @@ class QuotationRequestForm(models.Model):
     tax_id = fields.Many2one('account.tax', string='Tax Type')
     notes_to_customer = fields.Text(string='Notes to customer')
     type = fields.Selection([("1","1"),("2","2"),("3","3")], string='Type')
-    end_user_name = fields.Char(string='End User Name')
+    end_user_name = fields.Many2one('res.partner', string='End User Name')
     end_user_machine_serial = fields.Char(string='End User Machine Serial No.')
     amount_untaxed_2 = fields.Monetary(
         string='Amount Untaxed', currency_field='currency_id', compute='_compute_amount')
@@ -80,11 +80,14 @@ class QuotationRequestForm(models.Model):
     station_no = fields.Char(string='Station Number')
     drawing_attachment_line_ids = fields.One2many('drawing.attachment', 'qrf_id', 'Drawing')
     qrf_attachment_line_ids = fields.One2many('qrf.attachment', 'qrf_id', 'QRF')
-    user_id = fields.Many2one(string='Responsible Sales',related='partner_id.user_id')
+    user_id = fields.Many2one('res.users',string='Responsible Sales'
+    ,related='partner_id.user_id'
+    )
     so_count = fields.Integer(string='Sale Order Count',compute="_compute_so")
-    billing_address = fields.Text(string='Billing Address', required=True)
-    shipping_address = fields.Text(string='Shipping Address', required=True)
+    billing_address = fields.Char(related='partner_id.street', string='Billing Address', required=True)
+    shipping_address = fields.Many2one('res.partner', string='Shipping Address', required=True)
     po_attachment_line_ids = fields.One2many('po.attachment', 'qrf_id', 'QRF')
+    child_ids = fields.One2many(related='end_user_name.child_ids', string='Contact')
 
     @api.depends('line_ids.sub_total', 'line_ids.price_discount', 'line_ids.tax_ids', 'discount_rate', 'discount_type')
     def _compute_amount(self):
