@@ -561,8 +561,8 @@ class QrfAttachment(models.Model):
     qrf_id = fields.Many2one('quotation.request.form', string='QRF')
     qrf_attachment_ids = fields.Binary('QRF', required=True)
     attachment_name = fields.Char('Name')
-    # reference = fields.Selection([("standard","Standard"),("sample","Sample/Drawing"),("custom","Custom")])
-    # notes = fields.Text(string='Notes')
+    reference = fields.Selection([("standard","Standard"),("sample","Sample/Drawing"),("custom","Custom")])
+    notes = fields.Text(string='Notes')
     new_product = fields.Selection(
         [("yes", "Yes"), ("no", "No")], string='New Product', default='yes')
     comp_partial = fields.Selection(
