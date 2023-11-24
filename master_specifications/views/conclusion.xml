@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="conclusion_tree" model="ir.ui.view">
+            <field name="name">conclusion.tree</field>
+            <field name="model">conclusion</field>
+            <field name="arch" type="xml">
+                <tree string="" editable="bottom">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="urutan"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="conclusion_action" model="ir.actions.act_window">
+            <field name="name">Conclusion</field>
+            <field name="res_model">conclusion</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record id="qrf_temp_con_tree" model="ir.ui.view">
+            <field name="name">qrf.template.con.tree</field>
+            <field name="model">qrf.template.con</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                 <!-- editable="bottom" -->
+                    <!-- <field name="name"/> -->
+                    <!-- <field name="con_id"/> -->
+                    <field name="new_product"/>
+                    <field name="comp_partial"/>
+                    <field name="turret"/>
+                    <field name="tooling"/>
+                    <field name="tooling_qc"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="qrf_temp_con_form" model="ir.ui.view">
+            <field name="name">qrf.template.con.form</field>
+            <field name="model">qrf.template.con</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <!-- <header>
+                        <field name="state" widget="statusbar"/>
+                    </header> -->
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="new_product"/>
+                                <field name="comp_partial"/>
+                                <field name="turret"/>
+                                <field name="tooling"/>
+                                <field name="tooling_qc"/>
+                                <field name="con1_id"/>
+                                <field name="con2_id"/>
+                                <field name="con3_id"/>
+                                <field name="con4_id"/>
+                                <field name="con5_id"/>
+                            </group>
+                        </group>
+                        <!-- <notebook>
+                            <page name="Details" string="Details">
+                                <field name="con_ids">
+                                    <tree editable="bottom">
+                                        <field name="con_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>                         -->
+                        <!-- <div class="oe_clear"/> -->
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="qrf_temp_con_action" model="ir.actions.act_window">
+            <field name="name">Master QRF Conclusion Template</field>
+            <field name="res_model">qrf.template.con</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
+        </record>
+
+        <menuitem
+            id="qrf_temp_con_menu"
+            name="Master QRF Conclusion"
+            action="qrf_temp_con_action"
+            parent="specifications_root_menu"
+            sequence="28"
+            groups="sales_team.group_sale_manager"/>
+
+            
+        <menuitem
+            id="conclusion_menu"
+            name="Master Conclusion"
+            action="conclusion_action"
+            parent="specifications_root_menu"
+            sequence="24"
+            groups="sales_team.group_sale_manager"/>
+    
+    </data>
+    
+
+</odoo>

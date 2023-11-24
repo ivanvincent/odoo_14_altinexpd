@@ -63,10 +63,20 @@
                             <page name="qrf" string="QRF">
                                 <field name="qrf_attachment_line_ids" attrs="{'readonly':[('state','=','approved')]}" >
                                     <tree editable="bottom"> 
-                                        <field name="qrf_attachment_ids" widget="pdf_viewer" style="width : 250px; height:65px;"/>
-                                        <!-- <field name="attachment_name" /> -->
-                                        <field name="reference" />
-                                        <field name="notes" />
+                                        <field name="qrf_attachment_ids" file_name="file_name" widget="binary" force-save="1"/>
+                                        <field name="file_name" invisible="1"/>
+                                        <!-- <field name="reference" />
+                                        <field name="notes" /> -->
+                                        <field name="new_product" />
+                                        <field name="comp_partial" />
+                                        <field name="turret" />
+                                        <field name="tooling" />
+                                        <field name="tooling_qc" />
+                                        <field name="prev_wo_no" />
+                                        <button name="create_qrf_attch_conclusion" type="object" icon="fa-list"/>                                        
+                                        <field name="con_ids" />
+                                        <field name="download_inform_consent_ids" />
+                                        <field name="upload_inform_consent_ids" />
                                     </tree>
                                 </field>
                             </page>
@@ -216,6 +226,30 @@
             </field>
         </record>
 
+        <record id="qrf_att_con_form" model="ir.ui.view">
+            <field name="name">qrf.attachment.con.form</field>
+            <field name="model">qrf.attachment</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <!-- <field name="con_ids" nolabel="1"> -->
+                                <!-- <tree editable="bottom"> -->
+                                    <!-- <field name="check" /> -->
+                                    <!-- <field name="urutan"/> -->
+                                    <field name="con1_id"/>
+                                    <field name="con2_id"/>
+                                    <field name="con3_id"/>
+                                    <field name="con4_id"/>
+                                    <field name="con5_id"/>
+                                <!-- </tree> -->
+                            <!-- </field> -->
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
         <record id="quotation_request_form_line_action" model="ir.actions.act_window">
             <field name="name">Detail</field>
             <field name="res_model">quotation.request.form.line</field>
@@ -223,6 +257,15 @@
             <field name="target">new</field>
             <field name="view_id" ref="quotation_request_form_line_form"/>
         </record>
+
+        <record id="qrf_att_con_action" model="ir.actions.act_window">
+            <field name="name">QRF</field>
+            <field name="res_model">qrf.attachment</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <!-- <field name="view_id" ref="quotation_request_form_line_form"/> -->
+        </record>
+
 
         <menuitem
             id="quotation_request_form_menu"

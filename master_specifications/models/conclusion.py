@@ -25,9 +25,14 @@ class QrfTemplateConc(models.Model):
         [("eu_tsm", "EU / TSM"), ("other", "Other")], string='Tooling Type', default='eu_tsm')
     tooling_qc = fields.Selection(
         [("altinex", "Altinex"), ("other", "Other")], string='Current Tools producing qc-pass tablets', default='altinex')
-    con_id = fields.Many2one('conclusion', string='Conclusion',)
+    # con_ids = fields.One2many('qrf.con', 'qrf_template_id', string='Conclusion',)
     urutan = fields.Integer(string='Urutan', default=0)
     active = fields.Boolean(string='Active ?', default=True)
+    con1_id = fields.Many2one('conclusion', string='Conclusion 1',)
+    con2_id = fields.Many2one('conclusion', string='Conclusion 2',)
+    con3_id = fields.Many2one('conclusion', string='Conclusion 3',)
+    con4_id = fields.Many2one('conclusion', string='Conclusion 4',)
+    con5_id = fields.Many2one('conclusion', string='Conclusion 5',)
 
 class QrfConc(models.Model):
     _name = 'qrf.con'
@@ -47,4 +52,5 @@ class QrfConc(models.Model):
     con_id = fields.Many2one('conclusion', string='Conclusion',)
     urutan = fields.Integer(string='Urutan', default=0)
     active = fields.Boolean(string='Active ?', default=True)
+    qrf_template_id = fields.Many2one('qrf.template.con', string="QRF Conclusion Template")
     

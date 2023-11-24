@@ -62,8 +62,8 @@
                                     <tree editable="bottom"> 
                                         <field name="qrf_attachment_ids" widget="pdf_viewer" style="width :250px; height:65px;"/>
                                         <!-- <field name="attachment_name" /> -->
-                                        <field name="reference" />
-                                        <field name="notes" />
+                                        <!-- <field name="reference" />
+                                        <field name="notes" /> -->
                                     </tree>
                                 </field>
                             </page>

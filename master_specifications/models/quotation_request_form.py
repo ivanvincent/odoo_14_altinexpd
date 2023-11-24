@@ -524,6 +524,14 @@ class QuotationRequestFormLineSpecification(models.Model):
     #             elif t.qty >= 1:
     #                 self.specifications_id == 528
 
+    @api.onchange('unit')
+    def onchange_qty(self):
+        for rec in self:
+            if rec.unit == 'Produk':
+                rec.qty = rec.qrf_line_id.line_qty_ids.qty
+            else :
+                rec.qty = 0
+
 class QuotationRequestFormLineQuantity(models.Model):
     _name = 'quotation.request.form.line.quantity'
     _order = "urutan asc"
@@ -560,7 +568,7 @@ class QrfAttachment(models.Model):
 
     qrf_id = fields.Many2one('quotation.request.form', string='QRF')
     qrf_attachment_ids = fields.Binary('QRF', required=True)
-    attachment_name = fields.Char('Name')
+    file_name = fields.Char('Name')
     reference = fields.Selection([("standard","Standard"),("sample","Sample/Drawing"),("custom","Custom")])
     notes = fields.Text(string='Notes')
     new_product = fields.Selection(
@@ -574,6 +582,46 @@ class QrfAttachment(models.Model):
     tooling_qc = fields.Selection(
         [("altinex", "Altinex"), ("other", "Other")], string='Current Tools producing qc-pass tablets', default='altinex')
     con_ids = fields.One2many('qrf.attachment.conclusion', 'qrf_attachment_id', 'Detail')
+    download_inform_consent_ids = fields.Binary('Download Inform Consent')
+    prev_wo_no = fields.Char(string='Previos WO No.')
+    upload_inform_consent_ids = fields.Binary('Upload Inform Consent')
+    con1_id = fields.Many2one('conclusion', string='Conclusion 1',)
+    con2_id = fields.Many2one('conclusion', string='Conclusion 2',)
+    con3_id = fields.Many2one('conclusion', string='Conclusion 3',)
+    con4_id = fields.Many2one('conclusion', string='Conclusion 4',)
+    con5_id = fields.Many2one('conclusion', string='Conclusion 5',)
+
+    def create_qrf_attch_conclusion(self):
+        self.ensure_one()
+        temp_con = self.env['qrf.template.con'].search([
+            ('new_product', '=', self.new_product),
+            ('comp_partial', '=', self.comp_partial),
+            ('turret', '=', self.turret),
+            ('tooling', '=', self.tooling),
+            ('tooling_qc', '=', self.tooling_qc)
+        ]) 
+        data = []
+        # if 
+        for line in temp_con:
+            qrf_attc_id = self.env['qrf.attachment']
+            # if not any(self.con_ids):
+            # for line in temp_con:
+                data.append((0, 0, {
+                    "con1_id": line.con1_id.id,
+                    "con2_id": line.con2_id.id,
+                    "con3_id": line.con3_id.id,
+                    "con4_id": line.con4_id.id,
+                    "con5_id": line.con5_id.id
+                }))
+                    # 'con_id': [(6, 0, line.con_ids.con_id.ids)]
+            # qrf_attc_id.write
+            # return data
+        # self.con_ids = data 
+        
+
+        action = self.env.ref('master_specifications.qrf_att_con_action').read()[0]
+        action['res_id'] = self.id
+        return action
 
 class QrfAttachmentConclusion(models.Model):
     _name = 'qrf.attachment.conclusion'
@@ -581,6 +629,10 @@ class QrfAttachmentConclusion(models.Model):
     qrf_attachment_id = fields.Many2one('qrf.attachment', string='QRF Attch')
     urutan = fields.Integer(string='Urutan')
     con_id = fields.Many2one('conclusion', string='Conclusion',)
+    # con2_id = fields.Many2one('conclusion', string='Conclusion 2',)
+    # con3_id = fields.Many2one('conclusion', string='Conclusion 3',)
+    # con4_id = fields.Many2one('conclusion', string='Conclusion 4',)
+    # con5_id = fields.Many2one('conclusion', string='Conclusion 5',)
     check = fields.Boolean(string='Check ?', default=False)
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Approval Requested")], string='State', default='draft')
