@@ -54,8 +54,9 @@
                     <attribute name="class">oe_highlight</attribute>
                 </xpath>
                 <xpath expr="//button[@name='button_done']" position="attributes">
-                    <attribute name="string">Done</attribute>
-                    <attribute name="class">oe_highlight</attribute>
+                    <!-- <attribute name="string">Done</attribute>
+                    <attribute name="class">oe_highlight</attribute> -->
+                    <attribute name="optional">hide</attribute>
                 </xpath>
 
                 <xpath expr="//button[@name='button_unlock']" position="attributes">

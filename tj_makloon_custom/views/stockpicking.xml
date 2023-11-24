@@ -21,8 +21,11 @@
                         <field name="no_sj" /> -->
                         <!-- <field name="makloon_order_id" /> -->
                     </field>
-                    <xpath expr="//field[@name='quantity_done']" position="after">
+                    <!-- <xpath expr="//field[@name='quantity_done']" position="after">
                         <field name="roll" string="Jumlah"/>
+                    </xpath> -->
+                    <xpath expr="//field[@name='product_uom']" position="attributes">
+                        <attribute name="optional">hide</attribute>
                     </xpath>
 
                     <xpath expr="//button[@name='action_cancel']" position="after">
@@ -49,6 +52,7 @@
                 <field name="arch" type="xml">
 
                     <field name="origin" position="after">
+                        <!-- <field name="rill_date" optional="hide"/> -->
                         <field name="no_sj_result"/>
                         <field name="no_po"/>
                         <field name="no_sj"/>

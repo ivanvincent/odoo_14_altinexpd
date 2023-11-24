@@ -6,9 +6,9 @@
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='quantity_done']" position="after">
+                <!-- <xpath expr="//field[@name='quantity_done']" position="after">
                     <field name="qty_kg_actual" attrs="{'readonly': [('state', '=', 'done')]}"/>
-                </xpath>
+                </xpath> -->
                 <xpath expr="//field[@name='origin']" position="after">
                     <!-- <field name="type_release" attrs="{'invisible':[('picking_type_code', '!=', 'outgoing')]}"/> -->
                     <!-- <field name="faktur_supplier" invisible="1"/>
@@ -33,7 +33,7 @@
 
                 <xpath expr="//button[@name='action_cancel']" position="after">
                     <button name="action_create_invoice" type="object" string="Create Invoice" class="oe_highlight" attrs="{'invisible':['|', '|', ('state', '!=', 'done'), ('is_invoiced', '=', True), ('picking_type_code', 'not in', ['outgoing'])]}" groups="account.group_account_manager"/>
-                    <button name="action_create_invoice" type="object" string="Create Bill" class="oe_highlight" attrs="{'invisible':['|', '|', ('state', '!=', 'done'), ('is_invoiced', '=', True), ('picking_type_code', 'not in', ['incoming'])]}" groups="account.group_account_manager"/>
+                    <!-- <button name="action_create_invoice" type="object" string="Create Bill" class="oe_highlight" attrs="{'invisible':['|', '|', ('state', '!=', 'done'), ('is_invoiced', '=', True), ('picking_type_code', 'not in', ['incoming'])]}" groups="account.group_account_manager"/> -->
                     <button name="action_create_invoice" type="object" string="Create Invoice" class="oe_highlight" attrs="{'invisible':['|', '|', ('state', '!=', 'done'), ('is_invoiced', '=', True), ('picking_type_id', '!=', 29)]}" groups="account.group_account_manager"/> <!-- picking_type_id = 29 GD. UMUM Internal Transfer -->
                 </xpath>
 
