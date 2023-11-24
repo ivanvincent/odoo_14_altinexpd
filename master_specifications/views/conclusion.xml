@@ -60,11 +60,11 @@
                                 <field name="turret"/>
                                 <field name="tooling"/>
                                 <field name="tooling_qc"/>
-                                <field name="con1_id"/>
-                                <field name="con2_id"/>
+                                <field name="con_id"/>
+                                <!-- <field name="con2_id"/>
                                 <field name="con3_id"/>
                                 <field name="con4_id"/>
-                                <field name="con5_id"/>
+                                <field name="con5_id"/> -->
                             </group>
                         </group>
                         <!-- <notebook>
