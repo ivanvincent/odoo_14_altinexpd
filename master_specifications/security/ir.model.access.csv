@@ -11,3 +11,7 @@ access_model_print_qrf_wizard,print_qrf_wizard,model_print_qrf_wizard,base.group
 access_model_drawing_attachment,drawing_attachment,model_drawing_attachment,base.group_system,1,1,1,1
 access_model_qrf_attachment,qrf_attachment,model_qrf_attachment,base.group_system,1,1,1,1
 access_model_po_attachment,po_attachment,model_po_attachment,base.group_system,1,1,1,1
+access_model_qrf_attachment_conclusion,qrf_attachment_conclusion,model_qrf_attachment_conclusion,base.group_system,1,1,1,1
+access_model_conclusion,conclusion,model_conclusion,base.group_system,1,1,1,1
+access_model_qrf_template_con,qrf_template_con,model_qrf_template_con,base.group_system,1,1,1,1
+access_model_qrf_con,qrf_con,model_qrf_con,base.group_system,1,1,1,1
