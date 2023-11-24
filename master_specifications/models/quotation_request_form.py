@@ -603,7 +603,7 @@ class QrfAttachment(models.Model):
         data = []
         # if 
         for line in temp_con:
-            qrf_attc_id = self.env['qrf.attachment']
+            # qrf_attc_id = self.env['qrf.attachment'].write({
             # if not any(self.con_ids):
             # for line in temp_con:
                 data.append((0, 0, {
@@ -614,7 +614,7 @@ class QrfAttachment(models.Model):
                     "con5_id": line.con5_id.id
                 }))
                     # 'con_id': [(6, 0, line.con_ids.con_id.ids)]
-            # qrf_attc_id.write
+            # })
             # return data
         # self.con_ids = data 
         
@@ -628,11 +628,11 @@ class QrfAttachmentConclusion(models.Model):
 
     qrf_attachment_id = fields.Many2one('qrf.attachment', string='QRF Attch')
     urutan = fields.Integer(string='Urutan')
-    con_id = fields.Many2one('conclusion', string='Conclusion',)
-    # con2_id = fields.Many2one('conclusion', string='Conclusion 2',)
-    # con3_id = fields.Many2one('conclusion', string='Conclusion 3',)
-    # con4_id = fields.Many2one('conclusion', string='Conclusion 4',)
-    # con5_id = fields.Many2one('conclusion', string='Conclusion 5',)
+    con1_id = fields.Many2one('conclusion', string='Conclusion 1',)
+    con2_id = fields.Many2one('conclusion', string='Conclusion 2',)
+    con3_id = fields.Many2one('conclusion', string='Conclusion 3',)
+    con4_id = fields.Many2one('conclusion', string='Conclusion 4',)
+    con5_id = fields.Many2one('conclusion', string='Conclusion 5',)
     check = fields.Boolean(string='Check ?', default=False)
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Approval Requested")], string='State', default='draft')
