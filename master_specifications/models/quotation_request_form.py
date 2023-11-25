@@ -568,7 +568,7 @@ class QrfAttachment(models.Model):
 
     qrf_id = fields.Many2one('quotation.request.form', string='QRF')
     qrf_attachment_ids = fields.Binary('QRF', required=True)
-    file_name = fields.Char('Name')
+    file_name = fields.Char('File Name')
     reference = fields.Selection([("standard","Standard"),("sample","Sample/Drawing"),("custom","Custom")])
     notes = fields.Text(string='Notes')
     new_product = fields.Selection(
@@ -585,6 +585,7 @@ class QrfAttachment(models.Model):
     download_inform_consent_ids = fields.Binary('Download Inform Consent')
     prev_wo_no = fields.Char(string='Previos WO No.')
     upload_inform_consent_ids = fields.Binary('Upload Inform Consent')
+    inform_consent_file_name = fields.Char('Inform Consent File Name')
     con_id = fields.Many2one('conclusion', string='Conclusion',)
     # con1_id = fields.Many2one('conclusion', string='Conclusion 1',)
     # con2_id = fields.Many2one('conclusion', string='Conclusion 2',)
