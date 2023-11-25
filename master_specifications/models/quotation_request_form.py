@@ -441,7 +441,7 @@ class QuotationRequestFormLineSpecification(models.Model):
     subtotal = fields.Float(string='Subtotal', compute='_compute_subtotal')
     total = fields.Float(string='TOTAL', compute='_compute_total')
     qty = fields.Integer(string='QTY')
-    unit = fields.Char(string='Unit')
+    unit = fields.Many2one(string='Unit', related='specifications_id.unit')
 
     # @api.depends('harga', 'qrf_line_id.line_qty_ids.qty', 'require_id', 'specifications_id')
     @api.depends('harga', 'require_id', 'specifications_id')
