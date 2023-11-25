@@ -139,6 +139,8 @@ class QuotationRequestForm(models.Model):
             vals['state'] = 'qrf_upload'
         if vals.get('drawing_attachment_line_ids'):
             vals['state'] = 'dwg_upload'
+        if vals.get('po_attachment_line_ids'):
+            vals['state'] = 'po_upload'
         #     vals​.update({'state': 'qrf_upload'})
         seq_id = self.env.ref('master_specifications.qrf_seq')
         vals['name'] = seq_id.next_by_id() if seq_id else '/'
@@ -151,11 +153,13 @@ class QuotationRequestForm(models.Model):
             values['state'] = 'qrf_upload'
         if values.get('drawing_attachment_line_ids'):
             values['state'] = 'dwg_upload'
+        if values.get('po_attachment_line_ids'):
+            values['state'] = 'po_upload'
         res = super(QuotationRequestForm, self).write(values)
         return res
     
     def action_confirm(self):
-        self.state = 'confirm'
+        self.state = 'waiting'
 
     def action_create_so(self):
         # self.state = 'order_processed'
@@ -232,6 +236,9 @@ class QuotationRequestForm(models.Model):
     def action_process(self):
         self.processed = True
         # self.state = 'order_processed'
+
+    def action_done(self):
+        self.state = 'done'
 
 
     def action_print(self):
