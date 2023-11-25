@@ -89,6 +89,22 @@
             <field name="view_mode">tree,form,pivot,graph</field>
         </record>
 
+        <record id="attachment_inform_tree" model="ir.ui.view">
+            <field name="model">inform.consent.attch</field>
+            <field name="arch" type="xml">
+                <tree string="" editable="bottom">
+                    <field name="attch_inform_consent" filename="inform_consent" widget="binary"/>
+                    <field name="inform_consent" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="attachment_inform_action" model="ir.actions.act_window">
+            <field name="name">Attachment</field>
+            <field name="res_model">inform.consent.attch</field>
+            <field name="view_mode">tree</field>
+        </record>
+
         <menuitem
             id="qrf_temp_con_menu"
             name="Master QRF Conclusion"
@@ -105,6 +121,15 @@
             parent="specifications_root_menu"
             sequence="24"
             groups="sales_team.group_sale_manager"/>
+
+        <menuitem
+            id="attachment_inform_menu"
+            name="Master Attachment Inform Consent"
+            action="attachment_inform_action"
+            parent="specifications_root_menu"
+            sequence="29"
+            groups="sales_team.group_sale_manager"/>
+    
     
     </data>
     

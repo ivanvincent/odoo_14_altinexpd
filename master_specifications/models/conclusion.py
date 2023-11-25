@@ -54,4 +54,10 @@ class QrfConc(models.Model):
     urutan = fields.Integer(string='Urutan', default=0)
     active = fields.Boolean(string='Active ?', default=True)
     qrf_template_id = fields.Many2one('qrf.template.con', string="QRF Conclusion Template")
+
+class InformConsentAttch(models.Model):
+    _name = 'inform.consent.attch'
+
+    attch_inform_consent = fields.Binary(string='Attachment')  
+    inform_consent = fields.Char(string='Attachment Name')  
     
