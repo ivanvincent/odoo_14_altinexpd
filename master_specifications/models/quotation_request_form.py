@@ -233,6 +233,18 @@ class QuotationRequestForm(models.Model):
             'context'   : {'default_qrf_id': self.id,},
         }
 
+    def action_print_dqups3(self):
+        return {
+            'type'      : 'ir.actions.act_window',
+            'name'      : "Print",
+            'res_model' : 'print.qrf.wizard',
+            'target'    : 'new',
+            'view_id'   : self.env.ref('master_specifications.print_qrf_dqups3_form').id,
+            'view_mode' : 'form',
+            'context'   : {'default_qrf_id': self.id,},
+        }
+
+
 class QuotationRequestFormLine(models.Model):
     _name = 'quotation.request.form.line'
     
@@ -527,7 +539,7 @@ class QuotationRequestFormLineSpecification(models.Model):
     @api.onchange('unit')
     def onchange_qty(self):
         for rec in self:
-            if rec.unit == 'Produk':
+            if rec.unit.id == 73:
                 rec.qty = rec.qrf_line_id.line_qty_ids.qty
             else :
                 rec.qty = 0

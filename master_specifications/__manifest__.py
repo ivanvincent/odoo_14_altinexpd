@@ -38,8 +38,10 @@ Dev
         'report/quotation_dqups2.xml',
         'report/specification_summary_dqups2.xml',
         'report/print_qrf_unpage.xml',
+        'report/print_qrf_dqups3.xml',
         'wizard/print_qrf_wizard.xml',
         'wizard/print_qrf_dqups2.xml',
+        'wizard/print_qrf_dqups3.xml',
         
     ],
     'installable': True,

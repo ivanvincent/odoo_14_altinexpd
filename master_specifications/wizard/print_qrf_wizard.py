@@ -46,3 +46,19 @@ class PrintQrfWizard(models.TransientModel):
             return self.env.ref('master_specifications.action_specifications_summary_2').report_action(self.qrf_id)
 
         return True
+
+    def action_print_dqups3(self):
+        if self.type_report == 'quotation_request':
+            return self.env.ref('master_specifications.action_qrf_dqups3_report').report_action(self.qrf_id)
+        # elif self.type_report == 'surat_penawaran':
+        #     return self.env.ref('master_specifications.action_qrf_report_penawaran_dqups2').report_action(self.qrf_id)
+        # elif self.type_report == 'quotation':
+        #     return self.env.ref('master_specifications.action_qrf_report_quotation_dqups2').report_action(self.qrf_id)
+        # elif self.type_report == 'product_specification':
+        #     return self.env.ref('master_specifications.action_specifications_summary_dqups2').report_action(self.qrf_id)
+        # elif self.type_report == 'quotation_request_nonpage':
+        #     return self.env.ref('master_specifications.action_report_dqups2_unpage').report_action(self.qrf_id)
+        # elif self.type_report == 'quotation_request_summary':
+        #     return self.env.ref('master_specifications.action_specifications_summary_2').report_action(self.qrf_id)
+
+        return True
