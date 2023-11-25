@@ -8,7 +8,7 @@
                 <form>
                     <group>
                         <field name="qrf_id" readonly="1"/>
-                        <field name="type_report" required="1"/>
+                        <field name="type_report" required="1" />
                     </group>
                     <footer>
                         <button string="Print" name="action_print_dqups3" type="object" default_focus="1" class="btn-primary"/>

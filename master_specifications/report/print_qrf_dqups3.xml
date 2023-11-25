@@ -203,8 +203,8 @@
                                         <span style="padding-left:10px"/>Attn &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;:&amp;nbsp;<span t-esc="docs.pic_name"/>
                                   </th>
                                   <th colspan="3" style="vertical-align : top; border: 1px solid black; padding: 0; border-collapse: collapse;" width="100%">End User<br/>
-                                        <span class="font-weight-normal" style="padding-left:10px" t-esc="docs.end_user_name"/>
-                                        <!-- <span class="font-weight-normal" style="padding-left:10px" t-esc="docs.partner_id.street"/>  -->
+                                        <span class="font-weight-normal" style="padding-left:10px" t-esc="docs.end_user_name.name"/><br/>
+                                         <span class="font-weight-normal" style="padding-left:10px" t-esc="docs.shipping_address.name"/>  
                                   </th>
                               </tr>
                               <tr class="text-left">
@@ -217,19 +217,11 @@
                                   <th colspan="2" class="font-weight-normal" style="vertical-align : middle; border: 1px solid black; padding: 0; border-collapse: collapse;"><span t-esc="docs.delivery_terms"/></th>
                                   <th colspan="2" class="font-weight-normal" style="vertical-align : middle; border: 1px solid black; padding: 0; border-collapse: collapse;"><span t-esc="docs.sales_condition"/></th>
                               </tr>
-                              <tr class="text-left" style="padding-left:10px">
-                                  <th colspan="3" style="vertical-align : middle; border: 1px solid black; border-collapse: collapse;background-color:#D9DDDC">Machine Name</th>
-                                  <th colspan="3" style="vertical-align : middle; border: 1px solid black; border-collapse: collapse;background-color:#D9DDDC">Machine Serial No.</th>
-                              </tr>
-                              <tr class="text-left">
-                                  <th colspan="3" class="font-weight-normal" style="vertical-align : middle; border: 1px solid black; padding: 0; border-collapse: collapse;"><span t-esc="docs.machine_id.name"/></th>
-                                  <th colspan="3" class="font-weight-normal" style="vertical-align : middle; border: 1px solid black; padding: 0; border-collapse: collapse;"><span t-esc="docs.end_user_machine_serial"/></th>
-                              </tr>
                               <tr>
                                   <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-left: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#D9DDDC" width="3%">NO</th>
                                   <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#D9DDDC" width="20%">Description</th>
                                   <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#D9DDDC" width="5%">QTY</th>
-                                  <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#D9DDDC" width="12%">Unit Price</th>
+                                  <!--<th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#D9DDDC" width="12%">Unit Price</th>-->
                                   <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#D9DDDC" width="2%"/>
                                   <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#D9DDDC" width="12%">Subtotal</th>
                               </tr>
@@ -246,9 +238,9 @@
                                       <td style="vertical-align : middle; border-collapse: collapse; " class="text-center">
                                            <span t-field="line.quantity"/>
                                       </td>
-                                      <td style="vertical-align : middle; border-collapse: collapse; " class="text-right pr-2">
-                                          <span style="padding-left:20px" t-esc="'{0:,.0f}'.format(float(line.price_unit))"/> 
-                                      </td>
+                                      <!--<td style="vertical-align : middle; border-collapse: collapse; " class="text-right pr-2">-->
+                                      <!--    <span style="padding-left:20px" t-esc="'{0:,.0f}'.format(float(line.price_unit))"/> -->
+                                      <!--</td>-->
                                       <td style="vertical-align : middle; border-collapse: collapse; " class="text-right pr-2">
                                           <!--<span style="padding-left:20px" t-field="line.amount_discount"/> -->
                                       </td>
@@ -425,9 +417,9 @@
                                                         </div>
                                                         <div class="col-2">KODE
                                                         </div>
-                                                        <div class="col-2" style="text-align: right">ITEM PRICE
+                                                        <div class="col-2" style="text-align: right">QTY
                                                         </div>
-                                                        <div class="col-2" style="text-align: right">UNIT PRICE/PCS
+                                                        <div class="col-2" style="text-align: right">UNIT
                                                         </div>
                                                         <div class="col-2" style="text-align: right">TOTAL
                                                         </div>
@@ -456,10 +448,10 @@
                                                             <span t-field="detail2.spect_name"/>
                                                           </div>
                                                           <div class="col-2" style="text-align: right">
-                                                            <span t-esc="'{0:,.0f}'.format(float(detail2.harga))"/>
+                                                            <span t-field="detail2.qty"/>
                                                           </div>
                                                           <div class="col-2" style="text-align: right">
-                                                            <span t-esc="'{0:,.0f}'.format(float(detail2.subtotal))"/>
+                                                            <span t-esc="detail2.unit.name"/>
                                                           </div>
                                                           <div class="col-2" style="text-align: right">
                                                             <span t-esc="'{0:,.0f}'.format(float(detail2.total))"/>
@@ -468,10 +460,10 @@
                                                     </t>
                                                   </t>
                                                   <div class="row mt32" style="background-color:#D9DDDC;hr:black">
-                                                     <div class="col-8" style="text-align: right"> TOTAL</div>
-                                                     <div class="col-2" style="text-align: right">
-                                                           <span t-esc="'{0:,.0f}'.format(float(tot_subtotal))"/>
-                                                     </div>
+                                                     <div class="col-10" style="text-align: right"> TOTAL</div>
+                                                     <!--<div class="col-2" style="text-align: right">-->
+                                                     <!--      <span t-esc="'{0:,.0f}'.format(float(tot_subtotal))"/>-->
+                                                     <!--</div>-->
                                                      <div class="col-2" style="text-align: right">
                                                            <span t-esc="'{0:,.0f}'.format(float(tot_total))"/>
                                                      </div>
