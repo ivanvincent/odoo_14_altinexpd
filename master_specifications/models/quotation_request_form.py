@@ -12,8 +12,16 @@ class QuotationRequestForm(models.Model):
     design_code_id = fields.Many2one('makloon.design', string='Design')
     image_binary = fields.Binary(string='Drawing', store=False,)
     line_ids = fields.One2many('quotation.request.form.line', 'qrf_id', 'Line')
-    state = fields.Selection(
-        [("draft", "Draft"), ("confirm", "Approval Requested"), ("approved", "Approved"), ("order_processed", "Order Processed")], string='State', default='draft')
+    state = fields.Selection([
+        # ("draft", "Draft"), 
+        # ("confirm", "Approval Requested"), 
+        ("qrf_upload", "QRF Uploaded"), 
+        ("dwg_upload", "DWG Uploaded"),
+        ("waiting", "Awaiting Approval"), 
+        ("approved", "Approved"), 
+        ("po_upload", "PO Uploaded"),
+        ("done", "Done")
+        ], string='State', default='qrf_upload')
     amount_tax = fields.Monetary(
         string='Taxes', currency_field='currency_id', compute='_compute_amount')
     amount_untaxed = fields.Monetary(
@@ -600,7 +608,7 @@ class QrfAttachment(models.Model):
     upload_inform_consent_ids = fields.Binary('Upload Inform Consent')
     inform_consent_file_name = fields.Char('Inform Consent File Name')
     con_id = fields.Many2one('conclusion', string='Conclusion',)
-    attchment_inform_consent_id = fields.Many2one('inform.consent.attch', string='attachment', default=1)
+    attchment_inform_consent_id = fields.Many2one('inform.consent.attch', string='attachment', default=2)
     # con1_id = fields.Many2one('conclusion', string='Conclusion 1',)
     # con2_id = fields.Many2one('conclusion', string='Conclusion 2',)
     # con3_id = fields.Many2one('conclusion', string='Conclusion 3',)
