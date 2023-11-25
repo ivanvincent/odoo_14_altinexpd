@@ -20,3 +20,4 @@ class Specifications(models.Model):
     deskripsi = fields.Char(string='Deskripsi')
     rumus_subtotal = fields.Char('Rumus Subtotal')
     rumus_total = fields.Char('Rumus Total')
+    unit = fields.Many2one('master.qty', string = 'Unit')

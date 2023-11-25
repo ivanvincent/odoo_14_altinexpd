@@ -15,6 +15,7 @@
                     <field name="desc"/>
                     <field name="deskripsi"/>
                     <field name="harga"/>
+                    <field name="unit"/>
                     <field name="rumus_subtotal"/>
                     <field name="rumus_total"/>
                     <field name="active"/>
@@ -46,6 +47,7 @@
                                 <field name="spect_name"/>
                                 <field name="desc"/>
                                 <field name="harga"/>
+                                <field name="unit"/>
                                 <field name="rumus_subtotal"/>
                                 <field name="rumus_total"/>
                                 <field name="active"/>
