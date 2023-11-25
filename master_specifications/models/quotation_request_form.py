@@ -135,12 +135,23 @@ class QuotationRequestForm(models.Model):
 
     @api.model
     def create(self, vals):            
-        # if vals.get('qrf_attachment_line_ids'):
+        if vals.get('qrf_attachment_line_ids'):
+            vals['state'] = 'qrf_upload'
+        if vals.get('drawing_attachment_line_ids'):
+            vals['state'] = 'dwg_upload'
         #     vals​.update({'state': 'qrf_upload'})
-            # vals​['state'] = 'qrf_upload'
         seq_id = self.env.ref('master_specifications.qrf_seq')
         vals['name'] = seq_id.next_by_id() if seq_id else '/'
         res = super(QuotationRequestForm, self).create(vals)
+        return res
+
+    
+    def write(self, values):
+        if values.get('qrf_attachment_line_ids'):
+            values['state'] = 'qrf_upload'
+        if values.get('drawing_attachment_line_ids'):
+            values['state'] = 'dwg_upload'
+        res = super(QuotationRequestForm, self).write(values)
         return res
     
     def action_confirm(self):
