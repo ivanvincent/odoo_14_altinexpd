@@ -378,13 +378,13 @@
                                              <span t-field="docs.valid_date" t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td width="20%" style="padding-left:10px;">Mesin</td>
-                                        <td>
-                                            <span>:</span>
-                                            <span t-field="docs.machine_id.name"/>
-                                        </td>
-                                    </tr>
+                                    <!--<tr>-->
+                                    <!--    <td width="20%" style="padding-left:10px;">Mesin</td>-->
+                                    <!--    <td>-->
+                                    <!--        <span>:</span>-->
+                                    <!--        <span t-field="docs.machine_id.name"/>-->
+                                    <!--    </td>-->
+                                    <!--</tr>-->
                                 </table>
                             </div>
                         </div>
@@ -409,20 +409,20 @@
                                       <t t-set="tot_subtotal" t-value="0"/>
                                       <t t-set="tot_amount_subtotal" t-value="0"/>
                                       <t t-set="tot_amount_total" t-value="0"/>
-                                            <tr>
+                                          <tr>
                                               <td>
                                                     <div class="row mt32" style="background-color:#D9DDDC">
                                                         <div class="col-1" style="text-align: center">NO</div>
-                                                        <div class="col-2">CATEGORY &amp; ITEM
+                                                        <div class="col-6">CATEGORY &amp; ITEM
                                                         </div>
-                                                        <div class="col-2">KODE
+                                                        <div class="col-3">KODE
                                                         </div>
-                                                        <div class="col-1" style="text-align: right">QTY
-                                                        </div>
-                                                        <div class="col-2" style="text-align: right">UNIT
-                                                        </div>
-                                                        <div class="col-2" style="text-align: right">UNIT PRICE
-                                                        </div>
+                                                        <!--<div class="col-1" style="text-align: right">QTY-->
+                                                        <!--</div>-->
+                                                        <!--<div class="col-2" style="text-align: right">UNIT-->
+                                                        <!--</div>-->
+                                                        <!--<div class="col-2" style="text-align: right">UNIT PRICE-->
+                                                        <!--</div>-->
                                                         <div class="col-2" style="text-align: right">TOTAL
                                                         </div>
                                                     </div>
@@ -443,21 +443,21 @@
                                                       <t t-set="tot_amount_total" t-value="tot_amount_subtotal +  docs.amount_tax"/>
                                                       <div class="row mt32">
                                                           <div class="col-1"/>
-                                                          <div class="col-2">
+                                                          <div class="col-6">
                                                             <span t-field="detail2.specifications_id.desc"/>
                                                           </div>
-                                                          <div class="col-2">
+                                                          <div class="col-3">
                                                             <span t-field="detail2.spect_name"/>
                                                           </div>
-                                                          <div class="col-1" style="text-align: right">
-                                                            <span t-field="detail2.qty"/>
-                                                          </div>
-                                                          <div class="col-2" style="text-align: right">
-                                                            <span t-esc="detail2.unit.name"/>
-                                                          </div>
-                                                          <div class="col-2" style="text-align: right">
-                                                            <span t-esc="'{0:,.0f}'.format(float(detail2.subtotal))"/>
-                                                          </div>
+                                                          <!--<div class="col-1" style="text-align: right">-->
+                                                          <!--  <span t-field="detail2.qty"/>-->
+                                                          <!--</div>-->
+                                                          <!--<div class="col-2" style="text-align: right">-->
+                                                          <!--  <span t-esc="detail2.unit.name"/>-->
+                                                          <!--</div>-->
+                                                          <!--<div class="col-2" style="text-align: right">-->
+                                                          <!--  <span t-esc="'{0:,.0f}'.format(float(detail2.subtotal))"/>-->
+                                                          <!--</div>-->
                                                           <div class="col-2" style="text-align: right">
                                                             <span t-esc="'{0:,.0f}'.format(float(detail2.total))"/>
                                                           </div>
@@ -465,10 +465,10 @@
                                                     </t>
                                                   </t>
                                                   <div class="row mt32" style="background-color:#D9DDDC;hr:black">
-                                                     <div class="col-8" style="text-align: right"> TOTAL</div>
-                                                     <div class="col-2" style="text-align: right">
-                                                           <span t-esc="'{0:,.0f}'.format(float(tot_subtotal))"/>
-                                                     </div>
+                                                     <div class="col-10" style="text-align: right"> TOTAL</div>
+                                                     <!--<div class="col-2" style="text-align: right">-->
+                                                     <!--      <span t-esc="'{0:,.0f}'.format(float(tot_subtotal))"/>-->
+                                                     <!--</div>-->
                                                      <div class="col-2" style="text-align: right">
                                                            <span t-esc="'{0:,.0f}'.format(float(tot_total))"/>
                                                      </div>
