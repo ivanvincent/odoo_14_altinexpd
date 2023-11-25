@@ -46,7 +46,7 @@
                             <group>
                                 <field name="end_user_name" required="1"/>
                                 <field name="child_ids" invisible="1"/>
-                                <field name="shipping_address" domain="[('id', 'in', child_ids)]" context="{'partner_custom':True}" options='{"always_reload": True}'//>
+                                <field name="shipping_address" domain="[('id', 'in', child_ids)]" context="{'partner_custom':True}" options='{"always_reload": True}'/>
                                 <!-- <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" string="End User Machine" /> -->
                                 <!-- <field name="station_no" required="1"/> -->
                                 <!-- <field name="end_user_machine_serial" required="1"/> -->
