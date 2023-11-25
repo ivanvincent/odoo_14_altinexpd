@@ -90,19 +90,31 @@
         </record>
 
         <record id="attachment_inform_tree" model="ir.ui.view">
+            <field name="name">inform.consent.attch.tree</field>
             <field name="model">inform.consent.attch</field>
             <field name="arch" type="xml">
-                <tree string="" editable="bottom">
+                <tree string="">
                     <field name="attch_inform_consent" filename="inform_consent" widget="binary"/>
                     <field name="inform_consent" invisible="1"/>
                 </tree>
             </field>
         </record>
 
+        <record id="attachment_inform_form" model="ir.ui.view">
+            <field name="name">inform.consent.attch.form</field>
+            <field name="model">inform.consent.attch</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="attch_inform_consent" filename="inform_consent" widget="binary"/>
+                    <field name="inform_consent" invisible="1"/>
+                </form>
+            </field>
+        </record>
+
         <record id="attachment_inform_action" model="ir.actions.act_window">
             <field name="name">Attachment</field>
             <field name="res_model">inform.consent.attch</field>
-            <field name="view_mode">tree</field>
+            <field name="view_mode">tree,form</field>
         </record>
 
         <menuitem
