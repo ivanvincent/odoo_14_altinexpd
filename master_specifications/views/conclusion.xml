@@ -35,6 +35,7 @@
                     <field name="turret"/>
                     <field name="tooling"/>
                     <field name="tooling_qc"/>
+                    <field name="con_id"/>
                 </tree>
             </field>
         </record>
