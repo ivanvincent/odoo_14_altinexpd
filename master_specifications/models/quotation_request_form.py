@@ -600,7 +600,7 @@ class QrfAttachment(models.Model):
     upload_inform_consent_ids = fields.Binary('Upload Inform Consent')
     inform_consent_file_name = fields.Char('Inform Consent File Name')
     con_id = fields.Many2one('conclusion', string='Conclusion',)
-    attchment_inform_consent_id = fields.Many2one('inform.consent.attch', string='attachment', default=2)
+    attchment_inform_consent_id = fields.Many2one('inform.consent.attch', string='attachment')
     # con1_id = fields.Many2one('conclusion', string='Conclusion 1',)
     # con2_id = fields.Many2one('conclusion', string='Conclusion 2',)
     # con3_id = fields.Many2one('conclusion', string='Conclusion 3',)
