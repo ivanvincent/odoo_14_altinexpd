@@ -13,7 +13,7 @@ class QuotationRequestForm(models.Model):
     image_binary = fields.Binary(string='Drawing', store=False,)
     line_ids = fields.One2many('quotation.request.form.line', 'qrf_id', 'Line')
     state = fields.Selection([
-        # ("draft", "Draft"), 
+        ("draft", "Draft"), 
         # ("confirm", "Approval Requested"), 
         ("qrf_upload", "QRF Uploaded"), 
         ("dwg_upload", "DWG Uploaded"),
@@ -21,7 +21,7 @@ class QuotationRequestForm(models.Model):
         ("approved", "Approved"), 
         ("po_upload", "PO Uploaded"),
         ("done", "Done")
-        ], string='State', default='qrf_upload')
+        ], string='State', default='draft')
     amount_tax = fields.Monetary(
         string='Taxes', currency_field='currency_id', compute='_compute_amount')
     amount_untaxed = fields.Monetary(
@@ -134,10 +134,14 @@ class QuotationRequestForm(models.Model):
 
 
     @api.model
-    def create(self, vals):
+    def create(self, vals):            
+        # if vals.get('qrf_attachment_line_ids'):
+        #     vals​.update({'state': 'qrf_upload'})
+            # vals​['state'] = 'qrf_upload'
         seq_id = self.env.ref('master_specifications.qrf_seq')
         vals['name'] = seq_id.next_by_id() if seq_id else '/'
-        return super(QuotationRequestForm, self).create(vals)
+        res = super(QuotationRequestForm, self).create(vals)
+        return res
     
     def action_confirm(self):
         self.state = 'confirm'
@@ -216,7 +220,7 @@ class QuotationRequestForm(models.Model):
 
     def action_process(self):
         self.processed = True
-        self.state = 'order_processed'
+        # self.state = 'order_processed'
 
 
     def action_print(self):
