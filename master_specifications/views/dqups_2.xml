@@ -72,7 +72,9 @@
                                         <field name="prev_wo_no" />
                                         <button name="create_qrf_attch_conclusion" type="object" icon="fa-list"/>                                        
                                         <field name="con_ids" />
-                                        <field name="download_inform_consent_ids" widget="binary"/>
+                                        <field name="attchment_inform_consent_id" invisible="1"/>
+                                        <field name="download_inform_consent_ids" filename="download_inform_consent_name" widget="binary"/>
+                                        <field name="download_inform_consent_name" invisible="1"/>
                                         <field name="upload_inform_consent_ids" filename="inform_consent_file_name" widget="binary" force-save="1"/>
                                         <field name="inform_consent_file_name" invisible="1"/>
                                     </tree>
