@@ -18,7 +18,7 @@ class StockPicking(models.Model):
         ('draft', 'Draft'),
         ('waiting', 'Waiting Another Operation'),
         ('confirmed', 'Waiting'),
-        ('assigned', 'Waiting 2'),
+        ('assigned', 'Assigned'),
         ('done', 'Done'),
         ('cancel', 'Cancelled'),
     ], string='Status', compute='_compute_state',
