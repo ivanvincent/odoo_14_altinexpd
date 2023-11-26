@@ -5,6 +5,8 @@ import odoo.addons.decimal_precision as dp
 
 class QuotationRequestForm(models.Model):
     _name = 'quotation.request.form'
+    _description = "Quotation Request"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string='Name', default='New')
     partner_id = fields.Many2one('res.partner', string='Customer')
@@ -21,7 +23,7 @@ class QuotationRequestForm(models.Model):
         ("approved", "Approved"), 
         ("po_upload", "PO Uploaded"),
         ("done", "Done")
-        ], string='State', default='draft')
+        ], string='State', default='draft', track_visibility='onchange')
     amount_tax = fields.Monetary(
         string='Taxes', currency_field='currency_id', compute='_compute_amount')
     amount_untaxed = fields.Monetary(
