@@ -4,7 +4,7 @@
     'author': 'Yugi, Wibicon',
     'category': 'RND',
     'depends': [
-        'base',
+        'base', 'mail'
         # 'sale',
         # 'hide_any_menu',
         # 'prt_report_attachment_preview',
