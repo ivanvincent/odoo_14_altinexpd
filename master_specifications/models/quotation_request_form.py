@@ -240,6 +240,14 @@ class QuotationRequestForm(models.Model):
     def action_done(self):
         self.state = 'done'
 
+    def action_set_to_qrf(self):
+        self.state = 'qrf_upload'
+
+    def action_cancel(self):
+        self.state = 'draft'
+
+    def action_cancel_approve(self):
+        self.state = 'approved'
 
     def action_print(self):
         return {
