@@ -181,63 +181,72 @@ class HrPayslip(models.Model):
             'sequence':10,
             'code':'LEMBUR',
             'amount': 0.0,
-            'contract_id': self.contract_id.id})
+            'contract_id': self.contract_id.id,
+            'note':''})
         
         res.append({
             'name':'Bonus Bulanan',
             'sequence':20,
             'code':'BONUS',
             'amount': 0.0,
-            'contract_id': self.contract_id.id})
+            'contract_id': self.contract_id.id,
+            'note':''})
 
         res.append({
             'name':'Tunjangan PPh',
             'sequence':30,
             'code':'TPPH',
             'amount': 0.0,
-            'contract_id': self.contract_id.id})
+            'contract_id': self.contract_id.id,
+            'note':''})
 
         res.append({
             'name':'Tunjangan Kesehatan Non-BPJS',
             'sequence':40,
             'code':'FASKES',
             'amount': 0.0,
-            'contract_id': self.contract_id.id})
+            'contract_id': self.contract_id.id,
+            'note':''})
         
         res.append({
             'name':'Bonus Tahunan',
             'sequence':50,
             'code':'BOTA',
             'amount': 0.0,
-            'contract_id': self.contract_id.id})
+            'contract_id': self.contract_id.id,
+            'note':''})
 
         res.append({
             'name':'Tunjangan Hari Raya',
             'sequence':60,
             'code':'THR',
             'amount': 0.0,
-            'contract_id': self.contract_id.id})
+            'contract_id': self.contract_id.id,
+            'note':''})
 
         res.append({
             'name':'Potongan Resmi',
             'sequence':70,
             'code':'POTONG',
             'amount': 0.0,
-            'contract_id': self.contract_id.id})
+            'contract_id': self.contract_id.id,
+            'note':''})
 
         res.append({
             'name':'Cicilan PPH21',
             'sequence':80,
             'code':'POTPPH',
             'amount': 0.0,
-            'contract_id': self.contract_id.id})
+            'contract_id': self.contract_id.id,
+            'note':''})
         
         res.append({
             'name':'Kurang Lebih Bayar',
             'sequence':90,
             'code':'KLB',
             'amount': 0.0,
-            'contract_id': self.contract_id.id})
+            'contract_id': self.contract_id.id,
+            'note':''})
 
         return res
 

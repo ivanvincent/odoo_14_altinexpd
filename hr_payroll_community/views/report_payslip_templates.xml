@@ -58,7 +58,6 @@
                             </tr>
                         </tbody>
                     </table>
-
                     <table class="table table-sm">
                         <thead>
                             <tr>
@@ -66,17 +65,27 @@
                                 <th>Name</th>
                                 <!-- <th>Quantity/rate</th> -->
                                 <!-- <th>Amount</th> -->
+                                <th>Catatan</th>
                                 <th>Total</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
-                                <tr t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="line">
+                            <tr t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="line">
                                 <!-- <td><span t-field="line.code"/></td> -->
                                 <td><span t-field="line.name"/></td>
+                                <td>
+                                    <t t-if="line.name == '02.4. Bonus Bulanan'">
+                                        <t t-foreach="o.input_line_ids" t-as="i">
+                                            <t t-if="i.name == 'Bonus Bulanan'">
+                                                <span t-field="i.note"/>
+                                            </t>
+                                        </t>
+                                    </t>
+                                </td>
                                 <!-- <td><span t-field="line.quantity"/></td> -->
                                 <!-- <td><span t-esc="line.amount" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td> -->
-                                <td><span t-esc="line.total"
-                                          t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
+                                <td><span t-esc="line.total" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
 
                             </tr>
                         </tbody>
