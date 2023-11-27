@@ -50,6 +50,7 @@ class HrPayslip(models.Model):
                         ("11","November %s" % current_year),
                         ("12","Desember %s" % current_year),
                         ],string='Month Selection')
+    
 
     @api.onchange('month_selection')
     def onchange_date_selector(self):
@@ -419,9 +420,6 @@ class HRAttendance(models.Model):
     tanggal = fields.Date(string='Tanggal')
     check_in = fields.Datetime(string="Check In", default=fields.Datetime.now, required=True)
     check_out = fields.Datetime(string="Check Out")
-    print("check_in: %s " % check_in)
-    print("check_out: %s " % check_out)
-    
 
     @api.model
     def create(self, vals):
@@ -547,6 +545,11 @@ class Hremployee(models.Model):
     
     hr_employee_absence = fields.One2many('hr.attendance', 'employee_id', string='Employee absent')
 
+class HrPayslipInput(models.Model):
+    _inherit = 'hr.payslip.input'
+
+    note = fields.Char(string="Notes")
+    text_message = fields.Char(string = "TEXT")
 # class Hremployee(models.Model):
 #     _name = 'hr.employee.absence'
 
