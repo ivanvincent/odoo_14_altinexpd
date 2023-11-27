@@ -107,5 +107,42 @@
                  </field>
             </record>
 
+            <record id="view_move_tree_inherited" model="ir.ui.view">
+                <field name="name">stock_picking_batch.tree</field>
+                <field name="model">stock.move</field>
+                <!-- <field name="type">tree</field> -->
+                <!-- <field name="inherit_id" ref="stock.view_move_tree"/> -->
+                <field name="arch" type="xml">
+                    <tree>
+                        <!-- <field name="date_deadline"/>
+                        <field name="origin"/>
+                        <field name="has_move_lines" invisible="1"/>
+                        <field name="product_id" required="1" attrs="{'readonly': ['|', '&amp;', ('state', '!=', 'draft'), ('additional', '=', False), ('has_move_lines', '=', True)]}"/>
+                        <field name="product_uom_qty" string="Demand" attrs="{'readonly': [('is_initial_demand_editable', '=', False)]}"/>
+                        <field name="product_uom" attrs="{'readonly': [('state', '!=', 'draft'), ('id', '!=', False)]}" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>
+                        <field name="state"/> -->
+                        <field name="date_receipt"/>
+                        <!-- <field name="additional" invisible="1"/>
+                        <field name="is_initial_demand_editable" invisible="1"/> -->
+                    </tree>
+                </field>
+            </record>
+
+            <record id="view_purchase_tree_inherited" model="ir.ui.view">
+                <field name="name">stock.form.inh</field>
+                <field name="model">purchase.order</field>
+                <field name="type">tree</field>
+                <field name="inherit_id" ref="purchase.purchase_order_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='order_line']/form//field[@name='move_ids']" position="replace">
+				        <!-- <attribute name="context">{'tree_view_ref':'tj_makloon_custom.view_move_tree_inherited'}</attribute> -->
+                        <field name="move_ids" context="{'tree_view_ref':'tj_makloon_custom.view_move_tree_inherited'}"/>
+                        
+                        <!-- <field name="date_receipt"/> -->
+                    </xpath>
+                </field>
+            </record>
+
+
     </data>
 </odoo>
