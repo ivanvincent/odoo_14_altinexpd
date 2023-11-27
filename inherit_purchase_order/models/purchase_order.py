@@ -22,6 +22,9 @@ class PurchaseOrder(models.Model):
     is_surat_jalan        = fields.Boolean(string='Surat Jalan ?')
     is_bill               = fields.Boolean(string='Bill ?')
     is_fp                 = fields.Boolean(string='Faktur Pajak ?')
+    surat_jalan_doc       = fields.Binary(string='Surat Jalan')
+    bill_doc              = fields.Binary(string='Bill')
+    fp_doc                = fields.Binary(string='Faktur Pajak')
     
 
     def action_approve(self):

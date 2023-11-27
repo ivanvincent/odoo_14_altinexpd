@@ -136,6 +136,13 @@
                             <field name="is_fp"/>
                         </group>
                     </page>
+                    <page name="purchase_order_doc_ffer" string="TTD (Tanda Terima Dokumen)">
+                        <group>    
+                            <field name="attch_surat_jalan" widget="binary"/>
+                            <field name="attch_bill" widget="binary"/>
+                            <field name="attch_fp" widget="binary"/>
+                        </group>
+                    </page>
                 </xpath>
 
                 <!-- <xpath expr="//field[@name='receipt_reminder_email']" position="attributes">

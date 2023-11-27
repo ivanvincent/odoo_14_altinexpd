@@ -65,6 +65,7 @@ class StockPackOperation(models.Model):
     picking_list = fields.Many2one('makloon.picking.list','Picking List')
     # no_sj = fields.Many2one('makloon.surat.jalan','No SJ')
     no_po = fields.Many2one('purchase.order', 'No PO')
+    date_receipt = fields.Datetime(related='picking_id.date_done', string='Receipt Date')
 
     # @api.multi
     def create_picking_list(self):
