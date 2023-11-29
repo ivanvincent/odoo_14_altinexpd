@@ -138,9 +138,9 @@
                     </page>
                     <page name="purchase_order_doc_ffer" string="TTD (Tanda Terima Dokumen)">
                         <group>    
-                            <field name="attch_surat_jalan" widget="binary"/>
-                            <field name="attch_bill" widget="binary"/>
-                            <field name="attch_fp" widget="binary"/>
+                            <field name="surat_jalan_doc" widget="binary"/>
+                            <field name="bill_doc" widget="binary"/>
+                            <field name="fp_doc" widget="binary"/>
                         </group>
                     </page>
                 </xpath>
