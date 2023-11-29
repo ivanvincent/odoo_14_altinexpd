@@ -98,6 +98,7 @@ class QuotationRequestForm(models.Model):
     shipping_address = fields.Many2one('res.partner', string='Shipping Address', required=True)
     po_attachment_line_ids = fields.One2many('po.attachment', 'qrf_id', 'QRF')
     child_ids = fields.One2many(related='end_user_name.child_ids', string='Contact')
+    is_inform_consent = fields.Boolean(string='Is Inform Consent?', compute="_compute_conc")
 
     @api.depends('line_ids.sub_total', 'line_ids.price_discount', 'line_ids.tax_ids', 'discount_rate', 'discount_type')
     def _compute_amount(self):
@@ -224,6 +225,19 @@ class QuotationRequestForm(models.Model):
     def action_set_to_draft(self):
         self.state = 'draft'
 
+    def _compute_conc(self):
+        # print("_compute_conc", '+++++++++++++++++++++++++++++++++++++')
+        for rec in self:
+            for qrf in rec.qrf_attachment_line_ids:
+                for con in qrf.con_ids:
+                    if con.con_id.id == 28:
+                        rec.is_inform_consent == True
+                        break
+                    # else:
+            rec.is_inform_consent == False
+                    
+
+
     @api.depends('partner_id')
     def compute_attn_ids(self):
         for rec in self:
@@ -280,6 +294,17 @@ class QuotationRequestForm(models.Model):
             'res_model' : 'print.qrf.wizard',
             'target'    : 'new',
             'view_id'   : self.env.ref('master_specifications.print_qrf_dqups3_form').id,
+            'view_mode' : 'form',
+            'context'   : {'default_qrf_id': self.id,},
+        }
+
+    def action_print_inform_consent(self):
+        return {
+            'type'      : 'ir.actions.act_window',
+            'name'      : "Print",
+            'res_model' : 'inform.consent.wizard',
+            'target'    : 'new',
+            'view_id'   : self.env.ref('master_specifications.inform_consent_wizard_form').id,
             'view_mode' : 'form',
             'context'   : {'default_qrf_id': self.id,},
         }

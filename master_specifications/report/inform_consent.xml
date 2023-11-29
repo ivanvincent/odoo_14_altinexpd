@@ -23,7 +23,7 @@
                 <field name="report_name">master_specifications.inform_consent_pdf</field>
                 <field name="report_file">master_specifications.inform_consent_pdf</field>
                 <field name="print_report_name">'%s' % object.name</field>
-                <field name="binding_model_id" ref="model_quotation_request_form"/>
+                <field name="binding_model_id" eval="False"/>
                 <field name="binding_type">report</field>
                 <field name="paperformat_id" eval="paperformat_inform_consent_pdf"/>
         </record>
@@ -67,13 +67,13 @@
                                       <tr>
                                           <td>
                                                 <div class="row mt32" style="background-color:#D9DDDC; text-align: center">
-                                                    <div class="col-12" style="font-size: 20px;border-top: 4px solid grey;border-bottom: 2px solid grey;border-right: 2px solid white;border-left: 2px solid white;"><i>INFORMED CONSENT</i></div>
+                                                    <div class="col-12" style="font-size: 20px;font-weight:bold; border-top: 4px solid grey;border-bottom: 2px solid grey;border-right: 2px solid white;border-left: 2px solid white;"><i>INFORMED CONSENT</i></div>
                                                     </div>
                                                 <div class="row mt32" style="background-color:#D9DDDC; text-align: center">
-                                                    <div class="col-4" style="border-top: 2px solid grey;border-bottom: 1px solid grey;border-right: 2px solid white;border-left: 2px solid white;">Created by:</div>
-                                                    <div class="col-4" style="border-top: 2px solid grey;border-bottom: 1px solid grey;border-right: 2px solid white;border-left: 2px solid white;">Create date:
+                                                    <div class="col-4" style="font-weight:bold; border-top: 2px solid grey;border-bottom: 1px solid grey;border-right: 2px solid white;border-left: 2px solid white;">Created by:</div>
+                                                    <div class="col-4" style="font-weight:bold; border-top: 2px solid grey;border-bottom: 1px solid grey;border-right: 2px solid white;border-left: 2px solid white;">Create date:
                                                     </div>
-                                                    <div class="col-4" style="border-top: 2px solid grey;border-bottom: 1px solid grey;border-right: 2px solid white;border-left: 2px solid white;">Page
+                                                    <div class="col-4" style="font-weight:bold; border-top: 2px solid grey;border-bottom: 1px solid grey;border-right: 2px solid white;border-left: 2px solid white;">Page
                                                     </div>
                                                 </div>
                                                 <div class="row mt32" style="background-color:#D9DDDC; text-align: center">
@@ -93,7 +93,7 @@
                             </table>
                         </div>
                         <div class="row">
-                            <table class="table-condensed" width="100%" style="margin-top:10px; border:2px solid black;">
+                            <table class="table-condensed" width="100%" style="margin-top:20px; border:2px solid black;">
                                 <tr style="font-size:20px;border: 1px solid black;">
                                     <td colspan="2" style="border-bottom:2px solid black; text-align:center; font-weight:bold">IDENTITAS CUSTOMER</td>
                                 </tr>
@@ -126,21 +126,21 @@
                         <div class="row">
                             <table class="table-condensed" width="100%" style="margin-top:20px">
                                 <tr>
-                                    <td style="font-size:16px; padding-top:15px;">
+                                    <td style="font-size:17px; padding-top:15px;">
                                         <div>Melalui informed consent ini, saya menyetujui pemesanan barang dari PT. Altnex Divisi Punch &amp;
                                         Die secara parsial. Pesanan parsial yang dimaksud mencakup:</div>
-                                        <div style="font-size:16px;padding-left:30px; "> 
+                                        <div style="font-size:17px;padding-left:30px; "> 
                                         1. Pemesanan upper punch saja, ATAU<br/>
                                         2. Pemesanan upper dan lower punch saja (tanpa dies), ATAU<br/>
                                         3. Pemesanan qty tooling (kurang dari) jumlah station turret mesin cetak tablet<br/> </div>
                                     </td>
                                 </tr>
-                                <tr style="margin-top:20px">
-                                    <td style="font-size:16px; padding-bottom:15px;">
-                                        <div>Saya menyatakan telah mendapat penjelasan holistk dan menyeluruh dari perwakilan resmi PT.
+                                <tr>
+                                    <td style="font-size:17px; padding-bottom:15px;">
+                                        <br/><div>Saya menyatakan telah mendapat penjelasan holistk dan menyeluruh dari perwakilan resmi PT.
                                         ALTINEX Divisi Punch and Die perihal peningkatan risiko yang mungkin terjadi akibat pemesanan
                                         barang secara parsial, yaitu, tapi tidak terbatas pada:</div>
-                                        <div style="font-size:16px;padding-left:30px; "> 
+                                        <div style="font-size:17px;padding-left:30px; "> 
                                         1. Kettaksesuaian antara tooling existng dengan tooling yang dipesan, yang akan
                                         menyebabkan beberapa komplikasi yaitu premature wear, kerusakan pada part mesin
                                         lain, dan lain-lain<br/>
@@ -148,7 +148,7 @@
                                     </td>
                                 </tr><br/>
                                 <tr>
-                                    <td style="font-size:16px; padding-bottom:15px;">
+                                    <td style="font-size:17px; padding-bottom:15px;">
                                         <div>Bersama penjelasan ini, saya juga memahami bahwa apabila di kemudian hari, terjadi peristiwa-peristiwa seperti yang telah dijelaskan 
                                         di atas, maka peristiwa tersebut berada di luar tanggung
                                         jawab PT. ALTINEX Divisi Punch and Die dan tidak termasuk ke dalam garansi yang menjadi
@@ -160,28 +160,28 @@
 
 
                         <div class="row">
-                            <table width="100%" class="table-condensed" style="font-size: 16px;margin-top:150px">
+                            <table width="100%" class="table-condensed" style="font-size: 17px;margin-top:200px">
                                 <thead>
                                     <tr>
                                         <td>
-                                            <div class="row mt32" >
+                                            <div class="row mt32">
                                                 <div class="col-6">
-                                                    <b><span style="text-align: left; font-size: 16px; padding-left:30px;"><t t-esc="docs.partner_id.name"/></span></b>
-                                                    <br/><br/><br/><br/>
-                                                    <span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
+                                                    <b><span style="text-align: left; font-size: 17px; padding-left:30px;"><t t-esc="docs.partner_id.name"/></span></b>
+                                                    <br/><br/><br/><br/><br/>
+                                                    <span style="text-align: left; font-size: 17px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
                                                         <t t-esc="doc.pic_name"/>
                                                     </span><br/>
-                                                    <span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
+                                                    <span style="text-align: left; font-size: 17px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
                                                         <!--<t t-esc="doc.user_id.name"/>-->
                                                     </span><br/>
                                                 </div>
                                                 <div class="col-6">
-                                                    <b><span style="text-align: left; font-size: 16px; padding-left:30px;">PT. ALTINEX Punch &amp; Die Division,</span></b>
-                                                    <br/><br/><br/><br/>
-                                                    <span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
+                                                    <b><span style="text-align: left; font-size: 17px; padding-left:30px;">PT. ALTINEX Punch &amp; Die Division,</span></b>
+                                                    <br/><br/><br/><br/><br/>
+                                                    <span style="text-align: left; font-size: 17px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
                                                         <t t-esc="doc.user_id.name"/>
                                                     </span><br/>
-                                                    <span style="text-align: left; font-size: 16px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
+                                                    <span style="text-align: left; font-size: 17px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
                                                         <t t-esc="doc.user_id.jabatan"/>
                                                     </span><br/>
                                                 </div>
