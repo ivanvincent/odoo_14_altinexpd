@@ -99,6 +99,7 @@ class QuotationRequestForm(models.Model):
     po_attachment_line_ids = fields.One2many('po.attachment', 'qrf_id', 'QRF')
     child_ids = fields.One2many(related='end_user_name.child_ids', string='Contact')
     is_inform_consent = fields.Boolean(string='Is Inform Consent?', compute="_compute_conc")
+    ic_doc_number = fields.Char(string='IC Number')
 
     @api.depends('line_ids.sub_total', 'line_ids.price_discount', 'line_ids.tax_ids', 'discount_rate', 'discount_type')
     def _compute_amount(self):
@@ -228,14 +229,21 @@ class QuotationRequestForm(models.Model):
     def _compute_conc(self):
         # print("_compute_conc", '+++++++++++++++++++++++++++++++++++++')
         for rec in self:
-            for qrf in rec.qrf_attachment_line_ids:
-                for con in qrf.con_ids:
-                    if con.con_id.id == 28:
-                        rec.is_inform_consent == True
-                        break
-                    # else:
-            rec.is_inform_consent == False
-                    
+            if rec.qrf_attachment_line_ids.con_ids.filtered(lambda x: x.con_id.id == 28).ids:
+                rec.is_inform_consent = True
+            else:
+                rec.is_inform_consent = False
+            # for qrf in rec.qrf_attachment_line_ids:
+            #     if any(qrf.con_ids):
+            #         for con in qrf.con_ids:
+            #             if con.con_id.id == 28:
+            #                 rec.is_inform_consent = True
+            #                 break
+            #             else:
+            #                 rec.is_inform_consent = False
+            #     else:
+            #         rec.is_inform_consent = False
+                                
 
 
     @api.depends('partner_id')
@@ -299,6 +307,10 @@ class QuotationRequestForm(models.Model):
         }
 
     def action_print_inform_consent(self):
+        if not self.ic_doc_number:
+            seq_id = self.env.ref('master_specifications.qrf_ic_no_doc')
+            self.ic_doc_number = seq_id.next_by_id()
+
         return {
             'type'      : 'ir.actions.act_window',
             'name'      : "Print",

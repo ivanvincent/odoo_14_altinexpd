@@ -20,7 +20,7 @@
                         <button name="action_set_to_qrf" type="object" string="Set to QRF" states="dwg_upload" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads"/>
                         <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible':[('state', 'not in', ('waiting','done'))]}" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads"/>
                         <button name="action_cancel_approve" type="object" string="Cancel Approve" states="po_upload" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads"/>
-                        <button name="action_print_inform_consent" type="object" string="Download Inform Consent" class="oe_highlight" attrs="{'invisible':[('is_inform_consent', '!=', True),('state', '!=', 'qrf_upload')]}"/>
+                        <button name="action_print_inform_consent" type="object" string="Download Inform Consent" class="oe_highlight" attrs="{'invisible':[('is_inform_consent', '!=', True)]}"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
@@ -61,7 +61,7 @@
                                 <field name="sales_condition" string="Warranty" required="1"/>                                                          
                                 <field name="valid_date" required="1"/>                                                        
                                 <field name="note" string="Notes Internal"/>
-                                <field name="is_inform_consent"/>
+                                <field name="is_inform_consent" invisible="1"/>
                             </group>
                         </group>
                         <notebook>
