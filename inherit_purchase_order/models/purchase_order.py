@@ -20,15 +20,14 @@ class PurchaseOrder(models.Model):
     state                 = fields.Selection(selection_add=[('draft', 'Draft'), ('approve', 'To be Approve'), ('purchase', 'Approved'), ("reject", "Rejected"),("done", "Done")])
     picking_count_makloon = fields.Integer(string='Picking Count Makloon', compute='compute_picking_count_makloon')
     is_surat_jalan        = fields.Boolean(string='Surat Jalan ?', compute="_compute_document")
-    is_bill               = fields.Boolean(string='Bill ?', 
-    compute="_compute_document"
-    )
-    is_fp                 = fields.Boolean(string='Faktur Pajak ?', 
-    compute="_compute_document"
-    )
+    is_bill               = fields.Boolean(string='Bill ?', compute="_compute_document")
+    is_fp                 = fields.Boolean(string='Faktur Pajak ?', compute="_compute_document")
     surat_jalan_doc       = fields.Binary(string='Surat Jalan')
     bill_doc              = fields.Binary(string='Bill')
     fp_doc                = fields.Binary(string='Faktur Pajak')
+    surat_jalan_name      = fields.Char(string='Surat Jalan')
+    bill_name             = fields.Char(string='Bill')
+    fp_name               = fields.Char(string='Faktur Pajak')
     
 
     def action_approve(self):
