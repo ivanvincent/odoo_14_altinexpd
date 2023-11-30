@@ -19,9 +19,13 @@ class PurchaseOrder(models.Model):
     purchase_order_offer_line_ids = fields.One2many('purchase.order.offer', 'purchase_id', 'Line')
     state                 = fields.Selection(selection_add=[('draft', 'Draft'), ('approve', 'To be Approve'), ('purchase', 'Approved'), ("reject", "Rejected"),("done", "Done")])
     picking_count_makloon = fields.Integer(string='Picking Count Makloon', compute='compute_picking_count_makloon')
-    is_surat_jalan        = fields.Boolean(string='Surat Jalan ?')
-    is_bill               = fields.Boolean(string='Bill ?')
-    is_fp                 = fields.Boolean(string='Faktur Pajak ?')
+    is_surat_jalan        = fields.Boolean(string='Surat Jalan ?', compute="_compute_document")
+    is_bill               = fields.Boolean(string='Bill ?', 
+    compute="_compute_document"
+    )
+    is_fp                 = fields.Boolean(string='Faktur Pajak ?', 
+    compute="_compute_document"
+    )
     surat_jalan_doc       = fields.Binary(string='Surat Jalan')
     bill_doc              = fields.Binary(string='Bill')
     fp_doc                = fields.Binary(string='Faktur Pajak')
@@ -203,3 +207,22 @@ class PurchaseOrder(models.Model):
             raise UserError('Mohon maaf silahkan lengkapi tanda terima dokumen terlebih dahulu')
         res = super(PurchaseOrder, self).action_create_invoice()
         return res
+
+    def _compute_document(self):
+        for rec in self:
+            if rec.surat_jalan_doc :
+                rec.is_surat_jalan = True
+            else:
+                rec.is_surat_jalan = False
+
+            for rec in self:
+                if rec.bill_doc:
+                    rec.is_bill = True
+                else:
+                    rec.is_bill = False
+
+                for rec in self:
+                    if rec.fp_doc :
+                        rec.is_fp = True
+                    else:
+                        rec.is_fp = False

@@ -131,18 +131,25 @@
                     </page>
                     <page name="purchase_order_offer" string="TTD (Tanda Terima Dokumen)">
                         <group>    
-                            <field name="is_surat_jalan"/>
-                            <field name="is_bill"/>
-                            <field name="is_fp"/>
+                            <group>    
+                                <field name="surat_jalan_doc" widget="binary"/>
+                                <field name="bill_doc" widget="binary"/>
+                                <field name="fp_doc" widget="binary"/>
+                            </group>
+                            <group>
+                                <field name="is_surat_jalan"/>
+                                <field name="is_bill"/>
+                                <field name="is_fp"/>
+                            </group>
                         </group>
                     </page>
-                    <page name="purchase_order_doc_ffer" string="TTD (Tanda Terima Dokumen)">
+                    <!-- <page name="purchase_order_doc_ffer" string="TTD (Tanda Terima Dokumen)">
                         <group>    
                             <field name="surat_jalan_doc" widget="binary"/>
                             <field name="bill_doc" widget="binary"/>
                             <field name="fp_doc" widget="binary"/>
                         </group>
-                    </page>
+                    </page> -->
                 </xpath>
 
                 <!-- <xpath expr="//field[@name='receipt_reminder_email']" position="attributes">
