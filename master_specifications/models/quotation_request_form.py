@@ -229,7 +229,7 @@ class QuotationRequestForm(models.Model):
     def _compute_conc(self):
         # print("_compute_conc", '+++++++++++++++++++++++++++++++++++++')
         for rec in self:
-            if rec.qrf_attachment_line_ids.con_ids.filtered(lambda x: x.con_id.id == 28).ids:
+            if rec.qrf_attachment_line_ids.con_ids.filtered(lambda x: x.con_id.id == 17).ids:
                 rec.is_inform_consent = True
             else:
                 rec.is_inform_consent = False
