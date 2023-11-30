@@ -20,7 +20,7 @@
                         <button name="action_set_to_qrf" type="object" string="Set to QRF" states="dwg_upload" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads"/>
                         <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible':[('state', 'not in', ('waiting','done'))]}" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads"/>
                         <button name="action_cancel_approve" type="object" string="Cancel Approve" states="po_upload" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads"/>
-                        <button name="action_print_inform_consent" type="object" string="Download Inform Consent" class="oe_highlight" attrs="{'invisible':[('state', '!=', 'draft')]}"/>
+                        <button name="action_print_inform_consent" type="object" string="Download Inform Consent" class="oe_highlight" attrs="{'invisible':[('is_inform_consent', '!=', True),('state', '!=', 'qrf_upload')]}"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
@@ -61,7 +61,7 @@
                                 <field name="sales_condition" string="Warranty" required="1"/>                                                          
                                 <field name="valid_date" required="1"/>                                                        
                                 <field name="note" string="Notes Internal"/>
-                                <!-- <field name="is_inform_consent"/> -->
+                                <field name="is_inform_consent"/>
                             </group>
                         </group>
                         <notebook>
@@ -81,8 +81,8 @@
                                         <button name="create_qrf_attch_conclusion" type="object" icon="fa-list"/>                                        
                                         <field name="con_ids" />
                                         <field name="attchment_inform_consent_id" invisible="1"/>
-                                        <field name="download_inform_consent_ids" filename="download_inform_consent_name" widget="binary"/>
-                                        <field name="download_inform_consent_name" invisible="1"/>
+                                        <!-- <field name="download_inform_consent_ids" filename="download_inform_consent_name" widget="binary"/> -->
+                                        <!-- <field name="download_inform_consent_name" invisible="1"/> -->
                                         <field name="upload_inform_consent_ids" filename="inform_consent_file_name" widget="binary" force-save="1"/>
                                         <field name="inform_consent_file_name" invisible="1"/>
                                     </tree>

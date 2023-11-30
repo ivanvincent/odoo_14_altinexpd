@@ -134,13 +134,13 @@
             sequence="24"
             groups="sales_team.group_sale_manager"/>
 
-        <menuitem
+        <!-- <menuitem
             id="attachment_inform_menu"
             name="Master Attachment Inform Consent"
             action="attachment_inform_action"
             parent="specifications_root_menu"
             sequence="29"
-            groups="sales_team.group_sale_manager"/>
+            groups="sales_team.group_sale_manager"/> -->
     
     
     </data>
