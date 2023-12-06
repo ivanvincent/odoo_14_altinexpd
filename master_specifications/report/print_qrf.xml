@@ -291,10 +291,10 @@
                                                   </td>
                                               </tr>
                                               <tr class="text-right">
-                                                  <td width="45%" style="padding-left:10px;">Pph23 :</td>
+                                                  <td width="45%" style="padding-left:10px;">Pph 23 :</td>
                                                   <td>
                                                       <!-- <span>:</span> -->
-                                                       <span class="font-weight-normal" t-field="docs.pph23_tax"/> 
+                                                       (<span class="font-weight-normal" t-field="docs.pph23_tax"/>)
                                                   </td>
                                               </tr>
                                                   <br/>

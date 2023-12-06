@@ -136,7 +136,7 @@
                                 <field name="amount_price_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <!-- <field name="amount_subtotal" widget="monetary" options="{'currency_field': 'currency_id'}"/> -->
                                 <field name="amount_tax_2" widget="monetary" options="{'currency_field': 'currency_id'}" string="VAT"/>
-                                <field name="pph23_tax" widget="monetary" options="{'currency_field': 'currency_id'}" string="Pph23"/>
+                                <field name="pph23_tax" widget="monetary" options="{'currency_field': 'currency_id'}" string="Pph 23"/>
                                 <field name="amount_tax_11" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
                                 <field name="amount_tax_pph23" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
                                 <div class="oe_subtotal_footer_separator oe_inline o_td_label">
