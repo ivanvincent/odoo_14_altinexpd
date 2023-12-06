@@ -172,7 +172,7 @@
                                                         <t t-esc="doc.pic_name"/>
                                                     </span><br/>
                                                     <span style="text-align: left; font-size: 17px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
-                                                        <!--<t t-esc="doc.user_id.name"/>-->
+                                                        <t t-esc="doc.pic_job_position"/>
                                                     </span><br/>
                                                 </div>
                                                 <div class="col-6">

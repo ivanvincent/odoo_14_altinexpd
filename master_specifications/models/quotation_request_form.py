@@ -60,6 +60,7 @@ class QuotationRequestForm(models.Model):
     amount_discount = fields.Monetary(string='Discount', store=True, compute='_compute_amount',
                                       digits=dp.get_precision('Account'), track_visibility='always')
     pic_name = fields.Char(string='PIC Name')
+    pic_job_position = fields.Char(string='PIC Job Position')
     pic_email = fields.Char(string='PIC Email')
     pic_phone = fields.Char(string='PIC Mobile Phone (WA)')
     note = fields.Text('Notes')
@@ -100,6 +101,15 @@ class QuotationRequestForm(models.Model):
     child_ids = fields.One2many(related='end_user_name.child_ids', string='Contact')
     is_inform_consent = fields.Boolean(string='Is Inform Consent?', compute="_compute_conc")
     ic_doc_number = fields.Char(string='IC Number')
+    pph23_tax = fields.Monetary(string='PPH 23', currency_field='currency_id', compute='_compute_pph23')
+
+    @api.depends('line_ids.sub_total')
+    def _compute_pph23(self):
+        for rec in self:
+            total_pph = 0
+            for t in rec.line_ids.filtered(lambda x:x.jenis_id.id in [72,70]):
+                total_pph += t.sub_total 
+            rec.pph23_tax = total_pph * 2/100
 
     @api.depends('line_ids.sub_total', 'line_ids.price_discount', 'line_ids.tax_ids', 'discount_rate', 'discount_type')
     def _compute_amount(self):
@@ -125,13 +135,13 @@ class QuotationRequestForm(models.Model):
             total_tax_2 = total_price_discount * (rec.tax_id.amount / 100)
             rec.amount_tax = total_tax
             rec.amount_untaxed = total_untax
-            rec.amount_total = total_untax + total_tax
+            rec.amount_total = total_untax + total_tax - (rec.pph23_tax)
             rec.amount_discount = amount_discount
             rec.amount_tax_11 = total_ppn11
             rec.amount_tax_pph23 = total_pph23
             rec.amount_subtotal = total_untax - amount_discount
             rec.amount_untaxed_2 = total_untax_2
-            rec.amount_total_2 = total_price_discount + total_tax_2
+            rec.amount_total_2 = total_price_discount + total_tax_2 - (rec.pph23_tax)
             rec.amount_tax_2 = total_tax_2
             rec.amount_price_discount = total_price_discount
 
