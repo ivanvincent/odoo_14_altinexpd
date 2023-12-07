@@ -15,14 +15,17 @@ class QuotationRequestForm(models.Model):
     image_binary = fields.Binary(string='Drawing', store=False,)
     line_ids = fields.One2many('quotation.request.form.line', 'qrf_id', 'Line')
     state = fields.Selection([
-        ("draft", "Draft"), 
+        ("draft", "QRF"), 
         # ("confirm", "Approval Requested"), 
-        ("qrf_upload", "QRF Uploaded"), 
-        ("dwg_upload", "DWG Uploaded"),
+        ("qrf_upload", "Drawing"), 
+        ("dwg_upload", "Details"),
         ("waiting", "Awaiting Approval"), 
         ("approved", "Approved"), 
-        ("po_upload", "PO Uploaded"),
-        ("done", "Done")
+        ("po_upload", "PO"),
+        ("so_upload", "SO"),
+        ("sj_upload", "SJ"),
+        ("done", "Done"),
+        ("cancel", "Cancel")
         ], string='State', default='draft', track_visibility='onchange')
     amount_tax = fields.Monetary(
         string='Taxes', currency_field='currency_id', compute='_compute_amount')
@@ -171,9 +174,60 @@ class QuotationRequestForm(models.Model):
             values['state'] = 'po_upload'
         res = super(QuotationRequestForm, self).write(values)
         return res
+
+    # ("draft", "QRF"), 
+    #     # ("confirm", "Approval Requested"), 
+    #     ("qrf_upload", "Drawing"), 
+    #     ("dwg_upload", "Details"),
+    #     ("waiting", "Awaiting Approval"), 
+    #     ("approved", "Approved"), 
+    #     ("po_upload", "PO"),
+    #     ("so_upload", "SO"),
+    #     ("sj_upload", "SJ"),
+    #     ("done", "Done")
     
     def action_confirm(self):
         self.state = 'waiting'
+    
+    def action_confirm_qrf(self):
+        self.state = 'qrf_upload'
+
+    def action_confirm_dwg(self):
+        self.state = 'dwg_upload'
+
+    def action_revise_qrf(self):
+        self.state = 'draft'
+
+    def action_req_approval(self):
+        self.state = 'waiting'
+
+    def action_revise_dwg(self):
+        self.state = 'qrf_upload'
+
+    def action_approved(self):
+        self.state = 'waiting'
+
+    def action_revise_detail(self):
+        self.state = 'dwg_upload'
+
+    def action_confirm_po(self):
+        self.state = 'po_upload'
+
+    def action_cancel_po(self):
+        self.state = 'cancel'
+
+
+    def action_send_to_customer(self):
+        self.state = 'so_upload'
+
+    def action_send_production(self):
+        self.state = 'so_upload'
+
+    def action_confirm_sj(self):
+        self.state = 'done'
+
+
+
 
     def action_create_so(self):
         # self.state = 'order_processed'
@@ -263,7 +317,7 @@ class QuotationRequestForm(models.Model):
                 rec.attn_ids = [(6, 0, rec.partner_id.attn_ids.ids)]
             else:
                 rec.attn_ids = False
-
+#note tj
     def action_approve(self):
         self.state = 'approved'
 
@@ -282,7 +336,7 @@ class QuotationRequestForm(models.Model):
 
     def action_cancel_approve(self):
         self.state = 'approved'
-
+#note tj
     def action_print(self):
         return {
             'type'      : 'ir.actions.act_window',
