@@ -142,7 +142,7 @@
                             </page>
                         </notebook>
                         <group col="6">
-                            <group name="discount" colspan="2">
+                            <group name="discount" colspan="2" attrs="{'invisible':[('state', 'not in', ('details','waiting'))]}">
                                 <field name="discount_type"/>
                                 <field name="discount_rate"/>
                             </group>
@@ -265,11 +265,11 @@
                 <form string="">
                     <sheet>
                         <group>
-                            <field name="con_ids" nolabel="1">
+                            <field name="con_ids" nolabel="1" readonly="1">
                                 <tree editable="bottom">
                                     <field name="check" />
                                     <field name="con_id"/>
-                                    <field name="urutan"/>
+                                    <!-- <field name="urutan"/> -->
                                     <!-- <field name="con1_id"/>
                                     <field name="con1_id"/>
                                     <field name="con2_id"/>

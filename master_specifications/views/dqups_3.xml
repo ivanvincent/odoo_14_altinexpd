@@ -123,7 +123,7 @@
                             </page>
                         </notebook>
                         <group col="6">
-                            <group name="discount" colspan="2">
+                            <group name="discount" colspan="2" attrs="{'invisible':[('state', 'not in', ('details','waiting'))]}">
                                 <field name="discount_type"/>
                                 <field name="discount_rate"/>
                             </group>
