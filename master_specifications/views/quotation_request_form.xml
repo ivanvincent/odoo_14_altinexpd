@@ -152,14 +152,14 @@
                                 <field name="amount_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="amount_price_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <!-- <field name="amount_subtotal" widget="monetary" options="{'currency_field': 'currency_id'}"/> -->
-                                <field name="amount_tax_2" widget="monetary" options="{'currency_field': 'currency_id'}" string="VAT"/>
+                                <field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}" string="VAT"/>
                                 <field name="pph23_tax" widget="monetary" options="{'currency_field': 'currency_id'}" string="Pph 23"/>
                                 <field name="amount_tax_11" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
                                 <field name="amount_tax_pph23" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
                                 <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                                    <label for="amount_total_2"/>
+                                    <label for="amount_total"/>
                                 </div>
-                                <field name="amount_total_2" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                             </group>
                         </group>
                         <div class="oe_clear"/>
@@ -181,7 +181,7 @@
                     <field name="name"/>
                     <field name="date"/>
                     <field name="partner_id"/>
-                    <field name="amount_total_2"/>
+                    <field name="amount_total"/>
                     <field name="note"/>
                     <field name="state"/>
                     <field name="user_id"/>

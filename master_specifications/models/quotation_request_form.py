@@ -85,11 +85,12 @@ class QuotationRequestForm(models.Model):
     end_user_name = fields.Many2one('res.partner', string='End User Name')
     end_user_machine_serial = fields.Char(string='End User Machine Serial No.')
     amount_untaxed_2 = fields.Monetary(
-        string='Amount Untaxed', currency_field='currency_id', compute='_compute_amount')
+        string='Price Product', currency_field='currency_id', compute='_compute_amount')
     amount_total_2 = fields.Monetary(
         string='Total', currency_field='currency_id', compute='_compute_amount')
     amount_tax_2 = fields.Monetary(
         string='Taxes', currency_field='currency_id', compute='_compute_amount')
+    amount_price_discount_2 = fields.Float(string='Price After Discount', compute='_compute_amount')
     amount_price_discount = fields.Float(string='Price After Discount', compute='_compute_amount')
     station_no = fields.Char(string='Station Number')
     drawing_attachment_line_ids = fields.One2many('drawing.attachment', 'qrf_id', 'Drawing')
@@ -130,22 +131,28 @@ class QuotationRequestForm(models.Model):
                 total_untax += l.sub_total
                 total_ppn11 += l.total_tax_11
                 total_pph23 += l.total_tax_pph23
-                total_untax_2 += l.price_discount
+                total_untax_2 += l.price_total
             amount_discount = total_untax * rec.discount_rate / 100 if rec.discount_type == 'percent' else rec.discount_rate
 
             total_price_discount = total_untax - amount_discount
+            total_price_discount_2 = total_untax_2 - amount_discount
             total_tax = total_untax * (rec.tax_id.amount / 100)
-            total_tax_2 = total_price_discount * (rec.tax_id.amount / 100)
+            total_tax_2 = total_price_discount_2 * (rec.tax_id.amount / 100)
             rec.amount_tax = total_tax
             rec.amount_untaxed = total_untax
-            rec.amount_total = total_untax + total_tax - (rec.pph23_tax)
+            if rec.type == '1':
+                rec.amount_total = total_price_discount + total_tax - (rec.pph23_tax)
+            elif rec.type == '2':
+                rec.amount_total = total_untax + total_tax - (rec.pph23_tax)
             rec.amount_discount = amount_discount
             rec.amount_tax_11 = total_ppn11
             rec.amount_tax_pph23 = total_pph23
             rec.amount_subtotal = total_untax - amount_discount
             rec.amount_untaxed_2 = total_untax_2
-            rec.amount_total_2 = total_price_discount + total_tax_2 - (rec.pph23_tax)
+            rec.amount_total_2 = total_price_discount_2 + total_tax_2
+            #  - (rec.pph23_tax)
             rec.amount_tax_2 = total_tax_2
+            rec.amount_price_discount_2 = total_price_discount_2
             rec.amount_price_discount = total_price_discount
 
 
@@ -460,6 +467,7 @@ class QuotationRequestFormLine(models.Model):
                                         compute='_compute_amount',
                                         digits=dp.get_precision('Account'))
     price_discount = fields.Float(string='Price After Discount', compute='_compute_amount')
+    price_total = fields.Float(string='Sub Total', compute='_compute_amount')
 
     @api.depends('sub_total', 'tax_ids', 'qrf_id.type')
     def _compute_amount(self):
@@ -474,6 +482,8 @@ class QuotationRequestFormLine(models.Model):
             tot_price_disc = rec.price_unit - amount_discount
             tot_subtotal = tot_price_disc * rec.quantity
             rec.amount_tax = total_tax
+            price_unit_total = sum(rec.line_spec_ids.mapped('total'))
+            rec.price_total = price_unit_total * rec.quantity
             # rec.amount_untaxed = total_untax
             # rec.amount_total = total_tax + total_untax - amount_discount
             rec.amount_discount = amount_discount
@@ -484,7 +494,7 @@ class QuotationRequestFormLine(models.Model):
             elif rec.qrf_id.type == '2':
                 rec.sub_total = rec.quantity * rec.price_discount
             elif rec.qrf_id.type == '3':
-                rec.sub_total = sum(rec.line_spec_ids.mapped('total'))
+                rec.sub_total = price_unit_total
             # rec.sub_total = tot_subtotal
     
     @api.depends('sub_total', 'tax_ids')
@@ -707,10 +717,14 @@ class QuotationRequestFormLineSpecification(models.Model):
     @api.onchange('unit')
     def onchange_qty(self):
         for rec in self:
-            if rec.unit.id == 73:
-                rec.qty = rec.qrf_line_id.line_qty_ids.qty
-            else :
-                rec.qty = 0
+            # if rec.qrf_line_id.qrf_id.type != '3':
+            #     if rec.unit.id == 73:
+            #         rec.qty = rec.qrf_line_id.line_qty_ids.qty
+            #     else :
+            #         rec.qty = 0
+            if rec.qrf_line_id.qrf_id.type == '3':
+                if rec.unit.id == 73:
+                    rec.qty = 1
 
 class QuotationRequestFormLineQuantity(models.Model):
     _name = 'quotation.request.form.line.quantity'

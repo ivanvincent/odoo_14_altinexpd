@@ -90,7 +90,8 @@
                                         <field name="amount_tax" invisible="1"/>
                                         <field name="total_tax_11" invisible="1"/>
                                         <field name="total_tax_pph23" invisible="1"/>
-                                        <field name="sub_total"/>
+                                        <field name="sub_total" string="Unit Price"/>
+                                        <field name="price_total"/>
                                     </tree>
                                 </field>
                             </page>
@@ -110,9 +111,9 @@
                             </group>
                             <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
                                 <field name="currency_id" invisible="1"/>
-                                <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}" string="Price Product"/>
+                                <field name="amount_untaxed_2" widget="monetary" options="{'currency_field': 'currency_id'}" string="Price Product"/>
                                 <field name="amount_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                <field name="amount_price_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_price_discount_2" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <!-- <field name="amount_subtotal" widget="monetary" options="{'currency_field': 'currency_id'}"/> -->
                                 <field name="amount_tax_2" widget="monetary" options="{'currency_field': 'currency_id'}" string="VAT"/>
                                 <field name="amount_tax_11" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
@@ -206,7 +207,7 @@
                                     <field name="unit"/>
                                     <!-- <field name="harga" string="Item Price"/> -->
                                     <field name="subtotal" string="Unit Price" sum="Subtotal"/>
-                                    <field name="total" sum="Total"/>
+                                    <field name="total" string="Total/Pcs" sum="Total"/>
                                     <!-- <field name="state"/> -->
                                 </tree>
                             </field>
