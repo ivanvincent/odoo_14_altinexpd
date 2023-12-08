@@ -25,7 +25,7 @@ class QuotationRequestForm(models.Model):
         ("so_upload", "SO"),
         ("sj_upload", "SJ"),
         ("done", "Done"),
-        ("cancel", "Cancel")
+        ("cancel", "Cancelled")
         ], string='State', default='draft', track_visibility='onchange')
     amount_tax = fields.Monetary(
         string='Taxes', currency_field='currency_id', compute='_compute_amount')
@@ -152,12 +152,12 @@ class QuotationRequestForm(models.Model):
 
     @api.model
     def create(self, vals):            
-        if vals.get('qrf_attachment_line_ids'):
-            vals['state'] = 'qrf_upload'
-        if vals.get('drawing_attachment_line_ids'):
-            vals['state'] = 'dwg_upload'
-        if vals.get('po_attachment_line_ids'):
-            vals['state'] = 'po_upload'
+        # if vals.get('qrf_attachment_line_ids'):
+        #     vals['state'] = 'qrf_upload'
+        # if vals.get('drawing_attachment_line_ids'):
+        #     vals['state'] = 'dwg_upload'
+        # if vals.get('po_attachment_line_ids'):
+        #     vals['state'] = 'po_upload'
         #     vals​.update({'state': 'qrf_upload'})
         seq_id = self.env.ref('master_specifications.qrf_seq')
         vals['name'] = seq_id.next_by_id() if seq_id else '/'
@@ -165,15 +165,15 @@ class QuotationRequestForm(models.Model):
         return res
 
     
-    def write(self, values):
-        if values.get('qrf_attachment_line_ids'):
-            values['state'] = 'qrf_upload'
-        if values.get('drawing_attachment_line_ids'):
-            values['state'] = 'dwg_upload'
-        if values.get('po_attachment_line_ids'):
-            values['state'] = 'po_upload'
-        res = super(QuotationRequestForm, self).write(values)
-        return res
+    # def write(self, values):
+    #     if values.get('qrf_attachment_line_ids'):
+    #         values['state'] = 'qrf_upload'
+    #     if values.get('drawing_attachment_line_ids'):
+    #         values['state'] = 'dwg_upload'
+    #     if values.get('po_attachment_line_ids'):
+    #         values['state'] = 'po_upload'
+    #     res = super(QuotationRequestForm, self).write(values)
+    #     return res
 
     # ("draft", "QRF"), 
     #     # ("confirm", "Approval Requested"), 
@@ -196,32 +196,59 @@ class QuotationRequestForm(models.Model):
         self.state = 'dwg_upload'
 
     def action_revise_qrf(self):
-        self.state = 'draft'
+        return {
+            'type'      : 'ir.actions.act_window',
+            'name'      : "Send",
+            'res_model' : 'revise.wizard',
+            'target'    : 'new',
+            'view_id'   : self.env.ref('master_specifications.revise_wizard_form').id,
+            'view_mode' : 'form',
+            'context'   : {'default_qrf_id': self.id,},
+        }
 
     def action_req_approval(self):
         self.state = 'waiting'
 
     def action_revise_dwg(self):
-        self.state = 'qrf_upload'
+        return {
+            'type'      : 'ir.actions.act_window',
+            'name'      : "Send",
+            'res_model' : 'revise.wizard',
+            'target'    : 'new',
+            'view_id'   : self.env.ref('master_specifications.revise_wizard_form').id,
+            'view_mode' : 'form',
+            'context'   : {'default_qrf_id': self.id,},
+        }
 
     def action_approved(self):
-        self.state = 'waiting'
+        self.state = 'approved'
+
+    def action_confirm_order(self):
+        self.state = 'po_upload'
 
     def action_revise_detail(self):
-        self.state = 'dwg_upload'
+        return {
+            'type'      : 'ir.actions.act_window',
+            'name'      : "Send",
+            'res_model' : 'revise.wizard',
+            'target'    : 'new',
+            'view_id'   : self.env.ref('master_specifications.revise_wizard_form').id,
+            'view_mode' : 'form',
+            'context'   : {'default_qrf_id': self.id,},
+        }
 
     def action_confirm_po(self):
-        self.state = 'po_upload'
+        self.state = 'so_upload'
 
     def action_cancel_po(self):
         self.state = 'cancel'
 
 
     def action_send_to_customer(self):
-        self.state = 'so_upload'
+        self.state = 'sj_upload'
 
     def action_send_production(self):
-        self.state = 'so_upload'
+        self.state = 'sj_upload'
 
     def action_confirm_sj(self):
         self.state = 'done'
