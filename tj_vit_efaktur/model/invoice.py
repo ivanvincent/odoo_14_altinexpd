@@ -24,7 +24,11 @@ class invoice(models.Model):
     fp_name               = fields.Char(string='Faktur Pajak')
 
     def action_post(self):
-        if not self.surat_jalan_doc and not self.bill_doc and not self.fp_doc:
+        if not self.surat_jalan_doc:
+            raise UserError('Mohon maaf silakan lengkapi seluruh kelengkapan dokumen terlebih dahulu')
+        elif not self.bill_doc:
+            raise UserError('Mohon maaf silakan lengkapi seluruh kelengkapan dokumen terlebih dahulu')
+        elif not self.fp_doc:
             raise UserError('Mohon maaf silakan lengkapi seluruh kelengkapan dokumen terlebih dahulu')
         res = super(invoice, self).action_post()
         return res

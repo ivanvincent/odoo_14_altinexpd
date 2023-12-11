@@ -248,7 +248,15 @@ class QuotationRequestForm(models.Model):
         self.state = 'so_upload'
 
     def action_cancel_po(self):
-        self.state = 'cancel'
+        return {
+            'type'      : 'ir.actions.act_window',
+            'name'      : "Send",
+            'res_model' : 'revise.wizard',
+            'target'    : 'new',
+            'view_id'   : self.env.ref('master_specifications.cancel_wizard_form').id,
+            'view_mode' : 'form',
+            'context'   : {'default_qrf_id': self.id,},
+        }
 
 
     def action_send_to_customer(self):
@@ -256,6 +264,31 @@ class QuotationRequestForm(models.Model):
 
     def action_send_production(self):
         self.state = 'sj_upload'
+        # line = []
+        # for l in self.line_ids:
+        #     product = self.env['product.product'].search([('name','=',l.name)],limit=1)
+        #     if not product :
+        #         product = self.env['product.product'].create({
+        #             "name":l.name,
+        #             "type":"product",
+        #             # "product_tmpl_id":line.name,
+        #             "categ_id": 27,
+        #         })
+        #     line.append((0, 0, {
+        #         'product_id'    : product.id,
+        #         'qty_so': l.quantity
+        #         # 'qty_produce'   : l.quantity_remaining,
+        #         # 'sale_line_id'  : l.id,
+        #         # 'kd_bahan'      : l.kd_bahan,
+        #         # 'lapisan'       : l.lapisan,
+        #         # 'payment_term_id'       : l.payment_term_id,
+        #     }))
+        # mrp_request = self.env['mrp.request'].create({
+        #     'request_date': fields.Date.today(),
+        #     'partner_id': self.partner_id.id,
+        #     'sale_id': self.id,
+        #     'line_ids': line
+        # })
 
     def action_confirm_sj(self):
         self.state = 'done'

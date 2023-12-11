@@ -24,6 +24,13 @@ class ReviseWizard(models.TransientModel):
                 rec.qrf_id.sudo().message_post(body="<strong>%s</strong>" % (
                             rec.note))
             elif rec.qrf_id.state == 'approved':
-                rec.qrf_id.state = 'waiting'
+                rec.qrf_id.state = 'dwg_upload'
+                rec.qrf_id.sudo().message_post(body="<strong>%s</strong>" % (
+                            rec.note))
+
+    def action_submit_cancel(self):
+        for rec in self:
+            if rec.qrf_id.state == 'approved':
+                rec.qrf_id.state = 'cancel'
                 rec.qrf_id.sudo().message_post(body="<strong>%s</strong>" % (
                             rec.note))

@@ -48,4 +48,17 @@
         <field name="perm_create" eval="True"/>
         <field name="perm_unlink" eval="True"/>
     </record>
+
+    <record id="spv_engineering_up_group" model="res.groups">
+        <field name="name">SPV Engineering Up</field>
+    </record>
+
+    <record id="spv_sales_up_group" model="res.groups">
+        <field name="name">SPV Sales Up</field>
+    </record>
+
+    <record id="staf_sales_group" model="res.groups">
+        <field name="name">Staff Sales</field>
+    </record>
+
 </odoo>
