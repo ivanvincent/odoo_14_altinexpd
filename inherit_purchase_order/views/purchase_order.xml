@@ -131,19 +131,19 @@
                     </page>
                     <page name="purchase_order_offer" string="TTD (Tanda Terima Dokumen)">
                         <group>    
-                            <group>    
+                            <!-- <group>    
                                 <field name="surat_jalan_doc" filename="surat_jalan_name" widget="binary"/>
                                 <field name="bill_doc" filename="bill_name" widget="binary"/>
                                 <field name="fp_doc" filename="fp_name" widget="binary"/>
                                 <field name="surat_jalan_name" invisible="1"/>
                                 <field name="bill_name" invisible="1"/>
                                 <field name="fp_name" invisible="1"/>
-                            </group>
-                            <group>
-                                <field name="is_surat_jalan"/>
-                                <field name="is_bill"/>
-                                <field name="is_fp"/>
-                            </group>
+                            </group> -->
+                        <!-- <group> -->
+                            <field name="is_surat_jalan"/>
+                            <field name="is_bill"/>
+                            <field name="is_fp"/>
+                        <!-- </group> -->
                         </group>
                     </page>
                     <!-- <page name="purchase_order_doc_ffer" string="TTD (Tanda Terima Dokumen)">
