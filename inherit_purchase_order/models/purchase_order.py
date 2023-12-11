@@ -197,11 +197,11 @@ class PurchaseOrder(models.Model):
         for rec in self:
             rec.picking_count_makloon = len(picking.ids)
 
-    def action_create_invoice(self):
-        if self.picking_count > 1 and not self.is_surat_jalan and not self.is_bill and not self.is_fp:
-            raise UserError('Mohon maaf silahkan lengkapi tanda terima dokumen terlebih dahulu')
-        res = super(PurchaseOrder, self).action_create_invoice()
-        return res
+    # def action_create_invoice(self):
+    #     if self.picking_count > 1 and not self.is_surat_jalan and not self.is_bill and not self.is_fp:
+    #         raise UserError('Mohon maaf silahkan lengkapi tanda terima dokumen terlebih dahulu')
+    #     res = super(PurchaseOrder, self).action_create_invoice()
+    #     return res
 
     # def _compute_document(self):
     #     for rec in self:
