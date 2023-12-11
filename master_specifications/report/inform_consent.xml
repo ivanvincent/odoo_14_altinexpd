@@ -127,32 +127,35 @@
                             <table class="table-condensed" width="100%" style="margin-top:20px">
                                 <tr>
                                     <td style="font-size:17px; padding-top:15px;">
-                                        <div>Melalui informed consent ini, saya menyetujui pemesanan barang dari PT. Altnex Divisi Punch &amp;
+                                        <div>Melalui <i>informed consent</i> ini, saya menyetujui pemesanan barang dari PT. Altinex Divisi Punch &amp;
                                         Die secara parsial. Pesanan parsial yang dimaksud mencakup:</div>
                                         <div style="font-size:17px;padding-left:30px; "> 
                                         1. Pemesanan upper punch saja, ATAU<br/>
                                         2. Pemesanan upper dan lower punch saja (tanpa dies), ATAU<br/>
-                                        3. Pemesanan qty tooling (kurang dari) jumlah station turret mesin cetak tablet<br/> </div>
+                                        3. Pemesanan qty tooling < (kurang dari) jumlah station turret mesin cetak tablet<br/> </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="font-size:17px; padding-bottom:15px;">
                                         <br/><div>Saya menyatakan telah mendapat penjelasan holistik dan menyeluruh dari perwakilan resmi PT.
-                                        ALTINEX Divisi Punch and Die perihal peningkatan risiko yang mungkin terjadi akibat pemesanan
+                                        Altinex Divisi Punch &amp; Die perihal peningkatan risiko yang mungkin terjadi akibat pemesanan
                                         barang secara parsial, yaitu, tapi tidak terbatas pada:</div>
                                         <div style="font-size:17px;padding-left:30px; "> 
-                                        1. Ketidaksesuaian antara tooling existing dengan tooling yang dipesan, yang akan
-                                        menyebabkan beberapa komplikasi yaitu premature wear, kerusakan pada part mesin
-                                        lain, dan lain-lain<br/>
-                                        2. Variasi pada hasil cetak tablet, termasuk variasi bobot, ukuran, dan lain-lain.<br/></div>
+                                            <ul>
+                                                <li>1. Ketidaksesuaian antara tooling existing dengan tooling yang dipesan, yang akan
+                                                    menyebabkan beberapa komplikasi yaitu premature wear, kerusakan pada part mesin
+                                                    lain, dan lain-lain</li>
+                                                <li>2. Variasi pada hasil cetak tablet, termasuk variasi bobot, ukuran, dan lain-lain.</li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr><br/>
                                 <tr>
                                     <td style="font-size:17px; padding-bottom:15px;">
                                         <div>Bersama penjelasan ini, saya juga memahami bahwa apabila di kemudian hari, terjadi peristiwa-peristiwa seperti yang telah dijelaskan 
                                         di atas, maka peristiwa tersebut berada di luar tanggung
-                                        jawab PT. ALTINEX Divisi Punch and Die dan tidak termasuk ke dalam garansi yang menjadi
-                                        kewajiban PT. ALTINEX Divisi Punch and Die.</div>
+                                        jawab PT. Altinex Divisi Punch &amp; Die dan tidak termasuk ke dalam garansi yang menjadi
+                                        kewajiban PT. Altinex Divisi Punch &amp; Die.</div>
                                     </td>
                                 </tr>
                             </table>
@@ -176,7 +179,7 @@
                                                     </span><br/>
                                                 </div>
                                                 <div class="col-6">
-                                                    <b><span style="text-align: left; font-size: 17px; padding-left:30px;">PT. ALTINEX Punch &amp; Die Division,</span></b>
+                                                    <b><span style="text-align: left; font-size: 17px; padding-left:30px;">PT. ALTINEX Divisi Punch and Die,</span></b>
                                                     <br/><br/><br/><br/><br/>
                                                     <span style="text-align: left; font-size: 17px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
                                                         <t t-esc="doc.user_id.name"/>

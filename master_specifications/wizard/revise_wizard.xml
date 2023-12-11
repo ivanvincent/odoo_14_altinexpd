@@ -7,7 +7,8 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <h3>Alasan revisi?</h3>
+                        <h3>Silakan sebutkan alasan Anda melakukan revisi.</h3>
+                        <p>*Alasan dapat dilihat di bagian pencatatan log di setiap halaman D-QUPS</p>
                         <field name="note" string="Note Revisi"/>
                     </sheet>
                     <footer>
@@ -24,7 +25,8 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <h3>Alasan cancel?</h3>
+                        <h3>Silakan sebutkan alasan Anda melakukan cancel</h3>
+                        <p>*Alasan dapat dilihat di bagian pencatatan log di setiap halaman D-QUPS</p>
                         <field name="note" string="Note Revisi"/>
                     </sheet>
                     <footer>
