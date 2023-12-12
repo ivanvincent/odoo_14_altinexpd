@@ -50,15 +50,15 @@
     </record>
 
     <record id="spv_engineering_up_group" model="res.groups">
-        <field name="name">SPV Engineering Up</field>
+        <field name="name">D-QUPS Group/SPV Engineering</field>
     </record>
 
     <record id="spv_sales_up_group" model="res.groups">
-        <field name="name">SPV Sales Up</field>
+        <field name="name">D-QUPS Group/SPV Sales Up</field>
     </record>
 
-    <record id="staf_sales_group" model="res.groups">
+    <!-- <record id="staf_sales_group" model="res.groups">
         <field name="name">Staff Sales</field>
-    </record>
+    </record> -->
 
 </odoo>

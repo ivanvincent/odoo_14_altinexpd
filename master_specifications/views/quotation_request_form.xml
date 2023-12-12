@@ -11,17 +11,17 @@
                     <header>
                         <field name="state" widget="statusbar"/>
                         <button name="action_confirm_qrf" type="object" string="Confirm QRF" attrs="{'invisible':[('state', '!=', 'draft')]}" class="oe_highlight"/>
-                        <button name="action_print_inform_consent" type="object" string="Download Inform Consent" class="oe_highlight" attrs="{'invisible':[('is_inform_consent', '!=', True)]}"/>
+                        <button name="action_print_inform_consent" type="object" string="Download Inform Consent" class="oe_highlight" attrs="{'invisible':[('state', '!=', 'draft'),('is_inform_consent', '!=', True)]}"/>
                         <button name="action_confirm_dwg" type="object" string="Confirm DWG" attrs="{'invisible':[('state', '!=', 'qrf_upload')]}" class="oe_highlight"/>
                         <button name="action_revise_qrf" type="object" string="Revise QRF" attrs="{'invisible':[('state', '!=', 'qrf_upload')]}" groups="master_specifications.spv_engineering_up_group"/>
                         <button name="action_req_approval" type="object" string="Request Approval" states="dwg_upload" groups="master_specifications.spv_sales_up_group" class="oe_highlight"/>
-                        <button name="action_revise_dwg" type="object" string="Revise DWG" attrs="{'invisible':[('state', '!=', 'dwg_upload')]}" />
+                        <button name="action_revise_dwg" type="object" string="Revise Drawing" attrs="{'invisible':[('state', '!=', 'dwg_upload')]}" />
                         <button name="action_approved" type="object" string="Approve" states="waiting" groups="master_specifications.spv_sales_up_group" class="oe_highlight"/>
                         <button name="action_revise_detail" type="object" string="Revise Details" states="waiting" groups="master_specifications.spv_sales_up_group" />
-                        <button name="action_confirm_order" type="object" string="Confirm Order" states="approved" class="oe_highlight" groups="master_specifications.staf_sales_group"/>
-                        <button name="action_revise_detail" type="object" string="Revise Details" states="approved" groups="master_specifications.staf_sales_group"/>
+                        <button name="action_confirm_order" type="object" string="Confirm Order" states="approved" class="oe_highlight" groups="master_specifications.user_dqups"/>
+                        <button name="action_revise_detail" type="object" string="Revise Details" states="approved" groups="master_specifications.user_dqups"/>
                         <button name="action_print" type="object" string="Print" attrs="{'invisible':[('state', '!=', 'approved')]}" class="oe_highlight"/>
-                        <button name="action_cancel_po" type="object" string="Cancel" states="approved" groups="master_specifications.spv_sales_up_group"/>
+                        <button name="action_cancel_po" type="object" string="Cancel" states="approved"/>
                         <button name="action_confirm_po" type="object" string="Confirm PO" states="po_upload" class="oe_highlight"/>
                         <button name="action_cancel_po" type="object" string="Cancel PO" states="po_upload" />
                         <button name="action_send_to_customer" type="object" string="Send to Customer" states="so_upload" class="oe_highlight"/>
@@ -106,15 +106,15 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page name="drawing" string="Drawing" attrs="{'invisible':[('qrf_attachment_line_ids','=',[])]}">
+                            <page name="drawing" string="Drawing" attrs="{'invisible':[('state','=','draft')]}">
                                 <field name="drawing_attachment_line_ids" attrs="{'readonly':[('state','=','approved')]}" >
                                     <tree editable="bottom"> 
-                                        <field name="drawing_attachment_ids" widget="pdf_viewer" style="width : 250px; height:65px;"/>
-                                        <!-- <field name="attachment_name" invisible="1"/> -->
+                                        <field name="drawing_attachment_ids" filename="attachment_name" widget="binary"/>
+                                        <field name="attachment_name" invisible="1"/>
                                     </tree>
                                 </field>
                             </page>
-                            <page name="Details" string="Details" attrs="{'invisible':[('drawing_attachment_line_ids','=',[])]}" groups="master_specifications.user_dqups,master_specifications.manager_dqups">
+                            <page name="Details" string="Details" attrs="{'invisible':[('state','in',('draft','qrf_upload'))]}" groups="master_specifications.user_dqups,master_specifications.manager_dqups">
                                 <field name="line_ids" attrs="{'readonly':[('state','=','approved')]}" >
                                     <tree editable="bottom"> 
                                         <field name="jenis_id" options="{'no_create': True}"/>
@@ -132,7 +132,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page name="po" string="PO" attrs="{'invisible':[('state','!=','approved')]}" >
+                            <page name="po" string="PO" attrs="{'invisible':[('state','not in',('po_upload','so_upload','sj_upload','done'))]}" >
                                 <field name="po_attachment_line_ids" >
                                     <tree editable="bottom"> 
                                         <field name="po_attachment_ids" widget="pdf_viewer" style="width : 250px; height:65px;"/>
@@ -142,7 +142,7 @@
                             </page>
                         </notebook>
                         <group col="6">
-                            <group name="discount" colspan="2" attrs="{'invisible':[('state', 'not in', ('details','waiting'))]}">
+                            <group name="discount" colspan="2" attrs="{'invisible':[('state', 'not in', ('dwg_upload','waiting'))]}">
                                 <field name="discount_type"/>
                                 <field name="discount_rate"/>
                             </group>
