@@ -30,9 +30,9 @@
                         <!-- <button name="action_confirm" type="object" string="Request Approval" states="dwg_upload" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
                         <button name="action_approve" type="object" string="Approve" states="waiting" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
                         <button name="action_done" type="object" string="Done" states="po_upload" groups="sales_team.group_sale_manager" class="oe_highlight"/>
-                        <field name="processed" invisible="1"/>
+                        <field name="processed" invisible="1"/>-->
                         <button name="action_set_to_draft" type="object" string="Set To Draft" groups="sales_team.group_sale_manager" attrs="{'invisible':[('state', 'not in', ('approved','confirm'))]}"/>
-                        <button name="action_create_so" type="object" string="Create SO" attrs="{'invisible':[('state', '!=', 'approved')]}" class="oe_highlight"/>
+                        <!--<button name="action_create_so" type="object" string="Create SO" attrs="{'invisible':[('state', '!=', 'approved')]}" class="oe_highlight"/>
                         <button name="action_print_dqups2" type="object" string="Print" attrs="{'invisible':[('state', 'not in', ('approved','order_processed'))]}" class="oe_highlight"/> -->
                     </header>
                     <sheet>
