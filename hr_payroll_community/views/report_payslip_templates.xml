@@ -82,6 +82,20 @@
                                             </t>
                                         </t>
                                     </t>
+                                    <t t-if="line.name == '05.2. Bonus Tahunan'">
+                                        <t t-foreach="o.input_line_ids" t-as="i">
+                                            <t t-if="i.name == 'Bonus Tahunan'">
+                                                <span t-field="i.note"/>
+                                            </t>
+                                        </t>
+                                    </t>
+                                    <t t-if="line.name == '08.1. Potongan Resmi'">
+                                        <t t-foreach="o.input_line_ids" t-as="i">
+                                            <t t-if="i.name == 'Potongan Resmi'">
+                                                <span t-field="i.note"/>
+                                            </t>
+                                        </t>
+                                    </t>
                                 </td>
                                 <!-- <td><span t-field="line.quantity"/></td> -->
                                 <!-- <td><span t-esc="line.amount" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td> -->

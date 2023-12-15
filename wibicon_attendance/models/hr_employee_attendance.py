@@ -233,8 +233,16 @@ class HrPayslip(models.Model):
             'note':''})
 
         res.append({
-            'name':'Cicilan PPH21',
+            'name':'Piutang Karyawan',
             'sequence':80,
+            'code':'PIKA',
+            'amount': 0.0,
+            'contract_id': self.contract_id.id,
+            'note':''})
+        
+        res.append({
+            'name':'Cicilan PPH21',
+            'sequence':90,
             'code':'POTPPH',
             'amount': 0.0,
             'contract_id': self.contract_id.id,
@@ -242,7 +250,7 @@ class HrPayslip(models.Model):
         
         res.append({
             'name':'Kurang Lebih Bayar',
-            'sequence':90,
+            'sequence':100,
             'code':'KLB',
             'amount': 0.0,
             'contract_id': self.contract_id.id,
