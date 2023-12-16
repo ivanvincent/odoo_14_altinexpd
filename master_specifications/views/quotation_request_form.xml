@@ -140,6 +140,14 @@
                                     </tree>
                                 </field>
                             </page>
+                            <page name="sj" string="SJ" attrs="{'invisible':[('state','not in',('sj_upload','done'))]}" >
+                                <field name="sj_attachment_line_ids" >
+                                    <tree editable="bottom"> 
+                                        <field name="sj_attachment_ids" filename="attachment_name" widget="binary"/>
+                                        <field name="attachment_name" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
                         </notebook>
                         <group col="6">
                             <group name="discount" colspan="2" attrs="{'invisible':[('state', 'not in', ('dwg_upload','waiting'))]}">
