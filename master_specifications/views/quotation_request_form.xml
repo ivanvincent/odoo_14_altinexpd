@@ -11,7 +11,7 @@
                     <header>
                         <field name="state" widget="statusbar"/>
                         <button name="action_confirm_qrf" type="object" string="Confirm QRF" attrs="{'invisible':[('state', '!=', 'draft')]}" class="oe_highlight"/>
-                        <button name="action_print_inform_consent" type="object" string="Download Inform Consent" class="oe_highlight" attrs="{'invisible':[('state', '!=', 'draft'),('is_inform_consent', '!=', True)]}"/>
+                        <button name="action_print_inform_consent" type="object" string="Download Inform Consent" class="oe_highlight" attrs="{'invisible':['|', ('state', '!=', 'draft'),('is_inform_consent', '!=', True)]}"/>
                         <button name="action_confirm_dwg" type="object" string="Confirm DWG" attrs="{'invisible':[('state', '!=', 'qrf_upload')]}" class="oe_highlight"/>
                         <button name="action_revise_qrf" type="object" string="Revise QRF" attrs="{'invisible':[('state', '!=', 'qrf_upload')]}" groups="master_specifications.spv_engineering_up_group"/>
                         <button name="action_req_approval" type="object" string="Request Approval" states="dwg_upload" groups="master_specifications.spv_sales_up_group" class="oe_highlight"/>
@@ -64,6 +64,7 @@
                                 <field name="date" required="1"/>
                                 <field name="attn_ids" invisible="1"/>
                                 <field name="user_id"/>
+                                <field name="so_id"/>
                             </group>
                             <group>
                                 <!-- <field name="date" attrs="{'readonly':[('state','=','confirm')]}" /> -->
@@ -143,6 +144,8 @@
                             <page name="sj" string="SJ" attrs="{'invisible':[('state','not in',('sj_upload','done'))]}" >
                                 <field name="sj_attachment_line_ids" >
                                     <tree editable="bottom"> 
+                                        <field name="picking_out_id"/>
+                                        <field name="ref"/>
                                         <field name="sj_attachment_ids" filename="attachment_name" widget="binary"/>
                                         <field name="attachment_name" invisible="1"/>
                                     </tree>
