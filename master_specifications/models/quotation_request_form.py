@@ -106,6 +106,11 @@ class QuotationRequestForm(models.Model):
     is_inform_consent = fields.Boolean(string='Is Inform Consent?', compute="_compute_conc")
     ic_doc_number = fields.Char(string='IC Number')
     pph23_tax = fields.Monetary(string='PPH 23', currency_field='currency_id', compute='_compute_pph23')
+    sj_attachment_line_ids = fields.One2many('sj.attachment', 'qrf_id', 'SJ')
+    picking_out_id = fields.Many2one('stock.picking', string="No DO")
+    #harusnya ambil dari so_id yang di create delivery out yang status nya DONE
+    ref = fields.Char(related='picking_out_id.origin', string='No Ref')
+    so_id = fields.Many2one('sale.order', string='SO')
 
     @api.depends('line_ids.sub_total')
     def _compute_pph23(self):
@@ -260,35 +265,42 @@ class QuotationRequestForm(models.Model):
 
 
     def action_send_to_customer(self):
-        self.state = 'sj_upload'
+        self.action_create_so()
+        return {
+            'type'      : 'ir.actions.act_window',
+            'name'      : "Send Mail",
+            'res_model' : 'revise.wizard',
+            'target'    : 'new',
+            'view_id'   : self.env.ref('master_specifications.send_customer_mail_form').id,
+            'view_mode' : 'form',
+            'context'   : {'default_qrf_id': self.id,},
+        }
 
     def action_send_production(self):
         self.state = 'sj_upload'
         # line = []
-        # for l in self.line_ids:
-        #     product = self.env['product.product'].search([('name','=',l.name)],limit=1)
-        #     if not product :
-        #         product = self.env['product.product'].create({
-        #             "name":l.name,
-        #             "type":"product",
-        #             # "product_tmpl_id":line.name,
-        #             "categ_id": 27,
-        #         })
-        #     line.append((0, 0, {
-        #         'product_id'    : product.id,
-        #         'qty_so': l.quantity
-        #         # 'qty_produce'   : l.quantity_remaining,
-        #         # 'sale_line_id'  : l.id,
-        #         # 'kd_bahan'      : l.kd_bahan,
-        #         # 'lapisan'       : l.lapisan,
-        #         # 'payment_term_id'       : l.payment_term_id,
-        #     }))
-        # mrp_request = self.env['mrp.request'].create({
-        #     'request_date': fields.Date.today(),
-        #     'partner_id': self.partner_id.id,
-        #     'sale_id': self.id,
-        #     'line_ids': line
-        # })
+        mrp = self.env['mrp.production']
+        for l in self.line_ids:
+            product = self.env['product.product'].search([('name','=',l.name)],limit=1)
+            if not product :
+                product = self.env['product.product'].create({
+                    "name":l.name,
+                    "type":"product",
+                    # "product_tmpl_id":line.name,
+                    "categ_id": 27,
+                })
+
+            mrp.create({       
+                'dqups_id'      : self.id,    
+                # 'type_id'       : 2,                
+                'product_id'    : product.id,
+                'product_qty'   : l.quantity,
+                'billing_address'   : self.billing_address,
+                'shipping_address'  : self.shipping_address.id,
+                'ref_so'        : self.name.replace("Q","SO"),
+                'product_uom_id': 1,
+                'partner_id': self.partner_id.id,   
+            })
 
     def action_confirm_sj(self):
         self.state = 'done'
@@ -318,7 +330,7 @@ class QuotationRequestForm(models.Model):
                     }))
         sale_order_id = self.env['sale.order'].create({
                     'dqups_id':self.id,
-                    'name':self.name,
+                    'name':self.name.replace("Q","SO"),
                     'partner_id':self.partner_id.id,
                     'date_order':self.date,
                     'payment_term_id': self.payment_terms,
@@ -334,6 +346,7 @@ class QuotationRequestForm(models.Model):
                     # 'term_of_payment': self.payment_terms,
                     'order_line': data
                 })
+        self.write({'so_id': sale_order_id.id})
 
     def action_view_so(self):
         action = self.env.ref('sale.action_quotations_with_onboarding').read()[0]
@@ -888,3 +901,13 @@ class PoAttachment(models.Model):
     qrf_id = fields.Many2one('quotation.request.form', string='QRF')
     po_attachment_ids = fields.Binary('PO', required=True)
     attachment_name = fields.Char('Name')
+
+class SjAttachment(models.Model):
+    _name = 'sj.attachment'
+
+    qrf_id = fields.Many2one('quotation.request.form', string='QRF')
+    sj_attachment_ids = fields.Binary('Surat Jalan', required=True)
+    attachment_name = fields.Char('Name')
+    picking_out_id = fields.Many2one('stock.picking', string="No DO")
+    #harusnya ambil dari so_id yang di create delivery out yang status nya DONE
+    ref = fields.Char(related='picking_out_id.origin', string='No Ref')

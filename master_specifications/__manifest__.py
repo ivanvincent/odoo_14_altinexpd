@@ -4,7 +4,7 @@
     'author': 'Yugi, Wibicon',
     'category': 'RND',
     'depends': [
-        'base', 'mail'
+        'base', 'mail','stock', 'inherit_purchase_order'
         # 'sale',
         # 'hide_any_menu',
         # 'prt_report_attachment_preview',
@@ -45,6 +45,7 @@ Dev
         'wizard/print_qrf_dqups3.xml',
         'wizard/inform_consent_wizard.xml',
         'wizard/revise_wizard.xml',
+        'wizard/customer_mail_wizard.xml',
         
     ],
     'installable': True,

@@ -34,12 +34,17 @@ class MrpProduction(models.Model):
     note_so             = fields.Char(related='request_id.note_so', string='Note')
     kd_bahan            = fields.Char('Kode Bahan')
     lapisan             = fields.Char('Surface Finish')
-    partner_id          = fields.Many2one('res.partner', string='Customer', related='request_id.partner_id')
+    partner_id          = fields.Many2one('res.partner', string='Customer', )
     process_terkini     = fields.Many2one('mrp.workcenter', string='Process Terkini')
     parameter_terkini   = fields.Many2one('mrp.parameter', string='Parameter Terkini')
     option_vip      = fields.Selection([("VIP","VIP"),("HIGH RISK","HIGH RISK"), ("BIASA", "BIASA"), ("MAKLOON", "MAKLOON")], string='HighRisk / VIP', ondelete='cascade', 
     related='request_id.option_vip', 
     store=True,)
+    billing_address  = fields.Char(string='Billing Address')
+    shipping_address = fields.Many2one('res.partner', string='Shipping Address', required=True)
+    ref_so           = fields.Char('Ref SO')
+    dqups_id         = fields.Many2one('quotation.request.form', string='D-QUPS')
+
     
     def action_split_workorder(self):
         return {
@@ -67,20 +72,20 @@ class MrpProduction(models.Model):
             self.location_src_id = self.type_id.picking_type_id.default_location_src_id.id
             self.location_dest_id = self.type_id.picking_type_id.default_location_dest_id.id
    
-    @api.model
-    def create(self,vals):
+    # @api.model
+    # def create(self,vals):
         
-        if not vals.get('name') and vals.get('type_id'):
-            type_id = self.env['mrp.production.type'].browse(vals.get('type_id'))
-            product_id = self.env['product.product'].browse(vals.get('product_id'))
-            years = datetime.now().strftime('%y')
-            shape = str(product_id.product_template_attribute_value_ids.filtered(lambda x: x.attribute_id.name == 'SHAPE').name)[0]
-            no_urut_mor = str(self.env['mrp.request'].browse(vals.get('request_id')).name).split("/")[3]
-            running_number = type_id.sequence_id.next_by_id()
-            vals['name'] = '%s%s%s%s' % (years, shape, no_urut_mor, running_number)
+    #     if not vals.get('name') and vals.get('type_id'):
+    #         type_id = self.env['mrp.production.type'].browse(vals.get('type_id'))
+    #         product_id = self.env['product.product'].browse(vals.get('product_id'))
+    #         years = datetime.now().strftime('%y')
+    #         shape = str(product_id.product_template_attribute_value_ids.filtered(lambda x: x.attribute_id.name == 'SHAPE').name)[0]
+    #         no_urut_mor = str(self.env['mrp.request'].browse(vals.get('request_id')).name).split("/")[3]
+    #         running_number = type_id.sequence_id.next_by_id()
+    #         vals['name'] = '%s%s%s%s' % (years, shape, no_urut_mor, running_number)
         
-        res = super(MrpProduction, self).create(vals)
-        return res
+    #     res = super(MrpProduction, self).create(vals)
+    #     return res
 
     
     def _create_workorder(self):

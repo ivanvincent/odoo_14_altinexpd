@@ -6,6 +6,10 @@ class ReviseWizard(models.TransientModel):
 
     note          = fields.Text(string='Note Revisi')
     qrf_id        = fields.Many2one('quotation.request.form', string='Quotation', required=True,)
+    so_ids        = fields.Binary(string='SO')
+    so_name       = fields.Char('Name')
+    drawing_ids   = fields.Binary(string='Drawing')
+    dwg_name      = fields.Char('Name')
     
 
     def action_print(self):
@@ -34,3 +38,8 @@ class ReviseWizard(models.TransientModel):
                 rec.qrf_id.state = 'cancel'
                 rec.qrf_id.sudo().message_post(body="<strong>%s</strong>" % (
                             rec.note))
+
+    def action_so(self):
+        print("action_so")
+        return self.env.ref('master_specifications.action_qrf_report').report_action(self.qrf_id)
+        return True
