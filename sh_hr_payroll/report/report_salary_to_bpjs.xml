@@ -16,7 +16,7 @@
         </record>
 
 
-        <record id="action_report_salary_bpjs" model="ir.actions.report">
+        <!-- <record id="action_report_salary_bpjs" model="ir.actions.report">
             <field name="name">Laporan BPJS</field>
             <field name="model">hr.payslip</field>
             <field name="report_type">qweb-pdf</field>
@@ -26,7 +26,7 @@
             <field name="binding_model_id" ref="model_hr_payslip" />
             <field name="binding_type">report</field>
             <field name="paperformat_id" eval="paperformat_report_salary_bpjs" />
-        </record>
+        </record> -->
 
         <template id="report_salary_bpjs">
             <t t-call="web.basic_layout">

@@ -62,14 +62,14 @@
         </record>
 
         <menuitem
-                name="Reports"
+                name="BNI Direct"
                 id="menu_hr_payslip_reports"
-                parent="hr_payroll_community.menu_hr_payroll_community_root"
+                parent="sh_hr_payroll.menu_hr_payroll_root"
                 groups="hr_payroll_community.group_hr_payroll_community_user"
                 sequence="45"/>
         <menuitem
                 id="menu_hr_payslip_view_report"
-                name="Payslip Report"
+                name="Payslip Report per Karyawan"
                 parent="menu_hr_payslip_reports"
                 action="action_hr_payslip_view_report"
                 groups="hr_payroll_community.group_hr_payroll_community_user"
