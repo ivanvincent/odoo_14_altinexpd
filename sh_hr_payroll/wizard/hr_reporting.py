@@ -88,7 +88,8 @@ class HrReporting(models.TransientModel):
                 sum(payslip.gaji_bpjs_tk) as total_bpjs_tk,
 				sum(payslip.thp_2) as thp_2,
 				sum(payslip.thp_3) as thp_3,
-				sum(payslip.total_bpjs_perusahaan) as total_bpjs_perusahaan
+				sum(payslip.total_bpjs_perusahaan) as total_bpjs_perusahaan,
+                sum(payslip.total_pengurangan_bruto) as total_pengurangan_bruto
             FROM (
                     SELECT 
 						hpl.code, 
@@ -128,6 +129,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id
                     FROM
                 hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -177,6 +179,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -226,6 +229,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -275,6 +279,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -324,6 +329,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -373,6 +379,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -422,6 +429,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -471,6 +479,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -520,6 +529,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -569,6 +579,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -618,6 +629,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -667,6 +679,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -716,6 +729,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -765,6 +779,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -814,6 +829,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -863,6 +879,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -912,6 +929,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -961,6 +979,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1010,6 +1029,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1059,6 +1079,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1108,6 +1129,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1157,6 +1179,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1206,6 +1229,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1255,6 +1279,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1304,6 +1329,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1353,6 +1379,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1402,6 +1429,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1451,6 +1479,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1500,6 +1529,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1549,6 +1579,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1598,6 +1629,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1647,6 +1679,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1695,6 +1728,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1743,6 +1777,7 @@ class HrReporting(models.TransientModel):
 						hpl.total as thp_2,
 						0 as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1792,6 +1827,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						hpl.total as thp_3,
 						0 as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1841,6 +1877,7 @@ class HrReporting(models.TransientModel):
 						0 as thp_2,
 						0 as thp_3,
 						hpl.total as total_bpjs_perusahaan,
+						0 as total_pengurangan_bruto,
 						hp.employee_id as karyawan
                     FROM 
                     hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
@@ -1848,6 +1885,56 @@ class HrReporting(models.TransientModel):
 					left join hr_job hj on hj.id = he.job_id
 					left join hr_contract hc on hc.id = he.contract_id
                     WHERE hpl.code = 'TOTAL_BPJS_PERUSAHAAN'
+                    AND hp.month_selection = '{self.month_selection}'
+					AND hj.id in {job_ids}
+
+					UNION
+                    SELECT 
+						hpl.code,
+						0 as total_gapok, 
+						0 as total_gapok_bpjs,
+						0 as total_ahli,
+						0 as total_shift3,
+						0 as total_faskes,
+						0 as total_lembur,
+						0 as total_bonus,
+						0 as total_total_tunjangan,
+						0 as total_tpph, 
+						0 as total_kes,
+						0 as total_jkk,
+						0 as total_jkm,
+						0 as total_bota,
+						0 as total_thr,
+						0 as total_total_ktt,
+						0 as total_bruto,
+						0 as total_jht2, 
+						0 as total_jp2,
+						0 as total_jabat,
+						0 as total_potong,
+						0 as total_net,
+						0 as total_net_annual,
+						0 as total_ptkp,
+						0 as total_pkp_1,
+						0 as total_pkp_2, 
+						0 as total_pph21_1,
+						0 as total_pph21_2,
+						0 as total_thp_1,
+						0 as jht,
+						0 as total_jp,
+						0 as kes2,
+						0 as gaji_bpjs_kes,
+						0 as gaji_bpjs_tk,
+						0 as thp_2,
+						0 as thp_3,
+						0 as total_bpjs_perusahaan,
+						hpl.total as total_pengurangan_bruto,
+						hp.employee_id as karyawan
+                    FROM 
+                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+					left join hr_employee he on he.id = hp.employee_id
+					left join hr_job hj on hj.id = he.job_id
+					left join hr_contract hc on hc.id = he.contract_id
+                    WHERE hpl.code = 'TOTAL_PENGURANG'
                     AND hp.month_selection = '{self.month_selection}'
 					AND hj.id in {job_ids}
                 ) AS payslip 
@@ -1914,6 +2001,7 @@ class HrReporting(models.TransientModel):
                     "total_pph21_2": lot.get('total_pph21_2', ''),
                     # "total_thp": lot.get('total_gapok', '') + lot.get('total_tpph', ''),
                     "total_thp": lot.get('tot_thp', ''),
+                    "total_pengurangan_bruto": lot.get('total_pengurangan_bruto', ''),
                 }))
 
         # bs = self.env['rv.payroll'].search([('journal_id', '=', self.journal_src_id.id)], order="id desc", limit=1)
@@ -2021,12 +2109,13 @@ class HrReporting(models.TransientModel):
         worksheet.set_column('AL2:AL2', 20)
         worksheet.set_column('AM2:AM2', 20)
         worksheet.set_column('AN2:AN2', 20)
+        worksheet.set_column('AO2:AO2', 20)
     
 
             # # WKS 1
 
-        worksheet.merge_range('A2:AN2', report_name , wbf['merge_format'])
-        worksheet.merge_range('A3:AN3', 'PERIODE (' + str(self.month_selection) + ')' , wbf['merge_format_2'])
+        worksheet.merge_range('A2:AO2', report_name , wbf['merge_format'])
+        worksheet.merge_range('A3:AO3', 'PERIODE (' + str(self.month_selection) + ')' , wbf['merge_format_2'])
 
         row = 6
         worksheet.write('A%s' % (row), 'No', wbf['header'])
@@ -2052,24 +2141,24 @@ class HrReporting(models.TransientModel):
         worksheet.write('U%s' % (row), 'Bonus Tahunan', wbf['header'])
         worksheet.write('V%s' % (row), 'THR', wbf['header'])
         worksheet.write('W%s' % (row), 'Total Komponen Tidak Tetap', wbf['header'])
-        worksheet.write('X%s' % (row), 'Penghasilan Bruto', wbf['header'])
-        worksheet.write('Y%s' % (row), 'BPJS Kes (Karyawan)', wbf['header'])
-        worksheet.write('Z%s' % (row), 'BPJS JHT (Karyawan)', wbf['header'])
-        worksheet.write('AA%s' % (row), 'BPJS JP (Karyawan)', wbf['header'])
-        worksheet.write('AB%s' % (row), 'Total BPJS bayar Karyawan', wbf['header'])
-        worksheet.write('AC%s' % (row), 'Total pot BPJS u/ PPh21', wbf['header'])
-        worksheet.write('AD%s' % (row), 'Biaya Jabatan', wbf['header'])
-        worksheet.write('AE%s' % (row), 'Potongan Resmi lainnya', wbf['header'])
-        worksheet.write('AF%s' % (row), 'Penghasilan Netto', wbf['header'])
-        worksheet.write('AG%s' % (row), 'Penghasilan Netto disetahunkan', wbf['header'])
-        worksheet.write('AH%s' % (row), 'PTKP', wbf['header'])
-        worksheet.write('AI%s' % (row), 'PKP', wbf['header'])
-        worksheet.write('AJ%s' % (row), 'PKP Pembulatan', wbf['header'])
-        worksheet.write('AK%s' % (row), 'PPh 21 Terutang', wbf['header'])
-        worksheet.write('AL%s' % (row), 'PPh 21 Dicicil', wbf['header'])
-        worksheet.write('AM%s' % (row), 'Bayar di Muka', wbf['header'])
-        worksheet.write('AN%s' % (row), 'THP', wbf['header'])
-
+        worksheet.write('X%s' % (row), 'Potongan Resmi lainnya (mengurangi bruto)', wbf['header'])
+        worksheet.write('Y%s' % (row), 'Penghasilan Bruto', wbf['header'])
+        worksheet.write('Z%s' % (row), 'BPJS Kes (Karyawan)', wbf['header'])
+        worksheet.write('AA%s' % (row), 'BPJS JHT (Karyawan)', wbf['header'])
+        worksheet.write('AB%s' % (row), 'BPJS JP (Karyawan)', wbf['header'])
+        worksheet.write('AC%s' % (row), 'Total BPJS bayar Karyawan', wbf['header'])
+        worksheet.write('AD%s' % (row), 'Total pot BPJS u/ PPh21', wbf['header'])
+        worksheet.write('AE%s' % (row), 'Biaya Jabatan', wbf['header'])
+        worksheet.write('AF%s' % (row), 'Piutang Karyawan (tidak mengurangi bruto)', wbf['header'])
+        worksheet.write('AG%s' % (row), 'Penghasilan Netto', wbf['header'])
+        worksheet.write('AH%s' % (row), 'Penghasilan Netto disetahunkan', wbf['header'])
+        worksheet.write('AI%s' % (row), 'PTKP', wbf['header'])
+        worksheet.write('AJ%s' % (row), 'PKP', wbf['header'])
+        worksheet.write('AK%s' % (row), 'PKP Pembulatan', wbf['header'])
+        worksheet.write('AL%s' % (row), 'PPh 21 Terutang', wbf['header'])
+        worksheet.write('AM%s' % (row), 'PPh 21 Dicicil', wbf['header'])
+        worksheet.write('AN%s' % (row), 'Bayar di Muka', wbf['header'])
+        worksheet.write('AO%s' % (row), 'THP', wbf['header'])
         row += 1
         no = 1 
         tot_thp = 0
@@ -2114,6 +2203,7 @@ class HrReporting(models.TransientModel):
         sum_thp = 0
         sum_tot_pph21_perusahaan = 0
         sum_tot_pph21_karyawan = 0
+        sum_tot_pengurangan_bruto = 0
 
         for rec in rslt:
             tot_thp = float(rec['total_gapok'] + rec['total_tpph'] + rec['total_ktt'] - rec['total_pkp_2'] - rec['total_potong'])
@@ -2143,24 +2233,24 @@ class HrReporting(models.TransientModel):
             worksheet.write('U%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_bota'])), wbf['content_float'])
             worksheet.write('V%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_thr'])), wbf['content_float'])
             worksheet.write('W%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_ktt'])), wbf['content_float'])
-            worksheet.write('X%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_bruto'])), wbf['content_float'])
-            worksheet.write('Y%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['kes2'])), wbf['content_float'])
-            worksheet.write('Z%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_jht2'])), wbf['content_float'])
-            worksheet.write('AA%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_jp2'])), wbf['content_float'])
-            worksheet.write('AB%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_pkp_2'])), wbf['content_float'])
-            worksheet.write('AC%s' % (row), 'Rp.' + '{0:,.0f}'.format(tot_pph21_karyawan), wbf['content_float'])
-            worksheet.write('AD%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_jabat'])), wbf['content_float'])
-            worksheet.write('AE%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_potong'])), wbf['content_float'])
-            worksheet.write('AF%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_net'])), wbf['content_float'])
-            worksheet.write('AG%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_net_annual'])), wbf['content_float'])
-            worksheet.write('AH%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_ptkp'])), wbf['content_float'])
-            worksheet.write('AI%s' % (row), 'Rp.' + '{0:,.0f}'.format(rec['total_pkp_1'] if rec['total_pkp_1'] > 0 else 0).replace(',',','), wbf['content_float'])
-            worksheet.write('AJ%s' % (row), 'Rp.' + '{0:,.0f}'.format(rec['pkp_pembulatan'] if rec['pkp_pembulatan'] > 0 else 0).replace(',',','), wbf['content_float'])
-            worksheet.write('AK%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_pph21_1'])), wbf['content_float'])
-            worksheet.write('AL%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_pph21_2'])), wbf['content_float'])
+            worksheet.write('X%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_pengurangan_bruto'])), wbf['content_float'])
+            worksheet.write('Y%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_bruto'])), wbf['content_float'])
+            worksheet.write('Z%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['kes2'])), wbf['content_float'])
+            worksheet.write('AA%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_jht2'])), wbf['content_float'])
+            worksheet.write('AB%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_jp2'])), wbf['content_float'])
+            worksheet.write('AC%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_pkp_2'])), wbf['content_float'])
+            worksheet.write('AD%s' % (row), 'Rp.' + '{0:,.0f}'.format(tot_pph21_karyawan), wbf['content_float'])
+            worksheet.write('AE%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_jabat'])), wbf['content_float'])
+            worksheet.write('AF%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_potong'])), wbf['content_float'])
+            worksheet.write('AG%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_net'])), wbf['content_float'])
+            worksheet.write('AH%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_net_annual'])), wbf['content_float'])
+            worksheet.write('AI%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_ptkp'])), wbf['content_float'])
+            worksheet.write('AJ%s' % (row), 'Rp.' + '{0:,.0f}'.format(rec['total_pkp_1'] if rec['total_pkp_1'] > 0 else 0).replace(',',','), wbf['content_float'])
+            worksheet.write('AK%s' % (row), 'Rp.' + '{0:,.0f}'.format(rec['pkp_pembulatan'] if rec['pkp_pembulatan'] > 0 else 0).replace(',',','), wbf['content_float'])
+            worksheet.write('AL%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_pph21_1'])), wbf['content_float'])
+            worksheet.write('AM%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_pph21_2'])), wbf['content_float'])
             # worksheet.write('AM%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_kes'])), wbf['content_float'])
-            worksheet.write('AN%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['thp_2'])), wbf['content_float'])
-
+            worksheet.write('AO%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['thp_2'])), wbf['content_float'])
 			
             sum_total_gapok += float(rec['total_gapok'])
             sum_bpjs_kesehatan += float(rec['bpjs_kesehatan'] if rec['bpjs_kesehatan'] else 0)
@@ -2201,6 +2291,7 @@ class HrReporting(models.TransientModel):
             sum_thp += float(rec['thp_2'])
             sum_tot_pph21_perusahaan += float(tot_pph21_perusahaan)
             sum_tot_pph21_karyawan += float(tot_pph21_karyawan)
+            sum_tot_pengurangan_bruto += float(rec['total_pengurangan_bruto'])
 
             no += 1
             row += 1
@@ -2227,23 +2318,24 @@ class HrReporting(models.TransientModel):
         worksheet.write('U%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_bota), wbf['total_float'])
         worksheet.write('V%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_thr), wbf['total_float'])
         worksheet.write('W%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_ktt), wbf['total_float'])
-        worksheet.write('X%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_bruto), wbf['total_float'])
-        worksheet.write('Y%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_kes2), wbf['total_float'])
-        worksheet.write('Z%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_jht2), wbf['total_float'])
-        worksheet.write('AA%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_jp2), wbf['total_float'])
-        worksheet.write('AB%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_pkp_2), wbf['total_float'])
-        worksheet.write('AC%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_tot_pph21_karyawan), wbf['total_float'])
-        worksheet.write('AD%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_jabat), wbf['total_float'])
-        worksheet.write('AE%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_potong), wbf['total_float'])
-        worksheet.write('AF%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_net), wbf['total_float'])
-        worksheet.write('AG%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_net_annual), wbf['total_float'])
-        worksheet.write('AH%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_ptkp), wbf['total_float'])
-        worksheet.write('AI%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_pkp_1), wbf['total_float'])
-        worksheet.write('AJ%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_pkp_pembulatan), wbf['total_float'])
-        worksheet.write('AK%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_pph21_1), wbf['total_float'])
-        worksheet.write('AL%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_pph21_2), wbf['total_float'])
-        # worksheet.write('AM%s' % (row), 'Rp.' + '{0:,.0f}'.format(), wbf['total_float'])
-        worksheet.write('AN%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_thp), wbf['total_float'])
+        worksheet.write('X%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_tot_pengurangan_bruto), wbf['total_float'])
+        worksheet.write('Y%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_bruto), wbf['total_float'])
+        worksheet.write('Z%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_kes2), wbf['total_float'])
+        worksheet.write('AA%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_jht2), wbf['total_float'])
+        worksheet.write('AB%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_jp2), wbf['total_float'])
+        worksheet.write('AC%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_pkp_2), wbf['total_float'])
+        worksheet.write('AD%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_tot_pph21_karyawan), wbf['total_float'])
+        worksheet.write('AE%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_jabat), wbf['total_float'])
+        worksheet.write('AF%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_potong), wbf['total_float'])
+        worksheet.write('AG%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_net), wbf['total_float'])
+        worksheet.write('AH%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_net_annual), wbf['total_float'])
+        worksheet.write('AI%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_ptkp), wbf['total_float'])
+        worksheet.write('AJ%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_pkp_1), wbf['total_float'])
+        worksheet.write('AK%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_pkp_pembulatan), wbf['total_float'])
+        worksheet.write('AL%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_pph21_1), wbf['total_float'])
+        worksheet.write('AM%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_pph21_2), wbf['total_float'])
+        # worksheet.write('AN%s' % (row), 'Rp.' + '{0:,.0f}'.format(), wbf['total_float'])
+        worksheet.write('AO%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_thp), wbf['total_float'])
 
         filename = '%s %s%s' % (report_name, date_string, '.xlsx')
         workbook.close()
