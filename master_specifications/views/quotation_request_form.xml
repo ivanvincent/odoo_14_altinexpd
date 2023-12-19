@@ -276,17 +276,10 @@
                 <form string="">
                     <sheet>
                         <group>
-                            <field name="con_ids" nolabel="1" readonly="1">
+                            <field name="con_ids" nolabel="1" >
                                 <tree editable="bottom">
-                                    <field name="check" />
-                                    <field name="con_id"/>
-                                    <!-- <field name="urutan"/> -->
-                                    <!-- <field name="con1_id"/>
-                                    <field name="con1_id"/>
-                                    <field name="con2_id"/>
-                                    <field name="con3_id"/>
-                                    <field name="con4_id"/>
-                                    <field name="con5_id"/> -->
+                                    <field name="check" readonly="0"/>
+                                    <field name="con_id" readonly="1"/>
                                 </tree>
                             </field>
                         </group>
