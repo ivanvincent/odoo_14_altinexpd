@@ -9,7 +9,7 @@
             file="sh_hr_payroll.report_contributionregister"
             menu="False"
         />
-        <report 
+        <!-- <report 
             id="action_report_payslip" 
             model="hr.payslip" 
             string="Payslip"
@@ -17,7 +17,7 @@
             name="sh_hr_payroll.report_payslip" 
             file="sh_hr_payroll.report_payslip"
             print_report_name="'Payslip - %s' % (object.employee_id.name)"
-        />
+        /> -->
 
         <report
             id="payslip_details_report"
