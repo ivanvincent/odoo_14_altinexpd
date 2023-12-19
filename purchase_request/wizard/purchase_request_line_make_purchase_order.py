@@ -337,9 +337,10 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
                 # The onchange quantity is altering the scheduled date of the PO
                 # lines. We do not want that:
                 date_required = item.line_id.date_required
-                po_line.date_planned = datetime(
-                    date_required.year, date_required.month, date_required.day
-                )
+                po_line.date_planned = datetime.now()
+                # (
+                #     date_required.year, date_required.month, date_required.day
+                # )
             res.append(purchase.id)
         ctx = self.env.context
         pr = self.env['purchase.request'].browse(ctx.get('active_id'))
