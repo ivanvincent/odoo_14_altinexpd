@@ -144,7 +144,7 @@ class QuotationRequestForm(models.Model):
             total_tax1 = total_price_discount * (rec.tax_id.amount / 100)
             total_tax2 = total_untax * (rec.tax_id.amount / 100)
             total_tax_2 = total_price_discount_2 * (rec.tax_id.amount / 100)
-             if rec.type == '1':
+            if rec.type == '1':
                 rec.amount_tax = total_tax1
             elif rec.type == '2':
                 rec.amount_tax = total_tax2
