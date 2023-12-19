@@ -287,7 +287,7 @@
                                                   <td width="45%" style="padding-left:10px;">VAT (<span t-esc="docs.tax_id.name"/>) :</td>
                                                   <td>
                                                       <!-- <span>:</span> -->
-                                                       <span class="font-weight-normal" t-field="docs.amount_tax_2"/> 
+                                                       <span class="font-weight-normal" t-field="docs.amount_tax"/> 
                                                   </td>
                                               </tr>
                                               <tr class="text-right">
@@ -302,7 +302,7 @@
                                                   <td style="padding-left:10px;">Total :</td>
                                                   <td>
                                                       <!-- <span>:</span> -->
-                                                      <span class="font-weight-normal" t-field="docs.amount_total_2"/>
+                                                      <span class="font-weight-normal" t-field="docs.amount_total"/>
                                                   </td>
                                               </tr>
                                           </table>
