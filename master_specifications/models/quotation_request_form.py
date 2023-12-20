@@ -116,7 +116,7 @@ class QuotationRequestForm(models.Model):
     def _compute_pph23(self):
         for rec in self:
             total_pph = 0
-            for t in rec.line_ids.filtered(lambda x:x.jenis_id.id in [72,70]):
+            for t in rec.line_ids.filtered(lambda x:x.jenis_id.type == 'jasa'):
                 total_pph += t.sub_total 
             rec.pph23_tax = total_pph * 2/100
 
@@ -283,9 +283,9 @@ class QuotationRequestForm(models.Model):
 
     def action_send_production(self):
         self.state = 'sj_upload'
-        # line = []
+
         mrp = self.env['mrp.production']
-        for l in self.line_ids:
+        for l in self.line_ids.filtered(lambda x:x.jenis_id.type == 'produk'):
             product = self.env['product.product'].search([('name','=',l.name)],limit=1)
             if not product :
                 product = self.env['product.product'].create({
