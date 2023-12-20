@@ -59,5 +59,13 @@
             <field name="view_id" ref="purchase_order_line_customer_tree"/>
         </record>
 
+        <record id="base.res_partner_rule_private_employee" model="ir.rule">
+            <field name="active">False</field>
+        </record>
+
+        <record id="base.res_partner_rule_private_employee" model="ir.rule">
+            <field name="active">False</field>
+        </record>
+
     </data>
 </odoo>
