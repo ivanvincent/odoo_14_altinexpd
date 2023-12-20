@@ -438,32 +438,29 @@ class HRAttendance(models.Model):
     check_in = fields.Datetime(string="Check In", default=fields.Datetime.now, required=True)
     check_out = fields.Datetime(string="Check Out")
 
-    @api.model
-    def create(self, vals):
-        if 'check_out' in vals :
-            # check overtime
-            DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
-            if vals['check_out'] :
-                # import pdb;pdb.set_trace()
-                # check_out = datetime.strptime(str(vals['check_out']), DATETIME_FORMAT)
-                check_out = dateutil.parser.parse(str(vals['check_out'])).date()
-                sign_in = dateutil.parser.parse(str(vals['check_in'])).date()
-                state = 'validate'
-                emp_over = self.env['hr.overtime.employee'].search([('employee_id','=',vals['employee_id']),
-                                                                    ('overtime_id.tgl_lembur','=',sign_in),
-                                                                    ('overtime_id.state','=',state)])
-                if emp_over:
-                    lembur = 0
-                    for eo in emp_over:
-                        start_ovt = datetime.strptime(eo.overtime_id.date_from, DATETIME_FORMAT)
-                        end_ovt = datetime.strptime(eo.overtime_id.date_to, DATETIME_FORMAT)
-                        if check_out > start_ovt and check_out <= end_ovt:
-                            selisih = check_out - start_ovt 
-                            lembur = (float(selisih.seconds) / 3600)
-                        elif check_out > end_ovt :
-                            lembur = eo.overtime_id.number_of_hours_temp
-                        eo.write({"ovt_hour":round(lembur,2)})
-        return super(HRAttendance, self).create(vals)
+    # @api.model
+    # def create(self, vals):
+    #     if 'check_out' in vals :
+    #         DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+    #         if vals['check_out'] :
+    #             check_out = dateutil.parser.parse(str(vals['check_out'])).date()
+    #             sign_in = dateutil.parser.parse(str(vals['check_in'])).date()
+    #             state = 'validate'
+    #             emp_over = self.env['hr.overtime.employee'].search([('employee_id','=',vals['employee_id']),
+    #                                                                 ('overtime_id.tgl_lembur','=',sign_in),
+    #                                                                 ('overtime_id.state','=',state)])
+    #             if emp_over:
+    #                 lembur = 0
+    #                 for eo in emp_over:
+    #                     start_ovt = datetime.strptime(eo.overtime_id.date_from, DATETIME_FORMAT)
+    #                     end_ovt = datetime.strptime(eo.overtime_id.date_to, DATETIME_FORMAT)
+    #                     if check_out > start_ovt and check_out <= end_ovt:
+    #                         selisih = check_out - start_ovt 
+    #                         lembur = (float(selisih.seconds) / 3600)
+    #                     elif check_out > end_ovt :
+    #                         lembur = eo.overtime_id.number_of_hours_temp
+    #                     eo.write({"ovt_hour":round(lembur,2)})
+    #     return super(HRAttendance, self).create(vals)
 
 HRAttendance()
 
