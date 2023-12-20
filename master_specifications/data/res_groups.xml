@@ -63,7 +63,7 @@
 
     <record model="ir.rule" id="spv_sales_rule">
         <field name="name">D-QUPS Rule SPV Sales</field>
-        <field name="model_id" ref="model_res_partner"/>
+        <field name="model_id" ref="base.model_res_partner"/>
         <field name="domain_force">[('customer_rank','&gt;', 0)]</field>
         <field name="groups" eval="[(4, ref('master_specifications.spv_sales_up_group'))]"/>
         <field name="perm_read" eval="True"/>
