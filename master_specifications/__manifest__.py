@@ -4,7 +4,8 @@
     'author': 'Yugi, Wibicon',
     'category': 'RND',
     'depends': [
-        'base', 'mail','stock', 'inherit_purchase_order'
+        'base', 'mail','stock', 'inherit_purchase_order', 
+        'request_requisition'
         # 'sale',
         # 'hide_any_menu',
         # 'prt_report_attachment_preview',

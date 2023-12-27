@@ -26,7 +26,7 @@
                         <button name="action_cancel_po" type="object" string="Cancel PO" states="po_upload" groups="master_specifications.spv_sales_up_group"/>
                         <button name="action_send_to_customer" type="object" string="Send to Customer" states="so_upload" class="oe_highlight"/>
                         <button name="action_send_production" type="object" string="Send to Production" states="so_upload" class="oe_highlight"/>
-                        <button name="action_confirm_sj" type="object" string="Confirm SJ" states="sj_upload" groups="master_specifications.spv_sales_up_group" class="oe_highlight"/>
+                        <button name="action_confirm_sj" type="object" string="Selesaikan Pesanan" states="sj_upload" groups="master_specifications.spv_sales_up_group" class="oe_highlight"/>
                         <!-- <button name="action_confirm" type="object" string="Request Approval" states="dwg_upload" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
                         <button name="action_approve" type="object" string="Approve" states="waiting" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
                         <button name="action_done" type="object" string="Done" states="po_upload" groups="sales_team.group_sale_manager" class="oe_highlight"/> -->
@@ -41,7 +41,8 @@
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button class="oe_stat_button" type="object" name="action_view_so" icon="fa-truck" string="Order" attrs="{'invisible':[('state', '!=', 'approved')]}">
+                            <button class="oe_stat_button" type="object" name="action_view_rr" icon="fa-truck" string="Request Requisition" attrs="{'invisible':[('state', '!=', 'so_upload')]}"></button>
+                            <button class="oe_stat_button" type="object" name="action_view_so" icon="fa-truck" string="Sales Order" attrs="{'invisible':[('state', '!=', 'so_upload')]}">
                                 <!-- <field name="so_count" widget="statinfo" string="Sale Order"/> -->
                             </button>
                         </div>
@@ -52,6 +53,7 @@
                         </div>
                         <group>
                             <group>
+                                <field name="type_order"/>
                                 <field name="partner_id" attrs="{'readonly':[('state','=','confirm')]}" required="1" options="{'no_open': True, 'no_create': True}"/>
                                 <field name="billing_address"/>
                                 <field name="pic_name" required="1"/>

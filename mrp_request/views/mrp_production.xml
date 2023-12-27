@@ -65,7 +65,8 @@
                     <!-- <field name="kd_bahan"/> -->
                 </xpath>
                 <xpath expr="//field[@name='bom_id']" position="after">
-                    <field name="ref_so"/>
+                    <field name="dqups_id"/>
+                    <field name="ref_so_id"/>
                     <field name="billing_address"/>
                     <field name="shipping_address" context="{'partner_custom':True}" options='{"always_reload": True}'/>
                 </xpath>

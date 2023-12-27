@@ -42,9 +42,8 @@ class MrpProduction(models.Model):
     store=True,)
     billing_address  = fields.Char(string='Billing Address')
     shipping_address = fields.Many2one('res.partner', string='Shipping Address', required=True)
-    ref_so           = fields.Char('Ref SO')
+    ref_so_id        = fields.Many2one('sale.order', string='Ref SO')
     dqups_id         = fields.Many2one('quotation.request.form', string='D-QUPS')
-
     
     def action_split_workorder(self):
         return {
@@ -198,6 +197,8 @@ class MrpProduction(models.Model):
     #             }) for b in self.move_raw_ids]
     #         })
         res = super(MrpProduction, self).button_mark_done()
+        self.dqups_id.state == 'sj_upload'
+        # self.ref_so_id.action_confirm()
         
         
         if res is True and self.type_id:

@@ -190,6 +190,19 @@ class RequestRequisition(models.Model):
     request_id = fields.Many2one(comodel_name="purchase.request", string="Purchase Request", copy=False)
     no_komunikasi = fields.Char(string='No Komunikasi')
     pegawai_id = fields.Many2one('hr.employee', string='Admin Yang Memerlukan')
+    dqups_id = fields.Many2one('quotation.request.form', string='D-QUPS')
+    product_id       = fields.Many2one('product.product', 'Product Finish',
+        domain="""[
+            ('type', 'in', ['product', 'consu']),
+            '|',
+                ('company_id', '=', False),
+                ('company_id', '=', company_id)
+        ]
+        """,
+        readonly=True, required=True, check_company=True,
+        states={'draft': [('readonly', False)]})
+    mrp_id = fields.Many2one('mrp.production', string='MO')
+
 
     @api.model
     def create(self, vals):
@@ -368,7 +381,21 @@ class RequestRequisition(models.Model):
         
 
     def create_picking_issue(self):
+        data = []
         for order in self:
+            
+            for rec in order.order_ids:
+                data.append((0, 0, {
+                    'name': rec.product_id.name,
+                    'product_id': rec.product_id.id,
+                    'product_uom': rec.product_id.uom_id.id,
+                    "location_id": order.mrp_id.location_src_id.id,
+                    "location_dest_id":15,
+                }))
+            order.mrp_id.write({
+                'move_raw_ids' : data
+            })
+
             pick = {
                 'picking_type_id': order.internal_transfer_picking.id,
                 'date': order.request_date,
@@ -496,8 +523,6 @@ class RequestRequisitionLine(models.Model):
             } 
             
         pr = self.env['purchase.request'].sudo().create(vals)
-            
-            
         pr.button_to_approve()
         
         for line in self:

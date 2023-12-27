@@ -65,6 +65,7 @@
                             <field name="is_editable" invisible="1" />
                             <field name="request_date" required="1" attrs="{'readonly': [('is_editable','=', False)]}" />
                             <field name="requested_by" readonly="1" />
+                            <field name="product_id" readonly="1" />
                             <field name="approve_by" attrs="{'invisible': [('state', 'in', ('draft','waiting'))]}" />
                             <field name="location_id" attrs="{'readonly': [('state', 'in', ('approved','done'))]}" options="{'no_create': True}" string="Diperuntukan"/>
                         </group>
@@ -75,6 +76,7 @@
                             <field name="request_id" groups="request_requisition.group_request_requisition_manager" attrs="{'invisible':[('request_id', '=', False)]}" />
                             <field name="print_count" string="Printed" readonly="1" invisible="1"/>
                             <field name="note" attrs="{'readonly': [('is_editable','=', False)]}" />
+                            <field name="mrp_id" readonly="1" />
                         </group>
                     </group>
                     <notebook>

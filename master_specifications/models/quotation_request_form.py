@@ -111,6 +111,9 @@ class QuotationRequestForm(models.Model):
     #harusnya ambil dari so_id yang di create delivery out yang status nya DONE
     ref = fields.Char(related='picking_out_id.origin', string='No Ref')
     so_id = fields.Many2one('sale.order', string='SO')
+    type_order = fields.Selection([('new_order','New Order'),('repeat_order','Repeat Order')], string='Type Order')
+    so2_id = fields.Many2one('sale.order', string='SO')
+    rr_ids = fields.Many2many(comodel_name='request.requisition', string='Request Requisition')
 
     @api.depends('line_ids.sub_total')
     def _compute_pph23(self):
@@ -282,9 +285,10 @@ class QuotationRequestForm(models.Model):
         }
 
     def action_send_production(self):
-        self.state = 'sj_upload'
-
-        mrp = self.env['mrp.production']
+        # self.state = 'sj_upload'
+        data = []
+        # mrp = self.env['mrp.production']
+        rr_id = self.env['request.requisition']
         for l in self.line_ids.filtered(lambda x:x.jenis_id.type == 'produk'):
             product = self.env['product.product'].search([('name','=',l.name)],limit=1)
             if not product :
@@ -295,17 +299,42 @@ class QuotationRequestForm(models.Model):
                     "categ_id": 27,
                 })
 
-            mrp.create({       
+            mo_id = self.env['mrp.production'].create({       
+                # 'name'          : self.name.replace("Q","SO"),
                 'dqups_id'      : self.id,    
                 # 'type_id'       : 2,                
                 'product_id'    : product.id,
                 'product_qty'   : l.quantity,
                 'billing_address'   : self.billing_address,
                 'shipping_address'  : self.shipping_address.id,
-                'ref_so'        : self.name.replace("Q","SO"),
                 'product_uom_id': 1,
-                'partner_id': self.partner_id.id,   
+                'partner_id': self.partner_id.id, 
+                'ref_so_id' : self.so_id.id  
             })
+
+            # data.append((0,0,{
+            #         'product_id':product.id,
+            #         'spesification':l.name,
+            #         'quantity':l.quantity,
+            #         }))
+            rr_id.create({
+                    'dqups_id':self.id,               
+                    'product_id'    : product.id,
+                    # 'name': self.name.replace("Q","RR"),
+                    'location_id': 8,
+                    'warehouse_id': 2,
+                    'internal_transfer_picking': 21,
+                    # 'order_ids': data
+                    'mrp_id': mo_id.id,
+                })
+            # self.write({'rr_ids': rr_id.ids})
+
+    def action_view_rr(self):
+        action = self.env.ref('request_requisition.request_requisition_list_action').read()[0]
+        action['domain'] = [('dqups_id','=',self.id)]
+        action['context'] = {}
+        return action
+
 
     def action_confirm_sj(self):
         self.state = 'done'
