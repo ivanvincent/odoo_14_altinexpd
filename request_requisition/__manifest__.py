@@ -18,7 +18,7 @@
                 'stock',
                 'purchase_request',
                 'fleet',
-                # 'master_specifications'
+                'master_specifications'
                 ],
 
     # always loaded

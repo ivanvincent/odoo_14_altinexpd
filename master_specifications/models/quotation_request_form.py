@@ -113,7 +113,7 @@ class QuotationRequestForm(models.Model):
     so_id = fields.Many2one('sale.order', string='SO')
     type_order = fields.Selection([('new_order','New Order'),('repeat_order','Repeat Order')], string='Type Order')
     so2_id = fields.Many2one('sale.order', string='SO')
-    rr_ids = fields.Many2many(comodel_name='request.requisition', string='Request Requisition')
+    # rr_ids = fields.Many2many(comodel_name='request.requisition', string='Request Requisition')
 
     @api.depends('line_ids.sub_total')
     def _compute_pph23(self):

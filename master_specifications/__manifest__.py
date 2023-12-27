@@ -5,7 +5,7 @@
     'category': 'RND',
     'depends': [
         'base', 'mail','stock', 'inherit_purchase_order', 
-        'request_requisition'
+        # 'request_requisition'
         # 'sale',
         # 'hide_any_menu',
         # 'prt_report_attachment_preview',

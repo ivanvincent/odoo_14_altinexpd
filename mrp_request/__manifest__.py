@@ -4,7 +4,7 @@
   'company': 'Wibicon',
   'version': '1.0',
   'depends': [
-    'base','mrp','inherit_product','base_master','sale','wibicon_altinex_sale', 'product_defect'
+    'base','mrp','inherit_product','base_master','sale','wibicon_altinex_sale', 'product_defect','master_specifications'
   ],
   'data': [
     'data/ir_sequence.xml',
