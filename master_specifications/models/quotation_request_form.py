@@ -335,6 +335,12 @@ class QuotationRequestForm(models.Model):
         action['context'] = {}
         return action
 
+    def action_view_production(self):
+        action = self.env.ref('mrp.mrp_production_action').read()[0]
+        action['domain'] = [('dqups_id','=',self.id)]
+        action['context'] = {}
+        return action
+
 
     def action_confirm_sj(self):
         self.state = 'done'
