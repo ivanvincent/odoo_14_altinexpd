@@ -288,7 +288,7 @@ class QuotationRequestForm(models.Model):
         # self.state = 'sj_upload'
         data = []
         # mrp = self.env['mrp.production']
-        rr_id = self.env['request.requisition']
+        # rr_id = self.env['request.requisition']
         for l in self.line_ids.filtered(lambda x:x.jenis_id.type == 'produk'):
             product = self.env['product.product'].search([('name','=',l.name)],limit=1)
             if not product :
@@ -317,16 +317,16 @@ class QuotationRequestForm(models.Model):
             #         'spesification':l.name,
             #         'quantity':l.quantity,
             #         }))
-            rr_id.create({
-                    'dqups_id':self.id,               
-                    'product_id'    : product.id,
-                    # 'name': self.name.replace("Q","RR"),
-                    'location_id': 8,
-                    'warehouse_id': 2,
-                    'internal_transfer_picking': 21,
-                    # 'order_ids': data
-                    'mrp_id': mo_id.id,
-                })
+            # rr_id.create({
+            #         'dqups_id':self.id,               
+            #         'product_id'    : product.id,
+            #         # 'name': self.name.replace("Q","RR"),
+            #         'location_id': 8,
+            #         'warehouse_id': 2,
+            #         'internal_transfer_picking': 21,
+            #         # 'order_ids': data
+            #         'mrp_id': mo_id.id,
+            #     })
             # self.write({'rr_ids': rr_id.ids})
 
     def action_view_rr(self):

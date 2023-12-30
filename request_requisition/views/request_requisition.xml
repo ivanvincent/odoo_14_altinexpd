@@ -76,7 +76,7 @@
                             <field name="request_id" groups="request_requisition.group_request_requisition_manager" attrs="{'invisible':[('request_id', '=', False)]}" />
                             <field name="print_count" string="Printed" readonly="1" invisible="1"/>
                             <field name="note" attrs="{'readonly': [('is_editable','=', False)]}" />
-                            <field name="mrp_id" readonly="1" />
+                            <field name="mrp_id"/>
                         </group>
                     </group>
                     <notebook>
