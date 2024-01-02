@@ -145,10 +145,10 @@ class MrpProduction(models.Model):
         res = super(MrpProduction, self).button_mark_done()
         
         
-        if res is True and not self.production_origin_id:
-            self.picking_finished_id = self.create_picking_finished()
-            self.picking_finished_id.action_confirm()
-            self.picking_finished_id.button_validate()
+        # if res is True and not self.production_origin_id:
+        #     self.picking_finished_id = self.create_picking_finished()
+        #     self.picking_finished_id.action_confirm()
+        #     self.picking_finished_id.button_validate()
             
         
         
