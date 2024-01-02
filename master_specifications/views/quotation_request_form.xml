@@ -41,10 +41,11 @@
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button class="oe_stat_button" type="object" name="action_view_rr" icon="fa-truck" string="Request Requisition" attrs="{'invisible':[('state', '!=', 'so_upload')]}"></button>
-                            <button class="oe_stat_button" type="object" name="action_view_so" icon="fa-truck" string="Sales Order" attrs="{'invisible':[('state', '!=', 'so_upload')]}">
+                            <!-- <button class="oe_stat_button" type="object" name="action_view_rr" icon="fa-truck" string="Request Requisition" attrs="{'invisible':[('state', '!=', 'so_upload')]}"></button> -->
+                            <button class="oe_stat_button" type="object" name="action_view_so" icon="fa-truck" string="Sales Order" attrs="{'invisible':[('state', '!=', 'so_upload')]}"></button>
+                            <button class="oe_stat_button" type="object" name="action_view_production" icon="fa-cubes" string="Production" attrs="{'invisible':[('state', '!=', 'so_upload')]}"></button>
                                 <!-- <field name="so_count" widget="statinfo" string="Sale Order"/> -->
-                            </button>
+                            <!-- </button> -->
                         </div>
                         <div class="oe_title">
                             <h1>
