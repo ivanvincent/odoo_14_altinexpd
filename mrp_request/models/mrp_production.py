@@ -201,8 +201,8 @@ class MrpProduction(models.Model):
         # self.ref_so_id.action_confirm()
         
         
-        if res is True and self.type_id:
-            self.picking_finished_id = self.create_picking_finished()
+        # if res is True and self.type_id:
+            # self.picking_finished_id = self.create_picking_finished()
             # self.picking_finished_id.action_confirm()
             # self.picking_finished_id.button_validate()
         return res
