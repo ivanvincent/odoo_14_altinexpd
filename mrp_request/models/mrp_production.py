@@ -196,7 +196,11 @@ class MrpProduction(models.Model):
     #                 'product_uom_id' : b.product_id.uom_id.id,
     #             }) for b in self.move_raw_ids]
     #         })
+        prod_qty = self.product_qty
         res = super(MrpProduction, self).button_mark_done()
+        # for mv in self.move_finished_ids.filtered(lambda x: x.state != 'cancel' and x.product_id.id == self.product_id.id):
+        #     mv.quantity_done = self.product_qty
+        self.product_qty = prod_qty
         self.dqups_id.state == 'sj_upload'
         # self.ref_so_id.action_confirm()
         
