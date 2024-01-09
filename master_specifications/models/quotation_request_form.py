@@ -2,6 +2,7 @@ from email.policy import default
 from odoo import models, fields, api
 from dateutil.relativedelta import relativedelta
 import odoo.addons.decimal_precision as dp
+from odoo.exceptions import ValidationError
 
 class QuotationRequestForm(models.Model):
     _name = 'quotation.request.form'
@@ -114,6 +115,7 @@ class QuotationRequestForm(models.Model):
     type_order = fields.Selection([('new_order','New Order'),('repeat_order','Repeat Order')], string='Type Order')
     so2_id = fields.Many2one('sale.order', string='SO')
     # rr_ids = fields.Many2many(comodel_name='request.requisition', string='Request Requisition')
+    picking_out_ids = fields.One2many('stock.picking', 'dqups_id', string="No DO")
 
     @api.depends('line_ids.sub_total')
     def _compute_pph23(self):
@@ -305,6 +307,7 @@ class QuotationRequestForm(models.Model):
                 # 'type_id'       : 2,                
                 'product_id'    : product.id,
                 'product_qty'   : l.quantity,
+                'mrp_qty_produksi'  : l.quantity,
                 'billing_address'   : self.billing_address,
                 'shipping_address'  : self.shipping_address.id,
                 'product_uom_id': 1,
@@ -344,8 +347,16 @@ class QuotationRequestForm(models.Model):
 
     def action_confirm_sj(self):
         self.state = 'done'
+        if self.picking_out_ids.sj_attachment_ids == False :    
+           raise ValidationError('Silakan lengkapin dokumen Surat Jalan')
 
 
+    def action_view_picking_list(self):
+        # picking_obj = self.env['stock.picking'].search([('origin', '=', self.so_id.id)])
+        action = self.env.ref('stock.action_picking_tree_all').read()[0]
+        action['domain'] = [('origin', '=', self.so_id.name)]
+        action['context'] = {}
+        return action
 
 
     def action_create_so(self):
@@ -951,3 +962,11 @@ class SjAttachment(models.Model):
     picking_out_id = fields.Many2one('stock.picking', string="No DO")
     #harusnya ambil dari so_id yang di create delivery out yang status nya DONE
     ref = fields.Char(related='picking_out_id.origin', string='No Ref')
+
+
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+
+    dqups_id = fields.Many2one('quotation.request.form', string="DQUPS")
+    sj_attachment_ids = fields.Binary('Surat Jalan', required=True)
+    attachment_name = fields.Char('Name')

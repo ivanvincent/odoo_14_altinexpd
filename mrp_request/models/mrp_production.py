@@ -201,9 +201,17 @@ class MrpProduction(models.Model):
         # for mv in self.move_finished_ids.filtered(lambda x: x.state != 'cancel' and x.product_id.id == self.product_id.id):
         #     mv.quantity_done = self.product_qty
         self.product_qty = prod_qty
-        self.dqups_id.state == 'sj_upload'
-        # self.ref_so_id.action_confirm()
-        
+        qups = self.env['quotation.request.form'].search([("id",'=',self.dqups_id.id)])
+        if qups:
+            qups.write({
+                "state" :'sj_upload',
+            })
+        self.ref_so_id.action_confirm()
+        picking_so = self.env['stock.picking'].search([("origin",'=',self.ref_so_id.name)])
+        if picking_so:
+            picking_so.write({
+                "dqups_id" : self.dqups_id.id,
+            })
         
         # if res is True and self.type_id:
             # self.picking_finished_id = self.create_picking_finished()
