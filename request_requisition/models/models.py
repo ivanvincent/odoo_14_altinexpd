@@ -199,7 +199,7 @@ class RequestRequisition(models.Model):
                 ('company_id', '=', company_id)
         ]
         """,
-        readonly=True, required=True, check_company=True,
+        readonly=True, check_company=True,
         states={'draft': [('readonly', False)]})
     mrp_id = fields.Many2one('mrp.production', string='MO')
 
