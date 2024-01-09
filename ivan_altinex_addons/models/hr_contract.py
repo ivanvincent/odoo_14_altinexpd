@@ -21,6 +21,7 @@ class HrContract(models.Model):
     skill_id = fields.Many2one('hr.skill_grade', string='Skill Grade')
     allocations_ids = fields.One2many('hr.leave.allocation', 'contract_id', 'Allocations Line')
     alokasi_izin = fields.Float(string='alokasi_izin') #sementara
+    is_reseted = fields.Boolean(string='Reset ?', default=False)
     
     @api.depends('first_contract_date')
     def _compute_year_of_service(self):
@@ -222,7 +223,14 @@ class HrContract(models.Model):
                                 'number_of_days' : self.alokasi_cuti
                             }
             self.allocations_ids = [(0, 0, dict_izin_sakit),(0, 0, dict_izin_normatif),(0, 0, dict_izin_maternity),(0, 0, dict_izin_paternity),(0, 0, dict_cuti)]
-        
+
+    def action_reset_leave(self):
+        leave = self.env['hr.leave'].search([('employee_id', '=', self.employee_id.id),
+                                             ('state', '=', 'validate')])
+        for l in leave:
+            l.action_refuse()
+        self.is_reseted = True
+
 class WageGrade(models.Model):
     _name = 'hr.wage_grade'
     _rec_name ='wage_grade'
