@@ -5,6 +5,9 @@
             <field name="model">hr.payslip</field>
             <field name="inherit_id" ref="sh_hr_payroll.view_hr_payslip_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//button[@name='refund_sheet']" position="after">
+                    <button name="action_set_to_draft" type="object" string="Set To Draft" groups="sh_hr_payroll.group_hr_payroll_manager" states="done"/>
+                </xpath>
                 <field name="paid" position="after">
                     <field name="date"/>
                     <field name="journal_id" required="0"/>

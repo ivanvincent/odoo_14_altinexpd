@@ -147,6 +147,10 @@ class HrPayslip(models.Model):
             #                       " account for at least one salary rule in the choosen Salary Structure."))
             # move.post()
         return res
+    
+    def action_set_to_draft(self):
+        if self.state == 'done':
+            self.state = 'draft'
 
 
 class HrSalaryRule(models.Model):
