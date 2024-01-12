@@ -51,7 +51,7 @@
                         </div>
                     </button>
                 </xpath>
-                <xpath expr="//field[@name='user_id']" position="after">
+                <!-- <xpath expr="//field[@name='user_id']" position="after">
                     <field name="wo_altinex"/>
                     <field name="kd_bahan"/>
                     <field name="treatment_id" readonly="1"/>
@@ -62,13 +62,26 @@
                     <field name="option_vip"/>
                     <field name="process_terkini" readonly="1"/>
                     <field name="parameter_terkini" readonly="1"/>
-                    <!-- <field name="kd_bahan"/> -->
+                    <field name="kd_bahan"/>
+                </xpath> -->
+                <xpath expr="//field[@name='bom_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='bom_id']" position="after">
                     <field name="dqups_id"/>
                     <field name="ref_so_id"/>
                     <field name="billing_address"/>
                     <field name="shipping_address" context="{'partner_custom':True}" options='{"always_reload": True}'/>
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='components']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@name='operations']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@name='miscellaneous']" position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </xpath>
             </field>
         </record>

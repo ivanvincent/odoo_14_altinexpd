@@ -314,7 +314,16 @@ class QuotationRequestForm(models.Model):
                 'partner_id': self.partner_id.id, 
                 'ref_so_id' : self.so_id.id  
             })
-
+        
+        return {
+            'type'      : 'ir.actions.act_window',
+            'name'      : "Message",
+            'res_model' : 'customer.mail.wizard',
+            'target'    : 'new',
+            'view_id'   : self.env.ref('master_specifications.message_success_form').id,
+            'view_mode' : 'form',
+            # 'context'   : {'default_qrf_id': self.id,},
+        }
             # data.append((0,0,{
             #         'product_id':product.id,
             #         'spesification':l.name,

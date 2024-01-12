@@ -16,15 +16,30 @@
                             <field name="so_name" invisible="1"/>
                         </group>
                         <!-- <button name="action_refresh" type="object" string="Refresh" /> -->
-                        <group>
+                        <!-- <group>
                             <field name="drawing_ids" filename="dwg_name" widget="binary"/>
                             <field name="dwg_name" invisible="1"/>
-                        </group>
+                        </group> -->
                     </group>
                     <footer>
                         <!-- <button string="Download SO" name="action_so" type="object" default_focus="1" class="btn-primary"/> -->
                         <button string="Send Mail" name="action_print" type="object" default_focus="1" class="btn-primary"/>
                         <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="message_success_form" model="ir.ui.view">
+            <field name="name">customer.production.wizard</field>
+            <field name="model">customer.mail.wizard</field>
+            <field name="arch" type="xml">
+                <form string="generation fichier">
+                    <sheet>
+                        <h3>Send to production success!</h3>
+                    </sheet>
+                    <footer>
+                        <button string="OK" special="cancel" class="oe_highlight"/>
                     </footer>
                 </form>
             </field>
