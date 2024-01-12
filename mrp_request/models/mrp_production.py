@@ -185,6 +185,17 @@ class MrpProduction(models.Model):
     #     self.product_qty = a
     #     return res
 
+    # def action_confirm(self):
+    #     # self._check_company()
+    #     res = super(MrpProduction, self).action_confirm()
+    #     for production in self:
+    #         if not production.move_raw_ids:
+    #             # production.state == 'confirmed'
+    #             production.write({
+    #                 "state" :'confirmed',
+    #             })
+    #     return res
+
     def button_mark_done(self):
     #     if self.type_id.name == 'DYEING':
     #         ## UPDATE BOM
@@ -202,7 +213,9 @@ class MrpProduction(models.Model):
         #     mv.quantity_done = self.product_qty
         self.product_qty = prod_qty
         qups = self.env['quotation.request.form'].search([("id",'=',self.dqups_id.id)])
-        if qups:
+        mrp_done_ids = self.env['mrp.production'].search([("dqups_id",'=', qups.id),('state','=','done')])
+        mrp_ids = self.env['mrp.production'].search([("dqups_id",'=', qups.id)])
+        if len(mrp_ids) == len(mrp_done_ids):
             qups.write({
                 "state" :'sj_upload',
             })

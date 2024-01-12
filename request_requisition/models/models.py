@@ -389,6 +389,7 @@ class RequestRequisition(models.Model):
                     'name': rec.product_id.name,
                     'product_id': rec.product_id.id,
                     'product_uom': rec.product_id.uom_id.id,
+                    'product_uom_qty': rec.quantity,
                     "location_id": order.mrp_id.location_src_id.id,
                     "location_dest_id":15,
                 }))
