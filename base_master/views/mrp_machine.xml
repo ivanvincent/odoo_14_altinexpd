@@ -79,7 +79,7 @@
            <field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="submenu_6" name="Machine" parent="menu_master" action="mrp_machine_action" />
+        <menuitem id="submenu_6" name="Mesin Produksi" parent="menu_master" action="mrp_machine_action" />
       
         <menuitem id="machine_category_menu" name="Machine Category" parent="menu_master" action="machine_category_action" />
 
