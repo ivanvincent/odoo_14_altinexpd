@@ -1,7 +1,25 @@
 from odoo import models, fields, api, _
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from odoo.exceptions import UserError
 import pandas as pd
+
+class HrLeave(models.Model):
+    _inherit = 'hr.leave'
+
+    state = fields.Selection([
+        ('draft', 'To Submit'),
+        ('cancel', 'Cancelled'),  # YTI This state seems to be unused. To remove
+        ('confirm', 'To Approve'),
+        ('refuse', 'Refused'),
+        ('validate1', 'Second Approval'),
+        ('validate', 'Approved'),
+        ('expired', 'Expired')
+        ], string='Status', compute='_compute_state', store=True, tracking=True, copy=False, readonly=False,
+        help="The status is set to 'To Submit', when a time off request is created." +
+        "\nThe status is 'To Approve', when time off request is confirmed by user." +
+        "\nThe status is 'Refused', when time off request is refused by manager." +
+        "\nThe status is 'Approved', when time off request is approved by manager." +
+        "\nThe status is 'Expired', when time off request is expired in the previous year.")
 
 class HrContract(models.Model):
     _inherit = 'hr.contract'
@@ -225,11 +243,27 @@ class HrContract(models.Model):
             self.allocations_ids = [(0, 0, dict_izin_sakit),(0, 0, dict_izin_normatif),(0, 0, dict_izin_maternity),(0, 0, dict_izin_paternity),(0, 0, dict_cuti)]
 
     def action_reset_leave(self):
+        
+        today = date.today()
+        this_year = today.year
+        last_year = this_year - 1
+        cut_off_str = str(last_year)+'-12-21'
+        cut_off_str2 = str(this_year)+'-01-10'
+        cut_off_date = datetime.strptime(cut_off_str,'%Y-%m-%d').date()
+        cut_off_date2 = datetime.strptime(cut_off_str2,'%Y-%m-%d').date()
         leave = self.env['hr.leave'].search([('employee_id', '=', self.employee_id.id),
                                              ('state', '=', 'validate')])
         for l in leave:
-            l.action_refuse()
-        self.is_reseted = True
+            
+            if (l.state == 'validate' and l.request_date_from <= cut_off_date):
+                l.state = 'expired'
+            elif(l.state == 'validate' and today > cut_off_date2 and l.request_date_from > cut_off_date and l.request_date_from <= cut_off_date2 ):
+                l.state = 'expired'
+            else:
+                l.state = 'validate'
+            
+            # l.action_refuse()
+        # self.is_reseted = True
 
 class WageGrade(models.Model):
     _name = 'hr.wage_grade'
@@ -247,4 +281,7 @@ class SkillGrade(models.Model):
 
     skill_grade = fields.Char(string='Skill Grade')
     tunj_ahli = fields.Float(string='Tunjangan Keahlian/hari')
+
+
+    
 
