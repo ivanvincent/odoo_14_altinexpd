@@ -168,7 +168,7 @@
             <field name="name">quotation.request.form.tree</field>
             <field name="model">quotation.request.form</field>
             <field name="arch" type="xml">
-                <tree string="">
+                <tree string="" default_order="date desc">
                     <field name="name"/>
                     <field name="date"/>
                     <field name="partner_id"/>
