@@ -304,7 +304,7 @@
         </field>
     </record>
 
-    <menuitem id="icon_request_requisition_menu" name="Request Requisition" groups="group_request_requisition_manager,group_request_requisition_user" web_icon="request_requisition,static/description/icon.png" />
+    <menuitem id="icon_request_requisition_menu" name="Request Requisition" groups="group_request_requisition_manager,group_request_requisition_user" web_icon="request_requisition/static/description/icon.png" />
 
     <menuitem id="main_menu_request_requisition" name="Request Requisition" parent="icon_request_requisition_menu" groups="group_request_requisition_manager,group_request_requisition_user" />
 

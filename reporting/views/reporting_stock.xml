@@ -317,7 +317,7 @@
 
 
 
-        <menuitem id="reporting_menu" name="Reporting" web_icon="reporting,static/description/icon.png">
+        <menuitem id="reporting_menu" name="Reporting" web_icon="reporting/static/description/icon.png">
             <menuitem id="reporting_submenu" name="Stock" sequence="1">
                 <menuitem id="stock_production_lot_menu" name="Reporting Stock">
                     <menuitem id="submenu_reporting_stock" name="Reporting Stock" action="reporting_stock_action" />

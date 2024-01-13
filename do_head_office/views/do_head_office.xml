@@ -169,7 +169,7 @@
 
 
 
-        <menuitem id="do_main_menu" name="DO" web_icon="do_head_office,static/description/icon.png">
+        <menuitem id="do_main_menu" name="DO" web_icon="do_head_office/static/description/icon.png">
             <menuitem id="do_sub_menu" name="DO" action="do_head_office_action" />
         </menuitem>
 

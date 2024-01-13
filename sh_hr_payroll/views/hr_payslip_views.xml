@@ -224,12 +224,12 @@
                             <tree string="Salary Structure" editable="bottom" decoration-info="total == 0">
                                 <field name="name"/>
                                 <field name="code"/>
-                                <field name="category_id"/>
+                                <field name="category_id" invisible="1"/>
                                 <field name="sequence" invisible="1"/>
-                                <field name="quantity"/>
-                                <field name="rate"/>
+                                <field name="quantity" invisible="1"/>
+                                <field name="rate" invisible="1"/>
                                 <field name="salary_rule_id"/>
-                                <field name="amount"/>
+                                <field name="amount" invisible="1"/>
                                 <field name="total"/>
                             </tree>
                             <form string="Payslip Line">

@@ -270,7 +270,7 @@
             </field>
         </record> -->
 
-        <menuitem id="main_mrp_request" name="Manufacturing Request" web_icon="mrp_request,static/description/icon.png">
+        <menuitem id="main_mrp_request" name="Manufacturing Request" web_icon="mrp_request/static/description/icon.png">
             <!-- <menuitem id="menu_stock_point_order" name="Stock Point Order" sequence="00">
                 <menuitem id="submenu_stock_point_order_unplan_menu" name="Stock Point Order Unplan" action="stock_point_order_line_action" />
                 <menuitem id="submenu_stock_point_order_plan_menu" name="Stock Point Order Planned" action="stock_point_order_line_planned_action" />

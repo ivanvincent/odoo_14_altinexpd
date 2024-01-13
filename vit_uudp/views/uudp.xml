@@ -1239,7 +1239,7 @@
         </record>
 
 
-        <menuitem id="uudp_home" name="Pengajuan Biaya" sequence="50" groups="vit_uudp.group_user_uudp_user,group_user_uudp_pengaju,vit_uudp.group_user_uudp_pencairan" web_icon="vit_uudp,static/description/icon.png">
+        <menuitem id="uudp_home" name="Pengajuan Biaya" sequence="50" groups="vit_uudp.group_user_uudp_user,group_user_uudp_pengaju,vit_uudp.group_user_uudp_pencairan" web_icon="vit_uudp/static/description/icon.png">
             <menuitem id="uudp_pengajuan" name="Pengajuan" sequence="1" groups="vit_uudp.group_user_uudp_user,vit_uudp.group_user_uudp_pencairan">
                 <menuitem id="uudp_dashboard" name="Dashboard" action="dashboard_pengajuan_action" sequence="1" groups="vit_uudp.group_user_uudp_user,vit_uudp.group_user_uudp_pencairan"/>
                 <menuitem id="sub_uudp_pengajuan" name="Pengajuan" action="action_uudp_pengajuan_list" sequence="2" groups="vit_uudp.group_user_uudp_user,vit_uudp.group_user_uudp_pencairan"/>
