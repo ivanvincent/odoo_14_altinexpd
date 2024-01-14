@@ -112,7 +112,7 @@ class QuotationRequestForm(models.Model):
     #harusnya ambil dari so_id yang di create delivery out yang status nya DONE
     ref = fields.Char(related='picking_out_id.origin', string='No Ref')
     so_id = fields.Many2one('sale.order', string='SO')
-    type_order = fields.Selection([('new_order','New Order'),('repeat_order','Repeat Order')], string='Type Order')
+    # type_order = fields.Selection([('new_order','New Order'),('repeat_order','Repeat Order')], string='Type Order')
     so2_id = fields.Many2one('sale.order', string='SO')
     # rr_ids = fields.Many2many(comodel_name='request.requisition', string='Request Requisition')
     picking_out_ids = fields.One2many('stock.picking', 'dqups_id', string="No DO")
@@ -287,59 +287,63 @@ class QuotationRequestForm(models.Model):
         }
 
     def action_send_production(self):
-        # self.state = 'sj_upload'
-        data = []
-        # mrp = self.env['mrp.production']
-        # rr_id = self.env['request.requisition']
-        for l in self.line_ids.filtered(lambda x:x.jenis_id.type == 'produk'):
-            product = self.env['product.product'].search([('name','=',l.name)],limit=1)
-            if not product :
-                product = self.env['product.product'].create({
-                    "name":l.name,
-                    "type":"product",
-                    # "product_tmpl_id":line.name,
-                    "categ_id": 27,
-                })
-
-            mo_id = self.env['mrp.production'].create({       
-                # 'name'          : self.name.replace("Q","SO"),
-                'dqups_id'      : self.id,    
-                # 'type_id'       : 2,                
-                'product_id'    : product.id,
-                'product_qty'   : l.quantity,
-                'mrp_qty_produksi'  : l.quantity,
-                'billing_address'   : self.billing_address,
-                'shipping_address'  : self.shipping_address.id,
-                'product_uom_id': 1,
-                'partner_id': self.partner_id.id, 
-                'ref_so_id' : self.so_id.id  
-            })
         
-        return {
-            'type'      : 'ir.actions.act_window',
-            'name'      : "Message",
-            'res_model' : 'customer.mail.wizard',
-            'target'    : 'new',
-            'view_id'   : self.env.ref('master_specifications.message_success_form').id,
-            'view_mode' : 'form',
-            # 'context'   : {'default_qrf_id': self.id,},
-        }
-            # data.append((0,0,{
-            #         'product_id':product.id,
-            #         'spesification':l.name,
-            #         'quantity':l.quantity,
-            #         }))
-            # rr_id.create({
-            #         'dqups_id':self.id,               
-            #         'product_id'    : product.id,
-            #         # 'name': self.name.replace("Q","RR"),
-            #         'location_id': 8,
-            #         'warehouse_id': 2,
-            #         'internal_transfer_picking': 21,
-            #         # 'order_ids': data
-            #         'mrp_id': mo_id.id,
-            #     })
-            # self.write({'rr_ids': rr_id.ids})
+        if not self.so_id.id:
+            raise ValidationError("Please click the Send to Customer Button first to generate SO number")
+        else:
+            # self.state = 'sj_upload'
+            data = []
+            # mrp = self.env['mrp.production']
+            # rr_id = self.env['request.requisition']
+            for l in self.line_ids.filtered(lambda x:x.jenis_id.type == 'produk'):
+                product = self.env['product.product'].search([('name','=',l.name)],limit=1)
+                if not product :
+                    product = self.env['product.product'].create({
+                        "name":l.name,
+                        "type":"product",
+                        # "product_tmpl_id":line.name,
+                        "categ_id": 27, #category : Finished Goods
+                    })
+
+                mo_id = self.env['mrp.production'].create({       
+                    # 'name'          : self.name.replace("Q","SO"),
+                    'dqups_id'      : self.id,    
+                    # 'type_id'       : 2,                
+                    'product_id'    : product.id,
+                    'product_qty'   : l.quantity,
+                    'mrp_qty_produksi'  : l.quantity,
+                    'billing_address'   : self.billing_address,
+                    'shipping_address'  : self.shipping_address.id,
+                    'product_uom_id': 1,
+                    'partner_id': self.partner_id.id, 
+                    'ref_so_id' : self.so_id.id  
+                })
+            
+            return {
+                'type'      : 'ir.actions.act_window',
+                'name'      : "Message",
+                'res_model' : 'customer.mail.wizard',
+                'target'    : 'new',
+                'view_id'   : self.env.ref('master_specifications.message_success_form').id,
+                'view_mode' : 'form',
+                # 'context'   : {'default_qrf_id': self.id,},
+            }
+                # data.append((0,0,{
+                #         'product_id':product.id,
+                #         'spesification':l.name,
+                #         'quantity':l.quantity,
+                #         }))
+                # rr_id.create({
+                #         'dqups_id':self.id,               
+                #         'product_id'    : product.id,
+                #         # 'name': self.name.replace("Q","RR"),
+                #         'location_id': 8,
+                #         'warehouse_id': 2,
+                #         'internal_transfer_picking': 21,
+                #         # 'order_ids': data
+                #         'mrp_id': mo_id.id,
+                #     })
+                # self.write({'rr_ids': rr_id.ids})
 
     def action_view_rr(self):
         action = self.env.ref('request_requisition.request_requisition_list_action').read()[0]

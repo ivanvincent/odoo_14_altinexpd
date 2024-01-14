@@ -24,8 +24,8 @@
                         <button name="action_cancel_po" type="object" string="Cancel" states="approved"/>
                         <button name="action_confirm_po" type="object" string="Confirm PO" states="po_upload" class="oe_highlight"/>
                         <button name="action_cancel_po" type="object" string="Cancel PO" states="po_upload" groups="master_specifications.spv_sales_up_group"/>
-                        <button name="action_send_to_customer" type="object" string="Send to Customer" states="so_upload" class="oe_highlight"/>
                         <button name="action_send_production" type="object" string="Send to Production" states="so_upload" class="oe_highlight"/>
+                        <button name="action_send_to_customer" type="object" string="Send to Customer" states="so_upload" class="oe_highlight"/>
                         <button name="action_confirm_sj" type="object" string="Confirm SJ" states="sj_upload" groups="master_specifications.spv_sales_up_group" class="oe_highlight"/>
                         <!-- <button name="action_confirm" type="object" string="Request Approval" states="dwg_upload" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
                         <button name="action_approve" type="object" string="Approve" states="waiting" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
