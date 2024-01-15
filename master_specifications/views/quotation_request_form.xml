@@ -55,7 +55,7 @@
                         </div>
                         <group>
                             <group>
-                                <field name="type_order" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}" />
+                                <!-- <field name="type_order" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}" /> -->
                                 <field name="partner_id" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}" required="1" options="{'no_open': True, 'no_create': True}"/>
                                 <field name="billing_address"/>
                                 <field name="pic_name" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
