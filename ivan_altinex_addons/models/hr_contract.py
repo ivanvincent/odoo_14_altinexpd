@@ -248,19 +248,32 @@ class HrContract(models.Model):
         this_year = today.year
         last_year = this_year - 1
         cut_off_str = str(last_year)+'-12-21'
+        year_end_str = str(last_year)+'-12-31'
         cut_off_str2 = str(this_year)+'-01-10'
+
         cut_off_date = datetime.strptime(cut_off_str,'%Y-%m-%d').date()
+        year_end_date = datetime.strptime(year_end_str,'%Y-%m-%d').date()
         cut_off_date2 = datetime.strptime(cut_off_str2,'%Y-%m-%d').date()
         leave = self.env['hr.leave'].search([('employee_id', '=', self.employee_id.id),
                                              ('state', '=', 'validate')])
         for l in leave:
             
-            if (l.state == 'validate' and l.request_date_from <= cut_off_date):
-                l.state = 'expired'
-            elif(l.state == 'validate' and today > cut_off_date2 and l.request_date_from > cut_off_date and l.request_date_from <= cut_off_date2 ):
-                l.state = 'expired'
-            else:
+            if(today <= year_end_date):
                 l.state = 'validate'
+            elif (today > year_end_date and today <= cut_off_date2):
+                if (l.request_date_from <= cut_off_date):
+                    l.state = 'expired'
+                elif(l.request_date_from > cut_off_date and l.request_date_from <= cut_off_date2):
+                    l.state = 'validate'
+                else:
+                    l.state = 'validate'
+            else:
+                if (l.request_date_from <= cut_off_date):
+                    l.state = 'expired'
+                elif(l.request_date_from > cut_off_date and l.request_date_from <= year_end_date):
+                    l.state = 'expired'
+                else:
+                    l.state = 'validate'
             
             # l.action_refuse()
         # self.is_reseted = True
