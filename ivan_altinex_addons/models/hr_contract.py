@@ -249,7 +249,7 @@ class HrContract(models.Model):
         last_year = this_year - 1
         cut_off_str = str(last_year)+'-12-21'
         year_end_str = str(last_year)+'-12-31'
-        cut_off_str2 = str(this_year)+'-01-10'
+        cut_off_str2 = str(this_year)+'-01-20'
 
         cut_off_date = datetime.strptime(cut_off_str,'%Y-%m-%d').date()
         year_end_date = datetime.strptime(year_end_str,'%Y-%m-%d').date()
