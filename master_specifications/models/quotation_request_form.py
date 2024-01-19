@@ -127,7 +127,7 @@ class QuotationRequestForm(models.Model):
             'type': 'binary',
             'datas': data_record,
             'store_fname': data_record,
-            'mimetype': 'application/x-pdf',
+            'mimetype': 'application/pdf',
         }
         data_id = self.env['ir.attachment'].create(ir_values)
         self.report_file = data_id.id
@@ -291,7 +291,8 @@ class QuotationRequestForm(models.Model):
 
 
     def action_send_to_customer(self):
-        self.action_create_so()
+        if not self.so_id.id:
+            self.action_create_so()
         if not self.report_file:
             self.generate_report_file()
         return {
@@ -301,8 +302,10 @@ class QuotationRequestForm(models.Model):
             'target'    : 'new',
             'view_id'   : self.env.ref('master_specifications.send_customer_mail_form').id,
             'view_mode' : 'form',
-            'context'   : {'default_qrf_id': self.id,
-             'default_so_ids': self.report_file.datas},
+            'context'   : {'default_qrf_id': self.id, 
+             'default_so_ids': self.report_file.datas
+            },
+           
         }
 
     def action_send_production(self):

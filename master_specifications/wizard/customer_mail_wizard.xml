@@ -11,7 +11,7 @@
                     </header>
                     <group>
                         <group>
-                            <field name="so_ids" widget="pdf_viewer"/>
+                            <field name="so_ids" widget="pdf_viewer" nolabel="1" style="width : 250px; height:65px;" attrs="{'invisible':[('so_ids', '=', False)]}"/>
                             <!-- <field name="so_ids" filename="so_name" widget="binary" widget="pdf_viewer"/> -->
                             <field name="so_name" invisible="1"/>
                         </group>
@@ -23,7 +23,7 @@
                     </group>
                     <footer>
                         <!-- <button string="Download SO" name="action_so" type="object" default_focus="1" class="btn-primary"/> -->
-                        <button string="Send Mail" name="action_print" type="object" default_focus="1" class="btn-primary"/>
+                        <button string="Send Mail" name="action_print" type="object" class="btn-primary"/>
                         <button string="Cancel" class="btn-default" special="cancel"/>
                     </footer>
                 </form>
