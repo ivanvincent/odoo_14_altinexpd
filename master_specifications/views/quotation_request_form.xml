@@ -26,6 +26,7 @@
                         <button name="action_cancel_po" type="object" string="Cancel PO" states="po_upload" groups="master_specifications.spv_sales_up_group"/>
                         <button name="action_send_to_customer" type="object" string="Send to Customer" states="so_upload" class="oe_highlight"/>
                         <button name="action_send_production" type="object" string="Send to Production" states="so_upload" class="oe_highlight"/>
+                        <!-- <button name="generate_report_file" type="object" string="PDF" states="so_upload" class="oe_highlight"/> -->
                         <button name="action_confirm_sj" type="object" string="Selesaikan Pesanan" groups="master_specifications.spv_sales_up_group" class="oe_highlight" attrs="{'invisible':['|', ('picking_out_ids','=',[]),('state', '!=', 'sj_upload')]}" />
                         <!-- <button name="action_confirm" type="object" string="Request Approval" states="dwg_upload" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
                         <button name="action_approve" type="object" string="Approve" states="waiting" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
@@ -85,6 +86,7 @@
                                 <field name="valid_date" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>                                                        
                                 <field name="note" string="Notes Internal" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
                                 <field name="is_inform_consent" invisible="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
+                                <!-- <field name="report_file" widget="binary"/> -->
                             </group>
                         </group>
                         <notebook>
