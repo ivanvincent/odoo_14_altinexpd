@@ -11,7 +11,7 @@
                     </header>
                     <group>
                         <group>
-                            <field name="so_ids" widget="pdf_viewer" nolabel="1" style="width : 250px; height:65px;" attrs="{'invisible':[('so_ids', '=', False)]}"/>
+                            <field name="so_ids" widget="pdf_viewer" nolabel="1" style="width:900px; height:700px;" attrs="{'invisible':[('so_ids', '=', False)]}"/>
                             <!-- <field name="so_ids" filename="so_name" widget="binary" widget="pdf_viewer"/> -->
                             <field name="so_name" invisible="1"/>
                         </group>
