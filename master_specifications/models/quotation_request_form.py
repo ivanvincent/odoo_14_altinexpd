@@ -123,7 +123,7 @@ class QuotationRequestForm(models.Model):
         report_template_id = self.env.ref('master_specifications.action_qrf_report')._render_qweb_pdf(self.id)
         data_record = base64.b64encode(report_template_id[0])
         ir_values = {
-            'name': "ID Card",
+            'name': self.name,
             'type': 'binary',
             'datas': data_record,
             'store_fname': data_record,
@@ -303,7 +303,11 @@ class QuotationRequestForm(models.Model):
             'view_id'   : self.env.ref('master_specifications.send_customer_mail_form').id,
             'view_mode' : 'form',
             'context'   : {'default_qrf_id': self.id, 
-             'default_so_ids': self.report_file.datas
+             'default_so_ids': self.report_file.datas,
+             'default_recipients': self.partner_id.name,
+             'default_mail_recipients': self.partner_id.email,
+            #  'default_body': '<h1>-</h1>',
+             'default_subject': '-'
             },
            
         }

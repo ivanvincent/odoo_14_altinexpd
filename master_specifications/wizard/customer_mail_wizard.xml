@@ -11,7 +11,17 @@
                     </header>
                     <group>
                         <group>
-                            <field name="so_ids" widget="pdf_viewer" nolabel="1" style="width:900px; height:700px;" attrs="{'invisible':[('so_ids', '=', False)]}"/>
+                            <field name="subject" default='-'/>
+                            <field name="recipients"/>
+                            <field name="mail_recipients"/>
+                            <field name="template_id" context="{'default_model': 'quotation.request.form'}" domain="[('model', '=', 'quotation.request.form')]"/>
+                        </group>
+                        <field name="body" nolabel="1" options="{'style-inline': true}"/>
+                        <field name="so_ids" widget="pdf_viewer" nolabel="1" options="{'style-inline': true}" attrs="{'invisible':[('so_ids', '=', False)]}"/>
+                        <group>
+                            
+                            <!-- <field name="body" options="{'style-inline': true}"/> -->
+                            <!--<field name="so_ids" widget="pdf_viewer" nolabel="1" style="width:900px; height:700px;" attrs="{'invisible':[('so_ids', '=', False)]}"/>-->
                             <!-- <field name="so_ids" filename="so_name" widget="binary" widget="pdf_viewer"/> -->
                             <field name="so_name" invisible="1"/>
                         </group>

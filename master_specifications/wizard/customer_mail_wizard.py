@@ -10,11 +10,35 @@ class CustomerMailWizard(models.TransientModel):
     drawing_ids   = fields.Binary(string='Drawing')
     dwg_name      = fields.Char('Name')
     qrf_id        = fields.Many2one('quotation.request.form', string='Quotation')
+    subject       = fields.Char(string='Subject', required=True, )
+    recipients    = fields.Char(string='Recipients', readonly=True)
+    mail_recipients  = fields.Char(string='Mail Recipients', readonly=True)
+    body = fields.Html(string='Body', track_visibility='onchange')
+    template_id = fields.Many2one('mail.template', string='Use Template')
+
     
 
     def action_print(self):
-        self.qrf_id.so_id.action_quotation_send()
+        # self.qrf_id.so_id.action_quotation_send()
         # print("action_print")
+        template = self.template_id
+
+        # Compose the email values
+        values = {
+            'email_from': self.env['ir.mail_server'].search([('sequence', '=', 1)], limit=1)[0].smtp_user,
+            'email_to': self.mail_recipients,
+            'subject': self.subject,
+            'body_html': self.subject,
+            'attachment_ids': [self.qrf_id.report_file.id]
+        }
+
+        # Send the email using the template and values
+        template.send_mail(self.id, force_send=True, email_values=values)
+
+        # You can also use the mail_thread method directly
+        self.qrf_id.message_post(body="Successfully sent the email", subject="Your subject")
+
+        return True
 
     def _find_mail_template(self, force_confirmation_template=False):
         self.ensure_one()
@@ -27,8 +51,16 @@ class CustomerMailWizard(models.TransientModel):
                 template_id = self.env['ir.model.data'].xmlid_to_res_id('sale.mail_template_sale_confirmation', raise_if_not_found=False)
         if not template_id:
             template_id = self.env['ir.model.data'].xmlid_to_res_id('sale.email_template_edi_sale', raise_if_not_found=False)
-
         return template_id
+
+    @api.onchange('template_id')
+    def onchange_template_id(self):
+        print('=====onchange_template_id======')
+        # self.action_so()
+        if self.template_id:
+            self.body = self.template_id.body_html
+            print(self.template_id.body_html)
+
 
     # def action_print(self):
     #     ''' Opens a wizard to compose an email, with relevant mail template loaded by default '''
@@ -63,6 +95,7 @@ class CustomerMailWizard(models.TransientModel):
     def action_so(self):
         print("action_so")
         self.so_ids = self.qrf_id.report_file.datas
+        # self.write({'body': self.template_id.body_html})
         return {'type': 'ir.actions.client'}
         # return { 
         #     'type' : 'ir.actions.do_nothing'
