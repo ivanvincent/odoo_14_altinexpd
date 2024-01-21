@@ -29,7 +29,8 @@ class CustomerMailWizard(models.TransientModel):
             'email_to': self.mail_recipients,
             'subject': self.subject,
             'body_html': self.subject,
-            'attachment_ids': [self.qrf_id.report_file.id]
+            'attachment_ids': [self.qrf_id.report_file.id],
+            'partner_ids': [self.qrf_id.partner_id.id]
         }
 
         # Send the email using the template and values
