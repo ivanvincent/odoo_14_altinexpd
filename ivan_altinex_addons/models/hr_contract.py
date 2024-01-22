@@ -40,7 +40,7 @@ class HrContract(models.Model):
     allocations_ids = fields.One2many('hr.leave.allocation', 'contract_id', 'Allocations Line')
     alokasi_izin = fields.Float(string='alokasi_izin') #sementara
     is_reseted = fields.Boolean(string='Reset ?', default=False)
-    tax_tarif_id = fields.Many2One('hr.tax_tarif', string="Tax Tarif")
+    tax_tarif_id = fields.Many2one('hr.tax_tarif', string="Tax Tarif")
     
     
     @api.depends('first_contract_date')
