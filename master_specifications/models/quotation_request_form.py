@@ -3,6 +3,7 @@ from odoo import models, fields, api
 from dateutil.relativedelta import relativedelta
 import odoo.addons.decimal_precision as dp
 from odoo.exceptions import ValidationError
+import base64
 
 class QuotationRequestForm(models.Model):
     _name = 'quotation.request.form'
@@ -116,6 +117,21 @@ class QuotationRequestForm(models.Model):
     so2_id = fields.Many2one('sale.order', string='SO')
     # rr_ids = fields.Many2many(comodel_name='request.requisition', string='Request Requisition')
     picking_out_ids = fields.One2many('stock.picking', 'dqups_id', string="No DO")
+    report_file = fields.Many2one('ir.attachment', string='PDF')
+
+    def generate_report_file(self):
+        report_template_id = self.env.ref('master_specifications.action_qrf_report')._render_qweb_pdf(self.id)
+        data_record = base64.b64encode(report_template_id[0])
+        ir_values = {
+            'name': self.name,
+            'type': 'binary',
+            'datas': data_record,
+            'store_fname': data_record,
+            'mimetype': 'application/pdf',
+        }
+        data_id = self.env['ir.attachment'].create(ir_values)
+        self.report_file = data_id.id
+        return True
 
     @api.depends('line_ids.sub_total')
     def _compute_pph23(self):
@@ -275,15 +291,25 @@ class QuotationRequestForm(models.Model):
 
 
     def action_send_to_customer(self):
-        self.action_create_so()
+        if not self.so_id.id:
+            self.action_create_so()
+        if not self.report_file:
+            self.generate_report_file()
         return {
             'type'      : 'ir.actions.act_window',
             'name'      : "Send Mail",
-            'res_model' : 'revise.wizard',
+            'res_model' : 'customer.mail.wizard',
             'target'    : 'new',
             'view_id'   : self.env.ref('master_specifications.send_customer_mail_form').id,
             'view_mode' : 'form',
-            'context'   : {'default_qrf_id': self.id,},
+            'context'   : {'default_qrf_id': self.id, 
+             'default_so_ids': self.report_file.datas,
+             'default_recipients': self.partner_id.name,
+             'default_mail_recipients': self.partner_id.email,
+            #  'default_body': '<h1>-</h1>',
+             'default_subject': '-'
+            },
+           
         }
 
     def action_send_production(self):

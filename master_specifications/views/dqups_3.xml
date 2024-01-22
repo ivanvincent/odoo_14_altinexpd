@@ -11,35 +11,42 @@
                     <header>
                         <field name="state" widget="statusbar"/>
                         <button name="action_confirm_qrf" type="object" string="Confirm QRF" attrs="{'invisible':[('state', '!=', 'draft')]}" class="oe_highlight"/>
-                        <button name="action_print_inform_consent" type="object" string="Download Inform Consent" class="oe_highlight" attrs="{'invisible':[('is_inform_consent', '!=', True)]}"/>
-                        <button name="action_confirm_dwg" type="object" string="Confirm DWG" attrs="{'invisible':[('state', '!=', 'qrf_upload')]}" class="oe_highlight"/>
-                        <button name="action_revise_qrf" type="object" string="Revise QRF" attrs="{'invisible':[('state', '!=', 'qrf_upload')]}" />
-                        <button name="action_req_approval" type="object" string="Request Approval" states="dwg_upload" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
-                        <button name="action_revise_dwg" type="object" string="Revise DWG" attrs="{'invisible':[('state', '!=', 'dwg_upload')]}" />
-                        <button name="action_approved" type="object" string="Approve" states="waiting" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
-                        <button name="action_revise_detail" type="object" string="Revise Details" states="waiting" />
-                        <button name="action_confirm_po" type="object" string="Confirm Order" states="approved" class="oe_highlight"/>
-                        <button name="action_revise_detail" type="object" string="Revise Details" states="approved" />
+                        <button name="action_print_inform_consent" type="object" string="Download Inform Consent" class="oe_highlight" attrs="{'invisible':['|', ('state', '!=', 'draft'),('is_inform_consent', '!=', True)]}"/>
+                        <button name="action_confirm_dwg" type="object" string="Confirm DWG" attrs="{'invisible':[('state', '!=', 'qrf_upload')]}" class="oe_highlight" groups="master_specifications.spv_engineering_up_group"/>
+                        <button name="action_revise_qrf" type="object" string="Revise QRF" attrs="{'invisible':[('state', '!=', 'qrf_upload')]}" groups="master_specifications.spv_sales_up_group"/>
+                        <button name="action_req_approval" type="object" string="Request Approval" states="dwg_upload" class="oe_highlight"/>
+                        <button name="action_revise_dwg" type="object" string="Revise Drawing" attrs="{'invisible':[('state', '!=', 'dwg_upload')]}" />
+                        <button name="action_approved" type="object" string="Approve" states="waiting" groups="master_specifications.spv_sales_up_group" class="oe_highlight"/>
+                        <button name="action_revise_detail" type="object" string="Revise Details" states="waiting" groups="master_specifications.spv_sales_up_group" />
+                        <button name="action_confirm_order" type="object" string="Confirm Order" states="approved" class="oe_highlight" groups="master_specifications.user_dqups"/>
+                        <button name="action_revise_detail" type="object" string="Revise Details" states="approved" groups="master_specifications.user_dqups"/>
                         <button name="action_print" type="object" string="Print" attrs="{'invisible':[('state', '!=', 'approved')]}" class="oe_highlight"/>
-                        <button name="action_cancel_po" type="object" string="Cancel" states="approved" />
+                        <button name="action_cancel_po" type="object" string="Cancel" states="approved"/>
                         <button name="action_confirm_po" type="object" string="Confirm PO" states="po_upload" class="oe_highlight"/>
-                        <button name="action_cancel_po" type="object" string="Cancel PO" states="po_upload" />
-                        <button name="action_send_production" type="object" string="Send to Production" states="so_upload" class="oe_highlight"/>
+                        <button name="action_cancel_po" type="object" string="Cancel PO" states="po_upload" groups="master_specifications.spv_sales_up_group"/>
                         <button name="action_send_to_customer" type="object" string="Send to Customer" states="so_upload" class="oe_highlight"/>
-                        <button name="action_confirm_sj" type="object" string="Confirm SJ" states="sj_upload" groups="sales_team.group_sale_manager" class="oe_highlight"/>
-                        <!-- <button name="action_confirm" type="object" string="Request Approval" states="draft" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
-                        <button name="action_approve" type="object" string="Approve" states="confirm" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
-                        <button name="action_process" type="object" string="Process" attrs="{'invisible':['|', ('processed', '=', True), ('state', '!=', 'approved')]}" groups="sales_team.group_sale_manager" class="oe_highlight"/>
-                        <field name="processed" invisible="1"/> -->
-                        <button name="action_set_to_draft" type="object" string="Set To Draft" attrs="{'invisible':[('state', 'not in', ('approved','confirm'))]}"/>
-                        <!-- <button name="action_create_so" type="object" string="Create SO" attrs="{'invisible':[('state', '!=', 'approved')]}" class="oe_highlight"/>
-                        <button name="action_print_dqups3" type="object" string="Print" attrs="{'invisible':[('state', 'not in', ('approved','order_processed'))]}" class="oe_highlight"/> -->
+                        <button name="action_send_production" type="object" string="Send to Production" states="so_upload" class="oe_highlight"/>
+                        <button name="action_confirm_sj" type="object" string="Selesaikan Pesanan" groups="master_specifications.spv_sales_up_group" class="oe_highlight" attrs="{'invisible':['|', ('picking_out_ids','=',[]),('state', '!=', 'sj_upload')]}" />
+                        <!-- <button name="action_confirm" type="object" string="Request Approval" states="dwg_upload" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
+                        <button name="action_approve" type="object" string="Approve" states="waiting" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
+                        <button name="action_done" type="object" string="Done" states="po_upload" groups="sales_team.group_sale_manager" class="oe_highlight"/> -->
+                        <!-- <field name="processed" invisible="1"/> -->
+                        <!-- <button name="action_set_to_draft" type="object" string="Set To Draft" groups="sales_team.group_sale_manager" attrs="{'invisible':[('state', 'not in', ('approved','qrf_upload'))]}"/> -->
+                        <!--<button name="action_create_so" type="object" string="Create SO" attrs="{'invisible':[('state', '!=', 'approved')]}" class="oe_highlight"/>
+                        <button name="action_print" type="object" string="Print" attrs="{'invisible':[('state', 'not in', ('approved','order_processed'))]}" class="oe_highlight"/>
+                        <button name="action_set_to_qrf" type="object" string="Set to QRF" states="dwg_upload" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads"/>
+                        <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible':[('state', 'not in', ('waiting','done'))]}" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads"/>
+                        <button name="action_cancel_approve" type="object" string="Cancel Approve" states="po_upload" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads"/>
+                        <button name="action_print_inform_consent" type="object" string="Download Inform Consent" class="oe_highlight" attrs="{'invisible':[('is_inform_consent', '!=', True)]}"/> -->
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button class="oe_stat_button" type="object" name="action_view_so" icon="fa-truck" string="Order">
+                            <!-- <button class="oe_stat_button" type="object" name="action_view_rr" icon="fa-truck" string="Request Requisition" attrs="{'invisible':[('state', '!=', 'so_upload')]}"></button> -->
+                            <button class="oe_stat_button" type="object" name="action_view_so" icon="fa-truck" string="Sales Order" attrs="{'invisible':[('state', '!=', 'so_upload')]}"></button>
+                            <button class="oe_stat_button" type="object" name="action_view_production" icon="fa-cubes" string="Production" attrs="{'invisible':[('state', '!=', 'so_upload')]}"></button>
+                            <button class="oe_stat_button" type="object" name="action_view_picking_list" icon="fa-cubes" string="Picking" attrs="{'invisible':[('state', '!=', 'sj_upload')]}"></button>
                                 <!-- <field name="so_count" widget="statinfo" string="Sale Order"/> -->
-                            </button>
+                            <!-- </button> -->
                         </div>
                         <div class="oe_title">
                             <h1>
@@ -48,54 +55,72 @@
                         </div>
                         <group>
                             <group>
-                                <field name="partner_id" attrs="{'readonly':[('state','=','confirm')]}" required="1" options="{'no_open': True, 'no_create': True}"/>
+                                <!-- <field name="type_order" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}" /> -->
+                                <field name="partner_id" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}" required="1" options="{'no_open': True, 'no_create': True}"/>
                                 <field name="billing_address"/>
-                                <field name="pic_name" required="1"/>
-                                <field name="pic_email" required="1"/>
-                                <field name="pic_phone" required="1"/>
-                                <field name="reference" required="1"/>
-                                <field name="tax_id" domain="[('id','in',(40,41))]" options="{'no_create': True}" required="1"/>
-                                <field name="notes_to_customer"/>
-                                <field name="date" required="1"/>
-                                <field name="attn_ids" invisible="1"/>
+                                <field name="pic_name" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
+                                <field name="pic_job_position" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
+                                <field name="pic_email" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
+                                <field name="pic_phone" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
+                                <field name="reference" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
+                                <field name="tax_id" domain="[('id','in',(40,41))]" options="{'no_create': True}" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
+                                <field name="notes_to_customer" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
+                                <field name="date" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
+                                <field name="attn_ids" invisible="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
                                 <field name="user_id"/>
+                                <field name="so_id" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
                             </group>
                             <group>
-                                <field name="end_user_name" required="1" options="{'no_open': True, 'no_create': True}"/>
+                                <!-- <field name="date" attrs="{'readonly':[('state','=','confirm')]}" /> -->
+                                <field name="end_user_name" required="1" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
                                 <field name="child_ids" invisible="1"/>
-                                <field name="shipping_address" domain="[('id', 'in', child_ids)]" context="{'partner_custom':True}" options="{'no_open': True, 'no_create': True, 'always_reload'': True}"/>
-                                <!-- <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" string="End User Machine" /> -->
-                                <!-- <field name="station_no" required="1"/> -->
-                                <!-- <field name="end_user_machine_serial" required="1"/> -->
-                                <field name="payment_terms" required="1"/>                                                          
-                                <field name="delivery_terms" required="1"/>                                                          
-                                <field name="sales_condition" string="Warranty" required="1"/>                                                          
-                                <field name="valid_date" required="1"/>                                                        
-                                <field name="note" string="Notes Internal"/>
-                                <field name="is_inform_consent" invisible="1"/>
+                                <field name="shipping_address" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}" domain="[('id', 'in', child_ids)]" context="{'partner_custom':True}" options="{'no_open': True, 'no_create': True, 'always_reload'': True}" />
+                                <field name="machine_id" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}" string="End User Machine" />                           
+                                <field name="station_no" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>                              
+                                <field name="end_user_machine_serial" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
+                                <!-- <field name="perihal" invisible="1"/>                                 -->
+                                <field name="payment_terms" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>                                                          
+                                <field name="delivery_terms" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>                                                          
+                                <field name="sales_condition" string="Warranty" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>                                                          
+                                <field name="valid_date" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>                                                        
+                                <field name="note" string="Notes Internal" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
+                                <field name="is_inform_consent" invisible="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
                             </group>
                         </group>
                         <notebook>
                             <page name="qrf" string="QRF">
-                                <field name="qrf_attachment_line_ids" attrs="{'readonly':[('state','=','approved')]}" >
+                                <field name="qrf_attachment_line_ids" attrs="{'readonly':[('state','in', ['approved', 'po_upload', 'so_upload', 'sj_upload', 'done'])]}" >
                                     <tree editable="bottom"> 
-                                        <field name="qrf_attachment_ids" widget="pdf_viewer" style="width : 250px; height:65px;"/>
-                                        <!-- <field name="attachment_name" /> -->
-                                        <field name="reference" />
-                                        <field name="notes" />
+                                        <field name="qrf_attachment_ids" filename="file_name" widget="binary" force-save="1"/>
+                                        <field name="file_name" invisible="1"/>
+                                        <!-- <field name="reference" />
+                                        <field name="notes" /> -->
+                                        <field name="new_product" />
+                                        <field name="comp_partial" />
+                                        <field name="turret" />
+                                        <field name="tooling" />
+                                        <field name="tooling_qc" />
+                                        <field name="prev_wo_no" />
+                                        <button name="create_qrf_attch_conclusion" type="object" icon="fa-list"/>                                        
+                                        <field name="con_ids" />
+                                        <field name="attchment_inform_consent_id" invisible="1"/>
+                                        <!-- <field name="download_inform_consent_ids" filename="download_inform_consent_name" widget="binary"/> -->
+                                        <!-- <field name="download_inform_consent_name" invisible="1"/> -->
+                                        <field name="upload_inform_consent_ids" filename="inform_consent_file_name" widget="binary" force-save="1"/>
+                                        <field name="inform_consent_file_name" invisible="1"/>
                                     </tree>
                                 </field>
                             </page>
-                            <page name="drawing" string="Drawing" attrs="{'invisible':[('qrf_attachment_line_ids','=',[])]}">
-                                <field name="drawing_attachment_line_ids" attrs="{'readonly':[('state','=','approved')]}" >
+                            <page name="drawing" string="Drawing" attrs="{'invisible':[('state','=','draft')]}">
+                                <field name="drawing_attachment_line_ids" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done', 'approved'])]}" >
                                     <tree editable="bottom"> 
-                                        <field name="drawing_attachment_ids" widget="pdf_viewer" style="width : 250px; height:65px;"/>
-                                        <!-- <field name="attachment_name" invisible="1"/> -->
+                                        <field name="drawing_attachment_ids" filename="attachment_name" widget="binary"/>
+                                        <field name="attachment_name" invisible="1"/>
                                     </tree>
                                 </field>
                             </page>
-                            <page name="Details" string="Details" attrs="{'invisible':[('drawing_attachment_line_ids','=',[])]}" groups="master_specifications.user_dqups,master_specifications.manager_dqups">
-                                <field name="line_ids" attrs="{'readonly':[('state','=','approved')]}" >
+                            <page name="Details" string="Details" attrs="{'invisible':[('state','in',('draft','qrf_upload'))]}" groups="master_specifications.user_dqups,master_specifications.manager_dqups">
+                                <field name="line_ids" attrs="{'readonly':[('state','in', ['approved', 'po_upload', 'so_upload', 'sj_upload', 'done'])]}" >
                                     <tree editable="bottom"> 
                                         <field name="jenis_id" options="{'no_create': True}"/>
                                         <field name="name" required="1"/>
@@ -113,11 +138,22 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page name="po" string="PO" attrs="{'invisible':[('state','!=','approved')]}" >
-                                <field name="po_attachment_line_ids" >
+                            <page name="po" string="PO" attrs="{'invisible':[('state','not in',('po_upload','so_upload','sj_upload','done'))]}">
+                                <field name="po_attachment_line_ids" attrs="{'readonly':[('state','in', ['so_upload', 'sj_upload', 'done'])]}" >
                                     <tree editable="bottom"> 
-                                        <field name="po_attachment_ids" widget="pdf_viewer" style="width : 250px; height:65px;"/>
+                                        <field name="po_attachment_ids" string= "PO + Confirmed Drawing by Customer (COMPULSORY)" widget="pdf_viewer" style="width : 250px; height:65px;"/>
                                         <!-- <field name="attachment_name" invisible="1"/> -->
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="sj" string="SJ" attrs="{'invisible':[('state','not in',('sj_upload','done'))]}" >
+                                <field name="picking_out_ids" attrs="{'readonly': [('state', '=', ['done'])]}">
+                                    <tree editable="bottom"> 
+                                        <field name="name"/>
+                                        <!-- <field name="origin"/> -->
+                                        <field name="sj_attachment_ids" filename="attachment_name" widget="binary"/>
+                                        <field name="state" optional="show" widget="badge" decoration-success="state == 'done'" decoration-info="state not in ('done', 'cancel')"/>
+                                        <field name="attachment_name" invisible="1"/>
                                     </tree>
                                 </field>
                             </page>
