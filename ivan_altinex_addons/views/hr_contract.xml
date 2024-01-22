@@ -76,8 +76,8 @@
                 <xpath expr="//page[@name='information']" position="after">
                     <page name="timeoff_allocation" string="Time Off Allocation">
                         <button name="update_allocation" type="object" string="Update Allocation" class="oe_highlight"/>
-                        <button name="action_reset_leave" type="object" string="Reset" class="bg-danger"/>
-                        
+                        <button name="action_reset_leave" type="object" string="Reset" class="bg-danger" attrs="{'invisible':[('is_reseted', '=', True)]}"/>
+                        <field name="is_reseted" invisible="1"/>
                         <group string="Alokasi Izin dan Cuti" name='timeoff'>
                             <label for="alokasi_izin_sakit"/>
                             <div class="o_row">
