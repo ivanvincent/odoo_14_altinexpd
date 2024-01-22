@@ -39,7 +39,8 @@ class HrContract(models.Model):
     skill_id = fields.Many2one('hr.skill_grade', string='Skill Grade')
     allocations_ids = fields.One2many('hr.leave.allocation', 'contract_id', 'Allocations Line')
     alokasi_izin = fields.Float(string='alokasi_izin') #sementara
-    is_reseted = fields.Boolean(string='Reset ?', default=False)
+    tax_tarif_id = fields.Many2One('hr.tax_tarif', string="Tax Tarif")
+    
     
     @api.depends('first_contract_date')
     def _compute_year_of_service(self):
@@ -294,6 +295,18 @@ class SkillGrade(models.Model):
 
     skill_grade = fields.Char(string='Skill Grade')
     tunj_ahli = fields.Float(string='Tunjangan Keahlian/hari')
+
+
+
+class TaxTarif(models.Model):
+    _name = 'hr.tax_tarif'
+    _rec_name = 'tax_tarif'
+    _description = 'tax tarif master'
+
+    category = fields.Char(string='Category')
+    bruto_from = fields.Char(string = 'Bruto From')
+    bruto_to = fields.Char(string = 'Bruto To')
+    tax_tarif = fields.Float('Tax Tarif (%)')
 
 
     

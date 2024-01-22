@@ -13,6 +13,9 @@
                     <field name="nama_alias"/>
                     <field name="nik_karyawan"/>
                 </xpath>
+                <xpath expr="//field[@name='children']" position="after">
+                    <field name="tax_category"/>
+                </xpath>
             </field>
         </record>
     </data>

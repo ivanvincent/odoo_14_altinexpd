@@ -15,3 +15,18 @@ class HrEmployee(models.Model):
     ], string='Employee Team')
     nama_alias = fields.Char(string='Alias')
     nik_karyawan = fields.Char(string='NIK')
+    tax_category = fields.Char(string='Tax Category',compute='_compute_tax_category')
+
+    @api.depends('marital', 'children')
+    def _compute_tax_category(self):
+        marital = self.marital
+        children = self.children
+        
+        if((marital == 'single' and children == 0) or (marital == 'single' and children == 1) or (marital == 'married' and children == 0)):
+            self.tax_category = 'A'
+        elif((marital == 'single' and children == 2) or (marital == 'single' and children == 3) or (marital == 'married' and children == 1) or (marital == 'married' and children == 2)):
+            self.tax_category = 'B'
+        else:
+            self.tax_category = 'C'
+        
+    
