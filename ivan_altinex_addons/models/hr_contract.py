@@ -39,7 +39,7 @@ class HrContract(models.Model):
     skill_id = fields.Many2one('hr.skill_grade', string='Skill Grade')
     allocations_ids = fields.One2many('hr.leave.allocation', 'contract_id', 'Allocations Line')
     alokasi_izin = fields.Float(string='alokasi_izin') #sementara
-    tax_tarif_id = fields.Many2One('hr.tax_tarif', string="Tax Tarif")
+    tax_tarif_id = fields.Many2one('hr.tax_tarif', string="Tax Tarif")
     
     
     @api.depends('first_contract_date')
