@@ -20,7 +20,7 @@
                         <button name="action_revise_detail" type="object" string="Revise Details" states="waiting" groups="master_specifications.spv_sales_up_group" />
                         <button name="action_confirm_order" type="object" string="Confirm Order" states="approved" class="oe_highlight" groups="master_specifications.user_dqups"/>
                         <button name="action_revise_detail" type="object" string="Revise Details" states="approved" groups="master_specifications.user_dqups"/>
-                        <button name="action_print" type="object" string="Print" attrs="{'invisible':[('state', '!=', 'approved')]}" class="oe_highlight"/>
+                        <button name="action_print_dqups2" type="object" string="Print" attrs="{'invisible':[('state', '!=', 'approved')]}" class="oe_highlight"/>
                         <button name="action_cancel_po" type="object" string="Cancel" states="approved"/>
                         <button name="action_confirm_po" type="object" string="Confirm PO" states="po_upload" class="oe_highlight"/>
                         <button name="action_cancel_po" type="object" string="Cancel PO" states="po_upload" groups="master_specifications.spv_sales_up_group"/>
