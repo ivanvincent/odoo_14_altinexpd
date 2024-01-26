@@ -221,7 +221,7 @@
                                   <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-left: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#D9DDDC" width="3%">NO</th>
                                   <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#D9DDDC" width="20%">Description</th>
                                   <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#D9DDDC" width="5%">QTY</th>
-                                  <!--<th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#D9DDDC" width="12%">Unit Price</th>-->
+                                  <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#D9DDDC" width="12%">Unit Price</th>
                                   <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#D9DDDC" width="2%"/>
                                   <th class="text-center" style="vertical-align : middle; border-top: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black; padding: 0; border-collapse: collapse;background-color:#D9DDDC" width="12%">Subtotal</th>
                               </tr>
@@ -238,14 +238,14 @@
                                       <td style="vertical-align : middle; border-collapse: collapse; " class="text-center">
                                            <span t-field="line.quantity"/>
                                       </td>
-                                      <!--<td style="vertical-align : middle; border-collapse: collapse; " class="text-right pr-2">-->
-                                      <!--    <span style="padding-left:20px" t-esc="'{0:,.0f}'.format(float(line.price_unit))"/> -->
-                                      <!--</td>-->
+                                      <td style="vertical-align : middle; border-collapse: collapse; " class="text-right pr-2">
+                                          <span style="padding-left:20px" t-esc="'{0:,.0f}'.format(float(line.sub_total))"/> 
+                                      </td>
                                       <td style="vertical-align : middle; border-collapse: collapse; " class="text-right pr-2">
                                           <!--<span style="padding-left:20px" t-field="line.amount_discount"/> -->
                                       </td>
                                       <td style="vertical-align : middle; border-right: 1px solid black; border-collapse: collapse; " class="text-right pr-2">
-                                          <span style="padding-left:20px" t-esc="'{0:,.0f}'.format(float(line.sub_total))"/> 
+                                          <span style="padding-left:20px" t-esc="'{0:,.0f}'.format(float(line.price_total))"/> 
                                       </td>
                                   </tr>
                                   <tr>
@@ -258,7 +258,7 @@
                                                   <td width="45%" style="padding-left:10px;">Price Product :</td>
                                                   <td>
                                                       <!-- <span>:</span> -->
-                                                      <span class="font-weight-normal" t-field="docs.amount_untaxed"/><span/> 
+                                                      <span class="font-weight-normal" t-field="docs.amount_untaxed_2"/><span/> 
                                                   </td>
                                               </tr>
                                               <tr class="text-right">
@@ -272,7 +272,7 @@
                                                   <td width="45%" style="padding-left:10px;">Price After Discount :</td>
                                                   <td>
                                                       <!-- <span>:</span> -->
-                                                      <span class="font-weight-normal">Rp</span> <span class="font-weight-normal" t-esc="'{0:,.0f}'.format(float(docs.amount_price_discount))"/><span/> 
+                                                      <span class="font-weight-normal">Rp</span> <span class="font-weight-normal" t-esc="'{0:,.0f}'.format(float(docs.amount_price_discount_2))"/><span/> 
                                                   </td>
                                               </tr>
                                               <tr class="text-right">
@@ -440,7 +440,7 @@
                                                       <t t-set="tot_total" t-value="tot_total +  detail2.total"/>
                                                       <t t-set="tot_subtotal" t-value="tot_subtotal +  detail2.subtotal"/>
                                                       <t t-set="tot_amount_subtotal" t-value="docs.amount_untaxed -  docs.amount_discount"/>
-                                                      <t t-set="tot_amount_total" t-value="tot_amount_subtotal +  docs.amount_tax"/>
+                                                      <!--<t t-set="tot_amount_total" t-value="tot_amount_subtotal +  docs.amount_tax"/>-->
                                                       <div class="row mt32">
                                                           <div class="col-1"/>
                                                           <div class="col-6">
