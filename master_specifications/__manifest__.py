@@ -27,7 +27,7 @@ Dev
         'views/dqups_2.xml',
         'views/dqups_3.xml',
         'views/conclusion.xml',
-        # 'report/specification.xml',
+        'report/specification.xml',
         'report/print_qrf.xml',
         'report/d_qups2_report.xml',
         'report/specification_summary.xml',
