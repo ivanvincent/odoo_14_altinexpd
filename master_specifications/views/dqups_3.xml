@@ -59,7 +59,7 @@
                                 <field name="partner_id" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}" required="1" options="{'no_open': True, 'no_create': True}"/>
                                 <field name="billing_address"/>
                                 <field name="pic_name" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
-                                <field name="pic_job_position" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
+                                <!-- <field name="pic_job_position" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/> -->
                                 <field name="pic_email" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
                                 <field name="pic_phone" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
                                 <field name="reference" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
@@ -75,9 +75,9 @@
                                 <field name="end_user_name" required="1" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
                                 <field name="child_ids" invisible="1"/>
                                 <field name="shipping_address" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}" domain="[('id', 'in', child_ids)]" context="{'partner_custom':True}" options="{'no_open': True, 'no_create': True, 'always_reload'': True}" />
-                                <field name="machine_id" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}" string="End User Machine" />                           
-                                <field name="station_no" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>                              
-                                <field name="end_user_machine_serial" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
+                                <!-- <field name="machine_id" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}" string="End User Machine" />                            -->
+                                <!-- <field name="station_no" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>                               -->
+                                <!-- <field name="end_user_machine_serial" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/> -->
                                 <!-- <field name="perihal" invisible="1"/>                                 -->
                                 <field name="payment_terms" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>                                                          
                                 <field name="delivery_terms" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>                                                          
