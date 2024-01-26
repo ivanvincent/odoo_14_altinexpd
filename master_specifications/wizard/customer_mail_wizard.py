@@ -12,7 +12,7 @@ class CustomerMailWizard(models.TransientModel):
     qrf_id        = fields.Many2one('quotation.request.form', string='Quotation')
     subject       = fields.Char(string='Subject', required=True, )
     recipients    = fields.Char(string='Recipients', readonly=True)
-    mail_recipients  = fields.Char(string='Mail Recipients', readonly=True)
+    mail_recipients  = fields.Char(string='Mail Recipients')
     body = fields.Html(string='Body', track_visibility='onchange')
     template_id = fields.Many2one('mail.template', string='Use Template')
 
