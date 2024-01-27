@@ -32,8 +32,8 @@
                     <field name="name"/>
                     <field name="date_from"/>
                     <field name="company_id" groups="base.group_multi_company"/>
-                    <field name="start_date" invisible="1"/>
-                    <field name="end_date" invisible="1"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
                     <filter string="This Month" name="thismonth" domain="[('date_from','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
                     <filter string="This Year" name="year"  domain="[('date_from','&lt;=', time.strftime('%%Y-12-31')),('date_from','&gt;=',time.strftime('%%Y-01-01')),('date_to','&lt;=', time.strftime('%%Y-12-31')),('date_to','&gt;=',time.strftime('%%Y-01-01'))]"/>
                     <filter name="Done" string="Done" domain="[('state','=', 'done')]"/>
