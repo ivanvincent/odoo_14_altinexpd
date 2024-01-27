@@ -305,7 +305,7 @@ class QuotationRequestForm(models.Model):
             'context'   : {'default_qrf_id': self.id, 
              'default_so_ids': self.report_file.datas,
              'default_recipients': self.partner_id.name,
-             'default_mail_recipients': self.partner_id.email,
+             'default_mail_recipients': self.pic_email,
             #  'default_body': '<h1>-</h1>',
              'default_subject': '-'
             },
@@ -314,9 +314,11 @@ class QuotationRequestForm(models.Model):
 
     def action_send_production(self):
         
+        mrp = self.env['mrp.production'].search([('dqups_id','=',self.id)])
+
         if not self.so_id.id:
             raise ValidationError("Please click the Send to Customer Button first to generate SO number")
-        else:
+        elif not mrp:
             # self.state = 'sj_upload'
             data = []
             # mrp = self.env['mrp.production']
