@@ -120,7 +120,7 @@ class QuotationRequestForm(models.Model):
     report_file = fields.Many2one('ir.attachment', string='PDF')
 
     def generate_report_file(self):
-        report_template_id = self.env.ref('master_specifications.action_specification')._render_qweb_pdf(self.id)
+        report_template_id = self.env.ref('master_specifications.action_specifications_summary_2')._render_qweb_pdf(self.id)
         data_record = base64.b64encode(report_template_id[0])
         ir_values = {
             'name': self.name,
