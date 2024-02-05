@@ -118,6 +118,8 @@ class QuotationRequestForm(models.Model):
     # rr_ids = fields.Many2many(comodel_name='request.requisition', string='Request Requisition')
     picking_out_ids = fields.One2many('stock.picking', 'dqups_id', string="No DO")
     report_file = fields.Many2one('ir.attachment', string='PDF')
+    po_number = fields.Char(string='PO No.')
+    shipment = fields.Char(string='Shipment')
 
     def generate_report_file(self):
         report_template_id = self.env.ref('master_specifications.action_specifications_summary_2')._render_qweb_pdf(self.id)

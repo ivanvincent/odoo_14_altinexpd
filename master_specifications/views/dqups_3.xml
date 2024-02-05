@@ -85,6 +85,8 @@
                                 <field name="valid_date" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>                                                        
                                 <field name="note" string="Notes Internal" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
                                 <field name="is_inform_consent" invisible="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
+                                <field name="po_number" />
+                                <field name="shipment" />
                             </group>
                         </group>
                         <notebook>
