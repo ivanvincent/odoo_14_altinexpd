@@ -55,7 +55,7 @@
                     <!--<br/>-->
                     <div>
                         <h4 class="col-12" style="margin-top:-5px; text-align:center;border: 1px solid black;">
-                            <span style="font-size: 22px">SALES ORDER</span>
+                            <span><b>SALES ORDER</b></span>
                         </h4>
                     </div>
                     <div class="row mt32">
@@ -78,17 +78,17 @@
                             <div style="font-size:16px">
                                 <table width="100%">
                                     <tr>
-                                        <td width="50%" style="padding-left:10px;">Date</td>
+                                        <td width="40%" style="padding-left:10px;">Date</td>
                                         <td>
-                                            <!-- <span>:</span> -->
-                                            <span t-field="docs.so_id.create_date" style="border: 1px solid black;padding:2px" t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;MM/dd/yyyy&quot;}"/> 
+                                            <span>:</span>
+                                            <span t-field="docs.so_id.create_date" t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;MM/dd/yyyy&quot;}"/> 
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="50%" style="padding-left:10px;">Quotation Ref</td>
+                                        <td width="40%" style="padding-left:10px;">Quotation Ref</td>
                                         <td>
-                                            <!--<span>:</span>-->
-                                            <span style="border: 1px solid black;padding:2px" t-field="docs.name"/>
+                                            <span>:</span>
+                                            <span  t-field="docs.name"/>
                                         </td>
                                     </tr>
                                 </table>

@@ -32,7 +32,7 @@
             <div class="page">
                 <t t-call="web.basic_layout">
                     <div class="row mt32">
-                        <div class="col-6" style="margin-bottom:5px">
+                        <div class="col-6">
                             <div class="col-xs-1" style="margin-top: 20px; margin-left: 10px;">
                                 <img src="/web/binary/company_logo" style="width : 250px; height:65px; padding-top:-4px;" align="left"/>
                             </div>
@@ -55,7 +55,7 @@
                     <!--<br/>-->
                     <div>
                         <h4 class="col-12" style="margin-top:-5px; text-align:center;border: 1px solid black;">
-                            <span style="font-size: 22px">SALES ORDER</span>
+                            <span><b>SALES ORDER</b></span>
                         </h4>
                     </div>
                     <div class="row mt32">
