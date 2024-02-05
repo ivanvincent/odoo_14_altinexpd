@@ -3,8 +3,8 @@
 
     <data>
 
-        <record model="report.paperformat" id="paperformat_print_template_so_1">
-            <field name="name">pf_print_template_so_1</field>
+        <record model="report.paperformat" id="paperformat_print_template_so_3">
+            <field name="name">pf_print_template_so_3</field>
             <field name="default" eval="False" />
             <field name="format">A4</field>
             <field name="orientation">Portrait</field>
@@ -17,19 +17,19 @@
             <field name="dpi">90</field>
         </record>
 
-        <record id="action_print_template_so_1" model="ir.actions.report">
-                <field name="name">Sales Order 1</field>
+        <record id="action_print_template_so_3" model="ir.actions.report">
+                <field name="name">Sales Order 3</field>
                 <field name="model">quotation.request.form</field>
-                <field name="report_name">master_specifications.print_template_so_1</field>
-                <field name="report_file">master_specifications.print_template_so_1</field>
+                <field name="report_name">master_specifications.print_template_so_3</field>
+                <field name="report_file">master_specifications.print_template_so_3</field>
                 <field name="print_report_name">'%s' % object.name</field>
                 <!-- <field name="binding_model_id" ref="model_quotation_request_form"/> -->
                 <field name="binding_model_id" eval="False"/>
                 <field name="binding_type">report</field>
-                <field name="paperformat_id" eval="paperformat_print_template_so_1"/>
+                <field name="paperformat_id" eval="paperformat_print_template_so_3"/>
         </record>
 
-        <template id="print_template_so_1">
+        <template id="print_template_so_3">
             <div class="page">
                 <t t-call="web.basic_layout">
                     <div class="row mt32">
@@ -233,10 +233,10 @@
                                             <span t-field="line.quantity"/>
                                         </td>
                                         <td style="vertical-align : middle; border-left: 1px solid black; border-collapse: collapse; " class="text-right pr-2">
-                                            <span style="padding-left:20px" t-esc="'{0:,.0f}'.format(float(line.price_unit))"/> 
+                                            <span style="padding-left:20px" t-esc="'{0:,.0f}'.format(float(line.sub_total))"/> 
                                         </td>
                                         <td style="vertical-align : middle; border-left: 1px solid black; border-right: 1px solid black; border-collapse: collapse; " class="text-right pr-2">
-                                            <span style="padding-left:20px" t-esc="'{0:,.0f}'.format(float(line.sub_total))"/> 
+                                            <span style="padding-left:20px" t-esc="'{0:,.0f}'.format(float(line.price_total))"/> 
                                         </td>
                                     </tr>
                                     <tr>
@@ -247,7 +247,7 @@
                                                     <td width="45%" style="padding-left:10px;">Subtotal :</td>
                                                     <td>
                                                         <!-- <span>:</span> -->
-                                                        <span class="font-weight-normal" t-field="docs.amount_untaxed"/><span/> 
+                                                        <span class="font-weight-normal" t-field="docs.amount_untaxed_2"/><span/> 
                                                     </td>
                                                 </tr>
                                                 <tr class="text-right">
@@ -261,14 +261,14 @@
                                                     <td width="45%" style="padding-left:10px;">Total before Tax :</td>
                                                     <td>
                                                         <!-- <span>:</span> -->
-                                                        <span class="font-weight-normal">Rp</span> <span class="font-weight-normal" t-esc="'{0:,.0f}'.format(float(docs.amount_price_discount))"/><span/> 
+                                                        <span class="font-weight-normal">Rp</span> <span class="font-weight-normal" t-esc="'{0:,.0f}'.format(float(docs.amount_price_discount_2))"/><span/> 
                                                     </td>
                                                 </tr>
                                                 <tr class="text-right">
                                                     <td width="45%" style="padding-left:10px;">VAT (<span t-esc="docs.tax_id.name"/>) :</td>
                                                     <td>
                                                         <!-- <span>:</span> -->
-                                                        <span class="font-weight-normal" t-field="docs.amount_tax"/> 
+                                                        <span class="font-weight-normal" t-field="docs.amount_tax_2"/> 
                                                     </td>
                                                 </tr>
                                                 <tr class="text-right">
@@ -283,7 +283,7 @@
                                                     <td style="padding-left:10px;">Total :</td>
                                                     <td>
                                                         <!-- <span>:</span> -->
-                                                        <span class="font-weight-normal" t-field="docs.amount_total"/>
+                                                        <span class="font-weight-normal" t-field="docs.amount_total_2"/>
                                                     </td>
                                                 </tr>
                                             </table>

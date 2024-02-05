@@ -4,6 +4,7 @@ from dateutil.relativedelta import relativedelta
 import odoo.addons.decimal_precision as dp
 from odoo.exceptions import ValidationError
 import base64
+from . import terbilang as tmb
 
 class QuotationRequestForm(models.Model):
     _name = 'quotation.request.form'
@@ -83,7 +84,7 @@ class QuotationRequestForm(models.Model):
         string='Subtotal', currency_field='currency_id', compute='_compute_amount')
     tax_id = fields.Many2one('account.tax', string='Tax Type')
     notes_to_customer = fields.Text(string='Notes to customer')
-    type = fields.Selection([("1","1"),("2","2"),("3","3")], string='Type')
+    type = fields.Selection([("1","1"),("2","2"),("3","3"),("4","4")], string='Type')
     end_user_name = fields.Many2one('res.partner', string='End User Name')
     end_user_machine_serial = fields.Char(string='End User Machine Serial No.')
     amount_untaxed_2 = fields.Monetary(
@@ -120,9 +121,22 @@ class QuotationRequestForm(models.Model):
     report_file = fields.Many2one('ir.attachment', string='PDF')
     po_number = fields.Char(string='PO No.')
     shipment = fields.Char(string='Shipment')
+    amount_to_text   = fields.Text(string='Terbilang', compute='_compute_terbilang')
+
+    def _compute_terbilang(self):
+        for rec in self:
+            if rec.type in ('1','2','4'):
+                rec.amount_to_text = tmb.terbilang(float(abs(rec.amount_total)),'IDR', 'id')
+            elif rec.type == '3':
+                rec.amount_to_text = tmb.terbilang(float(abs(rec.amount_total_2)),'IDR', 'id')
 
     def generate_report_file(self):
-        report_template_id = self.env.ref('master_specifications.action_specifications_summary_2')._render_qweb_pdf(self.id)
+        if self.type == '1':
+            report_template_id = self.env.ref('master_specifications.action_print_template_so_1')._render_qweb_pdf(self.id)
+        elif self.type in ('2','4'):
+            report_template_id = self.env.ref('master_specifications.action_print_template_so_2')._render_qweb_pdf(self.id)
+        elif self.type == '3':
+            report_template_id = self.env.ref('master_specifications.action_print_template_so_3')._render_qweb_pdf(self.id)
         data_record = base64.b64encode(report_template_id[0])
         ir_values = {
             'name': self.name,
@@ -169,13 +183,13 @@ class QuotationRequestForm(models.Model):
             total_tax_2 = total_price_discount_2 * (rec.tax_id.amount / 100)
             if rec.type == '1':
                 rec.amount_tax = total_tax1
-            elif rec.type == '2':
+            elif rec.type in ('2','4'):
                 rec.amount_tax = total_tax
             
             rec.amount_untaxed = total_untax
             if rec.type == '1':
                 rec.amount_total = total_price_discount + total_tax1 - (rec.pph23_tax)
-            elif rec.type == '2':
+            elif rec.type in ('2','4'):
                 rec.amount_total = total_untax + total_tax - (rec.pph23_tax)
             rec.amount_discount = amount_discount
             rec.amount_tax_11 = total_ppn11
@@ -631,7 +645,7 @@ class QuotationRequestFormLine(models.Model):
 
             if rec.qrf_id.type == '1':
                 rec.sub_total = rec.quantity * rec.price_unit
-            elif rec.qrf_id.type == '2':
+            elif rec.qrf_id.type in ('2','4'):
                 rec.sub_total = rec.quantity * rec.price_discount
             elif rec.qrf_id.type == '3':
                 rec.sub_total = price_unit_total

@@ -3,12 +3,12 @@
 
     <data>
     
-        <record id="dqups_2_form" model="ir.ui.view">
-            <field name="name">dqups_form</field>
+        <record id="dqups_4_form" model="ir.ui.view">
+            <field name="name">quotation_request_4_form</field>
             <field name="model">quotation.request.form</field>
             <field name="arch" type="xml">
                 <form string="">
-                   <header>
+                    <header>
                         <field name="state" widget="statusbar"/>
                         <button name="action_confirm_qrf" type="object" string="Confirm QRF" attrs="{'invisible':[('state', '!=', 'draft')]}" class="oe_highlight"/>
                         <button name="action_print_inform_consent" type="object" string="Download Inform Consent" class="oe_highlight" attrs="{'invisible':['|', ('state', '!=', 'draft'),('is_inform_consent', '!=', True)]}"/>
@@ -20,12 +20,13 @@
                         <button name="action_revise_detail" type="object" string="Revise Details" states="waiting" groups="master_specifications.spv_sales_up_group" />
                         <button name="action_confirm_order" type="object" string="Confirm Order" states="approved" class="oe_highlight" groups="master_specifications.user_dqups"/>
                         <button name="action_revise_detail" type="object" string="Revise Details" states="approved" groups="master_specifications.user_dqups"/>
-                        <button name="action_print_dqups2" type="object" string="Print" attrs="{'invisible':[('state', '!=', 'approved')]}" class="oe_highlight"/>
+                        <button name="action_print" type="object" string="Print" attrs="{'invisible':[('state', '!=', 'approved')]}" class="oe_highlight"/>
                         <button name="action_cancel_po" type="object" string="Cancel" states="approved"/>
                         <button name="action_confirm_po" type="object" string="Confirm PO" states="po_upload" class="oe_highlight"/>
                         <button name="action_cancel_po" type="object" string="Cancel PO" states="po_upload" groups="master_specifications.spv_sales_up_group"/>
                         <button name="action_send_to_customer" type="object" string="Send to Customer" states="so_upload" class="oe_highlight"/>
                         <button name="action_send_production" type="object" string="Send to Production" states="so_upload" class="oe_highlight"/>
+                        <!-- <button name="generate_report_file" type="object" string="PDF" states="so_upload" class="oe_highlight"/> -->
                         <button name="action_confirm_sj" type="object" string="Selesaikan Pesanan" groups="master_specifications.spv_sales_up_group" class="oe_highlight" attrs="{'invisible':['|', ('picking_out_ids','=',[]),('state', '!=', 'sj_upload')]}" />
                         <!-- <button name="action_confirm" type="object" string="Request Approval" states="dwg_upload" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
                         <button name="action_approve" type="object" string="Approve" states="waiting" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
@@ -85,6 +86,7 @@
                                 <field name="valid_date" required="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>                                                        
                                 <field name="note" string="Notes Internal" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
                                 <field name="is_inform_consent" invisible="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
+                                <!-- <field name="report_file" widget="binary"/> -->
                                 <field name="po_number" />
                                 <field name="shipment" />
                             </group>
@@ -144,14 +146,24 @@
                                     </tree>
                                 </field>
                             </page>
-                             <page name="po" string="PO" attrs="{'invisible':[('state','not in',('po_upload','so_upload','sj_upload','done'))]}">
+                            <page name="po" string="PO" attrs="{'invisible':[('state','not in',('po_upload','so_upload','sj_upload','done'))]}">
                                 <field name="po_attachment_line_ids" attrs="{'readonly':[('state','in', ['so_upload', 'sj_upload', 'done'])]}" >
-                                   <tree editable="bottom"> 
-                                        <field name="po_attachment_ids" widget="pdf_viewer" style="width : 250px; height:65px;"/>
+                                    <tree editable="bottom"> 
+                                        <field name="po_attachment_ids" string= "PO + Confirmed Drawing by Customer (COMPULSORY)" widget="pdf_viewer" style="width : 250px; height:65px;"/>
                                         <!-- <field name="attachment_name" invisible="1"/> -->
                                     </tree>
                                 </field>
                             </page>
+                            <!-- <page name="sj" string="SJ" attrs="{'invisible':[('state','not in',('sj_upload','done'))]}" >
+                                <field name="sj_attachment_line_ids" >
+                                    <tree editable="bottom"> 
+                                        <field name="picking_out_id"/>
+                                        <field name="ref"/>
+                                        <field name="sj_attachment_ids" filename="attachment_name" widget="binary"/>
+                                        <field name="attachment_name" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page> -->
                             <page name="sj" string="SJ" attrs="{'invisible':[('state','not in',('sj_upload','done'))]}" >
                                 <field name="picking_out_ids" attrs="{'readonly': [('state', '=', ['done'])]}">
                                     <tree editable="bottom"> 
@@ -165,7 +177,7 @@
                             </page>
                         </notebook>
                         <group col="6">
-                            <!-- <group name="discount" colspan="2">
+                            <!-- <group name="discount" colspan="2" attrs="{'invisible':[('state', 'not in', ('dwg_upload','waiting'))], 'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}">
                                 <field name="discount_type"/>
                                 <field name="discount_rate"/>
                             </group> -->
@@ -187,15 +199,20 @@
                         </group>
                         <div class="oe_clear"/>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
         </record>
 
-        <record id="dqups_2_tree" model="ir.ui.view">
-            <field name="name">quotation.request.form.tree</field>
+        <record id="dqups_4_tree" model="ir.ui.view">
+            <field name="name">dqups_4.tree</field>
             <field name="model">quotation.request.form</field>
             <field name="arch" type="xml">
-                <tree string="" default_order="date desc">
+                <tree string="" default_order='date desc'>
                     <field name="name"/>
                     <field name="date"/>
                     <field name="partner_id"/>
@@ -207,20 +224,39 @@
             </field>
         </record>
 
-        <record id="dqups_2_action" model="ir.actions.act_window">
-            <field name="name">D-QUPS 2</field>
+
+
+        <!-- <record id="quotation_request_form.line_specification_tree" model="ir.ui.view">
+            <field name="name">quotation.request.form.line.specification.tree</field>
+            <field name="model">quotation.request.form.line.specification</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="qrf_line_id"/>
+                    <field name="specifications_id"/>
+                    <field name="spect_name"/>
+                    <field name="desc"/>
+                    <field name="harga"/>                    
+                </tree>
+            </field>
+        </record> -->
+
+
+
+
+
+        <record id="dqups_4_action" model="ir.actions.act_window">
+            <field name="name">D-QUPS 4</field>
             <field name="res_model">quotation.request.form</field>
             <field name="view_mode">tree,form,pivot,graph</field>
-            <field name="context">{'default_type': '2'}</field>
-            <field name="domain">[('type', '=', '2')]</field>
+            <field name="context">{'default_type': '4'}</field>
+            <field name="domain">[('type', '=', '4')]</field>
             <field name="view_ids" eval="[(5, 0, 0),
-                (0, 0, {'view_mode': 'tree', 'view_id': ref('master_specifications.dqups_2_tree')}),
-                (0, 0, {'view_mode': 'form', 'view_id': ref('master_specifications.dqups_2_form')})]"/>
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('master_specifications.dqups_4_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('master_specifications.dqups_4_form')})]"/>
         </record>
-    
 
-        <record id="dqups_2_line_form" model="ir.ui.view">
-            <field name="name">quotation.request.form.line.form</field>
+        <record id="dqups_4_line_form" model="ir.ui.view">
+            <field name="name">dqups_4.line.form</field>
             <field name="model">quotation.request.form.line</field>
             <field name="arch" type="xml">
                 <form string="">
@@ -231,6 +267,7 @@
                                     <field name="jenis_id" invisible="1"/>
                                     <field name="qty_id" options="{'no_create': True}"/>
                                     <field name="qty" required="1"/>
+                                    <field name="set" required="1"/>
                                 </tree>
                             </field>
                             <button name="action_refresh_spec" type="object" string="Refresh" />
@@ -256,19 +293,48 @@
             </field>
         </record>
 
-        <record id="quotation_request_form_line_action" model="ir.actions.act_window">
+        <!-- <record id="qrf_att_con_form" model="ir.ui.view">
+            <field name="name">qrf.attachment.con.form</field>
+            <field name="model">qrf.attachment</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="con_ids" nolabel="1" >
+                                <tree editable="bottom">
+                                    <field name="check" readonly="0"/>
+                                    <field name="con_id" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record> -->
+
+        <record id="dqups_4_form_line_action" model="ir.actions.act_window">
             <field name="name">Detail</field>
             <field name="res_model">quotation.request.form.line</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
+            <field name="view_id" ref="dqups_4_line_form"/>
         </record>
 
+        <!-- <record id="qrf_att_con_action" model="ir.actions.act_window">
+            <field name="name">QRF</field>
+            <field name="res_model">qrf.attachment</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="quotation_request_form_line_form"/>
+        </record> -->
+
+
         <menuitem
-            id="dqups_2_menu"
-            name="D-QUPS 2"
-            action="dqups_2_action"
+            id="dqups_4_form_menu"
+            name="D-QUPS 4"
+            action="dqups_4_action"
             parent="specifications_root_menu"
-            sequence="2"/>
+            sequence="4"/>
     
     </data>
     

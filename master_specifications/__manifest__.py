@@ -4,7 +4,7 @@
     'author': 'Yugi, Wibicon',
     'category': 'RND',
     'depends': [
-        'base', 'mail','stock', 'inherit_purchase_order', 
+        'base', 'mail','stock', 'inherit_purchase_order', 'tj_kontrabon',
         # 'request_requisition'
         # 'sale',
         # 'hide_any_menu',
@@ -26,6 +26,7 @@ Dev
         'views/master_qty.xml',
         'views/dqups_2.xml',
         'views/dqups_3.xml',
+        'views/dqups_4.xml',
         'views/conclusion.xml',
         'report/specification.xml',
         'report/print_qrf.xml',
@@ -43,6 +44,7 @@ Dev
         'report/inform_consent.xml',
         'report/template_so_1.xml',
         'report/template_so_2.xml',
+        'report/template_so_3.xml',
         'wizard/print_qrf_wizard.xml',
         'wizard/print_qrf_dqups2.xml',
         'wizard/print_qrf_dqups3.xml',

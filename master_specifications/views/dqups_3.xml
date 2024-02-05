@@ -178,6 +178,7 @@
                                     <label for="amount_total_2"/>
                                 </div>
                                 <field name="amount_total_2" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_to_text" invisible="1"/>
                             </group>
                         </group>
                         <div class="oe_clear"/>
