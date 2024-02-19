@@ -25,6 +25,7 @@
         #'views/res_partner_divisi2.xml',
         'views/res_partner_jalur.xml',
         'views/res_partner_jalur_line.xml',
+        'views/res_partner_bank.xml',
         #'views/res_partner_kategori1.xml',
         #'views/res_partner_kategori2.xml',
         #'views/res_partner_kategori3.xml',

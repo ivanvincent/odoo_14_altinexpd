@@ -48,6 +48,10 @@ class ResPartnerJalur(models.Model):
             result.append((record.id, display_name))
         return result
 
+class ResPartnerBank(models.Model):
+    _inherit = 'res.partner.bank'
+
+    branch_bank = fields.Char(string='Branch')
 
 class ResPartnerJalurLine(models.Model):
     _name = "res.partner.jalur.line"

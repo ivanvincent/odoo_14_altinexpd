@@ -123,7 +123,8 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page name="Details" string="Details" attrs="{'invisible':[('state','in',('draft','qrf_upload'))]}" groups="master_specifications.user_dqups,master_specifications.manager_dqups">
+                            <page name="Details" string="Details" attrs="{'invisible':[('state','in',('draft','qrf_upload'))]}" groups="master_specifications.user_dqups">
+                            <!-- ,master_specifications.manager_dqups -->
                                 <field name="line_ids" attrs="{'readonly':[('state','in', ['approved', 'po_upload', 'so_upload', 'sj_upload', 'done'])]}" >
                                     <tree editable="bottom"> 
                                         <field name="jenis_id" options="{'no_create': True}"/>

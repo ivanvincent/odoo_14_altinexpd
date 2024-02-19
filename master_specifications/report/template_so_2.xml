@@ -125,14 +125,14 @@
                                         <td width="30%" style=" padding-left:10px;">Contact</td>
                                         <td>
                                             <span>:</span>
-                                            <span t-field="docs.partner_id.child_ids.name"/> <br/><span/> 
+                                            <span t-field="docs.pic_name"/> <br/><span/> 
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="30%" style=" padding-left:10px;">Phone</td>
                                         <td>
                                             <span>:</span>
-                                            <span t-field="docs.partner_id.child_ids.phone"/> <br/><span/> 
+                                            <span t-field="docs.pic_phone"/> <br/><span/> 
                                         </td>
                                     </tr>
                                 </table>
@@ -187,17 +187,17 @@
                             <tbody>
                                 <t t-set="no" t-value="1"/>
                                     <tr>
-                                        <td style="vertical-align : middle; border: 1px solid black; border-collapse: collapse; " class="text-left">
+                                        <td style="vertical-align : middle; border: 1px solid black; border-collapse: collapse; " class="text-center">
                                             <span t-field="docs.po_number"/>
                                         </td>
                                         <td style="vertical-align : middle; border: 1px solid black; border-collapse: collapse; " class="text-center">
-                                            <span t-field="docs.pic_name"/>
+                                            <span t-field="docs.env.user.name"/>
                                         </td>
-                                        <td style="vertical-align : middle; border: 1px solid black; border-collapse: collapse; " class="text-right pr-2">
+                                        <td style="vertical-align : middle; border: 1px solid black; border-collapse: collapse; " class="text-center">
                                             <span t-field="docs.shipment"/>
                                         </td>
-                                        <td style="vertical-align : middle; border: 1px solid black; border-collapse: collapse; " class="text-right pr-2">
-                                            <!--<span style="padding-left:20px" t-esc="'{0:,.0f}'.format(float(line.sub_total))"/> -->
+                                        <td style="vertical-align : middle; border: 1px solid black; border-collapse: collapse; " class="text-center">
+                                            <span t-field="docs.payment_terms"/>
                                         </td>
                                     </tr>
                             </tbody>
@@ -293,31 +293,36 @@
                             <div style="font-size : 16px" class="col-8">
                                 <div style="font-size:16px">
                                     <table width="100%">
+                                        <t t-if="len(docs.partner_id.bank_ids)">
                                         <br/>
                                         <tr style="text-align:left;">
                                             <td colspan="2" style="padding-left:10px;">Company's Bank Details</td>
                                         </tr>
-                                        <tr>
+                                        <tr t-foreach="docs.partner_id.bank_ids[0]" t-as="bank">
+                                        <!--<tr>-->
                                             <td width="20%" style="padding-left:10px;">Bank Name</td>
                                             <td>
                                                 <span>:</span>
-                                                <span/>Bank Central Asia<br/><span/> 
+                                                <span t-field="bank.bank_id.name"/><br/><span/> 
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr t-foreach="docs.partner_id.bank_ids[0]" t-as="bank">
+                                        <!--<tr>-->
                                             <td width="20%" style="padding-left:10px;">Account No</td>
                                             <td>
                                                 <span>:</span>
-                                                <span/>Bank Central Asia<br/><span/> 
+                                                <span t-field="bank.acc_number"/><br/><span/> 
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td width="20%" style="padding-left:10px;">Batch</td>
+                                        <tr t-foreach="docs.partner_id.bank_ids[0]" t-as="bank">
+                                        <!--<tr>-->
+                                            <td width="20%" style="padding-left:10px;">Branch</td>
                                             <td>
                                                 <span>:</span>
-                                                <span/>Bank Central Asia<br/><span/> 
+                                                <span t-field="bank.branch_bank"/><br/><span/> 
                                             </td>
                                         </tr>
+                                      </t>
                                     </table>
                                 </div>
                             </div>
