@@ -87,6 +87,7 @@
                                 <field name="is_inform_consent" invisible="1" attrs="{'readonly': [('state', 'in', ['po_upload', 'so_upload', 'sj_upload', 'done'])]}"/>
                                 <field name="po_number" />
                                 <field name="shipment" />
+                                <field name="active" invisible="1"/>
                             </group>
                         </group>
                         <notebook>
@@ -199,6 +200,7 @@
                     <field name="note"/>
                     <field name="state"/>
                     <field name="user_id"/>
+                    <field name="active" invisible="1"/>
                 </tree>
             </field>
         </record>

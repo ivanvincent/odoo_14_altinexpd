@@ -89,6 +89,7 @@
                                 <!-- <field name="report_file" widget="binary"/> -->
                                 <field name="po_number" />
                                 <field name="shipment" />
+                                <field name="active" invisible="1"/>
                             </group>
                         </group>
                         <notebook>
@@ -220,6 +221,7 @@
                     <field name="note"/>
                     <field name="state"/>
                     <field name="user_id"/>
+                    <field name="active" invisible="1"/>
                 </tree>
             </field>
         </record>

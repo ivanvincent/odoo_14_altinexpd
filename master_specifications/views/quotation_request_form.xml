@@ -89,6 +89,7 @@
                                 <!-- <field name="report_file" widget="binary"/> -->
                                 <field name="po_number" />
                                 <field name="shipment" />
+                                <field name="active" invisible="1"/>
                             </group>
                         </group>
                         <notebook>
@@ -133,6 +134,7 @@
                                         <field name="line_spec_ids"/>
                                         <field name="quantity"/>
                                         <field name="price_unit"/>
+                                        <!-- <field name="mo_id"/> -->
                                         <field name="state" invisible="1"/>
                                         <field name="tax_ids" widget="many2many_tags" invisible="1"/>
                                         <field name="amount_tax" invisible="1"/>
@@ -217,6 +219,7 @@
                     <field name="note"/>
                     <field name="state"/>
                     <field name="user_id"/>
+                    <field name="active" invisible="1"/>
                 </tree>
             </field>
         </record>

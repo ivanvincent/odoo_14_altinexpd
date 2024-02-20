@@ -28,6 +28,7 @@ Dev
         'views/dqups_3.xml',
         'views/dqups_4.xml',
         'views/conclusion.xml',
+        'views/dqups_archive.xml',
         'report/specification.xml',
         'report/print_qrf.xml',
         'report/d_qups2_report.xml',
@@ -51,6 +52,7 @@ Dev
         'wizard/inform_consent_wizard.xml',
         'wizard/revise_wizard.xml',
         'wizard/customer_mail_wizard.xml',
+        'wizard/send_production_wizard.xml',
         
     ],
     'installable': True,

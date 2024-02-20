@@ -20,3 +20,5 @@ access_model_inform_consent_wizard,inform_consent_wizard,model_inform_consent_wi
 access_model_revise_wizard,revise_wizard,model_revise_wizard,base.group_system,1,1,1,1
 access_model_customer_mail_wizard,customer_mail_wizard,model_customer_mail_wizard,base.group_system,1,1,1,1
 access_model_sj_attachment,sj_attachment,model_sj_attachment,base.group_system,1,1,1,1
+access_model_send_production_wizard,send_production_wizard,model_send_production_wizard,base.group_system,1,1,1,1
+access_model_detail_specification_mo,detail_specification_mo,model_detail_specification_mo,base.group_system,1,1,1,1
