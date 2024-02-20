@@ -33,10 +33,10 @@ class SendProductionWizard(models.TransientModel):
                 'ref_so_id' : l.qrf_id.so_id.id  
             })
 
-            qrf_line_id = self.env['quotation.request.form.line'].search([()])write({
-                'mo_id' : mo_id.id
-            })
-            print("===========================", l.qrf_id.id)
+            # qrf_line_id = self.env['quotation.request.form.line'].search([()])write({
+            #     'mo_id' : mo_id.id
+            # })
+            # print("===========================", l.qrf_id.id)
 
 class DetailSpecificationMo(models.TransientModel):
     _name = 'detail.specification.mo'
