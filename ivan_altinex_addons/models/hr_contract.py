@@ -40,7 +40,7 @@ class HrContract(models.Model):
     allocations_ids = fields.One2many('hr.leave.allocation', 'contract_id', 'Allocations Line')
     alokasi_izin = fields.Float(string='alokasi_izin') #sementara
     is_reseted = fields.Boolean(string='Reset ?', default=False)
-    tax_tarif_id = fields.Many2one('hr.tax_tarif', string="Tax Tarif")
+    # tax_tarif_id = fields.Many2one('hr.tax_tarif', string="Tax Tarif")
     
     
     @api.depends('first_contract_date')
@@ -297,8 +297,6 @@ class SkillGrade(models.Model):
     skill_grade = fields.Char(string='Skill Grade')
     tunj_ahli = fields.Float(string='Tunjangan Keahlian/hari')
 
-
-
 class TaxTarif(models.Model):
     _name = 'hr.tax_tarif'
     _rec_name = 'tax_tarif'
@@ -309,6 +307,16 @@ class TaxTarif(models.Model):
     bruto_to = fields.Char(string = 'Bruto To')
     tax_tarif = fields.Float('Tax Tarif (%)')
 
+class BankMaster(models.Model):
+    _name = 'hr.domestic_bank'
+    _rec_name = 'bank_name'
+    _description = 'list of domestic bank code and name'
+    rtgs_code = fields.Char('RTGS Code')
+    bank_code = fields.Char('Bank Code')
+    online_bank_code = fields.Char('Online Bank Code')
+    bank_name = fields.Char('Bank Name')
+    city_name = fields.Char('City Name')
+    
 
     
 

@@ -25,7 +25,7 @@
                 (0, 0, {'view_mode': 'form', 'view_id': ref('master_specifications.dqups_2_form')})]"/>
         </record>
 
-        <record id="dqups_3_archive_action" model="ir.actions.act_window">
+        <!-- <record id="dqups_3_archive_action" model="ir.actions.act_window">
             <field name="name">D-QUPS 3</field>
             <field name="res_model">quotation.request.form</field>
             <field name="view_mode">tree,form,pivot,graph</field>
@@ -45,7 +45,7 @@
             <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'tree', 'view_id': ref('master_specifications.dqups_4_tree')}),
                 (0, 0, {'view_mode': 'form', 'view_id': ref('master_specifications.dqups_4_form')})]"/>
-        </record>
+        </record> -->
 
         <menuitem
             id="quotation_request_archive_form_menu"
@@ -68,7 +68,7 @@
             parent="master_specifications.quotation_request_archive_form_menu"
             sequence="11"/>
 
-        <menuitem
+        <!-- <menuitem
             id="dqups_3_archive_menu"
             name="D-QUPS 3"
             action="dqups_3_archive_action"
@@ -80,7 +80,7 @@
             name="D-QUPS 4"
             action="dqups_4_archive_action"
             parent="master_specifications.quotation_request_archive_form_menu"
-            sequence="13"/>
+            sequence="13"/> -->
 
     </data>
     

@@ -14,7 +14,7 @@ def add_workbook_format(workbook):
 
     wbf = {}
     wbf['header'] = workbook.add_format(
-        {'bold': 1, 'align': 'center', 'valign': 'vcenter', 'bg_color': '#FFFFFF', 'font_color': '#000000'})
+        {'bold': 1, 'align': 'center', 'valign': 'vcenter', 'bg_color': '#FFFFFF', 'font_color': '#000000', 'text_wrap':True})
     wbf['header'].set_border()
 
     wbf['header_orange'] = workbook.add_format(
@@ -57,7 +57,7 @@ def add_workbook_format(workbook):
     wbf['content_float'] = workbook.add_format({'align': 'right', 'num_format': '#,##0.00'})
     wbf['content_float'].set_right()
     wbf['content_float'].set_left()
-
+    
     wbf['content_number'] = workbook.add_format({'align': 'right', 'num_format': '#,##0'})
     wbf['content_number'].set_right()
     wbf['content_number'].set_left()

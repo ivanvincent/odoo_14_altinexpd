@@ -15,7 +15,16 @@ class HrEmployee(models.Model):
     ], string='Employee Team')
     nama_alias = fields.Char(string='Alias')
     nik_karyawan = fields.Char(string='NIK')
-    tax_category = fields.Char(string='Tax Category',compute='_compute_tax_category')
+    tax_category = fields.Char(string='Tax Category',compute='_compute_tax_category',store=True)
+    domestic_bank_id = fields.Many2one('hr.domestic_bank', string='Domestic Bank')
+    no_rekening = fields.Char('No Rekening')
+    jabatan = fields.Selection([
+		('1', 'Direktur / Wakil Direktur'),
+        ('2', 'Manager'),
+        ('3', 'Supervisor'),
+        ('4', 'Staff'),
+        ('5', 'Operator'),
+	], string='Jabatan')
 
     @api.depends('marital', 'children')
     def _compute_tax_category(self):
@@ -29,4 +38,8 @@ class HrEmployee(models.Model):
         else:
             self.tax_category = 'C'
         
-    
+    # @api.depends('domestic_bank_id')
+    # def _compute_bank_name(self):
+    #     bank_ids = self.env['hr.domestic_bank'].search([('id','=',self.domestic_bank_id.id)])
+    #     for rec in bank_ids:
+    #         self.domestic_bank_id = rec.bank_name

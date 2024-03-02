@@ -11,6 +11,8 @@
                             <group>
                                 <field name="month_selection"/>
                                 <field name="report_type"/>
+								<field name="payroll_send_date"/>
+								<field name="jabatan"/>
                                 <field name="job_ids" widget="many2many_tags" invisible="1"/>
                             </group>
                             <group>
@@ -19,9 +21,10 @@
                         </group>
                     </sheet>
                     <footer>
-                        <button name="action_generate_pdf" type="object" string="Export to PDF" class="oe_highlight"/>
+                        <!-- <button name="action_generate_pdf" type="object" string="Export to PDF" class="oe_highlight"/> -->
                         <button name="action_generate_excel" type="object" string="Export to Excel" class="oe_highlight"/>
-                        <button name="action_form_voucher_payroll" type="object" string="Requirement Voucher Payroll" class="oe_highlight"/>
+						<button name="action_generate_csv" type="object" string="BNI Direct CSV" class="oe_highlight"/>
+                        <!-- <button name="action_form_voucher_payroll" type="object" string="Requirement Voucher Payroll" class="oe_highlight"/> -->
                     </footer>
                 </form>
             </field>

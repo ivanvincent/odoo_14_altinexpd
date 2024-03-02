@@ -16,6 +16,14 @@
                 <xpath expr="//field[@name='children']" position="after">
                     <field name="tax_category"/>
                 </xpath>
+				<xpath expr="//field[@name='phone']" position="after">
+                    <field name="jabatan"/>
+					<field name="domestic_bank_id"/>
+					<field name="no_rekening"/>
+                </xpath>
+				<xpath expr="//field[@name='bank_account_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
             </field>
         </record>
     </data>

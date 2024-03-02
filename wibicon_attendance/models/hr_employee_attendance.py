@@ -158,7 +158,7 @@ class HrPayslip(models.Model):
             'name':'Cuti Tahunan',
             'sequence':90,
             'code':'CTH',
-            'number_of_days': self.get_duration_time_off('Cuti Tahunan (2023)'),
+            'number_of_days': self.get_duration_time_off('Cuti Tahunan'),
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
         
@@ -255,6 +255,14 @@ class HrPayslip(models.Model):
             'amount': 0.0,
             'contract_id': self.contract_id.id,
             'note':''})
+        
+        res.append({
+            'name':'Pesangon',
+            'sequence':110,
+            'code':'PSN',
+            'amount': 0.0,
+            'contract_id': self.contract_id.id,
+            'note':''})
 
         return res
 
@@ -316,7 +324,6 @@ class HrPayslip(models.Model):
                                              ('holiday_status_id', '=', leave_type.id),
                                              ('state', '=', 'validate')])
         return sum(leave.mapped('number_of_days'))
-
 
 
 class Hr_employee_attendance(models.Model):

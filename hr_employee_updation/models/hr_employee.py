@@ -124,9 +124,7 @@ class EmployeeRelationInfo(models.Model):
 
 class HrEmployeePublic(models.Model):
     _inherit = 'hr.employee.public'
-
-    personal_mobile = fields.Char(string='Mobile',
-                  help="Personal mobile number of the employee")
+    personal_mobile = fields.Char(string='Mobile', help="Personal mobile number of the employee")
     
     joining_date = fields.Date(string='Joining Date')
     id_expiry_date = fields.Integer(string='id_expiry_date')
@@ -228,3 +226,14 @@ class HrEmployeePublic(models.Model):
     announcement_count = fields.Integer(compute='_announcement_count', string='# Announcements', help="Count of Announcement's")
     # slip_ids = fields.One2many('hr.payslip', 'employee_id', string='Payslips', readonly=True, help="payslip")
     payslip_count = fields.Integer(compute='_compute_payslip_count', string='Payslip Count')
+    tax_category = fields.Char(string='Tax Category')
+    domestic_bank_id = fields.Many2one('hr.domestic_bank', string='Domestic Bank')
+    no_rekening = fields.Char('No Rekening')
+    jabatan = fields.Selection([
+		('1', 'Direktur / Wakil Direktur'),
+        ('2', 'Manager'),
+        ('3', 'Supervisor'),
+        ('4', 'Staff'),
+        ('4', 'Operator'),
+	], string='Jabatan')
+

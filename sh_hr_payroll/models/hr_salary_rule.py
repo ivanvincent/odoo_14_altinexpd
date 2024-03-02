@@ -110,6 +110,9 @@ class HrSalaryRule(models.Model):
         help="If the active field is set to false, it will allow you to hide the salary rule without removing it.")
     appears_on_payslip = fields.Boolean(string='Appears on Payslip', default=True,
         help="Used to display the salary rule on payslip.")
+    appears_on_report = fields.Boolean(string='Appears on Report', default=False,
+        help="Used to display the salary rule on PPh21 Report.")
+    name_on_payslip = fields.Char(string='Name on Payslip',store=True)   
     parent_rule_id = fields.Many2one('hr.salary.rule', string='Parent Salary Rule', index=True)
     company_id = fields.Many2one('res.company', string='Company',
         default=lambda self: self.env['res.company']._company_default_get())
