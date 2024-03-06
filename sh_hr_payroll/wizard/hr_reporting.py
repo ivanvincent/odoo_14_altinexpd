@@ -3,7 +3,7 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
-from odoo.module import get_module_path
+from odoo.modules import get_modules, get_module_path
 from datetime import date, datetime, timedelta
 import logging
 logger = logging.getLogger(__name__)
@@ -48,19 +48,8 @@ class HrReporting(models.TransientModel):
 	data = fields.Binary(string='Data')
 	payroll_send_date = fields.Date('Payroll Send Date')
 	csv_data = fields.Binary()
-	jabatan = fields.Selection(selection="_get_jabatan", string='Jabatan')
-
-	def _get_jabatan(self):
-		result = []
-		if self._uid == '14':
-			result.append(('4','Staff / Operator'))
-		else:
-			result.append(('1','Direktur / Wakil Direktur'))
-			result.append(('2','Manager'))
-			result.append(('3','Supervisor'))
-			result.append(('4','Staff'))
-			result.append(('5','Operator'))
-		return result
+	# jabatan = fields.Many2many('hr.employee',string='Jabatan')
+	jabatan = fields.Selection(selection="_get_jabatan_list", string='Jabatan')
 
 	@api.depends('report_type')
 	def compute_job_ids(self):
@@ -80,7 +69,28 @@ class HrReporting(models.TransientModel):
 		job_ids = rule.domain_force.split(",'in',")[1].replace(")])", "")
 		for rec in self:
 			rec.job_ids = [(6, 0, list(map(int, job_ids[1:-1].split(','))) if job_ids else [])]
-				
+
+	@api.depends('report_type')
+	def _get_jabatan_list(self):
+		manajer_payroll = self.env['res.groups'].sudo().browse(237)
+		uid = self.env.user.id
+		result = []
+		
+		if uid in manajer_payroll.users.ids:
+			result.append(('1','Direktur / Wakil Direktur'))
+			result.append(('2','Manager'))
+			result.append(('3','Supervisor'))
+			result.append(('4','Staff'))
+			result.append(('5','Operator'))
+			result.append(('6','Staff + Operator'))
+			result.append(('7','DIR + MNG + SPV'))
+			result.append(('8','MNG + SPV'))
+		else:
+			result.append(('4','Staff'))
+			result.append(('5','Operator'))
+			result.append(('6','Staff + Operator'))
+		return result
+
 	def action_generate_excel(self):
 		if self.report_type != 'gs':
 			raise UserError('Silakan pilih Report yang sesuai')
@@ -88,12 +98,19 @@ class HrReporting(models.TransientModel):
 			rules_in = []
 			name_arr = []
 			rules = self.env['hr.salary.rule'].search([('appears_on_report','=',True)])
-			employees = self.env['hr.employee'].search([('jabatan','=',self.jabatan)])
+			if self.jabatan in ('1','2','3','4','5'):
+				employees = self.env['hr.employee'].search([('jabatan','=',self.jabatan)])
+			elif self.jabatan == '6':
+				employees = self.env['hr.employee'].search([('jabatan','in',('4','5'))])
+			elif self.jabatan == '7':
+				employees = self.env['hr.employee'].search([('jabatan','in',('1','2','3'))])
+			else:
+				employees = self.env['hr.employee'].search([('jabatan','in',('2','3'))])
 			for r in rules:
 				rules_in.append(r.id)
 				name_arr.append(r.name_on_payslip)
 			rules_tuple = tuple(rules_in)
-			
+			print(employees)
 			# query_name = '''
 			# 	select
 			# 		he.name as nama,
@@ -230,7 +247,15 @@ class HrReporting(models.TransientModel):
 			now = datetime.now() + timedelta(hours=7)
 			create_datetime = now.strftime("%Y/%m/%d_%H.%M.%S")
 			paycheck_date = self.payroll_send_date.strftime("%Y%m%d")
-			employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('jabatan','=',self.jabatan)])
+			if self.jabatan in ('1','2','3','4','5'):
+				employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('jabatan','=',self.jabatan)])
+			elif self.jabatan == '6':
+				employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('jabatan','in',('4','5'))])
+			elif self.jabatan == '7':
+				employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('jabatan','in',('1','2','3'))])
+			else:
+				employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('jabatan','in',('2','3'))])
+			
 			
 			thp_query = '''
 				select total 
