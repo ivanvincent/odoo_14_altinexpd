@@ -26,7 +26,7 @@
                     <field name="splitted_wo" invisible="1"/>
                 </xpath>
                 <xpath expr="//field[@name='product_id']" position="before">
-                    <field name="partner_id"/>
+                    <field name="partner_id" readonly="1"/>
                     <!-- <field name="type_id" options="{'no_open': True, 'no_create': True}" required="1"/> -->
                 </xpath>
                 <!-- <xpath expr="//field[@name='product_id']" position="after">
@@ -68,10 +68,10 @@
                     <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='bom_id']" position="after">
-                    <field name="dqups_id"/>
-                    <field name="ref_so_id"/>
-                    <field name="billing_address"/>
-                    <field name="shipping_address" context="{'partner_custom':True}" options='{"always_reload": True}'/>
+                    <field name="dqups_id" readonly="1"/>
+                    <field name="ref_so_id" readonly="1"/>
+                    <field name="billing_address" readonly="1"/>
+                    <field name="shipping_address" context="{'partner_custom':True}" options='{"always_reload": True}' readonly="1"/>
                 </xpath>
 
                 <xpath expr="//notebook/page[@name='components']" position="attributes">
@@ -82,6 +82,18 @@
                 </xpath>
                 <xpath expr="//notebook/page[@name='miscellaneous']" position="attributes">
                     <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='product_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='product_qty']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='product_uom_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
                 </xpath>
             </field>
         </record>
