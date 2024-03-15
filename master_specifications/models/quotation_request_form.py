@@ -592,7 +592,8 @@ class QuotationRequestFormLine(models.Model):
     
     qrf_id = fields.Many2one('quotation.request.form', string='QRF')
     jenis_id = fields.Many2one('master.jenis', string='Jenis')
-    line_spec_ids = fields.One2many('quotation.request.form.line.specification', 'qrf_line_id', 'Line Spec')
+    jenis2_id = fields.Many2one('master.jenis', string='Jenis 2')
+    line_spec_ids = fields.One2many('quotation.request.form.line.specification', 'qrf_line_id', 'Line Spec', ondelete='cascade')
     name = fields.Char(string='Description')
     quantity = fields.Integer(string='Quantity', compute='compute_quantity')
     price_unit = fields.Float(string='Price Unit', compute='_compute_price_unit')
@@ -740,7 +741,7 @@ class QuotationRequestFormLine(models.Model):
                     list_qty.append((0, 0, {
                         'qty_id': line.id
                     }))
-                self.line_qty_ids = list_qty 
+                self.line_qty_ids = list_qty
             action = self.env.ref('master_specifications.quotation_request_form_line_action').read()[0]
             action['res_id'] = self.id
             return action
@@ -748,6 +749,16 @@ class QuotationRequestFormLine(models.Model):
             action = self.env.ref('master_specifications.dqups3_line_action').read()[0]
             action['res_id'] = self.id
             return action
+
+    @api.onchange('jenis_id')
+    def onchange_jenis_id(self):
+        if self.jenis_id.id != self.jenis2_id.id:
+            self.jenis2_id = self.jenis_id
+            for i in self.line_spec_ids:
+                i.unlink()
+    
+
+
 
     # @api.onchange('qty')
     def action_refresh_spec(self):
@@ -933,13 +944,23 @@ class QrfAttachment(models.Model):
     notes = fields.Text(string='Notes')
     new_product = fields.Selection(
         [("yes", "Yes"), ("no", "No")], string='New Product', default='yes')
+    new_product2 = fields.Selection(
+        [("yes", "Yes"), ("no", "No")], string='New Product', default='yes')
     comp_partial = fields.Selection(
+        [("complete", "Complete"), ("partial", "Partial")], string='Complete/Partial', default='complete')
+    comp_partial2 = fields.Selection(
         [("complete", "Complete"), ("partial", "Partial")], string='Complete/Partial', default='complete')
     turret = fields.Selection(
         [("yes", "Yes"), ("no", "No")], string='Reference Turret <= 5 years?', default='yes')
+    turret2 = fields.Selection(
+        [("yes", "Yes"), ("no", "No")], string='Reference Turret <= 5 years?', default='yes')
     tooling = fields.Selection(
         [("eu_tsm", "EU / TSM"), ("other", "Other")], string='Tooling Type', default='eu_tsm')
+    tooling2 = fields.Selection(
+        [("eu_tsm", "EU / TSM"), ("other", "Other")], string='Tooling Type', default='eu_tsm')
     tooling_qc = fields.Selection(
+        [("altinex", "Altinex"), ("other", "Other")], string='Current Tools producing qc-pass tablets', default='altinex')
+    tooling_qc2 = fields.Selection(
         [("altinex", "Altinex"), ("other", "Other")], string='Current Tools producing qc-pass tablets', default='altinex')
     con_ids = fields.One2many('qrf.attachment.conclusion', 'qrf_attachment_id', 'Detail')
     download_inform_consent_ids = fields.Binary(related="attchment_inform_consent_id.attch_inform_consent", string='Download Inform Consent',)
@@ -954,6 +975,29 @@ class QrfAttachment(models.Model):
     # con3_id = fields.Many2one('conclusion', string='Conclusion 3',)
     # con4_id = fields.Many2one('conclusion', string='Conclusion 4',)
     # con5_id = fields.Many2one('conclusion', string='Conclusion 5',)
+
+    @api.onchange('new_product','comp_partial','turret','tooling','tooling_qc')
+    def onchange_qrf(self):
+        if self.new_product != self.new_product2:
+            self.new_product2 = self.new_product
+            for i in self.con_ids:
+                i.unlink()
+        elif self.comp_partial != self.comp_partial2:
+            self.comp_partial2 = self.comp_partial
+            for i in self.con_ids:
+                i.unlink()
+        elif self.turret != self.turret2:
+            self.turret2 = self.turret
+            for i in self.con_ids:
+                i.unlink()
+        elif self.tooling != self.tooling2:
+            self.tooling2 = self.tooling
+            for i in self.con_ids:
+                i.unlink()
+        elif self.tooling_qc != self.tooling_qc2:
+            self.tooling_qc2 = self.tooling_qc
+            for i in self.con_ids:
+                i.unlink()
 
     def create_qrf_attch_conclusion(self):
         self.ensure_one()
@@ -973,6 +1017,10 @@ class QrfAttachment(models.Model):
                     # 'con_id': [(6, 0, line.con_ids.con_id.ids)]
             self.con_ids = data 
 
+        action = self.env.ref('master_specifications.qrf_att_con_action').read()[0]
+        action['res_id'] = self.id
+        return action
+
 
         
         # data = []
@@ -991,12 +1039,6 @@ class QrfAttachment(models.Model):
         #     })
         #     return data
         # self.con_ids = data 
-        
-
-        action = self.env.ref('master_specifications.qrf_att_con_action').read()[0]
-        action['res_id'] = self.id
-        return action
-
 class QrfAttachmentConclusion(models.Model):
     _name = 'qrf.attachment.conclusion'
 

@@ -22,7 +22,7 @@
                 <field name="model">quotation.request.form</field>
                 <field name="report_name">master_specifications.inform_consent_pdf</field>
                 <field name="report_file">master_specifications.inform_consent_pdf</field>
-                <field name="print_report_name">'%s' % object.name</field>
+                <field name="print_report_name">'inform-%s' % (object.name).replace("Q-", "")</field>
                 <field name="binding_model_id" eval="False"/>
                 <field name="binding_type">report</field>
                 <field name="paperformat_id" eval="paperformat_inform_consent_pdf"/>

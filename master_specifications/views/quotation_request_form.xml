@@ -105,6 +105,11 @@
                                         <field name="turret" />
                                         <field name="tooling" />
                                         <field name="tooling_qc" />
+                                        <field name="new_product2" invisible="1"/>
+                                        <field name="comp_partial2" invisible="1"/>
+                                        <field name="turret2" invisible="1"/>
+                                        <field name="tooling2" invisible="1"/>
+                                        <field name="tooling_qc2" invisible="1"/>
                                         <field name="prev_wo_no" />
                                         <button name="create_qrf_attch_conclusion" type="object" icon="fa-list"/>                                        
                                         <field name="con_ids" />
@@ -129,6 +134,7 @@
                                 <field name="line_ids" attrs="{'readonly':[('state','in', ['approved', 'po_upload', 'so_upload', 'sj_upload', 'done'])]}" >
                                     <tree editable="bottom"> 
                                         <field name="jenis_id" options="{'no_create': True}"/>
+                                        <field name="jenis2_id" options="{'no_create': True}" invisible="1"/>
                                         <field name="name" required="1"/>
                                         <button name="create_specification_detail" type="object" icon="fa-list" states="draft"/>                                        
                                         <field name="line_spec_ids"/>
