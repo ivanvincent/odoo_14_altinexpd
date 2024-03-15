@@ -756,6 +756,8 @@ class QuotationRequestFormLine(models.Model):
             self.jenis2_id = self.jenis_id
             for i in self.line_spec_ids:
                 i.unlink()
+            for i in self.line_qty_ids:
+                i.unlink()
     
 
 
