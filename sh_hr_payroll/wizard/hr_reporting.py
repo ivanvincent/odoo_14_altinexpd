@@ -5,6 +5,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from odoo.modules import get_modules, get_module_path
 from datetime import date, datetime, timedelta
+import calendar
 import logging
 logger = logging.getLogger(__name__)
 from io import BytesIO
@@ -17,10 +18,9 @@ from . import add_workbook_format as awf
 
 
 _STATE =[
-        ("gs", "Laporan Gaji pada GS"),
-        ("bpjs", "Laporan Gaji pada BPJS"),
-	 	("csv", "BNI Direct CSV File"),
-         
+        ("pph21", "Laporan PPH 21"),
+		("request", "Payment Request"),
+	 	("csv", "BNI Direct CSV File"),         
 ]
 
 class HrReporting(models.TransientModel):
@@ -29,7 +29,7 @@ class HrReporting(models.TransientModel):
 	current_year = datetime.now().year
 	date_start = fields.Date(string="Start date", required=False)
 	date_end = fields.Date(string="End date", required=False)
-	report_type     = fields.Selection(selection=_STATE, string='Report Type',default="gs")
+	report_type     = fields.Selection(selection=_STATE, string='Report Type',default="pph21")
 	month_selection = fields.Selection([
                         ("01","Januari %s" % current_year),   
                         ("02","Februari %s" % current_year),
@@ -48,9 +48,13 @@ class HrReporting(models.TransientModel):
 	data = fields.Binary(string='Data')
 	payroll_send_date = fields.Date('Payroll Send Date')
 	csv_data = fields.Binary()
-	# jabatan = fields.Many2many('hr.employee',string='Jabatan')
 	jabatan = fields.Selection(selection="_get_jabatan_list", string='Jabatan')
-
+	coa = fields.Selection([
+		('1','Produksi'),
+		('2','Umum'),
+		('3','All COA'),
+	], string='COA')
+	
 	@api.depends('report_type')
 	def compute_job_ids(self):
 		manajer_payroll = self.env['res.groups'].sudo().browse(240)
@@ -76,6 +80,7 @@ class HrReporting(models.TransientModel):
 		uid = self.env.user.id
 		result = []
 		
+		
 		if uid in manajer_payroll.users.ids:
 			result.append(('1','Direktur / Wakil Direktur'))
 			result.append(('2','Manager'))
@@ -85,46 +90,58 @@ class HrReporting(models.TransientModel):
 			result.append(('6','Staff + Operator'))
 			result.append(('7','DIR + MNG + SPV'))
 			result.append(('8','MNG + SPV'))
+			result.append(('20','SELURUH KARYAWAN'))
 		else:
 			result.append(('4','Staff'))
 			result.append(('5','Operator'))
 			result.append(('6','Staff + Operator'))
+		
 		return result
 
 	def action_generate_excel(self):
-		if self.report_type != 'gs':
+		if self.report_type != 'pph21':
 			raise UserError('Silakan pilih Report yang sesuai')
 		else:
+			# Cutoff Date
+			date_rec = datetime(int(self.current_year), int(self.month_selection), 20)
+			month_string = date_rec.strftime("%b")
+			year_string = date_rec.strftime("%y")
+
+			# Filter salary rule - appear on report
 			rules_in = []
 			name_arr = []
 			rules = self.env['hr.salary.rule'].search([('appears_on_report','=',True)])
-			if self.jabatan in ('1','2','3','4','5'):
-				employees = self.env['hr.employee'].search([('jabatan','=',self.jabatan)])
-			elif self.jabatan == '6':
-				employees = self.env['hr.employee'].search([('jabatan','in',('4','5'))])
-			elif self.jabatan == '7':
-				employees = self.env['hr.employee'].search([('jabatan','in',('1','2','3'))])
-			else:
-				employees = self.env['hr.employee'].search([('jabatan','in',('2','3'))])
 			for r in rules:
 				rules_in.append(r.id)
 				name_arr.append(r.name_on_payslip)
 			rules_tuple = tuple(rules_in)
-			print(employees)
-			# query_name = '''
-			# 	select
-			# 		he.name as nama,
-			# 		he.identification_id as nik,
-			# 		he.id as employee_id,
-			# 		he.tax_category as kategori
-			# 	from hr_employee he
-			# 	where he.active = true
-			# 	and he.identification_id is not null
-			# 	order by nama
-			# '''
-			# self._cr.execute(query_name)
-			# res_name = self._cr.dictfetchall() 
 
+			# Filter employee sesuai jabatan DAN coa
+			if self.coa == '3':
+				if self.jabatan in ('1','2','3','4','5'):
+					employees = self.env['hr.employee'].search([('jabatan','=',self.jabatan),('joining_date','<=',date_rec)])
+				elif self.jabatan == '6':
+					employees = self.env['hr.employee'].search([('jabatan','in',('4','5')),('joining_date','<=',date_rec)])
+				elif self.jabatan == '7':
+					employees = self.env['hr.employee'].search([('jabatan','in',('1','2','3')),('joining_date','<=',date_rec)])
+				elif self.jabatan == '8':
+					employees = self.env['hr.employee'].search([('jabatan','in',('2','3')),('joining_date','<=',date_rec)])
+				else:
+					employees = self.env['hr.employee'].search([('jabatan','in',('1','2','3','4','5')),('joining_date','<=',date_rec)])
+			else:
+				if self.jabatan in ('1','2','3','4','5'):
+					employees = self.env['hr.employee'].search([('jabatan','=',self.jabatan),('coa','=',self.coa),('joining_date','<=',date_rec)])
+				elif self.jabatan == '6':
+					employees = self.env['hr.employee'].search([('jabatan','in',('4','5')),('coa','=',self.coa),('joining_date','<=',date_rec)])
+				elif self.jabatan == '7':
+					employees = self.env['hr.employee'].search([('jabatan','in',('1','2','3')),('coa','=',self.coa),('joining_date','<=',date_rec)])
+				elif self.jabatan == '8':
+					employees = self.env['hr.employee'].search([('jabatan','in',('2','3')),('coa','=',self.coa),('joining_date','<=',date_rec)])
+				else:
+					employees = self.env['hr.employee'].search([('jabatan','in',('1','2','3','4','5')),('coa','=',self.coa),('joining_date','<=',date_rec)])
+			print(employees)
+
+			# Query Execution
 			query = '''
 				select 
 					hpl.employee_id,
@@ -137,79 +154,77 @@ class HrReporting(models.TransientModel):
 				left join hr_employee he on he.id = hp.employee_id
 				left join hr_job hj on hj.id = he.job_id
 				left join hr_contract hc on hc.id = he.contract_id
-				where hp.employee_id = '%s'
-				and hpl.salary_rule_id in %s
-				and date_part('year',hp.create_date) = date_part('year',now())
+				where date_part('year',hp.create_date) = date_part('year',now())
 				and hp.month_selection = '%s'
+				and hp.employee_id = '%s'
 				and he.active = true
 				and he.identification_id is not null
 				and hp.state = 'done'
+				and hpl.salary_rule_id in %s
 				order by he.name,hpl.sequence
 			'''
 			
-			
+			# Excel Writer Preparation
 			fp = BytesIO()
-			date_string = datetime.now().strftime("%Y-%m-%d")
 			workbook = xlsxwriter.Workbook(fp)
 			wbf, workbook = awf.add_workbook_format(workbook)
+			header_format_1 = workbook.add_format({'bold':True, 'font_size':12, 'align':'center', 'valign':'vcenter', 'border':1, 'bg_color':'#9FFCFA','text_wrap':True})
+			header_format_2 = workbook.add_format({'bold':True, 'font_size':12, 'align':'center', 'valign':'vcenter', 'border':1, 'num_format':40, 'bg_color':'#FBFB53'})
 
 			# WKS 1
-			report_name = 'LAPORAN PAYROLL PPh 21'
+			if self.jabatan == '1':
+				report_name = 'LAPORAN PAYROLL PPh 21 DIR / WAKIL DIR'
+			elif self.jabatan == '2':
+				report_name = 'LAPORAN PAYROLL PPh 21 MNG'
+			elif self.jabatan == '3':
+				report_name = 'LAPORAN PAYROLL PPh 21 SPV'
+			elif self.jabatan == '4':
+				report_name = 'LAPORAN PAYROLL PPh 21 STAFF'
+			elif self.jabatan == '5':
+				report_name = 'LAPORAN PAYROLL PPh 21 OPERATOR'
+			elif self.jabatan == '6':
+				report_name = 'LAPORAN PAYROLL PPh 21 STAFF + OP'
+			elif self.jabatan == '7':
+				report_name = 'LAPORAN PAYROLL PPh 21 DIR + MNG + SPV'
+			elif self.jabatan == '8':
+				report_name = 'LAPORAN PAYROLL PPh 21 MNG + SPV'
+			else : 
+				report_name = 'LAPORAN PAYROLL PPh 21 SELURUH KARYAWAN'
 			worksheet = workbook.add_worksheet(report_name)        
 			
-			worksheet.merge_range('A6:A7','No',wbf['header'])
-			worksheet.merge_range('B6:B7','NIK',wbf['header'])
-			worksheet.merge_range('C6:C7','Nama',wbf['header'])
-			worksheet.merge_range('D6:D7','Kategori Tarif Efektif',wbf['header'])
+			# WKS 1 - Header
+			worksheet.merge_range('A6:A7','No',header_format_1)
+			worksheet.merge_range('B6:B7','NIK',header_format_1)
+			worksheet.merge_range('C6:C7','Nama',header_format_1)
+			worksheet.merge_range('D6:D7','Kategori Tarif Efektif',header_format_1)
 			header_kol = 4
 			header_row = 5
 
-			# iterasi untuk menampilkan header
+			# WKS 1 - Iterasi untuk menampilkan header
+			header_wo_sum = []
 			for i in name_arr:
-				
-				worksheet.merge_range(header_row,header_kol,header_row+1,header_kol,'%s'%(i),wbf['header'])
+				worksheet.merge_range(header_row,header_kol,header_row+1,header_kol,'%s'%(i),header_format_1)
+				if i in ('PTKP','Gaji Pokok','GAPOK BPJS Kesehatan','GAPOK BPJS TK','Tarif Efektif Pajak (persen)'):
+					header_wo_sum.append(header_kol)
 				header_kol +=1
 
-			#set column width
+			# WKS 1 - Set column width
 			worksheet.set_column('A:A', 5)
 			worksheet.set_column('B:B', 30)
 			worksheet.set_column('C:C', 35)
 			worksheet.set_column('D:AT', 20)
 
-			# WKS 1
-
+			# WKS 1 - Judul
 			worksheet.merge_range('A2:AT2', report_name , wbf['merge_format'])
-			worksheet.merge_range('A3:AT3', 'PERIODE (' + str(self.month_selection) + ')' , wbf['merge_format_2'])
+			worksheet.merge_range('A3:AT3', 'PERIODE ' + month_string + year_string , wbf['merge_format_2'])
 
+			# WKS 1 - Iterasi gabungan untuk menampilkan data
 			row = 7
 			col = 0
 			col_rec = 4
 			no = 1
-
-			# # iterasi untuk menampilkan nama karyawan		
-			# for res in res_name:
-			# 	worksheet.write(row_name,col_name, no, wbf['content_center'])
-			# 	worksheet.write(row_name,col_name + 1, res.get('nik', ''), wbf['content_center'])
-			# 	worksheet.write(row_name,col_name + 2, res.get('nama', ''), wbf['content_center'])
-			# 	worksheet.write(row_name,col_name + 3, res.get('kategori', ''), wbf['content_center'])
-			# 	no += 1
-			# 	row_name +=1
-
-			# # iterasi untuk menampilkan nominal
-			# for index, rec in enumerate(rslt):
-			# 	prev_rec = rslt[index-1]
-			# 	curr_rec = rec
-			# 	if(curr_rec['employee_id'] == prev_rec['employee_id']):
-			# 		worksheet.write(row,col, rec['total'],wbf['content_float'])
-			# 	else:
-			# 		row += 1
-			# 		col = 4
-			# 		worksheet.write(row,col, rec['total'],wbf['content_float'])
-			# 	col += 1
-
-			#iterasi gabungan untuk menampilkan data
 			for i in employees:
-				self._cr.execute(query % (i.id,rules_tuple,self.month_selection))
+				self._cr.execute(query % (self.month_selection,i.id,rules_tuple))
 				rslt = self._cr.dictfetchall() 
 				worksheet.write(row,col, no, wbf['content_center'])
 				worksheet.write(row,col + 1, i.identification_id, wbf['content_center'])
@@ -220,10 +235,22 @@ class HrReporting(models.TransientModel):
 					col_rec += 1
 				no += 1
 				row += 1
+				col_rec_end = col_rec
 				col = 0
 				col_rec = 4
+			
+			# Write Sum
+			worksheet.merge_range(row,col,row,col+3,'SUM',header_format_2)
+			while col_rec < col_rec_end:
+				if col_rec in (header_wo_sum):
+					worksheet.write(row,col_rec,'',header_format_2)
+					col_rec += 1
+				else:
+					worksheet.write(row,col_rec,'=SUM(INDIRECT(ADDRESS(1,COLUMN())&":"&ADDRESS(ROW()-1,COLUMN())))',header_format_2)
+					col_rec += 1
 
-			filename = '%s %s%s' % (report_name, date_string, '.xlsx')
+			# File name
+			filename = '%s_%s%s%s' % (report_name, month_string, year_string, '.xlsx')
 			workbook.close()
 			out = base64.encodebytes(fp.getvalue())
 			self.write({'data': out})
@@ -239,22 +266,321 @@ class HrReporting(models.TransientModel):
 			}
 			return result
 	
-	def action_generate_csv(self):
-		
-		if self.report_type != 'csv':
+	def action_generate_request(self):
+		if self.report_type != 'request':
 			raise UserError('Silakan pilih Report yang sesuai')
 		else:
+			# Cutoff Date
+			date_rec = datetime(int(self.current_year), int(self.month_selection), 20)
+			month_string = date_rec.strftime("%b")
+			year_string = date_rec.strftime("%y")
+			last_date = calendar.monthrange(date_rec.year, date_rec.month)[1]
+
+			# QUERIES
+			request_query = '''
+				select total 
+				from hr_payslip hp 
+				left join hr_payslip_line hpl on hpl.slip_id = hp.id 
+				left join hr_employee he on he.id = hp.employee_id
+				left join hr_job hj on hj.id = he.job_id
+				left join hr_contract hc on hc.id = he.contract_id
+				where hpl.code = '%s'
+				and he.active = true
+				and hc.date_start <= '%s'
+				and hp.month_selection = '%s'
+				and date_part('year',hp.create_date) = date_part('year',now())
+			'''
+
+			gaji_query = '''
+				select total 
+				from hr_payslip hp 
+				left join hr_payslip_line hpl on hpl.slip_id = hp.id 
+				left join hr_employee he on he.id = hp.employee_id
+				left join hr_job hj on hj.id = he.job_id
+				left join hr_contract hc on hc.id = he.contract_id
+				where hp.employee_id = '%s'
+				and hpl.code = '%s'
+				and he.active = true
+				and hc.date_start <= '%s'
+				and hp.month_selection = '%s'
+				and date_part('year',hp.create_date) = date_part('year',now())
+			'''
+			
+			# Total Biaya Gaji
+			total_biaya_gaji = 0
+			self._cr.execute(request_query % ('BRUTO',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request:
+				total_biaya_gaji += float(rec['total'])
+			request_len = len(request)
+
+			# PPh 21
+			pph21_bulanan = 0
+			self._cr.execute(request_query % ('PPH_CICIL',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request:
+				pph21_bulanan -= float(0 if rec['total'] is None else rec['total'])
+
+			# JHT (BY JAMSOSTEK)
+			jht = 0
+			self._cr.execute(request_query % ('JHT2',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request:
+				jht -= float(0 if rec['total'] is None else rec['total'])
+
+			# JP (BY JAMSOSTEK)
+			jp = 0
+			self._cr.execute(request_query % ('JP2',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request:
+				jp -= float(0 if rec['total'] is None else rec['total'])
+
+			# KES (BY JAMSOSTEK)
+			kes = 0
+			self._cr.execute(request_query % ('KES2',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request:
+				kes -= float(0 if rec['total'] is None else rec['total'])
+
+			# JKK
+			jkk = 0
+			self._cr.execute(request_query % ('JKK',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request:
+				jkk -= float(0 if rec['total'] is None else rec['total'])
+			
+			# JKM
+			jkm = 0
+			self._cr.execute(request_query % ('JKM',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request:
+				jkm -= float(0 if rec['total'] is None else rec['total'])
+
+			# TUNJ JKK (BY JAMSOSTEK)
+			tunj_jkk = jkk + jkm
+
+			# TUNJ JHT (BY JAMSOSTEK)
+			tunj_jht = 0
+			bpjs_jht = 0
+			self._cr.execute(request_query % ('JHT',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request:
+				tunj_jht -= float(0 if rec['total'] is None else rec['total'])
+				bpjs_jht += float(0 if rec['total'] is None else rec['total'])
+
+			# JP
+			tunj_jp = 0
+			bpjs_jp = 0
+			self._cr.execute(request_query % ('JP',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request: 
+				tunj_jp -= float(0 if rec['total'] is None else rec['total'])
+				bpjs_jp += float(0 if rec['total'] is None else rec['total'])
+
+			# TUNJ BPJS (BY JAMSOSTEK)
+			bpjs_kes = 0
+			self._cr.execute(request_query % ('KES',date_rec,self.month_selection))
+			request = self._cr.dictfetchall()
+			for rec in request: 
+				bpjs_kes -= float(0 if rec['total'] is None else rec['total'])
+
+			# ASTEK
+			astek = bpjs_jht + bpjs_jp
+
+			# THR / BONUS
+			thr = 0
+			self._cr.execute(request_query % ('THR',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request: 
+				thr -= float(0 if rec['total'] is None else rec['total'])
+
+			# POTONGAN
+			potongan = 0
+			self._cr.execute(request_query % ('PIKA',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request: 
+				potongan -= float(0 if rec['total'] is None else rec['total'])
+
+			# GAJI & KTT PRODUKSI
+			employee_prod = self.env['hr.employee'].search([('coa','=','1')])
+			gaji_prod = 0
+			ktt_prod = 0
+			for i in employee_prod:
+				self._cr.execute(gaji_query % (i.id,'THP',date_rec,self.month_selection))
+				request = self._cr.dictfetchall()
+				for rec in request: 
+					gaji_prod += float(0 if rec['total'] is None else rec['total'])
+			for i in employee_prod:
+				self._cr.execute(gaji_query % (i.id,'THR',date_rec,self.month_selection))
+				request = self._cr.dictfetchall() 
+				for rec in request: 
+					ktt_prod += float(0 if rec['total'] is None else rec['total'])
+			
+			# GAJI UMUM
+			employee_umum = self.env['hr.employee'].search([('coa','=','2')])
+			gaji_umum = 0
+			ktt_umum = 0
+			for i in employee_umum:
+				self._cr.execute(gaji_query % (i.id,'THP',date_rec,self.month_selection))
+				request = self._cr.dictfetchall() 
+				for rec in request: 
+					gaji_umum += float(0 if rec['total'] is None else rec['total'])
+			for i in employee_umum:
+				self._cr.execute(gaji_query % (i.id,'THR',date_rec,self.month_selection))
+				request = self._cr.dictfetchall() 
+				for rec in request: 
+					ktt_umum += float(0 if rec['total'] is None else rec['total'])
+				
+			
+			# Excel Writer Prep
+			fp = BytesIO()
+			workbook = xlsxwriter.Workbook(fp)
+			wbf, workbook = awf.add_workbook_format(workbook)
+			title_format = workbook.add_format({'bold':True, 'underline':True, 'font_size':22, 'align':'center', 'valign':'vcenter'})
+			title_format_2 = workbook.add_format({'bold':True, 'underline':True, 'font_size':12, 'align':'center', 'valign':'vcenter'})
+			header_format_1 = workbook.add_format({'bold':True, 'font_size':12, 'align':'left', 'valign':'vcenter'})
+			header_format_2 = workbook.add_format({'bold':True, 'font_size':12, 'align':'center', 'valign':'vcenter', 'border':1})
+			content_format_1 = workbook.add_format({'font_size':12, 'align':'left', 'valign':'vcenter'})
+			content_format_2 = workbook.add_format({'font_size':12, 'align':'left', 'valign':'vcenter', 'left':1, 'right':1, 'num_format':40})
+			content_format_3 = workbook.add_format({'font_size':12, 'align':'right', 'valign':'vcenter', 'left':1, 'right':1, 'num_format':40})
+			content_format_4 = workbook.add_format({'bold':True, 'font_size':12, 'align':'right', 'valign':'vcenter', 'border':1, 'num_format':40})
+
+
+			# Sheet 1
+			worksheet = workbook.add_worksheet('PAYMENT REQUEST')
+
+			# Sheet 1 - Set column width
+			worksheet.set_column('A:A', 5)
+			worksheet.set_column('B:B', 5)
+			worksheet.set_column('C:P', 8)
+
+			# Sheet 1 - Title
+			worksheet.merge_range('L2:M2','Nomor :',header_format_1)
+			worksheet.merge_range('L3:M3','Tanggal :',header_format_1)
+			worksheet.merge_range('N3:P3','%s %s %s' % (str(last_date), str(month_string), str(year_string)),content_format_1)
+			worksheet.merge_range('L4:M4','Mata Uang :',header_format_1)
+			worksheet.merge_range('N4:P4','Rp',content_format_1)
+			worksheet.merge_range('L5:M5','Jumlah Data :',header_format_1)
+			worksheet.merge_range('N5:P5',request_len,content_format_1)
+			worksheet.merge_range('C6:P7','PAYMENT REQUEST',title_format)
+
+			# Sheet 1 - Header
+			worksheet.merge_range('C9:C10','No.',header_format_2)
+			worksheet.merge_range('D9:K10','Uraian',header_format_2)
+			worksheet.merge_range('L9:P10','Jumlah',header_format_2)
+
+			# Sheet 1 - Table 1
+			worksheet.write('C11','1',content_format_2)
+			worksheet.merge_range('D11:K11','TOTAL BIAYA GAJI',content_format_2)
+			worksheet.merge_range('L11:P11',total_biaya_gaji,content_format_3)
+
+			worksheet.write('C12','2',content_format_2)
+			worksheet.merge_range('D12:K12','PPH 21',content_format_2)
+			worksheet.merge_range('L12:P12',pph21_bulanan,content_format_3)
+			
+			worksheet.write('C13','3',content_format_2)
+			worksheet.merge_range('D13:K13','JHT (BY JAMSOSTEK)',content_format_2)
+			worksheet.merge_range('L13:P13',jht,content_format_3)
+			
+			worksheet.write('C14','4',content_format_2)
+			worksheet.merge_range('D14:K14','JP (BY JAMSOSTEK)',content_format_2)
+			worksheet.merge_range('L14:P14',jp,content_format_3)
+			
+			worksheet.write('C15','5',content_format_2)
+			worksheet.merge_range('D15:K15','KES (BY JAMSOSTEK)',content_format_2)
+			worksheet.merge_range('L15:P15',kes,content_format_3)
+			
+			worksheet.write('C16','6',content_format_2)
+			worksheet.merge_range('D16:K16','TUNJ JKK (BY JAMSOSTEK)',content_format_2)
+			worksheet.merge_range('L16:P16',tunj_jkk,content_format_3)
+			
+			worksheet.write('C17','7',content_format_2)
+			worksheet.merge_range('D17:K17','TOTAL JHT (BY JAMSOSTEK)',content_format_2)
+			worksheet.merge_range('L17:P17',tunj_jht,content_format_3)
+			
+			worksheet.write('C18','8',content_format_2)
+			worksheet.merge_range('D18:K18','JP (BY JAMSOSTEK)',content_format_2)
+			worksheet.merge_range('L18:P18',tunj_jp,content_format_3)
+			
+			worksheet.write('C19','9',content_format_2)
+			worksheet.merge_range('D19:K19','TUNJ BPJS (BY JAMSOSTEK)',content_format_2)
+			worksheet.merge_range('L19:P19',bpjs_kes,content_format_3)
+			
+			worksheet.write('C20','10',content_format_2)
+			worksheet.merge_range('D20:K20','ASTEK',content_format_2)
+			worksheet.merge_range('L20:P20',astek,content_format_3)
+
+			worksheet.write('C21','11',content_format_2)
+			worksheet.merge_range('D21:K21','THR',content_format_2)
+			worksheet.merge_range('L21:P21',thr,content_format_3)
+			
+			worksheet.write('C22','12',content_format_2)
+			worksheet.merge_range('D22:K22','POTONGAN',content_format_2)
+			worksheet.merge_range('L22:P22',potongan,content_format_3)
+			
+			worksheet.merge_range('C23:K23','TOTAL :',header_format_2)
+			worksheet.merge_range('L23:P23','=SUM(L11:P22)',content_format_4)
+
+			# Sheet 1 - Table 2
+			worksheet.merge_range('C25:F25','COA GAJI BULANAN '+ '%s%s' % (str(month_string), str(year_string)), title_format_2)
+			worksheet.merge_range('C26:D26','', header_format_2)
+			worksheet.merge_range('E26:F26',month_string, header_format_2)
+			worksheet.merge_range('C27:D27','Gaji Produksi',content_format_2)
+			worksheet.merge_range('E27:F27',gaji_prod,content_format_3)
+			worksheet.merge_range('C28:D28','Gaji Umum',content_format_2)
+			worksheet.merge_range('E28:F28',gaji_umum,content_format_3)
+			worksheet.merge_range('C29:D29','TOTAL',header_format_2)
+			worksheet.merge_range('E29:F29','=SUM(E27:E28)',content_format_4)
+
+			# Sheet 1 - Table 3
+			worksheet.merge_range('C33:F33','COA THR ' + '%s%s' % (str(month_string), str(year_string)), title_format_2)
+			worksheet.merge_range('C34:D34','', header_format_2)
+			worksheet.merge_range('E34:F34',month_string, header_format_2)
+			worksheet.merge_range('C35:D35','THR Produksi',content_format_2)
+			worksheet.merge_range('E35:F35',ktt_prod,content_format_3)
+			worksheet.merge_range('C36:D36','THR Umum',content_format_2)
+			worksheet.merge_range('E36:F36',ktt_umum,content_format_3)
+			worksheet.merge_range('C37:D37','TOTAL',header_format_2)
+			worksheet.merge_range('E37:F37','=SUM(E35:E36)',content_format_4)
+
+			# File name
+			filename = 'PAYMENT REQUEST_%s%s%s' % (month_string, year_string, '.xlsx')
+			workbook.close()
+			out = base64.encodebytes(fp.getvalue())
+			self.write({'data': out})
+			fp.close()
+
+			url = "web/content/?model=" + self._name + "&id=" + str(self.id) + "&field=data&download=true&filename=" + filename
+			result = {
+				'name': 'PAYMENT REQUEST XLS',
+				'type': 'ir.actions.act_url',
+				'url': url,
+				'target': 'download',
+			}
+			return result
+
+	def action_generate_csv(self):	
+		if self.report_type != 'csv':
+			raise UserError('Silakan pilih Report yang sesuai')
+		elif self.payroll_send_date == '':
+			raise UserError('Pilih Send Date!')
+		else:
+			date_rec = datetime(int(self.current_year), int(self.month_selection), 20)
+			month_string = date_rec.strftime("%b")
+			year_string = date_rec.strftime("%y")
 			now = datetime.now() + timedelta(hours=7)
 			create_datetime = now.strftime("%Y/%m/%d_%H.%M.%S")
 			paycheck_date = self.payroll_send_date.strftime("%Y%m%d")
-			if self.jabatan in ('1','2','3','4','5'):
-				employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('jabatan','=',self.jabatan)])
+			if self.jabatan == '20':
+				employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('joining_date','<=',date_rec)])
+			elif self.jabatan in ('1','2','3','4','5'):
+				employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('jabatan','=',self.jabatan),('joining_date','<=',date_rec)])
 			elif self.jabatan == '6':
-				employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('jabatan','in',('4','5'))])
+				employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('jabatan','in',('4','5')),('joining_date','<=',date_rec)])
 			elif self.jabatan == '7':
-				employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('jabatan','in',('1','2','3'))])
+				employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('jabatan','in',('1','2','3')),('joining_date','<=',date_rec)])
 			else:
-				employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('jabatan','in',('2','3'))])
+				employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('jabatan','in',('2','3')),('joining_date','<=',date_rec)])
 			
 			
 			thp_query = '''
@@ -271,8 +597,9 @@ class HrReporting(models.TransientModel):
 			# menghitung sum dari seluruh gaji karyawan
 			for i in employees:
 				self._cr.execute(thp_query % (i.id,self.month_selection))
-				thp = self._cr.dictfetchall() 
-				rec_sum += thp[0]['total']
+				thp = self._cr.dictfetchall()
+				for rec in thp:
+					rec_sum += int(0 if rec['total'] is None else rec['total'])
 
 			# tulis record ke dalam file
 			# modif menggunakan mpath = get_module_path(sh_hr_payroll)
@@ -297,7 +624,8 @@ class HrReporting(models.TransientModel):
 					row_3.clear()
 					row_3.append(i.no_rekening)
 					row_3.append(i.name)
-					row_3.append(int(thp_val[0]['total']))
+					for rec in thp_val:
+						row_3.append(int(0 if rec['total'] is None else rec['total']))
 					row_3.append('GAJI '+self.month_selection+'-24')
 					row_3.append('')
 					row_3.append('')
@@ -322,8 +650,29 @@ class HrReporting(models.TransientModel):
 			# baca record dari file
 			with open(mpath + '/static/payroll.csv', 'r', encoding="utf-8") as file2:
 				data = str.encode(file2.read(), 'utf-8')
+				
 				# print(data)
-				filename = 'payroll.csv'
+				if self.jabatan == '1':
+					csv_name = 'Payroll Direktur / Wakil Direktur'
+				elif self.jabatan == '2':
+					csv_name = 'Payroll Manager'
+				elif self.jabatan == '3':
+					csv_name = 'Payroll Supervisor'
+				elif self.jabatan == '4':
+					csv_name = 'Payroll Staff'
+				elif self.jabatan == '5':
+					csv_name = 'Payroll Operator'
+				elif self.jabatan == '6':
+					csv_name = 'Payroll Staff + Operator'
+				elif self.jabatan == '7':
+					csv_name = 'Payroll DIR + MNG + SPV'
+				elif self.jabatan == '8':
+					csv_name = 'Payroll MNG + SPV'
+				else : 
+					csv_name = 'Payroll Seluruh Karyawan'
+				
+				filename = '%s %s%s%s' % (csv_name,month_string,year_string,'.csv')
+
 				self.csv_data = base64.encodestring(data)
 				url = "web/content/?model=" + self._name + "&id=" + str(self.id) + "&field=csv_data&download=true&filename=" + filename
 				result = {
@@ -333,178 +682,6 @@ class HrReporting(models.TransientModel):
 					'target': 'download',
 				}
 				return result
-            
-        #     tot_thp = float(rec['total_gapok'] + rec['total_tpph'] + rec['total_ktt'] - rec['total_pkp_2'] - rec['total_potong'])
-        #     tot_pph21_perusahaan = float(rec['total_kes'] + rec['total_jkk'] + rec['total_jkm'])
-        #     tot_pph21_karyawan = float(rec['total_jht2'] + rec['total_jp2'])
-			
-            # worksheet.write('A%s' % (row), no, wbf['content_center'])
-            # if (rec[index]['employee_id'] != rec[index-1]['employee_id']):
-            # 	worksheet.write('B%s' % (row), rec.get('nik', ''), wbf['content_center'])
-	       
-            
-                
-            	# worksheet.write('C%s' % (row), rec.get('nama', ''), wbf['content_center'])
-            # elif(rec['code'] == 'GAPOK'):
-            #       worksheet.write('D%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total'])), wbf['content_float'])
-            # elif(rec['code'] == 'GAPOK_BPJS_KES'):
-            #       worksheet.write('E%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total'])), wbf['content_float'])
-            # elif(rec['code'] == 'GAPOK_BPJS_TK'):
-            #       worksheet.write('F%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total'])), wbf['content_float'])
-            
-        #     worksheet.write('E%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_gapok_bpjs'])), wbf['content_float'])
-        #     # worksheet.write('E%s' % (row), 'Rp.' + '{0:,.0f}'.format(rec['total_gapok_bpjs'] if rec['total_gapok_bpjs'] else 0).replace(',',','), wbf['content_float'])
-        #     worksheet.write('F%s' % (row), 'Rp.' + '{0:,.0f}'.format(rec['bpjs_tk'] if rec['bpjs_tk'] else 0).replace(',',','), wbf['content_float'])
-        #     worksheet.write('G%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_ahli'])), wbf['content_float'])
-        #     worksheet.write('H%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_shift3'])), wbf['content_float'])
-        #     worksheet.write('I%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_faskes'])), wbf['content_float'])
-        #     worksheet.write('J%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_lembur'])), wbf['content_float'])
-        #     worksheet.write('K%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_bonus'])), wbf['content_float'])
-        #     worksheet.write('L%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_tunjangan'])), wbf['content_float'])
-        #     worksheet.write('M%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_tpph'])), wbf['content_float'])
-        #     worksheet.write('N%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_kes'])), wbf['content_float'])
-        #     worksheet.write('O%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['jht'])), wbf['content_float'])
-        #     worksheet.write('P%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_jkk'])), wbf['content_float'])
-        #     worksheet.write('Q%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_jp'])), wbf['content_float'])
-        #     worksheet.write('R%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_jkm'])), wbf['content_float'])
-        #     worksheet.write('S%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_bpjs_perusahaan'])), wbf['content_float'])
-        #     worksheet.write('T%s' % (row), 'Rp.' + '{0:,.0f}'.format(tot_pph21_perusahaan), wbf['content_float'])
-        #     worksheet.write('U%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_bota'])), wbf['content_float'])
-        #     worksheet.write('V%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_thr'])), wbf['content_float'])
-        #     worksheet.write('W%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_ktt'])), wbf['content_float'])
-        #     worksheet.write('X%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_pengurangan_bruto'])), wbf['content_float'])
-        #     worksheet.write('Y%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_bruto'])), wbf['content_float'])
-        #     worksheet.write('Z%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['kes2'])), wbf['content_float'])
-        #     worksheet.write('AA%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_jht2'])), wbf['content_float'])
-        #     worksheet.write('AB%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_jp2'])), wbf['content_float'])
-        #     worksheet.write('AC%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_pkp_2'])), wbf['content_float'])
-        #     worksheet.write('AD%s' % (row), 'Rp.' + '{0:,.0f}'.format(tot_pph21_karyawan), wbf['content_float'])
-        #     worksheet.write('AE%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_jabat'])), wbf['content_float'])
-        #     worksheet.write('AF%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_potong'])), wbf['content_float'])
-        #     worksheet.write('AG%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_net'])), wbf['content_float'])
-        #     worksheet.write('AH%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_net_annual'])), wbf['content_float'])
-        #     worksheet.write('AI%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_ptkp'])), wbf['content_float'])
-        #     worksheet.write('AJ%s' % (row), 'Rp.' + '{0:,.0f}'.format(rec['total_pkp_1'] if rec['total_pkp_1'] > 0 else 0).replace(',',','), wbf['content_float'])
-        #     worksheet.write('AK%s' % (row), 'Rp.' + '{0:,.0f}'.format(rec['pkp_pembulatan'] if rec['pkp_pembulatan'] > 0 else 0).replace(',',','), wbf['content_float'])
-        #     worksheet.write('AL%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_pph21_1'])), wbf['content_float'])
-        #     worksheet.write('AM%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_pph21_2'])), wbf['content_float'])
-        #     # worksheet.write('AM%s' % (row), 'Rp.' + '{0:,.0f}'.format(float(rec['total_kes'])), wbf['content_float'])
-        #     worksheet.write('AO%s' % (row), 'Rp.' + '{0:,.2f}'.format(float(rec['thp_2'])), wbf['content_float'])
-			
-        #     sum_total_gapok += float(rec['total_gapok'])
-        #     sum_bpjs_kesehatan += float(rec['bpjs_kesehatan'] if rec['bpjs_kesehatan'] else 0)
-        #     sum_bpjs_tk += float(rec['bpjs_tk'] if rec['bpjs_tk'] else 0)
-        #     sum_total_ahli += float(rec['total_ahli'])
-        #     sum_total_shift3 += float(rec['total_shift3'])
-        #     sum_total_faskes += float(rec['total_faskes'])
-        #     sum_total_lembur += float(rec['total_lembur'])
-        #     sum_total_bonus += float(rec['total_bonus'])
-        #     sum_total_tunjangan += float(rec['total_tunjangan'])
-        #     sum_total_tpph += float(rec['total_tpph'])
-        #     sum_total_kes += float(rec['total_kes'])
-        #     sum_total_jkk += float(rec['total_jkk'])
-        #     sum_total_jkm += float(rec['total_jkm'])
-        #     # sum_total_bpjs_perusahaan += float(rec['total_bpjs_perusahaan'])
-        #     sum_total_bota += float(rec['total_bota'])
-        #     sum_total_thr += float(rec['total_thr'])
-        #     sum_total_ktt += float(rec['total_ktt'])
-        #     sum_total_bruto += float(rec['total_bruto'])
-        #     sum_total_jht2 += float(rec['total_jht2'])
-        #     sum_total_jp2 += float(rec['total_jp2'])
-        #     # sum_total_bpjs_karyawan += float(rec['total_bpjs_karyawan'])
-        #     sum_total_jabat += float(rec['total_jabat'])
-        #     sum_total_potong += float(rec['total_potong'])
-        #     sum_total_net += float(rec['total_net'])
-        #     sum_total_net_annual += float(rec['total_net_annual'])
-        #     sum_total_ptkp += float(rec['total_ptkp']) 
-        #     sum_total_pkp_1 += float(rec['total_pkp_1'] if rec['total_pkp_1'] > 0 else 0)
-        #     sum_pkp_pembulatan += float(rec['pkp_pembulatan'] if rec['pkp_pembulatan'] > 0 else 0)
-        #     sum_total_pph21_1 += float(rec['total_pph21_1'])
-        #     sum_total_pph21_2 += float(rec['total_pph21_2'])
-        #     sum_total_thp += float(tot_thp)
-        #     sum_total_jp += float(rec['total_jp'])
-        #     sum_jht += float(rec['jht'])
-        #     sum_total_bpjs_perusahaan += float(rec['total_bpjs_perusahaan'])
-        #     sum_kes2 += float(rec['kes2'])
-        #     sum_total_pkp_2 += float(rec['total_pkp_2'])
-        #     sum_thp += float(rec['thp_2'])
-        #     sum_tot_pph21_perusahaan += float(tot_pph21_perusahaan)
-        #     sum_tot_pph21_karyawan += float(tot_pph21_karyawan)
-        #     sum_tot_pengurangan_bruto += float(rec['total_pengurangan_bruto'])
-			          
-            
-        # # TOTAL
-        # worksheet.merge_range('A%s:C%s' % (row, row), 'TOTAL', wbf['foot_merge_format'])
-        # worksheet.write('D%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_gapok), wbf['total_float'])
-        # worksheet.write('E%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_bpjs_kesehatan), wbf['total_float'])
-        # worksheet.write('F%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_bpjs_tk), wbf['total_float'])
-        # worksheet.write('G%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_ahli), wbf['total_float'])
-        # worksheet.write('H%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_shift3), wbf['total_float'])
-        # worksheet.write('I%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_faskes), wbf['total_float'])
-        # worksheet.write('J%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_lembur), wbf['total_float'])
-        # worksheet.write('K%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_bonus), wbf['total_float'])
-        # worksheet.write('L%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_tunjangan), wbf['total_float'])
-        # worksheet.write('M%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_tpph), wbf['total_float'])
-        # worksheet.write('N%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_kes), wbf['total_float'])
-        # worksheet.write('O%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_jht), wbf['total_float'])
-        # worksheet.write('P%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_jkk), wbf['total_float'])
-        # worksheet.write('Q%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_jp), wbf['total_float'])
-        # worksheet.write('R%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_jkm), wbf['total_float'])
-        # worksheet.write('S%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_bpjs_perusahaan), wbf['total_float'])
-        # worksheet.write('T%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_tot_pph21_perusahaan), wbf['total_float'])
-        # worksheet.write('U%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_bota), wbf['total_float'])
-        # worksheet.write('V%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_thr), wbf['total_float'])
-        # worksheet.write('W%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_ktt), wbf['total_float'])
-        # worksheet.write('X%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_tot_pengurangan_bruto), wbf['total_float'])
-        # worksheet.write('Y%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_bruto), wbf['total_float'])
-        # worksheet.write('Z%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_kes2), wbf['total_float'])
-        # worksheet.write('AA%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_jht2), wbf['total_float'])
-        # worksheet.write('AB%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_jp2), wbf['total_float'])
-        # worksheet.write('AC%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_pkp_2), wbf['total_float'])
-        # worksheet.write('AD%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_tot_pph21_karyawan), wbf['total_float'])
-        # worksheet.write('AE%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_jabat), wbf['total_float'])
-        # worksheet.write('AF%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_potong), wbf['total_float'])
-        # worksheet.write('AG%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_net), wbf['total_float'])
-        # worksheet.write('AH%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_net_annual), wbf['total_float'])
-        # worksheet.write('AI%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_ptkp), wbf['total_float'])
-        # worksheet.write('AJ%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_pkp_1), wbf['total_float'])
-        # worksheet.write('AK%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_pkp_pembulatan), wbf['total_float'])
-        # worksheet.write('AL%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_pph21_1), wbf['total_float'])
-        # worksheet.write('AM%s' % (row), 'Rp.' + '{0:,.0f}'.format(sum_total_pph21_2), wbf['total_float'])
-        # # worksheet.write('AN%s' % (row), 'Rp.' + '{0:,.0f}'.format(), wbf['total_float'])
-        # worksheet.write('AO%s' % (row), 'Rp.' + '{0:,.2f}'.format(sum_thp), wbf['total_float'])
- 
-class HrReportingBpjs(models.AbstractModel):
-    _name = 'report.sh_hr_payroll.report_salary_bpjs'
 
-    @api.model
-    def _get_report_values(self, docids, data=None):
-        print('_get_report_values')
-        date_start = data['form']['date_start']
-        date_end = data['form']['date_end']
-        record = data['form']['record']
-        return {
-            'me': self,
-            'date_start': date_start,
-            'date_end': date_end,
-            'doc_ids': data['ids'],
-            'docs': record,
-        }
-
-class HrReportingGS(models.AbstractModel):
-    _name = 'report.sh_hr_payroll.report_salary_gs'
-
-    @api.model
-    def _get_report_values(self, docids, data=None):
-        print('_get_report_values')
-        date_start = data['form']['date_start']
-        date_end = data['form']['date_end']
-        record = data['form']['record']
-        return {
-            'me': self,
-            'date_start': date_start,
-            'date_end': date_end,
-            'doc_ids': data['ids'],
-            'docs': record,
-        }
+# end
     

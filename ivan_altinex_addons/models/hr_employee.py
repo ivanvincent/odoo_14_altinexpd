@@ -25,6 +25,12 @@ class HrEmployee(models.Model):
 		('4', 'Staff'),
 		('5', 'Operator'),
 	], string='Jabatan')
+	coa = fields.Selection([
+		('1', 'Produksi'),
+		('2', 'Umum'),
+	], string='COA')
+	
+	
 	@api.depends('marital', 'children')
 	def _compute_tax_category(self):
 		for rec in self:
