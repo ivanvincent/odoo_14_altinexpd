@@ -22,7 +22,7 @@
                 <field name="model">quotation.request.form</field>
                 <field name="report_name">master_specifications.inform_consent_pdf</field>
                 <field name="report_file">master_specifications.inform_consent_pdf</field>
-                <field name="print_report_name">'inform-%s' % (object.name).replace("Q-", "")</field>
+                <field name="print_report_name">'%s' % object.name</field>
                 <field name="binding_model_id" eval="False"/>
                 <field name="binding_type">report</field>
                 <field name="paperformat_id" eval="paperformat_inform_consent_pdf"/>
@@ -44,7 +44,6 @@
                             padding: 0;
                             border-collapse: collapse;
                         }
-
                     </style>
                     <t t-foreach="docs" t-as="doc">
                         <t t-if="o and 'company_id' in o">
@@ -128,38 +127,32 @@
                             <table class="table-condensed" width="100%" style="margin-top:20px">
                                 <tr>
                                     <td style="font-size:17px; padding-top:15px;">
-                                        <div>Melalui <i>informed consent</i> ini, saya menyetujui pemesanan barang dari PT. Altinex Divisi Punch &amp;
+                                        <div>Melalui informed consent ini, saya menyetujui pemesanan barang dari PT. Altnex Divisi Punch &amp;
                                         Die secara parsial. Pesanan parsial yang dimaksud mencakup:</div>
                                         <div style="font-size:17px;padding-left:30px; "> 
-                                        <ol>
-                                            <li>Pemesanan upper punch saja, ATAU</li>
-                                            <li>Pemesanan upper dan lower punch saja (tanpa dies), ATAU</li>
-                                            <li>Pemesanan qty tooling &lt; (kurang dari) jumlah station turret mesin cetak tablet</li>
-                                        </ol>
-                                        </div>
+                                        1. Pemesanan upper punch saja, ATAU<br/>
+                                        2. Pemesanan upper dan lower punch saja (tanpa dies), ATAU<br/>
+                                        3. Pemesanan qty tooling (kurang dari) jumlah station turret mesin cetak tablet<br/> </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="font-size:17px; padding-bottom:15px;">
-                                        <br/><div>Saya menyatakan telah mendapat penjelasan holistik dan menyeluruh dari perwakilan resmi PT.
-                                        Altinex Divisi Punch &amp; Die perihal peningkatan risiko yang mungkin terjadi akibat pemesanan
+                                        <br/><div>Saya menyatakan telah mendapat penjelasan holistk dan menyeluruh dari perwakilan resmi PT.
+                                        ALTINEX Divisi Punch and Die perihal peningkatan risiko yang mungkin terjadi akibat pemesanan
                                         barang secara parsial, yaitu, tapi tidak terbatas pada:</div>
                                         <div style="font-size:17px;padding-left:30px; "> 
-                                            <ol>
-                                                <li>Ketidaksesuaian antara tooling existing dengan tooling yang dipesan, yang akan
-                                                    menyebabkan beberapa komplikasi yaitu <i>premature wear</i>, kerusakan pada part mesin
-                                                    lain, dan lain-lain</li>
-                                                <li>Variasi pada hasil cetak tablet, termasuk variasi bobot, ukuran, dan lain-lain.</li>
-                                            </ol>
-                                        </div>
+                                        1. Kettaksesuaian antara tooling existng dengan tooling yang dipesan, yang akan
+                                        menyebabkan beberapa komplikasi yaitu premature wear, kerusakan pada part mesin
+                                        lain, dan lain-lain<br/>
+                                        2. Variasi pada hasil cetak tablet, termasuk variasi bobot, ukuran, dan lain-lain.<br/></div>
                                     </td>
                                 </tr><br/>
                                 <tr>
                                     <td style="font-size:17px; padding-bottom:15px;">
                                         <div>Bersama penjelasan ini, saya juga memahami bahwa apabila di kemudian hari, terjadi peristiwa-peristiwa seperti yang telah dijelaskan 
                                         di atas, maka peristiwa tersebut berada di luar tanggung
-                                        jawab PT. Altinex Divisi Punch &amp; Die dan tidak termasuk ke dalam garansi yang menjadi
-                                        kewajiban PT. Altinex Divisi Punch &amp; Die.</div>
+                                        jawab PT. ALTINEX Divisi Punch and Die dan tidak termasuk ke dalam garansi yang menjadi
+                                        kewajiban PT. ALTINEX Divisi Punch and Die.</div>
                                     </td>
                                 </tr>
                             </table>
@@ -183,7 +176,7 @@
                                                     </span><br/>
                                                 </div>
                                                 <div class="col-6">
-                                                    <b><span style="text-align: left; font-size: 17px; padding-left:30px;">PT. ALTINEX Divisi Punch &amp; Die,</span></b>
+                                                    <b><span style="text-align: left; font-size: 17px; padding-left:30px;">PT. ALTINEX Punch &amp; Die Division,</span></b>
                                                     <br/><br/><br/><br/><br/>
                                                     <span style="text-align: left; font-size: 17px; padding-left:30px; height:0.5px; margin:0; padding-top:0; padding-bottom:0; background-color:none;">
                                                         <t t-esc="doc.user_id.name"/>

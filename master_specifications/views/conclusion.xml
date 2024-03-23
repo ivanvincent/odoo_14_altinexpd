@@ -16,23 +16,10 @@
             </field>
         </record>
 
-        <record id="conclusion_form" model="ir.ui.view">
-            <field name="name">conclusion.form</field>
-            <field name="model">conclusion</field>
-            <field name="arch" type="xml">
-                <form string="">
-                    <field name="name"/>
-                    <field name="desc"/>
-                    <field name="urutan"/>
-                    <field name="active"/>
-                </form>
-            </field>
-        </record>
-
         <record id="conclusion_action" model="ir.actions.act_window">
             <field name="name">Conclusion</field>
             <field name="res_model">conclusion</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree</field>
         </record>
 
         <record id="qrf_temp_con_tree" model="ir.ui.view">

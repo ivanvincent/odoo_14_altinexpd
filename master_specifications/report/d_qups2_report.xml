@@ -203,8 +203,8 @@
                                         <span style="padding-left:10px"/>Attn &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;:&amp;nbsp;<span t-esc="docs.pic_name"/>
                                   </th>
                                   <th colspan="3" style="vertical-align : top; border: 1px solid black; padding: 0; border-collapse: collapse;" width="100%">End User<br/>
-                                        <span class="font-weight-normal" style="padding-left:10px" t-esc="docs.end_user_name.name"/><br/>
-                                        <span class="font-weight-normal" style="padding-left:10px" t-esc="docs.shipping_address.street"/>  
+                                        <span class="font-weight-normal" style="padding-left:10px" t-esc="docs.end_user_name_char"/><br/>
+                                        <!-- <span class="font-weight-normal" style="padding-left:10px" t-esc="docs.shipping_address.street"/>   -->
                                   </th>
                               </tr>
                               <tr class="text-left">

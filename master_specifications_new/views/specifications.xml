@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="specifications_tree_new" model="ir.ui.view">
+            <field name="name">specifications.tree.new</field>
+            <field name="model">specifications.new</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                 <!-- editable="bottom" -->
+                    <field name="jenis_id"/>
+                    <field name="spec_id"/>
+                    <field name="spect_name"/>
+                    <field name="desc"/>
+                    <field name="deskripsi"/>
+                    <field name="harga"/>
+                    <field name="unit"/>
+                    <field name="rumus_subtotal"/>
+                    <field name="rumus_total"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="specifications_form_new" model="ir.ui.view">
+            <field name="name">specifications_new_form</field>
+            <field name="model">specifications.new</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <!-- <button name="action_generate" type="object" string="Generate" class="oe_highlight"/> -->
+                        <!-- <button name="action_confirm" type="object" string="Confirm" states="draft"/>
+                        <button name="action_set_to_draft" type="object" string="Se to draft" states="confirm"/> -->
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="jenis_id"/>
+                                <field name="spec_id"/>
+                                <field name="spect_name"/>
+                                <field name="desc"/>
+                                <field name="harga"/>
+                                <field name="unit"/>
+                                <field name="rumus_subtotal"/>
+                                <field name="rumus_total"/>
+                                <field name="active"/>
+                            </group>
+                            <!-- <group>
+                                
+                            </group> -->
+                        </group>
+                        <notebook>
+                            <page name="Details" string="Details">
+                                <field name="desc_detail"/>
+                            </page>
+                            <!-- <page name="drawing" string="Drawing">
+                                <group col="2">
+                                    <group string="Design Approved">
+                                        <field name="drawing_internal" widget="pdf_viewer"/>
+                                    </group>
+                                    <group string="Design Approved">
+                                        <field name="drawing_external" widget="pdf_viewer"/>
+                                    </group>
+                                </group>
+                            </page> -->
+                        </notebook>                        
+                        <div class="oe_clear"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="specifications_action_new" model="ir.actions.act_window">
+            <field name="name">Master Specifications New</field>
+            <field name="res_model">specifications.new</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
+        </record>
+
+        <menuitem
+            id="specifications_new_menu"
+            name="Master Specifications"
+            action="specifications_action_new"
+            parent="specifications_root_new_menu"
+            sequence="20"
+            groups="sales_team.group_sale_manager"/>
+    
+    </data>
+    
+
+</odoo>

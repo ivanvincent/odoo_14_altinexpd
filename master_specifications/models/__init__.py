@@ -4,4 +4,3 @@ from . import specifications
 from . import quotation_request_form
 from . import master_qty
 from . import conclusion
-from . import terbilang

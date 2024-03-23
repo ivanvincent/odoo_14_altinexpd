@@ -2,9 +2,6 @@ from email.policy import default
 from odoo import models, fields, api
 from dateutil.relativedelta import relativedelta
 import odoo.addons.decimal_precision as dp
-from odoo.exceptions import ValidationError
-import base64
-from . import terbilang as tmb
 
 class QuotationRequestForm(models.Model):
     _name = 'quotation.request.form'
@@ -18,17 +15,15 @@ class QuotationRequestForm(models.Model):
     image_binary = fields.Binary(string='Drawing', store=False,)
     line_ids = fields.One2many('quotation.request.form.line', 'qrf_id', 'Line')
     state = fields.Selection([
-        ("draft", "QRF"), 
-        # ("confirm", "Approval Requested"), 
-        ("qrf_upload", "Drawing"), 
-        ("dwg_upload", "Details"),
-        ("waiting", "Awaiting Approval"), 
+        ("draft", "Draft"), 
+        ("confirm", "Approval Requested"), 
+        # ("qrf_upload", "QRF Uploaded"), 
+        # ("dwg_upload", "DWG Uploaded"),
+        # ("waiting", "Awaiting Approval"), 
         ("approved", "Approved"), 
-        ("po_upload", "PO"),
-        ("so_upload", "SO"),
-        ("sj_upload", "SJ"),
-        ("done", "Done"),
-        ("cancel", "Cancelled")
+        # ("po_upload", "PO Uploaded"),
+        ("order_processed", "Order Processed"),
+        # ("done", "Done")
         ], string='State', default='draft', track_visibility='onchange')
     amount_tax = fields.Monetary(
         string='Taxes', currency_field='currency_id', compute='_compute_amount')
@@ -84,16 +79,16 @@ class QuotationRequestForm(models.Model):
         string='Subtotal', currency_field='currency_id', compute='_compute_amount')
     tax_id = fields.Many2one('account.tax', string='Tax Type')
     notes_to_customer = fields.Text(string='Notes to customer')
-    type = fields.Selection([("1","1"),("2","2"),("3","3"),("4","4")], string='Type')
+    type = fields.Selection([("1","1"),("2","2"),("3","3")], string='Type')
+    end_user_name_char = fields.Char(string='End User Name')
     end_user_name = fields.Many2one('res.partner', string='End User Name')
     end_user_machine_serial = fields.Char(string='End User Machine Serial No.')
     amount_untaxed_2 = fields.Monetary(
-        string='Price Product', currency_field='currency_id', compute='_compute_amount')
+        string='Amount Untaxed', currency_field='currency_id', compute='_compute_amount')
     amount_total_2 = fields.Monetary(
         string='Total', currency_field='currency_id', compute='_compute_amount')
     amount_tax_2 = fields.Monetary(
         string='Taxes', currency_field='currency_id', compute='_compute_amount')
-    amount_price_discount_2 = fields.Float(string='Price After Discount', compute='_compute_amount')
     amount_price_discount = fields.Float(string='Price After Discount', compute='_compute_amount')
     station_no = fields.Char(string='Station Number')
     drawing_attachment_line_ids = fields.One2many('drawing.attachment', 'qrf_id', 'Drawing')
@@ -109,52 +104,12 @@ class QuotationRequestForm(models.Model):
     is_inform_consent = fields.Boolean(string='Is Inform Consent?', compute="_compute_conc")
     ic_doc_number = fields.Char(string='IC Number')
     pph23_tax = fields.Monetary(string='PPH 23', currency_field='currency_id', compute='_compute_pph23')
-    sj_attachment_line_ids = fields.One2many('sj.attachment', 'qrf_id', 'SJ')
-    picking_out_id = fields.Many2one('stock.picking', string="No DO")
-    #harusnya ambil dari so_id yang di create delivery out yang status nya DONE
-    ref = fields.Char(related='picking_out_id.origin', string='No Ref')
-    so_id = fields.Many2one('sale.order', string='SO')
-    # type_order = fields.Selection([('new_order','New Order'),('repeat_order','Repeat Order')], string='Type Order')
-    so2_id = fields.Many2one('sale.order', string='SO')
-    # rr_ids = fields.Many2many(comodel_name='request.requisition', string='Request Requisition')
-    picking_out_ids = fields.One2many('stock.picking', 'dqups_id', string="No DO")
-    report_file = fields.Many2one('ir.attachment', string='PDF')
-    po_number = fields.Char(string='PO No.')
-    shipment = fields.Char(string='Shipment')
-    amount_to_text   = fields.Text(string='Terbilang', compute='_compute_terbilang')
-    active = fields.Boolean('Active ?', default=True,)
-
-    def _compute_terbilang(self):
-        for rec in self:
-            if rec.type in ('1','2','4'):
-                rec.amount_to_text = tmb.terbilang(float(abs(rec.amount_total)),'IDR', 'id')
-            elif rec.type == '3':
-                rec.amount_to_text = tmb.terbilang(float(abs(rec.amount_total_2)),'IDR', 'id')
-
-    def generate_report_file(self):
-        if self.type == '1':
-            report_template_id = self.env.ref('master_specifications.action_print_template_so_1')._render_qweb_pdf(self.id)
-        elif self.type in ('2','4'):
-            report_template_id = self.env.ref('master_specifications.action_print_template_so_2')._render_qweb_pdf(self.id)
-        elif self.type == '3':
-            report_template_id = self.env.ref('master_specifications.action_print_template_so_3')._render_qweb_pdf(self.id)
-        data_record = base64.b64encode(report_template_id[0])
-        ir_values = {
-            'name': self.name,
-            'type': 'binary',
-            'datas': data_record,
-            'store_fname': data_record,
-            'mimetype': 'application/pdf',
-        }
-        data_id = self.env['ir.attachment'].create(ir_values)
-        self.report_file = data_id.id
-        return True
 
     @api.depends('line_ids.sub_total')
     def _compute_pph23(self):
         for rec in self:
             total_pph = 0
-            for t in rec.line_ids.filtered(lambda x:x.jenis_id.type == 'jasa'):
+            for t in rec.line_ids.filtered(lambda x:x.jenis_id.id in [72,70]):
                 total_pph += t.sub_total 
             rec.pph23_tax = total_pph * 2/100
 
@@ -174,45 +129,34 @@ class QuotationRequestForm(models.Model):
                 total_untax += l.sub_total
                 total_ppn11 += l.total_tax_11
                 total_pph23 += l.total_tax_pph23
-                total_untax_2 += l.price_total
+                total_untax_2 += l.price_discount
             amount_discount = total_untax * rec.discount_rate / 100 if rec.discount_type == 'percent' else rec.discount_rate
 
             total_price_discount = total_untax - amount_discount
-            total_price_discount_2 = total_untax_2 - amount_discount
-            total_tax1 = total_price_discount * (rec.tax_id.amount / 100)
             total_tax = total_untax * (rec.tax_id.amount / 100)
-            total_tax_2 = total_price_discount_2 * (rec.tax_id.amount / 100)
-            if rec.type == '1':
-                rec.amount_tax = total_tax1
-            elif rec.type in ('2','4'):
-                rec.amount_tax = total_tax
-            
+            total_tax_2 = total_price_discount * (rec.tax_id.amount / 100)
+            rec.amount_tax = total_tax
             rec.amount_untaxed = total_untax
-            if rec.type == '1':
-                rec.amount_total = total_price_discount + total_tax1 - (rec.pph23_tax)
-            elif rec.type in ('2','4'):
-                rec.amount_total = total_untax + total_tax - (rec.pph23_tax)
+            rec.amount_total = total_untax + total_tax - (rec.pph23_tax)
             rec.amount_discount = amount_discount
             rec.amount_tax_11 = total_ppn11
             rec.amount_tax_pph23 = total_pph23
             rec.amount_subtotal = total_untax - amount_discount
             rec.amount_untaxed_2 = total_untax_2
-            rec.amount_total_2 = total_price_discount_2 + total_tax_2
-            #  - (rec.pph23_tax)
+            rec.amount_total_2 = total_price_discount + total_tax_2 - (rec.pph23_tax)
             rec.amount_tax_2 = total_tax_2
-            rec.amount_price_discount_2 = total_price_discount_2
             rec.amount_price_discount = total_price_discount
 
 
 
     @api.model
     def create(self, vals):            
-        # if vals.get('qrf_attachment_line_ids'):
-        #     vals['state'] = 'qrf_upload'
-        # if vals.get('drawing_attachment_line_ids'):
-        #     vals['state'] = 'dwg_upload'
-        # if vals.get('po_attachment_line_ids'):
-        #     vals['state'] = 'po_upload'
+        if vals.get('qrf_attachment_line_ids'):
+            vals['state'] = 'qrf_upload'
+        if vals.get('drawing_attachment_line_ids'):
+            vals['state'] = 'dwg_upload'
+        if vals.get('po_attachment_line_ids'):
+            vals['state'] = 'po_upload'
         #     vals​.update({'state': 'qrf_upload'})
         seq_id = self.env.ref('master_specifications.qrf_seq')
         vals['name'] = seq_id.next_by_id() if seq_id else '/'
@@ -220,214 +164,18 @@ class QuotationRequestForm(models.Model):
         return res
 
     
-    # def write(self, values):
-    #     if values.get('qrf_attachment_line_ids'):
-    #         values['state'] = 'qrf_upload'
-    #     if values.get('drawing_attachment_line_ids'):
-    #         values['state'] = 'dwg_upload'
-    #     if values.get('po_attachment_line_ids'):
-    #         values['state'] = 'po_upload'
-    #     res = super(QuotationRequestForm, self).write(values)
-    #     return res
-
-    # ("draft", "QRF"), 
-    #     # ("confirm", "Approval Requested"), 
-    #     ("qrf_upload", "Drawing"), 
-    #     ("dwg_upload", "Details"),
-    #     ("waiting", "Awaiting Approval"), 
-    #     ("approved", "Approved"), 
-    #     ("po_upload", "PO"),
-    #     ("so_upload", "SO"),
-    #     ("sj_upload", "SJ"),
-    #     ("done", "Done")
+    def write(self, values):
+        if values.get('qrf_attachment_line_ids'):
+            values['state'] = 'qrf_upload'
+        if values.get('drawing_attachment_line_ids'):
+            values['state'] = 'dwg_upload'
+        if values.get('po_attachment_line_ids'):
+            values['state'] = 'po_upload'
+        res = super(QuotationRequestForm, self).write(values)
+        return res
     
     def action_confirm(self):
-        self.state = 'waiting'
-    
-    def action_confirm_qrf(self):
-        self.state = 'qrf_upload'
-
-    def action_confirm_dwg(self):
-        self.state = 'dwg_upload'
-
-    def action_revise_qrf(self):
-        return {
-            'type'      : 'ir.actions.act_window',
-            'name'      : "Send",
-            'res_model' : 'revise.wizard',
-            'target'    : 'new',
-            'view_id'   : self.env.ref('master_specifications.revise_wizard_form').id,
-            'view_mode' : 'form',
-            'context'   : {'default_qrf_id': self.id,},
-        }
-
-    def action_req_approval(self):
-        self.state = 'waiting'
-
-    def action_revise_dwg(self):
-        return {
-            'type'      : 'ir.actions.act_window',
-            'name'      : "Send",
-            'res_model' : 'revise.wizard',
-            'target'    : 'new',
-            'view_id'   : self.env.ref('master_specifications.revise_wizard_form').id,
-            'view_mode' : 'form',
-            'context'   : {'default_qrf_id': self.id,},
-        }
-
-    def action_approved(self):
-        self.state = 'approved'
-
-    def action_confirm_order(self):
-        self.state = 'po_upload'
-
-    def action_revise_detail(self):
-        return {
-            'type'      : 'ir.actions.act_window',
-            'name'      : "Send",
-            'res_model' : 'revise.wizard',
-            'target'    : 'new',
-            'view_id'   : self.env.ref('master_specifications.revise_wizard_form').id,
-            'view_mode' : 'form',
-            'context'   : {'default_qrf_id': self.id,},
-        }
-
-    def action_confirm_po(self):
-        self.state = 'so_upload'
-
-    def action_cancel_po(self):
-        return {
-            'type'      : 'ir.actions.act_window',
-            'name'      : "Send",
-            'res_model' : 'revise.wizard',
-            'target'    : 'new',
-            'view_id'   : self.env.ref('master_specifications.cancel_wizard_form').id,
-            'view_mode' : 'form',
-            'context'   : {'default_qrf_id': self.id,},
-        }
-
-
-    def action_send_to_customer(self):
-        if not self.so_id.id:
-            self.action_create_so()
-        if not self.report_file:
-            self.generate_report_file()
-        return {
-            'type'      : 'ir.actions.act_window',
-            'name'      : "Send Mail",
-            'res_model' : 'customer.mail.wizard',
-            'target'    : 'new',
-            'view_id'   : self.env.ref('master_specifications.send_customer_mail_form').id,
-            'view_mode' : 'form',
-            'context'   : {'default_qrf_id': self.id, 
-             'default_so_ids': self.report_file.datas,
-             'default_recipients': self.partner_id.name,
-             'default_mail_recipients': self.pic_email,
-            #  'default_body': '<h1>-</h1>',
-             'default_subject': '-'
-            },
-           
-        }
-
-    def action_send_production(self):
-        
-        mrp = self.env['mrp.production'].search([('dqups_id','=',self.id)])
-
-        if not self.so_id.id:
-            raise ValidationError("Please click the Send to Customer Button first to generate SO number")
-        else:
-        # elif not mrp:
-            # data = []
-            # # mrp = self.env['mrp.production']
-            # # rr_id = self.env['request.requisition']
-            # for l in self.line_ids.filtered(lambda x:x.jenis_id.type == 'produk'):
-            #     product = self.env['product.product'].search([('name','=',l.name)],limit=1)
-            #     if not product :
-            #         product = self.env['product.product'].create({
-            #             "name":l.name,
-            #             "type":"product",
-            #             # "product_tmpl_id":line.name,
-            #             "categ_id": 27, #category : Finished Goods
-            #         })
-
-            #     mo_id = self.env['mrp.production'].create({       
-            #         # 'name'          : self.name.replace("Q","SO"),
-            #         'dqups_id'      : self.id,    
-            #         # 'type_id'       : 2,                
-            #         'product_id'    : product.id,
-            #         'product_qty'   : l.quantity,
-            #         'mrp_qty_produksi'  : l.quantity,
-            #         'billing_address'   : self.billing_address,
-            #         'shipping_address'  : self.shipping_address.id,
-            #         'product_uom_id': 1,
-            #         'partner_id': self.partner_id.id, 
-            #         'ref_so_id' : self.so_id.id  
-            #     })
-            data = []
-            for line in self.line_ids.filtered(lambda x:x.jenis_id.type == 'produk'):
-            # if self.jenis_id in line.jenis_ids: 
-                data.append((0, 0, {
-                    'qrf_id': self.id,
-                    'jenis_id': line.jenis_id.id,
-                    'name': line.name,
-                    "quantity": line.quantity,
-                    'mo_id': line.mo_id.id,
-                }))
-
-            return {
-                'type'      : 'ir.actions.act_window',
-                'name'      : "Detail",
-                'res_model' : 'send.production.wizard',
-                'target'    : 'new',
-                'view_id'   : self.env.ref('master_specifications.send_production_wizard_form').id,
-                'view_mode' : 'form',
-                'context'   : {'default_line_ids': data}
-                # 'context'   : {'default_qrf_id': self.id,},
-            }
-                # data.append((0,0,{
-                #         'product_id':product.id,
-                #         'spesification':l.name,
-                #         'quantity':l.quantity,
-                #         }))
-                # rr_id.create({
-                #         'dqups_id':self.id,               
-                #         'product_id'    : product.id,
-                #         # 'name': self.name.replace("Q","RR"),
-                #         'location_id': 8,
-                #         'warehouse_id': 2,
-                #         'internal_transfer_picking': 21,
-                #         # 'order_ids': data
-                #         'mrp_id': mo_id.id,
-                #     })
-                # self.write({'rr_ids': rr_id.ids})
-                
-
-    def action_view_rr(self):
-        action = self.env.ref('request_requisition.request_requisition_list_action').read()[0]
-        action['domain'] = [('dqups_id','=',self.id)]
-        action['context'] = {}
-        return action
-
-    def action_view_production(self):
-        action = self.env.ref('mrp.mrp_production_action').read()[0]
-        action['domain'] = [('dqups_id','=',self.id)]
-        action['context'] = {}
-        return action
-
-
-    def action_confirm_sj(self):
-        self.state = 'done'
-        if self.picking_out_ids.sj_attachment_ids == False :    
-           raise ValidationError('Silakan lengkapin dokumen Surat Jalan')
-
-
-    def action_view_picking_list(self):
-        # picking_obj = self.env['stock.picking'].search([('origin', '=', self.so_id.id)])
-        action = self.env.ref('stock.action_picking_tree_all').read()[0]
-        action['domain'] = [('origin', '=', self.so_id.name)]
-        action['context'] = {}
-        return action
-
+        self.state = 'confirm'
 
     def action_create_so(self):
         # self.state = 'order_processed'
@@ -451,7 +199,7 @@ class QuotationRequestForm(models.Model):
                     }))
         sale_order_id = self.env['sale.order'].create({
                     'dqups_id':self.id,
-                    'name':self.name.replace("Q","SO"),
+                    'name':self.name,
                     'partner_id':self.partner_id.id,
                     'date_order':self.date,
                     'payment_term_id': self.payment_terms,
@@ -467,7 +215,6 @@ class QuotationRequestForm(models.Model):
                     # 'term_of_payment': self.payment_terms,
                     'order_line': data
                 })
-        self.write({'so_id': sale_order_id.id})
 
     def action_view_so(self):
         action = self.env.ref('sale.action_quotations_with_onboarding').read()[0]
@@ -518,13 +265,13 @@ class QuotationRequestForm(models.Model):
                 rec.attn_ids = [(6, 0, rec.partner_id.attn_ids.ids)]
             else:
                 rec.attn_ids = False
-#note tj
+
     def action_approve(self):
         self.state = 'approved'
 
     def action_process(self):
         self.processed = True
-        # self.state = 'order_processed'
+        self.state = 'order_processed'
 
     def action_done(self):
         self.state = 'done'
@@ -537,7 +284,7 @@ class QuotationRequestForm(models.Model):
 
     def action_cancel_approve(self):
         self.state = 'approved'
-#note tj
+
     def action_print(self):
         return {
             'type'      : 'ir.actions.act_window',
@@ -592,8 +339,7 @@ class QuotationRequestFormLine(models.Model):
     
     qrf_id = fields.Many2one('quotation.request.form', string='QRF')
     jenis_id = fields.Many2one('master.jenis', string='Jenis')
-    jenis2_id = fields.Many2one('master.jenis', string='Jenis 2')
-    line_spec_ids = fields.One2many('quotation.request.form.line.specification', 'qrf_line_id', 'Line Spec', ondelete='cascade')
+    line_spec_ids = fields.One2many('quotation.request.form.line.specification', 'qrf_line_id', 'Line Spec')
     name = fields.Char(string='Description')
     quantity = fields.Integer(string='Quantity', compute='compute_quantity')
     price_unit = fields.Float(string='Price Unit', compute='_compute_price_unit')
@@ -601,7 +347,8 @@ class QuotationRequestFormLine(models.Model):
     sub_total = fields.Float(string='Sub Total', compute='_compute_amount')
     state = fields.Selection(
         [("draft", "Draft"), ("confirm", "Confirm")], string='State', default='draft')
-    mo_id = fields.Many2one('mrp.production', string='MO')
+
+
     product_id = fields.Many2one('product.product', string='Product')
     embos = fields.Char(string='Embos')
     tip = fields.Char(string='Tip')
@@ -634,7 +381,6 @@ class QuotationRequestFormLine(models.Model):
                                         compute='_compute_amount',
                                         digits=dp.get_precision('Account'))
     price_discount = fields.Float(string='Price After Discount', compute='_compute_amount')
-    price_total = fields.Float(string='Sub Total', compute='_compute_amount')
 
     @api.depends('sub_total', 'tax_ids', 'qrf_id.type')
     def _compute_amount(self):
@@ -649,8 +395,6 @@ class QuotationRequestFormLine(models.Model):
             tot_price_disc = rec.price_unit - amount_discount
             tot_subtotal = tot_price_disc * rec.quantity
             rec.amount_tax = total_tax
-            price_unit_total = sum(rec.line_spec_ids.mapped('total'))
-            rec.price_total = price_unit_total * rec.quantity
             # rec.amount_untaxed = total_untax
             # rec.amount_total = total_tax + total_untax - amount_discount
             rec.amount_discount = amount_discount
@@ -658,10 +402,10 @@ class QuotationRequestFormLine(models.Model):
 
             if rec.qrf_id.type == '1':
                 rec.sub_total = rec.quantity * rec.price_unit
-            elif rec.qrf_id.type in ('2','4'):
+            elif rec.qrf_id.type == '2':
                 rec.sub_total = rec.quantity * rec.price_discount
             elif rec.qrf_id.type == '3':
-                rec.sub_total = price_unit_total
+                rec.sub_total = sum(rec.line_spec_ids.mapped('total'))
             # rec.sub_total = tot_subtotal
     
     @api.depends('sub_total', 'tax_ids')
@@ -741,7 +485,7 @@ class QuotationRequestFormLine(models.Model):
                     list_qty.append((0, 0, {
                         'qty_id': line.id
                     }))
-                self.line_qty_ids = list_qty
+                self.line_qty_ids = list_qty 
             action = self.env.ref('master_specifications.quotation_request_form_line_action').read()[0]
             action['res_id'] = self.id
             return action
@@ -749,18 +493,6 @@ class QuotationRequestFormLine(models.Model):
             action = self.env.ref('master_specifications.dqups3_line_action').read()[0]
             action['res_id'] = self.id
             return action
-
-    @api.onchange('jenis_id')
-    def onchange_jenis_id(self):
-        if self.jenis_id.id != self.jenis2_id.id:
-            self.jenis2_id = self.jenis_id
-            for i in self.line_spec_ids:
-                i.unlink()
-            for i in self.line_qty_ids:
-                i.unlink()
-    
-
-
 
     # @api.onchange('qty')
     def action_refresh_spec(self):
@@ -896,14 +628,10 @@ class QuotationRequestFormLineSpecification(models.Model):
     @api.onchange('unit')
     def onchange_qty(self):
         for rec in self:
-            # if rec.qrf_line_id.qrf_id.type != '3':
-            #     if rec.unit.id == 73:
-            #         rec.qty = rec.qrf_line_id.line_qty_ids.qty
-            #     else :
-            #         rec.qty = 0
-            if rec.qrf_line_id.qrf_id.type == '3':
-                if rec.unit.id == 73:
-                    rec.qty = 1
+            if rec.unit.id == 73:
+                rec.qty = rec.qrf_line_id.line_qty_ids.qty
+            else :
+                rec.qty = 0
 
 class QuotationRequestFormLineQuantity(models.Model):
     _name = 'quotation.request.form.line.quantity'
@@ -946,23 +674,13 @@ class QrfAttachment(models.Model):
     notes = fields.Text(string='Notes')
     new_product = fields.Selection(
         [("yes", "Yes"), ("no", "No")], string='New Product', default='yes')
-    new_product2 = fields.Selection(
-        [("yes", "Yes"), ("no", "No")], string='New Product', default='yes')
     comp_partial = fields.Selection(
-        [("complete", "Complete"), ("partial", "Partial")], string='Complete/Partial', default='complete')
-    comp_partial2 = fields.Selection(
         [("complete", "Complete"), ("partial", "Partial")], string='Complete/Partial', default='complete')
     turret = fields.Selection(
         [("yes", "Yes"), ("no", "No")], string='Reference Turret <= 5 years?', default='yes')
-    turret2 = fields.Selection(
-        [("yes", "Yes"), ("no", "No")], string='Reference Turret <= 5 years?', default='yes')
     tooling = fields.Selection(
         [("eu_tsm", "EU / TSM"), ("other", "Other")], string='Tooling Type', default='eu_tsm')
-    tooling2 = fields.Selection(
-        [("eu_tsm", "EU / TSM"), ("other", "Other")], string='Tooling Type', default='eu_tsm')
     tooling_qc = fields.Selection(
-        [("altinex", "Altinex"), ("other", "Other")], string='Current Tools producing qc-pass tablets', default='altinex')
-    tooling_qc2 = fields.Selection(
         [("altinex", "Altinex"), ("other", "Other")], string='Current Tools producing qc-pass tablets', default='altinex')
     con_ids = fields.One2many('qrf.attachment.conclusion', 'qrf_attachment_id', 'Detail')
     download_inform_consent_ids = fields.Binary(related="attchment_inform_consent_id.attch_inform_consent", string='Download Inform Consent',)
@@ -977,29 +695,6 @@ class QrfAttachment(models.Model):
     # con3_id = fields.Many2one('conclusion', string='Conclusion 3',)
     # con4_id = fields.Many2one('conclusion', string='Conclusion 4',)
     # con5_id = fields.Many2one('conclusion', string='Conclusion 5',)
-
-    @api.onchange('new_product','comp_partial','turret','tooling','tooling_qc')
-    def onchange_qrf(self):
-        if self.new_product != self.new_product2:
-            self.new_product2 = self.new_product
-            for i in self.con_ids:
-                i.unlink()
-        elif self.comp_partial != self.comp_partial2:
-            self.comp_partial2 = self.comp_partial
-            for i in self.con_ids:
-                i.unlink()
-        elif self.turret != self.turret2:
-            self.turret2 = self.turret
-            for i in self.con_ids:
-                i.unlink()
-        elif self.tooling != self.tooling2:
-            self.tooling2 = self.tooling
-            for i in self.con_ids:
-                i.unlink()
-        elif self.tooling_qc != self.tooling_qc2:
-            self.tooling_qc2 = self.tooling_qc
-            for i in self.con_ids:
-                i.unlink()
 
     def create_qrf_attch_conclusion(self):
         self.ensure_one()
@@ -1019,10 +714,6 @@ class QrfAttachment(models.Model):
                     # 'con_id': [(6, 0, line.con_ids.con_id.ids)]
             self.con_ids = data 
 
-        action = self.env.ref('master_specifications.qrf_att_con_action').read()[0]
-        action['res_id'] = self.id
-        return action
-
 
         
         # data = []
@@ -1041,6 +732,12 @@ class QrfAttachment(models.Model):
         #     })
         #     return data
         # self.con_ids = data 
+        
+
+        action = self.env.ref('master_specifications.qrf_att_con_action').read()[0]
+        action['res_id'] = self.id
+        return action
+
 class QrfAttachmentConclusion(models.Model):
     _name = 'qrf.attachment.conclusion'
 
@@ -1064,22 +761,4 @@ class PoAttachment(models.Model):
 
     qrf_id = fields.Many2one('quotation.request.form', string='QRF')
     po_attachment_ids = fields.Binary('PO', required=True)
-    attachment_name = fields.Char('Name')
-
-class SjAttachment(models.Model):
-    _name = 'sj.attachment'
-
-    qrf_id = fields.Many2one('quotation.request.form', string='QRF')
-    sj_attachment_ids = fields.Binary('Surat Jalan', required=True)
-    attachment_name = fields.Char('Name')
-    picking_out_id = fields.Many2one('stock.picking', string="No DO")
-    #harusnya ambil dari so_id yang di create delivery out yang status nya DONE
-    ref = fields.Char(related='picking_out_id.origin', string='No Ref')
-
-
-class StockPicking(models.Model):
-    _inherit = 'stock.picking'
-
-    dqups_id = fields.Many2one('quotation.request.form', string="DQUPS")
-    sj_attachment_ids = fields.Binary('Surat Jalan', required=True)
     attachment_name = fields.Char('Name')
