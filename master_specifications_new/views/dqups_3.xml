@@ -287,7 +287,7 @@
         <menuitem
             id="dqups_3_new-menu"
             name="D-QUPS 3"
-            action="dqups3_line_action_new"
+            action="dqups_3_action_new"
             parent="specifications_root_new_menu"
             sequence="3"/>
     
