@@ -226,7 +226,7 @@
 
 
 
-        <menuitem id="main_stock_point_order" name="Stock Point Order" web_icon="stock_point_order,static/description/icon.png">
+        <menuitem id="main_stock_point_order" name="Stock Point Order" web_icon="stock_point_order/static/description/icon.png">
             <menuitem id="menu_stock_point_order" name="Stock Point Order" sequence="1">
                 <menuitem id="submenu_stock_point_order" name="Stock Point Order" sequence="1" action="stock_point_order_action" />
             </menuitem>

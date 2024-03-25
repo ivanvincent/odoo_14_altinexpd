@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
@@ -34,3 +35,41 @@
     
 
 </odoo>
+=======
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="inform_consent_wizard_form_new" model="ir.ui.view">
+            <field name="name">inform.consent.wizard.new.form</field>
+            <field name="model">inform.consent.wizard.new</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <h1>Apakah anda yakin?</h1>
+                    </sheet>
+                    <footer>
+                        <button name="action_print" type="object" string="Print" class="oe_highlight"/>
+                        <button name="cancel" type="special" string="Cancel" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="inform_consent_wizard_action_new" model="ir.actions.act_window">
+            <field name="name">Form Informed Consent New</field>
+            <field name="res_model">inform.consent.wizard.new</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+
+
+    
+    </data>
+    
+
+</odoo>
+>>>>>>> 42cdb9030f851b5fe403eed06a6fc058da9468d8

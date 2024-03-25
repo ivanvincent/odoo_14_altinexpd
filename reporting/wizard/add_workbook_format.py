@@ -6,7 +6,7 @@ from odoo.exceptions import UserError
 def add_workbook_format(workbook):
     colors = {
         'white_orange': '#FFFFDB',
-        'orange': '#FFC300',
+        'orange': '#FF  C300',
         'red': '#FF0000',
         'yellow': '#F6FA03',
         'white': '#FFFFFF'

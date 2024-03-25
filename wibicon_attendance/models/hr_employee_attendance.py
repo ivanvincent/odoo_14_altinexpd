@@ -50,6 +50,7 @@ class HrPayslip(models.Model):
                         ("11","November %s" % current_year),
                         ("12","Desember %s" % current_year),
                         ],string='Month Selection')
+    
 
     @api.onchange('month_selection')
     def onchange_date_selector(self):
@@ -157,7 +158,7 @@ class HrPayslip(models.Model):
             'name':'Cuti Tahunan',
             'sequence':90,
             'code':'CTH',
-            'number_of_days': self.get_duration_time_off('Cuti Tahunan (2023)'),
+            'number_of_days': self.get_duration_time_off('Cuti Tahunan'),
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
         
@@ -180,63 +181,88 @@ class HrPayslip(models.Model):
             'sequence':10,
             'code':'LEMBUR',
             'amount': 0.0,
-            'contract_id': self.contract_id.id})
+            'contract_id': self.contract_id.id,
+            'note':''})
         
         res.append({
             'name':'Bonus Bulanan',
             'sequence':20,
             'code':'BONUS',
             'amount': 0.0,
-            'contract_id': self.contract_id.id})
+            'contract_id': self.contract_id.id,
+            'note':''})
 
         res.append({
             'name':'Tunjangan PPh',
             'sequence':30,
             'code':'TPPH',
             'amount': 0.0,
-            'contract_id': self.contract_id.id})
+            'contract_id': self.contract_id.id,
+            'note':''})
 
         res.append({
             'name':'Tunjangan Kesehatan Non-BPJS',
             'sequence':40,
             'code':'FASKES',
             'amount': 0.0,
-            'contract_id': self.contract_id.id})
+            'contract_id': self.contract_id.id,
+            'note':''})
         
         res.append({
             'name':'Bonus Tahunan',
             'sequence':50,
             'code':'BOTA',
             'amount': 0.0,
-            'contract_id': self.contract_id.id})
+            'contract_id': self.contract_id.id,
+            'note':''})
 
         res.append({
             'name':'Tunjangan Hari Raya',
             'sequence':60,
             'code':'THR',
             'amount': 0.0,
-            'contract_id': self.contract_id.id})
+            'contract_id': self.contract_id.id,
+            'note':''})
 
         res.append({
             'name':'Potongan Resmi',
             'sequence':70,
             'code':'POTONG',
             'amount': 0.0,
-            'contract_id': self.contract_id.id})
+            'contract_id': self.contract_id.id,
+            'note':''})
 
         res.append({
-            'name':'Cicilan PPH21',
+            'name':'Piutang Karyawan',
             'sequence':80,
+            'code':'PIKA',
+            'amount': 0.0,
+            'contract_id': self.contract_id.id,
+            'note':''})
+        
+        res.append({
+            'name':'Cicilan PPH21',
+            'sequence':90,
             'code':'POTPPH',
             'amount': 0.0,
-            'contract_id': self.contract_id.id})
+            'contract_id': self.contract_id.id,
+            'note':''})
         
         res.append({
             'name':'Kurang Lebih Bayar',
-            'sequence':90,
+            'sequence':100,
             'code':'KLB',
             'amount': 0.0,
-            'contract_id': self.contract_id.id})
+            'contract_id': self.contract_id.id,
+            'note':''})
+        
+        res.append({
+            'name':'Pesangon',
+            'sequence':110,
+            'code':'PSN',
+            'amount': 0.0,
+            'contract_id': self.contract_id.id,
+            'note':''})
 
         return res
 
@@ -298,7 +324,6 @@ class HrPayslip(models.Model):
                                              ('holiday_status_id', '=', leave_type.id),
                                              ('state', '=', 'validate')])
         return sum(leave.mapped('number_of_days'))
-
 
 
 class Hr_employee_attendance(models.Model):
@@ -419,36 +444,30 @@ class HRAttendance(models.Model):
     tanggal = fields.Date(string='Tanggal')
     check_in = fields.Datetime(string="Check In", default=fields.Datetime.now, required=True)
     check_out = fields.Datetime(string="Check Out")
-    print("check_in: %s " % check_in)
-    print("check_out: %s " % check_out)
-    
 
-    @api.model
-    def create(self, vals):
-        if 'check_out' in vals :
-            # check overtime
-            DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
-            if vals['check_out'] :
-                # import pdb;pdb.set_trace()
-                # check_out = datetime.strptime(str(vals['check_out']), DATETIME_FORMAT)
-                check_out = dateutil.parser.parse(str(vals['check_out'])).date()
-                sign_in = dateutil.parser.parse(str(vals['check_in'])).date()
-                state = 'validate'
-                emp_over = self.env['hr.overtime.employee'].search([('employee_id','=',vals['employee_id']),
-                                                                    ('overtime_id.tgl_lembur','=',sign_in),
-                                                                    ('overtime_id.state','=',state)])
-                if emp_over:
-                    lembur = 0
-                    for eo in emp_over:
-                        start_ovt = datetime.strptime(eo.overtime_id.date_from, DATETIME_FORMAT)
-                        end_ovt = datetime.strptime(eo.overtime_id.date_to, DATETIME_FORMAT)
-                        if check_out > start_ovt and check_out <= end_ovt:
-                            selisih = check_out - start_ovt 
-                            lembur = (float(selisih.seconds) / 3600)
-                        elif check_out > end_ovt :
-                            lembur = eo.overtime_id.number_of_hours_temp
-                        eo.write({"ovt_hour":round(lembur,2)})
-        return super(HRAttendance, self).create(vals)
+    # @api.model
+    # def create(self, vals):
+    #     if 'check_out' in vals :
+    #         DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+    #         if vals['check_out'] :
+    #             check_out = dateutil.parser.parse(str(vals['check_out'])).date()
+    #             sign_in = dateutil.parser.parse(str(vals['check_in'])).date()
+    #             state = 'validate'
+    #             emp_over = self.env['hr.overtime.employee'].search([('employee_id','=',vals['employee_id']),
+    #                                                                 ('overtime_id.tgl_lembur','=',sign_in),
+    #                                                                 ('overtime_id.state','=',state)])
+    #             if emp_over:
+    #                 lembur = 0
+    #                 for eo in emp_over:
+    #                     start_ovt = datetime.strptime(eo.overtime_id.date_from, DATETIME_FORMAT)
+    #                     end_ovt = datetime.strptime(eo.overtime_id.date_to, DATETIME_FORMAT)
+    #                     if check_out > start_ovt and check_out <= end_ovt:
+    #                         selisih = check_out - start_ovt 
+    #                         lembur = (float(selisih.seconds) / 3600)
+    #                     elif check_out > end_ovt :
+    #                         lembur = eo.overtime_id.number_of_hours_temp
+    #                     eo.write({"ovt_hour":round(lembur,2)})
+    #     return super(HRAttendance, self).create(vals)
 
 HRAttendance()
 
@@ -547,6 +566,11 @@ class Hremployee(models.Model):
     
     hr_employee_absence = fields.One2many('hr.attendance', 'employee_id', string='Employee absent')
 
+class HrPayslipInput(models.Model):
+    _inherit = 'hr.payslip.input'
+
+    note = fields.Char(string="Notes")
+    text_message = fields.Char(string = "TEXT")
 # class Hremployee(models.Model):
 #     _name = 'hr.employee.absence'
 

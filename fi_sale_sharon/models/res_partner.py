@@ -118,7 +118,7 @@ class Partner(models.Model):
 										('alfagroup','Alfa Group'),
 										('lainnya','Lainnya')
 									],"Partner Account",default="lainnya")
-	kode_mkt        = fields.Selection([("L","L"),("K","K")],string='Kode MKT')
+	kode_mkt = fields.Selection([("cash","Cash"),("card","Card")], string='Payment Method')
 
 
 	def _get_name(self):

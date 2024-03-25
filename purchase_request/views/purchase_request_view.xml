@@ -11,8 +11,8 @@
                     <button name="button_draft" states="to_approve,approved,rejected,done" string="Reset" type="object" groups="purchase_request.group_purchase_request_manager" />
                     <button name="button_to_approve" states="draft" string="Request approval" type="object" class="oe_highlight" />
                     <button name="button_approved" states="to_approve" string="Approve" type="object" class="oe_highlight" groups="purchase_request.group_purchase_request_approver" />
-                    <button name="%(action_purchase_request_line_make_purchase_order)d" states="approved" string="Create RFQ" type="action" />
-                    <button name="button_done" states="approved" string="Done" type="object" class="oe_highlight" groups="purchase_request.group_purchase_request_manager" />
+                    <button name="%(action_purchase_request_line_make_purchase_order)d" states="approved" string="Create PO" type="action" />
+                    <!-- <button name="button_done" states="approved" string="Done" type="object" class="oe_highlight" groups="purchase_request.group_purchase_request_manager" /> -->
                     <button name="button_rejected" states="to_approve,approved" string="Reject" type="object" groups="purchase_request.group_purchase_request_manager" />
                     <field name="state" widget="statusbar" statusbar_visible="draft,to_approve,approved,done,rejected" statusbar_colors='{"approved":"blue"}' />
                 </header>
@@ -39,20 +39,22 @@
                     </h1>
                     <group>
                         <group>
-                            <field name="requested_by" attrs="{'readonly': [('is_editable','=', False)]}" options="{'no_open': True, 'no_create': True}" />
-                            <field name="assigned_to" attrs="{'readonly': [('is_editable','=', False)]}" options="{'no_open': True, 'no_create': True}"/>
-                            <field name="date_start" attrs="{'readonly': [('is_editable','=', False)]}" />
-                            <field name="picking_type_id" attrs="{'readonly': [('is_editable','=', False)]}" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="requested_by" readonly="1" options="{'no_open': True, 'no_create': True}" />
+                            <field name="assigned_to" readonly="1" options="{'no_open': True, 'no_create': True}" attrs="{'invisible':[('assigned_to', '=', False)]}"/>
+                            <field name="date_start" readonly="1" />
+                            <!-- <field name="tipe_permintaan" required="1" readonly="1"/> -->
                             <field name="location_id" invisible="1"/>
-                            <field name="po_categ_id" attrs="{'readonly': [('is_editable','=', False)]}" />
+                            <field name="po_categ_id" attrs="{'readonly': [('is_editable','=', False)]}" required="1"/>
+                            <field name="picking_type_id" readonly="1" options="{'no_open': True, 'no_create': True}" invisible="1"/>
+                            <!-- <field name="product_category_ids" attrs="{'readonly': [('is_editable','=', False)]}" widget='many2many_tags' required="1" readonly="1" /> -->
+                            <field name="product_category_ids" attrs="{'readonly': [('is_editable','=', False)]}" widget='many2many_tags' required="0" readonly="1" invisible="1"/>
                         </group>
                         <group>
                             <field name="origin" class="oe_inline" attrs="{'readonly': [('is_editable','=', False)]}" />
-                            <field name="group_id" readonly="1" />
-                            <field name="no_komunikasi" readonly="1" />
+                            <!-- <field name="group_id" readonly="1" />
+                            <field name="no_komunikasi" readonly="1" /> -->
                             <field name="description" attrs="{'readonly': [('is_editable','=', False)]}" />
-                            <field name="tipe_permintaan"/>
-                            <field name="date_line"/>
+                            <!-- <field name="date_line"/> -->
                             <field name="company_id" groups="base.group_multi_company" widget="selection" attrs="{'readonly': [('is_editable','=', False)]}" />
                         </group>
                     </group>
@@ -60,19 +62,27 @@
                         <page string="Products">
                             <field name="line_ids">
                                 <tree decoration-muted="cancelled == True" editable="bottom">
-                                    <field name="product_id" options="{'no_open': True, 'no_create': True}" />
+                                    <field name="product_category_ids" invisible="1"/>
+                                    <field name="product_id"
+                                    domain="[('categ_id', '=', parent.product_category_ids)]"  />
                                     <field name="name" />
-                                    <field name="lot_id" domain="[('product_id', '=', product_id)]"/>
+                                    <!-- <field name="lot_id" domain="[('product_id', '=', product_id)]"/> -->
                                     <field name="specifications" />
-                                    <field name="grade_id" />
+                                    <!-- <field name="grade_id" /> -->
+                                    <field name="qty_pr"/>
+                                    <field name="product_uom_id" string="Satuan"  groups="uom.group_uom" options="{'no_open': True, 'no_create': True}" readonly="1"/>
+                                    <field name="conversion" readonly="1" force_save="1"/>
+                                    <field name="product_qty" sum="Total" required="1"/>
+                                    <field name="status_po" readonly="1" force_save="1"/>
                                     <field name="outstanding_po"/>
-                                    <field name="product_qty" sum="Total"/>
-                                    <field name="product_uom_id" string="Satuan"  groups="uom.group_uom" options="{'no_open': True, 'no_create': True}"/>
+                                    <field name="estimated_price"/>
+                                    <field name="subtotal_estimate"/>
                                     <!-- <field name="date_required" /> -->
-                                    <field name="date_dtg_brg"/>
-                                    <field name="no_komunikasi" />
+                                    <field name="date_dtg_brg" required="1"/>
+                                    <!-- <field name="no_komunikasi" /> -->
                                     <field name="qty_on_hand" />
                                     <button name="action_show_image" type="object" icon="fa-picture-o" width="0.1" role="img" title="Upload Image" />
+                                    <button name="action_show_image_product" type="object" icon="fa-picture-o" width="0.1" role="img" title="Image Product" />
                                     <field name="last_price" sum="last_price" invisible="1"/>
                                     <field name="estimated_cost" invisible="1" widget="monetary" groups="purchase_request.group_purchase_request_manager" />
                                     <field name="price" sum="price" invisible="1"/>
@@ -149,7 +159,7 @@
                 <!-- <field name="purchase_count" string="Purchase Count" /> -->
                 <field name="requested_by" />
                 <field name="assigned_to" />
-                <field name="picking_type_id" />
+                <!-- <field name="picking_type_id" /> -->
                 <group expand="0" string="Group By...">
                     <filter name="requested_by" string="Requested by" icon="fa-user" domain="[]" context="{'group_by':'requested_by'}" />
                     <filter name="assigned_to" string="Assigned to" icon="fa-user" domain="[]" context="{'group_by':'assigned_to'}" />
@@ -196,12 +206,33 @@
             </form>
         </field>
     </record>
+
+    <record id="purchase_request_image_product_form" model="ir.ui.view">
+        <field name="name">purchase.request.images.product.form</field>
+        <field name="model">purchase.request.line</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+                </header>
+                <sheet>
+                    <field name="image_product" widget="image"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
     <record id="purchase_request_line_action" model="ir.actions.act_window">
         <field name="name">Images</field>
         <field name="res_model">purchase.request.line</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
         <field name="view_id" ref="purchase_request.purchase_request_image_form"/>
+    </record>
+    <record id="purchase_request_line_image_action" model="ir.actions.act_window">
+        <field name="name">Images</field>
+        <field name="res_model">purchase.request.line</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="purchase_request.purchase_request_image_product_form"/>
     </record>
     <menuitem id="menu_purchase_request_pro_mgt" parent="purchase.menu_procurement_management" action="purchase_request_form_action" />
     <menuitem id="parent_menu_purchase_request" name="Purchase Requests" web_icon="purchase_request,static/description/icon.png" groups="group_purchase_request_user,group_purchase_request_manager" />

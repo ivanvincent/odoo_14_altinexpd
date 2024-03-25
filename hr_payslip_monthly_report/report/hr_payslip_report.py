@@ -33,8 +33,8 @@ class PayrollReportView(models.Model):
 
     now = date.today()
     month_day = monthrange(now.year, now.month)
-    start_date = fields.Date(string="Start Date", default=time.strftime('%Y-%m-01'), invisible=True)
-    end_date = fields.Date(string="End Date", default=time.strftime('%Y-%m-' + str(month_day[1]) + ''), invisible=True)
+    start_date = fields.Date(string="Start Date", default=time.strftime('%Y-%m-01'))
+    end_date = fields.Date(string="End Date", default=time.strftime('%Y-%m-' + str(month_day[1]) + ''))
     name = fields.Many2one('hr.employee', string='Employee')
     date_from = fields.Date(string='From')
     date_to = fields.Date(string='To')

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 
 <odoo>
@@ -100,3 +101,107 @@
         </template>
     </data>
 </odoo>
+=======
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record model="report.paperformat" id="paperformat_specifications_summary_up">
+            <field name="name">paperformat.specifications.summary.update.a4</field>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">17</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_right">10</field>
+            <field name="margin_left">10</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="action_specifications_summary_up" model="ir.actions.report">
+                <field name="name">Specification Summary UP</field>
+                <field name="model">quotation.request.form</field>
+                <field name="report_name">master_specifications.specification_summary_template_up</field>
+                <field name="report_file">master_specifications.specification_summary_template_up</field>
+                <field name="print_report_name">'%s' % object.name</field>
+                <field name="binding_model_id" ref="model_quotation_request_form"/>
+                <field name="binding_type">report</field>
+                <field name="paperformat_id" eval="paperformat_specifications_summary_up"/>
+            </record>
+
+        <template id="specification_summary_template_up">
+            <t t-foreach="docs.line_ids" t-as="line">
+                <div class="page">
+                  <t t-call="web.basic_layout">
+                    <div class="row mt32">
+                              <div class="col-6" style="margin-top: 5px">
+                              <span style="text-align: left; font-size: 20px">SPECIFICATION SUMMARY</span>
+                              </div>
+                              <div class="col-6" style="margin-top: 5px;text-align: left; font-size: 20px"> Quotation :
+                              <span t-esc="docs.name"/>
+                              </div>
+                          </div>
+                          <br/>
+  
+                          <div class="row mt32">
+                              <table width="100%" class="table-condensed" style="font-size: 16px;">
+                                  <thead>
+                                      <t t-set="no" t-value="1"/>
+                                          <tr>
+                                              <td class="text-left">
+                                                    <div class="row" style="background-color:#D9DDDC">
+                                                        <div class="col-1"/>#
+                                                        <div class="col-11">
+                                                          <strong><span t-esc="line.jenis_id.name"/></strong>
+                                                        </div>
+                                                    </div>
+                                                  <t t-foreach="line.line_spec_ids.filtered(lambda x: x.require_id.name).sorted(key=lambda b: b.require_id.urutan).mapped('require_id.name')" t-as="detail">
+                                                  <!-- <t t-foreach="set(line.line_spec_ids.mapped('require_id.name'))" t-as="detail"> -->
+                                                    <div class="row mt32">
+                                                        <div class="col-1"/>
+                                                        <div class="col-11">
+                                                          <strong><span t-esc="detail"/></strong>
+                                                        </div>
+                                                    </div>
+                                                    <t t-foreach="line.line_spec_ids.filtered(lambda x: x.specifications_id.spec_id.name == detail)" t-as="detail2">
+                                                      <div class="row mt32">
+                                                          <div class="col-1" style="text-align: center;">
+                                                            <span t-esc="no"/> <t t-set="no" t-value="no + 1"/>
+                                                          </div>
+                                                          <div class="col-3">
+                                                            <span t-field="detail2.specifications_id.desc"/>
+                                                          </div>
+                                                          <div class="col-2">
+                                                            <span t-field="detail2.spect_name"/>
+                                                          </div>
+                                                          <div class="col-2" style="text-align: right">
+                                                            <span t-field="detail2.harga"/>
+                                                          </div>
+                                                          <div class="col-2" style="text-align: right">
+                                                            <span t-field="detail2.subtotal"/>
+                                                          </div>
+                                                          <div class="col-2" style="text-align: right">
+                                                            <span t-field="detail2.total"/>
+                                                          </div>
+                                                      </div>
+                                                    </t>
+                                                  </t>
+                                              </td>
+                                          </tr>
+                                  </thead>
+                                  <tbbody>
+                                  </tbbody>
+                                  
+                              </table>
+                          </div>
+
+                  
+                  </t>
+                </div>
+              </t>
+        </template>
+    </data>
+</odoo>
+>>>>>>> 42cdb9030f851b5fe403eed06a6fc058da9468d8

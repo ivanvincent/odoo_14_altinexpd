@@ -28,7 +28,7 @@
                 </xpath>
 
                 <xpath expr="//field[@name='origin']" position="after">
-                    <field name="vehicle_id" groups="request_requisition.group_request_requisition_user_vehicle"/>
+                    <!-- <field name="vehicle_id" groups="request_requisition.group_request_requisition_user_vehicle"/> -->
                 </xpath>
 
 
@@ -83,5 +83,33 @@
             <field name="code">model.action_journal_mutation(records)</field>
         </record>
 
+        <record id="stock_move_line_operation" model="ir.ui.view">
+            <field name="name">stock.move.operations.nosuggest.form </field>
+                <field name="model">stock.move.line</field>
+                <field name="inherit_id" ref="stock.view_stock_move_line_operation_tree" />
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='location_dest_id']" position="after">
+                        <field name="heat_number"/>
+                    </xpath>
+
+                    <xpath expr="//field[@name='lot_id']" position="replace">
+                        <field name="lot_id" groups="stock.group_production_lot"
+                            attrs="{'readonly': ['&amp;', ('package_level_id', '!=', False), ('parent.picking_type_entire_packs', '=', True)]}"
+                            domain="[('product_id', '=', parent.product_id), ('company_id', '=', company_id)]"
+                            context="{
+                                'active_picking_id': picking_id,
+                                'default_company_id': parent.company_id,
+                                'default_product_id': parent.product_id,
+                            }"
+                        />
+                    </xpath>
+
+                    <xpath  expr="//field[@name='lot_name']" position="replace">
+                        <field name="lot_name" invisible="1" />
+                    </xpath>
+                    
+
+                </field>
+        </record>
     </data>
 </odoo>

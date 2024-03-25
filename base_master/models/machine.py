@@ -4,4 +4,4 @@ class Machine(models.Model):
     _name = 'machine'
 
     name = fields.Char(string='Name')
-    code = fields.Char(string='Code')
+    code = fields.Char(string='Origin')

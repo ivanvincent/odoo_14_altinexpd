@@ -65,16 +65,18 @@
                             <field name="is_editable" invisible="1" />
                             <field name="request_date" required="1" attrs="{'readonly': [('is_editable','=', False)]}" />
                             <field name="requested_by" readonly="1" />
+                            <field name="product_id" readonly="1" />
                             <field name="approve_by" attrs="{'invisible': [('state', 'in', ('draft','waiting'))]}" />
-                            <field name="location_id" attrs="{'readonly': [('state', 'in', ('approved','done'))]}" options="{'no_create': True}" />
-                            <field name="note" attrs="{'readonly': [('is_editable','=', False)]}" />
+                            <field name="location_id" attrs="{'readonly': [('state', 'in', ('approved','done'))]}" options="{'no_create': True}" string="Diperuntukan"/>
                         </group>
                         <group>
                             <field name="warehouse_id" attrs="{'readonly': [('is_editable','=', False)]}" />
                             <field name="internal_transfer_picking" attrs="{'readonly': [('state', 'in', ('approved','done'))]}" />
-                            <field name="vehicle_id" options="{'no_open': True, 'no_create': True}"/>
-                            <field name="request_id" groups="request_requisition.group_request_requisition_manager" readonly="1" />
-                            <field name="print_count" string="Printed" readonly="1" />
+                            <field name="vehicle_id" options="{'no_open': True, 'no_create': True}" invisible="1"/>
+                            <field name="request_id" groups="request_requisition.group_request_requisition_manager" attrs="{'invisible':[('request_id', '=', False)]}" />
+                            <field name="print_count" string="Printed" readonly="1" invisible="1"/>
+                            <field name="note" attrs="{'readonly': [('is_editable','=', False)]}" />
+                            <field name="mrp_id"/>
                         </group>
                     </group>
                     <notebook>
@@ -83,7 +85,7 @@
                                 <tree string="Order Lines" editable="bottom" decoration-danger="qty_onhand&lt;1">
                                     <field name="product_category_ids" invisible="1"/>
                                     <field name="product_id" options="{'no_create': True, 'no_edit': True}" domain="[('categ_id', 'in', product_category_ids)]" />
-                                    <field name="lot_id" options="{'no_create': True, 'no_edit': True}"/>
+                                    <field name="lot_id" options="{'no_create': True, 'no_edit': True}" invisible="1"/>
                                     <field name="code_product" />
                                     <field name="partner_id" options="{'no_create': True, 'no_edit': True}" optional="hide"/>
                                     <field name="qty_onhand" invisible="context.get('hide_onhand', 1)" />
@@ -302,7 +304,7 @@
         </field>
     </record>
 
-    <menuitem id="icon_request_requisition_menu" name="Request Requisition" groups="group_request_requisition_manager,group_request_requisition_user" web_icon="request_requisition,static/description/icon.png" />
+    <menuitem id="icon_request_requisition_menu" name="Request Requisition" groups="group_request_requisition_manager,group_request_requisition_user" web_icon="request_requisition/static/description/icon.png" />
 
     <menuitem id="main_menu_request_requisition" name="Request Requisition" parent="icon_request_requisition_menu" groups="group_request_requisition_manager,group_request_requisition_user" />
 

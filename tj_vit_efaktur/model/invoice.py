@@ -1,4 +1,5 @@
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 class invoice(models.Model):
     # _name = 'account.move'
@@ -15,6 +16,22 @@ class invoice(models.Model):
     efaktur_masukan = fields.Char(string="Nomor Seri Faktur Pajak", required=False, )
     amount_efaktur = fields.Monetary(string='Tax Efaktur', store=True, readonly=True, compute='_compute_efaktur')
     # efaktur_masukan = fields.Char(string="Nomor Seri Faktur Pajak", required=False, )
+    surat_jalan_doc       = fields.Binary(string='Surat Jalan')
+    bill_doc              = fields.Binary(string='Bill')
+    fp_doc                = fields.Binary(string='Faktur Pajak')
+    surat_jalan_name      = fields.Char(string='Surat Jalan')
+    bill_name             = fields.Char(string='Bill')
+    fp_name               = fields.Char(string='Faktur Pajak')
+
+    def action_post(self):
+        if not self.surat_jalan_doc:
+            raise UserError('Mohon maaf silakan lengkapi seluruh kelengkapan dokumen terlebih dahulu')
+        elif not self.bill_doc:
+            raise UserError('Mohon maaf silakan lengkapi seluruh kelengkapan dokumen terlebih dahulu')
+        elif not self.fp_doc:
+            raise UserError('Mohon maaf silakan lengkapi seluruh kelengkapan dokumen terlebih dahulu')
+        res = super(invoice, self).action_post()
+        return res
 
     @api.onchange("efaktur_id")
     def _masa_pajak(self):

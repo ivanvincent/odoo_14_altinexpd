@@ -6,10 +6,11 @@ class SaleOrder(models.Model):
 
     quotation_id = fields.Many2one('quotation', string='Quotation')
     delivery_date = fields.Date(string='Delivery Time')
+    up_kpd = fields.Many2one('attn', string='Attn', related='quotation_id.up_kpd')
     product_order_id = fields.Many2one(string='Product Order', related='quotation_id.product_order_id')
     no_quotation_accurate = fields.Char(string='No Quotation Accurate')
-
-
+    kode_mkt_id = fields.Many2one('kode.mkt', string='Kode Mkt', related='quotation_id.kode_mkt_id', store=True,)
+    dqups_id = fields.Many2one('quotation.request.form', string='D-QUPS')
 
     @api.onchange('quotation_id')
     def onchange_quotation_id(self):
@@ -22,7 +23,8 @@ class SaleOrder(models.Model):
             self.order_line     = False
             self.delivery_date  = qtn.delivery_date
             self.no_sample      = qtn.no_sample
-            self.up_kpd         = qtn.up_kpd.id
+            # self.up_kpd         = qtn.up_kpd.id
+            self.alamat      = qtn.up_kpd.alamat
             self.note_so         = qtn.note_so
             
             order_lines = []

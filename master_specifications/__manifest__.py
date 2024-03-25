@@ -23,7 +23,11 @@ Dev
         'views/specifications.xml',
         'views/quotation_request_form.xml',
         'views/master_qty.xml',
+<<<<<<< HEAD
         'views/dqups_2.xml',
+=======
+        'views/dqucps_2.xml',
+>>>>>>> 42cdb9030f851b5fe403eed06a6fc058da9468d8
         # 'views/dqups_3.xml',
         'views/conclusion.xml',
         # 'report/specification.xml',

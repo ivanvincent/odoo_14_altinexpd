@@ -53,7 +53,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
             "request_id": line.request_id.id,
             "product_id": line.product_id.id,
             "name": line.name or line.product_id.name,
-            "product_qty": line.pending_qty_to_receive,
+            "product_qty": line.outstanding_po,
             "product_uom_id": line.product_uom_id.id,
             "specifications": line.specifications,
             "no_komunikasi": line.no_komunikasi,
@@ -109,7 +109,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         request_lines = request_line_obj.browse(request_line_ids)
         self._check_valid_request_line(request_line_ids)
         self.check_group(request_lines)
-        for line in request_lines:
+        for line in request_lines.filtered(lambda x: x.outstanding_po > 0):
             items.append([0, 0, self._prepare_item(line)])
         return items
 
@@ -137,7 +137,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         return res
 
     @api.model
-    def _prepare_purchase_order(self, picking_type, group_id, company, origin):
+    def _prepare_purchase_order(self, picking_type, group_id, company, origin, request_id):
         if not self.supplier_id:
             raise UserError(_("Enter a supplier."))
         supplier = self.supplier_id
@@ -151,6 +151,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
             "company_id": company.id,
             "group_id": group_id.id,
             "purchase_category_id": self.po_category_id.id,
+            "purchase_request_id": request_id
         }
         return data
 
@@ -263,9 +264,12 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         po_line_obj = self.env["purchase.order.line"]
         pr_line_obj = self.env["purchase.request.line"]
         purchase = False
+        done = 0
 
         for item in self.item_ids:
             line = item.line_id
+            if line.product_qty == item.product_qty:
+                done += 1
             if item.product_qty <= 0.0:
                 raise UserError(_("Enter a positive quantity."))
             if self.purchase_order_id:
@@ -276,6 +280,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
                     line.request_id.group_id,
                     line.company_id,
                     line.origin,
+                    line.request_id.id
                 )
                 purchase = purchase_obj.create(po_data)
 
@@ -332,20 +337,27 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
                 # The onchange quantity is altering the scheduled date of the PO
                 # lines. We do not want that:
                 date_required = item.line_id.date_required
-                po_line.date_planned = datetime(
-                    date_required.year, date_required.month, date_required.day
-                )
+                po_line.date_planned = datetime.now()
+                # (
+                #     date_required.year, date_required.month, date_required.day
+                # )
             res.append(purchase.id)
-
-        return {
-            "domain": [("id", "in", res)],
-            "name": _("RFQ"),
-            "view_mode": "tree,form",
-            "res_model": "purchase.order",
-            "view_id": False,
-            "context": False,
-            "type": "ir.actions.act_window",
-        }
+        ctx = self.env.context
+        pr = self.env['purchase.request'].browse(ctx.get('active_id'))
+        if not any(pr.mapped('line_ids.outstanding_po')):
+            pr.write({'state': 'done'})
+        action = self.env.ref('purchase.purchase_form_action').read()[0]
+        action['domain'] = [("id", "in", res)]
+        return action
+        # return {
+        #     "domain": [("id", "in", res)],
+        #     "name": _("Purchase Order"),
+        #     "view_mode": "tree,form",
+        #     "res_model": "purchase.order",
+        #     "view_id": False,
+        #     "context": False,
+        #     "type": "ir.actions.act_window",
+        # }
 
 
 class PurchaseRequestLineMakePurchaseOrderItem(models.TransientModel):
@@ -394,6 +406,25 @@ class PurchaseRequestLineMakePurchaseOrderItem(models.TransientModel):
         "wizard in the new PO.",
     )
     lot_id = fields.Many2one('stock.production.lot', string='Lot')
+    conversion = fields.Float(string='Konversi', related='product_id.drum_liter')
+    qty_pr = fields.Float(string='Quantity PR', compute='_get_qty_pr')
+    status_po = fields.Many2one('uom.uom', related='product_id.uom_po_id', string='Satuan PO')
+    outstanding_po = fields.Float(string='Outstanding Po', compute='_compute_outstanding_po')
+
+    # @api.onchange('product_id')
+    # def onchange_product(self):
+    #     self.conversion = self.product_id.drum_liter
+    #     self.status_po = self.product_id.uom_po_id
+
+    def _get_qty_pr(self):
+        for line in self :
+            line.qty_pr = line.product_qty * line.conversion
+
+    # def handle_division_zero(self,x,y):
+    #     try:
+    #         return x/y
+    #     except ZeroDivisionError:
+    #         return 0
 
     @api.onchange("product_id")
     def onchange_product_id(self):
@@ -432,3 +463,8 @@ class PurchaseRequestLineMakePurchaseOrderItem(models.TransientModel):
         action['name'] = "Product from %s" % (self.name)
         action['domain'] = [('partner_id', '=', self.order_id.partner_id.id), ('product_id', '=', self.product_id.id), ('order_id.state', '=', 'done')]
         return action
+
+    @api.depends('product_qty')
+    def _compute_outstanding_po(self):
+        for rec in self:
+            rec.outstanding_po = rec.product_qty 

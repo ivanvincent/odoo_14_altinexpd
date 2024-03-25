@@ -33,6 +33,7 @@
         'base',
         'sale',
         'product',
+        'wibicon_quotation'
     ],
     'data': [
         'data/ir.config_parameter.xml',

@@ -21,3 +21,5 @@ from . import sale_order
 from . import mrp_bom_cost
 from . import mrp_request
 from . import request_engineering
+from . import mrp_bom_flowprocess
+from . import mrp_report_bom_structure_inherit

@@ -1,7 +1,25 @@
 from odoo import models, fields, api, _
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from odoo.exceptions import UserError
 import pandas as pd
+
+class HrLeave(models.Model):
+    _inherit = 'hr.leave'
+
+    state = fields.Selection([
+        ('draft', 'To Submit'),
+        ('cancel', 'Cancelled'),  # YTI This state seems to be unused. To remove
+        ('confirm', 'To Approve'),
+        ('refuse', 'Refused'),
+        ('validate1', 'Second Approval'),
+        ('validate', 'Approved'),
+        ('expired', 'Expired')
+        ], string='Status', compute='_compute_state', store=True, tracking=True, copy=False, readonly=False,
+        help="The status is set to 'To Submit', when a time off request is created." +
+        "\nThe status is 'To Approve', when time off request is confirmed by user." +
+        "\nThe status is 'Refused', when time off request is refused by manager." +
+        "\nThe status is 'Approved', when time off request is approved by manager." +
+        "\nThe status is 'Expired', when time off request is expired in the previous year.")
 
 class HrContract(models.Model):
     _inherit = 'hr.contract'
@@ -21,6 +39,9 @@ class HrContract(models.Model):
     skill_id = fields.Many2one('hr.skill_grade', string='Skill Grade')
     allocations_ids = fields.One2many('hr.leave.allocation', 'contract_id', 'Allocations Line')
     alokasi_izin = fields.Float(string='alokasi_izin') #sementara
+    is_reseted = fields.Boolean(string='Reset ?', default=False)
+    # tax_tarif_id = fields.Many2one('hr.tax_tarif', string="Tax Tarif")
+    
     
     @api.depends('first_contract_date')
     def _compute_year_of_service(self):
@@ -222,7 +243,43 @@ class HrContract(models.Model):
                                 'number_of_days' : self.alokasi_cuti
                             }
             self.allocations_ids = [(0, 0, dict_izin_sakit),(0, 0, dict_izin_normatif),(0, 0, dict_izin_maternity),(0, 0, dict_izin_paternity),(0, 0, dict_cuti)]
+
+    def action_reset_leave(self):
         
+        today = date.today()
+        this_year = today.year
+        last_year = this_year - 1
+        cut_off_str = str(last_year)+'-12-21'
+        year_end_str = str(last_year)+'-12-31'
+        cut_off_str2 = str(this_year)+'-01-20'
+
+        cut_off_date = datetime.strptime(cut_off_str,'%Y-%m-%d').date()
+        year_end_date = datetime.strptime(year_end_str,'%Y-%m-%d').date()
+        cut_off_date2 = datetime.strptime(cut_off_str2,'%Y-%m-%d').date()
+        leave = self.env['hr.leave'].search([('employee_id', '=', self.employee_id.id),
+                                             ('state', '=', 'validate')])
+        for l in leave:
+            
+            if(today <= year_end_date):
+                l.state = 'validate'
+            elif (today > year_end_date and today <= cut_off_date2):
+                if (l.request_date_from <= cut_off_date):
+                    l.state = 'expired'
+                elif(l.request_date_from > cut_off_date and l.request_date_from <= cut_off_date2):
+                    l.state = 'validate'
+                else:
+                    l.state = 'validate'
+            else:
+                if (l.request_date_from <= cut_off_date):
+                    l.state = 'expired'
+                elif(l.request_date_from > cut_off_date and l.request_date_from <= year_end_date):
+                    l.state = 'expired'
+                else:
+                    l.state = 'validate'
+            
+            # l.action_refuse()
+        # self.is_reseted = True
+
 class WageGrade(models.Model):
     _name = 'hr.wage_grade'
     _rec_name ='wage_grade'
@@ -239,4 +296,27 @@ class SkillGrade(models.Model):
 
     skill_grade = fields.Char(string='Skill Grade')
     tunj_ahli = fields.Float(string='Tunjangan Keahlian/hari')
+
+class TaxTarif(models.Model):
+    _name = 'hr.tax_tarif'
+    _rec_name = 'tax_tarif'
+    _description = 'tax tarif master'
+
+    category = fields.Char(string='Category')
+    bruto_from = fields.Char(string = 'Bruto From')
+    bruto_to = fields.Char(string = 'Bruto To')
+    tax_tarif = fields.Float('Tax Tarif (%)')
+
+class BankMaster(models.Model):
+    _name = 'hr.domestic_bank'
+    _rec_name = 'bank_name'
+    _description = 'list of domestic bank code and name'
+    rtgs_code = fields.Char('RTGS Code')
+    bank_code = fields.Char('Bank Code')
+    online_bank_code = fields.Char('Online Bank Code')
+    bank_name = fields.Char('Bank Name')
+    city_name = fields.Char('City Name')
+    
+
+    
 

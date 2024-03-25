@@ -12,17 +12,19 @@ class PurchaseOrder(models.Model):
     # compute='_compute_picking_release',
      default=0)
     purchase_category_id = fields.Many2one('purchase.order.category', string='Category')
-    state                = fields.Selection(selection_add=[("reject", "Rejected")])
     payment_term_id      = fields.Many2one('account.payment.term', string='Payment Term')
     street_delivery      = fields.Many2one('street.delivery', string='Street Delivery')
     date_datang_barang   = fields.Text(string='Dtg Barang', compute="_compute_date_datang_barang")
     lot_id               = fields.Many2one('stock.production.lot', string='Lot / serial number', related='order_line.lot_id')
     purchase_order_offer_line_ids = fields.One2many('purchase.order.offer', 'purchase_id', 'Line')
-    state                 = fields.Selection(selection_add=[('approve', 'Approve')])
+    state                 = fields.Selection(selection_add=[('draft', 'Draft'), ('approve', 'To be Approve'), ('purchase', 'Approved'), ("reject", "Rejected"),("done", "Done")])
     picking_count_makloon = fields.Integer(string='Picking Count Makloon', compute='compute_picking_count_makloon')
     is_surat_jalan        = fields.Boolean(string='Surat Jalan ?')
-    is_bill               = fields.Boolean(string='Bill ?')
-    is_fp                 = fields.Boolean(string='Faktur Pajak ?')
+    is_bill               = fields.Boolean(string='Bill ?',)
+    is_fp                 = fields.Boolean(string='Faktur Pajak ?', 
+    # compute="_compute_document"
+    )
+    
 
     def action_approve(self):
         self.state = 'approve'
@@ -83,6 +85,15 @@ class PurchaseOrder(models.Model):
             # Deal with double validation process
             if order._approval_allowed():
                 order.button_approve()
+
+                # BEGIN PERUBAHAN PRODUCT_UOM_QTY PADA STOCK_MOVE BERDASARKAN CONVERSION * PRODUCT_QTY
+                for data_line in order.order_line:
+                    data_stock_move = self.env['stock.move'].search([('purchase_line_id', '=', data_line.id)])
+                    if data_stock_move:
+                        data_stock_move.product_uom_qty = data_line.conversion * data_line.product_qty
+                # END PERUBAHAN PRODUCT_UOM_QTY PADA STOCK_MOVE BERDASARKAN CONVERSION * PRODUCT_QTY
+
+
             else:
                 order.write({'state': 'to approve'})
             if order.partner_id not in order.message_partner_ids:
@@ -185,3 +196,28 @@ class PurchaseOrder(models.Model):
         picking = self.env['stock.picking'].search([('origin', '=', self.name)])
         for rec in self:
             rec.picking_count_makloon = len(picking.ids)
+
+    # def action_create_invoice(self):
+    #     if self.picking_count > 1 and not self.is_surat_jalan and not self.is_bill and not self.is_fp:
+    #         raise UserError('Mohon maaf silahkan lengkapi tanda terima dokumen terlebih dahulu')
+    #     res = super(PurchaseOrder, self).action_create_invoice()
+    #     return res
+
+    # def _compute_document(self):
+    #     for rec in self:
+    #         if rec.surat_jalan_doc :
+    #             rec.is_surat_jalan = True
+    #         else:
+    #             rec.is_surat_jalan = False
+
+    #         for rec in self:
+    #             if rec.bill_doc:
+    #                 rec.is_bill = True
+    #             else:
+    #                 rec.is_bill = False
+
+    #             for rec in self:
+    #                 if rec.fp_doc :
+    #                     rec.is_fp = True
+    #                 else:
+    #                     rec.is_fp = False

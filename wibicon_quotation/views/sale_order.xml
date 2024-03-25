@@ -8,10 +8,12 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='partner_id']" position="before">
                     <field name="quotation_id"/>
+                    <!-- <field name="up_kpd"/> -->
                     <field name="delivery_date"/>
                 </xpath>
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="product_order_id"/>
+                    <field name="kode_mkt_id"/>
                     <!-- <field name="no_quotation_accurate"/> -->
                 </xpath>
             </field>

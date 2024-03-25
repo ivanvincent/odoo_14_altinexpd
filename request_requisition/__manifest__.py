@@ -17,7 +17,8 @@
     'depends': ['base', 
                 'stock',
                 'purchase_request',
-                'fleet'
+                'fleet',
+                'master_specifications'
                 ],
 
     # always loaded

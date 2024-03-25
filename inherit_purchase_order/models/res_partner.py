@@ -7,6 +7,9 @@ class ResPartner(models.Model):
     total_product   = fields.Integer(string='Total Product', compute="_compute_total_product")
     supplier_code   = fields.Char(string='Supplier Code')
     attn            = fields.Many2many(comodel_name='attn', string='Attn')
+    attn_ids        = fields.One2many('attn', 'partner_id', string='Attn')
+    payment_term_ids = fields.Many2many('account.payment.term', string='Payment Term')
+    kode_mkt_ids    = fields.Many2many('kode.mkt', string='Kode Mkt')   
     
     fax             = fields.Char(string='Fax')
     no_dqc          = fields.Boolean(string='DQC')
@@ -21,6 +24,15 @@ class ResPartner(models.Model):
         action['name'] = "Product from %s" % (self.name)
         action['domain'] = [('partner_id', '=', self.id)]
         return action
+
+    def name_get(self):
+        result = []
+        for partner in self:
+            if self.env.context.get('partner_custom', False):
+                result.append((partner.id, str(partner.street)))
+            else:
+                result.append((partner.id, partner.name))
+        return result
 
     # def _compute_total_product(self):
     #     product_obj = self.env['purchase.order.line'].search([('partner_id', '=', self.id)]).mapped('partner_id.id')

@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+
+        <record id="hr_leave_view_form_inherit_hr_leave" model="ir.ui.view">
+            <field name="name">hr.leave.view.form.inherit</field>
+            <field name="model">hr.leave</field>
+            <field name="inherit_id" ref="hr_holidays.hr_leave_view_form"/>
+            <field name="arch" type="xml">
+                <field name="state" position="attributes">
+                    <attribute name="statusbar_visible" add="expired"></attribute>
+                </field>
+            </field>
+        </record>
         <record model="ir.ui.view" id="hr_contract_form">
             <field name="name">hr.contract.form</field>
             <field name="model">hr.contract</field>
@@ -65,6 +76,8 @@
                 <xpath expr="//page[@name='information']" position="after">
                     <page name="timeoff_allocation" string="Time Off Allocation">
                         <button name="update_allocation" type="object" string="Update Allocation" class="oe_highlight"/>
+                        <button name="action_reset_leave" type="object" string="Reset" class="bg-danger" attrs="{'invisible':[('is_reseted', '=', True)]}"/>
+                        <field name="is_reseted" invisible="1"/>
                         <group string="Alokasi Izin dan Cuti" name='timeoff'>
                             <label for="alokasi_izin_sakit"/>
                             <div class="o_row">
@@ -121,6 +134,33 @@
             </field>
         </record>
 
+		<record model="ir.ui.view" id="domestic_bank_tree">
+            <field name="name">hr.domestic_bank.tree</field>
+            <field name="model">hr.domestic_bank</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="rtgs_code"/>
+                    <field name="bank_code"/>
+					<field name="online_bank_code"/>
+                    <field name="bank_name"/>
+					<field name="city_name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- <record model="ir.ui.view" id="tax_tarif_tree">
+            <field name="name">hr.tax_tarif.tree</field>
+            <field name="model">hr.tax_tarif</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="category"/>
+                    <field name="bruto_from"/>
+                    <field name="bruto_to"/>
+                    <field name="tax_tarif"/>
+                </tree>
+            </field>
+        </record> -->
+
         <record id="wage_grade_action" model="ir.actions.act_window">
             <field name="name">Wage Grade Master</field>
             <field name="type">ir.actions.act_window</field>
@@ -132,6 +172,20 @@
             <field name="name">Skill Grade Master</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">hr.skill_grade</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!-- <record id="tax_tarif_action" model="ir.actions.act_window">
+            <field name="name">Tax Tarif Master</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.tax_tarif</field>
+            <field name="view_mode">tree</field>
+        </record> -->
+
+		<record id="bank_code_action" model="ir.actions.act_window">
+            <field name="name">Bank Code Master</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.domestic_bank</field>
             <field name="view_mode">tree</field>
         </record>
 
@@ -152,5 +206,17 @@
                 action="skill_grade_action"
                 parent="menu_grade_master"
                 sequence="2"/>
+            <!-- <menuitem
+                id="menu_tax_tarif_master"
+                name="Tax Tarif Master"
+                action="tax_tarif_action"
+                parent="menu_grade_master"
+                sequence="3"/> -->
+			<menuitem
+                id="menu_bank_code_master"
+                name="Bank Code Master"
+                action="bank_code_action"
+                parent="menu_grade_master"
+                sequence="3"/>
     </data>
 </odoo>

@@ -74,6 +74,7 @@ class StockProductionLot(models.Model):
     gulungan_ke = fields.Integer(string='Gulungan Ke')
     total_gulungan = fields.Integer(string='Total Gulungan')
     lot_parent_name = fields.Char(string='Lot Parent name')
+    heat_number = fields.Char(string='Heat Number')
 
     # @api.onchange('product_bruto')
     # def bruto_change(self):

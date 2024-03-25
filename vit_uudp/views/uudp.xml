@@ -41,6 +41,9 @@
                 <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='product_id']" position="attributes">
                     <attribute name="domain">[('parent_coa_id', '=', False)]</attribute>
                 </xpath>
+                <xpath expr="//button[@name='action_register_payment']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
             </field>
         </record>
 
@@ -55,7 +58,7 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="purchase_request_inherit_form">
+        <!-- <record model="ir.ui.view" id="purchase_request_inherit_form">
             <field name="name">purchase.request.form</field>
             <field name="model">purchase.request</field>
             <field name="inherit_id" ref="purchase_request.view_purchase_request_form"/>
@@ -64,7 +67,7 @@
                     <attribute name="domain">[('parent_coa_id', '=', False)]</attribute>
                 </xpath>
             </field>
-        </record>
+        </record> -->
 
         <record id="view_uudp_tree" model="ir.ui.view">
             <field name="name">uudp.tree</field>
@@ -1236,7 +1239,7 @@
         </record>
 
 
-        <menuitem id="uudp_home" name="Pengajuan Biaya" sequence="50" groups="vit_uudp.group_user_uudp_user,group_user_uudp_pengaju,vit_uudp.group_user_uudp_pencairan" web_icon="vit_uudp,static/description/icon.png">
+        <menuitem id="uudp_home" name="Pengajuan Biaya" sequence="50" groups="vit_uudp.group_user_uudp_user,group_user_uudp_pengaju,vit_uudp.group_user_uudp_pencairan" web_icon="vit_uudp/static/description/icon.png">
             <menuitem id="uudp_pengajuan" name="Pengajuan" sequence="1" groups="vit_uudp.group_user_uudp_user,vit_uudp.group_user_uudp_pencairan">
                 <menuitem id="uudp_dashboard" name="Dashboard" action="dashboard_pengajuan_action" sequence="1" groups="vit_uudp.group_user_uudp_user,vit_uudp.group_user_uudp_pencairan"/>
                 <menuitem id="sub_uudp_pengajuan" name="Pengajuan" action="action_uudp_pengajuan_list" sequence="2" groups="vit_uudp.group_user_uudp_user,vit_uudp.group_user_uudp_pencairan"/>

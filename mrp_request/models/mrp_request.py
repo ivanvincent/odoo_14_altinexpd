@@ -30,7 +30,7 @@ class ManufacturingRequest(models.Model):
     no_sample           = fields.Char(related='sale_id.no_sample', string='No Sample')
     note_so             = fields.Char(related='sale_id.note_so' , string='Note')
     team                = fields.Selection([("1","1"),("2","2"),("3","3")], string='Team')
-    option_vip          = fields.Selection([("vip","VIP"),("high_risk","High Risk")], related='sale_id.option_vip' ,  string='HighRisk / VIP')
+    option_vip      = fields.Selection([("VIP","VIP"),("HIGH RISK","HIGH RISK"), ("BIASA", "BIASA"), ("MAKLOON", "MAKLOON")], string='HighRisk / VIP', ondelete='cascade', store=True, related='sale_id.option_vip')
 
     
     
@@ -117,6 +117,7 @@ class ManufacturingRequest(models.Model):
                 if production_id:
                     production_id._onchange_bom_id()
                     production_id._onchange_move_raw()
+                    production_id.update({'product_qty': line.qty_produce})
                     production_id._onchange_move_finished()
                     production_id._onchange_workorder_ids()
                     # line.production_ids = [(4,production_id.id)]

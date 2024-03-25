@@ -190,6 +190,19 @@ class RequestRequisition(models.Model):
     request_id = fields.Many2one(comodel_name="purchase.request", string="Purchase Request", copy=False)
     no_komunikasi = fields.Char(string='No Komunikasi')
     pegawai_id = fields.Many2one('hr.employee', string='Admin Yang Memerlukan')
+    dqups_id = fields.Many2one('quotation.request.form', string='D-QUPS')
+    product_id       = fields.Many2one('product.product', 'Product Finish',
+        domain="""[
+            ('type', 'in', ['product', 'consu']),
+            '|',
+                ('company_id', '=', False),
+                ('company_id', '=', company_id)
+        ]
+        """,
+        readonly=True, check_company=True,
+        states={'draft': [('readonly', False)]})
+    mrp_id = fields.Many2one('mrp.production', string='MO')
+
 
     @api.model
     def create(self, vals):
@@ -266,7 +279,7 @@ class RequestRequisition(models.Model):
 
     def _compute_internal_transfer_count(self):
         for order in self:
-            int_ids = self.env['stock.picking'].search([('origin', '=', order.name)])
+            int_ids = self.env['stock.picking'].search([('request_requisition_id', '=', order.id)])
             if int_ids:
                 order.internal_transfer_count = len(int_ids)
             else:
@@ -278,7 +291,7 @@ class RequestRequisition(models.Model):
             'type': 'ir.actions.act_window',
             'view_mode': 'tree,form',
             'res_model': 'stock.picking',
-            'domain': [('origin', '=', self.name)],
+            'domain': [('request_requisition_id', '=', self.id)],
             'context': {'create': False},
             'target': 'current'
         }
@@ -313,7 +326,7 @@ class RequestRequisition(models.Model):
         
         self.sudo().write({'request_id': request.id})
         
-        request.button_to_approve()
+        # request.button_to_approve()
         
         return
     
@@ -368,7 +381,22 @@ class RequestRequisition(models.Model):
         
 
     def create_picking_issue(self):
+        data = []
         for order in self:
+            
+            for rec in order.order_ids:
+                data.append((0, 0, {
+                    'name': rec.product_id.name,
+                    'product_id': rec.product_id.id,
+                    'product_uom': rec.product_id.uom_id.id,
+                    'product_uom_qty': rec.quantity,
+                    "location_id": order.mrp_id.location_src_id.id,
+                    "location_dest_id":15,
+                }))
+            order.mrp_id.write({
+                'move_raw_ids' : data
+            })
+
             pick = {
                 'picking_type_id': order.internal_transfer_picking.id,
                 'date': order.request_date,
@@ -496,8 +524,6 @@ class RequestRequisitionLine(models.Model):
             } 
             
         pr = self.env['purchase.request'].sudo().create(vals)
-            
-            
         pr.button_to_approve()
         
         for line in self:

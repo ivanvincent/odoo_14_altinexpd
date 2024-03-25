@@ -1,5 +1,5 @@
 from requests.sessions import default_hooks
-from odoo import models, fields, api, _
+from odoo import models, fields, tools, api, _
 from odoo.exceptions import UserError
 
 class PurchaseOrderLine(models.Model):
@@ -20,11 +20,39 @@ class PurchaseOrderLine(models.Model):
     date_order              = fields.Datetime(string='Date', related='order_id.date_order', store=True,)
     grade_id                = fields.Many2one('makloon.grade', string='Grade')
     # purchase_request_id     = fields.Many2one('purchase.request', string='Purchase Request', related='purchase_request_lines.request_id')
-    image_ids           = fields.One2many('insert.image', 'purchase_line_id', string='Image')
+    image_ids               = fields.One2many('insert.image', 'purchase_line_id', string='Image')
     is_receipt_done         = fields.Boolean(string='Is Receipt Done',compute='_compute_receipt')
-    qty_received_kg_actual = fields.Float(string='Received (Kg)', compute='compute_qty_received_kg_actual')
-
+    qty_received_kg_actual  = fields.Float(string='Received (Kg)', compute='compute_qty_received_kg_actual')
+    conversion              = fields.Float(String='Konversi Satuan', related='product_id.drum_liter')
+    conversion_type         = fields.Selection([("pl_liter","PL to Liter"),("drum_liter","Drum to Liter")], string='Tipe Konversi')
+    image_product           = fields.Binary(related="product_id.image_1920", string="Image")
+    qty_on_hand             = fields.Float(string="Current Stock", 
+    compute="_get_onhand",
+    )
     
+    hasil_konversi = fields.Float(string='Hasil Konversi', compute='_get_hasil_konversi')
+    status_po = fields.Many2one('uom.uom', related='product_id.uom_po_id', string='Satuan PO')
+
+    # @api.onchange('product_id')
+    # def onchange_product(self):
+    #     self.conversion = self.product_id.drum_liter
+    #     self.status_po = self.product_id.uom_po_id
+
+    def _get_hasil_konversi(self):
+        for line in self :
+            line.hasil_konversi = self.handle_division_zero(line.product_qty , line.conversion)
+
+    def handle_division_zero(self,x,y):
+        try:
+            return x*y
+        except ZeroDivisionError:
+            return 0
+
+    @api.depends('product_id')
+    def _get_onhand(self):
+        for line in self:
+            line.qty_on_hand = line.product_id.qty_available
+
     def _compute_receipt(self):
         for order in self:
             order.is_receipt_done = sum(order.mapped('qty_received')) >= sum(order.mapped('product_qty'))
@@ -32,7 +60,12 @@ class PurchaseOrderLine(models.Model):
                 order.purchase_request_id.sudo().button_done()
                 
             
-    
+    @api.onchange('conversion_type')
+    def onchange_conversion(self):
+        if self.conversion_type == 'pl_liter':
+            self.conversion = self.product_id.pl_liter
+        elif self.conversion_type == 'drum_liter':
+            self.conversion = self.product_id.drum_liter
     
     @api.onchange('lot_id')
     def onchange_product(self):
@@ -60,7 +93,7 @@ class PurchaseOrderLine(models.Model):
                             'image_desc' : rec3.image_desc,
                         }))
             rec.write({'is_invoiced' : True})
-        res['image_ids'] = data
+        # res['image_ids'] = data
         return res
 
     def _compute_qty_sisa(self):
@@ -74,6 +107,12 @@ class PurchaseOrderLine(models.Model):
 
     def action_show_image(self):
         action = self.env.ref('inherit_purchase_order.purchase_order_action').read()[0]
+        action['res_id'] = self.id
+        action['name'] = "Images of %s" % (self.product_id.name)
+        return action
+
+    def action_show_image_product(self):
+        action = self.env.ref('inherit_purchase_order.purchase_order_line_image_action').read()[0]
         action['res_id'] = self.id
         action['name'] = "Images of %s" % (self.product_id.name)
         return action
@@ -91,3 +130,24 @@ class PurchaseOrderLine(models.Model):
             # for sm in picking_obj.move_ids_without_package:
             move_obj = self.env['stock.move'].search([('picking_id.origin', '=', line.order_id.name), ('picking_id.state', '=', 'done')])
             line.qty_received_kg_actual = sum(move_obj.mapped('qty_kg_actual'))
+
+    @api.depends('move_ids.state', 'move_ids.product_uom_qty', 'move_ids.product_uom')
+    def _compute_qty_received(self):
+        from_stock_lines = self.filtered(lambda order_line: order_line.qty_received_method == 'stock_moves')
+        super(PurchaseOrderLine, self - from_stock_lines)._compute_qty_received()
+        for line in self:
+            if line.qty_received_method == 'stock_moves':
+                total = 0.0
+                
+                for move in line.move_ids.filtered(lambda m: m.product_id == line.product_id):
+                    if move.state == 'done':
+                        if move.to_refund:
+                            if move.to_refund:
+                                total -= move.product_uom._compute_quantity(move.quantity_done/line.conversion, 2, rounding_method='HALF-UP')
+                        elif move.origin_returned_move_id and move.origin_returned_move_id._is_dropshipped() and not move._is_dropshipped_returned():
+                            pass
+                        else:
+                            total+= tools.float_round(move.quantity_done/line.conversion, 2, rounding_method='HALF')
+
+                line._track_qty_received(total)
+                line.qty_received = total

@@ -24,10 +24,16 @@ class PurchaseRequestLine(models.Model):
 
     @api.model
     def _filter_product(self):
-        domain = []
-        if self.env.user.id != 2:
-            domain += [('categ_id','in',[category.id for warehouse in self.env.user.default_warehouse_ids for category in warehouse.product_category_ids])]
+        domain = []        
+        domain += [('categ_id','in','categ_id')]
         return domain
+    
+    # @api.model
+    # def _filter_product(self):
+    #     domain = []
+    #     if self.env.user.id != 2:
+    #         domain += [('categ_id','in',[category.id for warehouse in self.env.user.default_warehouse_ids for category in warehouse.product_category_ids])]
+    #     return domain
 
     @api.model
     def _filter_lot(self):
@@ -42,12 +48,13 @@ class PurchaseRequestLine(models.Model):
 
     name = fields.Char(string="Description", tracking=True)
     product_uom_id = fields.Many2one(
-        comodel_name="uom.uom",
+        related='product_id.uom_id',
+        # comodel_name="uom.uom",
         string="UoM",
         tracking=True,
     )
     product_qty = fields.Float(
-        string="Quantity", tracking=True, digits="Product Unit of Measure"
+        string="Quantity PO", tracking=True, digits="Product Unit of Measure"
     )
     request_id = fields.Many2one(
         comodel_name="purchase.request",
@@ -102,7 +109,7 @@ class PurchaseRequestLine(models.Model):
     is_editable = fields.Boolean(
         string="Is editable", compute="_compute_is_editable", readonly=True
     )
-    specifications = fields.Text(string="Specifications", required=True, )
+    specifications = fields.Text(string="Specifications", )
     request_state = fields.Selection(
         string="Request state",
         related="request_id.state",
@@ -200,8 +207,10 @@ class PurchaseRequestLine(models.Model):
     product_id = fields.Many2one(
         comodel_name="product.product",
         string="Product",
-        domain = lambda self : self._filter_product(),
+        # domain = lambda self : self._filter_product(),
+        # domain="[('categ_id', '=', product_categ_id)]",
         tracking=True,
+        required=True,
     )
     
     qty_on_hand   = fields.Float(string="Current Stock", compute="_get_onhand")
@@ -219,13 +228,44 @@ class PurchaseRequestLine(models.Model):
     image_ids       = fields.One2many('insert.image', 'purchase_line_id', string='Image')
     date_dtg_brg = fields.Date(string='Date Dtg Barang')
     outstanding_po = fields.Float(string='Outstanding Po', compute='_compute_outstanding_po')
+    po_categ_id = fields.Many2one('purchase.order.category', string='PO Category',help="Tujuan Pembelian")
+    product_category_ids = fields.Many2many(related='po_categ_id.product_category_ids', string='Product Category')
 
+    categ_id = fields.Many2one('product.category' , related='request_id.categ_id')
+    estimated_price = fields.Float(string="Estimated Price", required=True)
+    image_product = fields.Binary(related="product_id.image_1920", string="Image")
+    subtotal_estimate = fields.Monetary(string='Subtotal Estimate Price', compute='get_subtotal_estimate')
+    conversion = fields.Float(string='Konversi')
+    qty_pr = fields.Float(string='Quantity PR')
+    status_po = fields.Many2one('uom.uom', string='Satuan PO')
+
+    @api.onchange('product_id')
+    def onchange_product(self):
+        self.conversion = self.product_id.drum_liter
+        self.status_po = self.product_id.uom_po_id
+
+    @api.onchange('qty_pr')
+    def onchange_qty_pr(self):
+        # for line in self :
+        self.product_qty = self.handle_division_zero(self.qty_pr , self.conversion)
+
+    # def _get_hasil_konversi(self):
+    #     for line in self :
+    #         line.hasil_konversi = self.handle_division_zero(line.product_qty , line.conversion)
+
+    def handle_division_zero(self,x,y):
+        try:
+            return x/y
+        except ZeroDivisionError:
+            return 0
+
+    @api.depends('product_id')
     def _get_onhand(self):
         for line in  self:
-            domain = [('product_id', '=', line.product_id.id), ('location_id', '=', line.request_id.picking_type_id.default_location_dest_id.id)]
-            quant = self.env['stock.quant'].search(domain).mapped('quantity')
-            line.qty_on_hand = sum(quant)
-            
+            # domain = [('product_id', '=', line.product_id.id)]
+            # quant = self.env['stock.quant'].search(domain).mapped('quantity')
+            line.qty_on_hand = line.product_id.qty_available
+            # ('location_id', '=', line.request_id.picking_type_id.default_location_dest_id.id)
  
     
     @api.onchange('lot_id')
@@ -233,12 +273,15 @@ class PurchaseRequestLine(models.Model):
         for rec in self:
             rec.product_id = rec.lot_id.product_id.id
    
+    @api.depends('product_qty', 'estimated_price')
+    def get_subtotal_estimate(self):
+        for rec in self:
+            rec.subtotal_estimate = rec.product_qty * rec.estimated_price
     
-    
-    @api.depends('product_qty', 'price')
+    @api.depends('product_qty', 'estimated_price')
     def get_estimated_cost(self):
         for rec in self:
-            rec.estimated_cost = rec.product_qty * rec.price
+            rec.estimated_cost = rec.product_qty * rec.estimated_price
     
     
 
@@ -497,7 +540,13 @@ class PurchaseRequestLine(models.Model):
         action['name'] = "Images of %s" % (self.product_id.name)
         return action
 
+    def action_show_image_product(self):
+        action = self.env.ref('purchase_request.purchase_request_line_image_action').read()[0]
+        action['res_id'] = self.id
+        action['name'] = "Images of %s" % (self.product_id.name)
+        return action
+
     @api.depends('purchase_lines', 'product_qty')
     def _compute_outstanding_po(self):
         for rec in self:
-            rec.outstanding_po = rec.product_qty - sum(self.purchase_lines.mapped('product_qty'))
+            rec.outstanding_po = rec.product_qty - sum(rec.purchase_lines.mapped('product_qty'))

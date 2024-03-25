@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <odoo>
     <data>
 
@@ -27,4 +28,35 @@
 
 
     </data>
+=======
+<odoo>
+    <data>
+
+        <record id="send_production_wizard_form_new" model="ir.ui.view">
+            <field name="name">send.production.wizard.new.form</field>
+            <field name="model">send.production.wizard.new</field>
+            <field name="arch" type="xml">
+                <form string="generation fichier">
+                    <group>
+                        <field name="line_ids">
+                            <tree editable="bottom">
+                                <field name="qrf_id" invisible="1"/>
+                                <field name="create_mo"/>
+                                <field name="jenis_id" options="{'no_create': True}"/>
+                                <field name="name" required="1"/>
+                                <!-- <field name="line_spec_ids"/> -->
+                                <field name="quantity"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button name="create_mo" string="Create MO" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+>>>>>>> 42cdb9030f851b5fe403eed06a6fc058da9468d8
 </odoo>

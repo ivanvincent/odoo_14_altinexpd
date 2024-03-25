@@ -26,8 +26,8 @@
                     <field name="splitted_wo" invisible="1"/>
                 </xpath>
                 <xpath expr="//field[@name='product_id']" position="before">
-                    <field name="partner_id"/>
-                    <field name="type_id" options="{'no_open': True, 'no_create': True}" required="1"/>
+                    <field name="partner_id" readonly="1"/>
+                    <!-- <field name="type_id" options="{'no_open': True, 'no_create': True}" required="1"/> -->
                 </xpath>
                 <!-- <xpath expr="//field[@name='product_id']" position="after">
                     <field name="html_color" widget="color"/>
@@ -51,18 +51,49 @@
                         </div>
                     </button>
                 </xpath>
-                <xpath expr="//field[@name='user_id']" position="after">
+                <!-- <xpath expr="//field[@name='user_id']" position="after">
                     <field name="wo_altinex"/>
                     <field name="kd_bahan"/>
-                    <field name="treatment_id"/>
-                    <field name="lapisan"/>
+                    <field name="treatment_id" readonly="1"/>
+                    <field name="lapisan" readonly="1"/>
                     <field name="due_date_produksi"/>
                     <field name="no_sample"/>
                     <field name="note_so"/>
                     <field name="option_vip"/>
-                    <field name="process_terkini"/>
-                    <field name="parameter_terkini"/>
-                    <!-- <field name="kd_bahan"/> -->
+                    <field name="process_terkini" readonly="1"/>
+                    <field name="parameter_terkini" readonly="1"/>
+                    <field name="kd_bahan"/>
+                </xpath> -->
+                <xpath expr="//field[@name='bom_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='bom_id']" position="after">
+                    <field name="dqups_id" readonly="1"/>
+                    <field name="ref_so_id" readonly="1"/>
+                    <field name="billing_address" readonly="1"/>
+                    <field name="shipping_address" context="{'partner_custom':True}" options='{"always_reload": True}' readonly="1"/>
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='components']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@name='operations']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@name='miscellaneous']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='product_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='product_qty']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='product_uom_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
                 </xpath>
             </field>
         </record>

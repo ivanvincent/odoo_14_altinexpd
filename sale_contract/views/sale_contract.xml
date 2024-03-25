@@ -95,9 +95,11 @@
                         <group string="Accounting">
                             <!-- <field name="pricelist_id" domain="[('partner_id','=',partner_id)]" attrs="{'readonly': [('state','!=','draft')]}"/> -->
                             <field name="delivery_date" attrs="{'readonly': [('state','!=','draft')]}"/>
+                            <field name="delivery_date_desc" readonly="1" force_save="1" />
+                            <field name="kode_mkt_id" readonly="1"/>
                             <label for="term_of_payment"/>
                             <span>
-                                <field name="term_of_payment" class="oe_inline" attrs="{'readonly': [('state','!=','draft')]}"/>
+                                <field name="term_of_payment" class="oe_inline" />
                                 <field name="term_of_payment_information" class="oe_inline" attrs="{'readonly': [('state','!=','draft')]}"/>
                             </span>
                         </group>

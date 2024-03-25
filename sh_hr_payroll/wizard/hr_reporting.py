@@ -3,24 +3,34 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+from odoo.modules import get_modules, get_module_path
 from datetime import date, datetime, timedelta
+import calendar
 import logging
 logger = logging.getLogger(__name__)
+from io import BytesIO
+import base64
+import xlsxwriter
+import csv
+import io
+from datetime import datetime
+from . import add_workbook_format as awf
 
 
-_STATE =[("bpjs", "Laporan Gaji pada BPJS"),
-         ("gs", "Laporan Gaji pada GS"),
+_STATE =[
+        ("pph21", "Laporan PPH 21"),
+		("request", "Payment Request"),
+	 	("csv", "BNI Direct CSV File"),         
 ]
 
 class HrReporting(models.TransientModel):
-    _name = 'hr.reporting.wizard'
-    _description = 'Generate payslips for all selected employees'
-
-    current_year = datetime.now().year
-    date_start = fields.Date(string="Start date", required=False)
-    date_end = fields.Date(string="End date", required=False)
-    report_type     = fields.Selection(selection=_STATE, string='Report Type',default="bpjs")
-    month_selection = fields.Selection([
+	_name = 'hr.reporting.wizard'
+	_description = 'Generate payslips for all selected employees'
+	current_year = datetime.now().year
+	date_start = fields.Date(string="Start date", required=False)
+	date_end = fields.Date(string="End date", required=False)
+	report_type     = fields.Selection(selection=_STATE, string='Report Type',default="pph21")
+	month_selection = fields.Selection([
                         ("01","Januari %s" % current_year),   
                         ("02","Februari %s" % current_year),
                         ("03","Maret %s" % current_year),
@@ -34,1804 +44,644 @@ class HrReporting(models.TransientModel):
                         ("11","November %s" % current_year),
                         ("12","Desember %s" % current_year),
                         ],string='Month Selection')
-    job_ids = fields.Many2many('hr.job', string='Access Job', compute='compute_job_ids', compute_sudo=True)
+	job_ids = fields.Many2many('hr.job', string='Access Job', compute='compute_job_ids', compute_sudo=True)
+	data = fields.Binary(string='Data')
+	payroll_send_date = fields.Date('Payroll Send Date')
+	csv_data = fields.Binary()
+	jabatan = fields.Selection(selection="_get_jabatan_list", string='Jabatan')
+	coa = fields.Selection([
+		('1','Produksi'),
+		('2','Umum'),
+		('3','All COA'),
+	], string='COA')
+	
+	@api.depends('report_type')
+	def compute_job_ids(self):
+		manajer_payroll = self.env['res.groups'].sudo().browse(240)
+		payroll_staff = self.env['res.groups'].sudo().browse(241)
+		payroll_spv = self.env['res.groups'].sudo().browse(244)
+		uid = self.env.user.id
+		if uid in manajer_payroll.users.ids:
+			rule = manajer_payroll.rule_groups.filtered(lambda x: x.model_id.name == 'Pay Slip')
+		elif uid in payroll_staff.users.ids:
+			rule = payroll_staff.rule_groups.filtered(lambda x: x.model_id.name == 'Pay Slip')
+		elif uid in payroll_spv.users.ids:
+			rule = payroll_spv.rule_groups.filtered(lambda x: x.model_id.name == 'Pay Slip')
+		else:
+			self.job_ids = [(6, 0, [])]
+			return
+		job_ids = rule.domain_force.split(",'in',")[1].replace(")])", "")
+		for rec in self:
+			rec.job_ids = [(6, 0, list(map(int, job_ids[1:-1].split(','))) if job_ids else [])]
 
-    def action_generate_pdf(self):
-        job_ids = str(tuple(self.job_ids.ids)).replace(',)',')')
-        if not self.job_ids:
-            raise UserError('Mohon maaf anda tidak memiliki akses ..')
-        query =f"""
-            SELECT 
-                he.name, 
-				he.identification_id as nik,
-				hc.gapok_bpjs_kes as bpjs_kesehatan,
-				hc.gapok_bpjs_tk as bpjs_tk,
-                sum(payslip.total_gapok) as total_gapok,
-                sum(payslip.total_gapok_bpjs) as total_bpjs_perusahaan,
-                sum(payslip.total_ahli) as total_ahli,
-                sum(payslip.total_shift3) as total_shift3,
-                sum(payslip.total_faskes) as total_faskes,
-                sum(payslip.total_lembur) as total_lembur,
-                sum(payslip.total_bonus) as total_bonus,
-                sum(payslip.total_total_tunjangan) as total_tunjangan,
-                sum(payslip.total_tpph) as total_tpph,
-                sum(payslip.total_kes) as total_kes,
-                sum(payslip.total_jkk) as total_jkk,
-                sum(payslip.total_jkm) as total_jkm,
-                sum(payslip.total_bota) as total_bota,
-                sum(payslip.total_thr) as total_thr,
-                sum(payslip.total_total_ktt) as total_ktt,
-                sum(payslip.total_bruto) as total_bruto,
-                sum(payslip.total_jht2) as total_jht2,
-                sum(payslip.total_jp2) as total_jp2,
-                sum(payslip.total_jabat) as total_jabat,
-                sum(payslip.total_potong) as total_potong,
-                sum(payslip.total_net) as total_net,
-                sum(payslip.total_net_annual) as total_net_annual,
-                sum(payslip.total_ptkp) as total_ptkp,
-                sum(payslip.total_pkp_1) as total_pkp_1,
-				floor (sum(payslip.total_pkp_1) / 1000) * 1000 as pkp_pembulatan,
-                sum(payslip.total_pkp_2) as total_bpjs_karyawan,
-                sum(payslip.total_pph21_1) as total_pph21_1,
-                sum(payslip.total_pph21_2) as total_pph21_2,
-                sum(payslip.total_thp_1) as total_thp,
-                sum(payslip.jht) as total_jht,
-                sum(payslip.jp) as total_jp,
-                sum(payslip.kes2) as total_kes2,
-				sum(payslip.gaji_bpjs_kes) as total_bpjs_kes,
-                sum(payslip.gaji_bpjs_tk) as total_bpjs_tk,
-				sum(payslip.thp_2) as thp_2,
-				sum(payslip.thp_3) as thp_3
-            FROM (
-                    SELECT 
-						hpl.code, 
-						hpl.total as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id
-                    FROM
-                hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
+	@api.depends('report_type')
+	def _get_jabatan_list(self):
+		manajer_payroll = self.env['res.groups'].sudo().browse(237)
+		uid = self.env.user.id
+		result = []
+		
+		
+		if uid in manajer_payroll.users.ids:
+			result.append(('1','Direktur / Wakil Direktur'))
+			result.append(('2','Manager'))
+			result.append(('3','Supervisor'))
+			result.append(('4','Staff'))
+			result.append(('5','Operator'))
+			result.append(('6','Staff + Operator'))
+			result.append(('7','DIR + MNG + SPV'))
+			result.append(('8','MNG + SPV'))
+			result.append(('20','SELURUH KARYAWAN'))
+		else:
+			result.append(('4','Staff'))
+			result.append(('5','Operator'))
+			result.append(('6','Staff + Operator'))
+		
+		return result
+
+	def action_generate_excel(self):
+		if self.report_type != 'pph21':
+			raise UserError('Silakan pilih Report yang sesuai')
+		else:
+			# Cutoff Date
+			date_rec = datetime(int(self.current_year), int(self.month_selection), 20)
+			month_string = date_rec.strftime("%b")
+			year_string = date_rec.strftime("%y")
+
+			# Filter salary rule - appear on report
+			rules_in = []
+			name_arr = []
+			rules = self.env['hr.salary.rule'].search([('appears_on_report','=',True)])
+			for r in rules:
+				rules_in.append(r.id)
+				name_arr.append(r.name_on_payslip)
+			rules_tuple = tuple(rules_in)
+
+			# Filter employee sesuai jabatan DAN coa
+			if self.coa == '3':
+				if self.jabatan in ('1','2','3','4','5'):
+					employees = self.env['hr.employee'].search([('jabatan','=',self.jabatan),('joining_date','<=',date_rec)])
+				elif self.jabatan == '6':
+					employees = self.env['hr.employee'].search([('jabatan','in',('4','5')),('joining_date','<=',date_rec)])
+				elif self.jabatan == '7':
+					employees = self.env['hr.employee'].search([('jabatan','in',('1','2','3')),('joining_date','<=',date_rec)])
+				elif self.jabatan == '8':
+					employees = self.env['hr.employee'].search([('jabatan','in',('2','3')),('joining_date','<=',date_rec)])
+				else:
+					employees = self.env['hr.employee'].search([('jabatan','in',('1','2','3','4','5')),('joining_date','<=',date_rec)])
+			else:
+				if self.jabatan in ('1','2','3','4','5'):
+					employees = self.env['hr.employee'].search([('jabatan','=',self.jabatan),('coa','=',self.coa),('joining_date','<=',date_rec)])
+				elif self.jabatan == '6':
+					employees = self.env['hr.employee'].search([('jabatan','in',('4','5')),('coa','=',self.coa),('joining_date','<=',date_rec)])
+				elif self.jabatan == '7':
+					employees = self.env['hr.employee'].search([('jabatan','in',('1','2','3')),('coa','=',self.coa),('joining_date','<=',date_rec)])
+				elif self.jabatan == '8':
+					employees = self.env['hr.employee'].search([('jabatan','in',('2','3')),('coa','=',self.coa),('joining_date','<=',date_rec)])
+				else:
+					employees = self.env['hr.employee'].search([('jabatan','in',('1','2','3','4','5')),('coa','=',self.coa),('joining_date','<=',date_rec)])
+			print(employees)
+
+			# Query Execution
+			query = '''
+				select 
+					hpl.employee_id,
+					hpl.name as nama_kol,
+					hpl.total,
+					hpl.code,
+					hpl.sequence
+				from hr_payslip hp 
+				left join hr_payslip_line hpl on hpl.slip_id = hp.id
 				left join hr_employee he on he.id = hp.employee_id
 				left join hr_job hj on hj.id = he.job_id
 				left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'GAPOK'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
+				where date_part('year',hp.create_date) = date_part('year',now())
+				and hp.month_selection = '%s'
+				and hp.employee_id = '%s'
+				and he.active = true
+				and he.identification_id is not null
+				and hp.state = 'done'
+				and hpl.salary_rule_id in %s
+				order by he.name,hpl.sequence
+			'''
+			
+			# Excel Writer Preparation
+			fp = BytesIO()
+			workbook = xlsxwriter.Workbook(fp)
+			wbf, workbook = awf.add_workbook_format(workbook)
+			header_format_1 = workbook.add_format({'bold':True, 'font_size':12, 'align':'center', 'valign':'vcenter', 'border':1, 'bg_color':'#9FFCFA','text_wrap':True})
+			header_format_2 = workbook.add_format({'bold':True, 'font_size':12, 'align':'center', 'valign':'vcenter', 'border':1, 'num_format':40, 'bg_color':'#FBFB53'})
 
-                    UNION
-                    SELECT 
-						hpl.code, 
-						0 as total_gapok, 
-						hpl.total as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'TOTAL_BPJS_PERUSAHAAN'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
+			# WKS 1
+			if self.jabatan == '1':
+				report_name = 'LAPORAN PAYROLL PPh 21 DIR / WAKIL DIR'
+			elif self.jabatan == '2':
+				report_name = 'LAPORAN PAYROLL PPh 21 MNG'
+			elif self.jabatan == '3':
+				report_name = 'LAPORAN PAYROLL PPh 21 SPV'
+			elif self.jabatan == '4':
+				report_name = 'LAPORAN PAYROLL PPh 21 STAFF'
+			elif self.jabatan == '5':
+				report_name = 'LAPORAN PAYROLL PPh 21 OPERATOR'
+			elif self.jabatan == '6':
+				report_name = 'LAPORAN PAYROLL PPh 21 STAFF + OP'
+			elif self.jabatan == '7':
+				report_name = 'LAPORAN PAYROLL PPh 21 DIR + MNG + SPV'
+			elif self.jabatan == '8':
+				report_name = 'LAPORAN PAYROLL PPh 21 MNG + SPV'
+			else : 
+				report_name = 'LAPORAN PAYROLL PPh 21 SELURUH KARYAWAN'
+			worksheet = workbook.add_worksheet(report_name)        
+			
+			# WKS 1 - Header
+			worksheet.merge_range('A6:A7','No',header_format_1)
+			worksheet.merge_range('B6:B7','NIK',header_format_1)
+			worksheet.merge_range('C6:C7','Nama',header_format_1)
+			worksheet.merge_range('D6:D7','Kategori Tarif Efektif',header_format_1)
+			header_kol = 4
+			header_row = 5
+
+			# WKS 1 - Iterasi untuk menampilkan header
+			header_wo_sum = []
+			for i in name_arr:
+				worksheet.merge_range(header_row,header_kol,header_row+1,header_kol,'%s'%(i),header_format_1)
+				if i in ('PTKP','Gaji Pokok','GAPOK BPJS Kesehatan','GAPOK BPJS TK','Tarif Efektif Pajak (persen)'):
+					header_wo_sum.append(header_kol)
+				header_kol +=1
+
+			# WKS 1 - Set column width
+			worksheet.set_column('A:A', 5)
+			worksheet.set_column('B:B', 30)
+			worksheet.set_column('C:C', 35)
+			worksheet.set_column('D:AT', 20)
+
+			# WKS 1 - Judul
+			worksheet.merge_range('A2:AT2', report_name , wbf['merge_format'])
+			worksheet.merge_range('A3:AT3', 'PERIODE ' + month_string + year_string , wbf['merge_format_2'])
+
+			# WKS 1 - Iterasi gabungan untuk menampilkan data
+			row = 7
+			col = 0
+			col_rec = 4
+			no = 1
+			for i in employees:
+				self._cr.execute(query % (self.month_selection,i.id,rules_tuple))
+				rslt = self._cr.dictfetchall() 
+				worksheet.write(row,col, no, wbf['content_center'])
+				worksheet.write(row,col + 1, i.identification_id, wbf['content_center'])
+				worksheet.write(row,col + 2, i.name, wbf['content_center'])
+				worksheet.write(row,col + 3, i.tax_category, wbf['content_center'])
+				for rec in rslt:
+					worksheet.write(row,col_rec,rec['total'],wbf['content_float'])
+					col_rec += 1
+				no += 1
+				row += 1
+				col_rec_end = col_rec
+				col = 0
+				col_rec = 4
+			
+			# Write Sum
+			worksheet.merge_range(row,col,row,col+3,'SUM',header_format_2)
+			while col_rec < col_rec_end:
+				if col_rec in (header_wo_sum):
+					worksheet.write(row,col_rec,'',header_format_2)
+					col_rec += 1
+				else:
+					worksheet.write(row,col_rec,'=SUM(INDIRECT(ADDRESS(1,COLUMN())&":"&ADDRESS(ROW()-1,COLUMN())))',header_format_2)
+					col_rec += 1
+
+			# File name
+			filename = '%s_%s%s%s' % (report_name, month_string, year_string, '.xlsx')
+			workbook.close()
+			out = base64.encodebytes(fp.getvalue())
+			self.write({'data': out})
+			fp.close()
+
+
+			url = "web/content/?model=" + self._name + "&id=" + str(self.id) + "&field=data&download=true&filename=" + filename
+			result = {
+				'name': 'LAPORAN GAJI KE GITA SARANA XLSX',
+				'type': 'ir.actions.act_url',
+				'url': url,
+				'target': 'download',
+			}
+			return result
+	
+	def action_generate_request(self):
+		if self.report_type != 'request':
+			raise UserError('Silakan pilih Report yang sesuai')
+		else:
+			# Cutoff Date
+			date_rec = datetime(int(self.current_year), int(self.month_selection), 20)
+			month_string = date_rec.strftime("%b")
+			year_string = date_rec.strftime("%y")
+			last_date = calendar.monthrange(date_rec.year, date_rec.month)[1]
+
+			# QUERIES
+			request_query = '''
+				select total 
+				from hr_payslip hp 
+				left join hr_payslip_line hpl on hpl.slip_id = hp.id 
+				left join hr_employee he on he.id = hp.employee_id
+				left join hr_job hj on hj.id = he.job_id
+				left join hr_contract hc on hc.id = he.contract_id
+				where hpl.code = '%s'
+				and he.active = true
+				and hc.date_start <= '%s'
+				and hp.month_selection = '%s'
+				and date_part('year',hp.create_date) = date_part('year',now())
+			'''
+
+			gaji_query = '''
+				select total 
+				from hr_payslip hp 
+				left join hr_payslip_line hpl on hpl.slip_id = hp.id 
+				left join hr_employee he on he.id = hp.employee_id
+				left join hr_job hj on hj.id = he.job_id
+				left join hr_contract hc on hc.id = he.contract_id
+				where hp.employee_id = '%s'
+				and hpl.code = '%s'
+				and he.active = true
+				and hc.date_start <= '%s'
+				and hp.month_selection = '%s'
+				and date_part('year',hp.create_date) = date_part('year',now())
+			'''
+			
+			# Total Biaya Gaji
+			total_biaya_gaji = 0
+			self._cr.execute(request_query % ('BRUTO',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request:
+				total_biaya_gaji += float(rec['total'])
+			request_len = len(request)
+
+			# PPh 21
+			pph21_bulanan = 0
+			self._cr.execute(request_query % ('PPH_CICIL',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request:
+				pph21_bulanan -= float(0 if rec['total'] is None else rec['total'])
+
+			# JHT (BY JAMSOSTEK)
+			jht = 0
+			self._cr.execute(request_query % ('JHT2',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request:
+				jht -= float(0 if rec['total'] is None else rec['total'])
+
+			# JP (BY JAMSOSTEK)
+			jp = 0
+			self._cr.execute(request_query % ('JP2',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request:
+				jp -= float(0 if rec['total'] is None else rec['total'])
+
+			# KES (BY JAMSOSTEK)
+			kes = 0
+			self._cr.execute(request_query % ('KES2',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request:
+				kes -= float(0 if rec['total'] is None else rec['total'])
+
+			# JKK
+			jkk = 0
+			self._cr.execute(request_query % ('JKK',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request:
+				jkk -= float(0 if rec['total'] is None else rec['total'])
+			
+			# JKM
+			jkm = 0
+			self._cr.execute(request_query % ('JKM',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request:
+				jkm -= float(0 if rec['total'] is None else rec['total'])
+
+			# TUNJ JKK (BY JAMSOSTEK)
+			tunj_jkk = jkk + jkm
+
+			# TUNJ JHT (BY JAMSOSTEK)
+			tunj_jht = 0
+			bpjs_jht = 0
+			self._cr.execute(request_query % ('JHT',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request:
+				tunj_jht -= float(0 if rec['total'] is None else rec['total'])
+				bpjs_jht += float(0 if rec['total'] is None else rec['total'])
+
+			# JP
+			tunj_jp = 0
+			bpjs_jp = 0
+			self._cr.execute(request_query % ('JP',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request: 
+				tunj_jp -= float(0 if rec['total'] is None else rec['total'])
+				bpjs_jp += float(0 if rec['total'] is None else rec['total'])
+
+			# TUNJ BPJS (BY JAMSOSTEK)
+			bpjs_kes = 0
+			self._cr.execute(request_query % ('KES',date_rec,self.month_selection))
+			request = self._cr.dictfetchall()
+			for rec in request: 
+				bpjs_kes -= float(0 if rec['total'] is None else rec['total'])
+
+			# ASTEK
+			astek = bpjs_jht + bpjs_jp
+
+			# THR / BONUS
+			thr = 0
+			self._cr.execute(request_query % ('THR',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request: 
+				thr -= float(0 if rec['total'] is None else rec['total'])
+
+			# POTONGAN
+			potongan = 0
+			self._cr.execute(request_query % ('PIKA',date_rec,self.month_selection))
+			request = self._cr.dictfetchall() 
+			for rec in request: 
+				potongan -= float(0 if rec['total'] is None else rec['total'])
+
+			# GAJI & KTT PRODUKSI
+			employee_prod = self.env['hr.employee'].search([('coa','=','1')])
+			gaji_prod = 0
+			ktt_prod = 0
+			for i in employee_prod:
+				self._cr.execute(gaji_query % (i.id,'THP',date_rec,self.month_selection))
+				request = self._cr.dictfetchall()
+				for rec in request: 
+					gaji_prod += float(0 if rec['total'] is None else rec['total'])
+			for i in employee_prod:
+				self._cr.execute(gaji_query % (i.id,'THR',date_rec,self.month_selection))
+				request = self._cr.dictfetchall() 
+				for rec in request: 
+					ktt_prod += float(0 if rec['total'] is None else rec['total'])
+			
+			# GAJI UMUM
+			employee_umum = self.env['hr.employee'].search([('coa','=','2')])
+			gaji_umum = 0
+			ktt_umum = 0
+			for i in employee_umum:
+				self._cr.execute(gaji_query % (i.id,'THP',date_rec,self.month_selection))
+				request = self._cr.dictfetchall() 
+				for rec in request: 
+					gaji_umum += float(0 if rec['total'] is None else rec['total'])
+			for i in employee_umum:
+				self._cr.execute(gaji_query % (i.id,'THR',date_rec,self.month_selection))
+				request = self._cr.dictfetchall() 
+				for rec in request: 
+					ktt_umum += float(0 if rec['total'] is None else rec['total'])
 				
-					UNION
-                    SELECT 
-						hpl.code, 
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						hpl.total as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'AHLI'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
+			
+			# Excel Writer Prep
+			fp = BytesIO()
+			workbook = xlsxwriter.Workbook(fp)
+			wbf, workbook = awf.add_workbook_format(workbook)
+			title_format = workbook.add_format({'bold':True, 'underline':True, 'font_size':22, 'align':'center', 'valign':'vcenter'})
+			title_format_2 = workbook.add_format({'bold':True, 'underline':True, 'font_size':12, 'align':'center', 'valign':'vcenter'})
+			header_format_1 = workbook.add_format({'bold':True, 'font_size':12, 'align':'left', 'valign':'vcenter'})
+			header_format_2 = workbook.add_format({'bold':True, 'font_size':12, 'align':'center', 'valign':'vcenter', 'border':1})
+			content_format_1 = workbook.add_format({'font_size':12, 'align':'left', 'valign':'vcenter'})
+			content_format_2 = workbook.add_format({'font_size':12, 'align':'left', 'valign':'vcenter', 'left':1, 'right':1, 'num_format':40})
+			content_format_3 = workbook.add_format({'font_size':12, 'align':'right', 'valign':'vcenter', 'left':1, 'right':1, 'num_format':40})
+			content_format_4 = workbook.add_format({'bold':True, 'font_size':12, 'align':'right', 'valign':'vcenter', 'border':1, 'num_format':40})
+
+
+			# Sheet 1
+			worksheet = workbook.add_worksheet('PAYMENT REQUEST')
+
+			# Sheet 1 - Set column width
+			worksheet.set_column('A:A', 5)
+			worksheet.set_column('B:B', 5)
+			worksheet.set_column('C:P', 8)
+
+			# Sheet 1 - Title
+			worksheet.merge_range('L2:M2','Nomor :',header_format_1)
+			worksheet.merge_range('L3:M3','Tanggal :',header_format_1)
+			worksheet.merge_range('N3:P3','%s %s %s' % (str(last_date), str(month_string), str(year_string)),content_format_1)
+			worksheet.merge_range('L4:M4','Mata Uang :',header_format_1)
+			worksheet.merge_range('N4:P4','Rp',content_format_1)
+			worksheet.merge_range('L5:M5','Jumlah Data :',header_format_1)
+			worksheet.merge_range('N5:P5',request_len,content_format_1)
+			worksheet.merge_range('C6:P7','PAYMENT REQUEST',title_format)
+
+			# Sheet 1 - Header
+			worksheet.merge_range('C9:C10','No.',header_format_2)
+			worksheet.merge_range('D9:K10','Uraian',header_format_2)
+			worksheet.merge_range('L9:P10','Jumlah',header_format_2)
+
+			# Sheet 1 - Table 1
+			worksheet.write('C11','1',content_format_2)
+			worksheet.merge_range('D11:K11','TOTAL BIAYA GAJI',content_format_2)
+			worksheet.merge_range('L11:P11',total_biaya_gaji,content_format_3)
+
+			worksheet.write('C12','2',content_format_2)
+			worksheet.merge_range('D12:K12','PPH 21',content_format_2)
+			worksheet.merge_range('L12:P12',pph21_bulanan,content_format_3)
+			
+			worksheet.write('C13','3',content_format_2)
+			worksheet.merge_range('D13:K13','JHT (BY JAMSOSTEK)',content_format_2)
+			worksheet.merge_range('L13:P13',jht,content_format_3)
+			
+			worksheet.write('C14','4',content_format_2)
+			worksheet.merge_range('D14:K14','JP (BY JAMSOSTEK)',content_format_2)
+			worksheet.merge_range('L14:P14',jp,content_format_3)
+			
+			worksheet.write('C15','5',content_format_2)
+			worksheet.merge_range('D15:K15','KES (BY JAMSOSTEK)',content_format_2)
+			worksheet.merge_range('L15:P15',kes,content_format_3)
+			
+			worksheet.write('C16','6',content_format_2)
+			worksheet.merge_range('D16:K16','TUNJ JKK (BY JAMSOSTEK)',content_format_2)
+			worksheet.merge_range('L16:P16',tunj_jkk,content_format_3)
+			
+			worksheet.write('C17','7',content_format_2)
+			worksheet.merge_range('D17:K17','TOTAL JHT (BY JAMSOSTEK)',content_format_2)
+			worksheet.merge_range('L17:P17',tunj_jht,content_format_3)
+			
+			worksheet.write('C18','8',content_format_2)
+			worksheet.merge_range('D18:K18','JP (BY JAMSOSTEK)',content_format_2)
+			worksheet.merge_range('L18:P18',tunj_jp,content_format_3)
+			
+			worksheet.write('C19','9',content_format_2)
+			worksheet.merge_range('D19:K19','TUNJ BPJS (BY JAMSOSTEK)',content_format_2)
+			worksheet.merge_range('L19:P19',bpjs_kes,content_format_3)
+			
+			worksheet.write('C20','10',content_format_2)
+			worksheet.merge_range('D20:K20','ASTEK',content_format_2)
+			worksheet.merge_range('L20:P20',astek,content_format_3)
+
+			worksheet.write('C21','11',content_format_2)
+			worksheet.merge_range('D21:K21','THR',content_format_2)
+			worksheet.merge_range('L21:P21',thr,content_format_3)
+			
+			worksheet.write('C22','12',content_format_2)
+			worksheet.merge_range('D22:K22','POTONGAN',content_format_2)
+			worksheet.merge_range('L22:P22',potongan,content_format_3)
+			
+			worksheet.merge_range('C23:K23','TOTAL :',header_format_2)
+			worksheet.merge_range('L23:P23','=SUM(L11:P22)',content_format_4)
+
+			# Sheet 1 - Table 2
+			worksheet.merge_range('C25:F25','COA GAJI BULANAN '+ '%s%s' % (str(month_string), str(year_string)), title_format_2)
+			worksheet.merge_range('C26:D26','', header_format_2)
+			worksheet.merge_range('E26:F26',month_string, header_format_2)
+			worksheet.merge_range('C27:D27','Gaji Produksi',content_format_2)
+			worksheet.merge_range('E27:F27',gaji_prod,content_format_3)
+			worksheet.merge_range('C28:D28','Gaji Umum',content_format_2)
+			worksheet.merge_range('E28:F28',gaji_umum,content_format_3)
+			worksheet.merge_range('C29:D29','TOTAL',header_format_2)
+			worksheet.merge_range('E29:F29','=SUM(E27:E28)',content_format_4)
+
+			# Sheet 1 - Table 3
+			worksheet.merge_range('C33:F33','COA THR ' + '%s%s' % (str(month_string), str(year_string)), title_format_2)
+			worksheet.merge_range('C34:D34','', header_format_2)
+			worksheet.merge_range('E34:F34',month_string, header_format_2)
+			worksheet.merge_range('C35:D35','THR Produksi',content_format_2)
+			worksheet.merge_range('E35:F35',ktt_prod,content_format_3)
+			worksheet.merge_range('C36:D36','THR Umum',content_format_2)
+			worksheet.merge_range('E36:F36',ktt_umum,content_format_3)
+			worksheet.merge_range('C37:D37','TOTAL',header_format_2)
+			worksheet.merge_range('E37:F37','=SUM(E35:E36)',content_format_4)
+
+			# File name
+			filename = 'PAYMENT REQUEST_%s%s%s' % (month_string, year_string, '.xlsx')
+			workbook.close()
+			out = base64.encodebytes(fp.getvalue())
+			self.write({'data': out})
+			fp.close()
+
+			url = "web/content/?model=" + self._name + "&id=" + str(self.id) + "&field=data&download=true&filename=" + filename
+			result = {
+				'name': 'PAYMENT REQUEST XLS',
+				'type': 'ir.actions.act_url',
+				'url': url,
+				'target': 'download',
+			}
+			return result
+
+	def action_generate_csv(self):	
+		if self.report_type != 'csv':
+			raise UserError('Silakan pilih Report yang sesuai')
+		elif self.payroll_send_date == '':
+			raise UserError('Pilih Send Date!')
+		else:
+			date_rec = datetime(int(self.current_year), int(self.month_selection), 20)
+			month_string = date_rec.strftime("%b")
+			year_string = date_rec.strftime("%y")
+			now = datetime.now() + timedelta(hours=7)
+			create_datetime = now.strftime("%Y/%m/%d_%H.%M.%S")
+			paycheck_date = self.payroll_send_date.strftime("%Y%m%d")
+			if self.jabatan == '20':
+				employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('joining_date','<=',date_rec)])
+			elif self.jabatan in ('1','2','3','4','5'):
+				employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('jabatan','=',self.jabatan),('joining_date','<=',date_rec)])
+			elif self.jabatan == '6':
+				employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('jabatan','in',('4','5')),('joining_date','<=',date_rec)])
+			elif self.jabatan == '7':
+				employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('jabatan','in',('1','2','3')),('joining_date','<=',date_rec)])
+			else:
+				employees = self.env['hr.employee'].search([('domestic_bank_id','!=',''),('no_rekening','!=',''),('jabatan','in',('2','3')),('joining_date','<=',date_rec)])
+			
+			
+			thp_query = '''
+				select total 
+				from hr_payslip hp 
+				left join hr_payslip_line hpl on hpl.slip_id = hp.id 
+				where hp.employee_id = '%s'
+				and hpl.code = 'THP'
+				and hp.month_selection = '%s'
+				and date_part('year',hp.create_date) = date_part('year',now())
+			'''
+			rec_sum = 0
+
+			# menghitung sum dari seluruh gaji karyawan
+			for i in employees:
+				self._cr.execute(thp_query % (i.id,self.month_selection))
+				thp = self._cr.dictfetchall()
+				for rec in thp:
+					rec_sum += int(0 if rec['total'] is None else rec['total'])
+
+			# tulis record ke dalam file
+			# modif menggunakan mpath = get_module_path(sh_hr_payroll)
+			# atur chmod 777 dan chown 
+			mpath = get_module_path('sh_hr_payroll')
+			with open(mpath + '/static/payroll.csv',mode='w') as file:
+				writer = csv.writer(file, delimiter=',',dialect='excel',quoting=csv.QUOTE_MINIMAL,lineterminator="\n")
+				row_1 = [create_datetime,len(employees)+2]
+				for x in range(18):
+					row_1.append('')
+				row_2 = ['P',paycheck_date,'6663777999',len(employees),int(rec_sum)]
+				for x in range(15):
+					row_2.append('')
+				row_3 = []
+
+				writer.writerow(row_1)
+				writer.writerow(row_2)
 				
-					UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						hpl.total as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'SHIFT3'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
+				for i in employees:
+					self._cr.execute(thp_query % (i.id,self.month_selection))
+					thp_val = self._cr.dictfetchall() 
+					row_3.clear()
+					row_3.append(i.no_rekening)
+					row_3.append(i.name)
+					for rec in thp_val:
+						row_3.append(int(0 if rec['total'] is None else rec['total']))
+					row_3.append('GAJI '+self.month_selection+'-24')
+					row_3.append('')
+					row_3.append('')
+					if (i.domestic_bank_id.bank_code != "000000"):
+						row_3.append(i.domestic_bank_id.bank_code)
+						row_3.append(i.domestic_bank_id.bank_name)
+					else:
+						row_3.append('')
+						row_3.append('')
+					for t in range(8):
+						row_3.append('')
+					if (i.domestic_bank_id.bank_code != "000000"):
+						row_3.append('Y')
+						row_3.append('stefi@altinex.co')
+					else:
+						row_3.append('N')
+						row_3.append('')
+					row_3.append('')
+					row_3.append('N')
+					writer.writerow(row_3)
 					
-					UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						hpl.total as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'FASKES'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
+			# baca record dari file
+			with open(mpath + '/static/payroll.csv', 'r', encoding="utf-8") as file2:
+				data = str.encode(file2.read(), 'utf-8')
 				
-					UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						hpl.total as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'LEMBUR'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
+				# print(data)
+				if self.jabatan == '1':
+					csv_name = 'Payroll Direktur / Wakil Direktur'
+				elif self.jabatan == '2':
+					csv_name = 'Payroll Manager'
+				elif self.jabatan == '3':
+					csv_name = 'Payroll Supervisor'
+				elif self.jabatan == '4':
+					csv_name = 'Payroll Staff'
+				elif self.jabatan == '5':
+					csv_name = 'Payroll Operator'
+				elif self.jabatan == '6':
+					csv_name = 'Payroll Staff + Operator'
+				elif self.jabatan == '7':
+					csv_name = 'Payroll DIR + MNG + SPV'
+				elif self.jabatan == '8':
+					csv_name = 'Payroll MNG + SPV'
+				else : 
+					csv_name = 'Payroll Seluruh Karyawan'
 				
-					UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						hpl.total as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'BONUS'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
+				filename = '%s %s%s%s' % (csv_name,month_string,year_string,'.csv')
 
-					UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						hpl.total as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'TOTAL_TUNJANGAN'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-					UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						hpl.total as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'TPPH'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-					
-					UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						hpl.total as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'KES'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-					UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						hpl.total as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'JKK'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-					UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						hpl.total as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'JKM'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-					UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						hpl.total as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'BOTA'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-					UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						hpl.total as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'THR'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-					
-					UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						hpl.total as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'TOTAL_KTT'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-				UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						hpl.total as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'BRUTO'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-				UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						hpl.total as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'JHT2'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
+				self.csv_data = base64.encodestring(data)
+				url = "web/content/?model=" + self._name + "&id=" + str(self.id) + "&field=csv_data&download=true&filename=" + filename
+				result = {
+					'name': 'BNI Direct CSV',
+					'type': 'ir.actions.act_url',
+					'url': url,
+					'target': 'download',
+				}
+				return result
 
-				UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						hpl.total as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'JP2'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-				UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						hpl.total as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'JABAT'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-				UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						hpl.total as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'POTONG'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-				UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						hpl.total as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'NET'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-				UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						hpl.total as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'NET_ANNUAL'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-				UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						hpl.total as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'PTKP'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-				UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						hpl.total as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'PKP_1'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-				UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						hpl.total as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'TOTAL_BPJS_KARYAWAN'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-				UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						hpl.total as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'PPH21_1_SETAHUN'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-
-				UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						hpl.total as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'PPH21_1_SEBULAN'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-				UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						hpl.total as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'THP_1'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-					UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						hpl.total as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'JHT'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-				UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						hpl.total as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'JP'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-					UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						hpl.total as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'KES2'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-					UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						hc.gapok_bpjs_kes as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-					UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						hc.gapok_bpjs_tk as gaji_bpjs_tk,
-						0 as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on  hc.id = he.contract_id
-                    WHERE hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-					
-				UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						hpl.total as thp_2,
-						0 as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'THP_2'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-				
-					UNION
-                    SELECT 
-						hpl.code,
-						0 as total_gapok, 
-						0 as total_gapok_bpjs,
-						0 as total_ahli,
-						0 as total_shift3,
-						0 as total_faskes,
-						0 as total_lembur,
-						0 as total_bonus,
-						0 as total_total_tunjangan,
-						0 as total_tpph, 
-						0 as total_kes,
-						0 as total_jkk,
-						0 as total_jkm,
-						0 as total_bota,
-						0 as total_thr,
-						0 as total_total_ktt,
-						0 as total_bruto,
-						0 as total_jht2, 
-						0 as total_jp2,
-						0 as total_jabat,
-						0 as total_potong,
-						0 as total_net,
-						0 as total_net_annual,
-						0 as total_ptkp,
-						0 as total_pkp_1,
-						0 as total_pkp_2, 
-						0 as total_pph21_1,
-						0 as total_pph21_2,
-						0 as total_thp_1,
-						0 as jht,
-						0 as jp,
-						0 as kes2,
-						0 as gaji_bpjs_kes,
-						0 as gaji_bpjs_tk,
-						0 as thp_2,
-						hpl.total as thp_3,
-						hp.employee_id as karyawan
-                    FROM 
-                    hr_payslip hp left join hr_payslip_line hpl on hpl.slip_id = hp.id
-					left join hr_employee he on he.id = hp.employee_id
-					left join hr_job hj on hj.id = he.job_id
-					left join hr_contract hc on hc.id = he.contract_id
-                    WHERE hpl.code = 'THP_3'
-                    AND hp.month_selection = '{self.month_selection}'
-					AND hj.id in {job_ids}
-                ) AS payslip 
-            left join hr_employee he on he.id = payslip.employee_id
-			left join hr_job hj on hj.id = he.job_id
-			left join hr_contract hc on  hc.id = he.contract_id
-            GROUP BY he.name, he.identification_id, hc.gapok_bpjs_kes, hc.gapok_bpjs_tk
-            """ 
-        self._cr.execute(query)
-        record = self._cr.dictfetchall()
-        data = {
-            'me': self,
-            'ids': self.ids,
-            'model': self._name,
-            'form': {
-                'date_start': self.date_start,
-                'date_end': self.date_end,
-                'month_selection': self.month_selection,
-                'record' : record,
-            },
-        }
-        if self.report_type == 'bpjs': 
-            return self.env.ref('sh_hr_payroll.action_report_salary_bpjs').report_action(None, data=data)
-        else :
-            return self.env.ref('sh_hr_payroll.action_report_salary_gs').report_action(None, data=data)
-
-    @api.depends('report_type')
-    def compute_job_ids(self):
-        manajer_payroll = self.env['res.groups'].sudo().browse(240)
-        payroll_staff = self.env['res.groups'].sudo().browse(241)
-        payroll_spv = self.env['res.groups'].sudo().browse(244)
-        uid = self.env.user.id
-        if uid in manajer_payroll.users.ids:
-            rule = manajer_payroll.rule_groups.filtered(lambda x: x.model_id.name == 'Pay Slip')
-        elif uid in payroll_staff.users.ids:
-            rule = payroll_staff.rule_groups.filtered(lambda x: x.model_id.name == 'Pay Slip')
-        elif uid in payroll_spv.users.ids:
-            rule = payroll_spv.rule_groups.filtered(lambda x: x.model_id.name == 'Pay Slip')
-        else:
-            self.job_ids = [(6, 0, [])]
-            return
-        job_ids = rule.domain_force.split(",'in',")[1].replace(")])", "")
-        for rec in self:
-            rec.job_ids = [(6, 0, list(map(int, job_ids[1:-1].split(','))) if job_ids else [])]
+# end
     
-class HrReportingBpjs(models.AbstractModel):
-    _name = 'report.sh_hr_payroll.report_salary_bpjs'
-
-    @api.model
-    def _get_report_values(self, docids, data=None):
-        print('_get_report_values')
-        date_start = data['form']['date_start']
-        date_end = data['form']['date_end']
-        record = data['form']['record']
-        return {
-            'me': self,
-            'date_start': date_start,
-            'date_end': date_end,
-            'doc_ids': data['ids'],
-            'docs': record,
-        }
-
-class HrReportingGS(models.AbstractModel):
-    _name = 'report.sh_hr_payroll.report_salary_gs'
-
-    @api.model
-    def _get_report_values(self, docids, data=None):
-        print('_get_report_values')
-        date_start = data['form']['date_start']
-        date_end = data['form']['date_end']
-        record = data['form']['record']
-        return {
-            'me': self,
-            'date_start': date_start,
-            'date_end': date_end,
-            'doc_ids': data['ids'],
-            'docs': record,
-        }

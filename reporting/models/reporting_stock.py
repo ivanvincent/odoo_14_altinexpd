@@ -272,10 +272,11 @@ class ReportingStock(models.Model):
 
 class ReportingStockLine(models.Model):
     _name = 'reporting.stock.line'
+    _order = 'product_code asc'
 
     
     name                        = fields.Char(string='Name')
-    product_code                = fields.Char(string='Kode Barang', related='product_id.default_code')
+    product_code                = fields.Char(string='Kode Barang', related='product_id.default_code', store=True,)
     variasi                     = fields.Char(string='Variasi', compute='_compute_variasi')
     categ_id                    = fields.Many2one('product.category', string="Product Category" , related='product_id.categ_id')
     uom_id                      = fields.Many2one('uom.uom', string="Uom", related='product_id.uom_id')
@@ -317,9 +318,10 @@ class ReportingStockLine(models.Model):
 
 class ReportingStockLineHistory(models.Model):
     _name = 'reporting.stock.line.history'
+    _order = 'product_code asc'
 
     name                = fields.Char(string='Name')
-    product_code        = fields.Char(string='Kode Barang', related='product_id.default_code')
+    product_code        = fields.Char(string='Kode Barang', related='product_id.default_code', store=True,)
     variasi             = fields.Char(string='Variasi', compute='_compute_variasi')
     qty                 = fields.Float(string='Quantity', related='move_id.product_uom_qty')
     date                = fields.Datetime(string='Date', related='picking_id.date_done')

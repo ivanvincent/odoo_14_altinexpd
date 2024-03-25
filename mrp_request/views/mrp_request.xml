@@ -203,13 +203,14 @@
 
 
         <!-- Search View -->
-        <!-- <record model="ir.ui.view" id="stock_point_order_line_view_search">
-            <field name="name">stock.point.order.line.search</field>
-            <field name="model">stock.point.order.line</field>
+        <record model="ir.ui.view" id="mrp_request_view_search">
+            <field name="name">mrp.request.search</field>
+            <field name="model">mrp.request</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="order_id"/>
-                    <field name="product_id"/>
+                    <field name="name" string="Manufacture Request"/>
+                    <field name="sale_id" string="No SO"/>
+                    <!-- <field name="product_id"/>
                     <field name="warehouse_id"/>
                     <field name="jalur_id"/>
                     <group>
@@ -217,10 +218,10 @@
                         <filter name="date_production" string="Date Production" context="{'group_by':'date_production'}"/>
                         <filter name="jalur" string="Jalur" context="{'group_by':'jalur_id'}"/>
                         <filter name="product_id" string="Product" context="{'group_by':'product_id'}"/>
-                    </group>
+                    </group> -->
                 </search>
             </field>
-        </record> -->
+        </record>
 
 
         <!-- <record id="stock_point_order_line_action" model="ir.actions.act_window">
@@ -269,7 +270,7 @@
             </field>
         </record> -->
 
-        <menuitem id="main_mrp_request" name="Manufacturing Request" web_icon="mrp_request,static/description/icon.png">
+        <menuitem id="main_mrp_request" name="Manufacturing Request" web_icon="mrp_request/static/description/icon.png">
             <!-- <menuitem id="menu_stock_point_order" name="Stock Point Order" sequence="00">
                 <menuitem id="submenu_stock_point_order_unplan_menu" name="Stock Point Order Unplan" action="stock_point_order_line_action" />
                 <menuitem id="submenu_stock_point_order_plan_menu" name="Stock Point Order Planned" action="stock_point_order_line_planned_action" />

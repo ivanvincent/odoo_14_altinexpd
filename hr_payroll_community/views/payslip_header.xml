@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="payslip_report_header" name="payslip_header" inherit_id="web.external_layout">
+            <xpath expr="//div[@class='header']" position="replace">
+                <div class="header">
+                    <div class="row">
+                        <div class="col-xs-9">
+                            <h2>PT. ALTINEX PUNCH AND DIE</h2>
+                            <h3>Jl. Panghegar no.7, Cipadung Kulon, Kecamatan Panyileukan</h3>
+                        </div>
+                        <div class="col-xs-3">
+                            <img t-if="doc.company_id.logo" t-att-src="'data:image/png;base64,%s' %doc.company_id.logo"/>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+            
+    </data>
+    
+</odoo>

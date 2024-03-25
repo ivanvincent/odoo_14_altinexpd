@@ -28,8 +28,10 @@ class ResPartnerJalur(models.Model):
 
     #djoyo
     salesperson_id = fields.Many2one("hr.employee", "Supervisor", track_visibility='onchange' )
+    currency_id = fields.Many2one("res.currency", "Currency" )
     
-    account_id = fields.Many2one("res.partner.account", "Partner Account", track_visibility='onchange' )
+    # account_id = fields.Many2one("res.partner.account", "Partner Account",)
+    #  track_visibility='onchange'
     divisi1_id = fields.Many2one("res.partner.divisi1", "Partner Divisi 1", track_visibility='onchange' )
     divisi2_id = fields.Many2one("res.partner.divisi2", "Partner Divisi 2", track_visibility='onchange' )
     group_id = fields.Many2one("res.partner.group", "Partner Group", track_visibility='onchange' )
@@ -46,6 +48,10 @@ class ResPartnerJalur(models.Model):
             result.append((record.id, display_name))
         return result
 
+class ResPartnerBank(models.Model):
+    _inherit = 'res.partner.bank'
+
+    branch_bank = fields.Char(string='Branch')
 
 class ResPartnerJalurLine(models.Model):
     _name = "res.partner.jalur.line"

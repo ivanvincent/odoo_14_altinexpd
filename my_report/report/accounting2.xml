@@ -966,9 +966,9 @@
                                 <tr class="text-center">
                                     <th width="2%" class="text-center">NO</th>
                                     <th width="250px;">PARTNER</th>
-                                    <t t-if="o.account_mutasi == 'receivable'">
+                                    <!-- <t t-if="o.account_mutasi == 'receivable'">
                                         <th>GROUP COMPANY</th>
-                                    </t>
+                                    </t> -->
                                     <th>OPENING</th>
                                     <t t-foreach="thead" t-as="journal">
                                         <th>
@@ -1001,9 +1001,9 @@
                                             <span t-field="line_ids.partner_id" />
                                         </td>
                                         <t t-if="o.account_mutasi == 'receivable'">
-                                            <td class="text-center">
+                                            <!-- <td class="text-center">
                                                 <span t-field="line_ids.partner_id.group_partner_id" />
-                                            </td>
+                                            </td> -->
                                         </t>
                                         <td class="text-right pr-2">
                                             <t t-if="o.account_mutasi == 'receivable'">

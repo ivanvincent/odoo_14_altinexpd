@@ -148,6 +148,10 @@
             <field name="domain">[('type', '=', 'MONOBLOCK')]</field>
         </record>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 42cdb9030f851b5fe403eed06a6fc058da9468d8
         <menuitem
             id="master_monoblock_menu"
             name="Master Monoblock"

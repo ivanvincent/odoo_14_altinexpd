@@ -119,7 +119,6 @@
                 <field name="vat" position="before">
                     <field name="kode_customer" invisible="1" />
                     <field name="partner_tax_type"/>
-                    <field name="kode_mkt"/>
                 </field>
 
                 <!-- 

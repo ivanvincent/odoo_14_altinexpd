@@ -290,11 +290,25 @@ odoo.define("wibicon_utility.OWLTreeRenderer", function (require) {
                     dataType: "number",
                   },
                   {
-                    dataField: "product_qty",
-                    caption: "Quantity",
+                    dataField: "hasil_konversi",
+                    caption: "Quantity PR",
                     dataType: "number",
                   },
                   { dataField: "product_uom", caption: "Uom" },
+                  {
+                    dataField: "conversion",
+                    caption: "Konversi",
+                    dataType: "number",
+                  },
+                  {
+                    dataField: "qty_pr",
+                    caption: "Quantity PO",
+                    dataType: "number",
+                  },
+                  {
+                    dataField: "status_po",
+                    caption: "Satuan PO",
+                  },
                   {
                     dataField: "price_unit",
                     caption: "Price Unit",

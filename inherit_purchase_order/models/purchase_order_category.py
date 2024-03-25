@@ -16,7 +16,7 @@ class PurchaseOrderCategory(models.Model):
     description          = fields.Text(string='Description')
     sequence_id          = fields.Many2one('ir.sequence', string='Sequence')
     product_category_ids = fields.Many2many(comodel_name='product.category',relation='purchase_product_category_rel',column1='product_categ_id',column2='po_categ_id',string='Product Category' )
-    
+    picking_type_ids     = fields.Many2many('stock.picking.type', column1='picking_type_id', string='Picking Type Ids')
     
     
     
