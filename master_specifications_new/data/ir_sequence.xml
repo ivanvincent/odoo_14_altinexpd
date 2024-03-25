@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
@@ -25,31 +24,3 @@
     
 
 </odoo>
-=======
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-
-    <data>
-
-        <record id="qrf_seq_new" model="ir.sequence">
-            <field name="name">QRF NEW</field>
-            <field name="code">quotation.request.form.new</field>
-            <field name="prefix">Q-%(year)s</field>
-            <field name="padding">5</field>
-            <field name="company_id" eval="False"/>
-        </record>
-
-        <record id="qrf_ic_no_doc_new" model="ir.sequence">
-            <field name="name">QRF NEW</field>
-            <field name="code">qrf.ic.no.doc.new</field>
-            <field name="prefix">IC/%(year)s/%(month)s/</field>
-            <field name="padding">4</field>
-            <field name="company_id" eval="False"/>
-        </record>
-
-     
-    </data>
-    
-
-</odoo>
->>>>>>> 42cdb9030f851b5fe403eed06a6fc058da9468d8

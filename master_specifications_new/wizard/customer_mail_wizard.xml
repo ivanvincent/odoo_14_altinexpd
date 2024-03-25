@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <odoo>
     <data>
 
@@ -58,65 +57,4 @@
 
 
     </data>
-=======
-<odoo>
-    <data>
-
-        <record id="send_customer_mail_form_new" model="ir.ui.view">
-            <field name="name">customer.mail.wizard.new.form</field>
-            <field name="model">customer.mail.wizard.new</field>
-            <field name="arch" type="xml">
-                <form>
-                    <header>
-                        <button string="Refresh" name="action_so" type="object" default_focus="1" class="btn-primary"/>
-                    </header>
-                    <group>
-                        <group>
-                            <field name="subject" default='-'/>
-                            <field name="recipients"/>
-                            <field name="mail_recipients"/>
-                            <field name="template_id" context="{'default_model': 'quotation.request.form'}" domain="[('model', '=', 'quotation.request.form')]"/>
-                        </group>
-                        <field name="body" nolabel="1" options="{'style-inline': true}"/>
-                        <field name="so_ids" widget="pdf_viewer" nolabel="1" options="{'style-inline': true}" attrs="{'invisible':[('so_ids', '=', False)]}"/>
-                        <group>
-                            
-                            <!-- <field name="body" options="{'style-inline': true}"/> -->
-                            <!--<field name="so_ids" widget="pdf_viewer" nolabel="1" style="width:900px; height:700px;" attrs="{'invisible':[('so_ids', '=', False)]}"/>-->
-                            <!-- <field name="so_ids" filename="so_name" widget="binary" widget="pdf_viewer"/> -->
-                            <field name="so_name" invisible="1"/>
-                        </group>
-                        <!-- <button name="action_refresh" type="object" string="Refresh" /> -->
-                        <!-- <group>
-                            <field name="drawing_ids" filename="dwg_name" widget="binary"/>
-                            <field name="dwg_name" invisible="1"/>
-                        </group> -->
-                    </group>
-                    <footer>
-                        <!-- <button string="Download SO" name="action_so" type="object" default_focus="1" class="btn-primary"/> -->
-                        <button string="Send Mail" name="action_print" type="object" class="btn-primary"/>
-                        <button string="Cancel" class="btn-default" special="cancel"/>
-                    </footer>
-                </form>
-            </field>
-        </record>
-
-        <record id="message_success_new_form" model="ir.ui.view">
-            <field name="name">customer.production.wizard.new</field>
-            <field name="model">customer.mail.wizard.new</field>
-            <field name="arch" type="xml">
-                <form string="generation fichier">
-                    <sheet>
-                        <h3>Send to production success!</h3>
-                    </sheet>
-                    <footer>
-                        <button string="OK" special="cancel" class="oe_highlight"/>
-                    </footer>
-                </form>
-            </field>
-        </record>
-
-
-    </data>
->>>>>>> 42cdb9030f851b5fe403eed06a6fc058da9468d8
 </odoo>

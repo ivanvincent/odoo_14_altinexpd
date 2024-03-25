@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_model_master_jenis_new,master_jenis_new,model_master_jenis_new,base.group_system,1,1,1,1
 access_model_master_require_new,master_require_new,model_master_require_new,base.group_system,1,1,1,1
@@ -22,29 +21,4 @@ access_model_revise_wizard_new,revise_wizard_new,model_revise_wizard_new,base.gr
 access_model_customer_mail_wizard_new,customer_mail_wizard_new,model_customer_mail_wizard_new,base.group_system,1,1,1,1
 access_model_sj_attachment_new,sj_attachment_new,model_sj_attachment_new,base.group_system,1,1,1,1
 access_model_send_production_wizard_new,send_production_wizard_new,model_send_production_wizard_new,base.group_system,1,1,1,1
-=======
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_model_master_jenis_new,master_jenis_new,model_master_jenis_new,base.group_system,1,1,1,1
-access_model_master_require_new,master_require_new,model_master_require_new,base.group_system,1,1,1,1
-access_model_specifications_new,specifications_new,model_specifications_new,base.group_system,1,1,1,1
-access_model_quotation_request_form_line_specification_new,quotation_request_form_line_specification_new,model_quotation_request_form_line_specification_new,base.group_system,1,1,1,1
-access_model_quotation_request_form_line_new,quotation_request_form_line_new,model_quotation_request_form_line_new,base.group_system,1,1,1,1
-access_model_quotation_request_form_new,quotation_request_form_new,model_quotation_request_form_new,base.group_system,1,1,1,1
-access_model_master_qty_new,master_qty_new,model_master_qty_new,base.group_system,1,1,1,1
-access_model_quotation_request_form_line_quantity_new,quotation_request_form_line_quantity_new,model_quotation_request_form_line_quantity_new,base.group_system,1,1,1,1
-access_model_print_qrf_wizard_new,print_qrf_wizard_new,model_print_qrf_wizard_new,base.group_system,1,1,1,1
-access_model_drawing_attachment_new,drawing_attachment_new,model_drawing_attachment_new,base.group_system,1,1,1,1
-access_model_qrf_attachment_new,qrf_attachment_new,model_qrf_attachment_new,base.group_system,1,1,1,1
-access_model_po_attachment_new,po_attachment_new,model_po_attachment_new,base.group_system,1,1,1,1
-access_model_qrf_attachment_conclusion_new,qrf_attachment_conclusion_new,model_qrf_attachment_conclusion_new,base.group_system,1,1,1,1
-access_model_conclusion_new,conclusion_new,model_conclusion_new,base.group_system,1,1,1,1
-access_model_qrf_template_con_new,qrf_template_con_new,model_qrf_template_con_new,base.group_system,1,1,1,1
-access_model_qrf_con_new,qrf_con_new,model_qrf_con_new,base.group_system,1,1,1,1
-access_model_inform_consent_attch_new,inform_consent_attch_new,model_inform_consent_attch_new,base.group_system,1,1,1,1
-access_model_inform_consent_wizard_new,inform_consent_wizard_new,model_inform_consent_wizard_new,base.group_system,1,1,1,1
-access_model_revise_wizard_new,revise_wizard_new,model_revise_wizard_new,base.group_system,1,1,1,1
-access_model_customer_mail_wizard_new,customer_mail_wizard_new,model_customer_mail_wizard_new,base.group_system,1,1,1,1
-access_model_sj_attachment_new,sj_attachment_new,model_sj_attachment_new,base.group_system,1,1,1,1
-access_model_send_production_wizard_new,send_production_wizard_new,model_send_production_wizard_new,base.group_system,1,1,1,1
->>>>>>> 42cdb9030f851b5fe403eed06a6fc058da9468d8
 access_model_detail_specification_mo_new,detail_specification_mo_new,model_detail_specification_mo_new,base.group_system,1,1,1,1
