@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="KanbanProduction">
+        <style>
+            .table-data, .table-data thead th, .table-data tbody tr td {
+                border: 1px solid black;
+            }
+            .table-data thead {
+                text-align: center;
+            }
+            .kb-main {
+                flex: 1 1 100%;
+                position: relative;
+                overflow: auto;
+                background-color: white;
+                padding: 5px;
+            }
+        </style>
+        <div class="kb-main">
+            <h1>
+                <t t-esc="title"/>
+            </h1>
+            <table width="100%" class="table-data">
+                <thead>
+                    <th style="background-color: #B7C2C7; color: black;">Kategori</th>
+                    <t t-if="list_workcenter">
+                        <t t-foreach="list_workcenter" t-as="w"> 
+                            <th style="background-color: #B7C2C7; color: black;"><span t-esc="w.name"/></th>
+                        </t>
+                    </t>
+                </thead>
+                <tbody>
+                    <t t-if="data_record">
+                        <t t-foreach="data_record" t-as="dr">
+                            <tr>
+                                <td class="text-center" style="background-color: #B7C2C7; color: black;"><h1><t t-esc="dr.option_vip"/></h1></td>
+                                <t t-if="list_workcenter">
+                                    <t t-foreach="list_workcenter" t-as="w">
+                                        <t t-if="dr[w.id]">
+                                            <td style="padding-bottom: 10rem;">
+                                                <t t-foreach="dr[w.id]" t-as="mo">
+                                                    <span style="background-color: #7C7BAC; color: white; padding-left: 5px; padding-right: 5px; border-radius: 3px;"><t t-esc="mo"/></span><br/>
+                                                </t>
+                                            </td>
+                                        </t>
+                                        
+                                    </t>
+                                </t>
+                            </tr>
+                        </t>
+                    </t>
+                </tbody>    
+            </table>
+        </div>
+    </t>
+
+</templates>

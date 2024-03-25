@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="subscribe" name="Subscribe">
+            <t t-call="website.layout">
+                <t t-set="no_footer" t-value="True"/>
+                <div class="o_subscribe_s_main">
+                    <div class="container">
+                        <div class="d-flex flex-column o_subscribe_wrapper">
+                            <h4 class="o_subscribe_title o_subscribe_label">Subscribe</h4>
+                            <form class="needs-validation">
+                                <div class="d-flex flex-row o_subscribe_form_head">
+                                    <div class="o_img_profile_wrapper">
+                                        <div class="o_img_holder">
+                                            <img id="profilePic" class="o_default_img" src="/web_custom/static/src/img/default_user.png"/>
+                                            <label for="newProfilePhoto" class="o_file_upload_block">
+                                                <div class="text-center">
+                                                    <div class="mb-2">
+                                                        <i class="fa fa-camera fa-2x"></i>
+                                                    </div>
+                                                    <div class="text-uppercase">
+                                                        Upload <br />
+                                                Profile Photo
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <Input class="d-none uploadProfileInput" type="file" name="profile_pic" id="newProfilePhoto" accept="image/*"/>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-fill flex-column o_username_field">
+                                        <div class="d-flex flex-column o_firstname">
+                                            <label for="input_firstname" class="o_subscribe_label">Nama Depan</label>
+                                            <input type="text" name="input_firstname" required="true" class="form-control form-rounded o_input_firstname" placeholder="Masukan Nama Depan"/>
+                                        </div>
+                                        <div class="d-flex flex-column o_lastname pt8">
+                                            <label for="input_lastname" class="o_subscribe_label">Nama Belakang</label>
+                                            <input type="text" name="input_lastname" required="true" class="form-control form-rounded o_input_lastname" placeholder="Masukan Nama Belakang"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column o_subscribe_form_body">
+                                    <div class="d-flex flex-column o_email">
+                                        <label for="input_email" class="o_subscribe_label">Email</label>
+                                        <input type="email" name="input_email" required="true" class="form-control form-rounded o_input_email" placeholder="Email akan di pakai untuk aktifasi dan login"/>
+                                    </div>
+                                    <div class="d-flex flex-column o_address">
+                                        <label for="input_address_user" class="o_subscribe_label">Alamat</label>
+                                        <input type="text" name="input_address_user" required="true" placeholder="Masukan alamat valid" class="form-control form-rounded o_input_address"/>
+                                    </div>
+                                    <div class="d-flex flex-column o_phone">
+                                        <label for="input_phone" class="o_subscribe_label">No Telepon / WA</label>
+                                        <input type="number" name="input_phone" required="true" class="form-control form-rounded o_input_phone" placeholder="Masukkan No tlp / WA yang bisa di hubungi"/>
+                                    </div>
+                                    <div class="d-flex flex-column o_address">
+                                        <label for="input_address_user" class="o_subscribe_label">Nama Perusahaan</label>
+                                        <input type="text" name="input_address_user" required="true" placeholder="Masukan nama perusahaan" class="form-control form-rounded o_input_nama_perusahaan"/>
+                                    </div>
+                                    <div class="d-flex flex-column o_address">
+                                        <label for="input_address_user" class="o_subscribe_label">Jabatan</label>
+                                        <input type="text" name="input_address_user" required="true" placeholder="Masukan jabatan" class="form-control form-rounded o_input_jabatan"/>
+                                    </div>
+                                    <div class="d-flex flex-column o_address">
+                                        <label for="input_address_user" class="o_subscribe_label">Divisi</label>
+                                        <input type="text" name="input_address_user" required="true" placeholder="Masukan divisi" class="form-control form-rounded o_input_divisi"/>
+                                    </div>
+                                    <label for="form-check" class="col-form-label o_subscribe_label">Gender</label>
+                                    <div class="d-flex flex-row">
+                                        <div class="form-check-inline o_gender">
+                                            <input type="radio" name="gender" value="male" checked="true" class="form-check-input"/>
+                                            <label class="form-check-label o_subscribe_label" for="o_male">
+                                                Pria
+                                            </label>
+                                        </div>
+                                        <div class="form-check-inline">
+                                            <input type="radio" name="gender" value="female" class="form-check-input "/>
+                                            <label class="form-check-label o_subscribe_label" for="o_female">
+                                                Wanita
+                                            </label>
+                                        </div>
+                                    </div>
+
+
+                                    
+
+                                    <div id="approvalPdf" class="modal fade" role="dialog">
+                                        <div class="modal-dialog modal-md">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <!-- <h5 class="modal-title">Agree to terms and conditions</h5> -->
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- <object data="your_url_to_pdf" type="application/pdf">
+                                                        <embed src="/elearning_controller/static/pdf/approval.pdf" frameborder="0" width="100%" height="400px" type="application/pdf"/>
+                                                    </object> -->
+                                                    <!-- <t t-call="elearning_controller.template_approval"/> -->
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary o_button_subcribe"><b>Subscribe</b></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

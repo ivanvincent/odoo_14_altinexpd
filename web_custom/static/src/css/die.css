@@ -1,0 +1,23 @@
+/* .o_order_die_main { */
+    /* background-color: aquamarine; */
+    /* background: url('../img/bg_alt.jpeg'); */
+/* } */
+
+.bgr-img {
+    background-image: url('../img/bg_alt.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    filter: blur(3px);
+    -webkit-filter: blur(3px);
+}
+.o_order_die_main, .o_order_multipart_main, .o_order_monoblock_main {
+    position: absolute;
+    top: 25%;
+    width: 100%;
+}
+.o_die_wrapper {
+    border-radius: 10px;
+    background-color: white;
+}

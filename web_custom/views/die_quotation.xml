@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="die_quotation_form" model="ir.ui.view">
+            <field name="name">die.form</field>
+            <field name="model">die</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="die_segment"/>
+                                <field name="bore"/>
+                                <label for="basic_specification_id" string="Basic Specification"/>
+                                <div class="d-flex">
+                                    <field name="basic_specification_id" style="width: 49%" />
+                                    <field name="price_basic" style="width: 49%" />
+                                </div>
+                                <label for="material_id" string="Material"/>
+                                <div class="d-flex">
+                                    <field name="material_id" style="width: 49%" />
+                                    <field name="price_material" style="width: 49%" />
+                                </div>
+                                <label for="bore_type_id" string="Bore Type"/>
+                                <div class="d-flex">
+                                    <field name="bore_type_id" style="width: 49%" />
+                                    <field name="price_bore_type" style="width: 49%" />
+                                </div>
+                                <label for="single_multi_tip_id" string="Single or Multi Tip"/>
+                                <div class="d-flex">
+                                    <field name="single_multi_tip_id" style="width: 49%" />
+                                    <field name="price_single_multi" style="width: 49%" />
+                                </div>
+                                <label for="die_screw_id" string="Die Screw"/>
+                                <div class="d-flex">
+                                    <field name="die_screw_id" style="width: 49%" />
+                                    <field name="price_die_screw" style="width: 49%" />
+                                </div>
+                                <label for="optional_tapered_bore_id" string="Optional Tapered Bore"/>
+                                <div class="d-flex">
+                                    <field name="optional_tapered_bore_id" style="width: 49%" />
+                                    <field name="price_optional_tapered" style="width: 49%" />
+                                </div>
+                            </group>
+                            <group>
+                                <label for="heat_treatment_id" string="Heat Treatment"/>
+                                <div class="d-flex">
+                                    <field name="heat_treatment_id" style="width: 49%" />
+                                    <field name="price_heat_treatment" style="width: 49%" />
+                                </div>
+                                <label for="surface_treatment_id" string="Surface Treatment"/>
+                                <div class="d-flex">
+                                    <field name="surface_treatment_id" style="width: 49%" />
+                                    <field name="price_surface" style="width: 49%" />
+                                </div>
+                                <label for="custom_adjustment_id" string="Custom Adjustment"/>
+                                <div class="d-flex">
+                                    <field name="custom_adjustment_id" style="width: 49%" />
+                                    <field name="price_custom_adj" style="width: 49%" />
+                                </div>
+                                <label for="fat_option_id" string="Fat Option"/>
+                                <div class="d-flex">
+                                    <field name="fat_option_id" style="width: 49%" />
+                                    <field name="price_fat_option" style="width: 49%" />
+                                </div>
+                                <label for="die_setting_aligner_id" string="Die Setting Aligener"/>
+                                <div class="d-flex">
+                                    <field name="die_setting_aligner_id" style="width: 49%" />
+                                    <field name="price_die_setting" style="width: 49%" />
+                                </div>
+                                <field name="user_id"/>
+                            </group>
+                            <group class="oe_subtotal_footer oe_right">
+                                <!-- <field name="currency_id" invisible="1"/> -->
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="subtotal"/>
+                                </div>
+                                <field name="subtotal" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="die_quotation_tree" model="ir.ui.view">
+            <field name="name">die.tree</field>
+            <field name="model">die</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="basic_specification_id"/>
+                    <field name="material_id"/>
+                    <field name="bore_type_id"/>
+                    <field name="single_multi_tip_id"/>
+                    <field name="die_screw_id"/>
+                    <field name="optional_tapered_bore_id"/>
+                    <field name="heat_treatment_id"/>
+                    <field name="surface_treatment_id"/>
+                    <field name="custom_adjustment_id"/>
+                    <field name="fat_option_id"/>
+                    <field name="die_setting_aligner_id"/>
+                    <field name="user_id"/>
+                    <field name="subtotal"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="die_action" model="ir.actions.act_window">
+            <field name="name">Die</field>
+            <field name="res_model">die</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="die_quotation_menu" name="Quotation Request Form Die" sequence="3" action="die_action" parent="quotation_qrf_home"/>
+    
+    </data>
+    
+
+</odoo>

@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="basic_specification_form" model="ir.ui.view">
+            <field name="name">basic.specification.form</field>
+            <field name="model">basic.specification</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="basic_specification_tree" model="ir.ui.view">
+            <field name="name">basic_specification.tree</field>
+            <field name="model">basic.specification</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="basic_specification_action" model="ir.actions.act_window">
+            <field name="name">Basic Specification</field>
+            <field name="res_model">basic.specification</field>
+            <field name="domain">[('type', '=', 'DIE')]</field>
+            <field name="context">{'default_type': 'DIE'}</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="material_form" model="ir.ui.view">
+            <field name="name">material.form</field>
+            <field name="model">material</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                                <field name="type"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="material_tree" model="ir.ui.view">
+            <field name="name">material.tree</field>
+            <field name="model">material</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="material_action" model="ir.actions.act_window">
+            <field name="name">Material</field>
+            <field name="res_model">material</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_type': 'DIE'}</field>
+            <field name="domain">[('type', '=', 'DIE')]</field>
+        </record>
+
+        <record id="bore_type_form" model="ir.ui.view">
+            <field name="name">bore.type.form</field>
+            <field name="model">bore.type</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>    
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="bore_type_tree" model="ir.ui.view">
+            <field name="name">bore.type.tree</field>
+            <field name="model">bore.type</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="bore_type_action" model="ir.actions.act_window">
+            <field name="name">bore.type</field>
+            <field name="res_model">bore.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="single_or_multi_tip_form" model="ir.ui.view">
+            <field name="name">single.or.multi.tip.form</field>
+            <field name="model">single.or.multi.tip</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>                            
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                                <field name="type"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="single_or_multi_tip_tree" model="ir.ui.view">
+            <field name="name">single.or.multi.tip.tree</field>
+            <field name="model">single.or.multi.tip</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="single_or_multi_tip_action" model="ir.actions.act_window">
+            <field name="name">single.or.multi.tip</field>
+            <field name="res_model">single.or.multi.tip</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_type': 'DIE'}</field>
+            <field name="domain">[('type', '=', 'DIE')]</field>
+        </record>
+
+        <record id="die_screw_form" model="ir.ui.view">
+            <field name="name">single.or.multi.tip.form</field>
+            <field name="model">single.or.multi.tip</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>                            
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="die_screw_tree" model="ir.ui.view">
+            <field name="name">die.screw.tree</field>
+            <field name="model">die.screw</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="die_screw_action" model="ir.actions.act_window">
+            <field name="name">die.screw</field>
+            <field name="res_model">die.screw</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="optional_tapered_bore_form" model="ir.ui.view">
+            <field name="name">optional.tapered.bore.form</field>
+            <field name="model">optional.tapered.bore</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="optional_tapered_bore_tree" model="ir.ui.view">
+            <field name="name">optional.tapered.bore.tree</field>
+            <field name="model">optional.tapered.bore</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="optional_tapered_bore_action" model="ir.actions.act_window">
+            <field name="name">optional.tapered.bore</field>
+            <field name="res_model">optional.tapered.bore</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="heat_treatment_form" model="ir.ui.view">
+            <field name="name">heat.treatment.form</field>
+            <field name="model">heat.treatment</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="desc"/>
+                            <field name="price"/>
+                            <field name="type"/>
+                        </group>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="heat_treatment_tree" model="ir.ui.view">
+            <field name="name">heat.treatment.tree</field>
+            <field name="model">heat.treatment</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="heat_treatment_action" model="ir.actions.act_window">
+            <field name="name">heat.treatment</field>
+            <field name="res_model">heat.treatment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_type': 'DIE'}</field>
+            <field name="domain">[('type', '=', 'DIE')]</field>
+        </record>
+
+        <record id="surface_treatment_form" model="ir.ui.view">
+            <field name="name">surface.treatment.form</field>
+            <field name="model">surface.treatment</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                                <field name="type"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="surface_treatment_tree" model="ir.ui.view">
+            <field name="name">surface.treatment.tree</field>
+            <field name="model">surface.treatment</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="surface_treatment_action" model="ir.actions.act_window">
+            <field name="name">surface.treatment</field>
+            <field name="res_model">surface.treatment</field>
+            <field name="context">{'default_type': 'DIE'}</field>
+            <field name="domain">[('type', '=', 'DIE')]</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="custom_adjustment_form" model="ir.ui.view">
+            <field name="name">custom.adjustment.form</field>
+            <field name="model">custom.adjustment</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>                            
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                                <field name="type"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="custom_adjustment_tree" model="ir.ui.view">
+            <field name="name">custom.adjustment.tree</field>
+            <field name="model">custom.adjustment</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="custom_adjustment_action" model="ir.actions.act_window">
+            <field name="name">custom.adjustment</field>
+            <field name="res_model">custom.adjustment</field>
+            <field name="context">{'default_type': 'DIE'}</field>
+            <field name="domain">[('type', '=', 'DIE')]</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="fat_option_form" model="ir.ui.view">
+            <field name="name">fat.option.form</field>
+            <field name="model">fat.option</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                                <field name="type"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fat_option_tree" model="ir.ui.view">
+            <field name="name">fat.option.tree</field>
+            <field name="model">fat.option</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="fat_option_action" model="ir.actions.act_window">
+            <field name="name">fat.option</field>
+            <field name="res_model">fat.option</field>
+            <field name="domain">[('type', '=', 'DIE')]</field>
+            <field name="context">{'default_type': 'DIE'}</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="die_setting_aligner_form" model="ir.ui.view">
+            <field name="name">die.setting.aligner.form</field>
+            <field name="model">die.setting.aligner</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="die_setting_aligner_tree" model="ir.ui.view">
+            <field name="name">die.setting.aligner.tree</field>
+            <field name="model">die.setting.aligner</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="die_setting_aligner_action" model="ir.actions.act_window">
+            <field name="name">die.setting.aligner</field>
+            <field name="res_model">die.setting.aligner</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            id="master_die_menu"
+            name="Master Die"
+            parent="base_master.main_master"
+            sequence="10">
+
+            <menuitem
+                id="basic_specification_menu"
+                name="Basic Specification"
+                action="basic_specification_action"
+                sequence="1"/>
+            <menuitem
+                id="material_menu"
+                name="Material"
+                action="material_action"
+                sequence="2"/>
+            <menuitem
+                id="bore_type_menu"
+                name="Bore Type"
+                action="bore_type_action"
+                sequence="3"/>
+            <menuitem
+                id="single_or_multi_tip_menu"
+                name="Single / Multi Tip"
+                action="single_or_multi_tip_action"
+                sequence="4"/>
+            <menuitem
+                id="die_screw_menu"
+                name="Diw Screw Groove Configuration"
+                action="die_screw_action"
+                sequence="5"/>
+            <menuitem
+                id="optional_tapered_bore_menu"
+                name="Optional Tapered Bore"
+                action="optional_tapered_bore_action"
+                sequence="6"/>
+            <menuitem
+                id="heat_treatment_menu"
+                name="Heat Treatment"
+                action="heat_treatment_action"
+                sequence="7"/>
+            <menuitem
+                id="surface_treatment_menu"
+                name="Surface Treatment"
+                action="surface_treatment_action"
+                sequence="8"/>
+            <menuitem
+                id="custom_adjustment_menu"
+                name="Custom Adjustment"
+                action="custom_adjustment_action"
+                sequence="9"/>
+            <menuitem
+                id="fat_option_menu"
+                name="Fat Option"
+                action="fat_option_action"
+                sequence="10"/>
+            <menuitem
+                id="die_setting_aligner_menu"
+                name="Die Setting Aligner"
+                action="die_setting_aligner_action"
+                sequence="11"/>
+        </menuitem>
+    
+    </data>
+    
+
+</odoo>

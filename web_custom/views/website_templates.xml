@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <template id="web_custom_assets" inherit_id="website.assets_frontend" name="Web Custom Assets">
+            <xpath expr="//link[last()]" position="after">
+                <link rel="stylesheet" href="/web_custom/static/src/css/subscribe.css" />
+                <link rel="stylesheet" href="/web_custom/static/src/css/die.css" />
+            </xpath>
+            <xpath expr="//script[last()]" position="after">
+                <script type="text/javascript" src="/web_custom/static/src/js/subscribe.js" />
+                <script type="text/javascript" src="/web_custom/static/src/js/order_monoblock.js" />
+                <script type="text/javascript" src="/web_custom/static/src/js/order_die.js" />
+                <script type="text/javascript" src="/web_custom/static/src/js/order_multipart.js" />
+            </xpath>
+        </template>
+
+        <template id="template_header_default_oe_structure_header_default_1" inherit_id="website.template_header_default" name="Template Header Default (oe_structure_header_default_1)">
+            <xpath expr="//*[hasclass('oe_structure')][@id='oe_structure_header_default_1']" position="replace">
+                <div class="oe_structure oe_structure_solo" id="oe_structure_header_default_1">
+                    <section class="s_text_block" data-snippet="s_text_block" data-name="Text">
+                        <t t-set="is_connected" t-value="not user_id._is_public()"/>
+                        <li t-if="not is_connected" t-attf-class="#{_item_class} o_no_autohide_item">
+                            <div class="container">
+                                <a href="/subscribe" class="btn btn-primary ml-4">Subscribe</a>
+                            </div>
+                        </li>
+                        <li t-if="is_connected" t-attf-class="#{_item_class} o_no_autohide_item">
+                            <div class="container">
+                                <a href="/order-monoblock" class="btn btn-primary ml-4">Order Monoblock</a>
+                            </div>
+                            <div class="container">
+                                <a href="/order-die" class="btn btn-primary ml-4">Order Die</a>
+                            </div>
+                            <div class="container">
+                                <a href="/order-multipart" class="btn btn-primary ml-4">Order Multipart</a>
+                            </div>
+                        </li>
+                    </section>
+                </div>
+            </xpath>
+        </template>
+
+    </data>
+
+
+</odoo>

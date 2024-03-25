@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="master_require_tree" model="ir.ui.view">
+            <field name="name">master.require.tree</field>
+            <field name="model">master.require</field>
+            <field name="arch" type="xml">
+                <tree string="" editable="bottom">
+                    <field name="name"/>
+                    <field name="urutan"/>
+                    <field name="jenis_ids" widget="many2many_tags"/>
+                    <field name="kelompok"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="master_require_action" model="ir.actions.act_window">
+            <field name="name">Master Require</field>
+            <field name="res_model">master.require</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem
+            id="require_menu"
+            name="Master Require"
+            action="master_require_action"
+            parent="specifications_root_menu"
+            sequence="15"
+            groups="sales_team.group_sale_manager"/>
+
+    </data>
+    
+
+</odoo>

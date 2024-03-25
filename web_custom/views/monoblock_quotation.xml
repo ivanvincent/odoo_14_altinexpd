@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="monoblock_quotation_form" model="ir.ui.view">
+            <field name="name">monoblock.form</field>
+            <field name="model">monoblock</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="punch"/>
+                                <field name="tip"/>
+                                <label for="basic_specification_id" string="Basic Specification"/>
+                                <div class="d-flex">
+                                    <field name="basic_specification_id" style="width: 49%" />
+                                    <field name="price_basic" style="width: 49%" />
+                                </div>
+                                <label for="material_id" string="Material"/>
+                                <div class="d-flex">
+                                    <field name="material_id" style="width: 49%" />
+                                    <field name="price_material" style="width: 49%" />
+                                </div>
+                                <label for="tip_type_id" string="Tip Type"/>
+                                <div class="d-flex">
+                                    <field name="tip_type_id" style="width: 49%" />
+                                    <field name="price_tip_type" style="width: 49%" />
+                                </div>
+                                <label for="single_multi_tip_id" string="Single or Multi Tip"/>
+                                <div class="d-flex">
+                                    <field name="single_multi_tip_id" style="width: 49%" />
+                                    <field name="price_single_multi" style="width: 49%" />
+                                </div>
+                                <label for="dust_cup_configuration_id" string="Dust Cup"/>
+                                <div class="d-flex">
+                                    <field name="dust_cup_configuration_id" style="width: 49%" />
+                                    <field name="price_dust_cup" style="width: 49%" />
+                                </div>
+                                <label for="keyway_position_id" string="Keyway Position"/>
+                                <div class="d-flex">
+                                    <field name="keyway_position_id" style="width: 49%" />
+                                    <field name="price_kposition" style="width: 49%" />
+                                </div>
+                                <label for="head_flat_extension_id" string="Head Flat Extension"/>
+                                <div class="d-flex">
+                                    <field name="head_flat_extension_id" style="width: 49%" />
+                                    <field name="price_head_flat" style="width: 49%" />
+                                </div>
+                                <label for="keyway_configuration_id" string="Keyway Configuration"/>
+                                <div class="d-flex">
+                                    <field name="keyway_configuration_id" style="width: 49%" />
+                                    <field name="price_kconfig" style="width: 49%" />
+                                </div>
+                            </group>
+                            <group>
+                                <label for="heat_treatment_id" string="Heat Treatment"/>
+                                <div class="d-flex">
+                                    <field name="heat_treatment_id" style="width: 49%" />
+                                    <field name="price_heat_treatment" style="width: 49%" />
+                                </div>
+                                <label for="surface_treatment_id" string="Surface Treatment"/>
+                                <div class="d-flex">
+                                    <field name="surface_treatment_id" style="width: 49%" />
+                                    <field name="price_surface" style="width: 49%" />
+                                </div>
+                                <label for="custom_adjustment_id" string="Custom Adjustment"/>
+                                <div class="d-flex">
+                                    <field name="custom_adjustment_id" style="width: 49%" />
+                                    <field name="price_custom_adj" style="width: 49%" />
+                                </div>
+                                <label for="fat_option_id" string="Fat Option"/>
+                                <div class="d-flex">
+                                    <field name="fat_option_id" style="width: 49%" />
+                                    <field name="price_fat_option" style="width: 49%" />
+                                </div>
+                                <label for="hobb_id" string="Hobb"/>
+                                <div class="d-flex">
+                                    <field name="hobb_id" style="width: 49%" />
+                                    <field name="price_hobb" style="width: 49%" />
+                                </div>
+                                <label for="drawing_id" string="Drawing"/>
+                                <div class="d-flex">
+                                    <field name="drawing_id" style="width: 49%" />
+                                    <field name="price_drawing" style="width: 49%" />
+                                </div>
+                                <field name="user_id"/>
+                            </group>
+                            <group class="oe_subtotal_footer oe_right">
+                                <!-- <field name="currency_id" invisible="1"/> -->
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="subtotal"/>
+                                </div>
+                                <field name="subtotal" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="monoblock_quotation_tree" model="ir.ui.view">
+            <field name="name">monoblock.tree</field>
+            <field name="model">monoblock</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="basic_specification_id"/>
+                    <field name="material_id"/>
+                    <field name="tip_type_id"/>
+                    <field name="single_multi_tip_id"/>
+                    <field name="dust_cup_configuration_id"/>
+                    <field name="keyway_position_id"/>
+                    <field name="head_flat_extension_id"/>
+                    <field name="keyway_configuration_id"/>
+                    <field name="head_flat_extension_id"/>
+                    <field name="heat_treatment_id"/>
+                    <field name="surface_treatment_id"/>
+                    <field name="custom_adjustment_id"/>
+                    <field name="fat_option_id"/>
+                    <field name="hobb_id"/>
+                    <field name="drawing_id"/>
+                    <field name="user_id"/>
+                    <field name="subtotal"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="monoblock_action" model="ir.actions.act_window">
+            <field name="name">Monoblock</field>
+            <field name="res_model">monoblock</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="quotation_qrf_home" name="Quotation QRF" sequence="50">
+            <menuitem id="monobloc_quotation_menu" name="Quotation Request Form Monoblock" sequence="1" action="monoblock_action" />
+        </menuitem>
+    
+    </data>
+    
+
+</odoo>

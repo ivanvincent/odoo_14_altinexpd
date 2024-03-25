@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="rv_payroll_tree" model="ir.ui.view">
+            <field name="name">rv.payroll.tree</field>
+            <field name="model">rv.payroll</field>
+            <field name="arch" type="xml">
+                <tree string="Requirement Voucher Payroll">
+                    <field name="name"/>
+                    <field name="tanggal"/>
+                    <field name="description"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="rv_payroll_form" model="ir.ui.view">
+            <field name="name">rv.payroll.form</field>
+            <field name="model">rv.payroll</field>
+            <field name="arch" type="xml">
+                <form string="Requirement Voucher Payroll form">
+                <header>
+                    <!-- <button name="close_payslip_run" type="object" string="Close" states="draft" class="oe_highlight"/>
+                    <button name="%(action_hr_payslip_by_employees)d" type="action" states="draft" string="Generate Payslips" class="oe_highlight"/>
+                    <button string="Set to Draft" name="draft_payslip_run" type="object" states="close" /> -->
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                            <div class="oe_title">
+                                <!--<label for="name" class="oe_edit_only" string="Delivery Order Name"/>-->
+                                <h1>
+                                    <field name="name" readonly="1"/>
+                                </h1>
+                            </div>
+                              <group>
+                                    <group>
+                                       <field name="name" />
+                                       <field name="description" />
+                                       <field name="tanggal" required="1"/>
+                                       <!-- <field name="amount" /> -->
+                                    </group>
+                                    <group>
+                                        <!-- <field name="type_kontra" />
+                                        <field name="no_kb" />
+                                        <field name="set_makloon"/>
+                                        <field name="bank_id"/>
+                                        <field name="no_bbk"/>
+                                        <field name="no_faktur_pajak"/>
+                                        <field name="company_id" invisible="1"/> -->
+                                    </group>
+                                </group>
+                             <notebook>
+                                <page string="RV Payroll Lines">
+                                    <!-- domain="[ ('state','=','posted'),('partner_id','=',partner_id),('kontrabon_id','=',False), ('amount_residual_signed', '!=', 0)]"
+                                        context="{'tree_view_ref':'account.invoice_tree'}" attrs="{'readonly': [('state', '!=', 'draft')]}" -->
+                                    <field name="rvp_line_ids"
+
+                                     >
+                                     <!-- 39 -->
+                                        <tree >
+                                            <field name="nik_id"/>
+                                            <field name="karyawan"/>
+                                            <field name="total_gapok" sum="total_gapok"/>
+                                            <field name="bpjs_kesehatan" sum="bpjs_kesehatan"/>
+                                            <field name="bpjs_tk" sum="bpjs_tk"/>
+                                            <field name="total_ahli" sum="total_ahli"/>
+                                            <field name="total_shift3" sum="total_shift3"/>
+                                            <field name="total_faskes" sum="total_faskes"/>
+                                            <field name="total_lembur" sum="total_lembur"/>
+                                            <field name="total_bonus" sum="total_bonus"/>
+                                            <field name="total_tunjangan" sum="total_tunjangan"/>
+                                            <field name="total_tpph" sum="total_tpph"/>
+                                            <field name="total_kes" sum="total_kes"/>
+                                            <field name="jht" sum="jht"/>
+                                            <field name="total_jkk" sum="total_jkk"/>
+                                            <field name="total_jp" sum="total_jp"/>
+                                            <field name="total_jkm" sum="total_jkm"/>
+                                            <field name="total_bpjs_perusahaan" sum="total_bpjs_perusahaan"/>
+                                            <field name="tot_pph21_perusahaan" sum="tot_pph21_perusahaan"/>
+                                            <field name="total_bota" sum="total_bota"/>
+                                            <field name="total_thr" sum="total_thr"/>
+                                            <field name="total_ktt" sum="total_ktt"/>
+                                            <field name="total_bruto" sum="total_bruto"/>
+                                            <field name="kes2" sum="kes2"/>
+                                            <field name="total_jht2" sum="total_jht2"/>
+                                            <field name="total_jp2" sum="total_jp2"/>
+                                            <field name="total_pkp_2" sum="total_pkp_2"/>
+                                            <field name="tot_pph21_karyawan" sum="tot_pph21_karyawan"/>
+                                            <field name="total_jabat" sum="total_jabat"/>
+                                            <field name="total_potong" sum="total_potong"/>
+                                            <field name="total_net" sum="total_net"/>
+                                            <field name="total_net_annual" sum="total_net_annual"/>
+                                            <field name="total_ptkp" sum="total_ptkp"/>
+                                            <field name="total_pkp_1" sum="total_pkp_1"/>
+                                            <field name="pkp_pembulatan" sum="pkp_pembulatan"/>
+                                            <field name="total_pph21_1" sum="total_pph21_1"/>
+                                            <field name="total_pph21_2" sum="total_pph21_2"/>
+                                            <field name="total_thp" sum="total_thp"/>
+                                            
+                                        </tree>
+
+                                    </field>
+                                </page>
+                                <page string="Account Lines">
+                                    <!-- domain="[ ('state','=','posted'),('partner_id','=',partner_id),('kontrabon_id','=',False), ('amount_residual_signed', '!=', 0)]"
+                                        context="{'tree_view_ref':'account.invoice_tree'}" attrs="{'readonly': [('state', '!=', 'draft')]}" -->
+                                    <field name="rvp_account_ids"
+
+                                     >
+                                     <!-- 39 -->
+                                        <tree >
+                                            <field name="account_id"/>
+                                            <field name="description"/>
+                                            <field name="amount_debit" sum="amount_debit"/>
+                                            <field name="amount_credit" sum="amount_credit"/>
+                                        </tree>
+
+                                    </field>
+                                </page>
+                            </notebook>
+                     </sheet>
+                </form>
+            </field>
+        </record>
+    
+        <record id="action_rv_payroll_tree" model="ir.actions.act_window">
+            <field name="name">Requirement Voucher Payroll</field>
+            <field name="res_model">rv.payroll</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" />
+            <!-- <field name="search_view_id" ref="hr_payslip_run_filter"/> -->
+        </record>
+        <menuitem id="Requirement_Voucher_Payroll"
+        name="Requirement Voucher Payroll"
+        action="action_rv_payroll_tree"
+        parent="menu_hr_payroll_root"
+        sequence="20"/>
+ 
+    </data>
+</odoo> 

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="die" name="die">
+            <t t-call="website.layout">
+                <t t-set="no_footer" t-value="True"/>
+                <div class="bgr-img"></div>
+                <div class="o_order_die_main">
+                    <div class="container">
+                        <div class="d-flex flex-column o_subscribe_wrapper o_die_wrapper">
+                            <div class="d-flex">
+                                <h4 class="o_subscribe_title o_subscribe_label">Quotation Request Form  Die</h4>
+                                <button type="submit" class="btn btn-primary" style="margin-left:60%; height: 40px; margin-top: 10px;"><b>Print</b></button>
+                            </div>
+                            <form class="needs-validation" id="form-die">
+                                <div class="d-flex flex-column o_subscribe_form_body">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="search" class="o_subscribe_label">Basic Specification</label>
+                                                <select name="basics" class="oe_select9_search_field" data-placeholder="" style="width: 70%;" single="single">
+                                                    <t t-foreach="basics" t-as="basic">
+                                                        <option t-att-value="basic.get('id')" ><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Material</label>
+                                                <select name="materials" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="materials" t-as="basic">
+                                                        <option t-att-value="basic.get('id')" ><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Bore Type</label>
+                                                <select name="bores" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="bores" t-as="basic">
+                                                        <option t-att-value="basic.get('id')" ><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Single / Multi-Tip</label>
+                                                <select name="single_or_multi" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="single_or_multi" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Die Screw Groove Configuration</label>
+                                                <select name="die_screws" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="die_screws" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Optional Tapered Bore</label>
+                                                <select name="optional_tapered_bores" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="optional_tapered_bores" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-5">
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Heat Treatment</label>
+                                                <select name="heat_treatments" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="heat_treatments" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Surface Treatment</label>
+                                                <select name="surface_treatments" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="surface_treatments" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Custom Adjustment</label>
+                                                <select name="custom_adjustments"  class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="custom_adjustments" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">FAT Option</label>
+                                                <select name="fat_options" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="fat_options" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Die Setting Aligner</label>
+                                                <select name="die_setting_aligners" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="die_setting_aligners" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary o_button_order_die"><b>Order</b></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

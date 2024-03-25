@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<template id="error_subscribe" name="Error Subscribe">
+			<t t-call="website.layout">
+				<t t-set="no_footer" t-value="true" />
+				<div class="container-fluid d-flex justify-content-center ">
+					<div class="row align-self-center">
+						<div class="col-md-6">
+							<div class="error_left_content">
+								<h1 class="">
+									Sorry,
+									<h5>
+										the registration process failed,
+										"Data KTP/Email/No Telepon sudah terdaftar oleh peserta lain, Tolong gunakan data yang berbeda"
+									</h5>
+								</h1>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<img src="/elearning_controller/static/img/error_subscribe.png" width="648" height="537" />
+						</div>
+					</div>
+				</div>
+				<!--
+				<div class="d-flex justify-content-center">
+				</div>
+				-->
+			</t>
+		</template>
+		<template id="success_subscribe" name="Success Subscribe">
+			<t t-call="website.layout">
+				<t t-set="no_footer" t-value="true" />
+				<div class="container">
+					<!-- <div class="row"> -->
+					<div>
+						<!-- <div class="d-flex justify-content-center"> -->
+						<div>
+							<div class="col-md-9 offset-md-3">
+								<div class="o_subscribe_card_success">
+									<img class="img-fluid" src="/web_custom/static/src/img/success_subscribe.png" width="600" height="400" />
+									<!-- <h2>Congratulations, waiting for confirmation from admin </h2> -->
+									<h2>
+										Congratulations <span t-esc="name_user"></span>,
+									</h2>
+									<h7>
+										Terima kasih telah mendaftar di Altinex,
+										<br>
+											aktivasi akun anda paling lambat  2x24 jam (Hari Kerja) setelah validasi
+											<br>
+												kesesuaian Email, ID dan Pembayaran. konfirmasi akan diberikan melalui email yang telah didaftarkan
+												<br>
+													Info lebih lanjut hubungi
+													<a href="mailto:info@altinex.com">
+														info@altinex.com
+													</a>
+												</br>
+											</br>
+										</br>
+									</h7>
+									<!--
+									<div class="d-flex  justify-content-center">
+									<div class="col-md-6">
+									<img src="/elearning_controller/static/img/success_subscribe.png"/>
+									</div>
+									<div class="col-md-6 align-items-center">
+									<h2>Congratulations, waiting for confirmation from admin </h2>
+									</div>
+									</div>
+									-->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</t>
+		</template>
+
+
+	</data>
+</odoo>
