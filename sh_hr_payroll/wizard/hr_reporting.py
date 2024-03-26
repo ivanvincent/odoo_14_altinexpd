@@ -305,132 +305,34 @@ class HrReporting(models.TransientModel):
 				and hp.month_selection = '%s'
 				and date_part('year',hp.create_date) = date_part('year',now())
 			'''
-			
-			# Total Biaya Gaji
-			total_biaya_gaji = 0
-			self._cr.execute(request_query % ('BRUTO',date_rec,self.month_selection))
-			request = self._cr.dictfetchall() 
-			for rec in request:
-				total_biaya_gaji += float(rec['total'])
-			request_len = len(request)
-
-			# PPh 21
-			pph21_bulanan = 0
-			self._cr.execute(request_query % ('PPH_CICIL',date_rec,self.month_selection))
-			request = self._cr.dictfetchall() 
-			for rec in request:
-				pph21_bulanan -= float(0 if rec['total'] is None else rec['total'])
-
-			# JHT (BY JAMSOSTEK)
-			jht = 0
-			self._cr.execute(request_query % ('JHT2',date_rec,self.month_selection))
-			request = self._cr.dictfetchall() 
-			for rec in request:
-				jht -= float(0 if rec['total'] is None else rec['total'])
-
-			# JP (BY JAMSOSTEK)
-			jp = 0
-			self._cr.execute(request_query % ('JP2',date_rec,self.month_selection))
-			request = self._cr.dictfetchall() 
-			for rec in request:
-				jp -= float(0 if rec['total'] is None else rec['total'])
-
-			# KES (BY JAMSOSTEK)
-			kes = 0
-			self._cr.execute(request_query % ('KES2',date_rec,self.month_selection))
-			request = self._cr.dictfetchall() 
-			for rec in request:
-				kes -= float(0 if rec['total'] is None else rec['total'])
-
-			# JKK
-			jkk = 0
-			self._cr.execute(request_query % ('JKK',date_rec,self.month_selection))
-			request = self._cr.dictfetchall() 
-			for rec in request:
-				jkk -= float(0 if rec['total'] is None else rec['total'])
-			
-			# JKM
-			jkm = 0
-			self._cr.execute(request_query % ('JKM',date_rec,self.month_selection))
-			request = self._cr.dictfetchall() 
-			for rec in request:
-				jkm -= float(0 if rec['total'] is None else rec['total'])
-
-			# TUNJ JKK (BY JAMSOSTEK)
-			tunj_jkk = jkk + jkm
-
-			# TUNJ JHT (BY JAMSOSTEK)
-			tunj_jht = 0
-			bpjs_jht = 0
-			self._cr.execute(request_query % ('JHT',date_rec,self.month_selection))
-			request = self._cr.dictfetchall() 
-			for rec in request:
-				tunj_jht -= float(0 if rec['total'] is None else rec['total'])
-				bpjs_jht += float(0 if rec['total'] is None else rec['total'])
-
-			# JP
-			tunj_jp = 0
-			bpjs_jp = 0
-			self._cr.execute(request_query % ('JP',date_rec,self.month_selection))
-			request = self._cr.dictfetchall() 
-			for rec in request: 
-				tunj_jp -= float(0 if rec['total'] is None else rec['total'])
-				bpjs_jp += float(0 if rec['total'] is None else rec['total'])
-
-			# TUNJ BPJS (BY JAMSOSTEK)
-			bpjs_kes = 0
-			self._cr.execute(request_query % ('KES',date_rec,self.month_selection))
-			request = self._cr.dictfetchall()
-			for rec in request: 
-				bpjs_kes -= float(0 if rec['total'] is None else rec['total'])
-
-			# ASTEK
-			astek = bpjs_jht + bpjs_jp
-
-			# THR / BONUS
-			thr = 0
-			self._cr.execute(request_query % ('THR',date_rec,self.month_selection))
-			request = self._cr.dictfetchall() 
-			for rec in request: 
-				thr -= float(0 if rec['total'] is None else rec['total'])
-
-			# POTONGAN
-			potongan = 0
-			self._cr.execute(request_query % ('PIKA',date_rec,self.month_selection))
-			request = self._cr.dictfetchall() 
-			for rec in request: 
-				potongan -= float(0 if rec['total'] is None else rec['total'])
-
-			# GAJI & KTT PRODUKSI
-			employee_prod = self.env['hr.employee'].search([('coa','=','1')])
-			gaji_prod = 0
-			ktt_prod = 0
-			for i in employee_prod:
-				self._cr.execute(gaji_query % (i.id,'THP',date_rec,self.month_selection))
-				request = self._cr.dictfetchall()
-				for rec in request: 
-					gaji_prod += float(0 if rec['total'] is None else rec['total'])
-			for i in employee_prod:
-				self._cr.execute(gaji_query % (i.id,'THR',date_rec,self.month_selection))
-				request = self._cr.dictfetchall() 
-				for rec in request: 
-					ktt_prod += float(0 if rec['total'] is None else rec['total'])
-			
-			# GAJI UMUM
 			employee_umum = self.env['hr.employee'].search([('coa','=','2')])
-			gaji_umum = 0
-			ktt_umum = 0
-			for i in employee_umum:
-				self._cr.execute(gaji_query % (i.id,'THP',date_rec,self.month_selection))
-				request = self._cr.dictfetchall() 
-				for rec in request: 
-					gaji_umum += float(0 if rec['total'] is None else rec['total'])
-			for i in employee_umum:
-				self._cr.execute(gaji_query % (i.id,'THR',date_rec,self.month_selection))
-				request = self._cr.dictfetchall() 
-				for rec in request: 
-					ktt_umum += float(0 if rec['total'] is None else rec['total'])
-				
+			employee_prod = self.env['hr.employee'].search([('coa','=','1')])
+			hpl_code = ['BRUTO','PPH_CICIL','JHT2','JP2','KES2','JKK','JKM','JHT','JP','KES','THR','PIKA']
+			var_name = {}
+
+			for code in hpl_code:
+				var_name['total_'+code] = 0
+				var_name['total_prod_'+code] = 0
+				var_name['total_umum_'+code] = 0
+				self._cr.execute(request_query % (code,date_rec,self.month_selection))
+				request1 = self._cr.dictfetchall() 
+				for rec in request1:
+					var_name['total_'+code] += float(rec['total'])
+				for i in employee_prod:
+					self._cr.execute(gaji_query % (i.id,code,date_rec,self.month_selection))
+					request2 = self._cr.dictfetchall()
+					for rec in request2: 
+						var_name['total_prod_'+code] += float(0 if rec['total'] is None else rec['total'])
+				for i in employee_umum:
+					self._cr.execute(gaji_query % (i.id,code,date_rec,self.month_selection))
+					request3 = self._cr.dictfetchall()
+					for rec in request3: 
+						var_name['total_umum_'+code] += float(0 if rec['total'] is None else rec['total'])
+				locals().update(var_name)
+
+			request_len = len(request)
+			gaji_prod = total_prod_BRUTO - total_prod_PPH_CICIL - total_prod_JHT2 - total_prod_JP2 - total_prod_KES2 - total_prod_JKK - total_prod_JKM - total_prod_JHT - total_prod_JP - total_prod_KES + total_prod_JHT + total_prod_JP - total_prod_THR - total_prod_PIKA
+			gaji_umum = total_umum_BRUTO - total_umum_PPH_CICIL - total_umum_JHT2 - total_umum_JP2 - total_umum_KES2 - total_umum_JKK - total_umum_JKM - total_umum_JHT - total_umum_JP - total_umum_KES + total_umum_JHT + total_umum_JP - total_umum_THR - total_umum_PIKA
 			
 			# Excel Writer Prep
 			fp = BytesIO()
@@ -444,7 +346,6 @@ class HrReporting(models.TransientModel):
 			content_format_2 = workbook.add_format({'font_size':12, 'align':'left', 'valign':'vcenter', 'left':1, 'right':1, 'num_format':40})
 			content_format_3 = workbook.add_format({'font_size':12, 'align':'right', 'valign':'vcenter', 'left':1, 'right':1, 'num_format':40})
 			content_format_4 = workbook.add_format({'bold':True, 'font_size':12, 'align':'right', 'valign':'vcenter', 'border':1, 'num_format':40})
-
 
 			# Sheet 1
 			worksheet = workbook.add_worksheet('PAYMENT REQUEST')
@@ -472,51 +373,51 @@ class HrReporting(models.TransientModel):
 			# Sheet 1 - Table 1
 			worksheet.write('C11','1',content_format_2)
 			worksheet.merge_range('D11:K11','TOTAL BIAYA GAJI',content_format_2)
-			worksheet.merge_range('L11:P11',total_biaya_gaji,content_format_3)
+			worksheet.merge_range('L11:P11',total_BRUTO,content_format_3)
 
 			worksheet.write('C12','2',content_format_2)
 			worksheet.merge_range('D12:K12','PPH 21',content_format_2)
-			worksheet.merge_range('L12:P12',pph21_bulanan,content_format_3)
+			worksheet.merge_range('L12:P12',0-total_PPH_CICIL,content_format_3)
 			
 			worksheet.write('C13','3',content_format_2)
 			worksheet.merge_range('D13:K13','JHT (BY JAMSOSTEK)',content_format_2)
-			worksheet.merge_range('L13:P13',jht,content_format_3)
+			worksheet.merge_range('L13:P13',0-total_JHT2,content_format_3)
 			
 			worksheet.write('C14','4',content_format_2)
 			worksheet.merge_range('D14:K14','JP (BY JAMSOSTEK)',content_format_2)
-			worksheet.merge_range('L14:P14',jp,content_format_3)
+			worksheet.merge_range('L14:P14',0-total_JP2,content_format_3)
 			
 			worksheet.write('C15','5',content_format_2)
 			worksheet.merge_range('D15:K15','KES (BY JAMSOSTEK)',content_format_2)
-			worksheet.merge_range('L15:P15',kes,content_format_3)
+			worksheet.merge_range('L15:P15',0-total_KES2,content_format_3)
 			
 			worksheet.write('C16','6',content_format_2)
 			worksheet.merge_range('D16:K16','TUNJ JKK (BY JAMSOSTEK)',content_format_2)
-			worksheet.merge_range('L16:P16',tunj_jkk,content_format_3)
+			worksheet.merge_range('L16:P16',0-(total_JKK+total_JKM),content_format_3)
 			
 			worksheet.write('C17','7',content_format_2)
 			worksheet.merge_range('D17:K17','TOTAL JHT (BY JAMSOSTEK)',content_format_2)
-			worksheet.merge_range('L17:P17',tunj_jht,content_format_3)
+			worksheet.merge_range('L17:P17',0-total_JHT,content_format_3)
 			
 			worksheet.write('C18','8',content_format_2)
 			worksheet.merge_range('D18:K18','JP (BY JAMSOSTEK)',content_format_2)
-			worksheet.merge_range('L18:P18',tunj_jp,content_format_3)
+			worksheet.merge_range('L18:P18',0-total_JP,content_format_3)
 			
 			worksheet.write('C19','9',content_format_2)
 			worksheet.merge_range('D19:K19','TUNJ BPJS (BY JAMSOSTEK)',content_format_2)
-			worksheet.merge_range('L19:P19',bpjs_kes,content_format_3)
+			worksheet.merge_range('L19:P19',0-total_KES,content_format_3)
 			
 			worksheet.write('C20','10',content_format_2)
 			worksheet.merge_range('D20:K20','ASTEK',content_format_2)
-			worksheet.merge_range('L20:P20',astek,content_format_3)
+			worksheet.merge_range('L20:P20',total_JHT+total_JP,content_format_3)
 
 			worksheet.write('C21','11',content_format_2)
 			worksheet.merge_range('D21:K21','THR',content_format_2)
-			worksheet.merge_range('L21:P21',thr,content_format_3)
+			worksheet.merge_range('L21:P21',0-total_THR,content_format_3)
 			
 			worksheet.write('C22','12',content_format_2)
 			worksheet.merge_range('D22:K22','POTONGAN',content_format_2)
-			worksheet.merge_range('L22:P22',potongan,content_format_3)
+			worksheet.merge_range('L22:P22',0-total_PIKA,content_format_3)
 			
 			worksheet.merge_range('C23:K23','TOTAL :',header_format_2)
 			worksheet.merge_range('L23:P23','=SUM(L11:P22)',content_format_4)
@@ -537,9 +438,9 @@ class HrReporting(models.TransientModel):
 			worksheet.merge_range('C34:D34','', header_format_2)
 			worksheet.merge_range('E34:F34',month_string, header_format_2)
 			worksheet.merge_range('C35:D35','THR Produksi',content_format_2)
-			worksheet.merge_range('E35:F35',ktt_prod,content_format_3)
+			worksheet.merge_range('E35:F35',total_prod_THR,content_format_3)
 			worksheet.merge_range('C36:D36','THR Umum',content_format_2)
-			worksheet.merge_range('E36:F36',ktt_umum,content_format_3)
+			worksheet.merge_range('E36:F36',total_umum_THR,content_format_3)
 			worksheet.merge_range('C37:D37','TOTAL',header_format_2)
 			worksheet.merge_range('E37:F37','=SUM(E35:E36)',content_format_4)
 

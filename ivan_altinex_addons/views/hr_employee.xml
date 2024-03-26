@@ -27,6 +27,9 @@
                 <xpath expr="//field[@name='bank_account_id']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
+				<xpath expr="//field[@name='pin']" position="after">
+					<field name="rfid"/>
+				</xpath>
             </field>
         </record>
     </data>

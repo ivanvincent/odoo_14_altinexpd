@@ -29,6 +29,7 @@ class HrEmployee(models.Model):
 		('1', 'Produksi'),
 		('2', 'Umum'),
 	], string='COA')
+	rfid = fields.Char('RFID')
 	
 	
 	@api.depends('marital', 'children')
