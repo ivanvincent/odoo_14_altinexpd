@@ -37,3 +37,19 @@ class MassConfirmPayslip(models.TransientModel):
                                                         ('state', 'not in', ['cancel', 'done'])])
             if payslip_id:
                 payslip_id.action_payslip_done()
+                
+class MassSetDraftPayslip(models.TransientModel):
+    _name = 'payslip.set_draft'
+    _description = 'Mass Set to Draft Payslip'
+
+    def set_draft_payslip(self):
+        """Mass Set To Draft of Payslip"""
+        context = self._context
+        record_ids = context.get('active_ids', [])
+        for each in record_ids:
+            payslip_id = self.env['hr.payslip'].search([('id', '=', each),
+                                                        ('state', 'not in', ['cancel', 'draft'])])
+            if payslip_id:
+                payslip_id.state = 'draft'
+                # payslip_id.state = 'draft'
+

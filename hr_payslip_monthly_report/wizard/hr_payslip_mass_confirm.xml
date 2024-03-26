@@ -19,10 +19,38 @@
             </field>
         </record>
 
+		<!-- Set to Draft payslip -->
+		<record id="view_payslip_mass_set_draft" model="ir.ui.view">
+            <field name="name">Set To Draft Payslip</field>
+            <field name="model">payslip.set_draft</field>
+            <field name="arch" type="xml">
+            <form string="Set To Draft Payslip">
+                <p class="oe_grey">
+                        Do you want to set these Payslips to draft?.
+                </p>
+                <footer>
+                    <button name="set_draft_payslip"
+                            string="Set To Draft Payslip" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+            </field>
+        </record>
+
         <record id="act_confirm_payslip" model="ir.actions.act_window">
             <field name="name">Confirm Payslip</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">payslip.confirm</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="hr_payroll_community.model_hr_payslip" />
+            <field name="binding_view_types">list</field>
+        </record>
+
+		<record id="act_set_to_draft_payslip" model="ir.actions.act_window">
+            <field name="name">Set To Draft Payslip</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">payslip.set_draft</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
             <field name="binding_model_id" ref="hr_payroll_community.model_hr_payslip" />
