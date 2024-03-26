@@ -31,7 +31,7 @@
         'views/res_config_settings_views.xml',
         'views/report_contributionregister_templates.xml',
         'views/report_payslip_templates.xml',
-        'views/report_payslipdetails_templates.xml'
+        'views/report_payslipdetails_templates.xml',
     ],
     'license': 'AGPL-3',
 }

@@ -14,7 +14,6 @@
     # 'views/hr_golongan.xml',
     # 'views/hr_department.xml',
     'views/res_users.xml',
-    'security/security.xml',
   ],
   'qweb': [],
   'sequence': 1,

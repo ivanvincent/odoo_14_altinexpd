@@ -69,7 +69,7 @@ class PayrollReportView(models.Model):
     
     def _where(self):
         # where_str = """psl.sequence IN ('80','81') and ps.credit_note <> true and ps.is_refunded <> true """
-        where_str = """psl.sequence IN ('80','81') and ps.credit_note <> true and ps.is_refunded is null or ps.is_refunded = false """
+        where_str = """psl.sequence IN ('80','81','116') and ps.credit_note <> true and ps.is_refunded is null or ps.is_refunded = false """
         # where_str = """psl.sequence IN ('80','81') """
         return where_str
 

@@ -13,15 +13,7 @@
                     <field name="parent_id"/>
                     <field name="device_id"/>
                     <field name="fcm_key"/>
-                    <!-- <field name="tipe_permintaan"/> -->
                 </xpath>
-
-                <xpath expr="//group[@name='preferences']" position="after">
-                    <group string="Category PO">
-                        <field name="po_categ_id"/>
-                    </group>
-                </xpath>
-
             </field>
         </record>
     </data>
