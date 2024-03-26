@@ -237,4 +237,5 @@ class HrEmployeePublic(models.Model):
         ('4', 'Operator'),
 	], string='Jabatan')
     coa = fields.Char('COA')
+    rfid = fields.Char('RFID')
 
