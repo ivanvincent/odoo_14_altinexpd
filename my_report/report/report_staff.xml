@@ -31,34 +31,45 @@
                     <t t-if="not o or not 'company_id' in o">
                         <t t-set="company" t-value="res_company"/>
                     </t>
-                    <img t-if="company.background_badge" t-att-src="'data:image/png;base64,%s' % to_text(company.background_badge)" style="height: 600px; width: 620px; margin-left:-20px; ">
-                        <div class="front" style="margin-top: -442px">
-                        <div class="pic2" style="margin-top: -570px;">
-                            <center>
-                                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height: 100px; max-width: 270px; "/>
-                            </center>
-                        </div>
-                        <div  style="margin-top: 5px;">
-                            <center>
-                                <img t-attf-src="data:image/*;base64,{{o.image_1920}}" width="175px" height="260px" style="padding-top: 2rem; aspect-ratio: 4 / 6;"/>
-                                <img alt="Barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', quote_plus(o.barcode or ''), 1000, 90)" style="width:85%;height:6rem; padding-top: 2rem;"/>
-                            </center>
-                        </div>
-                        <div>
-                            <center style="padding-top: 0.7rem;">
-                            <span t-esc="str(o.nama_alias).upper()" style="font-size: 1.7rem;"/><br/>
-                            <span t-field="o.nik_karyawan" style="font-size: 1rem;"/><br/>
-                            <span t-field="o.job_id" style="font-size: 1rem;"/><br/>
-                            <span style="font-size: 1.1rem; font-weight:bold;">Punch &amp; Dies Division</span>
-                            </center>
-                        </div>
-                        </div>
-                    </img>
+
+					<div class="front" style="position:relative; height:642px; width:420px;">
+						<!-- <center>
+							<img t-attf-src="data:image/*;base64,{{o.image_1920}}" width="200px" height="285px" style="position:absolute; top:110px; left:115px; z-index:1; max-height:400px; max-height:300px;" />
+						</center>
+						<div class="background" style="top:0px; z-index:2"> 
+							<img t-if="company.background_badge" t-att-src="'data:image/png;base64,%s' % to_text(company.background_badge)" style="position:absolute; top:0; height: 642px; width: 420px; margin-left:-20px; z-index:2 "></img>
+						</div>
+						<div class="pic2" style="margin-top: -570px;">
+							<center>
+								<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="position:absolute; top:70px; left: 100px; max-height: 85px; max-width: 205px; z-index:2"/>
+							</center>
+						</div>
+						<div class="name_alias">
+							<span t-esc="str(o.nama_alias).upper()" style="position:absolute; top: 350px; left: 110px; line-height: 1; color:#072859; text-align:justify; font-size:3rem; font-weight:bold; z-index:2"/><br/>
+						</div>
+						<div class="barcode_print"> 
+							<center>
+								<img alt="Barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', quote_plus(o.barcode or ''), 1000, 90)" style="width:95%; height:4rem; position:absolute; top:480px; left:0; z-index:2"/>
+							</center>
+						</div> -->
+						<img t-if="company.background_badge" t-att-src="'data:image/png;base64,%s' % to_text(company.background_badge)" style="width:100%; height:642px; position:absolute;top: 0; margin-left:-20px;"></img>
+						<img t-attf-src="data:image/*;base64,{{o.image_1920}}" style="width:200px;height:auto;position:absolute;top: 115px;left:23%; transform: translateX(-50%);z-index: -1;" />
+						<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-width:205px;height:auto;position:absolute;top: 75px;left:95px; transform: translateX(-50%);"/>
+						<span t-esc="str(o.nama_alias).upper()" style="position: absolute; top:360px; width:85%; transform: translateX(-50%); line-height: 1; color:#072859; font-family: 'Arial'; font-size:50px; text-align:center; font-weight:bold;"/><br/>
+						<img alt="Barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', quote_plus(o.barcode or ''), 1000, 90)" style="width:85%;height:4rem;position:absolute;top: 480px;left:0; transform: translateX(-50%);"/>
+
+					</div>
+					
                 </t>
             </t>
         </template>
-
     </data>
-
-
 </odoo>
+
+<!-- <div> -->
+	<!-- <center style="padding-top: 0.7rem;"> -->
+	<!-- <span t-field="o.nik_karyawan" style="font-size: 1rem;"/><br/> -->
+	<!-- <span t-field="o.job_id" style="font-size: 1rem;"/><br/> -->
+	<!-- <span style="font-size: 1.1rem; font-weight:bold;">Punch &amp; Dies Division</span> -->
+	<!-- </center> -->
+<!-- </div> -->
