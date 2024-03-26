@@ -38,23 +38,23 @@ class HrReporting(models.TransientModel):
 
 	
 	
-    # def action_generate_pdf(self):
-	#     record = self.query()
-	#     data = {
-	# 		'me': self,
-	# 		'ids': self.ids,
-	# 		'model': self._name,
-    #         'form': {
-    #             'date_start': self.date_start,
-    #             'date_end': self.date_end,
-    #             'month_selection': self.month_selection,
-    #             'record' : record,
-    #         },
-    #     }
-	# 	if self.report_type == 'bpjs': 
-	# 		return self.env.ref('sh_hr_payroll.action_report_salary_bpjs').report_action(None, data=data)
-	# 	else:
-	# 		return self.env.ref('sh_hr_payroll.action_report_salary_gs').report_action(None, data=data)
+    def action_generate_pdf(self):
+	    record = self.query()
+	    data = {
+			'me': self,
+			'ids': self.ids,
+			'model': self._name,
+            'form': {
+                'date_start': self.date_start,
+                'date_end': self.date_end,
+                'month_selection': self.month_selection,
+                'record' : record,
+            },
+        }
+		if self.report_type == 'bpjs': 
+			return self.env.ref('sh_hr_payroll.action_report_salary_bpjs').report_action(None, data=data)
+		else:
+			return self.env.ref('sh_hr_payroll.action_report_salary_gs').report_action(None, data=data)
 
     @api.depends('report_type')
     def compute_job_ids(self):

@@ -57,7 +57,7 @@ def add_workbook_format(workbook):
     wbf['content_float'] = workbook.add_format({'align': 'right', 'num_format': '#,##0.00'})
     wbf['content_float'].set_right()
     wbf['content_float'].set_left()
-    
+
     wbf['content_number'] = workbook.add_format({'align': 'right', 'num_format': '#,##0'})
     wbf['content_number'].set_right()
     wbf['content_number'].set_left()
