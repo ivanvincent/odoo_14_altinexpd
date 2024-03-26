@@ -330,7 +330,7 @@ class HrReporting(models.TransientModel):
 						var_name['total_umum_'+code] += float(0 if rec['total'] is None else rec['total'])
 				locals().update(var_name)
 
-			request_len = len(request)
+			request_len = len(request1)
 			gaji_prod = total_prod_BRUTO - total_prod_PPH_CICIL - total_prod_JHT2 - total_prod_JP2 - total_prod_KES2 - total_prod_JKK - total_prod_JKM - total_prod_JHT - total_prod_JP - total_prod_KES + total_prod_JHT + total_prod_JP - total_prod_THR - total_prod_PIKA
 			gaji_umum = total_umum_BRUTO - total_umum_PPH_CICIL - total_umum_JHT2 - total_umum_JP2 - total_umum_KES2 - total_umum_JKK - total_umum_JKM - total_umum_JHT - total_umum_JP - total_umum_KES + total_umum_JHT + total_umum_JP - total_umum_THR - total_umum_PIKA
 			
