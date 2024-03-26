@@ -329,10 +329,11 @@ class HrReporting(models.TransientModel):
 					for rec in request3: 
 						var_name['total_umum_'+code] += float(0 if rec['total'] is None else rec['total'])
 				locals().update(var_name)
-
+			
+			print(var_name)
 			request_len = len(request1)
-			gaji_prod = total_prod_BRUTO - total_prod_PPH_CICIL - total_prod_JHT2 - total_prod_JP2 - total_prod_KES2 - total_prod_JKK - total_prod_JKM - total_prod_JHT - total_prod_JP - total_prod_KES + total_prod_JHT + total_prod_JP - total_prod_THR - total_prod_PIKA
-			gaji_umum = total_umum_BRUTO - total_umum_PPH_CICIL - total_umum_JHT2 - total_umum_JP2 - total_umum_KES2 - total_umum_JKK - total_umum_JKM - total_umum_JHT - total_umum_JP - total_umum_KES + total_umum_JHT + total_umum_JP - total_umum_THR - total_umum_PIKA
+			gaji_prod = var_name['total_prod_BRUTO'] - var_name['total_prod_PPH_CICIL'] - var_name['total_prod_JHT2'] - var_name['total_prod_JP2'] - var_name['total_prod_KES2'] - var_name['total_prod_JKK'] - var_name['total_prod_JKM'] - var_name['total_prod_JHT'] - var_name['total_prod_JP'] - var_name['total_prod_KES'] + var_name['total_prod_JHT'] + var_name['total_prod_JP'] - var_name['total_prod_THR'] - var_name['total_prod_PIKA']
+			gaji_umum = var_name['total_umum_BRUTO'] - var_name['total_umum_PPH_CICIL'] - var_name['total_umum_JHT2'] - var_name['total_umum_JP2'] - var_name['total_umum_KES2'] - var_name['total_umum_JKK'] - var_name['total_umum_JKM'] - var_name['total_umum_JHT'] - var_name['total_umum_JP'] - var_name['total_umum_KES'] + var_name['total_umum_JHT'] + var_name['total_umum_JP'] - var_name['total_umum_THR'] - var_name['total_umum_PIKA']
 			
 			# Excel Writer Prep
 			fp = BytesIO()
@@ -373,51 +374,51 @@ class HrReporting(models.TransientModel):
 			# Sheet 1 - Table 1
 			worksheet.write('C11','1',content_format_2)
 			worksheet.merge_range('D11:K11','TOTAL BIAYA GAJI',content_format_2)
-			worksheet.merge_range('L11:P11',total_BRUTO,content_format_3)
+			worksheet.merge_range('L11:P11',var_name['total_BRUTO'],content_format_3)
 
 			worksheet.write('C12','2',content_format_2)
 			worksheet.merge_range('D12:K12','PPH 21',content_format_2)
-			worksheet.merge_range('L12:P12',0-total_PPH_CICIL,content_format_3)
+			worksheet.merge_range('L12:P12',0-var_name['total_PPH_CICIL'],content_format_3)
 			
 			worksheet.write('C13','3',content_format_2)
 			worksheet.merge_range('D13:K13','JHT (BY JAMSOSTEK)',content_format_2)
-			worksheet.merge_range('L13:P13',0-total_JHT2,content_format_3)
+			worksheet.merge_range('L13:P13',0-var_name['total_JHT2'],content_format_3)
 			
 			worksheet.write('C14','4',content_format_2)
 			worksheet.merge_range('D14:K14','JP (BY JAMSOSTEK)',content_format_2)
-			worksheet.merge_range('L14:P14',0-total_JP2,content_format_3)
+			worksheet.merge_range('L14:P14',0-var_name['total_JP2'],content_format_3)
 			
 			worksheet.write('C15','5',content_format_2)
 			worksheet.merge_range('D15:K15','KES (BY JAMSOSTEK)',content_format_2)
-			worksheet.merge_range('L15:P15',0-total_KES2,content_format_3)
+			worksheet.merge_range('L15:P15',0-var_name['total_KES2'],content_format_3)
 			
 			worksheet.write('C16','6',content_format_2)
 			worksheet.merge_range('D16:K16','TUNJ JKK (BY JAMSOSTEK)',content_format_2)
-			worksheet.merge_range('L16:P16',0-(total_JKK+total_JKM),content_format_3)
+			worksheet.merge_range('L16:P16',0-(var_name['total_JKK']+var_name['total_JKM']),content_format_3)
 			
 			worksheet.write('C17','7',content_format_2)
 			worksheet.merge_range('D17:K17','TOTAL JHT (BY JAMSOSTEK)',content_format_2)
-			worksheet.merge_range('L17:P17',0-total_JHT,content_format_3)
+			worksheet.merge_range('L17:P17',0-var_name['total_JHT'],content_format_3)
 			
 			worksheet.write('C18','8',content_format_2)
 			worksheet.merge_range('D18:K18','JP (BY JAMSOSTEK)',content_format_2)
-			worksheet.merge_range('L18:P18',0-total_JP,content_format_3)
+			worksheet.merge_range('L18:P18',0-var_name['total_JP'],content_format_3)
 			
 			worksheet.write('C19','9',content_format_2)
 			worksheet.merge_range('D19:K19','TUNJ BPJS (BY JAMSOSTEK)',content_format_2)
-			worksheet.merge_range('L19:P19',0-total_KES,content_format_3)
+			worksheet.merge_range('L19:P19',0-var_name['total_KES'],content_format_3)
 			
 			worksheet.write('C20','10',content_format_2)
 			worksheet.merge_range('D20:K20','ASTEK',content_format_2)
-			worksheet.merge_range('L20:P20',total_JHT+total_JP,content_format_3)
+			worksheet.merge_range('L20:P20',var_name['total_JHT']+var_name['total_JP'],content_format_3)
 
 			worksheet.write('C21','11',content_format_2)
 			worksheet.merge_range('D21:K21','THR',content_format_2)
-			worksheet.merge_range('L21:P21',0-total_THR,content_format_3)
+			worksheet.merge_range('L21:P21',0-var_name['total_THR'],content_format_3)
 			
 			worksheet.write('C22','12',content_format_2)
 			worksheet.merge_range('D22:K22','POTONGAN',content_format_2)
-			worksheet.merge_range('L22:P22',0-total_PIKA,content_format_3)
+			worksheet.merge_range('L22:P22',0-var_name['total_PIKA'],content_format_3)
 			
 			worksheet.merge_range('C23:K23','TOTAL :',header_format_2)
 			worksheet.merge_range('L23:P23','=SUM(L11:P22)',content_format_4)
@@ -438,9 +439,9 @@ class HrReporting(models.TransientModel):
 			worksheet.merge_range('C34:D34','', header_format_2)
 			worksheet.merge_range('E34:F34',month_string, header_format_2)
 			worksheet.merge_range('C35:D35','THR Produksi',content_format_2)
-			worksheet.merge_range('E35:F35',total_prod_THR,content_format_3)
+			worksheet.merge_range('E35:F35',var_name['total_prod_THR'],content_format_3)
 			worksheet.merge_range('C36:D36','THR Umum',content_format_2)
-			worksheet.merge_range('E36:F36',total_umum_THR,content_format_3)
+			worksheet.merge_range('E36:F36',var_name['total_umum_THR'],content_format_3)
 			worksheet.merge_range('C37:D37','TOTAL',header_format_2)
 			worksheet.merge_range('E37:F37','=SUM(E35:E36)',content_format_4)
 
