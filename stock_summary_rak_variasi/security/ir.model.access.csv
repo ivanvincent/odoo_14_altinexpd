@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_model_tj_summary_rak_variasi,tj.summary.rak.variasi,model_tj_summary_rak_variasi,stock.group_stock_manager,1,1,1,1
-access_model_tj_summary_rak_variasi_line,tj.summary.rak.variasi.line,model_tj_summary_rak_variasi_line,stock.group_stock_manager,1,1,1,1
-access_model_tj_summary_rak_variasi_line_history,tj.summary.rak.variasi.line.history,model_tj_summary_rak_variasi_line_history,stock.group_stock_manager,1,1,1,1
-access_model_tj_summary_rak_variasi_line_history_adj,tj.summary.rak.variasi.line.history.adj,model_tj_summary_rak_variasi_line_history_adj,stock.group_stock_manager,1,1,1,1
