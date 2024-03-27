@@ -332,8 +332,8 @@ class HrReporting(models.TransientModel):
 			
 			print(var_name)
 			request_len = len(request1)
-			gaji_prod = var_name['total_prod_BRUTO'] - var_name['total_prod_PPH_CICIL'] - var_name['total_prod_JHT2'] - var_name['total_prod_JP2'] - var_name['total_prod_KES2'] - var_name['total_prod_JKK'] - var_name['total_prod_JKM'] - var_name['total_prod_JHT'] - var_name['total_prod_JP'] - var_name['total_prod_KES'] + var_name['total_prod_JHT'] + var_name['total_prod_JP'] - var_name['total_prod_THR'] - var_name['total_prod_PIKA']
-			gaji_umum = var_name['total_umum_BRUTO'] - var_name['total_umum_PPH_CICIL'] - var_name['total_umum_JHT2'] - var_name['total_umum_JP2'] - var_name['total_umum_KES2'] - var_name['total_umum_JKK'] - var_name['total_umum_JKM'] - var_name['total_umum_JHT'] - var_name['total_umum_JP'] - var_name['total_umum_KES'] + var_name['total_umum_JHT'] + var_name['total_umum_JP'] - var_name['total_umum_THR'] - var_name['total_umum_PIKA']
+			gaji_prod = var_name['total_prod_BRUTO'] - var_name['total_prod_THR']
+			gaji_umum = var_name['total_umum_BRUTO'] - var_name['total_umum_THR']
 			
 			# Excel Writer Prep
 			fp = BytesIO()
