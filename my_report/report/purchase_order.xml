@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <!-- <record model="report.paperformat" id="print_out_purchase_order_a4">
+            <field name="name">A4 Purchase Order</field>
+            <field name="default" eval="False" />
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">55</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field> Tips : Hide unnecessary header
+        </record> -->
+    
+        <report
+            id="action_report_purchase_order"
+            model="purchase.order"
+            string="Print Purchase Order"
+            report_type="qweb-pdf"
+            name="my_report.report_purchase_order"
+            file="my_report.report_purchase_order"
+        />
+
+        <!-- <record id="action_report_purchase_order" model="ir.actions.report">
+            <field name="paperformat_id" ref="print_out_purchase_order_a4"/>
+        </record> -->
+
+        <template id="report_purchase_order">
+                  <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout" style="margin-bottom: -100px;">
+                        <div class="page">
+                        <center><span style="text-align: center; font-size: 20px;"><strong><u>PURCHASE ORDER</u></strong></span></center>
+                        <br/>
+                        <br/>
+                            <div class="row" style="margin-bottom: 10px;">
+                                <div class="col-6">
+                                    <table border="1" style="font-size:12px" width="75%">
+                                        <tr style="padding-bottom:0;">
+                                            <td style="padding-bottom:0; font-size:16px; font-color: black;">TO</td>
+                                            <td style="padding-bottom:0; font-size:16px; font-color: black;"> : </td>
+                                            <td style="padding-bottom:0; font-size:16px; font-color: black; padding-right:5px; text-transform: uppercase;"><span t-field="o.partner_id.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom:0; font-size:16px;">ADDRESS</td>
+                                            <td style="padding-bottom:0; font-size:16px;"> : </td>
+                                            <td style="padding-bottom:0; font-size:16px;"><span t-field="o.partner_id.street"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom:0; font-size:16px;">NO. RR</td>
+                                            <td style="padding-bottom:0; font-size:16px;"> : </td>
+                                            <td style="padding-bottom:0; font-size:16px;"><span t-field="o.origin"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom:0; font-size:16px;">NO. PR</td>
+                                            <td style="padding-bottom:0; font-size:16px;"> : </td>
+                                            <td style="padding-bottom:0; font-size:16px;"><span t-field="o.purchase_request_id"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-6" style="font-size:16px">
+                                    <table border="1" style="font-size:16px" width="75%">
+                                        <tr style="padding-bottom:0;">
+                                            <td style="padding-bottom:0; font-size:16px;">DATE</td>
+                                            <td style="padding-bottom:0; font-size:16px;"> : </td>
+                                            <td style="padding-bottom:0; font-size:16px; padding-right:5px; text-transform: uppercase;"> <span t-field="o.date_planned" t-options="{&quot;format&quot;: &quot;dd/MMM/yyyy | HH:mm:ss&quot;}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom:0; font-size:14px;">NO</td>
+                                            <td style="padding-bottom:0; font-size:14px;"> : </td>
+                                            <td style="padding-bottom:0; font-size:14px; text-transform: uppercase;"><span t-field="o.name"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- <center><span style="text-align: center; font-size: 20px;"><strong><u>PURCHASE ORDER</u></strong></span></center> -->
+                            <table width="100%" style="margin-top: 10px; font-size: 13px;" border="1">
+                                <thead>
+                                    <th style="border: 2px solid black;" class="text-center" width="5%">NO</th>
+                                    <th style="border: 2px solid black;" class="text-center" width="15%">KODE BRG</th>
+                                    <th style="border: 2px solid black;" class="text-center" width="30%">DESCRIPTION</th>
+                                    <th style="border: 2px solid black;" class="text-center" width="15%">SPEK</th>
+                                    <th style="border: 2px solid black;" class="text-center" width="5%">QTY</th>
+                                    <th style="border: 2px solid black;" class="text-center" width="5%">UOM</th>
+                                    <th style="border: 2px solid black;" class="text-center" width="15%">PRICE PER UNIT</th>
+                                    <th style="border: 2px solid black;" class="text-center" width="15%">AMOUNT</th>
+                                    <!-- <th style="border: 2px solid black;" class="text-center" width="15%">REMARKS</th> -->
+                                </thead>
+                                <tbody>
+                                    <t t-set="no" t-value="1"/>
+                                    <t t-set="total_idr" t-value="0"/>
+                                    <t t-set="total_idr_ppn" t-value="0"/>
+                                    <t t-set="grand_total" t-value="0"/>
+                                    <tr t-foreach="o.order_line" t-as="line">
+                                        <t t-set="total_idr" t-value="total_idr + line.price_subtotal"/>
+                                        <td style="border: 2px solid black;" class="text-center"><t t-esc="no"/> <t t-set="no" t-value="no + 1"/></td>
+                                        <td style="border: 2px solid black; text-transform: uppercase;" class="text-left pl-1"><span t-field="line.product_id.default_code"/></td>
+                                        <td style="border: 2px solid black; text-transform: uppercase;" class="text-left pl-1"><span t-field="line.product_id.name"/></td>
+                                        <td style="border: 2px solid black; text-transform: uppercase;" class="text-left pl-1"><span t-field="line.specifications"/></td>
+                                        <td style="border: 2px solid black;" class="text-right pr-1"><span t-esc="'{0:,.2f}'.format(line.product_qty)"/></td>
+                                        <td style="border: 2px solid black; text-transform: uppercase;" class="text-left pl-1"><span t-field="line.product_uom"/></td>
+                                        <td style="border: 2px solid black;" class="text-right pr-1"><span t-field="line.price_unit"/></td>
+                                        <td style="border: 2px solid black;" class="text-right pr-1"><span t-field="line.price_subtotal"/></td>
+                                        <!-- <td style="border: 2px solid black; text-transform: uppercase;" class="text-center"><span t-field="line.remarks"/></td> -->
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 2px solid black; font-weight: bold;" class="text-center" colspan="6">TOTAL IDR</td>
+                                        <td style="border: 2px solid black;"/>
+                                        <td style="border: 2px solid black; font-weight: bold;" class="text-right pr-1"><span t-field="o.amount_untaxed"/></td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 2px solid black; font-weight: bold;" class="text-center" colspan="6">TOTAL IDR PPN</td>
+                                        <td style="border: 2px solid black;"/>
+                                        <td style="border: 2px solid black; font-weight: bold;" class="text-right pr-1"><span t-field="o.amount_tax"/></td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 2px solid black; font-weight: bold;" class="text-center" colspan="6">GRAND TOTAL</td>
+                                        <td style="border: 2px solid black;"/>
+                                        <td style="border: 2px solid black; font-weight: bold;" class="text-right pr-1"><span t-field="o.amount_total"/></td>
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table height="90px;" width="50%" style="margin-top: 10px; font-size: 13px;">
+                                <tr>
+                                    <td>DELIVERY</td>
+                                    <td class="pr-2">:</td>
+                                    <td><span t-field="o.date_planned" t-options="{&quot;format&quot;: &quot;dd MMMM yyyy&quot;}"/></td>
+                                </tr>
+                                <tr>
+                                    <td>TERM OF PAYMENT</td>
+                                    <td class="pr-2">:</td>
+                                    <td><span t-field="o.payment_term_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td>DESTINATION</td>
+                                    <td class="pr-2">:</td>
+                                    <td>
+                                        <span t-field="o.company_id.name"/><br/>
+                                        <span>Jl. Panghegar No.7, Kota Bandung, 40613</span><br/>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <h5>Term Of Delivery</h5>
+                            <table width="50%" style="margin-top: 10px; font-size: 13px;" border="0.5px">
+                                <thead>
+                                    <th style="border: 2px solid black;" class="text-center" width="5%">NO</th>
+                                    <th style="border: 2px solid black;" class="text-center" width="10%">KODE BRG</th>
+                                    <th style="border: 2px solid black;" class="text-center" width="10%">DESCRIPTION</th>
+                                    <th style="border: 2px solid black;" class="text-center" width="10%">DATE</th>
+                                    <th style="border: 2px solid black;" class="text-center" width="10%">QUANTITY</th>
+                                </thead>
+                                <tbody>
+                                    <t t-set="no" t-value="1"/>
+                                    <t t-foreach="o.order_line" t-as="line">
+                                    <!--<tr t-foreach="line.line_schedule_ids.sorted(lambda x:x.date_schedule)" t-as="line_schd">-->
+                                    <!--    <td style="border: 2px solid black;" class="text-center"><t t-esc="no"/> <t t-set="no" t-value="no + 1"/></td>-->
+                                    <!--    <td style="border: 2px solid black; text-transform: uppercase;" class="text-left pl-1"><span t-field="line.product_id.default_code"/></td>-->
+                                    <!--    <td style="border: 2px solid black; text-transform: uppercase;" class="text-left pl-1"><span t-field="line.product_id.name"/></td>-->
+                                    <!--    <td style="border: 2px solid black; text-transform: uppercase;" class="text-left pl-1"><span t-field="line_schd.date_schedule" t-options="{&quot;format&quot;: &quot;dd/MMM/yyyy &quot;}"/></td>-->
+                                    <!--    <td style="border: 2px solid black; text-transform: uppercase;" class="text-left pl-1"><span t-field="line_schd.quantity_schedule"/></td>-->
+                                    <!--</tr>-->
+                                    </t>
+                                </tbody>
+                            </table>
+                            <!-- <div style="margin-top: 20px;">
+                                <span>We Here by having both to you the above goods puchase order made on the above date.</span><br/>
+                                <span>You are kindly requested to sign and returns this purchase order. if you should find anything not</span><br/>
+                                <span>order, please let us know immediately by fax.</span>
+                            </div> -->
+                            <!-- <div style="margin-top: 30px;">
+                                <span>Thank You</span><br/>
+                                <span>Sincarery Yours,</span><br/><br/><br/><br/>
+                                <span><strong><u>ANI</u></strong></span><br/>
+                                <span t-field="o.company_id.name"/>
+                            </div> -->
+                            
+                            <div class="ttd" style="margin-top: 3rem;">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="ttd-1 text-center">
+                                            <br/>
+                                            <span>Dibuat Oleh:</span><br/><br/><br/><br/>
+                                            <span t-field="o.create_uid"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="ttd-1 text-center">
+                                            Bandung, <span t-field="o.date_order" t-options="{&quot;format&quot;: &quot;dd MMMM yyyy&quot;}"/><br/>
+                                            <span>Disetujui:</span><br/><br/><br/><br/>
+                                            <span>Tinneke</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    
+    </data>
+    
+
+</odoo>

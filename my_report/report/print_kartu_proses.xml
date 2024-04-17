@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record model="report.paperformat" id="a4_kartu_proses_format">
+            <field name="name">A4 Kartu Proses</field>
+            <field name="default" eval="False" />
+            <field name="format">A4</field> <!-- Tips : Bisa pilih ukuran yg sudah ada -->
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">80</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">75</field> <!-- Tips : Hide unnecessary header -->
+        </record>
+    
+        <report
+            id="action_report_mrp_production_kartu_proses"
+            model="mrp.production"
+            string="Print Kartu Proses"
+            report_type="qweb-pdf"
+            name="my_report.report_print_kartu_proses"
+            file="my_report.report_print_kartu_proses"
+        />
+
+        <record id="action_report_mrp_production_kartu_proses" model="ir.actions.report">
+            <field name="paperformat_id" eval="a4_kartu_proses_format" />
+        </record>
+
+        <template id="report_print_kartu_proses">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header">
+                        <table width="100%">
+                            <tr>
+                                <td colspan="2">
+                                    <!-- <span>DYEING</span>
+                                    <br/> -->
+                                    <span>PRODUCTION CARD</span>
+                                    <span/>
+                                    <span t-field="o.date_planned_start" t-options='{"widget": "date"}'/>
+                                </td>
+                                <td colspan="7">
+                                    <center>
+                                        <h5>
+                                            <b>
+                                                <span t-field="o.product_id.name"/>
+                                                <!-- <span t-field="o.proses"/> -->
+                                            </b>
+                                        </h5>
+                                    </center>
+                                </td>
+                                <td colspan="2" style="border : 1px solid black">
+                                    <center>
+                                        <span>
+                                            <img t-if="o.name" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;' % ('Code128', o.name, 600, 100)" style="width : 300px ; height : 55px"/>
+                                        </span>
+                                        <br/>
+                                        <span t-field="o.name"/>
+                                    </center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <!-- <td width="5%"/> -->
+                                <td style="border-left : 1px solid black ; border-top : 1px solid black ; border-bottom : 1px solid black ; border-right : 0px solid white ; padding-left : 10px">
+                                    <b>
+                                        <span>NO. SO</span>
+                                    </b>
+                                </td>
+                                <td style="border-left : 0px solid white ; border-top : 1px solid black ; border-bottom : 1px solid black ; border-right : 1px solid black">
+                                    <b>
+                                        <span>:</span>
+                                        <span t-field="o.request_id.sale_id"/>
+                                    </b>
+                                </td>
+                                <td width="5%"/>
+                                <td style="border-left : 1px solid black ; border-top : 1px solid black ; border-bottom : 1px solid black ; border-right : 0px solid white ; padding-left : 10px">
+                                    <b>
+                                        <span>TREATMENT</span>
+                                    </b>
+                                </td>
+                                <td style="border-left : 0px solid white ; border-top : 1px solid black ; border-bottom : 1px solid black ; border-right : 1px solid black">
+                                    <b>
+                                        <span>:</span>
+                                        <span>PLATTING</span>
+                                    </b>
+                                </td>
+                                <td width="5%"/>
+                                <td colspan="2" style="border : 1px solid black">
+                                    <center>
+                                        <b>
+                                            1
+                                            <!-- <span t-field="o.greige_id.name"/> -->
+                                        </b>
+                                    </center>
+                                </td>
+                                <td width="5%"/>
+                                <td colspan="2" style="border : 1px solid black">
+                                    <center>
+                                        <b>
+                                            <span>INSPECT &amp;</span>
+                                        </b>
+                                    </center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span>DT</span>
+                                    <br/>
+                                    <span>CUST</span>
+                                    <br/>
+                                    <span>ORDER</span>
+                                    <br/>
+                                    <span>TYPE</span>
+                                    <br/>
+                                    <span>MESIN</span>
+                                    <br/>
+                                    <!-- <span>QTY REQUEST GREIGE</span>
+                                    <br/> -->
+                                </td>
+                                <td>
+                                    <span>:</span>
+                                    <!-- <span t-field="o.delivery_date"/> -->
+                                    <br/>
+                                    <span>:</span>
+                                    <!-- <span t-field="o.kode_customer"/> -->
+                                    <br/>
+                                    <span>:</span>
+                                    <!-- <span t-field="o.jumlah_order"/> -->
+                                    <!-- <span t-field="o.sc_id.qty_sc_uom_id"/> -->
+                                    <br/>
+                                    <span>:</span>
+                                    <!-- <span t-field="o.sale_type"/> -->
+                                    <br/>
+                                    <span>:</span>
+                                    <!-- <span t-field="o.susut"/> -->
+                                    <span></span>
+                                    <br/>
+                                    
+                                </td>
+                                <td wdith="5%"/>
+                                <td>
+                                    <span>UKURAN TIP/LBG</span>
+                                    <br/>
+                                    <span>BENTUK TIP</span>
+                                    <br/>
+                                    <span>PENANDAAN TIP</span>
+                                    <br/>
+                                    <!-- <span>DASAR KAIN</span>
+                                    <br/> -->
+                                    <span>BAHAN/UKURAN</span>
+                                    <br/>
+                                    <span>KODE BAHAN</span>
+                                    <br/>
+                                </td>
+                                <td>
+                                    <span>:</span>
+                                    <!-- <span t-field="o.nomor_batch"/> -->
+                                    <br/>
+                                    <span>:</span>
+                                    <!-- <span t-field="o.batch_ref"/> -->
+                                    <br/>
+                                    <span>:</span>
+                                    <!-- <span t-field="o.warna"/> -->
+                                    <!-- <br/>
+                                    <span>:</span> -->
+                                    <!-- <span t-field="o.dasar_kain"/> -->
+                                    <br/>
+                                    <span>:</span>
+                                    <!-- <span t-field="o.sc_id.process"/> -->
+                                    <br/>
+                                    <span>:</span>
+                                    <!-- <span t-field="o.mesin_id"/> -->
+                                    <br/>
+                                </td>
+                                <td wdith="5%"/>
+                                <td>
+                                    <!-- <span>KODE GREIGE</span>
+                                    <br/> -->
+                                    <!-- <span>FABRIC CODE</span>
+                                    <br/> -->
+                                    <!-- <span>FABRIC TYPE</span>
+                                    <br/> -->
+                                    <!-- <span>LEBAR KAIN FINISH</span>
+                                    <br/>
+                                    <span>BERAT KAIN FINISH</span>
+                                    <br/>
+                                    <span>DENSITY FINISH</span>
+                                    <br/> -->
+                                </td>
+                                <td>
+                                    <!-- <span>:</span> -->
+                                    <!-- <span t-field="o.kode_greige"/> -->
+                                    <!-- <br/> -->
+                                    <!-- <span>:</span>
+                                    <span t-field="o.fabric_code"/>
+                                    <br/>
+                                    <span>:</span>
+                                    <b>K</b>
+                                    <br/> -->
+                                    <!-- <span>:</span>
+                                    <span t-field="o.lebar_kain_finish"/>
+                                    <br/>
+                                    <span>:</span>
+                                    <span t-field="o.gramasi_kain_finish"/>
+                                    <br/>
+                                    <span>:</span>
+                                    <span t-field="o.density_kain_finish"/>
+                                    <br/> -->
+                                </td>
+                                <td wdith="5%"/>
+                                <td>
+                                    <span>TIM</span>
+                                    <br/>
+                                    <span>TREATMENT</span>
+                                    <br/>
+                                    <span>PACKING</span>
+                                    <br/>
+                                    <span>HRC</span>                                                                        
+                                    <br/>
+                                    <span>HANGTAG</span>
+                                    <br/>
+                                </td>
+                                <td>
+                                    <span>:</span>
+                                    <!-- <span t-field="o.kategori"/> -->
+                                    <br/>
+                                    <span>:</span>
+                                    <!-- <span t-field="o.grading"/> -->
+                                    <br/>
+                                    <span>:</span>
+                                    <!-- <span t-field="o.piece_length"/> -->
+                                    <!-- <span t-field="o.sc_id.piece_length_uom"/> -->
+                                    <br/>
+                                    <span>:</span>
+                                    <!-- <span t-field="o.max_join_pcs"/> -->
+                                    <br/>
+                                    <span>:</span>
+                                    <!-- <span t-field="o.packing"/> -->
+                                    <br/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <table style="margin-top:10px;" width="100%">
+                                <thead>
+                                    <tr class="text-center">
+                                        <td rowspan="2" style="border : 1px solid black">
+                                            <span>NO</span>
+                                        </td>
+                                        <td rowspan="2" style="border : 1px solid black">
+                                            <span>KATEGORI</span>
+                                        </td>
+                                        <td rowspan="2" style="border : 1px solid black">
+                                            <span>URUTAN PROSES</span>
+                                        </td>
+                                        
+                                        <td colspan="2" style="border : 1px solid black">
+                                            <span>MESIN</span>
+                                        </td>
+                                        <td colspan="2" style="border : 1px solid black">
+                                            <span>KONDISI PROSES</span>
+                                        </td>
+                                        <!-- <td colspan="2" style="border : 1px solid black">
+                                            <span>STANDARD</span>
+                                        </td>
+                                        <td colspan="2" style="border : 1px solid black">
+                                            <span>AKTUAL</span>
+                                        </td> -->
+                                        <td rowspan="2" style="border : 1px solid black">
+                                            <span>NAMA OPERATOR / SHIFT</span>
+                                        </td>
+                                        <td rowspan="2" style="border : 1px solid black">
+                                            <span>TANGGAL</span>
+                                        </td>
+                                        
+                                        <td rowspan="2" style="border : 1px solid black">
+                                            <span>KETERANGAN</span>
+                                        </td>
+                                        <td rowspan="2" style="border : 1px solid black">
+                                            <span>BARCODE WO</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td style="border : 1px solid black">
+                                            <span>STANDAR</span>
+                                        </td>
+                                        <td style="border : 1px solid black">
+                                            <span>AKTUAL</span>
+                                        </td>
+                                        <td style="border : 1px solid black">
+                                            <span>STANDAR</span>
+                                        </td>
+                                        <td style="border : 1px solid black">
+                                            <span>AKTUAL</span>
+                                        </td>
+                                        <!-- <td style="border : 1px solid black">
+                                            <span>LEBAR</span>
+                                        </td>
+                                        <td style="border : 1px solid black">
+                                            <span>GSM</span>
+                                        </td>
+                                        <td style="border : 1px solid black">
+                                            <span>LEBAR</span>
+                                        </td>
+                                        <td style="border : 1px solid black">
+                                            <span>GSM</span>
+                                        </td> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="no" t-value="0"/>
+                                    <t t-foreach="o.workorder_ids" t-as="flowproses_line">
+                                        <t t-set="no" t-value="no+1"/>
+                                        <tr>
+                                            <td style="border : 1px solid black" class="text-center">
+                                                <span t-esc="no"/>
+                                            </td>
+                                            <td style="border : 1px solid black ; padding-left : 10px">
+                                                <span t-field="flowproses_line.workcenter_id.workcenter_categ_id"/>
+                                            </td>
+                                            <td style="border : 1px solid black ; padding-left : 10px">
+                                                <span t-field="flowproses_line.workcenter_id"/>
+                                            </td>
+                                            
+                                            <td style="border : 1px solid black ; padding-left : 10px">
+                                                <span t-field="flowproses_line.machine_id.number"/>
+                                            </td>
+                                            <td style="border : 1px solid black">
+                                                <span/>
+                                            </td>
+                                            <td style="border : 1px solid black">
+                                                <table width="100%">
+                                                    <t t-foreach="flowproses_line.parameter_ids" t-as="pl">
+                                                        <tr>
+                                                            <td width="50%" style="border-bottom : 1px solid black ; padding-left : 10px" class="text-left">
+                                                                <b><span t-field="pl.parameter_id"/></b>
+                                                            </td>
+                                                            <td width="50%" style="border-bottom : 1px solid black ; padding-right : 10px" class="text-right">
+                                                                <span t-field="pl.factor"/>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </table>
+                                            </td>
+                                            <td style="border : 1px solid black">
+                                                <span/>
+                                            </td>
+                                            <!-- <td style="border : 1px solid black ; padding-right : 10px" class="text-right">
+                                                <span t-field="flowproses_line.lebar_result"/>
+                                            </td>
+                                            <td style="border : 1px solid black ; padding-right : 10px" class="text-right">
+                                                <span t-field="flowproses_line.gramasi_result"/>
+                                            </td>
+                                            <td style="border : 1px solid black">
+                                                <span/>
+                                            </td>
+                                            <td style="border : 1px solid black">
+                                                <span/>
+                                            </td> -->
+                                            <td style="border : 1px solid black">
+                                                <span/>
+                                            </td>
+                                            <td style="border : 1px solid black">
+                                                <span t-field="flowproses_line.date_planned_start"/>
+                                            </td>
+                                            <td style="border : 1px solid black">
+                                                <span/>
+                                            </td>
+                                            <td style="border : 1px solid black">
+                                                <img t-if="flowproses_line.id" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;' % ('Code128', flowproses_line.id, 400, 50)" style="width : 200px ; height : 55px"/>
+                                            </td>
+                                            
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+
+                            <!-- <div class="footer"> -->
+                                <table style="margin-top : 10px" width="100%">
+                                    <tr class="text-center">
+                                        <td width="20%" style="border : 1px solid black">
+                                            <b>
+                                                <span>CATATAN / NOTES</span>
+                                            </b>
+                                        </td>
+                                        <td colspan="8" style="border : 1px solid black">
+                                            <b>
+                                                <span>REWORK</span>
+                                            </b>
+                                        </td>
+                                        <td rowspan="2" colspan="3" style="border : 1px solid black">
+                                            <b>
+                                                <span>MENGETAHUI</span>
+                                            </b>
+                                        </td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td style="border : 1px solid black" rowspan="6">
+                                            <span/>
+                                        </td>
+                                        <td style="border : 1px solid black" rowspan="2">
+                                            <span>TGL</span>
+                                        </td>
+                                        <td style="border : 1px solid black" rowspan="2">
+                                            <span>URUTAN PROSES</span>
+                                        </td>
+                                        <td style="border : 1px solid black" rowspan="2">
+                                            <span>MESIN</span>
+                                        </td>
+                                        <td style="border : 1px solid black" rowspan="2">
+                                            <span>KONDISI PROSES</span>
+                                        </td>
+                                        <td style="border : 1px solid black" colspan="2">
+                                            <span>STANDAR</span>
+                                        </td>
+                                        <td style="border : 1px solid black" colspan="2">
+                                            <span>AKTUAL</span>
+                                        </td>
+                                        <!-- <td style="border : 1px solid black" colspan="3">
+                                            <span>MENGETAHUI</span>
+                                        </td> -->
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td style="border : 1px solid black">
+                                            <span>LEBAR</span>
+                                        </td>
+                                        <td style="border : 1px solid black">
+                                            <span>GSM</span>
+                                        </td>
+                                        <td style="border : 1px solid black">
+                                            <span>LEBAR</span>
+                                        </td>
+                                        <td style="border : 1px solid black">
+                                            <span>GSM</span>
+                                        </td>
+                                        <td style="border : 1px solid black">
+                                            <span>R &amp; D</span>
+                                        </td>
+                                        <td style="border : 1px solid black">
+                                            <span>KABAG DYEING</span>
+                                        </td>
+                                        <td style="border : 1px solid black">
+                                            <span>KABAG PRINT</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" rowspan="4">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" rowspan="4">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" rowspan="4">
+                                            <span/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                        <td style="border :1px solid black" height="20px">
+                                            <span/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            <!-- </div> -->
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    
+    </data>
+    
+
+</odoo>

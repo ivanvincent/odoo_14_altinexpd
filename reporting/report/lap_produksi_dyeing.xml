@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="paperformat_lap_produksi_dyeing" model="report.paperformat">
+            <field name="name">Laporan Produksi Dyeing</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">330</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">40</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">9</field>
+            <field name="dpi">110</field>
+        </record>
+
+        <record id="action_lap_produksi_dyeing" model="ir.actions.report">
+            <field name="name">Laporan Produksi Dyeing</field>
+            <field name="model">lap_produksi.dyeing</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">reporting.lap_produksi_dyeing</field>
+            <field name="report_file">reporting.lap_produksi_dyeing</field>
+            <field name="print_report_name">Laporan Produksi Dyeing</field>
+            <field name="binding_model_id" ref="model_lap_produksi_dyeing" />
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" eval="paperformat_lap_produksi_dyeing" />
+        </record>
+
+        <template id="lap_produksi_dyeing">
+            <t t-foreach="list_mesin" t-as="lst_mesin">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <center>
+                        <h3 class="font-weight-bold" style="font-family: 'Times New Roman';">RENCANA KERJA DYEING</h3>
+                        <h4 class="font-weight-bold">
+                            <span>Hari / Tanggal :</span>
+                            ( <t t-esc="date_start"/>
+                            -
+                            <t t-esc="date_end"/>
+                            )
+                        </h4>
+                    </center>
+                    <table class="table-condensed" style="font-size : 20px" width="100%">
+                        <thead>
+                            <tr class="text-center">
+                                <th style="border : 1px solid black" colspan="9">RENCANA</th>
+                                <th style="border : 1px solid black" colspan="4">PELAKSANAAN</th>
+                                <th style="border : 1px solid black" rowspan="3">KETERANGAN</th>
+                            </tr>
+                            <tr class="text-center">
+                                <th style="border : 1px solid black" rowspan="2">NO</th>
+                                <th style="border : 1px solid black" rowspan="2">NO OM / BATCH</th>
+                                <th style="border : 1px solid black" rowspan="2">JENIS KAIN</th>
+                                <th style="border : 1px solid black" colspan="2">Jumlah</th>
+                                <th style="border : 1px solid black" rowspan="2">WARNA</th>
+                                <th style="border : 1px solid black" rowspan="2">PRG</th>
+                                <th style="border : 1px solid black">PROSES</th>
+                                <th style="border : 1px solid black" rowspan="2">RENCANA WAKTU</th>
+                                <th style="border : 1px solid black" colspan="2">Actual Waktu</th>
+                                <th style="border : 1px solid black">Shift</th>
+                                <th style="border : 1px solid black" rowspan="2">Hasil</th>
+                            </tr>
+                            <tr class="text-center">
+                                <th style="border : 1px solid black">Yard</th>
+                                <th style="border : 1px solid black">Kg</th>
+                                <th style="border : 1px solid black">Nozzle</th>
+                                <th style="border : 1px solid black">Masuk</th>
+                                <th style="border : 1px solid black">Keluar</th>
+                                <th style="border : 1px solid black">Operator</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                    <td colspan="14">
+                                        <h3 class="font-weight-bold" t-esc="lst_mesin" style="margin-top: 5px;"/>
+                                    </td>
+                                </tr>
+                                <t t-set="no" t-value="0"/>
+                                <t t-foreach="filter(lambda x: x['mesin'] == lst_mesin, docs)" t-as="o">
+                                    <t t-set="no" t-value="no + 1"/>
+                                    <t t-set="kg" t-value="me.get_qty_kg(o.get('mo_id'))"/>
+                                    <tr>
+                                        <td style="border : 1px solid black" class="text-center" width="5%">
+                                            <span t-esc="no"/>
+                                        </td>
+                                        <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                            <span t-esc="o.get('no_so')"/>
+                                            <br/>
+                                            <span t-esc="o.get('no_mo')"/>
+                                        </td>
+                                        <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                            <span t-esc="o.get('greige')"/>
+                                        </td>
+                                        <td style="border : 1px solid black ;" class="text-right">
+                                            <table class="table-condensed" width="100%">
+                                                <tr>
+                                                    <td style="border-bottom : 1px solid black">
+                                                        <span t-esc="o.get('qty_greige')"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="me.get_qty_greige_sended(o.get('mo_id'))"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="border : 1px solid black ;" class="text-right">
+                                            <table class="table-condensed" width="100%">
+                                                <tr>
+                                                    <td style="border-bottom : 1px solid black">
+                                                        <span class="font-weight-bold" t-esc="kg"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="font-weight-bold" t-esc="'{0:,.2f}'.format(me.convert_yard_to_kg(o.get('mo_id'), me.get_qty_greige_sended(o.get('mo_id'))))"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <span t-esc="o.get('no_urut')"/>
+                                            <br/>
+                                            <span t-esc="o.get('warna')"/>
+                                        </td>
+                                        <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                            <span class="font-weight-bold" t-esc="o.get('no_program')"/>
+                                        </td>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <table class="table-condensed" width="100%">
+                                                <t t-set="nozle" t-value="me.get_nozle(o.get('workcenter_id'))"/>
+                                                <tr>
+                                                    <td style="border-bottom : 1px solid black">
+                                                        <span class="font-weight-bold" t-esc="o.get('workcenter')"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="font-weight-bold" t-esc="nozle"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                            <span class="text-center" t-esc="o.get('duration')"/>
+                                        </td>
+                                        <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                            <!-- <span t-esc="o.get('date_planned_start')"/> -->
+                                        </td>
+                                        <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                            <!-- <span t-esc="o.get('date_planned_finished')"/> -->
+                                        </td>
+                                        <td style="border : 1px solid black" class="text-center">
+                                            <table class="table-condensed" width="100%">
+                                                <tr>
+                                                    <td style="border-bottom : 1px solid black">
+                                                        <span t-esc="o.get('shift')"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="o.get('operator')"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                            <!-- <span t-esc="o.get('workcenter')" /> -->
+                                        </td>
+                                        <td style="border : 1px solid black ; padding-left : 10px" class="text-left">
+                                            <!-- <span t-esc="o.get('workcenter')" /> -->
+                                        </td>
+                                    </tr>
+                                </t>
+                        </tbody>
+                    </table>
+                    <div class="footer">
+                      <div class="row">
+                        <div class="col-6 border border-dark pt-3 pl-3 pr-3 pb-3 text-center">
+                            <table width="100%" style="font-size:20px;">
+                              <tr>
+                                <td>
+                                  <div class="ttd-box text-center">
+                                    <span>Dibuat,</span><br/><br/><br/>
+                                    <span>admin,</span><br/>
+                                    <span>KaSie PPc,</span><br/>
+                                  </div>
+                                </td>
+                                
+                                <td>
+                                  <div class="ttd-box text-center">
+                                    <span>Diperiksa,</span><br/><br/><br/>
+                                    <span></span><br/>
+                                    <span>KaSie Dyeing,</span><br/>
+                                  </div>    
+                                </td>
+                                
+                                <td>
+                                  <div class="ttd-box" style="margin-left: auto;">
+                                    <span>Dianalisa,</span><br/><br/><br/>
+                                    <span></span><br/>
+                                    <span>KaBag Dyeing,</span><br/>
+                                  </div>
+                                </td>
+                              </tr>
+                            </table>
+                        </div>
+                        <div class="col-6 border border-dark pt-3 pl-3">
+                          <span>CATATAN :</span>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

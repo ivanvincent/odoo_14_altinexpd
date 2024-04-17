@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report string="Packing List" id="action_packing_list" model="stock.picking" report_type="qweb-pdf"
+            name="my_report.packing_list" file="my_report.packing_list" />
+
+        <template id="packing_list">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page" style="font-family: monospace, sans-serif ; font-size : 16px">
+                        <table style="width:100% ; border: 1px solid white" class="table-condensed">
+                            <thead style="border : 1px solid white">
+                                <tr>
+                                    <td colspan="15">
+                                        <table style="width:100% ; border: 1px solid white">
+                                            <thead>
+                                                <tr>
+                                                    <td colspan="5" style="width:20% ; border: 1px solid white;">PT.
+                                                        TEKSTILE
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <t t-if="o.picking_type_id.id == 16">
+                                                        <td colspan="5" style="border: 1px solid white;">
+                                                            <center>PACKING LIST JUAL / KNITTING</center>
+                                                        </td>
+                                                    </t>
+                                                    <t t-if="o.picking_type_id.id == 135">
+                                                        <td colspan="5" style="border: 1px solid white;">
+                                                            <center>PACKING LIST TERIMA RETUR / KNITTING</center>
+                                                        </td>
+                                                    </t>
+                                                    <t t-if="o.picking_type_id.id == 136">
+                                                        <td colspan="5" style="border: 1px solid white;">
+                                                            <center>PACKING LIST RETUR OUT / KNITTING</center>
+                                                        </td>
+                                                    </t>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="5" style="border-top: 2px solid black" class="text-center">
+                                                        NO. SJ :
+                                                        <span t-field="o.name"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="5" height="10px"/>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width:18% ; border: 1px solid white;">Nomor WO</td>
+                                                    <td style="width:2% ; border: 1px solid white;">:</td>
+                                                    <td style="width:40% ; border: 1px solid white;">
+                                                      <!--<span t-field="o.no_wo"/>-->
+                                                    </td>
+                                                    <td style="width:10% ; border: 1px solid white;">Tanggal</td>
+                                                    <td style="width:30% ; border: 1px solid white;">: 
+                                                    <!--<span t-field="o.min_date" t-field-options="{&quot;format&quot;: &quot;dd / MMMM / yyyy&quot;}"/>-->
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nomor Design</td>
+                                                    <td>:</td>
+                                                    <!--<td><span t-field="o.no_design"/></td>-->
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        NO POLISI
+                                                    </td>
+                                                    <td>:</td>
+                                                    <td>
+                                                        <!--<span t-field="o.x_nopol"/>-->
+                                                    </td>
+                                                    <td>No. PO</td>
+                                                    <td>
+                                                        : 
+                                                        <!--<span>
+                                                            <t t-set="po" t-value="0"/>
+                                                            <t t-foreach="o.pack_operation_product_ids" t-as="line_ids">
+                                                                <t t-foreach="line_ids.pack_lot_ids" t-as="packlot">
+                                                                    <t t-set="po" t-value="packlot.lot_id.no_po_cust"/>
+                                                                </t>
+                                                            </t>
+                                                            <span t-esc="po"/>
+                                                        </span>-->
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Lebar / Grm2</td>
+                                                    <td>:</td>
+                                                    <td>
+                                                        <!--<span>
+                                                            <t t-set="lebar" t-value="0"/>
+                                                            <t t-set="gramasi" t-value="0"/>
+                                                            <t t-foreach="o.pack_operation_product_ids" t-as="line_ids">
+                                                                <t t-foreach="line_ids.pack_lot_ids" t-as="packlot">
+                                                                    <t t-set="lebar" t-value="packlot.lot_id.product_lebar"/>
+                                                                    <t t-set="gramasi" t-value="packlot.lot_id.product_gramasi"/>
+                                                                </t>
+                                                            </t>
+                                                            <span t-esc="lebar"/> / <span t-esc="gramasi"/>
+                                                        </span>-->
+                                                    </td>
+                                                    <td>Jenis</td>
+                                                    <td>
+                                                        : 
+                                                        <!--<span t-field="o.jenis"/>-->
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>CUSTOMER</td>
+                                                    <td>:</td>
+                                                    <td colspan="3" style="border: 1px solid white">
+                                                        <span t-field="o.partner_id.name"/> <br/>
+                                                        <span t-field="o.partner_id.street"/>
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="width:5% ; border: 1px solid black" rowspan="2">No
+                                    </td>
+                                    <td class="text-center" style="width:15% ; border: 1px solid black" rowspan="2">
+                                        Corak Kain
+                                    </td>
+                                    <td class="text-left" style="width:13% ; border: 1px solid black" rowspan="2">Design
+                                    </td>
+                                    <td class="text-left" style="width:13% ; border: 1px solid black" rowspan="2">Batch
+                                    </td>
+                                    <td class="text-center" style="width:12% ; border: 1px solid black" rowspan="2">
+                                        Warna
+                                    </td>
+                                    <td class="text-center" style="width:5% ; border: 1px solid black" rowspan="2">Grd
+                                    </td>
+                                    <td class="text-left" style="width:25% ; border-top: 1px solid black ; border-right: 1px solid black" colspan="3">
+                                        <center>QUANTITY</center>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:5% ; border-top: 2px solid black ; border-bottom: 1px solid black ; border-right: 1px solid black">
+                                        <center>PCS</center>
+                                    </td>
+                                    <td style="width:5% ; border-top: 2px solid black ; border-bottom: 1px solid black ; border-right: 1px solid black">
+                                        <center>QTY</center>
+                                    </td>
+                                    <td style="width:5% ; border-top: 2px solid black ; border-bottom: 1px solid black ; border-right: 1px solid black">
+                                        <center>SAT</center>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody style="border: 2px solid hidden">
+                                <t t-set="no" t-value="0"/>
+                                <!--<t t-set="tot_pcs" t-value="0"/>-->
+                                <!--<t t-set="tot_qty" t-value="0"/>-->
+                                <!--<t t-set="tot_karung" t-value="0"/>-->
+                                <!--<t t-set="tot_tali" t-value="0"/>-->
+                                <!--<t t-set="uom" t-value="0"/>-->
+                                <!--<t t-set="batch" t-value="0"/>-->
+                                <!--<t t-set="design" t-value="0"/>-->
+                                <t t-foreach="o.move_ids_without_package" t-as="line_ids">
+                                    <t t-set="no" t-value="no + 1"/>
+                                    <!--<t t-set="tot_pcs" t-value="tot_pcs + line_ids.roll"/>-->
+                                    <!--<t t-set="tot_karung" t-value="tot_karung + line_ids.qty_bs_karung"/>-->
+                                    <!--<t t-set="tot_tali" t-value="tot_tali + line_ids.qty_bs_tali"/>-->
+                                    <tr style="border: 0px solid black ; font-size:15px">
+                                        <td style="border: 1px solid black" class="text-center">
+                                            <span t-esc="no"/>
+                                        </td>
+                                        <td style="border: 1px solid black" class="text-center">
+                                            <span t-field="line_ids.product_id.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black" class="text-center">
+                                            <!--<span t-esc="design"/>-->
+                                        </td>
+                                        <td style="border: 1px solid black" class="text-center">
+                                            <!--<span t-esc="batch"/>-->
+                                        </td>
+                                        <td style="border: 1px solid black" class="text-center">
+                                            <!--<span t-field="line_ids.product_warna_id"/>-->
+                                        </td>
+                                        <td style="border: 1px solid black" class="text-center">
+                                            <!--<span t-field="line_ids.grade_id"/>-->
+                                        </td>
+                                        <td style="border: 1px solid black" class="text-right">
+                                            <!--<span t-esc="'{0:,.0f}'.format(float(line_ids.roll))"/>-->
+                                        </td>
+                                        <td style="border: 1px solid black" class="text-right">
+                                            <!--<t t-set="tot_netto" t-value="0"/>
+                                            <t t-foreach="line_ids.pack_lot_ids" t-as="packlot">
+                                                <t t-set="tot_netto" t-value="tot_netto + packlot.lot_id.product_netto"/>
+                                            </t>
+                                            <span t-esc="'{0:,.2f}'.format(float(tot_netto))"/>-->
+                                        </td>
+                                        <td style="border: 1px solid black" class="text-right">
+                                            KG
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid black ; font-size:15px" colspan="9">
+                                            <t t-foreach="line_ids.move_line_ids" t-as="packlot">
+                                                <!--<span t-esc="'%02.0f'%packlot.nourut"/>) -->
+                                                <span t-esc="'{0:,.2f}'.format(float(packlot.qty_done))"/>
+                                                <!--|-->
+                                                <!--<span t-esc="'{0:,.2f}'.format(float(packlot.lot_id.product_netto))"/>-->
+                                                <span>          </span>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <thead>
+                                <tr>
+                                    <td/>
+                                    <td/>
+                                    <td/>
+                                    <td/>
+                                    <td/>
+                                    <td class="text-right">
+                                        <b>TOTAL</b>
+                                    </td>
+                                    <td class="text-right">
+                                        <!--<span t-esc="'{0:,.0f}'.format(float(tot_pcs))"/>-->
+                                    </td>
+                                    <td style="border: 1px solid white" class="text-right">
+                                        <!--<t t-set="tot_netto" t-value="0"/>-->
+                                        <!--<t t-foreach="o.pack_operation_product_ids" t-as="line_ids">-->
+                                        <!--    <t t-foreach="line_ids.pack_lot_ids" t-as="packlot">-->
+                                        <!--        <t t-set="tot_netto" t-value="tot_netto + packlot.lot_id.product_netto"/>-->
+                                        <!--    </t>-->
+                                        <!--</t>-->
+                                        <!--<span t-esc="'{0:,.2f}'.format(float(tot_netto))"/>-->
+                                    </td>
+                                    <td class="text-center">KG</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="13">
+                                        Note :
+                                        <!--<span t-field="o.note_inspect"/>-->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="13">
+                                        <table style="width:100% ; border: 1px solid white" class="table-condensed">
+                                            <tr>
+                                                <td class="text-center">
+                                                    Mengetahui :
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    _______________
+                                                </td>
+                                                <td class="text-center">
+                                                    Penerima :
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    _______________
+                                                </td>
+                                                <td class="text-center">
+                                                    Security :
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    _______________
+                                                </td>
+                                                <td class="text-center">
+                                                    Exspedisi :
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    _______________
+                                                </td>
+                                                <td class="text-center">
+                                                    Dibuat Oleh :
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    _______________
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="13">
+                                        <table width="100%">
+                                            <tr class="text-center">
+                                                <td>Putih-Penagih</td>
+                                                <td>Merah-Penerima</td>
+                                                <td>Kuning-Keuangan</td>
+                                                <td>Hijau-Arsip</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="footer">
+                        <div class="row">
+                            <div style="margin-left : 20px">
+                                Printed By :
+                                <span t-field="user.name"/>
+                                <br/>
+                                Date :
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                                <br/>
+                                <span>Hal</span>
+                                <span class="page"/>
+                                <span>/</span>
+                                <span class="topage"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

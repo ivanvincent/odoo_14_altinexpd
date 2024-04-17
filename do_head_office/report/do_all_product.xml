@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="report.paperformat" id="paper_format_A4_template">
+            <field name="name">Paper A4</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_width">210</field>
+            <field name="page_height">297</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">32</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+
+        <report id="do_all_product_print" model="do.head.office" string="Print Do All Product" name="do_head_office.do_all_product_template" report_type="qweb-pdf" print_report_name="'Print Do - %s' % (object.name)" paperformat="do_head_office.paper_format_A4_template"/>
+        />
+
+        <report id="do_all_product_by_location" model="do.head.office" string="Print Do By Location" name="do_head_office.do_all_by_location_template" report_type="qweb-pdf" print_report_name="'Print Do - %s' % (object.name)" paperformat="do_head_office.paper_format_A4_template"/>
+        />
+
+
+
+
+        <template id="do_all_product_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+
+
+                            <h2 class="mt16">
+                                <span>Delivery Order # </span>
+                                <span t-field="doc.name"/>
+                            </h2>
+
+                            <div class="row mt32 mb32" id="informations">
+                                <div t-if="doc.order_date" class="col-auto col-3 mw-100 mb-2">
+                                    <strong>Order Date:</strong>
+                                    <p class="m-0" t-field="doc.order_date"/>
+                                </div>
+                                <div t-if="doc.default_warehouse_dest_id.name" class="col-auto col-3 mw-100 mb-2">
+                                    <strong>Stock Point:</strong>
+                                    <p class="m-0" t-field="doc.default_warehouse_dest_id.name"/>
+                                </div>
+                                <div t-if="doc.driver_id.name" class="col-auto col-3 mw-100 mb-2">
+                                    <strong>Driver:</strong>
+                                    <p class="m-0" t-field="doc.driver_id"/>
+                                </div>
+                                <div t-if="doc.vehicle_id.name" class="col-auto col-3 mw-100 mb-2">
+                                    <strong>Truck:</strong>
+                                    <p class="m-0" t-field="doc.vehicle_id"/>
+                                </div>
+                            </div>
+
+                            <table class="table table-sm o_main_table">
+                                <thead style="display: table-row-group">
+                                    <tr>
+                                        <th>
+                                        No
+                                        </th>
+                                        <th>
+                                        Produk
+                                        </th>
+                                        <th>
+                                        QUantity
+                                        </th>
+                                        <th>
+                                        Satuan
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="sale_tbody">
+                                    <t t-set="no" t-value="0"/>
+                                    <t t-set="lines" t-value="doc.do_line_group_by_product()"/>
+                                    <t t-foreach="lines" t-as="line">
+                                        <t t-set="no" t-value="no + 1"/>
+                                        <tr>
+                                            <td>
+                                                <span t-esc="no"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line.get('product_id')"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line.get('quantity')"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line.get('uom_id')"/>
+                                            </td>
+                                            <!-- <td>
+                                                <span t-esc="no"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line.product_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line.quantity"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line.product_uom_id.name"/>
+                                            </td> -->
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+
+                            <div class="clearfix" name="so_total_summary">
+                                <div id="total" class="row" name="total">
+                                    <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                                        <table class="table table-sm">
+                                            <tr class="border-black o_total">
+                                                <td name="td_amount_total_label">
+                                                    <strong>Total</strong>
+                                                </td>
+                                                <td name="td_amount_total" class="text-right">
+                                                    <span t-field="doc.amount_quantity"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="do_all_by_location_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+
+
+                            <h2 class="mt16">
+                                <span>Delivery Order # </span>
+                                <span t-field="doc.name"/>
+                            </h2>
+
+                            <div class="row mt32 mb32" id="informations">
+                                <div t-if="doc.order_date" class="col-auto col-3 mw-100 mb-2">
+                                    <strong>Order Date:</strong>
+                                    <p class="m-0" t-field="doc.order_date"/>
+                                </div>
+                                <div t-if="doc.default_warehouse_dest_id.name" class="col-auto col-3 mw-100 mb-2">
+                                    <strong>Stock Point:</strong>
+                                    <p class="m-0" t-field="doc.default_warehouse_dest_id.name"/>
+                                </div>
+                                <div t-if="doc.driver_id.name" class="col-auto col-3 mw-100 mb-2">
+                                    <strong>Driver:</strong>
+                                    <p class="m-0" t-field="doc.driver_id"/>
+                                </div>
+                                <div t-if="doc.vehicle_id.name" class="col-auto col-3 mw-100 mb-2">
+                                    <strong>Truck:</strong>
+                                    <p class="m-0" t-field="doc.vehicle_id"/>
+                                </div>
+                            </div>
+
+                            <table class="table table-sm o_main_table">
+                                <thead style="display: table-row-group">
+                                    <tr>
+                                        <th>
+                                        No
+                                        </th>
+                                        <th>
+                                        Location
+                                        </th>
+                                        <th>
+                                        Product
+                                        </th>
+                                        <th>
+                                        Quantity
+                                        </th>
+                                        <th>
+                                        Satuan
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="sale_tbody">
+                                    <t t-set="no" t-value="0"/>
+                                    <t t-foreach="doc.line_ids.sorted(key=lambda l: (l.type, l.product_id.id, -l.quantity), reverse=False)" t-as="line">
+                                        <t t-set="no" t-value="no + 1"/>
+                                        <tr>
+                                            <td>
+                                                <span t-esc="no"/>
+                                            </td>
+                                            <td>
+                                                <t t-if="line.type == 'fg'">
+                                                    <span>Finish Good</span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span>Sisa Baru</span>
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line.product_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line.quantity"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line.product_uom_id.name"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+
+                            <div class="clearfix" name="so_total_summary">
+                                <div id="total" class="row" name="total">
+                                    <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                                        <table class="table table-sm">
+                                            <tr class="border-black o_total">
+                                                <td name="td_amount_total_label">
+                                                    <strong>Total</strong>
+                                                </td>
+                                                <td name="td_amount_total" class="text-right">
+                                                    <span t-field="doc.amount_quantity"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

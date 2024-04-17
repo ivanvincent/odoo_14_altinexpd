@@ -1,0 +1,877 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="holder_specification_form" model="ir.ui.view">
+            <field name="name">holder.specification.form</field>
+            <field name="model">holder.specification</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="holder_specification_tree" model="ir.ui.view">
+            <field name="name">holder.specification.tree</field>
+            <field name="model">holder.specification</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="holder_specification_action" model="ir.actions.act_window">
+            <field name="name">holder.specification</field>
+            <field name="res_model">holder.specification</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="holder_position_form" model="ir.ui.view">
+            <field name="name">holder.position.form</field>
+            <field name="model">holder.position</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="holder_position_tree" model="ir.ui.view">
+            <field name="name">holder.position.tree</field>
+            <field name="model">holder.position</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="holder_position_action" model="ir.actions.act_window">
+            <field name="name">holder.position</field>
+            <field name="res_model">holder.position</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="holder_material_form" model="ir.ui.view">
+            <field name="name">holder.material.form</field>
+            <field name="model">holder.material</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="holder_material_tree" model="ir.ui.view">
+            <field name="name">holder.material.tree</field>
+            <field name="model">holder.material</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="holder_material_action" model="ir.actions.act_window">
+            <field name="name">holder.material</field>
+            <field name="res_model">holder.material</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="dust_cup_configuration_form" model="ir.ui.view">
+            <field name="name">dust.cup.configuration.form</field>
+            <field name="model">dust.cup.configuration</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                                <field name="type"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="dust_cup_configuration_tree" model="ir.ui.view">
+            <field name="name">dust.cup.configuration.tree</field>
+            <field name="model">dust.cup.configuration</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="dust_cup_configuration_action" model="ir.actions.act_window">
+            <field name="name">dust.cup.configuration</field>
+            <field name="res_model">dust.cup.configuration</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_type': 'MULTIPART'}</field>
+            <field name="domain">[('type', '=', 'MULTIPART')]</field>
+        </record>
+
+        <record id="keyway_configuration_form" model="ir.ui.view">
+            <field name="name">keyway.configuration.form</field>
+            <field name="model">keyway.configuration</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>                            
+                                <field name="type"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="keyway_configuration_tree" model="ir.ui.view">
+            <field name="name">keyway.configuration.tree</field>
+            <field name="model">keyway.configuration</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="keyway_configuration_action" model="ir.actions.act_window">
+            <field name="name">keyway.configuration</field>
+            <field name="res_model">keyway.configuration</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_type': 'MULTIPART'}</field>
+            <field name="domain">[('type', '=', 'MULTIPART')]</field>
+        </record>
+
+        <record id="keyway_position_form" model="ir.ui.view">
+            <field name="name">keyway.position.form</field>
+            <field name="model">keyway.position</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                                <field name="type"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="keyway_position_tree" model="ir.ui.view">
+            <field name="name">keyway.position.tree</field>
+            <field name="model">keyway.position</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="keyway_position_action" model="ir.actions.act_window">
+            <field name="name">keyway.position</field>
+            <field name="res_model">keyway.position</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_type': 'MULTIPART'}</field>
+            <field name="domain">[('type', '=', 'MULTIPART')]</field>
+        </record>
+
+        <record id="head_flat_extension_form" model="ir.ui.view">
+            <field name="name">head.flat.extension.form</field>
+            <field name="model">head.flat.extension</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                                <field name="type"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="head_flat_extension_tree" model="ir.ui.view">
+            <field name="name">head.flat.extension.tree</field>
+            <field name="model">head.flat.extension</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="head_flat_extension_action" model="ir.actions.act_window">
+            <field name="name">head.flat.extension</field>
+            <field name="res_model">head.flat.extension</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_type': 'MULTIPART'}</field>
+            <field name="domain">[('type', '=', 'MULTIPART')]</field>
+        </record>
+
+        <record id="holder_heat_treatment_form" model="ir.ui.view">
+            <field name="name">holder.heat.treatment.form</field>
+            <field name="model">holder.heat.treatment</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="holder_heat_treatment_tree" model="ir.ui.view">
+            <field name="name">holder.heat.treatment.tree</field>
+            <field name="model">holder.heat.treatment</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="holder_heat_treatment_action" model="ir.actions.act_window">
+            <field name="name">holder.heat.treatment</field>
+            <field name="res_model">holder.heat.treatment</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="holder_surface_treatment_form" model="ir.ui.view">
+            <field name="name">holder.surface.treatment.form</field>
+            <field name="model">holder.surface.treatment</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="holder_surface_treatment_tree" model="ir.ui.view">
+            <field name="name">holder.surface.treatment.tree</field>
+            <field name="model">holder.surface.treatment</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="holder_surface_treatment_action" model="ir.actions.act_window">
+            <field name="name">holder.surface.treatment</field>
+            <field name="res_model">holder.surface.treatment</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="tip_shape_form" model="ir.ui.view">
+            <field name="name">tip.shape.form</field>
+            <field name="model">tip.shape</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="tip_shape_tree" model="ir.ui.view">
+            <field name="name">tip.shape.tree</field>
+            <field name="model">tip.shape</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tip_shape_action" model="ir.actions.act_window">
+            <field name="name">tip.shape</field>
+            <field name="res_model">tip.shape</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="tip_position_form" model="ir.ui.view">
+            <field name="name">tip.position.form</field>
+            <field name="model">tip.position</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="tip_position_tree" model="ir.ui.view">
+            <field name="name">tip.position.tree</field>
+            <field name="model">tip.position</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tip_position_action" model="ir.actions.act_window">
+            <field name="name">tip.position</field>
+            <field name="res_model">tip.position</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="tip_material_form" model="ir.ui.view">
+            <field name="name">tip.material.form</field>
+            <field name="model">tip.material</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="tip_material_tree" model="ir.ui.view">
+            <field name="name">tip.material.tree</field>
+            <field name="model">tip.material</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tip_material_action" model="ir.actions.act_window">
+            <field name="name">tip.material</field>
+            <field name="res_model">tip.material</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="tip_heat_treatment_form" model="ir.ui.view">
+            <field name="name">tip.heat.treatment.form</field>
+            <field name="model">tip.heat.treatment</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                            <field name="name"/>
+                            <field name="desc"/>
+                            <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="tip_heat_treatment_tree" model="ir.ui.view">
+            <field name="name">tip.heat.treatment.tree</field>
+            <field name="model">tip.heat.treatment</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tip_heat_treatment_action" model="ir.actions.act_window">
+            <field name="name">tip.heat.treatment</field>
+            <field name="res_model">tip.heat.treatment</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="tip_surface_treatment_form" model="ir.ui.view">
+            <field name="name">tip.surface.treatment.form</field>
+            <field name="model">tip.surface.treatment</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="tip_surface_treatment_tree" model="ir.ui.view">
+            <field name="name">tip.surface.treatment.tree</field>
+            <field name="model">tip.surface.treatment</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tip_surface_treatment_action" model="ir.actions.act_window">
+            <field name="name">tip.surface.treatment</field>
+            <field name="res_model">tip.surface.treatment</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="holder_cap_form" model="ir.ui.view">
+            <field name="name">holder.cap.form</field>
+            <field name="model">holder.cap</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="holder_cap_tree" model="ir.ui.view">
+            <field name="name">holder.cap.tree</field>
+            <field name="model">holder.cap</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="holder_cap_action" model="ir.actions.act_window">
+            <field name="name">holder.cap</field>
+            <field name="res_model">holder.cap</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="holder_cap_bore_form" model="ir.ui.view">
+            <field name="name">holder.cap.bore.form</field>
+            <field name="model">holder.cap.bore</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="holder_cap_bore_tree" model="ir.ui.view">
+            <field name="name">holder.cap.bore.tree</field>
+            <field name="model">holder.cap.bore</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="holder_cap_bore_action" model="ir.actions.act_window">
+            <field name="name">holder.cap.bore</field>
+            <field name="res_model">holder.cap.bore</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="holder_cap_surface_treatment_form" model="ir.ui.view">
+            <field name="name">holder.cap.surface.treatment.form</field>
+            <field name="model">holder.cap.surface.treatment</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="holder_cap_surface_treatment_tree" model="ir.ui.view">
+            <field name="name">holder.cap.surface.treatment.tree</field>
+            <field name="model">holder.cap.surface.treatment</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="holder_cap_surface_treatment_action" model="ir.actions.act_window">
+            <field name="name">holder.cap.surface.treatment</field>
+            <field name="res_model">holder.cap.surface.treatment</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="hobb_form" model="ir.ui.view">
+            <field name="name">hobb.form</field>
+            <field name="model">hobb</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                                <field name="type"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="hobb_tree" model="ir.ui.view">
+            <field name="name">hobb.tree</field>
+            <field name="model">hobb</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hobb_action" model="ir.actions.act_window">
+            <field name="name">Hobb</field>
+            <field name="res_model">hobb</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"default_type": 'MULTIPART'}</field>
+            <field name="domain">[('type', '=', 'MULTIPART')]</field>
+        </record>
+
+        <record id="drawing_form" model="ir.ui.view">
+            <field name="name">drawing.form</field>
+            <field name="model">drawing</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="desc"/>
+                                <field name="price"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="drawing_tree" model="ir.ui.view">
+            <field name="name">drawing.tree</field>
+            <field name="model">drawing</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="desc"/>
+                    <field name="price"/>
+                    <field name="type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="drawing_action" model="ir.actions.act_window">
+            <field name="name">Drawing</field>
+            <field name="res_model">drawing</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_type': 'MULTIPART'}</field>
+            <field name="domain">[('type', '=', 'MULTIPART')]</field>
+        </record>
+
+        <record id="fat_option_multipart_action" model="ir.actions.act_window">
+            <field name="name">Fat Option</field>
+            <field name="res_model">fat.option</field>
+            <field name="context">{'default_type': 'MULTIPART'}</field>
+            <field name="domain">[('type', '=', 'MULTIPART')]</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="custom_adjustment_multipart_action" model="ir.actions.act_window">
+            <field name="name">Custom Adjustment</field>
+            <field name="res_model">custom.adjustment</field>
+            <field name="context">{'default_type': 'MULTIPART'}</field>
+            <field name="domain">[('type', '=', 'MULTIPART')]</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            id="master_multipart_menu"
+            name="Master Multipart"
+            parent="base_master.main_master"
+            sequence="15">
+
+            <menuitem
+                id="holder_specification_menu"
+                name="Holder Specification"
+                action="holder_specification_action"
+                sequence="1"/>
+            <menuitem
+                id="holder_position_menu"
+                name="Holder Position"
+                action="holder_position_action"
+                sequence="2"/>
+            <menuitem
+                id="holder_material_menu"
+                name="Holder Material"
+                action="holder_material_action"
+                sequence="3"/>
+            <menuitem
+                id="dust_cup_configuration_menu"
+                name="Dust Cup Configuration"
+                action="dust_cup_configuration_action"
+                sequence="4"/>
+            <menuitem
+                id="keyway_configuration_menu"
+                name="Keyway Configuration"
+                action="keyway_configuration_action"
+                sequence="5"/>
+            <menuitem
+                id="keyway_position_menu"
+                name="Keyway Position"
+                action="keyway_position_action"
+                sequence="6"/>
+            <menuitem
+                id="head_flat_extension_menu"
+                name="Head Flat Extension"
+                action="head_flat_extension_action"
+                sequence="7"/>
+            <menuitem
+                id="holder_heat_treatment_menu"
+                name="Holder Heat Treatment"
+                action="holder_heat_treatment_action"
+                sequence="8"/>
+            <menuitem
+                id="holder_surface_treatment_menu"
+                name="Holder Surface Treatment"
+                action="holder_surface_treatment_action"
+                sequence="9"/>
+            <menuitem
+                id="tip_shape_menu"
+                name="Tip Shape"
+                action="tip_shape_action"
+                sequence="10"/>
+            <menuitem
+                id="tip_position_menu"
+                name="Tip Position"
+                action="tip_position_action"
+                sequence="11"/>
+            <menuitem
+                id="tip_material_menu"
+                name="Tip Material"
+                action="tip_material_action"
+                sequence="12"/>
+            <menuitem
+                id="tip_heat_treatment_menu"
+                name="Tip Heat Treatment"
+                action="tip_heat_treatment_action"
+                sequence="13"/>
+            <menuitem
+                id="tip_surface_treatment_menu"
+                name="Tip Surface Treatment"
+                action="tip_surface_treatment_action"
+                sequence="14"/>
+            <menuitem
+                id="holder_cap_menu"
+                name="Holder Cap"
+                action="holder_cap_action"
+                sequence="15"/>
+            <menuitem
+                id="holder_cap_bore_menu"
+                name="Holder Cap Bore"
+                action="holder_cap_bore_action"
+                sequence="16"/>
+            <menuitem
+                id="holder_cap_surface_treatment_menu"
+                name="Holder Cap Surface Treatment"
+                action="holder_cap_surface_treatment_action"
+                sequence="17"/>
+            <menuitem
+                id="custom_adjustment_multipart_menu"
+                name="Custom Adjustment"
+                action="custom_adjustment_multipart_action"
+                sequence="18"/>
+            <menuitem
+                id="fat_option_multipart_menu"
+                name="Fat Option"
+                action="fat_option_multipart_action"
+                sequence="19"/>
+            <menuitem
+                id="hobb_menu"
+                name="Hobb"
+                action="hobb_action"
+                sequence="20"/>
+            <menuitem
+                id="drawing_menu"
+                name="Drawing"
+                action="drawing_action"
+                sequence="21"/>
+        </menuitem>
+    
+    </data>
+    
+
+</odoo>

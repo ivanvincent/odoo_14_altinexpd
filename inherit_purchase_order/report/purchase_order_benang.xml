@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="paperformat_po_benang" model="report.paperformat">
+            <field name="name">PO Benang</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">23</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="action_report_purchase_order_benang" model="purchase.order" string="Purchase Order Benang"
+            report_type="qweb-pdf" name="inherit_purchase_order.report_po_benang"
+            file="inherit_purchase_order.report_po_benang" />
+
+        <record id="action_report_purchase_order_benang" model="ir.actions.report">
+            <field name="paperformat_id" eval="paperformat_po_benang" />
+        </record>
+
+        <template id="report_po_benang">
+            <t t-name="inherit_purchase_order.report_po_benang">
+                <t t-call="web.basic_layout">
+                    <style>
+                        .title {
+                            padding: 0
+                        }
+
+                        .table-data {
+                            border: 1px solid black;
+                            text-align: center;
+                            margin-bottom: 1rem;
+                        }
+
+                        .table-data th,
+                        .table-data td {
+                            border: 1px solid black;
+                            padding: 0;
+                        }
+
+                        .alamat-kirim {
+                            margin-top: 2rem;
+                            margin-bottom: 2rem;
+                        }
+
+                        .box {
+                            border: 1px solid black;
+                            width: 600px;
+                        }
+
+                        .note {
+                            margin-top: 2rem;
+                            margin-bottom: 1rem;
+                        }
+                        .note span {
+                            font-size: 1.3rem;
+                        }
+
+                        .ket-schedule {
+                            font-size: 8px;
+                        }
+                    </style>
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page">
+                            <div class="title text-center">
+                                <h3 class="font-weight-bold">ORDER PEMBELIAAN</h3>
+                            </div>
+
+                            <div class="header-data">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <span class="font-weight-bold float-right">REVISI : 00</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="top">
+                                <div class="row font-weight-bold">
+                                    <div class="col-6">
+                                        <table>
+                                            <tr>
+                                                <td>No. PO</td>
+                                                <td class="pl-1 pr-1">:</td>
+                                                <td><span t-field="doc.name"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>TANGGAL</td>
+                                                <td class="pl-1 pr-1">:</td>
+                                                <td><span t-field="doc.date_order" t-options="{&quot;format&quot;: &quot;dd MMM yyyy&quot;}"/></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-6">
+                                        <table>
+                                            <tr>
+                                                <td>KEPADA YTH</td>
+                                                <td class="pl-1 pr-1">:</td>
+                                                <td><span t-field="doc.partner_id.name"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>ATTN</td>
+                                                <td class="pl-1 pr-1">:</td>
+                                                <td>
+                                                    <span t-field="doc.partner_id.attn"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>FAX</td>
+                                                <td class="pl-1 pr-1">:</td>
+                                                <td>
+                                                    <span t-field="doc.partner_id.phone"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="data">
+                                <table class="table-condensed" width="1000px">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <td style="border:1px solid black ; padding-left:5px ; padding-right:5px">NO
+                                            </td>
+                                            <td style="border:1px solid black ; padding-left:5px ; padding-right:5px" width="15%">NAMA BARANG</td>
+                                            <td style="border:1px solid black ; padding-left:5px ; padding-right:5px">
+                                                <t t-set="uom" t-value="0"/>
+                                                <t t-foreach="doc.order_line" t-as="line">
+                                                    <t t-set="uom" t-value="line.product_uom.name"/>
+                                                </t>
+                                                <!--QTY (KG)-->
+                                                QTY (<span t-esc="uom"/>)
+                                            </td>
+                                            <td style="border:1px solid black ; padding-left:5px ; padding-right:5px">JML
+                                                BOX/CNS</td>
+                                            <td style="border:1px solid black ; padding-left:5px ; padding-right:5px" width="10%">HARGA <br/> (Rp)</td>
+                                            <td style="border:1px solid black ; padding-left:5px ; padding-right:5px">JUMLAH
+                                                DPP</td>
+                                            <td style="border:1px solid black ; padding-left:5px ; padding-right:5px" width="10%">Harga <br/> (Rp + PPn)</td>
+                                            <td style="border:1px solid black ; padding-left:5px ; padding-right:5px">
+                                                Jumlah+PPn (Rp) </td>
+                                            <td style="border:1px solid black ; padding-left:5px ; padding-right:5px" width="25%">Keterangan</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="no" t-value="0"/>
+                                        <tr t-foreach="doc.order_line" t-as="line">
+                                            <t t-set="no" t-value="no + 1"/>
+                                            <t t-set="ppn" t-value="sum(line.taxes_id.mapped('amount')) / 100"/>
+                                            <t t-set="harga_ppn" t-value="(line.price_unit * ppn) + line.price_unit"/>
+                                            <t t-set="jumlah_ppn" t-value="(line.price_subtotal * ppn) + line.price_subtotal"/>
+                                            <td style="border:1px solid black" class="text-center">
+                                                <span t-esc="no"/>
+                                            </td>
+                                            <td style="border:1px solid black" class="text-left pl-1">
+                                                <span t-field="line.product_id.name"/>
+                                                <span t-field="line.lot_id.name"/>
+                                            </td>
+                                            <td style="border:1px solid black" class="text-right pr-1">
+                                                <span t-field="line.product_qty"/>
+                                            </td>
+                                            <td style="border:1px solid black" class="text-center">
+                                                <span t-field="line.specifications"/>
+                                            </td>
+                                            <td style="border:1px solid black" class="text-right pr-1">
+                                                <span t-field="line.price_unit"/>
+                                            </td>
+                                            <td style="border:1px solid black" class="text-right pr-1">
+                                                <span t-esc="'{0:,.2f}'.format(float(str(line.price_subtotal).replace('Rp', '')))"/>
+                                            </td>
+                                            <td style="border:1px solid black" class="text-right pr-1">
+                                                <span t-esc="'{0:,.2f}'.format(float(harga_ppn))"/>
+                                            </td>
+                                            <td style="border:1px solid black" class="text-right pr-1">
+                                                <span t-esc="'{0:,.2f}'.format(float(jumlah_ppn))"/>
+                                            </td>
+                                            <td style="border:1px solid black">
+                                                <table class="table-condensed" width="100%">
+                                                    <center><span>Jadwal Pengiriman</span></center>
+                                                    <t t-set="no_schedule" t-value="0"/>
+                                                    <tr t-foreach="line.line_schedule_ids.sorted(key=lambda r: r.date_schedule, reverse=False)" t-as="schedule">
+                                                        <t t-set="no_schedule" t-value="no_schedule + 1"/>
+                                                        <td style="border-bottom:1px solid black" class="text-center">
+                                                            <span>
+                                                                <span t-field="schedule.date_schedule" t-options="{&quot;format&quot;: &quot;dd MMM yyyy&quot;}"/>
+                                                                <span>=</span>
+                                                                <span t-esc="'{0:,.2f}'.format(float(schedule.quantity_schedule))"/>
+                                                                <span>KG</span>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="note">
+                                <span>1. Barang yang dikirim (Shrinkage dan Denier) sesuai dengan spesifikasi yang
+                                    disepakati.</span><br/>
+                                <span>2. Jadwal dan Quality pengiriman tepat waktu, karena sudah disesuaikan dengan jadwal
+                                    produksi</span><br/>
+                                <span>3. Pembayaran : </span><span t-field="doc.payment_term_id.name"/><br/>
+                                <span>4. Setelah disetujui dan ditandatangani, harap segera di fax kembali ke 022 -
+                                    5950758 atau email ke ppc@puteramulya.com</span><br/>
+                            </div>
+
+                            <div class="ttd">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="col-ttd-1 pl-5">
+                                            <span>Disetujui Oleh:</span><br/>
+                                            <span>Supplier</span>
+                                            <br/><br/><br/><br/><br/>
+                                            <span class="pt-10">________________</span><br/>
+                                            <span>Tgl:</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="col-ttd-2 float-right pr-5">
+                                            <span>Hormat Kami,</span><br/>
+                                            <span>General Manager</span>
+                                            <br/><br/><br/><br/><br/>
+                                            <span class="font-weight-bold"><u>Tinneke</u></span><br/>
+                                            <span>Tgl: <span t-field="doc.date_order" t-options="{&quot;format&quot;: &quot;dd MMM yyyy&quot;}"/></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="alamat-kirim text-center">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <center>
+                                            <div class="box">
+                                                <span>Alamat pengiriman:</span><br/>
+                                                <span t-field="doc.street_delivery.name"/>
+                                                <!--<span>JL. Rancajigang No. 200 Majalaya</span>-->
+                                            </div>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="note">
+                                <p>Catatan :</p>
+                                <span t-field="doc.notes"/>
+                                <!--<br/><br/><br/><br/>-->
+                                <!--<span>Tembusan :</span><br/>-->
+                                <!--<span>Accouting</span>-->
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+
+    
+        </template>
+
+    </data>
+</odoo>

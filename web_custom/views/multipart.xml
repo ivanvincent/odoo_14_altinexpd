@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="multipart" name="multipart">
+            <t t-call="website.layout">
+                <t t-set="no_footer" t-value="True"/>
+                <div class="bgr-img"></div>
+                <div class="o_order_multipart_main">
+                    <div class="container">
+                        <div class="d-flex flex-column o_subscribe_wrapper o_die_wrapper">
+                            <h4 class="o_subscribe_title o_subscribe_label">Quotation Request Form Multipart</h4>
+                            <form class="needs-validation">
+                                <div class="d-flex flex-column o_subscribe_form_body">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="search" class="o_subscribe_label">Holder Specification</label>
+                                                <select name="holder_specifications" class="oe_select9_search_field" data-placeholder="" style="width: 70%;" single="single">
+                                                    <t t-foreach="holder_specifications" t-as="basic">
+                                                        <option t-att-value="basic.get('id')" ><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Holder Position</label>
+                                                <select name="holder_positions" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="holder_positions" t-as="basic">
+                                                        <option t-att-value="basic.get('id')" ><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Holder Material</label>
+                                                <select name="holder_materials" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="holder_materials" t-as="basic">
+                                                        <option t-att-value="basic.get('id')" ><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Dust Cup Configuration</label>
+                                                <select name="dust_cup_configurations" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="dust_cup_configurations" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Keyway Configuration</label>
+                                                <select name="keyway_configurations" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="keyway_configurations" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Keyway Position</label>
+                                                <select name="keyway_positions" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="keyway_positions" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                                                                        <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Head Flat Extension</label>
+                                                <select name="head_flat_extensions" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="head_flat_extensions" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Holder Heat Treatment</label>
+                                                <select name="holder_heat_treatments" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="holder_heat_treatments" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Holder Surface Treatment</label>
+                                                <select name="holder_surface_treatments"  class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="holder_surface_treatments" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Tip Shape</label>
+                                                <select name="tip_shapes" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="tip_shapes" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Tip Position</label>
+                                                <select name="tip_positions" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="tip_positions" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-5">
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Tip Material</label>
+                                                <select name="tip_materials" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="tip_materials" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Tip Heat Treatment</label>
+                                                <select name="tip_heat_treatments" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="tip_heat_treatments" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Tip Surface Treatment</label>
+                                                <select name="tip_surface_treatments" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="tip_surface_treatments" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Holder Cap</label>
+                                                <select name="holder_caps" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="holder_caps" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Holder Cap Bore</label>
+                                                <select name="holder_cap_bores" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="holder_cap_bores" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Holder Cap Surface Treatment</label>
+                                                <select name="holder_cap_surface_treatments" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="holder_cap_surface_treatments" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Custom Adjustment</label>
+                                                <select name="hobbs" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="hobbs" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Fat Option</label>
+                                                <select name="fat_options" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="fat_options" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Hobb</label>
+                                                <select name="hobbs" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="hobbs" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex flex-column o_email">
+                                                <label for="input_email" class="o_subscribe_label">Drawing</label>
+                                                <select name="drawings" class="oe_select9_search_field" data-placeholder="" style="width: 70%;">
+                                                    <t t-foreach="drawings" t-as="basic">
+                                                        <option t-att-value="basic.get('id')"><t t-esc="basic.get('val')"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary o_button_order_multipart"><b>Order</b></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

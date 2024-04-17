@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="paperformat_a4_konstruksi_design" model="report.paperformat">
+            <field name="name">Paperformat A4 Konstruksi Design</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_width">210</field>
+            <field name="page_height">297</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="action_konstruksi_design" model="kontruksi" string="Print Konstruksi Design" report_type="qweb-pdf" name="my_report.konstruksi_design" file="my_report.konstruksi_design" />
+
+        <record id="action_konstruksi_design" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_a4_konstruksi_design" />
+        </record>
+
+        <template id="konstruksi_design">
+            <t t-call="web.basic_layout">
+                <style>
+                    @font-face {
+                        font-family: 'Courier New';
+                        font-style: normal;
+                        font-weight: 400;
+                        src: local('Courier New'), local('CourierNewPSMT'), url(http://themes.googleusercontent.com/licensed/font?kit=p0pJArTTK5Heq6xbYtNwnp0EAVxt0G0biEntp43Qt6E) format('truetype');
+                    }
+
+                    .Courier {
+                        font-family: Courier New;
+                    }
+                    
+                    .table-head td {
+                        padding-left : 5px;
+                    }
+                    
+                    .table-data th,
+                    .table-data td {
+                        border : 1px solid black;
+                        text-align: center;
+                    }
+                </style>
+                <t t-foreach="docs" t-as="o">
+
+                    <div class="page Courier">
+                        <div class="text-right">R&amp;D-05.Rev-04</div>
+                        <h4 class="text-center" style="font-weight bold">KONSTRUKSI DESAIN TEKSTIL</h4>
+
+                        <table class="table-condensed table-head" style="border : 1px solid black" width="100%">
+                            <tr>
+                                <td width="20%">Kode Design</td>
+                                <td width="25%">:</td>
+                                <td width="15%">Nama Design</td>
+                                <td width="30%">:</td>
+                            </tr>
+                            <tr>
+                                <td width="20%">Kategori Konstruksi</td>
+                                <td colspan="3">:</td>
+                            </tr>
+                        </table>
+
+                        <table class="table-condensed table-head" style="border : 1px solid black" width="100%">
+                            <tr>
+                                <td>Kategori Lusi</td>
+                                <td colspan="3">:</td>
+                                <td>Kategori Pakan</td>
+                                <td>:</td>
+                                <td>Unit WV</td>
+                                <td>:</td>
+                            </tr>
+                            <tr>
+                                <td>Jenis Order</td>
+                                <td colspan="3">:</td>
+                                <td>Type Mesin</td>
+                                <td>:</td>
+                                <td>No Mesin</td>
+                                <td>:</td>
+                            </tr>
+                            <tr>
+                                <td>Kategori Lusi</td>
+                                <td>:</td>
+                                <td>Nepel</td>
+                                <td>:</td>
+                                <td>Jumlah Kartu</td>
+                                <td>:</td>
+                                <td>Jumlah Lusi</td>
+                                <td>:</td>
+                            </tr>
+                        </table>
+
+                        <table class="table-condensed table-head" width="100%">
+                            <tr>
+                                <td style="border : 1px solid black" width="50%">
+                                    <table class="table-condensed" width="100%">
+                                        <tr>
+                                            <td>No Sisir</td>
+                                            <td>:</td>
+                                            <td>LSE</td>
+                                            <td>:</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="border : 1px solid black" width="50%">
+                                    <table class="table-condensed" width="100%">
+                                        <tr>
+                                            <td>Catch Cord</td>
+                                            <td>:</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table class="table-condensed table-head" width="100%">
+                            <tr>
+                                <td style="border : 1px solid black">
+                                    <table class="table-condensed" width="100%">
+                                        <tr>
+                                            <td></td>
+                                            <td>Susut</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tenun</td>
+                                            <td>
+                                                <span>:</span>
+                                                <span>%</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Finish</td>
+                                            <td>
+                                                <span>:</span>
+                                                <span>%</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="border : 1px solid black">
+                                    <table class="table-condensed" width="100%">
+                                        <tr>
+                                            <td></td>
+                                            <td>Persiapan</td>
+                                            <td>Sisa Pers.</td>
+                                            <td>Weaving</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Waste Lusi</td>
+                                            <td>
+                                                <span>:</span>
+                                                <span>%</span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                                <span>%</span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                                <span>%</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Waste Pakan</td>
+                                            <td>
+                                                <span>:</span>
+                                                <span>%</span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                                <span>%</span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                                <span>%</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="border : 1px solid black">
+                                    <table class="table-condensed" width="100%">
+                                        <tr>
+                                            <td>BS DF</td>
+                                            <td>BS Print</td>
+                                        </tr>
+                                        <tr>
+                                            <td>%</td>
+                                            <td>%</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="border : 1px solid black">
+                                    <table class="table-condensed" width="100%">
+                                        <tr>
+                                            <td>RPM WV</td>
+                                            <td>:</td>
+                                        </tr>
+                                        <tr>
+                                            <td>EFF</td>
+                                            <td>
+                                                <span>:</span>
+                                                <span>%</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Grade A</td>
+                                            <td>
+                                                <span>:</span>
+                                                <span>%</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table class="table-condensed table-head" width="100%">
+                            <tr>
+                                <td style="border : 1px solid black">
+                                    <table class="table-condensed" width="100%">
+                                        <tr>
+                                            <td>Konstruksi Greige</td>
+                                            <td>:</td>                                            <!--isian-->
+                                            <td>X</td>
+                                            <td></td>                                            <!--isian-->
+                                            <td>X</td>
+                                            <td></td>                                            <!--isian-->
+                                            <td>inci</td>
+                                            <td>=</td>
+                                            <td></td>                                            <!--isian-->
+                                            <td>cm</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Konstruksi Finish</td>
+                                            <td>:</td>                                            <!--isian-->
+                                            <td>X</td>
+                                            <td></td>                                            <!--isian-->
+                                            <td>X</td>
+                                            <td></td>                                            <!--isian-->
+                                            <td>inci</td>
+                                            <td>=</td>
+                                            <td></td>                                            <!--isian-->
+                                            <td>cm</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="border : 1px solid black">
+                                    <table class="table-condensed" width="100%">
+                                        <tr>
+                                            <td colspan="3">Cover Fact. Greige</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>X</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="border : 1px solid black">
+                                    <table class="table-condensed" width="100%">
+                                        <tr>
+                                            <td colspan="3">Cover Fact. Finish</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>X</td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table class="table-condensed table-data" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Jenis Benang Lusi</th>
+                                    <th>Lot</th>
+                                    <th>Denier Actual</th>
+                                    <th>Repeat Benang</th>
+                                    <th>Jumlah Bng Helai</th>
+                                    <th>TM</th>
+                                    <th>Jenis Twist</th>
+                                    <th>T/C</th>
+                                    <th>Berat Kain g/m</th>
+                                    <th>Berat Bng g/m</th>
+                                    <th>Persen Berat</th>
+                                </tr>
+                            </thead>
+                        </table>
+
+                        <table class="table-condensed table-data" style="margin-top : 20px" width="100%">
+                            <tr>
+                                <td>Ket :</td>
+                                <td>Lubang</td>
+                                <td>X</td>
+                                <td>DRAFT</td>
+                                <td>X</td>
+                                <td>Variasi</td>
+                                <td width="5%"></td>
+                                <td>=</td>
+                                <td>JUM PINGGIR</td>
+                            </tr>
+                            <tr t-foreach="range(5)" t-as="x">
+                                <td></td>
+                                <td></td>
+                                <td>X</td>
+                                <td></td>
+                                <td>X</td>
+                                <td></td>
+                                <td></td>
+                                <td>=</td>
+                                <td></td>
+                            </tr>
+                        </table>
+
+                        <div style="margin-top : 20px">Flow Proses Processing</div>
+                        <table class="table-condensed table-data" width="100%">
+                            <tr>
+                                <td>GREIGE</td>
+                                <td>OPEN ROLL</td>
+                                <td>SCOURING SOFTCHER</td>
+                                <td>SCOURING JET</td>
+                                <td>DYEING</td>
+                                <td>SCUTCHER</td>
+                                <td>DYEING</td>
+                                <td>HEAT SET</td>
+                            </tr>
+                            <tr>
+                                <td height="20px"></td>
+                                <td height="20px"></td>
+                                <td height="20px"></td>
+                                <td height="20px"></td>
+                                <td height="20px"></td>
+                                <td height="20px"></td>
+                                <td height="20px"></td>
+                                <td height="20px"></td>
+                            </tr>
+                        </table>
+
+                        <table class="table-condensed table-data" style="margin-top : 20px" width="100%">
+                            <tr>
+                                <td>WR</td>
+                                <td>CELUP DISPERSE</td>
+                                <td>CLP DISPERSE + KATIONIK</td>
+                                <td>CELUP REAKTIF</td>
+                                <td>SCUTCHER</td>
+                                <td>DRYING</td>
+                                <td>PADDING JET BLACK</td>
+                                <td>FINAL SET</td>
+                            </tr>
+                            <tr>
+                                <td height="20px"></td>
+                                <td height="20px"></td>
+                                <td height="20px"></td>
+                                <td height="20px"></td>
+                                <td height="20px"></td>
+                                <td height="20px"></td>
+                                <td height="20px"></td>
+                                <td height="20px"></td>
+                            </tr>
+                        </table>
+
+                        <table class="table-condensed" style="margin-top : 20px" width="100%">
+                            <tr>
+                                <td style="border : 1px solid black ; padding-left : 5px" width="60%">Remark :</td>
+                                <td class="text-center" width="20%">
+                                    <span>Disetujui Oleh :</span>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <span>A. Gunawan</span>
+                                </td>
+                                <td class="text-center" width="20%">
+                                    <span>Dibuat Oleh :</span>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <span>Erna</span>
+                                </td>
+                            </tr>
+                        </table>
+
+
+                    </div>
+
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
