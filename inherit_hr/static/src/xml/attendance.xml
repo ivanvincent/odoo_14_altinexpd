@@ -5,7 +5,7 @@
             <span class="o_hr_attendance_kiosk_backdrop"/>
             <div class="o_hr_attendance_clock text-center"/>
             <div class="o_hr_attendance_kiosk_mode o_barcode_main">
-                <h2><small>Welcome to</small> <t t-esc="widget.company_name"/></h2>
+                <h2><small>Welcome to</small></h2>
                 <img t-attf-src="{{widget.company_image_url}}" alt="Company Logo" class="o_hr_attendance_kiosk_company_image"/>
                 <div class="row o_hr_attendance_kiosk_welcome_row">
                     <div class="col-sm-12 mt16">
