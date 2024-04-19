@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="dqups3_form" model="ir.ui.view">
+            <field name="name">dqups3.form</field>
+            <field name="model">quotation.request.form</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_confirm" type="object" string="Request Approval" states="draft" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
+                        <button name="action_approve" type="object" string="Approve" states="confirm" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads" class="oe_highlight"/>
+                        <button name="action_process" type="object" string="Process" attrs="{'invisible':['|', ('processed', '=', True), ('state', '!=', 'approved')]}" groups="sales_team.group_sale_manager" class="oe_highlight"/>
+                        <field name="processed" invisible="1"/>
+                        <button name="action_set_to_draft" type="object" string="Set To Draft" groups="sales_team.group_sale_manager" attrs="{'invisible':[('state', 'not in', ('approved','confirm'))]}"/>
+                        <button name="action_create_so" type="object" string="Create SO" attrs="{'invisible':[('state', '!=', 'approved')]}" class="oe_highlight"/>
+                        <button name="action_print_dqups3" type="object" string="Print" attrs="{'invisible':[('state', 'not in', ('approved','order_processed'))]}" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object" name="action_view_so" icon="fa-truck" string="Order">
+                                <!-- <field name="so_count" widget="statinfo" string="Sale Order"/> -->
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="partner_id" attrs="{'readonly':[('state','=','confirm')]}" required="1"/>
+                                <field name="billing_address"/>
+                                <field name="pic_name" required="1"/>
+                                <field name="pic_email" required="1"/>
+                                <field name="pic_phone" required="1"/>
+                                <field name="reference" required="1"/>
+                                <field name="tax_id" domain="[('id','in',(40,41))]" options="{'no_create': True}" required="1"/>
+                                <field name="notes_to_customer"/>
+                                <field name="date" required="1"/>
+                                <field name="attn_ids" invisible="1"/>
+                                <field name="user_id"/>
+                            </group>
+                            <group>
+                                <field name="end_user_name" required="1"/>
+                                <field name="child_ids" invisible="1"/>
+                                <field name="shipping_address" domain="[('id', 'in', child_ids)]" context="{'partner_custom':True}" options='{"always_reload": True}'/>
+                                <!-- <field name="machine_id" required="1" attrs="{'readonly':[('state','=','confirm')]}" string="End User Machine" /> -->
+                                <!-- <field name="station_no" required="1"/> -->
+                                <!-- <field name="end_user_machine_serial" required="1"/> -->
+                                <field name="payment_terms" required="1"/>                                                          
+                                <field name="delivery_terms" required="1"/>                                                          
+                                <field name="sales_condition" string="Warranty" required="1"/>                                                          
+                                <field name="valid_date" required="1"/>                                                        
+                                <field name="note" string="Notes Internal"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="qrf" string="QRF">
+                                <field name="qrf_attachment_line_ids" attrs="{'readonly':[('state','=','approved')]}" >
+                                    <tree editable="bottom"> 
+                                        <field name="qrf_attachment_ids" widget="pdf_viewer" style="width : 250px; height:65px;"/>
+                                        <!-- <field name="attachment_name" /> -->
+                                        <field name="reference" />
+                                        <field name="notes" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="drawing" string="Drawing" attrs="{'invisible':[('qrf_attachment_line_ids','=',[])]}">
+                                <field name="drawing_attachment_line_ids" attrs="{'readonly':[('state','=','approved')]}" >
+                                    <tree editable="bottom"> 
+                                        <field name="drawing_attachment_ids" widget="pdf_viewer" style="width : 250px; height:65px;"/>
+                                        <!-- <field name="attachment_name" invisible="1"/> -->
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="Details" string="Details" attrs="{'invisible':[('drawing_attachment_line_ids','=',[])]}" groups="master_specifications.user_dqups,master_specifications.manager_dqups">
+                                <field name="line_ids" attrs="{'readonly':[('state','=','approved')]}" >
+                                    <tree editable="bottom"> 
+                                        <field name="jenis_id" options="{'no_create': True}"/>
+                                        <field name="name" required="1"/>
+                                        <button name="create_specification_detail" type="object" icon="fa-list" states="draft"/>                                        
+                                        <field name="line_spec_ids"/>
+                                        <field name="quantity"/>
+                                        <!-- <field name="price_unit"/> -->
+                                        <field name="state" invisible="1"/>
+                                        <field name="tax_ids" widget="many2many_tags" invisible="1"/>
+                                        <field name="amount_tax" invisible="1"/>
+                                        <field name="total_tax_11" invisible="1"/>
+                                        <field name="total_tax_pph23" invisible="1"/>
+                                        <field name="sub_total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="po" string="PO" attrs="{'invisible':[('state','!=','approved')]}" >
+                                <field name="po_attachment_line_ids" >
+                                    <tree editable="bottom"> 
+                                        <field name="po_attachment_ids" widget="pdf_viewer" style="width : 250px; height:65px;"/>
+                                        <!-- <field name="attachment_name" invisible="1"/> -->
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <group col="6">
+                            <group name="discount" colspan="2">
+                                <field name="discount_type"/>
+                                <field name="discount_rate"/>
+                            </group>
+                            <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                <field name="currency_id" invisible="1"/>
+                                <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}" string="Price Product"/>
+                                <field name="amount_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_price_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <!-- <field name="amount_subtotal" widget="monetary" options="{'currency_field': 'currency_id'}"/> -->
+                                <field name="amount_tax_2" widget="monetary" options="{'currency_field': 'currency_id'}" string="VAT"/>
+                                <field name="amount_tax_11" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
+                                <field name="amount_tax_pph23" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="1"/>
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label for="amount_total_2"/>
+                                </div>
+                                <field name="amount_total_2" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                        </group>
+                        <div class="oe_clear"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="dqups3_tree" model="ir.ui.view">
+            <field name="name">quotation.request.form.tree</field>
+            <field name="model">quotation.request.form</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="partner_id"/>
+                    <field name="amount_total_2"/>
+                    <field name="note"/>
+                    <field name="state"/>
+                    <field name="user_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+        <!-- <record id="quotation_request_form.line_specification_tree" model="ir.ui.view">
+            <field name="name">quotation.request.form.line.specification.tree</field>
+            <field name="model">quotation.request.form.line.specification</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="qrf_line_id"/>
+                    <field name="specifications_id"/>
+                    <field name="spect_name"/>
+                    <field name="desc"/>
+                    <field name="harga"/>                    
+                </tree>
+            </field>
+        </record> -->
+
+
+
+
+
+        <record id="dqups_3_action" model="ir.actions.act_window">
+            <field name="name">D-QUPS 3</field>
+            <field name="res_model">quotation.request.form</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
+            <field name="context">{'default_type': '3'}</field>
+            <field name="domain">[('type', '=', '3')]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('master_specifications.dqups3_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('master_specifications.dqups3_form')})]"/>
+        </record>
+
+        <record id="dqups_3_line_form" model="ir.ui.view">
+            <field name="name">ddups3.qform</field>
+            <field name="model">quotation.request.form.line</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="line_qty_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="jenis_id" invisible="1"/>
+                                    <field name="qty_id" options="{'no_create': True}"/>
+                                    <field name="qty" required="1"/>
+                                    <field name="set" required="1"/>
+                                </tree>
+                            </field>
+                            <button name="action_refresh_spec" type="object" string="Refresh" />
+                        </group>
+                        <group>
+                            <field name="line_spec_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="jenis_id" invisible="1"/>
+                                    <field name="require_id"/>
+                                    <field name="specifications_id" domain="[('spec_id','=',require_id),('jenis_id','=', jenis_id)]" options="{'no_create': True}"/>
+                                    <!-- <field name="spec_id"/> -->
+                                    <!-- <field name="spect_name"/> -->
+                                    <field name="spect_name"/>
+                                    <field name="qty"/>
+                                    <field name="unit"/>
+                                    <!-- <field name="harga" string="Item Price"/> -->
+                                    <field name="subtotal" string="Unit Price" sum="Subtotal"/>
+                                    <field name="total" sum="Total"/>
+                                    <!-- <field name="state"/> -->
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="dqups3_line_action" model="ir.actions.act_window">
+            <field name="name">Detail</field>
+            <field name="res_model">quotation.request.form.line</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="dqups_3_line_form"/>
+        </record>
+
+        <menuitem
+            id="dqups_3_menu"
+            name="D-QUPS 3"
+            action="dqups_3_action"
+            parent="specifications_root_menu"
+            sequence="3"/>
+    
+    </data>
+    
+
+</odoo>
