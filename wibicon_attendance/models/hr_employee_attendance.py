@@ -163,6 +163,15 @@ class HrPayslip(models.Model):
             'contract_id': self.contract_id.id})
         
         res.append({
+            'name':'Cuti Bersama',
+            'sequence':91,
+            'code':'CBR',
+            # 'number_of_days': self.get_duration_global_time_off(date_from,date_to),
+            'number_of_days' : 4, #hanya untuk bulan april 
+            'number_of_hours': 0.0,
+            'contract_id': self.contract_id.id})
+        
+        res.append({
             'name':'Kendala Kehadiran',
             'sequence':100,
             'code':'KKH',
@@ -324,6 +333,11 @@ class HrPayslip(models.Model):
                                              ('holiday_status_id', '=', leave_type.id),
                                              ('state', '=', 'validate')])
         return sum(leave.mapped('number_of_days'))
+    
+    # def get_duration_global_time_off(self,date_from, date_to):
+    #     gto = self.env['resource.calendar.leaves'].search([('resource_id','=',False),('date_from','>',date_from),('date_to','<=',date_to)])
+    #     print(gto)
+    #     return sum(gto.mapped('number_of_days'))
 
 
 class Hr_employee_attendance(models.Model):
