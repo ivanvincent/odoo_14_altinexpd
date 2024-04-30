@@ -76,7 +76,7 @@ class HrReporting(models.TransientModel):
 
 	@api.depends('report_type')
 	def _get_jabatan_list(self):
-		manajer_payroll = self.env['res.groups'].sudo().browse(237)
+		manajer_payroll = self.env['res.groups'].sudo().browse(240)
 		uid = self.env.user.id
 		result = []
 		
