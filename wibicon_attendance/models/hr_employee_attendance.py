@@ -166,8 +166,7 @@ class HrPayslip(models.Model):
             'name':'Cuti Bersama',
             'sequence':91,
             'code':'CBR',
-            # 'number_of_days': self.get_duration_global_time_off(date_from,date_to),
-            'number_of_days' : 4, #hanya untuk bulan april 
+            'number_of_days': self.get_duration_cuti_bersama(contracts,date_from,date_to),
             'number_of_hours': 0.0,
             'contract_id': self.contract_id.id})
         
@@ -334,10 +333,15 @@ class HrPayslip(models.Model):
                                              ('state', '=', 'validate')])
         return sum(leave.mapped('number_of_days'))
     
-    # def get_duration_global_time_off(self,date_from, date_to):
-    #     gto = self.env['resource.calendar.leaves'].search([('resource_id','=',False),('date_from','>',date_from),('date_to','<=',date_to)])
-    #     print(gto)
-    #     return sum(gto.mapped('number_of_days'))
+    def get_duration_cuti_bersama(self,contracts,date_from, date_to):
+        employees = self.env['hr.employee'].search([('id','=',contracts.employee_id.id)])
+        durasi_cuti_bersama = 0
+        for employee in employees:
+            shift_id = employee.resource_calendar_ids.id
+            cbr = self.env['resource.calendar.leaves'].search([('calendar_id','=',shift_id),('cuti_bersama','=',True),('resource_id','=',False),('date_from','>',date_from),('date_to','<=',date_to)])
+            for c in cbr:
+                durasi_cuti_bersama += c.jumlah_hari
+            return durasi_cuti_bersama
 
 
 class Hr_employee_attendance(models.Model):

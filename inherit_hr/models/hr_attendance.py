@@ -8,8 +8,8 @@ class HrAttendance(models.Model):
 
     time_waiting = fields.Datetime(string='Waiting Check In', compute='compute_time_waiting')
     time_waiting_co = fields.Datetime(string='Waiting Check Out', compute='compute_time_waiting')
-    late_counter = fields.Float(string='Employee Late Counter', compute='compute_late_time')
-    shift_3_counter = fields.Float(string='Shift 3 Counter', compute='compute_shift_3_counter', store=True,)
+    late_counter = fields.Float(string='Employee Late Counter', compute='compute_late_time', store=True)
+    shift_3_counter = fields.Float(string='Shift 3 Counter', compute='compute_shift_3_counter', store=True)
     resource_calendar_ids = fields.Many2one('resource.calendar', string='Working Hours')
     should_hour_from = fields.Float(string='Hour From',  compute='compute_should_hour_from')
     should_hour_to = fields.Float(string='Hour To', compute='compute_should_hour_from')

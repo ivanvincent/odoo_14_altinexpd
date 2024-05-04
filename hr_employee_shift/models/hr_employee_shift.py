@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from odoo.exceptions import ValidationError
 from odoo import models, fields, api, _
+from datetime import datetime, timedelta, date, time
+from math import ceil
 
 class HrEmployeeModifiedShift (models.Model):
     _inherit = "resource.calendar.attendance"
@@ -8,6 +10,7 @@ class HrEmployeeModifiedShift (models.Model):
     tolerance_in = fields.Float('Tolerance In')
     shift3_flag = fields.Boolean('Shift3 Flag')
     day_period = fields.Selection([('morning', 'Morning'), ('afternoon', 'Afternoon'),('evening', 'Evening'),], required=True, default='morning')
+    
 
 class HrEmployeeInherited(models.Model):
     _inherit = 'hr.employee'
@@ -82,3 +85,23 @@ class HrEmployeeShift(models.Model):
             # print(query)
         return result
 
+class Hr_resource_calendar_leaves(models.Model):
+    _inherit = 'resource.calendar.leaves'
+    
+    cuti_bersama = fields.Boolean('Cuti Bersama?')
+    jumlah_hari = fields.Integer('Jumlah Hari Cuti Bersama',store=True,)
+    
+    @api.onchange('cuti_bersama')
+    def _compute_jumlah_hari(self):
+        if(self.cuti_bersama != False):
+            dateFrom = self.date_from
+            dateTo = self.date_to
+            
+            DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+            from_dt = datetime.strptime(str(dateFrom), DATETIME_FORMAT)
+            to_dt = datetime.strptime(str(dateTo), DATETIME_FORMAT)
+            timedelta = to_dt - from_dt
+            diff_day = timedelta.days + float(timedelta.seconds) / 86400
+            self.jumlah_hari = ceil(diff_day)
+        else:
+            self.jumlah_hari = 0
