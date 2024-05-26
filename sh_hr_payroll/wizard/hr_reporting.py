@@ -218,16 +218,6 @@ class HrReporting(models.TransientModel):
 				col_rec_end = col_rec
 				col = 0
 				col_rec = 4
-			
-			# Write Sum
-			worksheet.merge_range(row,col,row,col+3,'SUM',header_format_2)
-			while col_rec < col_rec_end:
-				if col_rec in (header_wo_sum):
-					worksheet.write(row,col_rec,'',header_format_2)
-					col_rec += 1
-				else:
-					worksheet.write(row,col_rec,'=SUM(INDIRECT(ADDRESS(1,COLUMN())&":"&ADDRESS(ROW()-1,COLUMN())))',header_format_2)
-					col_rec += 1
 
 			# File name
 			filename = '%s_%s%s%s' % (report_name, month_string, year_string, '.xlsx')
