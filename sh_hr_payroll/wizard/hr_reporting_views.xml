@@ -14,7 +14,7 @@
 								<field name="payroll_send_date"/>
 								<field name="jabatan"/>
                                 <field name="coa"/>
-                                <field name="job_ids" widget="many2many_tags" invisible="1"/>
+                                <!-- <field name="job_ids" widget="many2many_tags" invisible="1"/> -->
                             </group>
                             <group>
                                 <!-- <field name="date_end"/> -->
