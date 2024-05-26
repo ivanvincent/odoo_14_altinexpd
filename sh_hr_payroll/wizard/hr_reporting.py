@@ -44,7 +44,6 @@ class HrReporting(models.TransientModel):
                         ("11","November %s" % current_year),
                         ("12","Desember %s" % current_year),
                         ],string='Month Selection')
-	job_ids = fields.Many2many('hr.job', string='Access Job', compute='compute_job_ids', compute_sudo=True)
 	data = fields.Binary(string='Data')
 	payroll_send_date = fields.Date('Payroll Send Date')
 	csv_data = fields.Binary()
@@ -54,25 +53,6 @@ class HrReporting(models.TransientModel):
 		('2','Umum'),
 		('3','All COA'),
 	], string='COA')
-	
-	@api.depends('report_type')
-	def compute_job_ids(self):
-		manajer_payroll = self.env['res.groups'].sudo().browse(240)
-		payroll_staff = self.env['res.groups'].sudo().browse(241)
-		payroll_spv = self.env['res.groups'].sudo().browse(244)
-		uid = self.env.user.id
-		if uid in manajer_payroll.users.ids:
-			rule = manajer_payroll.rule_groups.filtered(lambda x: x.model_id.name == 'Pay Slip')
-		elif uid in payroll_staff.users.ids:
-			rule = payroll_staff.rule_groups.filtered(lambda x: x.model_id.name == 'Pay Slip')
-		elif uid in payroll_spv.users.ids:
-			rule = payroll_spv.rule_groups.filtered(lambda x: x.model_id.name == 'Pay Slip')
-		else:
-			self.job_ids = [(6, 0, [])]
-			return
-		job_ids = rule.domain_force.split(",'in',")[1].replace(")])", "")
-		for rec in self:
-			rec.job_ids = [(6, 0, list(map(int, job_ids[1:-1].split(','))) if job_ids else [])]
 
 	@api.depends('report_type')
 	def _get_jabatan_list(self):
