@@ -187,6 +187,7 @@ class HrReporting(models.TransientModel):
 				if i in ('PTKP','Gaji Pokok','GAPOK BPJS Kesehatan','GAPOK BPJS TK','Tarif Efektif Pajak (persen)'):
 					header_wo_sum.append(header_kol)
 				header_kol +=1
+			col_rec_end = header_kol
 
 			# WKS 1 - Set column width
 			worksheet.set_column('A:A', 5)
@@ -215,9 +216,18 @@ class HrReporting(models.TransientModel):
 					col_rec += 1
 				no += 1
 				row += 1
-				col_rec_end = col_rec
 				col = 0
 				col_rec = 4
+			
+			# Write Sum
+			worksheet.merge_range(row,col,row,col+3,'SUM',header_format_2)
+			while col_rec < col_rec_end:
+				if col_rec in (header_wo_sum):
+					worksheet.write(row,col_rec,'',header_format_2)
+					col_rec += 1
+				else:
+					worksheet.write(row,col_rec,'=SUM(INDIRECT(ADDRESS(1,COLUMN())&":"&ADDRESS(ROW()-1,COLUMN())))',header_format_2)
+					col_rec += 1
 
 			# File name
 			filename = '%s_%s%s%s' % (report_name, month_string, year_string, '.xlsx')
