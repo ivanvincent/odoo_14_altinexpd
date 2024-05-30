@@ -106,6 +106,7 @@ class HrAttendance(models.Model):
             half_time_start = time(5,0,0)
             half_time_end = time(5,59,59)
             full_time_start = time(6,0,0)
+            full_time_end = time(10,0,0)
 
             if (rec.check_out):
                 checkout = datetime.strptime(rec.check_out.strftime( '%Y-%m-%d %H:%M:%S'), "%Y-%m-%d %H:%M:%S") + timedelta(hours=7)
@@ -114,11 +115,11 @@ class HrAttendance(models.Model):
                 if (check_in_time>=curr_start_checkin_time and check_in_time <= curr_end_checkin_time) or (check_in_time >= next_start_checkin_time and check_in_time <= next_end_checkin_time):
                     if check_out_time <= half_time_start:
                         rec.shift_3_counter = 0
-                    elif check_out_time >= half_time_start and check_out_time <= half_time_end and work_hours > 5.0:
+                    elif check_out_time >= half_time_start and check_out_time <= half_time_end and work_hours >= 5.0:
                         rec.shift_3_counter = 0.5
-                    elif check_out_time >= full_time_start and work_hours < 6.0:
+                    elif check_out_time >= full_time_start and check_out_time <= full_time_end and work_hours >= 5.0:
                         rec.shift_3_counter = 0.5
-                    elif check_out_time >= full_time_start and work_hours > 6.0:
+                    elif check_out_time >= full_time_start and check_out_time <= full_time_end and work_hours >= 7.0:
                         rec.shift_3_counter = 1    
                     else:
                         rec.shift_3_counter = 0
