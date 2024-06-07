@@ -45,12 +45,13 @@ class HrEmployeeBase(models.AbstractModel):
                 raise exceptions.UserError(_('You have checked-out during last 30 mins'))
             
     def missed_check_out_correction(self,attendance,date_now):
+        action_date = fields.Datetime.now()
         previousCheckInDate = attendance.check_in
         if date_now >= previousCheckInDate + timedelta(hours=15.5):
-            attendance.check_out = self.action_date - timedelta(hours=1)
+            attendance.check_out = action_date - timedelta(hours=1)
             vals = {
                 'employee_id': self.id,
-                'check_in': self.action_date,
+                'check_in': action_date,
                 'resource_calendar_ids': self.resource_calendar_ids.id
             }
             return self.env['hr.attendance'].create(vals)
