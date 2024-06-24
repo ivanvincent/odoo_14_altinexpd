@@ -234,7 +234,8 @@ class HrEmployeePublic(models.Model):
         ('2', 'Manager'),
         ('3', 'Supervisor'),
         ('4', 'Staff'),
-        ('4', 'Operator'),
+        ('5', 'Operator'),
+        ('6', 'Pindah EMP'),
 	], string='Jabatan')
     coa = fields.Char('COA')
     rfid = fields.Char('RFID')

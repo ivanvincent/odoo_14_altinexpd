@@ -24,6 +24,7 @@ class HrEmployee(models.Model):
 		('3', 'Supervisor'),
 		('4', 'Staff'),
 		('5', 'Operator'),
+		('6', 'Pindah EMP'),
 	], string='Jabatan')
 	coa = fields.Selection([
 		('1', 'Produksi'),
